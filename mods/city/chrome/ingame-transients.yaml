@@ -1,6 +1,6 @@
 Container@TRANSIENTS_PANEL:
 	X: 5
-	Y: WINDOW_HEIGHT - HEIGHT - 120
+	Y: WINDOW_HEIGHT - HEIGHT - 262
 	Width: 550
 	Height: 80
 	Logic: IngameTransientNotificationsLogic

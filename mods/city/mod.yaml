@@ -121,6 +121,7 @@ ChromeLayout:
 	city|chrome/ingame-observer.yaml
 	city|chrome/city-panels.yaml
 	city|chrome/city-stats.yaml
+	city|chrome/city-hud.yaml
 	city|chrome/city-progress.yaml
 
 FluentMessages:

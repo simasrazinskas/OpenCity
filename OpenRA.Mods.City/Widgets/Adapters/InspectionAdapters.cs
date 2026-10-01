@@ -20,10 +20,16 @@ namespace OpenRA.Mods.City.Widgets
 	public sealed class InspectionAdapter : IInspectionContributor
 	{
 		readonly ServiceSimulation services;
+		readonly Logistics logistics;
+		readonly CityEconomy economy;
+		readonly PropertyRegistry registry;
 
-		public InspectionAdapter(ServiceSimulation services)
+		public InspectionAdapter(ServiceSimulation services, Logistics logistics, CityEconomy economy, PropertyRegistry registry)
 		{
+			this.registry = registry;
 			this.services = services;
+			this.logistics = logistics;
+			this.economy = economy;
 		}
 
 		static InspectionRow Row(string labelKey, string value, int tone, int bar = -1)
@@ -54,8 +60,54 @@ namespace OpenRA.Mods.City.Widgets
 				if (status.Fleet > 0)
 					rows.Add(Row("label-service-fleet", OfMax(status.FleetInUse, status.Fleet), 0));
 
+				if (status.Kind == ServiceKind.Parks)
+				{
+					var condition = services.GetCondition(building);
+					rows.Add(Row("label-service-condition", Percent(condition), Tone(condition), condition));
+				}
+
 				if (!status.Active)
 					rows.Add(Row("label-service-inactive", FluentProvider.GetMessage("label-service-inactive-value"), 3));
+			}
+
+			// Warehouses and terminals: stock against capacity of the goods they hold.
+			if (logistics != null && property != null && logistics.IsWarehouse(property.Id))
+			{
+				var shown = 0;
+				foreach (var resource in logistics.WarehouseResources(property.Id))
+				{
+					if (shown++ >= 6)
+						break;
+
+					var name = economy != null ? economy.ResourceName(resource) : "#" + resource;
+					var capacity = logistics.WarehouseCapacity(property.Id, resource);
+					var stock = logistics.WarehouseStock(property.Id, resource);
+					rows.Add(new InspectionRow
+					{
+						Label = CityUi.Message("label-resource-" + name.ToLowerInvariant(), name),
+						Value = OfMax(stock, capacity),
+						Tone = capacity > 0 && stock * 100 / capacity > 90 ? 2 : 0,
+						BarPercent = capacity > 0 ? Math.Min(100, stock * 100 / capacity) : -1
+					});
+				}
+			}
+
+			// Lot facts of the zoning WP: corner lots, hotel rooms and storage space.
+			if (registry != null && property != null)
+			{
+				if (registry.IsCorner(property.Id))
+					rows.Add(Row("label-lot-corner", FluentProvider.GetMessage("label-lot-corner-value"), 1));
+
+				var rooms = registry.GetLodgingRooms(property.Id);
+				if (rooms > 0)
+				{
+					var guests = registry.GetGuests(property.Id);
+					rows.Add(Row("label-lot-rooms", OfMax(guests, rooms), Tone(100 - guests * 100 / rooms), Math.Min(100, guests * 100 / rooms)));
+				}
+
+				var storage = registry.GetStorageCapacity(property.Id);
+				if (storage > 0)
+					rows.Add(Row("label-lot-storage", storage.ToString("N0", CultureInfo.CurrentCulture), 0));
 			}
 
 			var hub = building.TraitOrDefault<ExtractorHub>();
@@ -101,85 +153,6 @@ namespace OpenRA.Mods.City.Widgets
 			}
 
 			return entries;
-		}
-	}
-
-	/// <summary>Info view values from the industry and transit WPs: natural resources and the stop catchment of public transport.</summary>
-	public sealed class WorldInfoViewSource : IInfoViewSource
-	{
-		readonly World world;
-		readonly NaturalResourceLayer resources;
-		readonly TransitLayer transit;
-		int transitTick = -1;
-		int[] transitReach = [];
-
-		public WorldInfoViewSource(World world, NaturalResourceLayer resources, TransitLayer transit)
-		{
-			this.world = world;
-			this.resources = resources;
-			this.transit = transit;
-		}
-
-		public bool Supports(CityInfoView mode)
-		{
-			return (mode == CityInfoView.NaturalResources && resources != null) || (mode == CityInfoView.Transit && transit != null);
-		}
-
-		public int Version => (resources?.Version ?? 0) + (transit?.Version ?? 0);
-
-		public int GetCell(CityInfoView mode, CPos cell)
-		{
-			if (mode == CityInfoView.NaturalResources)
-			{
-				var best = 0;
-				foreach (var kind in new[] { NaturalResourceKind.Fertile, NaturalResourceKind.Forest, NaturalResourceKind.Ore, NaturalResourceKind.Oil })
-					best = Math.Max(best, resources.GetRichnessPercent(kind, cell));
-
-				return best > 0 ? best : -1;
-			}
-
-			return TransitReach(cell);
-		}
-
-		// Walking reach of every stop: 100 on the stop, falling to 0 at the stop's walk radius.
-		int TransitReach(CPos cell)
-		{
-			var map = world.Map;
-			if (!map.Contains(cell))
-				return -1;
-
-			var width = map.MapSize.Width;
-			if (transitReach.Length != width * map.MapSize.Height)
-				transitReach = new int[width * map.MapSize.Height];
-
-			if (transitTick != transit.Version)
-			{
-				transitTick = transit.Version;
-				Array.Clear(transitReach);
-				var radius = Math.Max(1, transit.Info.WalkRadius);
-				foreach (var stop in transit.Stops)
-				{
-					for (var dy = -radius; dy <= radius; dy++)
-					{
-						for (var dx = -radius; dx <= radius; dx++)
-						{
-							var distance = Math.Abs(dx) + Math.Abs(dy);
-							if (distance > radius)
-								continue;
-
-							var c = stop.Cell + new CVec(dx, dy);
-							if (!map.Contains(c))
-								continue;
-
-							var index = c.Y * width + c.X;
-							transitReach[index] = Math.Max(transitReach[index], 100 - distance * 100 / radius);
-						}
-					}
-				}
-			}
-
-			var value = transitReach[cell.Y * width + cell.X];
-			return value > 0 ? value : -1;
 		}
 	}
 }

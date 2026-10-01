@@ -179,6 +179,11 @@ namespace OpenRA.Mods.City.Traits
 					// Order generators may only be swapped outside synced code.
 					if (probe != null)
 						Sync.RunUnsynced(w, () => ActivateProbe(w));
+					else
+					{
+						// Park the pointer on the HUD's bottom strip so no world tooltip shows up in the shot.
+						Viewport.LastMousePos = new int2(380, Game.Renderer.Resolution.Height - 20);
+					}
 
 					var infoView = w.WorldActor.TraitOrDefault<InfoViewLayer>();
 					if (infoView != null)

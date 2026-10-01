@@ -67,7 +67,16 @@ namespace OpenRA.Mods.City.Widgets.Logic
 					Active = () => ctx.IsToolActive("tiles"),
 					OnClick = ToggleTileTool
 				},
-				Panel("transit", "CityTransit", "CITY_TRANSIT_PANEL", () => ctx.TransitUi != null)
+				Panel("transit", "CityTransit", "CITY_TRANSIT_PANEL", () => ctx.TransitUi != null),
+				Panel("achievements", "CityAchievements", "CITY_ACHIEVEMENTS_PANEL", () => ctx.Achievements != null && ctx.Achievements.Entries.Count > 0),
+				new()
+				{
+					Id = "advisor",
+					Hotkey = "CityAdvisor",
+					Available = () => manager != null,
+					Active = () => !CityAdvisorLogic.Dismissed,
+					OnClick = () => CityAdvisorLogic.Dismissed = !CityAdvisorLogic.Dismissed
+				}
 			};
 
 			var container = widget.Get("CITY_ORDERS");
@@ -168,10 +177,16 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			return CityUtils.Rect(topLeft, bottomRight);
 		}
 
-		static (Color Color, string Label) TileStyle(IProgressionUiSource source, CPos cell)
+		(Color Color, string Label) TileStyle(IProgressionUiSource source, CPos cell)
 		{
 			if (!source.TileAt(cell, out var x, out var y))
+			{
+				ctx.HoverTileX = ctx.HoverTileY = -1;
 				return (CityDragOrderGenerator.InvalidColor, null);
+			}
+
+			ctx.HoverTileX = x;
+			ctx.HoverTileY = y;
 
 			if (source.IsTileOwned(x, y))
 				return (CityDragOrderGenerator.NeutralColor, FluentProvider.GetMessage(TileOwned));

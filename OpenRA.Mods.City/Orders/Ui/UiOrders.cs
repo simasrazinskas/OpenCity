@@ -36,6 +36,11 @@ namespace OpenRA.Mods.City
 
 		public static Order ResourceTax(Player p, int resourceId, int percent) => EconomyOrders.SetResourceTaxOrder(p, resourceId, percent);
 
+		/// <summary>Health and education fees of the services WP (the power, water and garbage fees are the economy's).</summary>
+		public static Order ServiceFeeOrder(Player p, ServiceFee fee, int percent) => ServiceOrdersWave2.SetServiceFeeOrder(p, fee, percent);
+
+		public static Order ServiceDistricts(Player p, Actor building, int mask) => ServiceOrdersWave2.SetDistrictsOrder(p, building, mask);
+
 		public static Order Loan(Player p, int principal) => EconomyOrders.SetLoanOrder(p, principal);
 
 		public static Order ServiceBudget(Player p, ServiceKind kind, int percent) => ServiceOrders.SetBudgetOrder(p, kind, percent);

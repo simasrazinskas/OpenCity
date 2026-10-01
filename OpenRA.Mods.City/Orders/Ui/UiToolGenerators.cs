@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using OpenRA.Graphics;
+using OpenRA.Mods.City.Traits;
 using OpenRA.Primitives;
 
 namespace OpenRA.Mods.City
@@ -24,6 +25,10 @@ namespace OpenRA.Mods.City
 
 		/// <summary>Type and modes of the road tool (NET's RoadToolOptions: type id, one-way, reverse, paired, replace).</summary>
 		public RoadToolOptions Road = new() { TypeId = 1 };
+
+		/// <summary>Road add-on tool: the selected add-on and whether it removes instead of builds.</summary>
+		public RoadAddons Addon = RoadAddons.Trees;
+		public bool AddonRemove;
 
 		public static UiToolState For(World world)
 		{

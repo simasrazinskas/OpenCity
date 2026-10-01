@@ -113,6 +113,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			{
 				following = !following;
 				followedProperty = -1;
+				ctx.FollowTarget = following ? LivePosition() : null;
 			};
 
 			AddRow(RowEducation, () => CityUi.EducationName(citizen.Education), () => Color.White);
@@ -182,6 +183,9 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			valid = false;
 			if (ctx.SelectedCitizen == 0 || ctx.Citizens == null)
 			{
+				if (following)
+					ctx.FollowTarget = null;
+
 				following = false;
 				return;
 			}
@@ -197,10 +201,26 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			{
 				lastCitizen = citizen.Id;
 				followedProperty = -1;
+				if (following)
+				{
+					following = false;
+					ctx.FollowTarget = null;
+				}
 			}
 
-			if (following)
+			// With a position source the HUD keeps the camera on the citizen every frame; without one the camera visits the home or workplace.
+			if (following && ctx.Follow == null)
 				Follow();
+		}
+
+		/// <summary>The citizen's live position from the traffic or citizen simulation (IFollowSource), or null when it has none.</summary>
+		Func<WPos?> LivePosition()
+		{
+			if (ctx.Follow == null)
+				return null;
+
+			var id = ctx.SelectedCitizen;
+			return () => ctx.Follow.TryGetCitizenPosition(id, out var position) ? position : null;
 		}
 
 		void Follow()

@@ -36,7 +36,10 @@ namespace OpenRA.Mods.City.Widgets
 		Green,
 
 		/// <summary>Distinct colour per index (districts, road classes).</summary>
-		Category
+		Category,
+
+		/// <summary>Natural resources: value = kind * 16 + step 0..10; the hue is the kind, the strength the richness.</summary>
+		Resource
 	}
 
 	/// <summary>One entry of the info view catalogue shared by the InfoViewLayer and the info view panel.</summary>
@@ -118,7 +121,7 @@ namespace OpenRA.Mods.City.Widgets
 			Def(CityInfoView.GroundPollution, "ground", "environment", InfoRamp.Pollution, c => c.Pollution != null),
 			Def(CityInfoView.Noise, "noise", "environment", InfoRamp.Pollution, c => c.Pollution != null),
 			Def(CityInfoView.Groundwater, "groundwater", "environment", InfoRamp.Pollution, c => c.Pollution != null),
-			Def(CityInfoView.NaturalResources, "resources", "environment", InfoRamp.Green, c => Source(c, CityInfoView.NaturalResources)),
+			Def(CityInfoView.NaturalResources, "resources", "environment", InfoRamp.Resource, c => Source(c, CityInfoView.NaturalResources)),
 			Def(CityInfoView.LandValue, "landvalue", "environment", InfoRamp.Blue, c => c.Coverage || c.Properties != null),
 
 			// City
@@ -161,8 +164,20 @@ namespace OpenRA.Mods.City.Widgets
 		}
 
 		/// <summary>Colour of a 0..100 value (or a category index for InfoRamp.Category) on a ramp.</summary>
+		static readonly Color[] ResourceHues =
+		[
+			Color.FromArgb(235, 205, 60), Color.FromArgb(60, 185, 75), Color.FromArgb(70, 130, 235),
+			Color.FromArgb(70, 70, 90), Color.FromArgb(170, 160, 150), Color.FromArgb(60, 200, 210)
+		];
+
 		public static Color RampColor(InfoRamp ramp, int value)
 		{
+			if (ramp == InfoRamp.Resource)
+			{
+				var hue = ResourceHues[Math.Clamp(value / 16, 0, ResourceHues.Length - 1)];
+				return Color.FromArgb(70 + Math.Clamp(value % 16, 0, 10) * 14, hue);
+			}
+
 			var t = Math.Clamp(value, 0, 100) / 100f;
 			switch (ramp)
 			{
@@ -224,6 +239,22 @@ namespace OpenRA.Mods.City.Widgets
 						yield return (CityUi.Message("label-summary-flow", "City traffic flow"), Percent(c.Traffic.CityTrafficFlow));
 						yield return (CityUi.Message("label-summary-vehicles", "Vehicles"), Number(c.Traffic.ActiveVehicles));
 					}
+
+					break;
+				case CityInfoView.Freight:
+					if (c.Get<ILogistics>() is { } logistics)
+						yield return (CityUi.Message("label-summary-shipments", "Shipments in transit"), Number(logistics.ShipmentsInTransit));
+
+					break;
+				case CityInfoView.Tourism:
+					if (c.Get<ITourism>() is { } tourism)
+					{
+						yield return (CityUi.Message("label-summary-attractiveness", "Attractiveness"), Percent(tourism.Attractiveness));
+						yield return (CityUi.Message("label-summary-visitors", "Visitor groups per month"), Number(tourism.VisitorGroupsPerMonth));
+					}
+
+					if (c.Citizens != null)
+						yield return (CityUi.Message("label-summary-tourists", "Tourists now"), Number(c.Citizens.Tourists));
 
 					break;
 				case CityInfoView.Happiness:

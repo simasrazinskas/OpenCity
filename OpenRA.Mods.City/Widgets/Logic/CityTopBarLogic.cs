@@ -72,13 +72,13 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		void InitStrip(Widget widget)
 		{
 			var cash = widget.Get<LabelWithTooltipWidget>("CASH");
-			cash.GetText = () => manager == null ? "" : manager.Funds.ToString("N0", CultureInfo.CurrentCulture);
+			cash.GetText = () => manager == null ? "" : CityUtils.FormatMoneyCompact(manager.Funds, dollar: false);
 			cash.GetColor = () => manager != null && manager.Funds < 0 ? CityUi.Bad : Color.White;
 			cash.GetTooltipText = () => manager == null ? "" :
-				FluentProvider.GetMessage(BalancePerMonth, "balance", CityUi.SignedMoney(manager.MonthlyBalance));
+				CityUtils.FormatMoney(manager.Funds) + "\n" + FluentProvider.GetMessage(BalancePerMonth, "balance", CityUi.SignedMoney(manager.MonthlyBalance));
 
 			var balance = widget.Get<LabelWidget>("BALANCE");
-			balance.GetText = () => manager == null ? "" : CityUi.SignedMoney(manager.MonthlyBalance);
+			balance.GetText = () => manager == null ? "" : (manager.MonthlyBalance > 0 ? "+" : "") + CityUtils.FormatMoneyCompact(manager.MonthlyBalance, 10000);
 			balance.GetColor = () => manager != null && manager.MonthlyBalance < 0 ? CityUi.Bad : CityUi.Good;
 
 			var date = widget.Get<LabelWidget>("DATE");

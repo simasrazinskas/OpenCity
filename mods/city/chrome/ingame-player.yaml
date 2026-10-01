@@ -3,6 +3,9 @@ Container@PLAYER_WIDGETS:
 	Logic: LoadIngameChatLogic, CityHudLogic, CityTopBarLogic, CityToolbarLogic
 	Children:
 		Container@CHAT_ROOT:
+		VehiclePicker@VEHICLE_PICKER:
+			Width: WINDOW_WIDTH - 226
+			Height: WINDOW_HEIGHT
 		LogicTicker@SIDEBAR_TICKER:
 		LogicTicker@CITY_TICKER:
 		Image@COMMAND_BAR_BACKGROUND:

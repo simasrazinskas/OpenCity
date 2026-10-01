@@ -42,6 +42,12 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		[FluentReference]
 		const string LockedLabel = "label-zone-locked";
 
+		[FluentReference("cost")]
+		const string CostPerCell = "label-city-cost-per-cell";
+
+		[FluentReference("cost")]
+		const string CostPerStop = "label-city-cost-per-stop";
+
 		[FluentReference]
 		const string SelectHubFirst = "label-industry-select-hub";
 
@@ -138,6 +144,8 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			items.Add(RoadModeItem("replace", () => toolState.Road.Replace, () => toolState.Road.Replace = !toolState.Road.Replace, "road-replace"));
 			items.Add(RoadModeItem("paired", () => toolState.Road.Paired, () => toolState.Road.Paired = !toolState.Road.Paired, "road-boulevard"));
 
+			items.Add(RoadModeItem("bridge", () => toolState.Road.Bridge, () => toolState.Road.Bridge = !toolState.Road.Bridge, "road-bridge"));
+
 			items.Add(PrefabItem("roundabout", NetworkOrders.PrefabRoundabout, "road-roundabout", "tool:roundabout"));
 			items.Add(PrefabItem("roundabout-large", NetworkOrders.PrefabRoundaboutLarge, "road-roundabout", "tool:roundabout"));
 			items.Add(PrefabItem("ramp", NetworkOrders.PrefabRamp, "road-interchange", "tool:highway"));
@@ -146,7 +154,76 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			items.Add(ControlItem("control-stop", JunctionControl.Stop));
 			items.Add(ControlItem("control-signal", JunctionControl.Signal));
 			items.Add(ControlItem("control-default", null));
+
+			foreach (var addon in Roads.AddonTypes)
+				items.Add(AddonItem(addon));
+
+			if (Roads.AddonTypes.Count > 0)
+				items.Add(AddonRemoveItem());
+
 			return items;
+		}
+
+		static string AddonIcon(RoadAddons flag)
+		{
+			switch (flag)
+			{
+				case RoadAddons.Trees: return "parks";
+				case RoadAddons.Barrier: return "police";
+				case RoadAddons.Lights: return "power";
+				case RoadAddons.Parking: return "bus-stop";
+				case RoadAddons.BusLane: return "bus";
+				default: return "road-oneway";
+			}
+		}
+
+		ToolItem AddonItem(RoadAddonData addon)
+		{
+			var flag = addon.Flag;
+			var key = "road-addon:" + addon.Name;
+			var name = FluentProvider.TryGetMessage(addon.Info.DisplayName ?? "", out var display) ? display : CityUi.Prettify(addon.Name);
+			return new ToolItem
+			{
+				Id = "addon:" + addon.Name,
+				Collection = "city-icons",
+				Icon = AddonIcon(flag),
+				Name = name,
+				Description = FluentProvider.GetMessage(CostAndUpkeep, "cost", CityUtils.FormatMoney(addon.Info.Cost) + "/cell",
+					"upkeep", CityUtils.FormatMoney(addon.Info.UpkeepPer10) + "/10 cells"),
+				Cost = CityUtils.FormatMoney(addon.Info.Cost),
+				IsDisabled = () => !Unlocked(key),
+				IsActive = () => ctx.IsToolActive("addon") && toolState.Addon == flag,
+				ExtraTooltip = () => Unlocked(key) ? "" : FluentProvider.GetMessage(LockedLabel),
+				OnSelect = () =>
+				{
+					toolState.Addon = flag;
+					StartAddonTool();
+				}
+			};
+		}
+
+		ToolItem AddonRemoveItem()
+		{
+			return new ToolItem
+			{
+				Id = "addon-remove",
+				Collection = "city-icons",
+				Icon = "area-clear",
+				Name = CityUi.Message("label-road-mode-addon-remove"),
+				Description = CityUi.Message("label-road-mode-addon-remove-desc", ""),
+				IsActive = () => toolState.AddonRemove,
+				OnSelect = () =>
+				{
+					toolState.AddonRemove = !toolState.AddonRemove;
+					if (ctx.IsToolActive("addon"))
+						StartAddonTool();
+				}
+			};
+		}
+
+		void StartAddonTool()
+		{
+			ctx.ActivateTool("addon", new RoadAddonOrderGenerator(world, toolState.Addon, toolState.AddonRemove));
 		}
 
 		bool Unlocked(string key)
@@ -347,6 +424,10 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			};
 		}
 
+		ITransitUiSourceEx TransitEx => ctx.Get<ITransitUiSourceEx>();
+
+		bool ModeUnlocked(string mode) => TransitEx == null || TransitEx.IsModeUnlocked(mode);
+
 		List<ToolItem> TransitItems()
 		{
 			var items = new List<ToolItem>();
@@ -355,17 +436,17 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 			items.Add(StopItem("busstop", "bus-stop", TransitMode.Bus));
 			items.Add(StopItem("taxistand", "taxi", TransitMode.Taxi));
+			items.Add(StopItem("tramstop", "tram", TransitMode.Tram));
 
-			items.Add(new ToolItem
-			{
-				Id = "busline",
-				Collection = "city-icons",
-				Icon = "line",
-				Name = CityUi.Message("label-tool-busline"),
-				Description = CityUi.Message("label-tool-busline-desc", ""),
-				IsDisabled = () => ctx.TransitUi == null,
-				Create = () => new UiTransitLineGenerator(world, TransitMode.Bus, ctx.TransitUi?.Lines.Count ?? 0)
-			});
+			items.Add(TrackItem("tramtrack", "tram", "tram", false));
+			items.Add(TrackItem("tramtrack-remove", "area-clear", "tram", true));
+			items.Add(TrackItem("rail", "train", "rail", false));
+			items.Add(TrackItem("rail-remove", "area-clear", "rail", true));
+
+			items.Add(LineToolItem("busline", "line", TransitMode.Bus));
+			items.Add(LineToolItem("tramline", "tram", TransitMode.Tram));
+			items.Add(LineToolItem("metroline", "metro", TransitMode.Metro));
+			items.Add(LineToolItem("trainline", "train", TransitMode.Train));
 
 			items.Add(new ToolItem
 			{
@@ -382,8 +463,10 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			return items;
 		}
 
-		ToolItem StopItem(string id, string icon, TransitMode mode)
+		/// <summary>A line tool of one transit mode, disabled until the progression unlocks the mode.</summary>
+		ToolItem LineToolItem(string id, string icon, TransitMode mode)
 		{
+			var name = TransitLayer.ModeName(mode);
 			return new ToolItem
 			{
 				Id = id,
@@ -391,8 +474,65 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				Icon = icon,
 				Name = CityUi.Message("label-tool-" + id),
 				Description = CityUi.Message("label-tool-" + id + "-desc", ""),
-				Create = () => new UiClickToolGenerator(world, (p, cell) => UiOrders.PlaceStop(p, cell, mode))
+				IsDisabled = () => ctx.TransitUi == null || !ModeUnlocked(name),
+				ExtraTooltip = () => ModeUnlocked(name) ? "" : FluentProvider.GetMessage(LockedLabel),
+				Create = () => new UiTransitLineGenerator(world, mode, ctx.TransitUi?.Lines.Count ?? 0)
 			};
+		}
+
+		/// <summary>Tram track (laid on roads) or rail track drag with the planner's preview, or its removal.</summary>
+		ToolItem TrackItem(string id, string icon, string kind, bool remove)
+		{
+			var mode = kind == "rail" ? "train" : "tram";
+			return new ToolItem
+			{
+				Id = id,
+				Collection = "city-icons",
+				Icon = icon,
+				Name = CityUi.Message("label-tool-" + id),
+				Description = CityUi.Message("label-tool-" + id + "-desc", "") + TrackCost(kind),
+				IsDisabled = () => TransitEx == null || !ModeUnlocked(mode),
+				ExtraTooltip = () => ModeUnlocked(mode) ? "" : FluentProvider.GetMessage(LockedLabel),
+				Create = () => new UiTrackToolGenerator(world, kind, remove)
+			};
+		}
+
+		string TrackCost(string kind)
+		{
+			var ex = TransitEx;
+			if (ex == null)
+				return "";
+
+			var cost = kind == "rail" ? ex.RailCostPerCell : ex.TramTrackCostPerCell;
+			return "\n" + FluentProvider.GetMessage(CostPerCell, "cost", CityUtils.FormatMoney(cost));
+		}
+
+		/// <summary>A stop or stand of one mode; the preview colour and label come from the planner's own placement check.</summary>
+		ToolItem StopItem(string id, string icon, TransitMode mode)
+		{
+			var name = TransitLayer.ModeName(mode);
+			return new ToolItem
+			{
+				Id = id,
+				Collection = "city-icons",
+				Icon = icon,
+				Name = CityUi.Message("label-tool-" + id),
+				Description = CityUi.Message("label-tool-" + id + "-desc", "") + StopCost(),
+				IsDisabled = () => !ModeUnlocked(name),
+				ExtraTooltip = () => ModeUnlocked(name) ? "" : FluentProvider.GetMessage(LockedLabel),
+				Create = () => new UiClickToolGenerator(world, (p, cell) => TransitEx?.CheckStop(cell, name) == null ? UiOrders.PlaceStop(p, cell, mode) : null,
+					null, cell =>
+					{
+						var error = TransitEx?.CheckStop(cell, name);
+						return error == null ? (CityDragOrderGenerator.ValidColor, null) : (CityDragOrderGenerator.InvalidColor, CityUi.Message(error));
+					})
+			};
+		}
+
+		string StopCost()
+		{
+			var ex = TransitEx;
+			return ex == null ? "" : "\n" + FluentProvider.GetMessage(CostPerStop, "cost", CityUtils.FormatMoney(ex.StopCost));
 		}
 
 		// ---- building placeables (services, utilities, hubs, depots) ----
@@ -409,20 +549,23 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			if (!string.IsNullOrEmpty(placeable.Description))
 				description += "\n" + FluentProvider.GetMessage(placeable.Description);
 
-			if (placeable.UnlockPopulation > 0)
+			var signature = IsSignature(actor.Name);
+			if (placeable.UnlockPopulation > 0 && !signature)
 				description += "\n" + FluentProvider.GetMessage(RequiresPopulation, "population", placeable.UnlockPopulation.ToString("N0", CultureInfo.CurrentCulture));
 
 			var actorName = actor.Name;
-			var hasIcon = ChromeProvider.TryGetImage("city-buildicons", actorName) != null;
+			var collection = ChromeProvider.TryGetImage("city-buildicons", actorName) != null ? "city-buildicons" :
+				ChromeProvider.TryGetImage("city-buildicons-extra", actorName) != null ? "city-buildicons-extra" : null;
 			return new ToolItem
 			{
 				Id = "build:" + actorName,
-				Collection = hasIcon ? "city-buildicons" : "city-icons",
-				Icon = hasIcon ? actorName : "services",
+				Collection = collection ?? "city-icons",
+				Icon = collection != null ? actorName : "services",
 				Name = name,
 				Description = description,
 				Cost = CityUtils.FormatMoney(placeable.Cost),
 				ActorType = actorName,
+				ExtraTooltip = signature ? () => SignatureTooltip(actorName) : null,
 				Create = () => new PlaceCityBuildingOrderGenerator(world, actorName)
 			};
 		}

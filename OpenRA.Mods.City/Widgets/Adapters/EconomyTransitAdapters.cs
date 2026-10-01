@@ -20,11 +20,45 @@ namespace OpenRA.Mods.City.Widgets
 	{
 		readonly CityEconomy economy;
 		readonly CityManager manager;
+		readonly World world;
+		readonly IPropertyRegistry properties;
+		readonly Logistics logistics;
+		int[] stock = [];
+		int stockTick = -100;
 
-		public EconomyUiAdapter(CityEconomy economy, CityManager manager)
+		public EconomyUiAdapter(CityEconomy economy, CityManager manager, World world, IPropertyRegistry properties, Logistics logistics)
 		{
+			this.logistics = logistics;
 			this.economy = economy;
 			this.manager = manager;
+			this.world = world;
+			this.properties = properties;
+		}
+
+		// Units of each resource waiting in the output stocks of all companies; refreshed twice a second at most.
+		int StockOf(int resourceId)
+		{
+			if (properties == null)
+				return 0;
+
+			if (world.WorldTick - stockTick >= 25 || stock.Length != economy.ResourceCount + 1)
+			{
+				stockTick = world.WorldTick;
+				if (stock.Length != economy.ResourceCount + 1)
+					stock = new int[economy.ResourceCount + 1];
+				else
+					System.Array.Clear(stock);
+
+				foreach (var property in properties.All)
+				{
+					var company = property.CompanyId != 0 ? economy.CompanyOf(property.Id) : null;
+					if (company != null && company.Output > 0 && company.Output < stock.Length)
+						stock[company.Output] += company.StockOut / 1000;
+				}
+			}
+
+			var warehouses = logistics?.WarehouseStockTotal(resourceId) ?? 0;
+			return (resourceId > 0 && resourceId < stock.Length ? stock[resourceId] : 0) + warehouses;
 		}
 
 		/// <summary>Only the fees the economy has (electricity, water, garbage) report a value; others return -1.</summary>
@@ -60,7 +94,8 @@ namespace OpenRA.Mods.City.Widgets
 				Produced = Clamp(economy.TradeProducedLast(resourceId)),
 				Consumed = Clamp(economy.TradeConsumedLast(resourceId)),
 				Imported = Clamp(economy.TradeImportedLast(resourceId)),
-				Exported = Clamp(economy.TradeExportedLast(resourceId))
+				Exported = Clamp(economy.TradeExportedLast(resourceId)),
+				Stock = StockOf(resourceId)
 			};
 		}
 

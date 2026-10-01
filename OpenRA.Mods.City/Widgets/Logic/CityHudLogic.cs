@@ -34,7 +34,12 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			"CITY_POLICIES_PANEL",
 			"CITY_PROGRESS_PANEL",
 			"CITY_DISTRICTS_PANEL",
-			"CITY_TRANSIT_PANEL"
+			"CITY_TRANSIT_PANEL",
+			"CITY_ACHIEVEMENTS_PANEL",
+			"CITY_TILES_PANEL",
+			"CITY_ADVISOR_PANEL",
+			"CITY_VEHICLE_PANEL",
+			"CITY_ALERTS"
 		];
 
 		readonly World world;
@@ -49,18 +54,57 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 			var ctx = CityUiContext.For(world);
 			ctx.CenterOn = cell => worldRenderer.Viewport.Center(world.Map.CenterOfCell(cell));
+			ctx.CenterOnWorld = worldRenderer.Viewport.Center;
+			ctx.Locate = (actorId, cell) =>
+			{
+				ctx.CenterOn(cell);
+				var actor = actorId != 0 ? world.GetActorById(actorId) : null;
+				if (actor != null && !actor.IsDead && actor.IsInWorld)
+					world.Selection.Combine(world, [actor], false, true);
+			};
 
 			foreach (var panel in Panels)
 				Game.LoadWidget(world, panel, widget, []);
 
 			widget.Get<LogicTickerWidget>("CITY_TICKER").OnTick = () =>
 			{
+				TickFollow(ctx);
+
 				if (centered)
 					return;
 
 				centered = true;
 				CenterOnHighway();
 			};
+		}
+
+		WPos? followed;
+
+		/// <summary>Keeps the camera on the follow target until the player scrolls away.</summary>
+		void TickFollow(CityUiContext ctx)
+		{
+			if (ctx.FollowTarget == null)
+			{
+				followed = null;
+				return;
+			}
+
+			var viewport = worldRenderer.Viewport;
+
+			// The player moved the camera since we last set it: stop following.
+			if (followed != null && (viewport.CenterPosition - followed.Value).HorizontalLengthSquared > 1024 * 1024)
+			{
+				ctx.FollowTarget = null;
+				followed = null;
+				return;
+			}
+
+			var target = ctx.FollowTarget();
+			if (target == null)
+				return;
+
+			viewport.Center(target.Value);
+			followed = viewport.CenterPosition;
 		}
 
 		void CenterOnHighway()

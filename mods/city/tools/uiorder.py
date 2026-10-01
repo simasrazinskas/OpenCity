@@ -52,6 +52,8 @@ BODY = {
     'districts': ((178, 96, 8), (246, 160, 40)),        # orange
     'tiles': ((96, 62, 32), (164, 116, 66)),            # earthy brown
     'transit': ((18, 56, 150), (56, 122, 224)),         # blue
+    'achievements': ((140, 96, 6), (232, 184, 36)),     # gold
+    'advisor': ((22, 98, 74), (60, 188, 140)),          # green
 }
 
 
@@ -101,7 +103,8 @@ def glyph_districts(g):
 GLYPHS = {'bulldoze': glyph_bulldoze, 'infoviews': glyph_layers, 'budget': glyph_budget,
           'stats': ci2.i_stats, 'chirper': ci2.i_chirper, 'production': ci2.i_production,
           'policies': ci2.i_policies, 'progression': ci2.i_progression, 'districts': glyph_districts,
-          'tiles': ci2.i_tiles, 'transit': ci2.i_transit}
+          'tiles': ci2.i_tiles, 'transit': ci2.i_transit,
+          'achievements': ci2.i_achievements, 'advisor': ci2.i_advisor}
 
 
 def body_fill(kind, state):
@@ -171,5 +174,5 @@ def _h(x, y):
 
 
 ORDER_KINDS = ['bulldoze', 'infoviews', 'budget',
-               'stats', 'chirper', 'production', 'policies', 'progression', 'districts', 'tiles', 'transit']
+               'stats', 'chirper', 'production', 'policies', 'progression', 'districts', 'tiles', 'transit', 'achievements', 'advisor']
 ORDER_STATES = [('', 'normal'), ('-disabled', 'disabled'), ('-active', 'active')]

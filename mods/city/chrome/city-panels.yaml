@@ -61,6 +61,16 @@ Background@CITY_INFOVIEWS_PANEL:
 			Y: 242
 			Width: PARENT_WIDTH - 24
 			Height: 60
+		Container@TRAFFIC_MODES:
+			X: 12
+			Width: PARENT_WIDTH - 24
+			Height: 28
+			Visible: false
+		CityGraph@FLOW_CHART:
+			X: 12
+			Width: PARENT_WIDTH - 24
+			Height: 90
+			Visible: false
 
 Background@CITY_FACTOR_TOOLTIP:
 	Logic: CityFactorTooltipLogic
@@ -198,15 +208,19 @@ Background@CITY_BUDGET_PANEL:
 					Shadow: true
 					TextColor: FF6B5E
 					Text: label-budget-expenses
-				Container@INCOME_LIST:
+				ScrollPanel@INCOME_LIST:
 					Y: 26
 					Width: 270
 					Height: 216
-				Container@EXPENSE_LIST:
+					TopBottomSpacing: 2
+					ScrollbarWidth: 14
+				ScrollPanel@EXPENSE_LIST:
 					X: 290
 					Y: 26
 					Width: 270
 					Height: 216
+					TopBottomSpacing: 2
+					ScrollbarWidth: 14
 				Label@INCOME_TOTAL:
 					Y: 246
 					Width: 270

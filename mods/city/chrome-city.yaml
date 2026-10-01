@@ -26,7 +26,9 @@
 city-icons:
 	Inherits: ^CityIcons
 	Regions:
+		achievements: 138, 240, 32, 32
 		admin: 308, 172, 32, 32
+		advisor: 172, 240, 32, 32
 		area-clear: 342, 138, 32, 32
 		area-paint: 308, 138, 32, 32
 		arrow-left: 2, 240, 32, 32
@@ -96,6 +98,7 @@ city-icons:
 		road: 2, 2, 32, 32
 		road-avenue: 410, 70, 32, 32
 		road-boulevard: 444, 70, 32, 32
+		road-bridge: 206, 240, 32, 32
 		road-draw: 2, 104, 32, 32
 		road-gravel: 376, 70, 32, 32
 		road-highway: 478, 70, 32, 32
@@ -143,197 +146,227 @@ city-icons:
 city-icons-small:
 	Inherits: ^CityIcons
 	Regions:
-		admin: 146, 310, 16, 16
-		area-clear: 398, 292, 16, 16
-		area-paint: 380, 292, 16, 16
-		arrow-left: 20, 328, 16, 16
-		arrow-right: 38, 328, 16, 16
-		battery: 110, 292, 16, 16
-		budget: 444, 240, 16, 16
-		bulldoze: 282, 240, 16, 16
-		bus: 434, 292, 16, 16
-		bus-depot: 38, 310, 16, 16
-		bus-stop: 20, 310, 16, 16
-		check: 308, 274, 16, 16
-		chirper: 182, 310, 16, 16
-		citizen: 380, 310, 16, 16
-		close: 92, 274, 16, 16
-		comms: 110, 310, 16, 16
-		deathcare: 92, 310, 16, 16
-		demand: 164, 274, 16, 16
-		dev-point: 308, 310, 16, 16
-		dezone: 264, 240, 16, 16
-		districts: 254, 310, 16, 16
-		down: 290, 274, 16, 16
-		education: 390, 240, 16, 16
-		electricity: 300, 240, 16, 16
-		eye: 2, 328, 16, 16
-		fast: 2, 274, 16, 16
-		faster: 20, 274, 16, 16
-		fee: 362, 310, 16, 16
-		fire: 354, 240, 16, 16
-		follow: 56, 328, 16, 16
-		garbage: 74, 310, 16, 16
-		happiness: 74, 274, 16, 16
-		health: 372, 240, 16, 16
-		home: 398, 310, 16, 16
-		hotel: 470, 310, 16, 16
-		hub-farm: 290, 292, 16, 16
-		hub-forestry: 308, 292, 16, 16
-		hub-mine: 344, 292, 16, 16
-		hub-oil: 362, 292, 16, 16
-		hub-quarry: 326, 292, 16, 16
-		industry: 272, 292, 16, 16
-		info: 182, 274, 16, 16
-		infoviews: 426, 240, 16, 16
-		line: 56, 310, 16, 16
-		loan: 344, 310, 16, 16
-		locate: 74, 328, 16, 16
-		lock: 488, 310, 16, 16
-		metro: 488, 292, 16, 16
-		milestone: 110, 274, 16, 16
-		minus: 344, 274, 16, 16
-		money: 38, 274, 16, 16
-		networks: 146, 292, 16, 16
-		parks: 408, 240, 16, 16
-		pause: 462, 240, 16, 16
-		permit: 326, 310, 16, 16
-		pipe: 74, 292, 16, 16
-		play: 480, 240, 16, 16
-		plus: 326, 274, 16, 16
-		police: 336, 240, 16, 16
-		policies: 218, 310, 16, 16
-		pollution: 236, 274, 16, 16
-		population: 56, 274, 16, 16
-		post: 128, 310, 16, 16
-		power: 300, 240, 16, 16
-		power-line: 56, 292, 16, 16
-		production: 200, 310, 16, 16
-		progression: 236, 310, 16, 16
-		road: 138, 240, 16, 16
-		road-avenue: 398, 274, 16, 16
-		road-boulevard: 416, 274, 16, 16
-		road-draw: 452, 274, 16, 16
-		road-gravel: 380, 274, 16, 16
-		road-highway: 434, 274, 16, 16
-		road-interchange: 38, 292, 16, 16
-		road-oneway: 470, 274, 16, 16
-		road-replace: 488, 274, 16, 16
-		road-roundabout: 20, 292, 16, 16
-		road-signal: 2, 292, 16, 16
-		road-street: 362, 274, 16, 16
-		school: 434, 310, 16, 16
-		services: 146, 274, 16, 16
-		sewage: 128, 292, 16, 16
-		speed-1: 480, 240, 16, 16
-		speed-2: 2, 274, 16, 16
-		speed-3: 20, 274, 16, 16
-		stats: 164, 310, 16, 16
-		tax: 254, 274, 16, 16
-		taxi: 452, 292, 16, 16
-		tiles: 272, 310, 16, 16
-		tourist: 452, 310, 16, 16
-		traffic: 218, 274, 16, 16
-		train: 2, 310, 16, 16
-		tram: 470, 292, 16, 16
-		transformer: 92, 292, 16, 16
-		transit: 416, 292, 16, 16
-		up: 272, 274, 16, 16
-		warning: 200, 274, 16, 16
-		water: 318, 240, 16, 16
-		work: 416, 310, 16, 16
-		xp: 290, 310, 16, 16
-		zone-com-high: 210, 240, 16, 16
-		zone-com-low: 192, 240, 16, 16
-		zone-ind: 228, 240, 16, 16
-		zone-off: 246, 240, 16, 16
-		zone-off-high: 236, 292, 16, 16
-		zone-res-high: 174, 240, 16, 16
-		zone-res-low: 156, 240, 16, 16
-		zone-res-lowrent: 218, 292, 16, 16
-		zone-res-med: 182, 292, 16, 16
-		zone-res-mixed: 200, 292, 16, 16
-		zone-res-row: 164, 292, 16, 16
-		zone-warehouse: 254, 292, 16, 16
-		zoning: 128, 274, 16, 16
+		achievements: 182, 328, 16, 16
+		admin: 236, 310, 16, 16
+		advisor: 200, 328, 16, 16
+		area-clear: 488, 292, 16, 16
+		area-paint: 470, 292, 16, 16
+		arrow-left: 110, 328, 16, 16
+		arrow-right: 128, 328, 16, 16
+		battery: 200, 292, 16, 16
+		budget: 38, 274, 16, 16
+		bulldoze: 384, 240, 16, 16
+		bus: 20, 310, 16, 16
+		bus-depot: 128, 310, 16, 16
+		bus-stop: 110, 310, 16, 16
+		check: 398, 274, 16, 16
+		chirper: 272, 310, 16, 16
+		citizen: 470, 310, 16, 16
+		close: 182, 274, 16, 16
+		comms: 200, 310, 16, 16
+		deathcare: 182, 310, 16, 16
+		demand: 254, 274, 16, 16
+		dev-point: 398, 310, 16, 16
+		dezone: 366, 240, 16, 16
+		districts: 344, 310, 16, 16
+		down: 380, 274, 16, 16
+		education: 492, 240, 16, 16
+		electricity: 402, 240, 16, 16
+		eye: 92, 328, 16, 16
+		fast: 92, 274, 16, 16
+		faster: 110, 274, 16, 16
+		fee: 452, 310, 16, 16
+		fire: 456, 240, 16, 16
+		follow: 146, 328, 16, 16
+		garbage: 164, 310, 16, 16
+		happiness: 164, 274, 16, 16
+		health: 474, 240, 16, 16
+		home: 488, 310, 16, 16
+		hotel: 56, 328, 16, 16
+		hub-farm: 380, 292, 16, 16
+		hub-forestry: 398, 292, 16, 16
+		hub-mine: 434, 292, 16, 16
+		hub-oil: 452, 292, 16, 16
+		hub-quarry: 416, 292, 16, 16
+		industry: 362, 292, 16, 16
+		info: 272, 274, 16, 16
+		infoviews: 20, 274, 16, 16
+		line: 146, 310, 16, 16
+		loan: 434, 310, 16, 16
+		locate: 164, 328, 16, 16
+		lock: 74, 328, 16, 16
+		metro: 74, 310, 16, 16
+		milestone: 200, 274, 16, 16
+		minus: 434, 274, 16, 16
+		money: 128, 274, 16, 16
+		networks: 236, 292, 16, 16
+		parks: 2, 274, 16, 16
+		pause: 56, 274, 16, 16
+		permit: 416, 310, 16, 16
+		pipe: 164, 292, 16, 16
+		play: 74, 274, 16, 16
+		plus: 416, 274, 16, 16
+		police: 438, 240, 16, 16
+		policies: 308, 310, 16, 16
+		pollution: 326, 274, 16, 16
+		population: 146, 274, 16, 16
+		post: 218, 310, 16, 16
+		power: 402, 240, 16, 16
+		power-line: 146, 292, 16, 16
+		production: 290, 310, 16, 16
+		progression: 326, 310, 16, 16
+		road: 240, 240, 16, 16
+		road-avenue: 488, 274, 16, 16
+		road-boulevard: 2, 292, 16, 16
+		road-bridge: 218, 328, 16, 16
+		road-draw: 38, 292, 16, 16
+		road-gravel: 470, 274, 16, 16
+		road-highway: 20, 292, 16, 16
+		road-interchange: 128, 292, 16, 16
+		road-oneway: 56, 292, 16, 16
+		road-replace: 74, 292, 16, 16
+		road-roundabout: 110, 292, 16, 16
+		road-signal: 92, 292, 16, 16
+		road-street: 452, 274, 16, 16
+		school: 20, 328, 16, 16
+		services: 236, 274, 16, 16
+		sewage: 218, 292, 16, 16
+		speed-1: 74, 274, 16, 16
+		speed-2: 92, 274, 16, 16
+		speed-3: 110, 274, 16, 16
+		stats: 254, 310, 16, 16
+		tax: 344, 274, 16, 16
+		taxi: 38, 310, 16, 16
+		tiles: 362, 310, 16, 16
+		tourist: 38, 328, 16, 16
+		traffic: 308, 274, 16, 16
+		train: 92, 310, 16, 16
+		tram: 56, 310, 16, 16
+		transformer: 182, 292, 16, 16
+		transit: 2, 310, 16, 16
+		up: 362, 274, 16, 16
+		warning: 290, 274, 16, 16
+		water: 420, 240, 16, 16
+		work: 2, 328, 16, 16
+		xp: 380, 310, 16, 16
+		zone-com-high: 312, 240, 16, 16
+		zone-com-low: 294, 240, 16, 16
+		zone-ind: 330, 240, 16, 16
+		zone-off: 348, 240, 16, 16
+		zone-off-high: 326, 292, 16, 16
+		zone-res-high: 276, 240, 16, 16
+		zone-res-low: 258, 240, 16, 16
+		zone-res-lowrent: 308, 292, 16, 16
+		zone-res-med: 272, 292, 16, 16
+		zone-res-mixed: 290, 292, 16, 16
+		zone-res-row: 254, 292, 16, 16
+		zone-warehouse: 344, 292, 16, 16
+		zoning: 218, 274, 16, 16
 
 city-order-icons:
 	Inherits: ^CityIcons
 	Regions:
-		bulldoze: 92, 328, 34, 35
-		bulldoze-disabled: 128, 328, 34, 35
-		bulldoze-active: 164, 328, 34, 35
-		infoviews: 200, 328, 34, 35
-		infoviews-disabled: 236, 328, 34, 35
-		infoviews-active: 272, 328, 34, 35
-		budget: 308, 328, 34, 35
-		budget-disabled: 344, 328, 34, 35
-		budget-active: 380, 328, 34, 35
-		stats: 416, 328, 34, 35
-		stats-disabled: 452, 328, 34, 35
-		stats-active: 2, 365, 34, 35
-		chirper: 38, 365, 34, 35
-		chirper-disabled: 74, 365, 34, 35
-		chirper-active: 110, 365, 34, 35
-		production: 146, 365, 34, 35
-		production-disabled: 182, 365, 34, 35
-		production-active: 218, 365, 34, 35
-		policies: 254, 365, 34, 35
-		policies-disabled: 290, 365, 34, 35
-		policies-active: 326, 365, 34, 35
-		progression: 362, 365, 34, 35
-		progression-disabled: 398, 365, 34, 35
-		progression-active: 434, 365, 34, 35
-		districts: 470, 365, 34, 35
-		districts-disabled: 2, 402, 34, 35
-		districts-active: 38, 402, 34, 35
-		tiles: 74, 402, 34, 35
-		tiles-disabled: 110, 402, 34, 35
-		tiles-active: 146, 402, 34, 35
-		transit: 182, 402, 34, 35
-		transit-disabled: 218, 402, 34, 35
-		transit-active: 254, 402, 34, 35
+		bulldoze: 236, 328, 34, 35
+		bulldoze-disabled: 272, 328, 34, 35
+		bulldoze-active: 308, 328, 34, 35
+		infoviews: 344, 328, 34, 35
+		infoviews-disabled: 380, 328, 34, 35
+		infoviews-active: 416, 328, 34, 35
+		budget: 452, 328, 34, 35
+		budget-disabled: 2, 365, 34, 35
+		budget-active: 38, 365, 34, 35
+		stats: 74, 365, 34, 35
+		stats-disabled: 110, 365, 34, 35
+		stats-active: 146, 365, 34, 35
+		chirper: 182, 365, 34, 35
+		chirper-disabled: 218, 365, 34, 35
+		chirper-active: 254, 365, 34, 35
+		production: 290, 365, 34, 35
+		production-disabled: 326, 365, 34, 35
+		production-active: 362, 365, 34, 35
+		policies: 398, 365, 34, 35
+		policies-disabled: 434, 365, 34, 35
+		policies-active: 470, 365, 34, 35
+		progression: 2, 402, 34, 35
+		progression-disabled: 38, 402, 34, 35
+		progression-active: 74, 402, 34, 35
+		districts: 110, 402, 34, 35
+		districts-disabled: 146, 402, 34, 35
+		districts-active: 182, 402, 34, 35
+		tiles: 218, 402, 34, 35
+		tiles-disabled: 254, 402, 34, 35
+		tiles-active: 290, 402, 34, 35
+		transit: 326, 402, 34, 35
+		transit-disabled: 362, 402, 34, 35
+		transit-active: 398, 402, 34, 35
+		achievements: 434, 402, 34, 35
+		achievements-disabled: 470, 402, 34, 35
+		achievements-active: 2, 439, 34, 35
+		advisor: 38, 439, 34, 35
+		advisor-disabled: 74, 439, 34, 35
+		advisor-active: 110, 439, 34, 35
 
 city-panel:
 	Inherits: ^CityIcons
-	PanelRegion: 290, 402, 10, 10, 12, 12, 10, 10
+	PanelRegion: 146, 439, 10, 10, 12, 12, 10, 10
 
 city-toolbar:
 	Inherits: ^CityIcons
-	PanelRegion: 324, 402, 10, 10, 12, 12, 10, 10
+	PanelRegion: 180, 439, 10, 10, 12, 12, 10, 10
 
 city-tooltip:
 	Inherits: ^CityIcons
-	PanelRegion: 358, 402, 5, 5, 6, 6, 5, 5
+	PanelRegion: 214, 439, 5, 5, 6, 6, 5, 5
 
 city-button:
 	Inherits: ^CityIcons
-	PanelRegion: 376, 402, 6, 6, 8, 8, 6, 6
+	PanelRegion: 232, 439, 6, 6, 8, 8, 6, 6
 
 city-button-hover:
 	Inherits: ^CityIcons
-	PanelRegion: 398, 402, 6, 6, 8, 8, 6, 6
+	PanelRegion: 254, 439, 6, 6, 8, 8, 6, 6
 
 city-button-pressed:
 	Inherits: ^CityIcons
-	PanelRegion: 420, 402, 6, 6, 8, 8, 6, 6
+	PanelRegion: 276, 439, 6, 6, 8, 8, 6, 6
 
 city-button-disabled:
 	Inherits: ^CityIcons
-	PanelRegion: 442, 402, 6, 6, 8, 8, 6, 6
+	PanelRegion: 298, 439, 6, 6, 8, 8, 6, 6
 
 city-button-highlighted:
 	Inherits: ^CityIcons
-	PanelRegion: 464, 402, 6, 6, 8, 8, 6, 6
+	PanelRegion: 320, 439, 6, 6, 8, 8, 6, 6
 
 city-button-highlighted-hover:
 	Inherits: ^CityIcons
-	PanelRegion: 486, 402, 6, 6, 8, 8, 6, 6
+	PanelRegion: 342, 439, 6, 6, 8, 8, 6, 6
 
 city-button-highlighted-pressed:
 	Inherits: ^CityIcons
-	PanelRegion: 2, 439, 6, 6, 8, 8, 6, 6
+	PanelRegion: 364, 439, 6, 6, 8, 8, 6, 6
 
 city-button-highlighted-disabled:
 	Inherits: ^CityIcons
-	PanelRegion: 24, 439, 6, 6, 8, 8, 6, 6
+	PanelRegion: 386, 439, 6, 6, 8, 8, 6, 6
+
+# Build icons of the transit, signature, battery and fish hub placeables (tools/uibuildicons.py).
+city-buildicons-extra:
+	Image: buildicons-extra.png
+	Regions:
+		battery: 148, 50, 48, 48
+		cargoairport: 50, 50, 48, 48
+		cargoharbor: 1, 50, 48, 48
+		fish-hub: 99, 50, 48, 48
+		metrostation: 99, 1, 48, 48
+		railyard: 197, 1, 48, 48
+		sig-bazaar: 99, 99, 48, 48
+		sig-fuel-plant: 1, 148, 48, 48
+		sig-garden-row: 1, 99, 48, 48
+		sig-glass-hub: 197, 99, 48, 48
+		sig-mall: 148, 99, 48, 48
+		sig-sky-tower: 50, 99, 48, 48
+		sig-villa: 197, 50, 48, 48
+		taxidepot: 1, 1, 48, 48
+		trainstation: 148, 1, 48, 48
+		tramdepot: 50, 1, 48, 48

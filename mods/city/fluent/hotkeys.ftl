@@ -19,3 +19,5 @@ hotkey-description-citypolicies = Policies
 hotkey-description-cityprogression = Milestones and development
 hotkey-description-citydistricts = Districts
 hotkey-description-citytiles = Buy map tiles
+hotkey-description-cityachievements = Achievements
+hotkey-description-cityadvisor = Advisor

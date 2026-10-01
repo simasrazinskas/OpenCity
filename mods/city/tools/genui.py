@@ -45,6 +45,8 @@ def save_atlas(atlas, base):
 if __name__ == '__main__':
     from genextra import build_city, build_loadscreen_and_icons, build_cursors
     build_city(SCALES, MOD, ICONS, ALIASES, save_atlas)
+    import uibuildicons
+    uibuildicons.build(MOD)
     build_loadscreen_and_icons(SCALES, MOD)
     build_cursors(MOD)
     print('genui: done (scales %s)' % SCALES)

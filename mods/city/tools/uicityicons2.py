@@ -825,6 +825,37 @@ def i_locate(g):
     g.circle(16, 11.5, 3.6, W)
 
 
+def i_achievements(g):
+    """Trophy cup."""
+    g.poly([(8, 5), (24, 5), (23, 15), (19.5, 19.5), (12.5, 19.5), (9, 15)], AMBER)
+    g.ring(7.5, 9.5, 3.6, 1.7, AMBER)
+    g.ring(24.5, 9.5, 3.6, 1.7, AMBER)
+    g.rect(14.2, 19.5, 3.6, 4.5, AMBER)
+    g.rrect(9.5, 24, 13, 4.2, 1.2, fill=W)
+    star(g, 16, 11.6, 4.6, 2.0, W)
+
+
+def i_advisor(g):
+    """Speech bubble with a question mark."""
+    g.rrect(3, 4, 26, 19, 5, fill=W)
+    g.poly([(9, 22), (9, 29), (16, 22)], W)
+    g.arc(16, 12, 4.4, 200, 20, 2.6, SLATE)
+    g.rect(15, 15, 2.2, 3, SLATE)
+    g.circle(16.1, 20, 1.5, SLATE)
+
+
+def i_road_bridge(g):
+    """Bridge deck on two piers over water."""
+    g.rect(2, 25, 28, 5, BLUE)
+    g.rect(7, 15, 3.4, 11, GREY)
+    g.rect(21.6, 15, 3.4, 11, GREY)
+    g.poly([(2, 11), (30, 11), (30, 17), (2, 17)], ASPH)
+    g.rect(2, 11, 28, 1.6, W)
+    g.rect(2, 15.4, 28, 1.6, W)
+    for x in (6, 13, 20, 27):
+        g.rect(x, 13.6, 2, 1, AMBER)
+
+
 ICONS2 += [
     ('transit', i_transit), ('bus', i_bus), ('taxi', i_taxi), ('tram', i_tram), ('metro', i_metro),
     ('train', i_train), ('bus-stop', i_bus_stop), ('bus-depot', i_bus_depot), ('line', i_line),
@@ -837,4 +868,5 @@ ICONS2 += [
     ('tourist', i_tourist), ('hotel', i_hotel),
     ('lock', i_lock), ('eye', i_eye), ('arrow-left', i_arrow_left), ('arrow-right', i_arrow_right),
     ('follow', i_follow), ('locate', i_locate),
+    ('achievements', i_achievements), ('advisor', i_advisor), ('road-bridge', i_road_bridge),
 ]

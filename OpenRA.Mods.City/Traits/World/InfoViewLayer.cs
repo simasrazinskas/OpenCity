@@ -178,7 +178,7 @@ namespace OpenRA.Mods.City.Traits
 					ComputeHappiness();
 					break;
 				case CityInfoView.Traffic:
-					Roads(TrafficLoad);
+					Roads(TrafficValue);
 					break;
 				case CityInfoView.Roads:
 					Roads(cell => c.Roads == null ? -1 : (int)c.Roads.GetClass(cell));
@@ -431,8 +431,29 @@ namespace OpenRA.Mods.City.Traits
 			}
 		}
 
-		int TrafficLoad(CPos cell)
+		/// <summary>Traffic view mode: false shows how slowly traffic moves (flow), true how full the lanes are (volume).</summary>
+		public bool TrafficVolume
 		{
+			get => trafficVolume;
+			set
+			{
+				if (trafficVolume == value)
+					return;
+
+				trafficVolume = value;
+				dirty = true;
+			}
+		}
+
+		bool trafficVolume;
+
+		// Both modes colour 0 (green) to 100 (red).
+		int TrafficValue(CPos cell)
+		{
+			var info = Ctx.Get<ITrafficInfo>();
+			if (info != null)
+				return trafficVolume ? info.GetTrafficVolumePercent(cell) : 100 - info.GetTrafficFlowPercent(cell);
+
 			return Ctx.Traffic?.GetTrafficLoad(cell) ?? 0;
 		}
 
@@ -485,6 +506,8 @@ namespace OpenRA.Mods.City.Traits
 						(flow.HasValue ? "\n" + FluentProvider.GetMessage("label-road-flow", "value", flow.Value) : "");
 				case CityInfoView.Districts:
 					return name + ": " + DistrictName(value + 1);
+				case CityInfoView.NaturalResources:
+					return name + ": " + WorldInfoViewSource.KindName(value / 16) + " " + FluentProvider.GetMessage("label-city-percent", "value", value % 16 * 10);
 				default:
 					return name + ": " + FluentProvider.GetMessage("label-city-percent", "value", value);
 			}

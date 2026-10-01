@@ -1,60 +1,84 @@
-# OpenRA
+# OpenCity
 
-A Libre/Free Real Time Strategy game engine supporting early Westwood classics.
+A Cities: Skylines 2-style city builder with a Dune 2000-style interface, built on the
+[OpenRA](https://github.com/OpenRA/OpenRA) engine.
 
-* Website: [https://www.openra.net](https://www.openra.net)
-* Chat: [#openra on Libera](ircs://irc.libera.chat:6697/openra) ([web](https://web.libera.chat/#openra)) or [Discord](https://discord.openra.net) ![Discord Badge](https://discordapp.com/api/guilds/153649279762694144/widget.png)
-* Repository: [https://github.com/OpenRA/OpenRA](https://github.com/OpenRA/OpenRA) ![Continuous Integration](https://github.com/OpenRA/OpenRA/workflows/Continuous%20Integration/badge.svg)
+![Main menu](docs/screenshots/menu.png)
 
-Please read the [FAQ](https://github.com/OpenRA/OpenRA/wiki/FAQ) in our [Wiki](https://github.com/OpenRA/OpenRA/wiki) and report problems at [https://github.com/OpenRA/OpenRA/issues](https://github.com/OpenRA/OpenRA/issues).
+## What it simulates
 
-Join the [Forum](https://forum.openra.net/) for discussion.
+Every person, household, vehicle and company is simulated individually; the city's numbers come from them.
 
-## Play
+- **Citizens**: people age, go to school, work, shop, have children, get sick, commit crimes and move away.
+  Households pay rent and spend wages. Tourists come by road and intercity train and stay in hotels.
+- **Traffic**: every trip is a real vehicle on the road network. The simulation covers lanes, traffic lights,
+  roundabouts, parking, accidents, bus lanes, pedestrians and level crossings.
+- **Roads and utilities**: street, gravel, avenue, boulevard and highway road types. You can add trees, noise
+  barriers, lights, parking, bus lanes and bike lanes, and build bridges. Power and water networks are separate.
+- **Zoning and growth**: low, medium and high density, mixed-use, low-rent, office and warehouse zones. Lot
+  shapes and corner lots depend on frontage, buildings level up, and building styles come in North American
+  and European themes.
+- **Economy**: 36 resources with production chains. Companies earn profits or go bankrupt. There is trade
+  with the outside world, warehouses, taxes, fees, loans and a balanced ledger.
+- **Industry**: farms, forests, ore, oil and fishing that eventually run out, plus cargo by truck, rail,
+  ship and air.
+- **Services**: fire, police and jail, health, deathcare, garbage, education, parks and post. Vehicles are
+  dispatched to calls, and helicopters, patrols and wildfires are included.
+- **Public transport**: buses, trams, metro, trains and taxis, with lines, depots, fares and ridership.
+- **Environment and time**: day and night, seasons, weather, air, ground and noise pollution, and floods
+  and lightning.
+- **Progression**: milestones, development points, policies, districts, map tiles, signature buildings and
+  achievements.
+- **Interface**: info views, statistics graphs, budget and production panels, an advisor, an alert strip
+  and a chirper feed.
 
-Distributed mods include a reimagining of
+Simulation is fully deterministic, so a replay reproduces a game exactly.
 
-* Command & Conquer: Red Alert
-* Command & Conquer: Tiberian Dawn
-* Dune 2000
+## Screenshots
 
-EA has not endorsed and does not support this product.
+| | |
+|---|---|
+| ![Overview](docs/screenshots/overview.png) | ![Close-up](docs/screenshots/closeup.png) |
+| A young city with the alert strip and advisor | Zoomed in: traffic, industry and homes |
+| ![Night](docs/screenshots/night.png) | ![Pollution view](docs/screenshots/pollution.png) |
+| Night with street and window lights | Pollution info view |
 
-Check our [Playing the Game](https://github.com/OpenRA/OpenRA/wiki/Playing-the-game) Guide to win multiplayer matches.
+## Build and play
 
-## Contribute
+Requires the [.NET 10 SDK](https://dotnet.microsoft.com/download).
 
-* Please read [INSTALL.md](https://github.com/OpenRA/OpenRA/blob/bleed/INSTALL.md) and [Compiling](https://github.com/OpenRA/OpenRA/wiki/Compiling) on how to set up an OpenRA development environment.
-* See [Hacking](https://github.com/OpenRA/OpenRA/wiki/Hacking) for a (now very outdated) overview of the engine.
-* Read and follow our [Code of Conduct](https://github.com/OpenRA/OpenRA/blob/bleed/CODE_OF_CONDUCT.md).
-* To get your patches merged, please adhere to the [Contributing](https://github.com/OpenRA/OpenRA/blob/bleed/CONTRIBUTING.md) guidelines.
+```sh
+make
+./launch-game.sh Game.Mod=city
+```
 
-## Mapping
+On Linux Wayland compositors, `SDL_VIDEODRIVER=wayland ./launch-game.sh Game.Mod=city` avoids X11 issues.
+On Windows use `make.cmd` and `launch-game.cmd Game.Mod=city`.
 
-* We offer a [Mapping](https://github.com/OpenRA/OpenRA/wiki/Mapping) Tutorial as you can change gameplay drastically with custom rules.
-* For scripted mission have a look at the [Lua API](https://docs.openra.net/en/release/lua/).
-* If you want to share your maps with the community, upload them at the [OpenRA Resource Center](https://resource.openra.net).
+Pick **New City**, choose a map (Green Valley, Lakeside or River Bend) and start building roads and zones.
 
-## Modding
+## Development
 
-* Download a copy of the [OpenRA Mod SDK](https://github.com/OpenRA/OpenRAModSDK) to start your own mod.
-* Check the [Modding Guide](https://github.com/OpenRA/OpenRA/wiki/Modding-Guide) to create your own classic RTS.
-* There exists an auto-generated [Trait documentation](https://docs.openra.net/en/latest/release/traits/) to get started with yaml files.
-* Some hints on how to create new OpenRA compatible [Pixelart](https://github.com/OpenRA/OpenRA/wiki/Pixelart).
-* Upload total conversions at [our Mod DB profile](https://www.moddb.com/games/openra/mods).
+- `mods/city/ARCHITECTURE.md` covers system boundaries, determinism rules and the testing workflow.
+- `mods/city/design/` holds the design notes behind each system (citizens, traffic, networks, zoning,
+  economy, industry, services, transit, progression, environment).
+- `mods/city/tools/autotest.sh` runs a headless game from a scripted scenario. It can take screenshots, and
+  it can replay a recording to check determinism:
 
-## Support
+  ```sh
+  mods/city/tools/autotest.sh green-valley "ticks=12000;scenario=full;shots=6000"
+  ```
 
-* Sponsor a [mirror server](https://github.com/OpenRA/OpenRAWebsiteV3/tree/master/packages) if you have some bandwidth to spare.
-* You can immediately set up a [Dedicated](https://github.com/OpenRA/OpenRA/wiki/Dedicated-Server) Game Server.
+- `make check` builds in Debug mode, where style warnings fail the build. `./utility.sh city --check-yaml`
+  lints the mod's rules. After adding fluent messages that are looked up by computed keys, run
+  `./utility.sh city --check-yaml | python3 mods/city/tools/gen_fluent_keys.py`.
 
-## License
-Copyright (c) OpenRA Developers and Contributors
-This file is part of OpenRA, which is free software. It is made
-available to you under the terms of the GNU General Public License
-as published by the Free Software Foundation, either version 3 of
-the License, or (at your option) any later version. For more
-information, see [COPYING](https://github.com/OpenRA/OpenRA/blob/bleed/COPYING).
+## License and credits
 
-# Sponsors
-Free code signing on Windows provided by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/).
+OpenCity is free software under the GNU General Public License v3 (see [COPYING](COPYING)).
+
+It is built on the [OpenRA](https://github.com/OpenRA/OpenRA) engine; see [AUTHORS](AUTHORS) for the
+OpenRA contributors. The interface chrome is adapted from OpenRA's Dune 2000 mod. City art is generated by
+the scripts in `mods/city/tools/`.
+
+OpenCity is not affiliated with or endorsed by Colossal Order, Paradox Interactive or Electronic Arts.

@@ -10,6 +10,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using OpenRA.Mods.City.Traits;
 using OpenRA.Mods.Common.Widgets;
 using OpenRA.Primitives;
@@ -180,17 +181,32 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		void BuildFees()
 		{
 			var fees = pages["fees"].Get("FEE_ROWS");
-			if (ctx.EconomyUi == null)
-				return;
-
 			var y = 0;
-			foreach (var key in UiOrders.FeeKeys)
+
+			// Electricity, water and garbage belong to the economy, health care and education fees to the services.
+			var entries = new List<(string Key, Func<int> Get, Func<int, Order> Order)>();
+			if (ctx.EconomyUi != null)
+				foreach (var key in UiOrders.FeeKeys)
+				{
+					var fee = key;
+					entries.Add((key, () => ctx.EconomyUi.GetFee(fee), v => UiOrders.Fee(world.LocalPlayer, fee, v)));
+				}
+
+			var sim = ctx.Get<ServiceSimulation>();
+			if (sim != null)
+				foreach (var (key, fee) in new[] { ("health", ServiceFee.Health), ("education", ServiceFee.Education) })
+				{
+					var kind = fee;
+					entries.Add((key, () => sim.GetFeePercent(kind), v => UiOrders.ServiceFeeOrder(world.LocalPlayer, kind, v)));
+				}
+
+			foreach (var (key, get, order) in entries)
 			{
-				var fee = key;
+				var read = get;
+				var make = order;
 				var name = CityUi.Message("label-budget-fee-" + key);
-				var row = CityRows.AddSlider(world, fees, y, name, Color.White, 50, 200, 5,
-					() => ctx.EconomyUi.GetFee(fee),
-					value => Issue(world.LocalPlayer != null ? UiOrders.Fee(world.LocalPlayer, fee, value) : null));
+				var row = CityRows.AddSlider(world, fees, y, name, Color.White, 50, 200, 5, read,
+					value => Issue(world.LocalPlayer != null ? make(value) : null));
 
 				row.Value.GetColor = () => row.Slider.DisplayValue > 120 ? CityUi.Warn : row.Slider.DisplayValue < 80 ? CityUi.Good : Color.White;
 				y += 34;

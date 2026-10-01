@@ -28,12 +28,6 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		[FluentReference("name")]
 		const string ChartTitle = "label-production-chart";
 
-		[FluentReference]
-		const string Produced = "label-production-produced";
-
-		[FluentReference]
-		const string Consumed = "label-production-consumed";
-
 		readonly World world;
 		readonly CityUiContext ctx;
 		readonly ScrollPanelWidget list;
@@ -52,9 +46,6 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			widget.Get<ButtonWidget>("CLOSE").OnClick = () => widget.Visible = false;
 			list = widget.Get<ScrollPanelWidget>("LIST");
 
-			// The economy does not report stock per resource.
-			widget.Get("H_STOCK").Visible = false;
-
 			chartTitle = widget.Get<LabelWidget>("CHART_TITLE");
 			chartTitle.GetText = () => ctx.Economy == null || selected > ctx.Economy.ResourceCount ? "" :
 				FluentProvider.GetMessage(ChartTitle, "name", ctx.Economy.ResourceName(selected));
@@ -62,7 +53,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			var graph = widget.Get<CityGraphWidget>("CHART");
 			graph.GetSeries = ChartSeries;
 			graph.GetSampleLabel = ago => ago <= 0 ? FluentProvider.GetMessage("label-stats-now") : FluentProvider.GetMessage("label-stats-months-ago", "count", ago);
-			graph.IsVisible = () => ctx.Statistics != null;
+			graph.IsVisible = () => true;
 
 			var panelVisible = widget.IsVisible;
 			widget.IsVisible = () =>
@@ -109,7 +100,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			Bind(row, "CONSUMED", () => source.GetResourceStat(resource).Consumed);
 			Bind(row, "IMPORTED", () => source.GetResourceStat(resource).Imported);
 			Bind(row, "EXPORTED", () => source.GetResourceStat(resource).Exported);
-			row.Get("STOCK").Visible = false;
+			Bind(row, "STOCK", () => source.GetResourceStat(resource).Stock);
 
 			// The bar shows surplus (green, right) or deficit (red) relative to the larger of production and consumption.
 			var bar = row.Get<CityBarWidget>("BALANCE");
@@ -132,17 +123,30 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			row.Get<LabelWidget>(id).GetText = () => value().ToString("N0", CultureInfo.CurrentCulture);
 		}
 
+		static readonly (TradeField Field, string Key, int Rgb)[] Fields =
+		[
+			(TradeField.Produced, "label-production-produced", 0x5CD67A),
+			(TradeField.Consumed, "label-production-consumed", 0xFF6B5E),
+			(TradeField.Imported, "label-production-imported", 0x5AB4F0),
+			(TradeField.Exported, "label-production-exported", 0xF2C94C)
+		];
+
 		IReadOnlyList<GraphSeries> ChartSeries()
 		{
 			chart.Clear();
-			var stats = ctx.Statistics;
-			var economy = ctx.Economy;
-			if (stats == null || economy == null || selected < 1 || selected > economy.ResourceCount)
+			var economy = ctx.Get<CityEconomy>();
+			if (economy == null || selected < 1 || selected > economy.ResourceCount)
 				return chart;
 
-			var key = economy.ResourceName(selected).ToLowerInvariant();
-			chart.Add(new GraphSeries { Name = FluentProvider.GetMessage(Produced), Color = CityUi.Good, Values = stats.History("res." + key + ".produced", 24) });
-			chart.Add(new GraphSeries { Name = FluentProvider.GetMessage(Consumed), Color = CityUi.Bad, Values = stats.History("res." + key + ".consumed", 24) });
+			// The economy keeps twelve completed months of every figure.
+			foreach (var (field, key, rgb) in Fields)
+				chart.Add(new GraphSeries
+				{
+					Name = FluentProvider.GetMessage(key),
+					Color = CityUi.FromArgb(rgb),
+					Values = economy.ResourceHistory(selected, field)
+				});
+
 			return chart;
 		}
 	}

@@ -100,6 +100,16 @@ CityTiles: U
 	Types: World
 	Contexts: player
 
+CityAchievements: X
+	Description: hotkey-description-cityachievements
+	Types: World
+	Contexts: player
+
+CityAdvisor: L
+	Description: hotkey-description-cityadvisor
+	Types: World
+	Contexts: player
+
 # Free keys that clash with the city hotkeys above (RTS leftovers from the common hotkey set).
 ToLastEvent: END
 Sell: Z Alt

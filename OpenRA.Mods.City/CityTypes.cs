@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using OpenRA.Traits;
 
 namespace OpenRA.Mods.City
@@ -285,6 +286,25 @@ namespace OpenRA.Mods.City
 		public static string FormatMoney(long amount)
 		{
 			return amount < 0 ? $"-${-amount:N0}" : $"${amount:N0}";
+		}
+
+		/// <summary>Short money text for tight HUD slots: full digits below <paramref name="fullBelow"/>, then 12.3k / 4.56M / 1.2B.</summary>
+		public static string FormatMoneyCompact(long amount, long fullBelow = 1000000, bool dollar = true)
+		{
+			var sign = amount < 0 ? "-" : "";
+			var a = Math.Abs(amount);
+			var d = dollar ? "$" : "";
+			if (a < fullBelow)
+				return $"{sign}{d}{a:N0}";
+
+			var c = CultureInfo.InvariantCulture;
+			if (a < 1000000)
+				return $"{sign}{d}{(a / 1000.0).ToString(a < 100000 ? "0.0" : "0", c)}k";
+
+			if (a < 1000000000)
+				return $"{sign}{d}{(a / 1000000.0).ToString(a < 10000000 ? "0.00" : a < 100000000 ? "0.0" : "0", c)}M";
+
+			return $"{sign}{d}{(a / 1000000000.0).ToString("0.0", c)}B";
 		}
 	}
 }

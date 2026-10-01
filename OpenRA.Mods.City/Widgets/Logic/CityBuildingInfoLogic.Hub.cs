@@ -41,6 +41,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				return;
 
 			BuildUpgrades();
+			BuildDistrictRestriction();
 			var hub = Hub;
 			if (hub == null)
 				return;
@@ -50,6 +51,20 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			AddAction(0, top, AreaPaint, () => StartArea(hubActor, true));
 			AddAction(1, top, AreaClear, () => StartArea(hubActor, false));
 			actionsHeight += 34;
+
+			// Forestry hubs can fell every tree of their area at once for more wood (and a bare landscape).
+			if (hub.Info.Kind == NaturalResourceKind.Forest)
+			{
+				var clearcut = AddAction(0, top + 1, "label-hub-clearcut", () =>
+				{
+					if (world.LocalPlayer != null)
+						world.IssueOrder(IndustryOrders.SetPolicyOrder(world.LocalPlayer, hubActor, "clearcut", !hub.ClearCut));
+				});
+
+				clearcut.Bounds.Width = 252;
+				clearcut.IsHighlighted = () => hub.ClearCut;
+				actionsHeight += 34;
+			}
 
 			// Hubs with a choice of products (the farm: grain, vegetables, livestock, cotton) get one button per product.
 			if (!hub.HasProductChoice)
@@ -95,6 +110,56 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			}
 
 			actionsHeight = upgrades.Count * 34;
+		}
+
+		/// <summary>
+		/// Service buildings can be restricted to some districts: a button per district toggles its bit in the building's mask
+		/// (0 = serves the whole city, which the "All" button restores). Shown only when districts exist.
+		/// </summary>
+		void BuildDistrictRestriction()
+		{
+			var services = ctx.Get<ServiceSimulation>();
+			var districts = ctx.ProgressionUi?.Districts;
+			if (services == null || districts == null || districts.Count == 0 || actor.Info.TraitInfoOrDefault<ServiceBuildingInfo>() == null)
+				return;
+
+			var target = actor;
+			var top = actionsHeight / 34;
+			var label = new LabelWidget(Game.ModData)
+			{
+				Bounds = new WidgetBounds(0, top * 34, 256, 18),
+				Font = "TinyBold",
+				GetText = () => CityUi.Message("label-service-districts"),
+				GetColor = () => CityUi.Muted
+			};
+
+			actions.AddChild(label);
+			var all = AddAction(0, top, "label-service-districts-all", () =>
+				world.IssueOrder(UiOrders.ServiceDistricts(world.LocalPlayer, target, 0)));
+
+			all.Bounds.Y = top * 34 + 20;
+			all.Bounds.Width = 56;
+			all.IsHighlighted = () => services.GetDistrictMask(target) == 0;
+
+			var shown = Math.Min(districts.Count, 5);
+			for (var i = 0; i < shown; i++)
+			{
+				var id = districts[i].Id;
+				var name = string.IsNullOrEmpty(districts[i].Name) ? "#" + id : districts[i].Name;
+				var button = AddAction(0, top, "label-service-districts-all", () =>
+				{
+					var mask = services.GetDistrictMask(target) ^ (1 << id);
+					world.IssueOrder(UiOrders.ServiceDistricts(world.LocalPlayer, target, mask));
+				});
+
+				button.GetText = () => name.Length > 6 ? name[..6] : name;
+				button.Bounds.X = 60 + i * 40;
+				button.Bounds.Y = top * 34 + 20;
+				button.Bounds.Width = 38;
+				button.IsHighlighted = () => (services.GetDistrictMask(target) >> id & 1) != 0;
+			}
+
+			actionsHeight += 68;
 		}
 
 		ButtonWidget AddAction(int column, int row, string key, Action click)

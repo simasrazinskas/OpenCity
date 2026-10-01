@@ -227,7 +227,7 @@ namespace OpenRA.Mods.City.Traits
 			if (m.Funds < 0)
 				Add("broke", ProblemTier.Major);
 			else if (m.MonthlyBalance < 0)
-				Add("deficit", ProblemTier.Warning, S(-m.MonthlyBalance));
+				Add("deficit", ProblemTier.Warning, CityUtils.FormatMoney(-m.MonthlyBalance));
 
 			if (ManyProblems(CityProblem.NoRoad, out var noroad))
 				Add("no-road", ProblemTier.Problem, S(noroad), SampleCell(CityProblem.NoRoad));

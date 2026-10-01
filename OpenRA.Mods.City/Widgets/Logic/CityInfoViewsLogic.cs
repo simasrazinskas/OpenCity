@@ -42,6 +42,9 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		readonly Widget modes;
 		readonly Widget tabs;
 		readonly Widget summary;
+		readonly Widget trafficModes;
+		readonly CityGraphWidget flowChart;
+		readonly List<GraphSeries> flowSeries = [];
 		readonly Dictionary<string, ButtonWidget> tabButtons = [];
 		readonly LabelWidget[] summaryNames = new LabelWidget[SummaryRows];
 		readonly LabelWidget[] summaryValues = new LabelWidget[SummaryRows];
@@ -65,6 +68,9 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			modes = widget.Get("MODES");
 			tabs = widget.Get("TABS");
 			summary = widget.Get("SUMMARY");
+			trafficModes = widget.Get("TRAFFIC_MODES");
+			flowChart = widget.Get<CityGraphWidget>("FLOW_CHART");
+			BuildTrafficSection();
 
 			legend = widget.Get<HeatLegendWidget>("LEGEND");
 			legendLow = widget.Get<LabelWidget>("LEGEND_LOW");
@@ -72,7 +78,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			legendDesc = widget.Get<LabelWidget>("LEGEND_DESC");
 
 			legend.GetColor = t => InfoViews.RampColor(CurrentDef()?.Ramp ?? InfoRamp.Good, (int)(t * 100));
-			legend.IsVisible = () => CurrentDef() != null && CurrentDef().Ramp != InfoRamp.Category;
+			legend.IsVisible = () => CurrentDef() != null && CurrentDef().Ramp != InfoRamp.Category && CurrentDef().Ramp != InfoRamp.Resource;
 			legendLow.IsVisible = legend.IsVisible;
 			legendHigh.IsVisible = legend.IsVisible;
 			legendLow.GetText = () => CurrentDef()?.Low ?? "";
@@ -109,6 +115,46 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			};
 		}
 
+		void BuildTrafficSection()
+		{
+			var x = 0;
+			foreach (var (volume, key) in new[] { (false, "label-traffic-flow"), (true, "label-traffic-volume") })
+			{
+				var isVolume = volume;
+				var button = Game.LoadWidget(world, "CITY_INFOVIEW_ITEM", trafficModes, []) as ButtonWidget;
+				button.Bounds.X = x;
+				button.Bounds.Width = 120;
+				button.Bounds.Height = 26;
+				var text = FluentProvider.GetMessage(key);
+				button.GetText = () => text;
+				button.IsHighlighted = () => layer != null && layer.TrafficVolume == isVolume;
+				button.OnClick = () =>
+				{
+					if (layer != null)
+						layer.TrafficVolume = isVolume;
+				};
+
+				x += 126;
+			}
+
+			flowChart.GetSeries = () =>
+			{
+				flowSeries.Clear();
+				var info = ctx.Get<ITrafficInfo>();
+				if (info == null)
+					return flowSeries;
+
+				var values = new int[24];
+				for (var h = 0; h < 24; h++)
+					values[h] = Math.Max(0, info.GetFlowHistory(h));
+
+				flowSeries.Add(new GraphSeries { Name = FluentProvider.GetMessage("label-traffic-flow"), Color = CityUi.Good, Values = values });
+				return flowSeries;
+			};
+
+			flowChart.GetSampleLabel = ago => FluentProvider.GetMessage("label-traffic-hour", "hour", 23 - ago);
+		}
+
 		void FollowMode()
 		{
 			var mode = layer?.Mode ?? CityInfoView.None;
@@ -123,6 +169,8 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				group = def.Group;
 				BuildModes();
 			}
+			else
+				Relayout(widgetPanel, modeRows);
 		}
 
 		InfoViewDef CurrentDef()
@@ -237,8 +285,11 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				i++;
 			}
 
-			Relayout(widgetPanel, Math.Max(1, (i + Columns - 1) / Columns));
+			modeRows = Math.Max(1, (i + Columns - 1) / Columns);
+			Relayout(widgetPanel, modeRows);
 		}
+
+		int modeRows = 1;
 
 		/// <summary>Fits the panel to the number of view rows of the selected group.</summary>
 		void Relayout(Widget panel, int rows)
@@ -251,6 +302,17 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			legendHigh.Bounds.Y = y + 14;
 			summary.Bounds.Y = y + 40;
 			panel.Bounds.Height = summary.Bounds.Y + summary.Bounds.Height + 8;
+
+			// The traffic view adds its flow / volume switch and the 24 hour flow chart below the numbers.
+			var traffic = layer != null && layer.Mode == CityInfoView.Traffic && ctx.Get<ITrafficInfo>() != null;
+			trafficModes.Visible = flowChart.Visible = traffic;
+			if (traffic)
+			{
+				trafficModes.Bounds.Y = panel.Bounds.Height - 6;
+				flowChart.Bounds.Y = trafficModes.Bounds.Y + 34;
+				panel.Bounds.Height += 34 + flowChart.Bounds.Height + 6;
+			}
+
 			panel.Bounds.Y = Game.Renderer.Resolution.Height - panel.Bounds.Height - 52;
 		}
 	}

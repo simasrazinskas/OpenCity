@@ -40,11 +40,8 @@ namespace OpenRA.Mods.City.Widgets
 			sources = Find<IInfoViewSource>(all: true).ToList();
 
 			// Adapters over the simulation traits that do not implement the UI's provider interfaces themselves.
-			contributors.Add(new InspectionAdapter(Get<ServiceSimulation>()));
-			var resources = Get<NaturalResourceLayer>();
-			var transit = Get<TransitLayer>();
-			if (resources != null || transit != null)
-				sources.Add(new WorldInfoViewSource(world, resources, transit));
+			contributors.Add(new InspectionAdapter(Get<ServiceSimulation>(), Get<Logistics>(), Get<CityEconomy>(), Get<PropertyRegistry>()));
+			sources.Add(new WorldInfoViewSource(world, Get<NaturalResourceLayer>(), Get<Logistics>(), Get<CityEconomy>(), Get<Progression>(), Get<IPropertyRegistry>()));
 		}
 
 		public static CityUiContext For(World world)
@@ -70,10 +67,15 @@ namespace OpenRA.Mods.City.Widgets
 		public IPropertyRegistry Properties => Get<IPropertyRegistry>();
 		public IRoadNetwork Roads => Get<IRoadNetwork>();
 		public IChirperSource Chirper => Get<IChirperSource>() ?? Statistics as IChirperSource;
-		public IEconomyUiSource EconomyUi => Adapt<IEconomyUiSource>(() => Get<CityEconomy>() is { } e ? new EconomyUiAdapter(e, CityUi.GetManager(world)) : null);
+		public IEconomyUiSource EconomyUi => Adapt<IEconomyUiSource>(() =>
+			Get<CityEconomy>() is { } e ? new EconomyUiAdapter(e, CityUi.GetManager(world), world, Get<IPropertyRegistry>(), Get<Logistics>()) : null);
 		public IProgressionUiSource ProgressionUi => Adapt<IProgressionUiSource>(() => Get<Progression>() is { } p ? new ProgressionUiAdapter(world, p) : null);
 		public ITransitUiSource TransitUi => Adapt<ITransitUiSource>(() => Get<TransitLayer>() is { } t ? new TransitUiAdapter(world, t) : null);
 		public IExtractorSource Extractors => Get<IExtractorSource>();
+		public ICityProblems Problems => Get<ICityProblems>();
+		public IFollowSource Follow => Get<IFollowSource>();
+		public IAchievementSource Achievements => Adapt<IAchievementSource>(() => Get<Progression>() is { } p ? new ProgressionExtrasAdapter(world, p) : null);
+		public ITileInfoSource TileInfo => Adapt<ITileInfoSource>(() => Get<Progression>() is { } p ? new ProgressionExtrasAdapter(world, p) : null);
 		public IUpgradeSource Upgrades => Adapt<IUpgradeSource>(() => Get<ServiceSimulation>() is { } s ? new UpgradeAdapter(s) : null);
 		public IReadOnlyList<IInspectionContributor> Contributors => contributors;
 
@@ -82,6 +84,25 @@ namespace OpenRA.Mods.City.Widgets
 
 		/// <summary>District selected in the districts panel (0 = none); the policies panel edits its policies.</summary>
 		public int SelectedDistrict { get; set; }
+
+		/// <summary>Trip id of the vehicle shown in the vehicle card (0 = none).</summary>
+		public int SelectedVehicle { get; set; }
+
+		/// <summary>Whether any tool (build, road, zone, ...) is the active order generator; the vehicle picker then leaves clicks alone.</summary>
+		public Func<bool> AnyToolActive { get; set; } = () => false;
+
+		/// <summary>Tile under the cursor while the tile tool is active (-1 = none).</summary>
+		public int HoverTileX { get; set; } = -1;
+		public int HoverTileY { get; set; } = -1;
+
+		/// <summary>When set, the HUD keeps the camera on this world position every frame (cancelled by Escape or by scrolling).</summary>
+		public Func<WPos?> FollowTarget { get; set; }
+
+		/// <summary>Centres the camera on a world position. Set by the HUD logic that owns the WorldRenderer.</summary>
+		public Action<WPos> CenterOnWorld { get; set; }
+
+		/// <summary>Selects an actor and centres the camera on it (alert strip, locate buttons).</summary>
+		public Action<uint, CPos> Locate { get; set; }
 
 		/// <summary>Centres the camera on a cell. Set by the HUD logic that owns the WorldRenderer.</summary>
 		public Action<CPos> CenterOn { get; set; }

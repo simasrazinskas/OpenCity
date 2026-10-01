@@ -216,4 +216,66 @@ namespace OpenRA.Mods.City.Traits
 		/// <summary>0..100 (or a category index for categorical views) at a cell, -1 = draw nothing there.</summary>
 		int GetCell(CityInfoView mode, CPos cell);
 	}
+
+	public struct AchievementEntry
+	{
+		public string Id;
+		public string NameKey;
+		public string DescKey;
+		public bool Unlocked;
+
+		/// <summary>0..100 progress towards the first unmet condition (100 once unlocked).</summary>
+		public int Progress;
+
+		/// <summary>Months in a row the conditions held, and how many are required (0 = instant).</summary>
+		public int Streak, Months;
+		public int Xp;
+	}
+
+	/// <summary>Read side of achievements. Owner: PRG (UI adapter over Progression.Achievements).</summary>
+	public interface IAchievementSource
+	{
+		IReadOnlyList<AchievementEntry> Entries { get; }
+		int Unlocked { get; }
+	}
+
+	/// <summary>Everything the map tile panel shows about one tile.</summary>
+	public struct TileDetail
+	{
+		public bool Valid, Owned, Adjacent, HasOutsideConnection;
+
+		/// <summary>Price now, -1 when owned.</summary>
+		public int Price;
+
+		/// <summary>Fluent key of why the tile cannot be bought now, null when it can.</summary>
+		public string BlockedKey;
+		public int TotalCells, BuildableCells;
+
+		/// <summary>Monthly upkeep added by buying it.</summary>
+		public int UpkeepIncrease;
+
+		/// <summary>Remaining resource amount per NaturalResourceKind index.</summary>
+		public int[] Resources;
+	}
+
+	/// <summary>Read side of the purchasable map tiles beyond IProgressionUiSource. Owner: PRG (UI adapter over Progression.GetTileInfo).</summary>
+	public interface ITileInfoSource
+	{
+		TileDetail Detail(int tileX, int tileY);
+
+		int OwnedTiles { get; }
+		int TotalTiles { get; }
+		int MonthlyUpkeep { get; }
+	}
+
+	/// <summary>
+	/// Camera follow: a sim trait that knows where a citizen or vehicle currently is (TRF/CIT) implements it; the UI then keeps the
+	/// camera on the followed citizen. Until then following falls back to the citizen's home or workplace.
+	/// </summary>
+	public interface IFollowSource
+	{
+		bool TryGetCitizenPosition(int citizenId, out WPos position);
+
+		bool TryGetVehiclePosition(int vehicleId, out WPos position);
+	}
 }

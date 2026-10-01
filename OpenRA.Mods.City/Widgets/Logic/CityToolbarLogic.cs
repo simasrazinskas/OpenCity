@@ -92,8 +92,10 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			};
 
 			ctx.IsToolActive = id => activeToolId == id && ToolActive();
+			ctx.AnyToolActive = ToolActive;
 			ctx.CancelTool = CancelTool;
 
+			CityAdvisorLogic.OpenedBudget = CityAdvisorLogic.OpenedInfoViews = CityAdvisorLogic.Dismissed = false;
 			CollectPlaceables();
 			BuildTabs();
 
@@ -148,10 +150,12 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 			if (e.Key == Keycode.ESCAPE && e.Modifiers == Modifiers.None)
 			{
-				var handled = AnyPanelOpen() || ToolActive() || ctx.SelectedCitizen != 0;
+				var handled = AnyPanelOpen() || ToolActive() || ctx.SelectedCitizen != 0 || ctx.SelectedVehicle != 0;
 				CloseAllPanels();
 				CancelTool();
 				ctx.SelectedCitizen = 0;
+				ctx.SelectedVehicle = 0;
+				ctx.FollowTarget = null;
 				return handled;
 			}
 
@@ -274,7 +278,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		static readonly string[] PanelIds =
 		[
 			"CITY_BUDGET_PANEL", "CITY_INFOVIEWS_PANEL", "CITY_STATS_PANEL", "CITY_CHIRPER_PANEL", "CITY_PRODUCTION_PANEL",
-			"CITY_POLICIES_PANEL", "CITY_PROGRESS_PANEL", "CITY_DISTRICTS_PANEL", "CITY_TRANSIT_PANEL"
+			"CITY_POLICIES_PANEL", "CITY_PROGRESS_PANEL", "CITY_DISTRICTS_PANEL", "CITY_TRANSIT_PANEL", "CITY_ACHIEVEMENTS_PANEL"
 		];
 
 		bool PanelOpen(string id)
@@ -306,6 +310,12 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			var panel = Ui.Root.GetOrNull(id);
 			if (panel != null)
 				panel.Visible = !wasOpen;
+
+			// The advisor's "open the budget / info views" steps complete when the player has looked at them.
+			if (!wasOpen && id == "CITY_BUDGET_PANEL")
+				CityAdvisorLogic.OpenedBudget = true;
+			else if (!wasOpen && id == "CITY_INFOVIEWS_PANEL")
+				CityAdvisorLogic.OpenedInfoViews = true;
 		}
 
 		// ---- tabs ----
@@ -446,7 +456,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		// ---- palette ----
 		string LockedText(ToolItem item, CityPlaceableInfo placeable)
 		{
-			if (placeable == null || manager == null || manager.IsUnlocked(item.ActorType))
+			if (placeable == null || manager == null || manager.IsUnlocked(item.ActorType) || IsSignature(item.ActorType))
 				return "";
 
 			return "\n" + FluentProvider.GetMessage(UnlocksAt, "population", placeable.UnlockPopulation.ToString("N0", System.Globalization.CultureInfo.CurrentCulture));

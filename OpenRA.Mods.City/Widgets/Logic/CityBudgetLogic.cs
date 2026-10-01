@@ -53,13 +53,11 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		[FluentReference]
 		const string Expenses = "label-budget-trend-expenses";
 
-		const int RowHeight = 18;
-
 		readonly World world;
 		readonly CityManager manager;
 		readonly CityUiContext ctx;
-		readonly Widget incomeList;
-		readonly Widget expenseList;
+		readonly ScrollPanelWidget incomeList;
+		readonly ScrollPanelWidget expenseList;
 		readonly Dictionary<string, Widget> pages = [];
 		readonly Dictionary<string, ButtonWidget> tabButtons = [];
 		readonly List<GraphSeries> trend = [];
@@ -83,8 +81,8 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 			BuildTabs(widget.Get("TABS"));
 
-			incomeList = pages["budget"].Get("INCOME_LIST");
-			expenseList = pages["budget"].Get("EXPENSE_LIST");
+			incomeList = pages["budget"].Get<ScrollPanelWidget>("INCOME_LIST");
+			expenseList = pages["budget"].Get<ScrollPanelWidget>("EXPENSE_LIST");
 
 			var incomeTotal = pages["budget"].Get<LabelWidget>("INCOME_TOTAL");
 			incomeTotal.GetText = () => FluentProvider.GetMessage(TotalLabel, "amount", CityUtils.FormatMoney(manager?.LastMonthIncomeTotal ?? 0));
@@ -120,7 +118,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				("budget", TabBudget, () => true),
 				("taxes", TabTaxes, () => manager != null),
 				("services", TabServices, () => ctx.Services != null),
-				("fees", TabFees, () => ctx.EconomyUi != null),
+				("fees", TabFees, () => ctx.EconomyUi != null || ctx.Get<ServiceSimulation>() != null),
 				("loan", TabLoan, () => ctx.EconomyUi != null)
 			};
 
@@ -173,7 +171,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			RefreshTaxDetail();
 		}
 
-		void Refresh(Widget list, IReadOnlyDictionary<string, int> values, ref object shown, Color valueColor)
+		void Refresh(ScrollPanelWidget list, IReadOnlyDictionary<string, int> values, ref object shown, Color valueColor)
 		{
 			if (shown != null && ReferenceEquals(values, shown))
 				return;
@@ -182,22 +180,22 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			var sorted = values == null ? [] : values.OrderBy(kv => kv.Key, StringComparer.Ordinal).ToList();
 			list.RemoveChildren();
 
-			var y = 0;
 			foreach (var kv in sorted)
 			{
-				if (y + RowHeight > list.Bounds.Height)
-					break;
-
 				var row = Game.LoadWidget(world, "CITY_BUDGET_ROW", list, []);
-				row.Bounds.Y = y;
+				row.Bounds.Width = list.Bounds.Width - list.ScrollbarWidth - 6;
 				var name = CategoryName(kv.Key);
 				var amount = CityUtils.FormatMoney(kv.Value);
-				row.Get<LabelWidget>("NAME").GetText = () => name;
+				var label = row.Get<LabelWidget>("NAME");
+				label.GetText = () => name;
+				label.Bounds.Width = row.Bounds.Width - 100;
 				var value = row.Get<LabelWidget>("VALUE");
+				value.Bounds.X = row.Bounds.Width - 100;
 				value.GetText = () => amount;
 				value.GetColor = () => valueColor;
-				y += RowHeight;
 			}
+
+			list.Layout.AdjustChildren();
 		}
 	}
 }
