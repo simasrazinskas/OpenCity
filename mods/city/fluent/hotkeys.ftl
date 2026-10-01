@@ -1,0 +1,21 @@
+## OpenCity hotkeys. Owned by the ui work package.
+hotkey-description-citytoolroad = Road tool
+hotkey-description-citytoolzoning = Zoning tool
+hotkey-description-citytoolbulldoze = Bulldoze tool
+hotkey-description-cityinfoviews = Info views
+hotkey-description-citybudget = Budget
+hotkey-description-cityspeed1 = Normal speed
+hotkey-description-cityspeed2 = Fast speed
+hotkey-description-cityspeed3 = Fastest speed
+hotkey-description-citypause = Pause or resume
+hotkey-description-cityinfoviewnext = Next info view
+hotkey-description-citytoolnetworks = Networks tool
+hotkey-description-citytoolindustry = Industry tool
+hotkey-description-citytooltransit = Transit tool
+hotkey-description-citystats = Statistics
+hotkey-description-citychirper = Chirper
+hotkey-description-cityproduction = Production
+hotkey-description-citypolicies = Policies
+hotkey-description-cityprogression = Milestones and development
+hotkey-description-citydistricts = Districts
+hotkey-description-citytiles = Buy map tiles

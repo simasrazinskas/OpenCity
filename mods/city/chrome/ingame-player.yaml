@@ -1,0 +1,348 @@
+# OpenCity in-game HUD: Dune 2000 style right sidebar, bottom-left command bar. Panels live in city-panels.yaml.
+Container@PLAYER_WIDGETS:
+	Logic: LoadIngameChatLogic, CityHudLogic, CityTopBarLogic, CityToolbarLogic
+	Children:
+		Container@CHAT_ROOT:
+		LogicTicker@SIDEBAR_TICKER:
+		LogicTicker@CITY_TICKER:
+		Image@COMMAND_BAR_BACKGROUND:
+			X: 0
+			Y: WINDOW_HEIGHT - HEIGHT
+			Width: 451
+			Height: 43
+			ImageCollection: commandbar
+			ImageName: background
+			ClickThrough: false
+		Container@CITY_COMMANDS:
+			X: 24
+			Y: WINDOW_HEIGHT - HEIGHT - 9
+			Width: 140
+			Height: 41
+			Children:
+				Button@SPEED_PAUSE:
+					X: 0
+					Width: 34
+					Height: 41
+					VisualHeight: 0
+					Background: command-button
+					Key: CityPause
+					DisableKeySound: true
+					TooltipText: button-city-speed-pause-tooltip
+					TooltipContainer: TOOLTIP_CONTAINER
+					Children:
+						Image@ICON:
+							X: 1
+							Y: 4
+							ImageCollection: city-icons
+							ImageName: pause
+				Button@SPEED_1:
+					X: 35
+					Width: 34
+					Height: 41
+					VisualHeight: 0
+					Background: command-button
+					Key: CitySpeed1
+					DisableKeySound: true
+					TooltipText: button-city-speed-1-tooltip
+					TooltipContainer: TOOLTIP_CONTAINER
+					Children:
+						Image@ICON:
+							X: 1
+							Y: 4
+							ImageCollection: city-icons
+							ImageName: play
+				Button@SPEED_2:
+					X: 70
+					Width: 34
+					Height: 41
+					VisualHeight: 0
+					Background: command-button
+					Key: CitySpeed2
+					DisableKeySound: true
+					TooltipText: button-city-speed-2-tooltip
+					TooltipContainer: TOOLTIP_CONTAINER
+					Children:
+						Image@ICON:
+							X: 1
+							Y: 4
+							ImageCollection: city-icons
+							ImageName: fast
+				Button@SPEED_3:
+					X: 105
+					Width: 34
+					Height: 41
+					VisualHeight: 0
+					Background: command-button
+					Key: CitySpeed3
+					DisableKeySound: true
+					TooltipText: button-city-speed-3-tooltip
+					TooltipContainer: TOOLTIP_CONTAINER
+					Children:
+						Image@ICON:
+							X: 1
+							Y: 4
+							ImageCollection: city-icons
+							ImageName: faster
+		Image@SIDEBAR_BACKGROUND_TOP:
+			X: WINDOW_WIDTH - 226
+			Y: 0
+			Width: 226
+			Height: 295
+			ImageCollection: sidebar
+			ImageName: background-top
+			ClickThrough: false
+			Children:
+				Container@TOP_BUTTONS:
+					Logic: MenuButtonsChromeLogic
+					X: 16
+					Y: 238
+					Children:
+						Button@ORDER_BULLDOZE:
+							X: 14
+							Y: 0
+							Width: 34
+							Height: 35
+							Background:
+							VisualHeight: 0
+							Key: CityToolBulldoze
+							TooltipText: button-city-tool-bulldoze
+							TooltipContainer: TOOLTIP_CONTAINER
+							Children:
+								Image@ICON:
+									ImageCollection: order-icons
+									ImageName: repair
+						Button@ORDER_INFOVIEWS:
+							X: 54
+							Y: 0
+							Width: 34
+							Height: 35
+							Background:
+							VisualHeight: 0
+							Key: CityInfoViews
+							TooltipText: button-city-tool-infoviews
+							TooltipContainer: TOOLTIP_CONTAINER
+							Children:
+								Image@ICON:
+									ImageCollection: order-icons
+									ImageName: beacon
+						Button@ORDER_BUDGET:
+							X: 94
+							Y: 0
+							Width: 34
+							Height: 35
+							Background:
+							VisualHeight: 0
+							Key: CityBudget
+							TooltipText: button-city-tool-budget
+							TooltipContainer: TOOLTIP_CONTAINER
+							Children:
+								Image@ICON:
+									ImageCollection: order-icons
+									ImageName: sell
+						MenuButton@OPTIONS_BUTTON:
+							Key: escape
+							X: 144
+							Y: 1
+							Width: 40
+							Height: 38
+							Background:
+							TooltipText: button-city-menu-tooltip
+							TooltipContainer: TOOLTIP_CONTAINER
+							DisableWorldSounds: true
+							VisualHeight: 0
+							Children:
+								Image@ICON:
+									ImageCollection: order-icons
+									ImageName: options
+				Container@RADAR:
+					Children:
+						Radar@RADAR_MINIMAP:
+							WorldInteractionController: INTERACTION_CONTROLLER
+							X: 12
+							Y: 34
+							Width: 202
+							Height: 202
+						Container@MINIMAP_OVERLAY:
+							X: 12
+							Y: 34
+							Children:
+								Image@TOPLEFT:
+									ImageCollection: minimap-overlay
+									ImageName: top-left
+								Image@TOP:
+									X: 30
+									ImageCollection: minimap-overlay
+									ImageName: top
+								Image@TOPRIGHT:
+									X: 195
+									ImageCollection: minimap-overlay
+									ImageName: top-right
+								Image@LEFT:
+									Y: 94
+									ImageCollection: minimap-overlay
+									ImageName: left
+								Image@RIGHT:
+									X: 197
+									Y: 94
+									ImageCollection: minimap-overlay
+									ImageName: right
+								Image@BOTTOMLEFT:
+									Y: 195
+									ImageCollection: minimap-overlay
+									ImageName: bottom-left
+								Image@BOTTOMRIGHT:
+									X: 195
+									Y: 195
+									ImageCollection: minimap-overlay
+									ImageName: bottom-right
+				LabelWithTooltip@CASH:
+					X: 29
+					Y: 4
+					Width: 60
+					Height: 22
+					Font: Bold
+					TooltipContainer: TOOLTIP_CONTAINER
+					TooltipTemplate: SIMPLE_TOOLTIP
+				Label@BALANCE:
+					X: 88
+					Y: 4
+					Width: 50
+					Height: 22
+					Font: TinyBold
+				Label@DATE:
+					X: 130
+					Y: 4
+					Width: 84
+					Height: 22
+					Align: Right
+					Font: TinyBold
+		Container@CITY_PRODUCTION:
+			X: WINDOW_WIDTH - 226
+			Y: 279
+			Width: 226
+			Height: 288
+			Children:
+				CityPalette@CITY_PALETTE:
+					MinimumRows: 6
+					Width: 226
+					Height: 288
+					TooltipContainer: TOOLTIP_CONTAINER
+				Container@CITY_TABS:
+					X: 6
+					Y: 2
+					Width: 25
+					Height: 279
+		Container@CITY_STATUS:
+			X: WINDOW_WIDTH - 226
+			Y: 567
+			Width: 226
+			Height: 172
+			Children:
+				Image@ROW1:
+					Width: 226
+					Height: 48
+					ClickThrough: false
+					ImageCollection: sidebar
+					ImageName: background-iconrow
+				Image@ROW2:
+					Y: 48
+					Width: 226
+					Height: 48
+					ClickThrough: false
+					ImageCollection: sidebar
+					ImageName: background-iconrow
+				Image@ROW3:
+					Y: 96
+					Width: 226
+					Height: 48
+					ClickThrough: false
+					ImageCollection: sidebar
+					ImageName: background-iconrow
+				DemandBars@DEMAND_BARS:
+					X: 40
+					Y: 100
+					Width: 176
+					Height: 42
+					Font: Bold
+					TooltipContainer: TOOLTIP_CONTAINER
+				Image@CAP:
+					Y: 144
+					Width: 226
+					Height: 28
+					ClickThrough: false
+					ImageCollection: sidebar
+					ImageName: background-bottom
+				CityBar@MILESTONE_BAR:
+					X: 40
+					Y: 6
+					Width: 176
+					Height: 18
+				LabelWithTooltip@MILESTONE_LABEL:
+					X: 40
+					Y: 6
+					Width: 176
+					Height: 18
+					Font: TinyBold
+					Align: Center
+					Shadow: true
+					TooltipContainer: TOOLTIP_CONTAINER
+					TooltipTemplate: SIMPLE_TOOLTIP
+				CityBar@HAPPINESS_BAR:
+					X: 40
+					Y: 30
+					Width: 176
+					Height: 18
+				Label@HAPPINESS_LABEL:
+					X: 40
+					Y: 30
+					Width: 176
+					Height: 18
+					Font: TinyBold
+					Align: Center
+					Shadow: true
+				CityBar@POWER_BAR:
+					X: 40
+					Y: 54
+					Width: 176
+					Height: 18
+				Label@POWER_LABEL:
+					X: 40
+					Y: 54
+					Width: 176
+					Height: 18
+					Font: TinyBold
+					Align: Center
+					Shadow: true
+				CityBar@WATER_BAR:
+					X: 40
+					Y: 78
+					Width: 176
+					Height: 18
+				Label@WATER_LABEL:
+					X: 40
+					Y: 78
+					Width: 176
+					Height: 18
+					Font: TinyBold
+					Align: Center
+					Shadow: true
+		Container@CITY_ORDERS:
+			X: WINDOW_WIDTH - 226
+			Y: 711
+			Width: 226
+			Height: 96
+			Children:
+				Image@ORDER_ROW1:
+					Width: 226
+					Height: 48
+					ClickThrough: false
+					ImageCollection: sidebar
+					ImageName: background-iconrow
+				Image@ORDER_ROW2:
+					Y: 48
+					Width: 226
+					Height: 48
+					ClickThrough: false
+					ImageCollection: sidebar
+					ImageName: background-iconrow
+		LogicKeyListener@CITY_KEYS:

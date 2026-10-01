@@ -1,0 +1,265 @@
+# Owned by the economy work package. See mods/city/ARCHITECTURE.md and design/05-economy.md.
+
+# Resources (ids 1..N in file order) and recipes. Prices are cents per unit before MoneyScalePercent.
+# Q = milli-units one fully staffed worker makes per economy day (1/30 of a month). Consumption = milli-units per resident per month.
+Player:
+	CityEconomy:
+		Resources:
+			Grain:
+				Price: 20
+				Weight: 3
+				Q: 7000
+			Vegetables:
+				Price: 30
+				Weight: 2
+				Q: 4700
+			Livestock:
+				Price: 40
+				Weight: 3
+				Q: 3500
+			Cotton:
+				Price: 35
+				Weight: 2
+				Q: 4000
+			Wood:
+				Price: 25
+				Weight: 4
+				Q: 5600
+			Ore:
+				Price: 45
+				Weight: 5
+				Q: 3100
+			Oil:
+				Price: 60
+				Weight: 4
+				Q: 2300
+			Stone:
+				Price: 18
+				Weight: 5
+				Q: 7800
+			Timber:
+				Price: 48
+				Weight: 4
+				Q: 9000
+			Petrochemicals:
+				Price: 88
+				Weight: 3
+				Q: 7500
+			Metals:
+				Price: 73
+				Weight: 4
+				Q: 7500
+			Concrete:
+				Price: 41
+				Weight: 5
+				Q: 7100
+			Food:
+				Price: 98
+				Weight: 2
+				Q: 7500
+				Sale: Shop
+				Consumption: 1600
+			Beverages:
+				Price: 78
+				Weight: 3
+				Q: 7500
+				Sale: Shop
+				Consumption: 1000
+			Textiles:
+				Price: 158
+				Weight: 1
+				Q: 6000
+				Sale: Shop
+				Consumption: 500
+			Plastics:
+				Price: 123
+				Weight: 2
+				Q: 6000
+			Furniture:
+				Price: 143
+				Weight: 3
+				Q: 4500
+				Sale: Shop
+				Consumption: 370
+			Electronics:
+				Price: 389
+				Weight: 1
+				Q: 3000
+			Vehicles:
+				Price: 362
+				Weight: 4
+				Q: 2250
+				Sale: Shop
+				Consumption: 180
+			Machinery:
+				Price: 605
+				Weight: 4
+				Q: 2300
+			Software:
+				Price: 506
+				Weight: 0
+				Q: 1800
+			Financial:
+				Price: 599
+				Weight: 0
+				Q: 2250
+				Sale: Direct
+				Consumption: 70
+				Markup: 160
+			Media:
+				Price: 599
+				Weight: 0
+				Q: 2250
+				Sale: Direct
+				Consumption: 60
+				Markup: 160
+			Meals:
+				Price: 196
+				Weight: 0
+				Q: 2100
+				Sale: Direct
+				Consumption: 800
+				Markup: 100
+			Entertainment:
+				Price: 172
+				Weight: 0
+				Q: 2250
+				Sale: Direct
+				Consumption: 600
+				Markup: 100
+			Coal:
+				Price: 30
+				Weight: 5
+				Q: 5400
+			Fish:
+				Price: 35
+				Weight: 2
+				Q: 4700
+			Steel:
+				Price: 140
+				Weight: 5
+				Q: 4400
+			Minerals:
+				Price: 40
+				Weight: 5
+				Q: 7400
+			Chemicals:
+				Price: 150
+				Weight: 3
+				Q: 3300
+			Pharmaceuticals:
+				Price: 280
+				Weight: 1
+				Q: 1300
+				Sale: Shop
+				Consumption: 100
+			ConvenienceFood:
+				Price: 125
+				Weight: 2
+				Q: 2500
+				Sale: Shop
+				Consumption: 400
+			Paper:
+				Price: 80
+				Weight: 3
+				Q: 5100
+			Telecom:
+				Price: 1250
+				Weight: 0
+				Q: 700
+				Sale: Direct
+				Consumption: 40
+				Markup: 160
+			Lodging:
+				Price: 200
+				Weight: 0
+				Q: 800
+				Sale: Direct
+				Markup: 100
+				Tourist: 1000
+				Tradable: False
+			Recreation:
+				Price: 150
+				Weight: 0
+				Q: 1100
+				Sale: Direct
+				Consumption: 300
+				Markup: 100
+				Tradable: False
+		Recipes:
+			Timber:
+				Zone: Industrial
+				Inputs: Wood:1
+			Petrochemicals:
+				Zone: Industrial
+				Inputs: Oil:1
+			Metals:
+				Zone: Industrial
+				Inputs: Ore:1
+			Food:
+				Zone: Industrial
+				Inputs: Livestock:1, Vegetables:1
+			Beverages:
+				Zone: Industrial
+				Inputs: Grain:1, Vegetables:1
+			Textiles:
+				Zone: Industrial
+				Inputs: Cotton:1, Petrochemicals:1
+			Plastics:
+				Zone: Industrial
+				Inputs: Petrochemicals:1
+			Furniture:
+				Zone: Industrial
+				Inputs: Timber:2
+			Electronics:
+				Zone: Industrial
+				Inputs: Plastics:2, Metals:1
+			Vehicles:
+				Zone: Industrial
+				Inputs: Metals:2, Plastics:1
+			Software:
+				Zone: Office
+				Inputs: Electronics:1
+			Financial:
+				Zone: Office
+				Inputs: Software:1
+			Media:
+				Zone: Office
+				Inputs: Software:1
+			Meals:
+				Zone: Commercial
+				Inputs: Food:1
+			Entertainment:
+				Zone: Commercial
+				Inputs: Beverages:1
+			Concrete:
+				Zone: Industrial
+				Inputs: Stone:1
+			Machinery:
+				Zone: Industrial
+				Inputs: Metals:2, Electronics:1
+			Steel:
+				Zone: Industrial
+				Inputs: Coal:1, Metals:1
+			Minerals:
+				Zone: Industrial
+				Inputs: Stone:1
+			Chemicals:
+				Zone: Industrial
+				Inputs: Oil:1, Minerals:1
+			Pharmaceuticals:
+				Zone: Industrial
+				Inputs: Chemicals:1
+			ConvenienceFood:
+				Zone: Industrial
+				Inputs: Grain:1, Livestock:1
+			Paper:
+				Zone: Industrial
+				Inputs: Timber:1
+			Telecom:
+				Zone: Office
+				Inputs: Electronics:1, Software:1
+			Lodging:
+				Zone: Commercial
+			Recreation:
+				Zone: Commercial

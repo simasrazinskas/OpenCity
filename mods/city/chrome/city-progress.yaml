@@ -1,0 +1,531 @@
+# Production, policies, milestones and development tree, districts and transit overview panels.
+# Owned by the UI work package; loaded by CityHudLogic, filled by the panel logics from the provider interfaces.
+
+Container@CITY_PRODUCTION_ROW:
+	Width: PARENT_WIDTH
+	Height: 22
+	Children:
+		Button@NAME:
+			Width: 150
+			Height: 22
+			Font: Small
+			Background:
+			VisualHeight: 0
+		Label@PRODUCED:
+			X: 150
+			Width: 66
+			Height: 22
+			Font: Small
+			Align: Right
+		Label@CONSUMED:
+			X: 220
+			Width: 66
+			Height: 22
+			Font: Small
+			Align: Right
+		Label@IMPORTED:
+			X: 290
+			Width: 66
+			Height: 22
+			Font: Small
+			Align: Right
+		Label@EXPORTED:
+			X: 360
+			Width: 66
+			Height: 22
+			Font: Small
+			Align: Right
+		Label@STOCK:
+			X: 430
+			Width: 66
+			Height: 22
+			Font: Small
+			Align: Right
+		CityBar@BALANCE:
+			X: 510
+			Y: 6
+			Width: 110
+			Height: 10
+
+Background@CITY_PRODUCTION_PANEL:
+	Logic: CityProductionLogic
+	X: (WINDOW_WIDTH - 226 - WIDTH) / 2
+	Y: (WINDOW_HEIGHT - HEIGHT) / 2 - 24
+	Width: 680
+	Height: 520
+	Background: dialog
+	Visible: false
+	Children:
+		Label@TITLE:
+			Y: 10
+			Width: PARENT_WIDTH
+			Height: 28
+			Font: MediumBold
+			Align: Center
+			Shadow: true
+			Text: label-production-title
+		Button@CLOSE:
+			X: PARENT_WIDTH - 44
+			Y: 8
+			Width: 36
+			Height: 32
+			TooltipText: button-budget-close
+			TooltipContainer: TOOLTIP_CONTAINER
+			Children:
+				Image@ICON:
+					X: 2
+					ImageCollection: city-icons
+					ImageName: close
+		Container@HEADER:
+			X: 20
+			Y: 48
+			Width: PARENT_WIDTH - 40
+			Height: 20
+			Children:
+				Label@H_NAME:
+					Width: 150
+					Height: 20
+					Font: TinyBold
+					TextColor: E8A030
+					Text: label-production-resource
+				Label@H_PRODUCED:
+					X: 150
+					Width: 66
+					Height: 20
+					Font: TinyBold
+					Align: Right
+					TextColor: E8A030
+					Text: label-production-produced
+				Label@H_CONSUMED:
+					X: 220
+					Width: 66
+					Height: 20
+					Font: TinyBold
+					Align: Right
+					TextColor: E8A030
+					Text: label-production-consumed
+				Label@H_IMPORTED:
+					X: 290
+					Width: 66
+					Height: 20
+					Font: TinyBold
+					Align: Right
+					TextColor: E8A030
+					Text: label-production-imported
+				Label@H_EXPORTED:
+					X: 360
+					Width: 66
+					Height: 20
+					Font: TinyBold
+					Align: Right
+					TextColor: E8A030
+					Text: label-production-exported
+				Label@H_STOCK:
+					X: 430
+					Width: 66
+					Height: 20
+					Font: TinyBold
+					Align: Right
+					TextColor: E8A030
+					Text: label-production-stock
+				Label@H_BALANCE:
+					X: 510
+					Width: 110
+					Height: 20
+					Font: TinyBold
+					TextColor: E8A030
+					Text: label-production-balance
+		ScrollPanel@LIST:
+			X: 20
+			Y: 70
+			Width: PARENT_WIDTH - 40
+			Height: 300
+			TopBottomSpacing: 2
+		Label@CHART_TITLE:
+			X: 20
+			Y: 378
+			Width: PARENT_WIDTH - 40
+			Height: 18
+			Font: Bold
+			Shadow: true
+		CityGraph@CHART:
+			X: 20
+			Y: 398
+			Width: PARENT_WIDTH - 40
+			Height: 112
+
+Container@CITY_POLICY_ROW:
+	Width: PARENT_WIDTH
+	Height: 30
+	Children:
+		Button@TOGGLE:
+			X: 4
+			Y: 3
+			Width: 24
+			Height: 24
+			Children:
+				Image@CHECK:
+					X: 4
+					Y: 4
+					ImageCollection: city-icons-small
+					ImageName: check
+		LabelWithTooltip@NAME:
+			X: 36
+			Width: 220
+			Height: 30
+			Font: Regular
+			Shadow: true
+			TooltipContainer: TOOLTIP_CONTAINER
+			TooltipTemplate: SIMPLE_TOOLTIP
+		CitySlider@SLIDER:
+			X: 240
+			Y: 5
+			Width: 110
+			Height: 20
+		Label@VALUE:
+			X: 376
+			Width: 50
+			Height: 30
+			Font: Small
+			Align: Right
+		Label@UPKEEP:
+			X: 470
+			Width: 96
+			Height: 30
+			Font: Small
+			Align: Right
+			TextColor: B4C4D0
+
+Background@CITY_POLICIES_PANEL:
+	Logic: CityPoliciesLogic
+	X: (WINDOW_WIDTH - 226 - WIDTH) / 2
+	Y: (WINDOW_HEIGHT - HEIGHT) / 2 - 24
+	Width: 620
+	Height: 500
+	Background: dialog
+	Visible: false
+	Children:
+		Label@TITLE:
+			Y: 10
+			Width: PARENT_WIDTH
+			Height: 28
+			Font: MediumBold
+			Align: Center
+			Shadow: true
+			Text: label-policies-title
+		Button@CLOSE:
+			X: PARENT_WIDTH - 44
+			Y: 8
+			Width: 36
+			Height: 32
+			TooltipText: button-budget-close
+			TooltipContainer: TOOLTIP_CONTAINER
+			Children:
+				Image@ICON:
+					X: 2
+					ImageCollection: city-icons
+					ImageName: close
+		Container@SCOPE:
+			X: 20
+			Y: 48
+			Width: PARENT_WIDTH - 40
+			Height: 30
+		Label@DISTRICT_NAME:
+			X: 250
+			Y: 48
+			Width: 250
+			Height: 30
+			Font: Bold
+			Align: Center
+			Shadow: true
+		ScrollPanel@LIST:
+			X: 20
+			Y: 86
+			Width: PARENT_WIDTH - 40
+			Height: PARENT_HEIGHT - 134
+			TopBottomSpacing: 2
+			ItemSpacing: 2
+		Label@DESCRIPTION:
+			X: 20
+			Y: PARENT_HEIGHT - 42
+			Width: PARENT_WIDTH - 40
+			Height: 32
+			Font: Small
+			WordWrap: true
+			VAlign: Top
+			TextColor: B4C4D0
+			Text: label-policies-hint
+
+Button@CITY_NODE_BUTTON:
+	Width: 124
+	Height: 44
+	Font: Small
+	TooltipContainer: TOOLTIP_CONTAINER
+
+Background@CITY_PROGRESS_PANEL:
+	Logic: CityProgressLogic
+	X: (WINDOW_WIDTH - 226 - WIDTH) / 2
+	Y: (WINDOW_HEIGHT - HEIGHT) / 2 - 24
+	Width: 760
+	Height: 520
+	Background: dialog
+	Visible: false
+	Children:
+		Label@TITLE:
+			Y: 10
+			Width: PARENT_WIDTH
+			Height: 28
+			Font: MediumBold
+			Align: Center
+			Shadow: true
+			Text: label-progress-title
+		Button@CLOSE:
+			X: PARENT_WIDTH - 44
+			Y: 8
+			Width: 36
+			Height: 32
+			TooltipText: button-budget-close
+			TooltipContainer: TOOLTIP_CONTAINER
+			Children:
+				Image@ICON:
+					X: 2
+					ImageCollection: city-icons
+					ImageName: close
+		Label@MILESTONE:
+			X: 20
+			Y: 46
+			Width: 360
+			Height: 22
+			Font: Bold
+			Shadow: true
+		CityBar@XP_BAR:
+			X: 20
+			Y: 70
+			Width: 360
+			Height: 14
+		Label@POINTS:
+			X: 400
+			Y: 46
+			Width: PARENT_WIDTH - 420
+			Height: 22
+			Font: Bold
+			Align: Right
+			Shadow: true
+			TextColor: F2C94C
+		Label@PERMITS:
+			X: 400
+			Y: 68
+			Width: PARENT_WIDTH - 420
+			Height: 20
+			Font: Small
+			Align: Right
+			Shadow: true
+			TextColor: B4C4D0
+		Label@MILESTONES_HEADER:
+			X: 20
+			Y: 96
+			Width: 220
+			Height: 20
+			Font: Bold
+			Shadow: true
+			Text: label-progress-milestones
+		ScrollPanel@MILESTONES:
+			X: 20
+			Y: 120
+			Width: 220
+			Height: PARENT_HEIGHT - 140
+			TopBottomSpacing: 2
+		Label@TREE_HEADER:
+			X: 256
+			Y: 96
+			Width: 400
+			Height: 20
+			Font: Bold
+			Shadow: true
+			Text: label-progress-tree
+		ScrollPanel@TREE:
+			X: 256
+			Y: 120
+			Width: PARENT_WIDTH - 276
+			Height: PARENT_HEIGHT - 190
+			TopBottomSpacing: 2
+			ItemSpacing: 2
+		Label@NODE_INFO:
+			X: 256
+			Y: PARENT_HEIGHT - 62
+			Width: PARENT_WIDTH - 276
+			Height: 44
+			Font: Small
+			WordWrap: true
+			VAlign: Top
+			TextColor: B4C4D0
+			Text: label-progress-hint
+
+Container@CITY_DISTRICT_ROW:
+	Width: PARENT_WIDTH
+	Height: 26
+	Children:
+		ColorBlock@SWATCH:
+			X: 6
+			Y: 5
+			Width: 16
+			Height: 16
+		Label@NAME:
+			X: 30
+			Width: 170
+			Height: 26
+			Font: Regular
+		Label@POPULATION:
+			X: 200
+			Width: 70
+			Height: 26
+			Font: Small
+			Align: Right
+
+Background@CITY_DISTRICTS_PANEL:
+	Logic: CityDistrictsLogic
+	X: WINDOW_WIDTH - 226 - WIDTH - 8
+	Y: 60
+	Width: 330
+	Height: 470
+	Background: dialog
+	Visible: false
+	Children:
+		Label@TITLE:
+			X: 12
+			Y: 8
+			Width: PARENT_WIDTH - 60
+			Height: 24
+			Font: MediumBold
+			Shadow: true
+			Text: label-districts-title
+		Button@CLOSE:
+			X: PARENT_WIDTH - 40
+			Y: 6
+			Width: 30
+			Height: 26
+			TooltipText: button-budget-close
+			TooltipContainer: TOOLTIP_CONTAINER
+			Children:
+				Image@ICON:
+					X: 7
+					Y: 5
+					ImageCollection: city-icons-small
+					ImageName: close
+		Container@ACTIONS:
+			X: 12
+			Y: 40
+			Width: PARENT_WIDTH - 24
+			Height: 30
+		ScrollPanel@LIST:
+			X: 12
+			Y: 78
+			Width: PARENT_WIDTH - 24
+			Height: 170
+			TopBottomSpacing: 2
+		TextField@NAME_FIELD:
+			X: 12
+			Y: 258
+			Width: PARENT_WIDTH - 24
+			Height: 25
+			MaxLength: 24
+		Container@DETAILS:
+			X: 12
+			Y: 292
+			Width: PARENT_WIDTH - 24
+			Height: 150
+		Label@HINT:
+			X: 12
+			Y: PARENT_HEIGHT - 30
+			Width: PARENT_WIDTH - 24
+			Height: 20
+			Font: Tiny
+			TextColor: B4C4D0
+			Text: label-districts-hint
+
+Container@CITY_LINE_ROW:
+	Width: PARENT_WIDTH
+	Height: 44
+	Children:
+		ColorBlock@SWATCH:
+			X: 6
+			Y: 6
+			Width: 10
+			Height: 32
+		Label@NAME:
+			X: 24
+			Y: 2
+			Width: 200
+			Height: 18
+			Font: Bold
+			Shadow: true
+		Label@INFO:
+			X: 24
+			Y: 22
+			Width: 280
+			Height: 18
+			Font: Small
+			TextColor: B4C4D0
+		CityBar@USAGE:
+			X: 320
+			Y: 8
+			Width: 100
+			Height: 12
+		Label@PROFIT:
+			X: 430
+			Y: 2
+			Width: 110
+			Height: 18
+			Font: Small
+			Align: Right
+
+Background@CITY_TRANSIT_PANEL:
+	Logic: CityTransitLogic
+	X: (WINDOW_WIDTH - 226 - WIDTH) / 2
+	Y: (WINDOW_HEIGHT - HEIGHT) / 2 - 24
+	Width: 600
+	Height: 460
+	Background: dialog
+	Visible: false
+	Children:
+		Label@TITLE:
+			Y: 10
+			Width: PARENT_WIDTH
+			Height: 28
+			Font: MediumBold
+			Align: Center
+			Shadow: true
+			Text: label-transit-title
+		Button@CLOSE:
+			X: PARENT_WIDTH - 44
+			Y: 8
+			Width: 36
+			Height: 32
+			TooltipText: button-budget-close
+			TooltipContainer: TOOLTIP_CONTAINER
+			Children:
+				Image@ICON:
+					X: 2
+					ImageCollection: city-icons
+					ImageName: close
+		ScrollPanel@LIST:
+			X: 20
+			Y: 50
+			Width: PARENT_WIDTH - 40
+			Height: 250
+			TopBottomSpacing: 2
+			ItemSpacing: 2
+		Label@EMPTY:
+			X: 20
+			Y: 90
+			Width: PARENT_WIDTH - 40
+			Height: 40
+			Font: Regular
+			Align: Center
+			TextColor: B4C4D0
+			Text: label-transit-empty
+		Container@SETTINGS:
+			X: 20
+			Y: 312
+			Width: PARENT_WIDTH - 40
+			Height: 140

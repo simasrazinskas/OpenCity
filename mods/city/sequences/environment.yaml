@@ -1,0 +1,29 @@
+# Owned by the environment work package. Generated art: tools/gen_env.py -> bits/world/env/.
+
+# Problem notifications: a severity tile (one frame per ProblemTier) and a glyph per CityProblem (frame = problem - 1).
+envicons:
+	tiles:
+		Filename: env/problem-tiles.png
+		Length: 8
+	glyphs:
+		Filename: env/problem-glyphs.png
+		Length: 24
+
+# Night lights (additive): window glows, street lamp pool, headlight, cool office glow, furnace glow.
+envlights:
+	lights:
+		Filename: env/lights.png
+		Length: 8
+		BlendMode: Additive
+
+# Translucent snow cover for terrain cells (4 variants).
+envsnow:
+	snow:
+		Filename: env/snow.png
+		Length: 4
+
+# Flood water on low cells near water (disasters, optional).
+envflood:
+	flood:
+		Filename: env/flood.png
+		Length: 2

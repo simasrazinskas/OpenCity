@@ -1,0 +1,476 @@
+# Owned by the progression work package. See mods/city/ARCHITECTURE.md and design/09-demand-progression.md.
+# The catalogue below is data: milestones, development tree nodes and policies are player trait instances.
+
+Player:
+	DemandModel:
+	Progression:
+		CategoryXp: power=50, water=30, police=60, fire=60, health=60, education=60, parks=15, special=100
+
+	ProgressionMilestone@1:
+		Name: Hamlet
+		Xp: 300
+		Money: 5000
+		DevPoints: 1
+		Tiles: 2
+		Unlocks: school, farm-hub, quarry-hub, policebox, landfill, zone:ResidentialRow, tool:statistics
+	ProgressionMilestone@2:
+		Name: Small Town
+		Xp: 1000
+		Money: 10000
+		DevPoints: 1
+		Tiles: 2
+		Unlocks: forestry-hub, park-large, taxidepot, zone:ResidentialMedium, zone:ResidentialHigh, zone:CommercialHigh, tool:districts
+	ProgressionMilestone@3:
+		Name: Town
+		Xp: 2000
+		Money: 15000
+		DevPoints: 2
+		Tiles: 2
+		Unlocks: mine-hub, cemetery, telecom-mast, tool:policies, service:garbage, zone:Warehouse
+	ProgressionMilestone@4:
+		Name: Large Town
+		Xp: 3500
+		Money: 20000
+		DevPoints: 2
+		Tiles: 2
+		Unlocks: oil-hub, postoffice, zone:Office, zone:ResidentialLowRent, tool:tourism
+	ProgressionMilestone@5:
+		Name: Small City
+		Xp: 5500
+		Money: 30000
+		DevPoints: 3
+		Tiles: 2
+		Unlocks: zone:ResidentialMixed, service:hotels
+	ProgressionMilestone@6:
+		Name: City
+		Xp: 8500
+		Money: 40000
+		DevPoints: 3
+		Tiles: 2
+	ProgressionMilestone@7:
+		Name: Big City
+		Xp: 13000
+		Money: 50000
+		DevPoints: 4
+		Tiles: 2
+		Unlocks: landmark:1
+	ProgressionMilestone@8:
+		Name: Metropolis
+		Xp: 19000
+		Money: 60000
+		DevPoints: 4
+		Tiles: 3
+		Unlocks: zone:OfficeHigh
+	ProgressionMilestone@9:
+		Name: Large Metropolis
+		Xp: 27000
+		Money: 75000
+		DevPoints: 5
+		Tiles: 3
+	ProgressionMilestone@10:
+		Name: Great Metropolis
+		Xp: 37000
+		Money: 90000
+		DevPoints: 5
+		Tiles: 3
+		Unlocks: landmark:2
+	ProgressionMilestone@11:
+		Name: Grand Metropolis
+		Xp: 49000
+		Money: 100000
+		DevPoints: 6
+		Tiles: 3
+	ProgressionMilestone@12:
+		Name: Capital
+		Xp: 63000
+		Money: 110000
+		DevPoints: 6
+		Tiles: 3
+	ProgressionMilestone@13:
+		Name: Megacity I
+		Xp: 75000
+		Money: 120000
+		DevPoints: 7
+		Tiles: 3
+	ProgressionMilestone@14:
+		Name: Megacity II
+		Xp: 88000
+		Money: 130000
+		DevPoints: 7
+		Tiles: 4
+	ProgressionMilestone@15:
+		Name: Megacity III
+		Xp: 102000
+		Money: 140000
+		DevPoints: 8
+		Tiles: 4
+	ProgressionMilestone@16:
+		Name: Megacity IV
+		Xp: 117000
+		Money: 150000
+		DevPoints: 8
+		Tiles: 4
+	ProgressionMilestone@17:
+		Name: Megacity V
+		Xp: 133000
+		Money: 160000
+		DevPoints: 9
+		Tiles: 4
+	ProgressionMilestone@18:
+		Name: Megacity VI
+		Xp: 150000
+		Money: 170000
+		DevPoints: 9
+		Tiles: 4
+	ProgressionMilestone@19:
+		Name: Megacity VII
+		Xp: 170000
+		Money: 180000
+		DevPoints: 10
+		Tiles: 2
+	ProgressionMilestone@20:
+		Name: Megacity VIII
+		Xp: 195000
+		Money: 190000
+		DevPoints: 10
+		Tiles: 2
+		Unlocks: landmark:3
+
+	# ---- development tree (cost 1/2/4/8; total must stay <= the 110 points the milestones grant) ----
+	ProgressionNode@road-roundabout:
+		Tree: roads
+		Cost: 1
+		Milestone: 1
+		Tier: 1
+		Unlocks: tool:roundabout
+	ProgressionNode@road-oneway:
+		Tree: roads
+		Cost: 1
+		Milestone: 2
+		Tier: 1
+		Unlocks: tool:oneway
+	ProgressionNode@road-avenue:
+		Tree: roads
+		Cost: 2
+		Milestone: 2
+		Tier: 2
+		Unlocks: road:avenue
+	ProgressionNode@road-highway:
+		Tree: roads
+		Cost: 2
+		Milestone: 4
+		Tier: 2
+		Requires: road-roundabout
+		Unlocks: road:highway
+	ProgressionNode@road-boulevard:
+		Tree: roads
+		Cost: 4
+		Milestone: 5
+		Tier: 3
+		Requires: road-avenue
+		Unlocks: road:boulevard
+	ProgressionNode@elec-gas:
+		Tree: electricity
+		Cost: 2
+		Milestone: 2
+		Tier: 1
+		Unlocks: powerplant-gas
+	ProgressionNode@elec-battery:
+		Tree: electricity
+		Cost: 1
+		Milestone: 3
+		Tier: 1
+		Unlocks: battery
+	ProgressionNode@elec-solar:
+		Tree: electricity
+		Cost: 4
+		Milestone: 3
+		Tier: 2
+		Requires: elec-gas
+		Unlocks: solarplant
+	ProgressionNode@elec-hydro:
+		Tree: electricity
+		Cost: 4
+		Milestone: 6
+		Tier: 2
+		Requires: elec-gas
+		Unlocks: hydro-dam
+	ProgressionNode@elec-nuclear:
+		Tree: electricity
+		Cost: 8
+		Milestone: 10
+		Tier: 3
+		Requires: elec-solar
+		Unlocks: powerplant-nuclear
+	ProgressionNode@water-treatment:
+		Tree: water
+		Cost: 2
+		Milestone: 2
+		Tier: 1
+		Unlocks: treatment-plant
+	ProgressionNode@water-pump-large:
+		Tree: water
+		Cost: 2
+		Milestone: 4
+		Tier: 2
+		Requires: water-treatment
+		Unlocks: waterpump-large
+	ProgressionNode@health-hospital:
+		Tree: health
+		Cost: 2
+		Milestone: 2
+		Tier: 1
+		Unlocks: hospital
+	ProgressionNode@health-crematorium:
+		Tree: health
+		Cost: 1
+		Milestone: 2
+		Tier: 1
+		Unlocks: crematorium
+	ProgressionNode@edu-highschool:
+		Tree: education
+		Cost: 1
+		Milestone: 2
+		Tier: 1
+		Unlocks: highschool
+	ProgressionNode@edu-college:
+		Tree: education
+		Cost: 2
+		Milestone: 4
+		Tier: 2
+		Requires: edu-highschool
+		Unlocks: college
+	ProgressionNode@edu-university:
+		Tree: education
+		Cost: 4
+		Milestone: 6
+		Tier: 3
+		Requires: edu-college
+		Unlocks: university
+	ProgressionNode@police-hq:
+		Tree: police
+		Cost: 2
+		Milestone: 3
+		Tier: 1
+		Unlocks: police-hq
+	ProgressionNode@police-prison:
+		Tree: police
+		Cost: 4
+		Milestone: 6
+		Tier: 2
+		Requires: police-hq
+		Unlocks: prison
+	ProgressionNode@garbage-incinerator:
+		Tree: garbage
+		Cost: 2
+		Milestone: 3
+		Tier: 1
+		Unlocks: incinerator
+	ProgressionNode@garbage-recycling:
+		Tree: garbage
+		Cost: 2
+		Milestone: 4
+		Tier: 2
+		Requires: garbage-incinerator
+		Unlocks: recycling
+	ProgressionNode@park-sports:
+		Tree: parks
+		Cost: 2
+		Milestone: 4
+		Tier: 1
+		Unlocks: sportsfield
+	ProgressionNode@comms-tower:
+		Tree: comms
+		Cost: 4
+		Milestone: 5
+		Tier: 1
+		Unlocks: telecom-tower
+	ProgressionNode@comms-sorting:
+		Tree: comms
+		Cost: 4
+		Milestone: 7
+		Tier: 2
+		Requires: comms-tower
+		Unlocks: sortingcenter
+	ProgressionNode@admin-welfare:
+		Tree: admin
+		Cost: 1
+		Milestone: 3
+		Tier: 1
+		Unlocks: welfare
+	ProgressionNode@admin-cityhall:
+		Tree: admin
+		Cost: 4
+		Milestone: 5
+		Tier: 2
+		Requires: admin-welfare
+		Unlocks: cityhall
+	ProgressionNode@transit-metro:
+		Tree: transport
+		Cost: 4
+		Milestone: 6
+		Tier: 1
+		Unlocks: metrostation
+
+	# ---- policies (effect keys are integers summed over city + district; consumers query IProgression.GetPolicy) ----
+	ProgressionPolicy@min-fare:
+		Scope: City
+		Milestone: 3
+		Effects: FareMinPct=20
+	ProgressionPolicy@import-services:
+		Scope: City
+		Milestone: 3
+		Upkeep: 150
+		Effects: ImportServices=1
+	ProgressionPolicy@smoking-ban:
+		Scope: City
+		Milestone: 4
+		UpkeepPer100Residents: 2
+		Effects: HappinessFlat=2, JobsCommercialPct=-3
+	ProgressionPolicy@education-boost:
+		Scope: City
+		Milestone: 5
+		UpkeepPer100Residents: 5
+		Effects: EduBoostPct=20
+	ProgressionPolicy@free-transit:
+		Scope: City
+		Milestone: 5
+		UpkeepPer100Residents: 8
+		Effects: TransitRidershipPct=25, FareFree=1
+	ProgressionPolicy@pollution-management:
+		Scope: City
+		Milestone: 6
+		Upkeep: 100
+		Effects: PollutionPct=-40, GarbagePct=15
+	ProgressionPolicy@city-promotion:
+		Scope: City
+		Milestone: 7
+		UpkeepPer100Residents: 10
+		Effects: AttractivenessPct=25, CrimePct=10
+	ProgressionPolicy@high-speed-highways:
+		Scope: City
+		Milestone: 8
+		Effects: HighwaySpeedPct=30, NoisePct=10, AccidentPct=10
+	ProgressionPolicy@energy-saving:
+		Scope: District
+		Milestone: 3
+		Effects: PowerUsePct=-5, HappinessFlat=-1
+	ProgressionPolicy@water-saving:
+		Scope: District
+		Milestone: 3
+		Effects: WaterUsePct=-10
+	ProgressionPolicy@recycling:
+		Scope: District
+		Milestone: 3
+		UpkeepPer100Residents: 6
+		Effects: GarbagePct=-30, PollutionPct=-5
+	ProgressionPolicy@speed-bumps:
+		Scope: District
+		Milestone: 3
+		Effects: TrafficSpeedPct=-25, AccidentPct=-30, NoisePct=-20
+	ProgressionPolicy@parking-fee:
+		Scope: District
+		Milestone: 3
+		SliderMin: 1
+		SliderMax: 50
+		SliderDefault: 5
+		Effects: ParkingFee=@slider
+	ProgressionPolicy@small-business:
+		Scope: District
+		Milestone: 5
+		Effects: JobsCommercialPct=10
+	ProgressionPolicy@heavy-traffic-ban:
+		Scope: District
+		Milestone: 6
+		Effects: TruckBan=1, NoisePct=-15, PollutionPct=-10
+	ProgressionPolicy@gated-community:
+		Scope: District
+		Milestone: 6
+		UpkeepPer100Residents: 4
+		Effects: ThroughTrafficBan=1, CrimePct=-40, LandValuePct=10
+	ProgressionPolicy@industrial-planning:
+		Scope: District
+		Milestone: 6
+		Effects: JobsIndustrialPct=15, PollutionPct=10
+	ProgressionPolicy@combustion-ban:
+		Scope: District
+		Milestone: 8
+		Effects: FuelVehicleBan=1, PollutionPct=-20
+
+	# ---- achievements (conditions are ANDed; Months = consecutive months they must hold) ----
+	ProgressionAchievement@first-steps:
+		Conditions: population>=100
+	ProgressionAchievement@small-town-spirit:
+		Conditions: population>=1000
+	ProgressionAchievement@big-city-life:
+		Conditions: population>=10000
+	ProgressionAchievement@metropolis:
+		Conditions: population>=50000
+	ProgressionAchievement@six-figures:
+		Conditions: population>=100000
+	ProgressionAchievement@all-smiles:
+		Conditions: population>=1000, happiness>=75
+	ProgressionAchievement@in-the-black:
+		Conditions: monthly_balance>=0, population>=100
+		Months: 6
+	ProgressionAchievement@balanced-books:
+		Conditions: monthly_balance>=0, population>=100
+		Months: 12
+	ProgressionAchievement@millionaire:
+		Conditions: funds>=1000000
+	ProgressionAchievement@full-service:
+		Conditions: service_categories>=8
+	ProgressionAchievement@transit-city:
+		Conditions: transit_passengers>=1000
+	ProgressionAchievement@mass-transit:
+		Conditions: transit_passengers>=10000
+	ProgressionAchievement@eco-city:
+		Conditions: population>=1000, pollution<=5
+		Months: 6
+	ProgressionAchievement@industrial-giant:
+		Conditions: industrial_jobs>=2000
+	ProgressionAchievement@business-hub:
+		Conditions: companies>=50
+	ProgressionAchievement@top-of-the-class:
+		Conditions: population>=1000, educated_pct>=20
+	ProgressionAchievement@explorer:
+		Conditions: tiles_owned>=50
+	ProgressionAchievement@land-baron:
+		Conditions: tiles_owned>=81
+	ProgressionAchievement@calling-the-shots:
+		Conditions: city_policies>=5
+	ProgressionAchievement@wide-variety:
+		Conditions: districts_with_policies>=5
+	ProgressionAchievement@city-planner:
+		Conditions: districts>=3
+	ProgressionAchievement@making-a-mark:
+		Conditions: signatures>=5
+	ProgressionAchievement@tourist-trap:
+		Conditions: attractiveness>=50
+	ProgressionAchievement@simply-irresistible:
+		Conditions: attractiveness>=90
+	ProgressionAchievement@welcome-one-and-all:
+		Conditions: tourist_visits>=10000
+	ProgressionAchievement@scholar:
+		Conditions: nodes_owned>=10
+	ProgressionAchievement@small-city:
+		Conditions: milestone>=5
+	ProgressionAchievement@last-mile-marker:
+		Conditions: milestone>=20
+
+World:
+	TileBorderOverlay:
+
+# Active XP and tourist attractiveness per placeable. Placeables without an entry use Progression.CategoryXp.
+park-small:
+	ProgressionValue:
+		Attractiveness: 3
+plaza:
+	ProgressionValue:
+		Attractiveness: 5
+park-large:
+	ProgressionValue:
+		Attractiveness: 12
+sportsfield:
+	ProgressionValue:
+		Attractiveness: 8

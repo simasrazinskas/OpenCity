@@ -1,0 +1,14 @@
+# Owned by the simulation work package. See mods/city/CONTRACT.md.
+
+World:
+	CityCoverageLayer:
+
+# Status icons (no power / water / road, abandoned, unhappy) above a building.
+# Services include this through ^Service1x1/^Service2x2. Growables get it from the merge below.
+^CityStatusIcons:
+	WithCityStatusIcons:
+
+# MiniYaml merges duplicate top-level nodes across files: this adds the status icons to every growable
+# without touching growables.yaml. If the zoning package inherits ^CityStatusIcons itself, this is harmless.
+^Growable:
+	Inherits@statusicons: ^CityStatusIcons

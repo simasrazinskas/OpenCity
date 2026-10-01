@@ -1,0 +1,38 @@
+MapFormat: 12
+
+RequiresMod: city
+
+Title: Bootstrap Test
+
+Author: OpenCity
+
+Tileset: TEMPERATE
+
+MapSize: 98,98
+
+Bounds: 1,1,96,96
+
+Visibility: Lobby
+
+Categories: City
+
+LockPreview: True
+
+Players:
+	PlayerReference@Neutral:
+		Name: Neutral
+		OwnsWorld: True
+		NonCombatant: True
+		Faction: city
+	PlayerReference@Multi0:
+		Name: Multi0
+		Playable: True
+		Required: True
+		AllowBots: False
+		LockFaction: True
+		Faction: city
+
+Actors:
+	Actor0: highway-w
+		Location: 1,48
+		Owner: Neutral

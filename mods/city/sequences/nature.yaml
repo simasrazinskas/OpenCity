@@ -1,0 +1,20 @@
+# Trees. Frames 32x48, trunk base near the bottom of the cell. See CONTRACT.md.
+tree-1:
+	idle:
+		Filename: tree-1.png
+		Offset: 0,-8
+
+tree-2:
+	idle:
+		Filename: tree-2.png
+		Offset: 0,-8
+
+tree-3:
+	idle:
+		Filename: tree-3.png
+		Offset: 0,-8
+
+tree-4:
+	idle:
+		Filename: tree-4.png
+		Offset: 0,-8

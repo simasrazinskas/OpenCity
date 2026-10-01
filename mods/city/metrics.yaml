@@ -1,0 +1,7 @@
+# OpenCity chrome metrics overrides (on top of common|metrics.yaml), matching the Dune 2000-style chrome.
+
+Metrics:
+	TextfieldColorHighlight: 7f4d29
+	PlayerJoinedSound: PlayerJoined
+	LobbyOptionChangedSound: LobbyOptionChanged
+	PlayerLeftSound: PlayerLeft

@@ -1,0 +1,26 @@
+# Owned by the environment work package. See mods/city/ARCHITECTURE.md.
+# Day/night, seasons, weather, pollution, statistics and problem notifications.
+
+World:
+	TintPostProcessEffect:
+	CityClimate:
+	CityAtmosphere:
+	CityNightLights:
+	CityWeatherFx:
+	CitySnowOverlay:
+	PollutionLayer:
+	CityStatistics:
+	CityProblemBoard:
+	CityAdvisor:
+	CityDisasters:
+	CityFloodOverlay:
+
+# Every city structure can emit pollution (reads CityBuildingInfo.Pollution; buildings with 0 emit nothing).
+^CityStructure:
+	PollutionSource:
+	CityProblems:
+
+# Trees follow the seasons (render-only tint).
+^Tree:
+	WithSeasonTint:
+	PollutionSensitive:

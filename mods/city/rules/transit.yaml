@@ -1,0 +1,227 @@
+# Public transport: stops, depots, lines, buses, taxis. Owned by the transit work package. See ARCHITECTURE.md and design/08-public-transport.md.
+
+World:
+	TransitLayer:
+	RailLayer:
+
+Player:
+	TransitTools:
+
+^Depot3x2:
+	Inherits: ^CityStructure
+	Inherits@statusicons: ^CityStatusIcons
+	Building:
+		Dimensions: 3,2
+		Footprint: xxx xxx
+	HitShape:
+		UseTargetableCellsOffsets: true
+		Type: Rectangle
+			TopLeft: -1536, -1024
+			BottomRight: 1536, 1024
+	Bulldozable:
+		RefundPercent: 50
+
+^Depot2x2:
+	Inherits: ^CityStructure
+	Inherits@shape: ^2x2Shape
+	Inherits@statusicons: ^CityStatusIcons
+	Building:
+		Dimensions: 2,2
+		Footprint: xx xx
+	Bulldozable:
+		RefundPercent: 50
+
+busdepot:
+	Inherits: ^Depot3x2
+	Tooltip:
+		Name: actor-busdepot.name
+	CityPlaceable:
+		Cost: 6000
+		Category: transit
+		DisplayOrder: 0
+		Description: actor-busdepot.description
+	CityBuilding:
+		Upkeep: 150
+		PowerUse: 1
+		WaterUse: 1
+		MaxJobs: 10
+	TransitDepot:
+		Mode: Bus
+		Capacity: 12
+
+taxidepot:
+	Inherits: ^Depot2x2
+	Tooltip:
+		Name: actor-taxidepot.name
+	CityPlaceable:
+		Cost: 3500
+		Category: transit
+		DisplayOrder: 1
+		Description: actor-taxidepot.description
+		UnlockPopulation: 500
+	CityBuilding:
+		Upkeep: 90
+		PowerUse: 1
+		WaterUse: 1
+		MaxJobs: 6
+	TransitDepot:
+		Mode: Taxi
+		Capacity: 8
+
+^Station1x2:
+	Inherits: ^CityStructure
+	Inherits@statusicons: ^CityStatusIcons
+	Building:
+		Dimensions: 1,2
+		Footprint: x x
+	HitShape:
+		UseTargetableCellsOffsets: true
+		Type: Rectangle
+			TopLeft: -512, -1024
+			BottomRight: 512, 1024
+	Bulldozable:
+		RefundPercent: 50
+
+metrostation:
+	Inherits: ^Station1x2
+	Tooltip:
+		Name: actor-metrostation.name
+	CityPlaceable:
+		Cost: 5000
+		Category: transit
+		DisplayOrder: 2
+		Description: actor-metrostation.description
+		UnlockPopulation: 2500
+	CityBuilding:
+		Upkeep: 220
+		PowerUse: 3
+		WaterUse: 0
+		MaxJobs: 8
+	TransitStation:
+		Mode: Metro
+
+^Station2x4:
+	Inherits: ^CityStructure
+	Inherits@statusicons: ^CityStatusIcons
+	Building:
+		Dimensions: 2,4
+		Footprint: xx xx xx xx
+	HitShape:
+		UseTargetableCellsOffsets: true
+		Type: Rectangle
+			TopLeft: -1024, -2048
+			BottomRight: 1024, 2048
+	Bulldozable:
+		RefundPercent: 50
+
+tramdepot:
+	Inherits: ^Depot3x2
+	Tooltip:
+		Name: actor-tramdepot.name
+	CityPlaceable:
+		Cost: 7000
+		Category: transit
+		DisplayOrder: 3
+		Description: actor-tramdepot.description
+		UnlockPopulation: 1500
+	CityBuilding:
+		Upkeep: 170
+		PowerUse: 2
+		WaterUse: 1
+		MaxJobs: 10
+	TransitDepot:
+		Mode: Tram
+		Capacity: 8
+
+trainstation:
+	Inherits: ^Station2x4
+	Tooltip:
+		Name: actor-trainstation.name
+	CityPlaceable:
+		Cost: 9000
+		Category: transit
+		DisplayOrder: 4
+		Description: actor-trainstation.description
+		UnlockPopulation: 3000
+	CityBuilding:
+		Upkeep: 300
+		PowerUse: 3
+		WaterUse: 1
+		MaxJobs: 14
+	TransitStation:
+		Mode: Train
+
+railyard:
+	Inherits: ^Depot3x2
+	Tooltip:
+		Name: actor-railyard.name
+	CityPlaceable:
+		Cost: 12000
+		Category: transit
+		DisplayOrder: 5
+		Description: actor-railyard.description
+		UnlockPopulation: 4000
+	CityBuilding:
+		Upkeep: 350
+		PowerUse: 3
+		WaterUse: 0
+		MaxJobs: 16
+	CargoTerminal:
+		Mode: Rail
+		StoragePerResource: 600
+		TradeUnitsPerDay: 400
+		FreightCostPercent: 35
+
+^Cargo3x3:
+	Inherits: ^CityStructure
+	Inherits@shape: ^3x3Shape
+	Inherits@statusicons: ^CityStatusIcons
+	Building:
+		Dimensions: 3,3
+		Footprint: xxx xxx xxx
+	Bulldozable:
+		RefundPercent: 50
+
+cargoharbor:
+	Inherits: ^Cargo3x3
+	Tooltip:
+		Name: actor-cargoharbor.name
+	CityPlaceable:
+		Cost: 16000
+		Category: transit
+		DisplayOrder: 6
+		Description: actor-cargoharbor.description
+		UnlockPopulation: 4000
+		RequiresTerrainNearby: Water
+		NearbyRange: 2
+	CityBuilding:
+		Upkeep: 450
+		PowerUse: 3
+		WaterUse: 1
+		MaxJobs: 20
+	CargoTerminal:
+		Mode: Harbor
+		StoragePerResource: 600
+		TradeUnitsPerDay: 900
+		FreightCostPercent: 25
+
+cargoairport:
+	Inherits: ^Cargo3x3
+	Tooltip:
+		Name: actor-cargoairport.name
+	CityPlaceable:
+		Cost: 20000
+		Category: transit
+		DisplayOrder: 7
+		Description: actor-cargoairport.description
+		UnlockPopulation: 6000
+	CityBuilding:
+		Upkeep: 600
+		PowerUse: 4
+		WaterUse: 1
+		MaxJobs: 18
+	CargoTerminal:
+		Mode: Air
+		StoragePerResource: 200
+		TradeUnitsPerDay: 80
+		FreightCostPercent: 300

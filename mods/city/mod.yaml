@@ -1,0 +1,246 @@
+Metadata:
+	Title: mod-title
+	Version: {DEV_VERSION}
+	Website: https://www.openra.net
+	WindowTitle: mod-windowtitle
+
+FileSystem: DefaultFileSystem
+	Packages:
+		^EngineDir
+		$city: city
+		^EngineDir|mods/common: common
+		city|bits/terrain
+		city|bits/world
+		city|bits/chrome
+		city|bits/cursors
+		city|bits/audio
+
+MapFolders:
+	city|maps: System
+	~^SupportDir|maps/city/{DEV_VERSION}: User
+
+Rules:
+	city|rules/palettes.yaml
+	city|rules/defaults.yaml
+	city|rules/world.yaml
+	city|rules/player.yaml
+	city|rules/construction.yaml
+	city|rules/zoning.yaml
+	city|rules/growables.yaml
+	city|rules/simulation.yaml
+	city|rules/services.yaml
+	city|rules/traffic.yaml
+	city|rules/nature.yaml
+	city|rules/ui.yaml
+	city|rules/environment.yaml
+	city|rules/citizens.yaml
+	city|rules/networks.yaml
+	city|rules/economy.yaml
+	city|rules/industry.yaml
+	city|rules/progression.yaml
+	city|rules/transit.yaml
+
+Sequences:
+	city|sequences/buildings.yaml
+	city|sequences/services.yaml
+	city|sequences/vehicles.yaml
+	city|sequences/misc.yaml
+	city|sequences/nature.yaml
+	city|sequences/environment.yaml
+	city|sequences/networks.yaml
+	city|sequences/industry.yaml
+	city|sequences/transit.yaml
+
+TileSets:
+	city|tilesets/temperate.yaml
+
+Cursors:
+	city|cursors.yaml
+
+Chrome:
+	city|chrome.yaml
+	city|chrome-city.yaml
+	city|chrome-buildings.yaml
+
+Assemblies: OpenRA.Mods.Common.dll, OpenRA.Mods.City.dll
+
+ChromeLayout:
+	common|chrome/ingame.yaml
+	common|chrome/ingame-chat.yaml
+	city|chrome/ingame-transients.yaml
+	common|chrome/ingame-info.yaml
+	common|chrome/ingame-infoscripterror.yaml
+	common|chrome/ingame-infobriefing.yaml
+	common|chrome/ingame-infoobjectives.yaml
+	common|chrome/ingame-infostats.yaml
+	common|chrome/ingame-info-lobby-options.yaml
+	common|chrome/ingame-menu.yaml
+	common|chrome/ingame-perf.yaml
+	common|chrome/ingame-debug-hpf.yaml
+	common|chrome/ingame-debuginfo.yaml
+	common|chrome/ingame-infochat.yaml
+	common|chrome/mainmenu-prompts.yaml
+	common|chrome/settings.yaml
+	common|chrome/settings-display.yaml
+	common|chrome/settings-audio.yaml
+	common|chrome/settings-input.yaml
+	common|chrome/settings-hotkeys.yaml
+	common|chrome/settings-gameplay.yaml
+	common|chrome/settings-advanced.yaml
+	common|chrome/credits.yaml
+	common|chrome/lobby.yaml
+	common|chrome/lobby-mappreview.yaml
+	common|chrome/lobby-players.yaml
+	common|chrome/lobby-options.yaml
+	common|chrome/lobby-music.yaml
+	common|chrome/lobby-servers.yaml
+	common|chrome/lobby-kickdialogs.yaml
+	common|chrome/color-picker.yaml
+	common|chrome/map-chooser.yaml
+	common|chrome/multiplayer-browser.yaml
+	common|chrome/multiplayer-browserpanels.yaml
+	common|chrome/multiplayer-createserver.yaml
+	common|chrome/multiplayer-directconnect.yaml
+	common|chrome/connection.yaml
+	common|chrome/replaybrowser.yaml
+	common|chrome/gamesave-browser.yaml
+	common|chrome/load-game-browser.yaml
+	common|chrome/dropdowns.yaml
+	common|chrome/musicplayer.yaml
+	common|chrome/tooltips.yaml
+	common|chrome/assetbrowser.yaml
+	common|chrome/missionbrowser.yaml
+	common|chrome/confirmation-dialogs.yaml
+	common|chrome/editor.yaml
+	common|chrome/playerprofile.yaml
+	common|chrome/text-notifications.yaml
+	city|chrome/gamesave-loading.yaml
+	city|chrome/ingame-debug.yaml
+	city|chrome/mainmenu.yaml
+	city|chrome/ingame-player.yaml
+	city|chrome/ingame-observer.yaml
+	city|chrome/city-panels.yaml
+	city|chrome/city-stats.yaml
+	city|chrome/city-progress.yaml
+
+FluentMessages:
+	common|fluent/common.ftl
+	common|fluent/chrome.ftl
+	common|fluent/ingame-debug.ftl
+	common|fluent/hotkeys.ftl
+	common|fluent/rules.ftl
+	city|fluent/city.ftl
+	city|fluent/chrome.ftl
+	city|fluent/hotkeys.ftl
+	city|fluent/rules-construction.ftl
+	city|fluent/rules-zoning.ftl
+	city|fluent/rules-services.ftl
+	city|fluent/rules-traffic.ftl
+	city|fluent/rules-nature.ftl
+	city|fluent/environment.ftl
+	city|fluent/citizens.ftl
+	city|fluent/networks.ftl
+	city|fluent/economy.ftl
+	city|fluent/industry.ftl
+	city|fluent/progression.ftl
+	city|fluent/transit.ftl
+
+AllowUnusedFluentMessagesInExternalPackages: true
+
+Weapons:
+
+Voices:
+
+Notifications:
+	city|audio/notifications.yaml
+
+Music:
+
+Hotkeys:
+	common|hotkeys/game.yaml
+	common|hotkeys/observer.yaml
+	common|hotkeys/production-common.yaml
+	common|hotkeys/supportpowers.yaml
+	common|hotkeys/viewport.yaml
+	common|hotkeys/chat.yaml
+	common|hotkeys/editor.yaml
+	common|hotkeys/control-groups.yaml
+	city|hotkeys.yaml
+
+LoadScreen: LogoStripeLoadScreen
+	Image: city|bits/chrome/loadscreen.png
+	Image2x: city|bits/chrome/loadscreen-2x.png
+	Image3x: city|bits/chrome/loadscreen-3x.png
+
+ServerTraits:
+	LobbyCommands
+	SkirmishLogic
+	PlayerPinger
+	MasterServerPinger
+
+ChromeMetrics:
+	common|metrics.yaml
+	city|metrics.yaml
+
+Fonts:
+	Tiny:
+		Font: common|FreeSans.ttf
+		Size: 10
+		Ascender: 8
+	TinyBold:
+		Font: common|FreeSansBold.ttf
+		Size: 10
+		Ascender: 8
+	Small:
+		Font: common|FreeSans.ttf
+		Size: 12
+		Ascender: 9
+	Regular:
+		Font: common|FreeSans.ttf
+		Size: 14
+		Ascender: 11
+	Bold:
+		Font: common|FreeSansBold.ttf
+		Size: 14
+		Ascender: 11
+	MediumBold:
+		Font: common|FreeSansBold.ttf
+		Size: 18
+		Ascender: 14
+	BigBold:
+		Font: common|FreeSansBold.ttf
+		Size: 24
+		Ascender: 18
+	Title:
+		Font: common|FreeSansBold.ttf
+		Size: 48
+		Ascender: 36
+
+MapGrid:
+	Type: Rectangular
+	# Vehicles share road cells; they keep to their lane via WithLaneOffset, so sub-cells must not shift them.
+	SubCellOffsets: 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0
+
+DefaultOrderGenerator: UnitOrderGenerator
+
+SoundFormats: Wav
+
+SpriteFormats: PngSheet
+
+VideoFormats:
+
+TerrainFormat: DefaultTerrain
+
+SpriteSequenceFormat: DefaultSpriteSequence
+
+AssetBrowser:
+	SpriteExtensions: .png
+	AudioExtensions: .wav
+
+GameSpeeds:
+	DefaultSpeed: default
+	Speeds:
+		default:
+			Name: options-game-speed.normal
+			Timestep: 40
+			OrderLatency: 2

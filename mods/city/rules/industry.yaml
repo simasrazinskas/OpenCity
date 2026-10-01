@@ -1,0 +1,182 @@
+# Natural resources, extractor hubs and freight logistics. Owned by the industry work package. See mods/city/ARCHITECTURE.md.
+World:
+	NaturalResourceLayer:
+	ExtractorAreaLayer:
+	ExtractorAreaRenderer:
+
+Player:
+	ExtractorTool:
+	Logistics:
+
+^ExtractorHub2x2:
+	Inherits: ^CityStructure
+	Inherits@shape: ^2x2Shape
+	Inherits@statusicons: ^CityStatusIcons
+	Building:
+		Dimensions: 2,2
+		Footprint: xx xx
+	Bulldozable:
+		RefundPercent: 0
+
+^ExtractorHub3x3:
+	Inherits: ^CityStructure
+	Inherits@shape: ^3x3Shape
+	Inherits@statusicons: ^CityStatusIcons
+	Building:
+		Dimensions: 3,3
+		Footprint: xxx xxx xxx
+	Bulldozable:
+		RefundPercent: 0
+
+farm-hub:
+	Inherits: ^ExtractorHub3x3
+	Tooltip:
+		Name: actor-farm-hub.name
+	CityPlaceable:
+		Cost: 4000
+		Category: industry
+		DisplayOrder: 0
+		Description: actor-farm-hub.description
+		UnlockPopulation: 0
+	CityBuilding:
+		Upkeep: 120
+		MaxJobs: 8
+	ExtractorHub:
+		Kind: Fertile
+		Products: Grain, Vegetables, Livestock, Cotton
+		Radius: 8
+		MaxAreaCells: 144
+		MaxJobs: 40
+		AreaSequence: farm
+		Noise: 8
+
+forestry-hub:
+	Inherits: ^ExtractorHub2x2
+	Tooltip:
+		Name: actor-forestry-hub.name
+	CityPlaceable:
+		Cost: 3500
+		Category: industry
+		DisplayOrder: 1
+		Description: actor-forestry-hub.description
+		UnlockPopulation: 500
+	CityBuilding:
+		Upkeep: 100
+		MaxJobs: 8
+	ExtractorHub:
+		Kind: Forest
+		Products: Wood
+		Radius: 8
+		MaxAreaCells: 144
+		MaxJobs: 40
+		Noise: 8
+
+quarry-hub:
+	Inherits: ^ExtractorHub3x3
+	Tooltip:
+		Name: actor-quarry-hub.name
+	CityPlaceable:
+		Cost: 6000
+		Category: industry
+		DisplayOrder: 2
+		Description: actor-quarry-hub.description
+		UnlockPopulation: 250
+	CityBuilding:
+		Upkeep: 180
+		MaxJobs: 8
+	ExtractorHub:
+		Kind: Stone
+		Products: Stone
+		Radius: 6
+		MaxAreaCells: 64
+		MaxJobs: 30
+		AreaSequence: quarry
+		Ground: 20
+		Air: 30
+		Noise: 60
+
+mine-hub:
+	Inherits: ^ExtractorHub3x3
+	Tooltip:
+		Name: actor-mine-hub.name
+	CityPlaceable:
+		Cost: 9000
+		Category: industry
+		DisplayOrder: 3
+		Description: actor-mine-hub.description
+		UnlockPopulation: 1000
+	CityBuilding:
+		Upkeep: 240
+		MaxJobs: 8
+	ExtractorHub:
+		Kind: Ore
+		Products: Ore
+		Radius: 6
+		MaxAreaCells: 64
+		MaxJobs: 30
+		AreaSequence: mine
+		Ground: 50
+		Air: 20
+		Noise: 50
+
+oil-hub:
+	Inherits: ^ExtractorHub2x2
+	Tooltip:
+		Name: actor-oil-hub.name
+	CityPlaceable:
+		Cost: 14000
+		Category: industry
+		DisplayOrder: 4
+		Description: actor-oil-hub.description
+		UnlockPopulation: 2500
+	CityBuilding:
+		Upkeep: 300
+		MaxJobs: 6
+	ExtractorHub:
+		Kind: Oil
+		Products: Oil
+		Radius: 6
+		MaxAreaCells: 36
+		MaxJobs: 20
+		MaxProps: 6
+		AreaSequence: oil
+		Ground: 60
+		Air: 20
+		Noise: 25
+
+# Cosmetic pumpjack on the richest cells of an oil hub area (no CityBuilding, not a property).
+oil-derrick:
+	Inherits: ^CitySprite
+	Inherits@shape: ^1x1Shape
+	Interactable:
+	Building:
+		Dimensions: 1,1
+		Footprint: x
+		TerrainTypes: Clear, Rough
+	WithSpriteBody:
+	Tooltip:
+		Name: actor-oil-derrick.name
+
+fish-hub:
+	Inherits: ^ExtractorHub2x2
+	Tooltip:
+		Name: actor-fish-hub.name
+	CityPlaceable:
+		Cost: 5000
+		Category: industry
+		DisplayOrder: 5
+		Description: actor-fish-hub.description
+		UnlockPopulation: 500
+		RequiresTerrainNearby: Water
+		NearbyRange: 3
+	CityBuilding:
+		Upkeep: 140
+		MaxJobs: 6
+	ExtractorHub:
+		Kind: Fish
+		Products: Fish
+		Radius: 8
+		MaxAreaCells: 64
+		MaxJobs: 24
+		AreaSequence: fish
+		Noise: 10

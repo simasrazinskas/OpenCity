@@ -1,0 +1,230 @@
+# Owned by the networks work package. See mods/city/ARCHITECTURE.md.
+# Road type registry: the order is the stable type id (id = index + 1), never reorder, only append.
+
+Player:
+	UtilityTools:
+
+World:
+	UtilityNetwork:
+	UtilityOverlay:
+	RoadType@street:
+		Name: street
+		DisplayName: road-type-street
+		Class: Local
+		Lanes: 1
+		SpeedPercent: 100
+		Cost: 10
+		Upkeep: 1
+		Noise: 20
+		AirPollution: 10
+		DefaultControl: None
+		ParkingSlots: 2
+		Sequence: street
+	RoadType@gravel:
+		Name: gravel
+		DisplayName: road-type-gravel
+		Class: Local
+		Lanes: 1
+		SpeedPercent: 70
+		Cost: 6
+		Upkeep: 1
+		Noise: 40
+		AirPollution: 15
+		CarriesPipes: false
+		DefaultControl: None
+		ParkingSlots: 2
+		AllowBridge: false
+		Sequence: gravel
+	RoadType@avenue:
+		Name: avenue
+		DisplayName: road-type-avenue
+		Class: Collector
+		Lanes: 2
+		SpeedPercent: 125
+		Cost: 18
+		Upkeep: 2
+		Noise: 35
+		AirPollution: 20
+		DefaultControl: Signal
+		Paired: true
+		ParkingSlots: 0
+		UnlockPopulation: 250
+		Sequence: avenue
+	RoadType@boulevard:
+		Name: boulevard
+		DisplayName: road-type-boulevard
+		Class: Arterial
+		Lanes: 3
+		SpeedPercent: 125
+		Cost: 26
+		Upkeep: 3
+		Noise: 45
+		AirPollution: 25
+		DefaultControl: Signal
+		Paired: true
+		ParkingSlots: 0
+		UnlockPopulation: 1000
+		Sequence: boulevard
+	RoadType@highway:
+		Name: highway
+		DisplayName: road-type-highway
+		Class: Highway
+		Lanes: 3
+		SpeedPercent: 250
+		Cost: 35
+		Upkeep: 3
+		Noise: 70
+		AirPollution: 40
+		Zoneable: false
+		GivesAccess: false
+		CarriesCable: false
+		CarriesPipes: false
+		DefaultControl: None
+		Paired: true
+		AlwaysPaired: true
+		ParkingSlots: 0
+		UnlockPopulation: 2500
+		Sequence: highway
+	RoadType@alley:
+		Name: alley
+		DisplayName: road-type-alley
+		Class: Local
+		Lanes: 1
+		SpeedPercent: 70
+		Cost: 6
+		Upkeep: 1
+		Noise: 15
+		AirPollution: 5
+		DefaultControl: None
+		ParkingSlots: 1
+		UnlockPopulation: 250
+		Sequence: alley
+	RoadAddon@trees:
+		Name: trees
+		DisplayName: road-addon-trees
+		Cost: 2
+		UpkeepPer10: 1
+		NoisePercent: 85
+		LandValue: 2
+	RoadAddon@barrier:
+		Name: barrier
+		DisplayName: road-addon-barrier
+		Cost: 4
+		UpkeepPer10: 2
+		NoisePercent: 50
+	RoadAddon@lights:
+		Name: lights
+		DisplayName: road-addon-lights
+		Cost: 3
+		UpkeepPer10: 1
+		CrimePercent: 90
+		LandValue: 1
+	RoadAddon@parking:
+		Name: parking
+		DisplayName: road-addon-parking
+		Cost: 3
+		UpkeepPer10: 1
+		ParkingSlots: 2
+	RoadAddon@buslane:
+		Name: buslane
+		DisplayName: road-addon-buslane
+		Cost: 3
+		UpkeepPer10: 1
+	RoadAddon@bikelane:
+		Name: bikelane
+		DisplayName: road-addon-bikelane
+		Cost: 2
+		UpkeepPer10: 1
+
+# ---- utility buildings (the power plants, towers and pumps stay in services.yaml) ----
+^NetStructure1x1:
+	Inherits: ^CityStructure
+	Inherits@shape: ^1x1Shape
+	Bulldozable:
+		RefundPercent: 50
+
+^NetStructure2x2:
+	Inherits: ^CityStructure
+	Inherits@shape: ^2x2Shape
+	Building:
+		Dimensions: 2,2
+		Footprint: xx xx
+	Bulldozable:
+		RefundPercent: 50
+
+transformer:
+	Inherits: ^NetStructure2x2
+	Tooltip:
+		Name: actor-transformer.name
+	CityPlaceable:
+		Cost: 2500
+		Category: power
+		DisplayOrder: 10
+		Description: actor-transformer.description
+	CityBuilding:
+		Upkeep: 120
+		PowerUse: 0
+		WaterUse: 0
+		MaxJobs: 1
+	UtilityProducer:
+		Transformer: 150
+
+battery:
+	Inherits: ^NetStructure1x1
+	Tooltip:
+		Name: actor-battery.name
+	CityPlaceable:
+		Cost: 4000
+		Category: power
+		DisplayOrder: 11
+		Description: actor-battery.description
+		UnlockPopulation: 1000
+	CityBuilding:
+		Upkeep: 80
+		PowerUse: 0
+		WaterUse: 0
+		MaxJobs: 1
+	UtilityProducer:
+		BatteryCapacity: 600
+		BatteryRate: 60
+
+sewage-outlet:
+	Inherits: ^NetStructure1x1
+	Tooltip:
+		Name: actor-sewage-outlet.name
+	CityPlaceable:
+		Cost: 3000
+		Category: water
+		DisplayOrder: 10
+		Description: actor-sewage-outlet.description
+		RequiresTerrainNearby: Water
+		NearbyRange: 2
+	CityBuilding:
+		Upkeep: 60
+		PowerUse: 0
+		WaterUse: 0
+		MaxJobs: 1
+		Pollution: 35
+	UtilityProducer:
+		Sewage: 150
+		PollutedRadius: 4
+		PollutedLoss: 50
+
+treatment-plant:
+	Inherits: ^NetStructure2x2
+	Tooltip:
+		Name: actor-treatment-plant.name
+	CityPlaceable:
+		Cost: 12000
+		Category: water
+		DisplayOrder: 11
+		Description: actor-treatment-plant.description
+		UnlockPopulation: 500
+	CityBuilding:
+		Upkeep: 600
+		PowerUse: 3
+		WaterUse: 0
+		MaxJobs: 12
+	UtilityProducer:
+		Sewage: 500
+		SewageReturnPercent: 70

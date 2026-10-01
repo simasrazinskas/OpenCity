@@ -1,0 +1,21 @@
+^BasePlayer:
+	Shroud:
+		FogCheckboxEnabled: False
+		FogCheckboxLocked: True
+		FogCheckboxVisible: False
+		ExploredMapCheckboxEnabled: True
+		ExploredMapCheckboxLocked: True
+		ExploredMapCheckboxVisible: False
+	PlayerResources:
+		SelectableCash: 0
+		DefaultCash: 0
+
+EditorPlayer:
+	Inherits: ^BasePlayer
+
+Player:
+	Inherits: ^BasePlayer
+	DeveloperMode:
+	PlayerRadarTerrain:
+	PlayerStatistics:
+	CityManager:

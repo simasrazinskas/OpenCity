@@ -1,0 +1,49 @@
+# Owned by the construction work package. See mods/city/CONTRACT.md.
+
+World:
+	RoadLayer:
+
+Player:
+	ConstructionTools:
+
+^OutsideConnection:
+	Interactable:
+	EditorOnlyTooltip:
+		Name: actor-outsideconnection-name
+	Immobile:
+		OccupiesSpace: false
+	RequiresSpecificOwners:
+		ValidOwnerNames: Neutral
+	MapEditorData:
+		Categories: System
+
+highway-w:
+	Inherits: ^OutsideConnection
+	OutsideConnection:
+		Direction: 1,0
+
+highway-e:
+	Inherits: ^OutsideConnection
+	OutsideConnection:
+		Direction: -1,0
+
+highway-n:
+	Inherits: ^OutsideConnection
+	OutsideConnection:
+		Direction: 0,1
+
+highway-s:
+	Inherits: ^OutsideConnection
+	OutsideConnection:
+		Direction: 0,-1
+
+roadseed:
+	Interactable:
+	EditorOnlyTooltip:
+		Name: actor-roadseed-name
+	Immobile:
+		OccupiesSpace: false
+	RequiresSpecificOwners:
+		ValidOwnerNames: Neutral
+	MapEditorData:
+		Categories: System

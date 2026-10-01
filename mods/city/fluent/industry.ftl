@@ -1,0 +1,26 @@
+## Owned by the industry work package. See mods/city/ARCHITECTURE.md.
+actor-farm-hub =
+    .name = Farm Hub
+    .description = Paint fields around it to grow grain, vegetables, cotton or livestock. Fertile land and clean air give more.
+actor-forestry-hub =
+    .name = Forestry Hub
+    .description = Fells and replants the trees in its area. Clear-cutting yields more, but the forest does not recover.
+actor-quarry-hub =
+    .name = Quarry Hub
+    .description = Digs stone anywhere. Noisy and dusty, and rough ground yields more.
+actor-mine-hub =
+    .name = Ore Mine Hub
+    .description = Mines the ore under its area. The deposit is finite and tapers off as it runs low.
+actor-oil-hub =
+    .name = Oil Hub
+    .description = Pumps crude oil from the oil field under its area. The field is finite.
+actor-oil-derrick =
+    .name = Pumpjack
+actor-fish-hub =
+    .name = Fish Pier Hub
+    .description = Paint the water in front of the pier to fish it. Fish recover over time, but not in polluted water.
+chirp-industry-deposit-low = The { $arg } deposit is running low. Output will taper off soon.
+chirp-industry-deposit-depleted = The { $arg } deposit has run dry. The mine crew is looking for work.
+chirp-industry-freight-blocked = Trucks are turning back: the roads they need were cut.
+notification-industry-deposit-depleted = A deposit has run dry.
+notification-freight-blocked = Freight is blocked: roads were cut.

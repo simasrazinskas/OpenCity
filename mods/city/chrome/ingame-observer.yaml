@@ -1,0 +1,19 @@
+# Minimal observer HUD: chat plus the in-game menu button.
+Container@OBSERVER_WIDGETS:
+	Logic: LoadIngameChatLogic
+	Children:
+		Container@CHAT_ROOT:
+		Container@OBSERVER_OPTIONS:
+			Logic: MenuButtonsChromeLogic
+			Children:
+				MenuButton@OPTIONS_BUTTON:
+					X: WINDOW_WIDTH - 72
+					Y: 6
+					Width: 64
+					Height: 32
+					Key: escape
+					Text: button-city-menu
+					Font: Bold
+					DisableWorldSounds: true
+					TooltipText: button-city-menu-tooltip
+					TooltipContainer: TOOLTIP_CONTAINER

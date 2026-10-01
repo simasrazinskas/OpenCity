@@ -1,0 +1,11 @@
+# Traffic: the mesoscopic TrafficSim draws vehicles itself (no actors, see sequences/vehicles.yaml for the sprites).
+# Owned by the traffic work package. See ARCHITECTURE.md and design/02-traffic.md.
+
+World:
+	# The engine's PathFinder requires at least one locomotor; no actor uses this one any more.
+	Locomotor@road:
+		Name: road
+		SharesCell: true
+		TerrainSpeeds:
+			Road: 100
+	TrafficSim:

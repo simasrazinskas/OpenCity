@@ -1,0 +1,30 @@
+# Trees and other natural decoration. Owned by the terrain & maps work package. See CONTRACT.md.
+
+^Tree:
+	Inherits: ^CitySprite
+	Inherits@shape: ^1x1Shape
+	Interactable:
+	Building:
+		Dimensions: 1,1
+		Footprint: x
+		TerrainTypes: Clear, Rough
+	WithSpriteBody:
+	Tooltip:
+		Name: actor-tree.name
+	Bulldozable:
+		Cost: 5
+		AutoClear: true
+	MapEditorData:
+		Categories: Nature
+
+tree-1:
+	Inherits: ^Tree
+
+tree-2:
+	Inherits: ^Tree
+
+tree-3:
+	Inherits: ^Tree
+
+tree-4:
+	Inherits: ^Tree

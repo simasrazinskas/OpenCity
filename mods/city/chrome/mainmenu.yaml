@@ -1,0 +1,129 @@
+Container@MAINMENU:
+	Logic: CityMainMenuLogic
+	Children:
+		LogicKeyListener@GLOBAL_KEYHANDLER:
+			Logic: MusicHotkeyLogic, ScreenshotHotkeyLogic, MuteHotkeyLogic
+				StopMusicKey: StopMusic
+				PauseMusicKey: PauseMusic
+				PrevMusicKey: PrevMusic
+				NextMusicKey: NextMusic
+				TakeScreenshotKey: TakeScreenshot
+				MuteAudioKey: ToggleMute
+		Container@TITLE_BLOCK:
+			X: (WINDOW_WIDTH - WIDTH) / 2
+			Y: 36
+			Width: 400
+			Height: 290
+			Children:
+				Background@TITLE_BACKDROP:
+					X: (PARENT_WIDTH - WIDTH) / 2
+					Y: 0 - 8
+					Width: 300
+					Height: PARENT_HEIGHT + 4
+					Background: city-panel
+				Image@LOGO:
+					X: (PARENT_WIDTH - 256) / 2
+					ImageCollection: logos
+					ImageName: logo
+				Label@TAGLINE:
+					Y: 262
+					Width: PARENT_WIDTH
+					Height: 22
+					Font: Bold
+					Align: Center
+					Contrast: true
+					Text: label-city-tagline
+		Label@VERSION_LABEL:
+			Logic: VersionLabelLogic
+			X: WINDOW_WIDTH - 260
+			Y: WINDOW_HEIGHT - 30
+			Width: 250
+			Height: 25
+			Align: Right
+			Font: Regular
+			Shadow: true
+		Container@MENUS:
+			X: (WINDOW_WIDTH - WIDTH) / 2
+			Y: 340
+			Width: 260
+			Height: 280
+			Children:
+				Background@MAIN_MENU:
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT
+					Children:
+						Button@NEW_CITY_BUTTON:
+							X: (PARENT_WIDTH - WIDTH) / 2
+							Y: 22
+							Width: 200
+							Height: 34
+							Text: button-city-new
+							Font: Bold
+						Button@LOAD_CITY_BUTTON:
+							X: (PARENT_WIDTH - WIDTH) / 2
+							Y: 68
+							Width: 200
+							Height: 34
+							Text: button-city-load
+							Font: Bold
+						Button@SETTINGS_BUTTON:
+							X: (PARENT_WIDTH - WIDTH) / 2
+							Y: 114
+							Width: 200
+							Height: 34
+							Text: button-settings-title
+							Font: Bold
+						Button@EXTRAS_BUTTON:
+							X: (PARENT_WIDTH - WIDTH) / 2
+							Y: 160
+							Width: 200
+							Height: 34
+							Text: button-extras-title
+							Font: Bold
+						Button@QUIT_BUTTON:
+							X: (PARENT_WIDTH - WIDTH) / 2
+							Y: 214
+							Width: 200
+							Height: 34
+							Text: button-quit
+							Font: Bold
+				Background@EXTRAS_MENU:
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT
+					Children:
+						Label@EXTRAS_MENU_TITLE:
+							Y: 14
+							Width: PARENT_WIDTH
+							Height: 28
+							Text: button-extras-title
+							Align: Center
+							Font: Bold
+						Button@REPLAYS_BUTTON:
+							X: (PARENT_WIDTH - WIDTH) / 2
+							Y: 54
+							Width: 200
+							Height: 34
+							Text: button-extras-menu-replays
+							Font: Bold
+						Button@ASSETBROWSER_BUTTON:
+							X: (PARENT_WIDTH - WIDTH) / 2
+							Y: 100
+							Width: 200
+							Height: 34
+							Text: button-extras-menu-assetbrowser
+							Font: Bold
+						Button@CREDITS_BUTTON:
+							X: (PARENT_WIDTH - WIDTH) / 2
+							Y: 146
+							Width: 200
+							Height: 34
+							Text: label-credits-title
+							Font: Bold
+						Button@BACK_BUTTON:
+							X: (PARENT_WIDTH - WIDTH) / 2
+							Y: 214
+							Width: 200
+							Height: 34
+							Key: escape
+							Text: button-back
+							Font: Bold

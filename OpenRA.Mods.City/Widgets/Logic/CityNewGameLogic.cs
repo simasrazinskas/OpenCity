@@ -1,0 +1,117 @@
+#region Copyright & License Information
+/*
+ * Copyright (c) The OpenRA Developers and Contributors
+ * This file is part of OpenRA, which is free software. It is made
+ * available to you under the terms of the GNU General Public License
+ * as published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version. For more
+ * information, see COPYING.
+ */
+#endregion
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using OpenRA.Mods.Common.Widgets;
+using OpenRA.Network;
+using OpenRA.Widgets;
+
+namespace OpenRA.Mods.City.Widgets.Logic
+{
+	/// <summary>The "New City" map picker. Starts a local game directly, there is no lobby.</summary>
+	public class CityNewGameLogic : ChromeLogic
+	{
+		[FluentReference("width", "height")]
+		const string MapSize = "label-newgame-map-size";
+
+		[FluentReference("author")]
+		const string MapAuthor = "label-newgame-map-author";
+
+		readonly ModData modData;
+		MapPreview selectedMap;
+
+		[ObjectCreator.UseCtor]
+		public CityNewGameLogic(Widget widget, ModData modData, Action onExit)
+		{
+			this.modData = modData;
+
+			var previewWidget = widget.Get<MapPreviewWidget>("PREVIEW");
+			previewWidget.Preview = () => selectedMap;
+
+			var titleLabel = widget.Get<LabelWidget>("MAP_TITLE");
+			titleLabel.GetText = () => selectedMap?.Title ?? "";
+
+			var infoLabel = widget.Get<LabelWidget>("MAP_INFO");
+			infoLabel.GetText = () => selectedMap == null ? "" :
+				FluentProvider.GetMessage(MapSize, "width", selectedMap.Bounds.Width, "height", selectedMap.Bounds.Height);
+
+			var authorLabel = widget.Get<LabelWidget>("MAP_AUTHOR");
+			authorLabel.GetText = () => string.IsNullOrEmpty(selectedMap?.Author) ? "" :
+				FluentProvider.GetMessage(MapAuthor, "author", selectedMap.Author);
+
+			var list = widget.Get<ScrollPanelWidget>("MAP_LIST");
+			var template = list.Get<ScrollItemWidget>("MAP_TEMPLATE");
+			list.RemoveChild(template);
+
+			var maps = modData.MapCache
+				.Where(p => p.Status == MapStatus.Available && p.Visibility.HasFlag(MapVisibility.Lobby))
+				.OrderBy(p => p.Title, StringComparer.CurrentCultureIgnoreCase)
+				.ToList();
+
+			widget.Get("NO_MAPS").IsVisible = () => maps.Count == 0;
+
+			foreach (var map in maps)
+			{
+				var preview = map;
+				var item = ScrollItemWidget.Setup(template,
+					() => selectedMap == preview,
+					() => selectedMap = preview,
+					() => StartGame(onExit));
+
+				item.Get<LabelWidget>("TITLE").GetText = () => preview.Title;
+				item.Get<LabelWidget>("SIZE").GetText = () =>
+					FluentProvider.GetMessage(MapSize, "width", preview.Bounds.Width, "height", preview.Bounds.Height);
+				list.AddChild(item);
+			}
+
+			// Prefer the last played map, otherwise the first one.
+			selectedMap = maps.FirstOrDefault(m => m.Uid == Game.Settings.Server.Map) ?? maps.FirstOrDefault();
+
+			var startButton = widget.Get<ButtonWidget>("START_BUTTON");
+			startButton.IsDisabled = () => selectedMap == null;
+			startButton.OnClick = () => StartGame(onExit);
+
+			widget.Get<ButtonWidget>("BACK_BUTTON").OnClick = () =>
+			{
+				Ui.CloseWindow();
+				onExit();
+			};
+		}
+
+		void StartGame(Action onExit)
+		{
+			if (selectedMap == null)
+				return;
+
+			// The map may have changed or vanished on disk since the list was built.
+			var uid = modData.MapCache.GetUpdatedMap(selectedMap.Uid);
+			if (uid == null)
+			{
+				Ui.CloseWindow();
+				onExit();
+				return;
+			}
+
+			Game.Settings.Server.Map = uid;
+			Game.Settings.Save();
+
+			var orders = new List<Order>
+			{
+				Order.Command("option gamespeed default"),
+				Order.Command($"state {Session.ClientState.Ready}")
+			};
+
+			Game.CreateAndStartLocalServer(uid, orders);
+		}
+	}
+}

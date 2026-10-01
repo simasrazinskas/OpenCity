@@ -1,0 +1,45 @@
+^BaseWorld:
+	Inherits: ^Palettes
+	ActorMap:
+	ScreenMap:
+	Selection:
+	ControlGroups:
+	MusicPlaylist:
+	TerrainRenderer:
+	DebugVisualizations:
+	TerrainGeometryOverlay:
+	Faction@city:
+		Name: faction-city.name
+		InternalName: city
+		Description: faction-city.description
+
+World:
+	Inherits: ^BaseWorld
+	ChatCommands:
+	DevCommands:
+	DebugVisualizationCommands:
+	PlayerCommands:
+	HelpCommand:
+	BuildingInfluence:
+	SpawnMapActors:
+	MapOptions:
+		ShortGameCheckboxVisible: False
+		TechLevelDropdownVisible: False
+	CreateMapPlayers:
+	PathFinder:
+	ValidateOrder:
+	DebugPauseState:
+	LoadWidgetAtGameStart:
+	ColorPickerManager:
+	RadarPings:
+	CityClock:
+	CityAutoTest:
+
+EditorWorld:
+	Inherits: ^BaseWorld
+	EditorActorLayer:
+	EditorCursorLayer:
+	EditorActionManager:
+	LoadWidgetAtGameStart:
+	MarkerLayerOverlay:
+	TilingPathTool:

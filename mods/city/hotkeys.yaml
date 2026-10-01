@@ -1,0 +1,107 @@
+# OpenCity hotkeys. Owned by the ui work package.
+
+CityToolRoad: R
+	Description: hotkey-description-citytoolroad
+	Types: World
+	Contexts: player
+
+CityToolZoning: Z
+	Description: hotkey-description-citytoolzoning
+	Types: World
+	Contexts: player
+
+CityToolBulldoze: B
+	Description: hotkey-description-citytoolbulldoze
+	Types: World
+	Contexts: player
+
+CityInfoViews: I
+	Description: hotkey-description-cityinfoviews
+	Types: World
+	Contexts: player
+
+CityBudget: F
+	Description: hotkey-description-citybudget
+	Types: World
+	Contexts: player
+
+CitySpeed1: 1
+	Description: hotkey-description-cityspeed1
+	Types: World
+	Contexts: player
+
+CitySpeed2: 2
+	Description: hotkey-description-cityspeed2
+	Types: World
+	Contexts: player
+
+CitySpeed3: 3
+	Description: hotkey-description-cityspeed3
+	Types: World
+	Contexts: player
+
+CityPause: SPACE
+	Description: hotkey-description-citypause
+	Types: World
+	Contexts: player
+
+CityInfoViewNext: I Shift
+	Description: hotkey-description-cityinfoviewnext
+	Types: World
+	Contexts: player
+
+CityToolNetworks: E
+	Description: hotkey-description-citytoolnetworks
+	Types: World
+	Contexts: player
+
+CityToolIndustry: V
+	Description: hotkey-description-citytoolindustry
+	Types: World
+	Contexts: player
+
+CityToolTransit: T
+	Description: hotkey-description-citytooltransit
+	Types: World
+	Contexts: player
+
+CityStats: G
+	Description: hotkey-description-citystats
+	Types: World
+	Contexts: player
+
+CityChirper: K
+	Description: hotkey-description-citychirper
+	Types: World
+	Contexts: player
+
+CityProduction: O
+	Description: hotkey-description-cityproduction
+	Types: World
+	Contexts: player
+
+CityPolicies: P
+	Description: hotkey-description-citypolicies
+	Types: World
+	Contexts: player
+
+CityProgression: J
+	Description: hotkey-description-cityprogression
+	Types: World
+	Contexts: player
+
+CityDistricts: Y
+	Description: hotkey-description-citydistricts
+	Types: World
+	Contexts: player
+
+CityTiles: U
+	Description: hotkey-description-citytiles
+	Types: World
+	Contexts: player
+
+# Free keys that clash with the city hotkeys above (RTS leftovers from the common hotkey set).
+ToLastEvent: END
+Sell: Z Alt
+PlaceBeacon: B Alt
+Deploy: F Alt

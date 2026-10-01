@@ -1,0 +1,37 @@
+# Owned by the citizens work package. See mods/city/ARCHITECTURE.md.
+# CitizenSim: per-citizen agent simulation (households, ageing, education, jobs, wages, health, schedules).
+# One game day (2400 ticks) is one calendar month; with DaysPerCitizenYear: 1 a citizen ages one year per day.
+Player:
+	CitizenSim:
+		DaysPerCitizenYear: 1
+		ChildMaxAge: 11
+		TeenMaxAge: 17
+		AdultMaxAge: 64
+		WorkAge: 16
+		ImmigrationFillPercent: 400
+		ImmigrationBase: 40
+		ImmigrationPopDivisor: 8
+		SearchScansPerDay: 8
+		TriesBeforeLowerJobs: 2
+		HouseholdTypeWeights: 30, 20, 35, 8, 7
+		ImmigrantEducationBaseline: 20, 40, 25, 10, 5
+		RentToIncomeMax: 60
+		GiveUpDays: 3
+		HomelessDaysToEmigrate: 4
+		StartCashCents: 9000
+		FallbackWageCents: 3000, 3600, 4200, 4800, 5400
+		ShoppingCentsPerPerson: 900
+		ShopTripPercent: 60
+		BirthPPM: 150000
+		MaxKids: 3
+		DeathPPMByAgeBand: 1000, 6000, 20000, 60000, 180000, 400000
+		SickPPM: 60000
+		StudyDaysByLevel: 0, 6, 4, 3, 4
+		StudyPassPercent: 85
+		FallbackSchoolSeats: 60
+		WorkStartHour: 8
+		WorkHours: 8
+		SchoolStartHour: 8
+		SchoolHours: 6
+		MaxTripRequestsPerTick: 120
+		CommuterPercentOfVacancies: 30

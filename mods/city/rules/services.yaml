@@ -1,0 +1,1119 @@
+# Player-placed services and utilities. Owned by the services work package (WP SVC). See ARCHITECTURE.md and design/07-services.md.
+# Capacity units: garbage kg, health beds, deathcare body slots, school seats, police jail cells, parks visits, telecom/welfare users.
+# A "day" is one CityClock day (a calendar month, 2400 ticks); throughputs and rates are per such day.
+
+Player:
+	ServiceSimulation:
+
+World:
+	ServiceEffects:
+
+^Service1x1:
+	Inherits: ^CityStructure
+	Inherits@shape: ^1x1Shape
+	Inherits@statusicons: ^CityStatusIcons
+	Bulldozable:
+		RefundPercent: 50
+
+^Service2x2:
+	Inherits: ^CityStructure
+	Inherits@shape: ^2x2Shape
+	Inherits@statusicons: ^CityStatusIcons
+	Building:
+		Dimensions: 2,2
+		Footprint: xx xx
+	Bulldozable:
+		RefundPercent: 50
+
+^Service3x3:
+	Inherits: ^CityStructure
+	Inherits@shape: ^3x3Shape
+	Inherits@statusicons: ^CityStatusIcons
+	Building:
+		Dimensions: 3,3
+		Footprint: xxx xxx xxx
+	Bulldozable:
+		RefundPercent: 50
+
+# Rubble of a burnt building: one 1x1 actor per footprint cell, gone after a while or when something is built on it.
+rubble:
+	Inherits: ^CitySprite
+	Building:
+		Dimensions: 1,1
+		Footprint: x
+		TerrainTypes: Clear, Rough
+	WithSpriteBody:
+	Bulldozable:
+		AutoClear: true
+	Rubble:
+		Ticks: 1500
+
+# ---------------------------------------------------------------------------------------------- power
+windturbine:
+	Inherits: ^Service1x1
+	Tooltip:
+		Name: actor-windturbine.name
+	CityPlaceable:
+		Cost: 1500
+		Category: power
+		DisplayOrder: 0
+		Description: actor-windturbine.description
+	CityBuilding:
+		Upkeep: 60
+		PowerUse: 0
+		WaterUse: 0
+		MaxJobs: 1
+	UtilityProducer:
+		Power: 12
+
+powerplant-coal:
+	Inherits: ^Service2x2
+	Tooltip:
+		Name: actor-powerplant-coal.name
+	CityPlaceable:
+		Cost: 8000
+		Category: power
+		DisplayOrder: 1
+		Description: actor-powerplant-coal.description
+	CityBuilding:
+		Upkeep: 400
+		PowerUse: 0
+		WaterUse: 2
+		MaxJobs: 20
+		Pollution: 70
+	UtilityProducer:
+		Power: 300
+
+solarplant:
+	Inherits: ^Service2x2
+	Tooltip:
+		Name: actor-solarplant.name
+	CityPlaceable:
+		Cost: 12000
+		Category: power
+		DisplayOrder: 2
+		Description: actor-solarplant.description
+		UnlockPopulation: 1000
+	CityBuilding:
+		Upkeep: 200
+		PowerUse: 0
+		WaterUse: 0
+		MaxJobs: 6
+	UtilityProducer:
+		Power: 90
+
+powerplant-gas:
+	Inherits: ^Service3x3
+	Tooltip:
+		Name: actor-powerplant-gas.name
+	CityPlaceable:
+		Cost: 24000
+		Category: power
+		DisplayOrder: 3
+		Description: actor-powerplant-gas.description
+		UnlockPopulation: 5000
+	CityBuilding:
+		Upkeep: 1100
+		PowerUse: 0
+		WaterUse: 3
+		MaxJobs: 30
+		Pollution: 35
+	UtilityProducer:
+		Power: 450
+
+hydro-dam:
+	Inherits: ^Service3x3
+	Tooltip:
+		Name: actor-hydro-dam.name
+	CityPlaceable:
+		Cost: 45000
+		Category: power
+		DisplayOrder: 4
+		Description: actor-hydro-dam.description
+		UnlockPopulation: 10000
+		RequiresTerrainNearby: Water
+		NearbyRange: 1
+	CityBuilding:
+		Upkeep: 700
+		PowerUse: 0
+		WaterUse: 0
+		MaxJobs: 12
+	UtilityProducer:
+		Power: 350
+
+powerplant-nuclear:
+	Inherits: ^Service3x3
+	Tooltip:
+		Name: actor-powerplant-nuclear.name
+	CityPlaceable:
+		Cost: 140000
+		Category: power
+		DisplayOrder: 5
+		Description: actor-powerplant-nuclear.description
+		UnlockPopulation: 25000
+	CityBuilding:
+		Upkeep: 5000
+		PowerUse: 0
+		WaterUse: 40
+		MaxJobs: 60
+		Pollution: 10
+	UtilityProducer:
+		Power: 2000
+
+# ---------------------------------------------------------------------------------------------- water
+watertower:
+	Inherits: ^Service1x1
+	Tooltip:
+		Name: actor-watertower.name
+	CityPlaceable:
+		Cost: 1200
+		Category: water
+		DisplayOrder: 0
+		Description: actor-watertower.description
+	CityBuilding:
+		Upkeep: 60
+		PowerUse: 1
+		WaterUse: 0
+		MaxJobs: 1
+	UtilityProducer:
+		Water: 90
+
+waterpump:
+	Inherits: ^Service1x1
+	Tooltip:
+		Name: actor-waterpump.name
+	CityPlaceable:
+		Cost: 2500
+		Category: water
+		DisplayOrder: 1
+		Description: actor-waterpump.description
+		RequiresTerrainNearby: Water
+		NearbyRange: 2
+	CityBuilding:
+		Upkeep: 100
+		PowerUse: 2
+		WaterUse: 0
+		MaxJobs: 4
+	UtilityProducer:
+		Water: 300
+
+waterpump-large:
+	Inherits: ^Service2x2
+	Tooltip:
+		Name: actor-waterpump-large.name
+	CityPlaceable:
+		Cost: 9000
+		Category: water
+		DisplayOrder: 2
+		Description: actor-waterpump-large.description
+		UnlockPopulation: 2500
+		RequiresTerrainNearby: Water
+		NearbyRange: 2
+	CityBuilding:
+		Upkeep: 300
+		PowerUse: 4
+		WaterUse: 0
+		MaxJobs: 8
+	UtilityProducer:
+		Water: 900
+
+# ---------------------------------------------------------------------------------------------- garbage
+landfill:
+	Inherits: ^Service3x3
+	Tooltip:
+		Name: actor-landfill.name
+	CityPlaceable:
+		Cost: 6000
+		Category: garbage
+		DisplayOrder: 0
+		Description: actor-landfill.description
+		UnlockPopulation: 250
+	CityBuilding:
+		Upkeep: 150
+		PowerUse: 1
+		WaterUse: 0
+		MaxJobs: 6
+		Pollution: 30
+	ServiceBuilding:
+		Kind: Garbage
+		Capacity: 4000000
+		Throughput: 60000
+		Fleet: 4
+		VehicleType: garbage
+		Range: 40
+		Radius: 12
+		NeedsWater: false
+		FireHazard: 12
+		JobMix: 70, 25, 5, 0, 0
+	ServiceUpgrade@depot:
+		Name: upgrade-truck-depot.name
+		Description: upgrade-truck-depot.description
+		Cost: 3000
+		Upkeep: 80
+		AddFleet: 3
+	ServiceUpgrade@recycling:
+		Name: upgrade-recycling-unit.name
+		Description: upgrade-recycling-unit.description
+		Cost: 4000
+		Upkeep: 100
+		PollutionReduction: 50
+
+incinerator:
+	Inherits: ^Service3x3
+	Tooltip:
+		Name: actor-incinerator.name
+	CityPlaceable:
+		Cost: 55000
+		Category: garbage
+		DisplayOrder: 1
+		Description: actor-incinerator.description
+		UnlockPopulation: 2500
+	CityBuilding:
+		Upkeep: 1300
+		PowerUse: 3
+		WaterUse: 2
+		MaxJobs: 25
+		Pollution: 40
+	UtilityProducer:
+		Power: 40
+	ServiceBuilding:
+		Kind: Garbage
+		Capacity: 120000
+		Throughput: 400000
+		Fleet: 5
+		VehicleType: garbage
+		Range: 40
+		Radius: 12
+		FireHazard: 20
+		JobMix: 30, 40, 25, 5, 0
+	ServiceUpgrade@furnace:
+		Name: upgrade-extra-furnace.name
+		Description: upgrade-extra-furnace.description
+		Cost: 30000
+		Upkeep: 700
+		AddThroughput: 200000
+		AddPower: 40
+	ServiceUpgrade@filter:
+		Name: upgrade-exhaust-filter.name
+		Description: upgrade-exhaust-filter.description
+		Cost: 4000
+		Upkeep: 150
+		PollutionReduction: 50
+
+recycling:
+	Inherits: ^Service3x3
+	Tooltip:
+		Name: actor-recycling.name
+	CityPlaceable:
+		Cost: 40000
+		Category: garbage
+		DisplayOrder: 2
+		Description: actor-recycling.description
+		UnlockPopulation: 5000
+	CityBuilding:
+		Upkeep: 1000
+		PowerUse: 3
+		WaterUse: 2
+		MaxJobs: 20
+		Pollution: 12
+	ServiceBuilding:
+		Kind: Garbage
+		Capacity: 80000
+		Throughput: 250000
+		Fleet: 4
+		VehicleType: garbage
+		Range: 40
+		Radius: 12
+		RevenueCentsPerKg: 1
+		FireHazard: 14
+		JobMix: 25, 40, 30, 5, 0
+	ServiceUpgrade@depot:
+		Name: upgrade-truck-depot.name
+		Description: upgrade-truck-depot.description
+		Cost: 3000
+		Upkeep: 80
+		AddFleet: 3
+
+# ---------------------------------------------------------------------------------------------- health
+clinic:
+	Inherits: ^Service2x2
+	Tooltip:
+		Name: actor-clinic.name
+	CityPlaceable:
+		Cost: 5000
+		Category: health
+		DisplayOrder: 0
+		Description: actor-clinic.description
+	CityBuilding:
+		Upkeep: 300
+		PowerUse: 2
+		WaterUse: 2
+		MaxJobs: 15
+	ServiceBuilding:
+		Kind: Health
+		Capacity: 30
+		Fleet: 3
+		VehicleType: ambulance
+		Range: 24
+		Radius: 12
+		FireHazard: 6
+		JobMix: 5, 20, 40, 30, 5
+	ServiceUpgrade@depot:
+		Name: upgrade-ambulance-depot.name
+		Description: upgrade-ambulance-depot.description
+		Cost: 3000
+		Upkeep: 120
+		AddFleet: 3
+	ServiceUpgrade@wing:
+		Name: upgrade-extension-wing.name
+		Description: upgrade-beds-wing.description
+		Cost: 2500
+		Upkeep: 100
+		AddCapacity: 20
+
+hospital:
+	Inherits: ^Service3x3
+	Tooltip:
+		Name: actor-hospital.name
+	CityPlaceable:
+		Cost: 60000
+		Category: health
+		DisplayOrder: 1
+		Description: actor-hospital.description
+		UnlockPopulation: 2500
+	CityBuilding:
+		Upkeep: 2500
+		PowerUse: 4
+		WaterUse: 4
+		MaxJobs: 60
+	ServiceBuilding:
+		Kind: Health
+		Capacity: 200
+		Fleet: 10
+		VehicleType: ambulance
+		Range: 36
+		Radius: 14
+		FireHazard: 8
+		JobMix: 5, 15, 35, 35, 10
+	ServiceUpgrade@trauma:
+		Name: upgrade-trauma-center.name
+		Description: upgrade-trauma-center.description
+		Cost: 15000
+		Upkeep: 600
+		AddCapacity: 40
+		AddEfficiency: 10
+	ServiceUpgrade@depot:
+		Name: upgrade-ambulance-depot.name
+		Description: upgrade-ambulance-depot.description
+		Cost: 3000
+		Upkeep: 120
+		AddFleet: 4
+
+# ---------------------------------------------------------------------------------------------- deathcare
+cemetery:
+	Inherits: ^Service3x3
+	Tooltip:
+		Name: actor-cemetery.name
+	CityPlaceable:
+		Cost: 8000
+		Category: deathcare
+		DisplayOrder: 0
+		Description: actor-cemetery.description
+		UnlockPopulation: 1000
+	CityBuilding:
+		Upkeep: 200
+		PowerUse: 1
+		WaterUse: 0
+		MaxJobs: 6
+	ServiceBuilding:
+		Kind: Deathcare
+		Capacity: 1500
+		Fleet: 3
+		VehicleType: hearse
+		Range: 40
+		Radius: 12
+		NeedsWater: false
+		FireHazard: 3
+		JobMix: 60, 30, 10, 0, 0
+	ServiceUpgrade@columbarium:
+		Name: upgrade-columbarium.name
+		Description: upgrade-columbarium.description
+		Cost: 2000
+		Upkeep: 40
+		AddCapacity: 500
+
+crematorium:
+	Inherits: ^Service2x2
+	Tooltip:
+		Name: actor-crematorium.name
+	CityPlaceable:
+		Cost: 20000
+		Category: deathcare
+		DisplayOrder: 1
+		Description: actor-crematorium.description
+		UnlockPopulation: 2500
+	CityBuilding:
+		Upkeep: 500
+		PowerUse: 2
+		WaterUse: 1
+		MaxJobs: 8
+		Pollution: 15
+	ServiceBuilding:
+		Kind: Deathcare
+		Capacity: 40
+		Throughput: 30
+		Fleet: 3
+		VehicleType: hearse
+		Range: 40
+		Radius: 12
+		FireHazard: 14
+		JobMix: 40, 40, 20, 0, 0
+	ServiceUpgrade@garage:
+		Name: upgrade-hearse-garage.name
+		Description: upgrade-hearse-garage.description
+		Cost: 2500
+		Upkeep: 60
+		AddFleet: 2
+
+# ---------------------------------------------------------------------------------------------- education
+school:
+	Inherits: ^Service2x2
+	Tooltip:
+		Name: actor-school.name
+	CityPlaceable:
+		Cost: 6000
+		Category: education
+		DisplayOrder: 0
+		Description: actor-school.description
+		UnlockPopulation: 250
+	CityBuilding:
+		Upkeep: 350
+		PowerUse: 2
+		WaterUse: 1
+		MaxJobs: 15
+	ServiceBuilding:
+		Kind: Education
+		SchoolLevel: 1
+		Capacity: 120
+		Range: 30
+		Radius: 14
+		FireHazard: 6
+		JobMix: 5, 15, 55, 25, 0
+	ServiceUpgrade@wing:
+		Name: upgrade-school-wing.name
+		Description: upgrade-seats-wing.description
+		Cost: 2500
+		Upkeep: 80
+		AddCapacity: 60
+	ServiceUpgrade@library:
+		Name: upgrade-library.name
+		Description: upgrade-library.description
+		Cost: 6000
+		Upkeep: 150
+		AddEfficiency: 10
+
+highschool:
+	Inherits: ^Service3x3
+	Tooltip:
+		Name: actor-highschool.name
+	CityPlaceable:
+		Cost: 25000
+		Category: education
+		DisplayOrder: 1
+		Description: actor-highschool.description
+		UnlockPopulation: 2500
+	CityBuilding:
+		Upkeep: 900
+		PowerUse: 3
+		WaterUse: 2
+		MaxJobs: 30
+	ServiceBuilding:
+		Kind: Education
+		SchoolLevel: 2
+		Capacity: 250
+		Range: 36
+		Radius: 16
+		FireHazard: 6
+		JobMix: 5, 10, 50, 30, 5
+	ServiceUpgrade@wing:
+		Name: upgrade-school-wing.name
+		Description: upgrade-seats-wing.description
+		Cost: 4000
+		Upkeep: 120
+		AddCapacity: 100
+	ServiceUpgrade@library:
+		Name: upgrade-library.name
+		Description: upgrade-library.description
+		Cost: 6000
+		Upkeep: 150
+		AddEfficiency: 10
+
+college:
+	Inherits: ^Service3x3
+	Tooltip:
+		Name: actor-college.name
+	CityPlaceable:
+		Cost: 60000
+		Category: education
+		DisplayOrder: 2
+		Description: actor-college.description
+		UnlockPopulation: 10000
+	CityBuilding:
+		Upkeep: 1800
+		PowerUse: 4
+		WaterUse: 3
+		MaxJobs: 50
+	ServiceBuilding:
+		Kind: Education
+		SchoolLevel: 3
+		Capacity: 400
+		Range: 44
+		Radius: 18
+		FireHazard: 6
+		JobMix: 0, 5, 40, 40, 15
+	ServiceUpgrade@wing:
+		Name: upgrade-school-wing.name
+		Description: upgrade-seats-wing.description
+		Cost: 6000
+		Upkeep: 180
+		AddCapacity: 150
+	ServiceUpgrade@library:
+		Name: upgrade-library.name
+		Description: upgrade-library.description
+		Cost: 8000
+		Upkeep: 200
+		AddEfficiency: 10
+
+university:
+	Inherits: ^Service3x3
+	Tooltip:
+		Name: actor-university.name
+	CityPlaceable:
+		Cost: 120000
+		Category: education
+		DisplayOrder: 3
+		Description: actor-university.description
+		UnlockPopulation: 25000
+	CityBuilding:
+		Upkeep: 3500
+		PowerUse: 6
+		WaterUse: 4
+		MaxJobs: 80
+	ServiceBuilding:
+		Kind: Education
+		SchoolLevel: 4
+		Capacity: 600
+		Range: 60
+		Radius: 20
+		FireHazard: 6
+		JobMix: 0, 0, 20, 50, 30
+	ServiceUpgrade@wing:
+		Name: upgrade-school-wing.name
+		Description: upgrade-seats-wing.description
+		Cost: 10000
+		Upkeep: 250
+		AddCapacity: 250
+	ServiceUpgrade@library:
+		Name: upgrade-library.name
+		Description: upgrade-library.description
+		Cost: 12000
+		Upkeep: 300
+		AddEfficiency: 10
+
+# ---------------------------------------------------------------------------------------------- police
+policebox:
+	Inherits: ^Service1x1
+	Tooltip:
+		Name: actor-policebox.name
+	CityPlaceable:
+		Cost: 1500
+		Category: police
+		DisplayOrder: 0
+		Description: actor-policebox.description
+		UnlockPopulation: 250
+	CityBuilding:
+		Upkeep: 80
+		PowerUse: 1
+		WaterUse: 0
+		MaxJobs: 4
+	ServiceBuilding:
+		Kind: Police
+		Capacity: 2
+		Fleet: 1
+		VehicleType: policecar
+		Range: 14
+		Radius: 10
+		NeedsWater: false
+		FireHazard: 5
+		JobMix: 0, 40, 50, 10, 0
+
+police:
+	Inherits: ^Service2x2
+	Tooltip:
+		Name: actor-police.name
+	CityPlaceable:
+		Cost: 4000
+		Category: police
+		DisplayOrder: 1
+		Description: actor-police.description
+	CityBuilding:
+		Upkeep: 250
+		PowerUse: 2
+		WaterUse: 1
+		MaxJobs: 12
+	ServiceBuilding:
+		Kind: Police
+		Capacity: 8
+		Fleet: 4
+		VehicleType: policecar
+		Range: 24
+		Radius: 14
+		FireHazard: 6
+		JobMix: 0, 30, 55, 15, 0
+	ServiceUpgrade@garage:
+		Name: upgrade-police-garage.name
+		Description: upgrade-police-garage.description
+		Cost: 3000
+		Upkeep: 100
+		AddFleet: 2
+	ServiceUpgrade@cells:
+		Name: upgrade-cell-block.name
+		Description: upgrade-cell-block.description
+		Cost: 4000
+		Upkeep: 120
+		AddCapacity: 6
+
+police-hq:
+	Inherits: ^Service3x3
+	Tooltip:
+		Name: actor-police-hq.name
+	CityPlaceable:
+		Cost: 40000
+		Category: police
+		DisplayOrder: 2
+		Description: actor-police-hq.description
+		UnlockPopulation: 10000
+	CityBuilding:
+		Upkeep: 1400
+		PowerUse: 4
+		WaterUse: 2
+		MaxJobs: 50
+	ServiceBuilding:
+		Kind: Police
+		Capacity: 20
+		Fleet: 8
+		VehicleType: policecar
+		Range: 40
+		Radius: 20
+		FireHazard: 6
+		JobMix: 0, 15, 50, 30, 5
+	ServiceUpgrade@garage:
+		Name: upgrade-police-garage.name
+		Description: upgrade-police-garage.description
+		Cost: 5000
+		Upkeep: 150
+		AddFleet: 3
+	ServiceUpgrade@cells:
+		Name: upgrade-cell-block.name
+		Description: upgrade-cell-block.description
+		Cost: 6000
+		Upkeep: 180
+		AddCapacity: 10
+
+prison:
+	Inherits: ^Service3x3
+	Tooltip:
+		Name: actor-prison.name
+	CityPlaceable:
+		Cost: 35000
+		Category: police
+		DisplayOrder: 3
+		Description: actor-prison.description
+		UnlockPopulation: 5000
+	CityBuilding:
+		Upkeep: 1200
+		PowerUse: 3
+		WaterUse: 3
+		MaxJobs: 30
+	ServiceBuilding:
+		Kind: Police
+		Prison: true
+		Capacity: 80
+		Range: 1
+		Radius: 1
+		FireHazard: 4
+		JobMix: 0, 40, 50, 10, 0
+	ServiceUpgrade@cells:
+		Name: upgrade-cell-block.name
+		Description: upgrade-cell-block.description
+		Cost: 8000
+		Upkeep: 200
+		AddCapacity: 40
+
+# ---------------------------------------------------------------------------------------------- fire
+firehouse:
+	Inherits: ^Service1x1
+	Tooltip:
+		Name: actor-firehouse.name
+	CityPlaceable:
+		Cost: 2000
+		Category: fire
+		DisplayOrder: 0
+		Description: actor-firehouse.description
+	CityBuilding:
+		Upkeep: 100
+		PowerUse: 1
+		WaterUse: 1
+		MaxJobs: 5
+	ServiceBuilding:
+		Kind: Fire
+		Fleet: 2
+		VehicleType: firetruck
+		Range: 16
+		Radius: 10
+		FireHazard: 4
+		JobMix: 0, 40, 50, 10, 0
+
+firestation:
+	Inherits: ^Service2x2
+	Tooltip:
+		Name: actor-firestation.name
+	CityPlaceable:
+		Cost: 4000
+		Category: fire
+		DisplayOrder: 1
+		Description: actor-firestation.description
+	CityBuilding:
+		Upkeep: 250
+		PowerUse: 2
+		WaterUse: 2
+		MaxJobs: 12
+	ServiceBuilding:
+		Kind: Fire
+		Fleet: 4
+		VehicleType: firetruck
+		Range: 24
+		Radius: 14
+		FireHazard: 4
+		JobMix: 0, 30, 55, 15, 0
+	ServiceUpgrade@bay:
+		Name: upgrade-engine-bay.name
+		Description: upgrade-engine-bay.description
+		Cost: 3000
+		Upkeep: 120
+		AddFleet: 2
+
+# ---------------------------------------------------------------------------------------------- parks
+park-small:
+	Inherits: ^Service1x1
+	Tooltip:
+		Name: actor-park-small.name
+	CityPlaceable:
+		Cost: 300
+		Category: parks
+		DisplayOrder: 0
+		Description: actor-park-small.description
+	CityBuilding:
+		Upkeep: 10
+		PowerUse: 0
+		WaterUse: 0
+	ServiceBuilding:
+		Kind: Parks
+		Capacity: 300
+		Range: 6
+		Radius: 4
+		NeedsWater: false
+		FireHazard: 2
+
+plaza:
+	Inherits: ^Service1x1
+	Tooltip:
+		Name: actor-plaza.name
+	CityPlaceable:
+		Cost: 500
+		Category: parks
+		DisplayOrder: 1
+		Description: actor-plaza.description
+	CityBuilding:
+		Upkeep: 15
+		PowerUse: 0
+		WaterUse: 1
+	ServiceBuilding:
+		Kind: Parks
+		Capacity: 400
+		Range: 7
+		Radius: 5
+		NeedsWater: false
+		FireHazard: 2
+
+park-large:
+	Inherits: ^Service2x2
+	Tooltip:
+		Name: actor-park-large.name
+	CityPlaceable:
+		Cost: 2000
+		Category: parks
+		DisplayOrder: 2
+		Description: actor-park-large.description
+		UnlockPopulation: 500
+	CityBuilding:
+		Upkeep: 60
+		PowerUse: 0
+		WaterUse: 1
+		MaxJobs: 2
+	ServiceBuilding:
+		Kind: Parks
+		Fleet: 1
+		VehicleType: maintenance
+		Capacity: 1500
+		Range: 12
+		Radius: 8
+		Strength: 100
+		NeedsWater: false
+		FireHazard: 2
+
+sportsfield:
+	Inherits: ^Service2x2
+	Tooltip:
+		Name: actor-sportsfield.name
+	CityPlaceable:
+		Cost: 6000
+		Category: parks
+		DisplayOrder: 3
+		Description: actor-sportsfield.description
+		UnlockPopulation: 1000
+	CityBuilding:
+		Upkeep: 120
+		PowerUse: 1
+		WaterUse: 1
+		MaxJobs: 4
+	ServiceBuilding:
+		Kind: Parks
+		Fleet: 1
+		VehicleType: maintenance
+		Capacity: 1000
+		Range: 14
+		Radius: 9
+		FireHazard: 3
+		JobMix: 40, 40, 20, 0, 0
+
+# ---------------------------------------------------------------------------------------------- post and telecom
+postoffice:
+	Inherits: ^Service2x2
+	Tooltip:
+		Name: actor-postoffice.name
+	CityPlaceable:
+		Cost: 9000
+		Category: comms
+		DisplayOrder: 0
+		Description: actor-postoffice.description
+		UnlockPopulation: 2500
+	CityBuilding:
+		Upkeep: 350
+		PowerUse: 2
+		WaterUse: 1
+		MaxJobs: 14
+	ServiceBuilding:
+		Kind: Post
+		Fleet: 3
+		VehicleType: van
+		Range: 30
+		Radius: 14
+		FireHazard: 8
+		JobMix: 20, 50, 25, 5, 0
+	ServiceUpgrade@fleet:
+		Name: upgrade-van-depot.name
+		Description: upgrade-van-depot.description
+		Cost: 2500
+		Upkeep: 80
+		AddFleet: 2
+
+sortingcenter:
+	Inherits: ^Service3x3
+	Tooltip:
+		Name: actor-sortingcenter.name
+	CityPlaceable:
+		Cost: 60000
+		Category: comms
+		DisplayOrder: 1
+		Description: actor-sortingcenter.description
+		UnlockPopulation: 10000
+	CityBuilding:
+		Upkeep: 1500
+		PowerUse: 4
+		WaterUse: 2
+		MaxJobs: 40
+	ServiceBuilding:
+		Kind: Post
+		Fleet: 6
+		VehicleType: van
+		Range: 50
+		Radius: 20
+		FireHazard: 10
+		JobMix: 25, 45, 25, 5, 0
+
+telecom-mast:
+	Inherits: ^Service1x1
+	Tooltip:
+		Name: actor-telecom-mast.name
+	CityPlaceable:
+		Cost: 3000
+		Category: comms
+		DisplayOrder: 2
+		Description: actor-telecom-mast.description
+		UnlockPopulation: 1000
+	CityBuilding:
+		Upkeep: 100
+		PowerUse: 2
+		WaterUse: 0
+		MaxJobs: 1
+	ServiceBuilding:
+		Kind: Telecom
+		Capacity: 1500
+		Range: 8
+		Radius: 8
+		NeedsWater: false
+		FireHazard: 4
+
+telecom-tower:
+	Inherits: ^Service2x2
+	Tooltip:
+		Name: actor-telecom-tower.name
+	CityPlaceable:
+		Cost: 20000
+		Category: comms
+		DisplayOrder: 3
+		Description: actor-telecom-tower.description
+		UnlockPopulation: 5000
+	CityBuilding:
+		Upkeep: 500
+		PowerUse: 4
+		WaterUse: 0
+		MaxJobs: 6
+	ServiceBuilding:
+		Kind: Telecom
+		Capacity: 8000
+		Range: 20
+		Radius: 20
+		NeedsWater: false
+		FireHazard: 4
+		JobMix: 0, 10, 50, 40, 0
+
+# ---------------------------------------------------------------------------------------------- administration
+cityhall:
+	Inherits: ^Service3x3
+	Tooltip:
+		Name: actor-cityhall.name
+	CityPlaceable:
+		Cost: 30000
+		Category: admin
+		DisplayOrder: 0
+		Description: actor-cityhall.description
+		UnlockPopulation: 2500
+	CityBuilding:
+		Upkeep: 1500
+		PowerUse: 3
+		WaterUse: 2
+		MaxJobs: 40
+	ServiceBuilding:
+		Kind: Admin
+		CityWide: true
+		Capacity: 0
+		Range: 1
+		Radius: 1
+		FireHazard: 6
+		JobMix: 5, 15, 40, 35, 5
+
+welfare:
+	Inherits: ^Service2x2
+	Tooltip:
+		Name: actor-welfare.name
+	CityPlaceable:
+		Cost: 12000
+		Category: admin
+		DisplayOrder: 1
+		Description: actor-welfare.description
+		UnlockPopulation: 5000
+	CityBuilding:
+		Upkeep: 700
+		PowerUse: 2
+		WaterUse: 1
+		MaxJobs: 20
+	ServiceBuilding:
+		Kind: Admin
+		Capacity: 3000
+		Range: 20
+		Radius: 20
+		FireHazard: 6
+		JobMix: 10, 35, 40, 15, 0
+
+# ---------------------------------------------------------------------------------------------- wave 2: helicopters and wildfire watch
+medevac-helipad:
+	Inherits: ^Service2x2
+	Tooltip:
+		Name: actor-medevac-helipad.name
+	CityPlaceable:
+		Cost: 20000
+		Category: health
+		DisplayOrder: 2
+		Description: actor-medevac-helipad.description
+		UnlockPopulation: 5000
+	CityBuilding:
+		Upkeep: 500
+		PowerUse: 2
+		WaterUse: 1
+		MaxJobs: 8
+	ServiceBuilding:
+		Kind: Health
+		Helicopter: true
+		FlightRange: 60
+		Fleet: 2
+		VehicleType: helicopter
+		FireHazard: 8
+		JobMix: 0, 10, 40, 40, 10
+
+fire-helipad:
+	Inherits: ^Service2x2
+	Tooltip:
+		Name: actor-fire-helipad.name
+	CityPlaceable:
+		Cost: 20000
+		Category: fire
+		DisplayOrder: 2
+		Description: actor-fire-helipad.description
+		UnlockPopulation: 5000
+	CityBuilding:
+		Upkeep: 500
+		PowerUse: 2
+		WaterUse: 2
+		MaxJobs: 8
+	ServiceBuilding:
+		Kind: Fire
+		Helicopter: true
+		FlightRange: 60
+		Fleet: 2
+		VehicleType: helicopter
+		FireHazard: 4
+		JobMix: 0, 20, 50, 30, 0
+
+firewatch:
+	Inherits: ^Service1x1
+	Tooltip:
+		Name: actor-firewatch.name
+	CityPlaceable:
+		Cost: 2500
+		Category: fire
+		DisplayOrder: 3
+		Description: actor-firewatch.description
+		UnlockPopulation: 1000
+	CityBuilding:
+		Upkeep: 80
+		PowerUse: 0
+		WaterUse: 0
+		MaxJobs: 2
+	ServiceBuilding:
+		Kind: Fire
+		FirewatchRadius: 16
+		NeedsWater: false
+		FireHazard: 3
+		JobMix: 0, 40, 50, 10, 0

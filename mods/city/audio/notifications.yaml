@@ -1,0 +1,17 @@
+Sounds:
+	Notifications:
+		# UI (referenced by metrics.yaml / common widgets)
+		ChatLine: chat
+		ClickSound: click
+		ClickDisabledSound: click-disabled
+		PlayerJoined: player-joined
+		PlayerLeft: player-left
+		LobbyOptionChanged: lobby-option
+		# City gameplay. From C#: Game.Sound.PlayNotification(Game.ModData.DefaultRules, null, "Sounds", "CityBuild", null)
+		CityBuild: city-build
+		CityBulldoze: city-bulldoze
+		CityZone: city-zone
+		CityMoney: city-money
+		CityMilestone: city-milestone
+		CityError: city-error
+		CityRoad: city-road

@@ -1,0 +1,40 @@
+# All OpenCity art is 32-bit RGBA, so palettes are never used for colour lookups.
+# The engine still requires the named palettes to exist.
+^Palettes:
+	PaletteFromRGBA@terrain:
+		Name: terrain
+		R: 0
+		G: 0
+		B: 0
+		A: 0
+	PaletteFromRGBA@city:
+		Name: city
+		R: 0
+		G: 0
+		B: 0
+		A: 0
+	PaletteFromRGBA@playerbase:
+		Name: playerbase
+		R: 0
+		G: 0
+		B: 0
+		A: 0
+	PlayerColorPalette:
+		BasePalette: playerbase
+	PaletteFromRGBA@effect:
+		Name: effect
+		R: 0
+		G: 0
+		B: 0
+		A: 0
+	PaletteFromRGBA@chrome:
+		Name: chrome
+		R: 0
+		G: 0
+		B: 0
+		A: 0
+		AllowModifiers: false
+	ColorPickerPalette@colorpicker:
+		Name: colorpicker
+		BasePalette: playerbase
+		AllowModifiers: false

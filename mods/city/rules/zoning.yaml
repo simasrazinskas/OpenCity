@@ -1,0 +1,23 @@
+# Owned by the zoning work package. See mods/city/CONTRACT.md and design/04-zoning-buildings.md.
+World:
+	ZoneLayer:
+		ZoneDepth: 4
+	ZoneOverlay:
+		Image: zon-overlays
+		Sequence: zone
+		ActiveAlpha: 1
+		IdleAlpha: 0.4
+	ZoneGrowth:
+		Interval: 10
+		DemandPerSpawn: 25
+		MaxUnderConstruction: 12
+	LandValueLayer:
+		RecomputeInterval: 100
+	# PropertyRegistry is registered in rules/world.yaml (lead file); its numbers are tuned here.
+	PropertyRegistry:
+		RentScalePercent: 250
+
+Player:
+	ZoningTool:
+	SignatureUnlocks:
+		Interval: 100

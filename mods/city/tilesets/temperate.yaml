@@ -1,0 +1,978 @@
+General:
+	Name: tileset-temperate
+	Id: TEMPERATE
+	TileSize: 32, 32
+	SheetSize: 2048
+	EditorTemplateOrder: Terrain, Water, Shore
+
+Terrain:
+	TerrainType@Clear:
+		Type: Clear
+		TargetTypes: Ground
+		Color: 78B052
+	TerrainType@Rough:
+		Type: Rough
+		TargetTypes: Ground
+		Color: 7F9A52
+	TerrainType@Water:
+		Type: Water
+		TargetTypes: Water
+		Color: 4A9FC9
+	TerrainType@Road:
+		Type: Road
+		TargetTypes: Ground
+		Color: 505050
+
+Templates:
+	Template@1:
+		Id: 1
+		Images: terrain.png
+		Frames: 0
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Clear
+	Template@2:
+		Id: 2
+		Images: terrain.png
+		Frames: 1
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Clear
+	Template@3:
+		Id: 3
+		Images: terrain.png
+		Frames: 2
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Clear
+	Template@4:
+		Id: 4
+		Images: terrain.png
+		Frames: 3
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Clear
+	Template@5:
+		Id: 5
+		Images: terrain.png
+		Frames: 4
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Clear
+	Template@6:
+		Id: 6
+		Images: terrain.png
+		Frames: 5
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Clear
+	Template@10:
+		Id: 10
+		Images: terrain.png
+		Frames: 6
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Clear
+	Template@11:
+		Id: 11
+		Images: terrain.png
+		Frames: 7
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Clear
+	Template@18:
+		Id: 18
+		Images: terrain.png
+		Frames: 8
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Clear
+	Template@19:
+		Id: 19
+		Images: terrain.png
+		Frames: 9
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Clear
+	Template@12:
+		Id: 12
+		Images: terrain.png
+		Frames: 10
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Rough
+	Template@13:
+		Id: 13
+		Images: terrain.png
+		Frames: 11
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Rough
+	Template@14:
+		Id: 14
+		Images: terrain.png
+		Frames: 12
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Rough
+	Template@20:
+		Id: 20
+		Images: terrain.png
+		Frames: 13
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Rough
+	Template@21:
+		Id: 21
+		Images: terrain.png
+		Frames: 14
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Rough
+	Template@22:
+		Id: 22
+		Images: terrain.png
+		Frames: 15
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Rough
+	Template@15:
+		Id: 15
+		Images: terrain.png
+		Frames: 16
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Rough
+	Template@16:
+		Id: 16
+		Images: terrain.png
+		Frames: 17
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Rough
+	Template@17:
+		Id: 17
+		Images: terrain.png
+		Frames: 18
+		Size: 1,1
+		Categories: Terrain
+		Tiles:
+			0: Clear
+	Template@100:
+		Id: 100
+		Images: terrain.png
+		Frames: 19
+		Size: 1,1
+		Categories: Water
+		Tiles:
+			0: Water
+	Template@101:
+		Id: 101
+		Images: terrain.png
+		Frames: 20
+		Size: 1,1
+		Categories: Water
+		Tiles:
+			0: Water
+	Template@102:
+		Id: 102
+		Images: terrain.png
+		Frames: 21
+		Size: 1,1
+		Categories: Water
+		Tiles:
+			0: Water
+	Template@103:
+		Id: 103
+		Images: terrain.png
+		Frames: 22
+		Size: 1,1
+		Categories: Water
+		Tiles:
+			0: Water
+	Template@104:
+		Id: 104
+		Images: terrain.png
+		Frames: 23
+		Size: 1,1
+		Categories: Water
+		Tiles:
+			0: Water
+	Template@105:
+		Id: 105
+		Images: terrain.png
+		Frames: 24
+		Size: 1,1
+		Categories: Water
+		Tiles:
+			0: Water
+	Template@106:
+		Id: 106
+		Images: terrain.png
+		Frames: 25
+		Size: 1,1
+		Categories: Water
+		Tiles:
+			0: Water
+	Template@107:
+		Id: 107
+		Images: terrain.png
+		Frames: 26
+		Size: 1,1
+		Categories: Water
+		Tiles:
+			0: Water
+	Template@200:
+		Id: 200
+		Images: terrain.png
+		Frames: 27
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@201:
+		Id: 201
+		Images: terrain.png
+		Frames: 28
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@202:
+		Id: 202
+		Images: terrain.png
+		Frames: 29
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@203:
+		Id: 203
+		Images: terrain.png
+		Frames: 30
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@204:
+		Id: 204
+		Images: terrain.png
+		Frames: 31
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@205:
+		Id: 205
+		Images: terrain.png
+		Frames: 32
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@206:
+		Id: 206
+		Images: terrain.png
+		Frames: 33
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@207:
+		Id: 207
+		Images: terrain.png
+		Frames: 34
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@208:
+		Id: 208
+		Images: terrain.png
+		Frames: 35
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@209:
+		Id: 209
+		Images: terrain.png
+		Frames: 36
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@210:
+		Id: 210
+		Images: terrain.png
+		Frames: 37
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@211:
+		Id: 211
+		Images: terrain.png
+		Frames: 38
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@212:
+		Id: 212
+		Images: terrain.png
+		Frames: 39
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@213:
+		Id: 213
+		Images: terrain.png
+		Frames: 40
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@214:
+		Id: 214
+		Images: terrain.png
+		Frames: 41
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@215:
+		Id: 215
+		Images: terrain.png
+		Frames: 42
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@216:
+		Id: 216
+		Images: terrain.png
+		Frames: 43
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@217:
+		Id: 217
+		Images: terrain.png
+		Frames: 44
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@218:
+		Id: 218
+		Images: terrain.png
+		Frames: 45
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@219:
+		Id: 219
+		Images: terrain.png
+		Frames: 46
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@220:
+		Id: 220
+		Images: terrain.png
+		Frames: 47
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@221:
+		Id: 221
+		Images: terrain.png
+		Frames: 48
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@222:
+		Id: 222
+		Images: terrain.png
+		Frames: 49
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@223:
+		Id: 223
+		Images: terrain.png
+		Frames: 50
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@224:
+		Id: 224
+		Images: terrain.png
+		Frames: 51
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@225:
+		Id: 225
+		Images: terrain.png
+		Frames: 52
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@226:
+		Id: 226
+		Images: terrain.png
+		Frames: 53
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@227:
+		Id: 227
+		Images: terrain.png
+		Frames: 54
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@228:
+		Id: 228
+		Images: terrain.png
+		Frames: 55
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@229:
+		Id: 229
+		Images: terrain.png
+		Frames: 56
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@230:
+		Id: 230
+		Images: terrain.png
+		Frames: 57
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@231:
+		Id: 231
+		Images: terrain.png
+		Frames: 58
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@232:
+		Id: 232
+		Images: terrain.png
+		Frames: 59
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@233:
+		Id: 233
+		Images: terrain.png
+		Frames: 60
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@234:
+		Id: 234
+		Images: terrain.png
+		Frames: 61
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@235:
+		Id: 235
+		Images: terrain.png
+		Frames: 62
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@236:
+		Id: 236
+		Images: terrain.png
+		Frames: 63
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@237:
+		Id: 237
+		Images: terrain.png
+		Frames: 64
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@238:
+		Id: 238
+		Images: terrain.png
+		Frames: 65
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@239:
+		Id: 239
+		Images: terrain.png
+		Frames: 66
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@240:
+		Id: 240
+		Images: terrain.png
+		Frames: 67
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@241:
+		Id: 241
+		Images: terrain.png
+		Frames: 68
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@242:
+		Id: 242
+		Images: terrain.png
+		Frames: 69
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@243:
+		Id: 243
+		Images: terrain.png
+		Frames: 70
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@244:
+		Id: 244
+		Images: terrain.png
+		Frames: 71
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@245:
+		Id: 245
+		Images: terrain.png
+		Frames: 72
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Clear
+	Template@400:
+		Id: 400
+		Images: terrain.png
+		Frames: 73
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@401:
+		Id: 401
+		Images: terrain.png
+		Frames: 74
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@402:
+		Id: 402
+		Images: terrain.png
+		Frames: 75
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@403:
+		Id: 403
+		Images: terrain.png
+		Frames: 76
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@404:
+		Id: 404
+		Images: terrain.png
+		Frames: 77
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@405:
+		Id: 405
+		Images: terrain.png
+		Frames: 78
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@406:
+		Id: 406
+		Images: terrain.png
+		Frames: 79
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@407:
+		Id: 407
+		Images: terrain.png
+		Frames: 80
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@408:
+		Id: 408
+		Images: terrain.png
+		Frames: 81
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@409:
+		Id: 409
+		Images: terrain.png
+		Frames: 82
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@410:
+		Id: 410
+		Images: terrain.png
+		Frames: 83
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@411:
+		Id: 411
+		Images: terrain.png
+		Frames: 84
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@412:
+		Id: 412
+		Images: terrain.png
+		Frames: 85
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@413:
+		Id: 413
+		Images: terrain.png
+		Frames: 86
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@414:
+		Id: 414
+		Images: terrain.png
+		Frames: 87
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@415:
+		Id: 415
+		Images: terrain.png
+		Frames: 88
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@416:
+		Id: 416
+		Images: terrain.png
+		Frames: 89
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@417:
+		Id: 417
+		Images: terrain.png
+		Frames: 90
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@418:
+		Id: 418
+		Images: terrain.png
+		Frames: 91
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@419:
+		Id: 419
+		Images: terrain.png
+		Frames: 92
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@420:
+		Id: 420
+		Images: terrain.png
+		Frames: 93
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@421:
+		Id: 421
+		Images: terrain.png
+		Frames: 94
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@422:
+		Id: 422
+		Images: terrain.png
+		Frames: 95
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@423:
+		Id: 423
+		Images: terrain.png
+		Frames: 96
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@424:
+		Id: 424
+		Images: terrain.png
+		Frames: 97
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@425:
+		Id: 425
+		Images: terrain.png
+		Frames: 98
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@426:
+		Id: 426
+		Images: terrain.png
+		Frames: 99
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@427:
+		Id: 427
+		Images: terrain.png
+		Frames: 100
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@428:
+		Id: 428
+		Images: terrain.png
+		Frames: 101
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@429:
+		Id: 429
+		Images: terrain.png
+		Frames: 102
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@430:
+		Id: 430
+		Images: terrain.png
+		Frames: 103
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@431:
+		Id: 431
+		Images: terrain.png
+		Frames: 104
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@432:
+		Id: 432
+		Images: terrain.png
+		Frames: 105
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@433:
+		Id: 433
+		Images: terrain.png
+		Frames: 106
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@434:
+		Id: 434
+		Images: terrain.png
+		Frames: 107
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@435:
+		Id: 435
+		Images: terrain.png
+		Frames: 108
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@436:
+		Id: 436
+		Images: terrain.png
+		Frames: 109
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@437:
+		Id: 437
+		Images: terrain.png
+		Frames: 110
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@438:
+		Id: 438
+		Images: terrain.png
+		Frames: 111
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@439:
+		Id: 439
+		Images: terrain.png
+		Frames: 112
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@440:
+		Id: 440
+		Images: terrain.png
+		Frames: 113
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@441:
+		Id: 441
+		Images: terrain.png
+		Frames: 114
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@442:
+		Id: 442
+		Images: terrain.png
+		Frames: 115
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@443:
+		Id: 443
+		Images: terrain.png
+		Frames: 116
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@444:
+		Id: 444
+		Images: terrain.png
+		Frames: 117
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
+	Template@445:
+		Id: 445
+		Images: terrain.png
+		Frames: 118
+		Size: 1,1
+		Categories: Shore
+		Tiles:
+			0: Water
