@@ -9,3 +9,6 @@ World:
 		TerrainSpeeds:
 			Road: 100
 	TrafficSim:
+		SlotsPerLane: 5
+		DischargeMilliTicks: 1200
+		WalkMaxCells: 14

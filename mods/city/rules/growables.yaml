@@ -208,7 +208,7 @@
 		Name: actor-lot-res-high.name
 	GrowableBuilding:
 		Zone: ResidentialHigh
-		HouseholdsPerCellMilli: 6000
+		HouseholdsPerCellMilli: 4500
 		ResidentsPerHousehold: 3
 		UpkeepPerCell: 6
 		RentZoneFactor: 3
@@ -273,7 +273,7 @@
 	GrowableBuilding:
 		Zone: CommercialHigh
 		LodgingPerCellMilli: 1500
-		JobsPerCellMilli: 6000
+		JobsPerCellMilli: 7000
 		JobMix: 15, 40, 35, 10, 0
 		UpkeepPerCell: 4
 		RentZoneFactor: 6
@@ -289,7 +289,7 @@
 		Name: actor-lot-off.name
 	GrowableBuilding:
 		Zone: Office
-		JobsPerCellMilli: 6000
+		JobsPerCellMilli: 7500
 		JobMix: 0, 10, 35, 40, 15
 		UpkeepPerCell: 4
 		RentZoneFactor: 8
@@ -321,7 +321,7 @@
 	GrowableBuilding:
 		Zone: Industrial
 		StoragePerCellMilli: 2000
-		JobsPerCellMilli: 4000
+		JobsPerCellMilli: 5000
 		JobMix: 45, 40, 15, 0, 0
 		UpkeepPerCell: 2
 		RentZoneFactor: 3

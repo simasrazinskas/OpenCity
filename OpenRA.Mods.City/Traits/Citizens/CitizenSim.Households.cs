@@ -393,6 +393,13 @@ namespace OpenRA.Mods.City.Traits
 
 			UpdateHouseholdEnv(hh, home);
 
+			// BALANCE: a household whose adults have all been jobless for months moves on (the job market pulls people in, and pushes them out).
+			if (info.JoblessMonthsToEmigrate > 0 && JoblessHousehold(hh) && Hash(hh, today, 73) % 100 < info.JoblessEmigratePercent)
+			{
+				Emigrate(hh);
+				return;
+			}
+
 			// Unhappy households look for something better.
 			if (h.Happiness < 25 && Hash(hh, today, 71) % 100 < 20)
 				h.Flags |= HhFlags.WantsMove;
@@ -408,6 +415,24 @@ namespace OpenRA.Mods.City.Traits
 				else if (Hash(hh, today, 72) % 100 < 30)
 					h.Flags &= ~HhFlags.WantsMove;
 			}
+		}
+
+		bool JoblessHousehold(int hh)
+		{
+			var adults = 0;
+			for (var m = hhs[hh].FirstMember; m >= 0; m = cits[m].NextInHousehold)
+			{
+				var age = AgeOf(m);
+				if (age < info.WorkAge || age > info.AdultMaxAge)
+					continue;
+
+				if ((cits[m].Flags & (CitFlags.Worker | CitFlags.Student)) != 0 || cits[m].UnemployedDays < info.JoblessMonthsToEmigrate)
+					return false;
+
+				adults++;
+			}
+
+			return adults > 0;
 		}
 
 		void SearchHome(int hh)

@@ -585,6 +585,12 @@ namespace OpenRA.Mods.City.Traits
 			for (var i = 0; i < all.Count; i++)
 			{
 				var p = all[i];
+
+				// BALANCE: a workplace without a company has no employer: its default slots are withdrawn so nobody is hired
+				// into (and paid by the city for) an empty shell. Slots come back when a company moves in (RefreshJobs).
+				if (citizens != null && p.CompanyId == 0 && p.TotalJobSlots > 0 && Mine(p) && KindFor(p) != null)
+					Array.Clear(p.JobSlots);
+
 				if (p.Kind != PropertyKind.Residential && p.Operational && Mine(p))
 					slots += p.TotalJobSlots;
 			}

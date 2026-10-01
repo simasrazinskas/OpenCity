@@ -45,8 +45,8 @@ namespace OpenRA.Mods.City.Widgets
 		static readonly string[] Letters = ["R", "C", "I", "O"];
 
 		public readonly string TooltipContainer;
-		public readonly string TooltipTemplate = "SIMPLE_TOOLTIP";
-		public string Font = "TinyBold";
+		public readonly string TooltipTemplate = "CITY_TOOLTIP";
+		public string Font = "Bold";
 
 		readonly World world;
 		readonly Lazy<TooltipContainerWidget> tooltipContainer;
@@ -161,7 +161,6 @@ namespace OpenRA.Mods.City.Widgets
 					new System.Numerics.Vector2(left + (letterWidth - 2 - size.X) / 2f, rb.Y + (rb.Height - size.Y) / 2f - 1),
 					color, Color.FromArgb(220, 0, 0, 0), Color.FromArgb(0, 0, 0, 0), 1);
 
-				WidgetUtils.FillRectWithColor(new Rectangle(x - 1, barArea.Y - 1, barWidth + 2, barArea.Height + 2), Color.FromArgb(230, 90, 90, 90));
 				WidgetUtils.FillRectWithColor(new Rectangle(x, barArea.Y, barWidth, barArea.Height), Color.FromArgb(255, 10, 10, 14));
 
 				var demand = Math.Clamp(model?.GetDemand(Categories[i]) ?? manager?.GetDemand(Categories[i]) ?? 0, -100, 100);
@@ -176,6 +175,7 @@ namespace OpenRA.Mods.City.Widgets
 						Color.FromArgb(255, color.R * 3 / 4, color.G * 3 / 4, color.B * 3 / 4));
 
 				WidgetUtils.FillRectWithColor(new Rectangle(x, mid, barWidth, 1), Color.White);
+				WidgetUtils.DrawFrame(new Rectangle(x - 1, barArea.Y - 1, barWidth + 2, barArea.Height + 2), Color.FromArgb(230, 90, 90, 90));
 			}
 		}
 	}

@@ -173,6 +173,94 @@ namespace OpenRA.Widgets
 				CloseWindow();
 		}
 
+		/// <summary>Raised after the UI was laid out again for a new UI scale or window size (see <see cref="Relayout"/>).</summary>
+		public static event Action OnRelayout = () => { };
+
+		/// <summary>
+		/// Lays the widget tree out again after the effective window size changed (UI scale slider, window resize).
+		/// Only layout expressions whose inputs (WINDOW_*, PARENT_*, WIDTH, HEIGHT) actually changed are re-evaluated,
+		/// so positions and sizes that logic code assigned after creation are kept. Afterwards every widget's
+		/// <see cref="Widget.Relayout"/> is called (for widgets that cache geometry) and <see cref="OnRelayout"/> is raised.
+		/// </summary>
+		public static void Relayout(Size oldResolution)
+		{
+			var newResolution = Game.Renderer.Resolution;
+			var roots = new List<Widget> { Root };
+			foreach (var w in WindowList)
+				if (w.Parent == null && !roots.Contains(w))
+					roots.Add(w);
+
+			foreach (var w in roots)
+			{
+				var bounds = w == Root ? w.Bounds : Root.Bounds;
+				RelayoutWidget(w, oldResolution, newResolution, bounds, bounds);
+			}
+
+			foreach (var w in roots)
+				NotifyRelayout(w);
+
+			OnRelayout();
+		}
+
+		static void RelayoutWidget(Widget w, Size oldWindow, Size newWindow, WidgetBounds oldParent, WidgetBounds newParent)
+		{
+			var old = w.Bounds;
+			var oldVars = new Dictionary<string, int>
+			{
+				{ "WINDOW_WIDTH", oldWindow.Width },
+				{ "WINDOW_HEIGHT", oldWindow.Height },
+				{ "PARENT_WIDTH", oldParent.Width },
+				{ "PARENT_HEIGHT", oldParent.Height },
+				{ "WIDTH", old.Width },
+				{ "HEIGHT", old.Height },
+			};
+
+			var newVars = new Dictionary<string, int>
+			{
+				{ "WINDOW_WIDTH", newWindow.Width },
+				{ "WINDOW_HEIGHT", newWindow.Height },
+				{ "PARENT_WIDTH", newParent.Width },
+				{ "PARENT_HEIGHT", newParent.Height },
+			};
+
+			var width = Reevaluate(w.Width, old.Width, oldVars, newVars);
+			var height = Reevaluate(w.Height, old.Height, oldVars, newVars);
+			newVars["WIDTH"] = width;
+			newVars["HEIGHT"] = height;
+			var x = Reevaluate(w.X, old.X, oldVars, newVars);
+			var y = Reevaluate(w.Y, old.Y, oldVars, newVars);
+			w.Bounds = new WidgetBounds(x, y, width, height);
+
+			foreach (var c in w.Children)
+				RelayoutWidget(c, oldWindow, newWindow, old, w.Bounds);
+		}
+
+		static int Reevaluate(IntegerExpression expression, int current, Dictionary<string, int> oldVars, Dictionary<string, int> newVars)
+		{
+			if (expression == null)
+				return current;
+
+			var changed = false;
+			foreach (var v in expression.Variables)
+			{
+				// Expressions using other (creation-time) substitutions cannot be re-evaluated here
+				if (!newVars.TryGetValue(v, out var newValue))
+					return current;
+
+				changed |= !oldVars.TryGetValue(v, out var oldValue) || oldValue != newValue;
+			}
+
+			return changed ? expression.Evaluate(newVars) : current;
+		}
+
+		static void NotifyRelayout(Widget w)
+		{
+			foreach (var c in w.Children.ToList())
+				NotifyRelayout(c);
+
+			w.Relayout();
+		}
+
 		public static void ResetTooltips()
 		{
 			// Issue a no-op mouse move to force any tooltips to be recalculated
@@ -577,6 +665,12 @@ namespace OpenRA.Widgets
 			for (var i = Children.Count - 1; i >= 0; --i)
 				Children[i].Hidden();
 		}
+
+		/// <summary>
+		/// Called (children first) after the UI was laid out again for a new UI scale or window size.
+		/// Override to recompute geometry that was derived from the bounds when the widget was created.
+		/// </summary>
+		public virtual void Relayout() { }
 
 		public virtual void Removed()
 		{

@@ -178,16 +178,24 @@ namespace OpenRA.Graphics
 		internal void DrawSprite(Sprite s, int paletteTextureIndex, in Vector3 location, in Vector3 scale, float rotation = 0f)
 		{
 			var samplers = SetRenderStateForSprite(s);
-			Util.FastCreateQuad(vertices, location + scale * s.Offset, s, samplers, paletteTextureIndex, vertexCount, scale * s.Size, Vector3.One,
-								1f, rotation);
+			var o = location + scale * s.Offset;
+			var size = scale * s.Size;
+			if (PixelSnapScale > 0 && rotation == 0f)
+				SnapQuad(ref o, ref size);
+
+			Util.FastCreateQuad(vertices, o, s, samplers, paletteTextureIndex, vertexCount, size, Vector3.One, 1f, rotation);
 			TrackQuad(s.BlendMode);
 		}
 
 		internal void DrawSprite(Sprite s, int paletteTextureIndex, in Vector3 location, float scale, float rotation = 0f)
 		{
 			var samplers = SetRenderStateForSprite(s);
-			Util.FastCreateQuad(vertices, location + scale * s.Offset, s, samplers, paletteTextureIndex, vertexCount, scale * s.Size, Vector3.One,
-								1f, rotation);
+			var o = location + scale * s.Offset;
+			var size = scale * s.Size;
+			if (PixelSnapScale > 0 && rotation == 0f)
+				SnapQuad(ref o, ref size);
+
+			Util.FastCreateQuad(vertices, o, s, samplers, paletteTextureIndex, vertexCount, size, Vector3.One, 1f, rotation);
 			TrackQuad(s.BlendMode);
 		}
 
@@ -200,8 +208,12 @@ namespace OpenRA.Graphics
 			float rotation = 0f)
 		{
 			var samplers = SetRenderStateForSprite(s);
-			Util.FastCreateQuad(vertices, location + scale * s.Offset, s, samplers, paletteTextureIndex, vertexCount, scale * s.Size, tint, alpha,
-								rotation);
+			var o = location + scale * s.Offset;
+			var size = scale * s.Size;
+			if (PixelSnapScale > 0 && rotation == 0f)
+				SnapQuad(ref o, ref size);
+
+			Util.FastCreateQuad(vertices, o, s, samplers, paletteTextureIndex, vertexCount, size, tint, alpha, rotation);
 			TrackQuad(s.BlendMode);
 		}
 
@@ -251,7 +263,75 @@ namespace OpenRA.Graphics
 				Flush();
 
 			Array.Copy(v, 0, vertices, vertexCount, v.Length);
+			if (PixelSnapScale > 0)
+				SnapAxisAlignedQuad(vertexCount);
+
 			TrackQuad(blendMode);
+		}
+
+		/// <summary>
+		/// Device pixels per UI unit used to snap axis-aligned quads to the device pixel grid, or 0 to disable snapping.
+		/// Enabled by <see cref="Renderer"/> for the UI pass so that chrome, lines and text land on whole device pixels
+		/// at any (including fractional) UI scale.
+		/// </summary>
+		public float PixelSnapScale { get; set; }
+
+		/// <summary>
+		/// Snaps an axis-aligned quad (origin and size, in UI units) to whole device pixels.
+		/// Edges follow the rasterizer's pixel-centre rule, so integer scales render exactly as before.
+		/// Thin quads (lines and borders) keep a uniform device width regardless of their position.
+		/// </summary>
+		void SnapQuad(ref Vector3 o, ref Vector3 size)
+		{
+			PixelSnap.SnapSpan(PixelSnapScale, ref o.X, ref size.X);
+			PixelSnap.SnapSpan(PixelSnapScale, ref o.Y, ref size.Y);
+		}
+
+		void SnapAxisAlignedQuad(int start)
+		{
+			// RgbaColorRenderer quads are ordered a, b, c, d around the perimeter.
+			// Only snap quads that are axis-aligned rectangles: snapping arbitrary quads could collapse thin diagonal lines.
+			ref var a = ref vertices[start];
+			ref var b = ref vertices[start + 1];
+			ref var c = ref vertices[start + 2];
+			ref var d = ref vertices[start + 3];
+
+			float x0, x1, y0, y1;
+			if (a.X == d.X && b.X == c.X && a.Y == b.Y && c.Y == d.Y)
+			{
+				x0 = a.X;
+				x1 = b.X;
+				y0 = a.Y;
+				y1 = d.Y;
+			}
+			else if (a.X == b.X && c.X == d.X && a.Y == d.Y && b.Y == c.Y)
+			{
+				x0 = a.X;
+				x1 = d.X;
+				y0 = a.Y;
+				y1 = b.Y;
+			}
+			else
+				return;
+
+			var w = x1 - x0;
+			var h = y1 - y0;
+			var nx0 = x0;
+			var ny0 = y0;
+			PixelSnap.SnapSpan(PixelSnapScale, ref nx0, ref w);
+			PixelSnap.SnapSpan(PixelSnapScale, ref ny0, ref h);
+			var nx1 = nx0 + w;
+			var ny1 = ny0 + h;
+
+			SnapVertex(ref a, x0, y0, nx0, nx1, ny0, ny1);
+			SnapVertex(ref b, x0, y0, nx0, nx1, ny0, ny1);
+			SnapVertex(ref c, x0, y0, nx0, nx1, ny0, ny1);
+			SnapVertex(ref d, x0, y0, nx0, nx1, ny0, ny1);
+		}
+
+		static void SnapVertex(ref Vertex v, float x0, float y0, float nx0, float nx1, float ny0, float ny1)
+		{
+			v = new Vertex(v.X == x0 ? nx0 : nx1, v.Y == y0 ? ny0 : ny1, v.Z, v.S, v.T, v.U, v.V, v.C, v.R, v.G, v.B, v.A);
 		}
 
 		public void SetPalette(HardwarePalette palette)

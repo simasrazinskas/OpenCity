@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Numerics;
 using OpenRA.Graphics;
 using OpenRA.Mods.City.Traits;
-using OpenRA.Mods.Common.Graphics;
 using OpenRA.Mods.Common.Traits;
 using OpenRA.Mods.Common.Traits.Render;
 using OpenRA.Orders;
@@ -188,9 +187,11 @@ namespace OpenRA.Mods.City
 				text += " (" + FluentProvider.GetMessage(problem) + ")";
 
 			var font = Game.Renderer.Fonts["Bold"];
+
+			// Just below the footprint (a fixed UI gap, so the label never covers the preview at any zoom).
 			var below = hoverCell + new CVec(0, buildingInfo.Dimensions.Y);
-			var pos = w.Map.CenterOfCell(w.Map.Clamp(below));
-			yield return new TextAnnotationRenderable(font, pos, 0, problem != null ? Color.OrangeRed : Color.White, text);
+			var pos = w.Map.CenterOfCell(w.Map.Clamp(below)) - new WVec(0, 512, 0);
+			yield return new CityAnnotationText(font, pos, new int2(0, 4), problem != null ? Color.OrangeRed : Color.White, text);
 		}
 
 		string IOrderGenerator.GetCursor(World w, CPos cell, int2 worldPixel, MouseInput mi)

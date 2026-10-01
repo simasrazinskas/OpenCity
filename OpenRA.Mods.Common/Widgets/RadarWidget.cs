@@ -29,6 +29,10 @@ namespace OpenRA.Mods.Common.Widgets
 
 		public string WorldInteractionController = null;
 		public int AnimationLength = 5;
+
+		[Desc("Draw the minimap with the pixel art filter (sharp at any non-integer scale) and a sub-cell accurate viewport box,",
+			"snapped to whole pixels. Defaults to the classic nearest neighbour minimap with a cell-aligned viewport box.")]
+		public bool PixelArtScaling = false;
 		public string RadarOnlineSound = null;
 		public string RadarOfflineSound = null;
 		public string SoundUp;
@@ -377,17 +381,32 @@ namespace OpenRA.Mods.Common.Widgets
 			var o = new Vector2(mapRect.Location.X, mapRect.Location.Y + world.Map.Bounds.Height * previewScale * (1 - radarMinimapHeight) / 2);
 			var s = new Vector2(mapRect.Size.Width, mapRect.Size.Height * radarMinimapHeight);
 
+			if (PixelArtScaling)
+				Game.Renderer.EnableAntialiasingFilter();
+
 			WidgetUtils.DrawSprite(terrainSprite, o, s);
 			WidgetUtils.DrawSprite(actorSprite, o, s);
 
 			if (shroud != null)
 				WidgetUtils.DrawSprite(shroudSprite, o, s);
 
+			if (PixelArtScaling)
+				Game.Renderer.DisableAntialiasingFilter();
+
 			// Draw viewport rect
 			if (hasRadar)
 			{
-				var tl = CellToMinimapPixel(world.Map.CellContaining(worldRenderer.ProjectedPosition(worldRenderer.Viewport.TopLeft)));
-				var br = CellToMinimapPixel(world.Map.CellContaining(worldRenderer.ProjectedPosition(worldRenderer.Viewport.BottomRight)));
+				int2 tl, br;
+				if (PixelArtScaling && world.Map.Grid.Type == MapGridType.Rectangular)
+				{
+					tl = WorldPxToMinimapPixel(worldRenderer.Viewport.TopLeft);
+					br = WorldPxToMinimapPixel(worldRenderer.Viewport.BottomRight);
+				}
+				else
+				{
+					tl = CellToMinimapPixel(world.Map.CellContaining(worldRenderer.ProjectedPosition(worldRenderer.Viewport.TopLeft)));
+					br = CellToMinimapPixel(world.Map.CellContaining(worldRenderer.ProjectedPosition(worldRenderer.Viewport.BottomRight)));
+				}
 
 				Game.Renderer.EnableScissor(mapRect);
 				DrawRadarPings();
@@ -492,6 +511,15 @@ namespace OpenRA.Mods.Common.Widgets
 			}
 		}
 
+		/// <summary>Sub-cell accurate minimap position of a world pixel (rectangular grids), rounded to a whole pixel.</summary>
+		int2 WorldPxToMinimapPixel(int2 worldPx)
+		{
+			var pos = worldRenderer.ProjectedPosition(worldPx);
+			var u = pos.X / 1024f - world.Map.Bounds.Left;
+			var v = pos.Y / 1024f - world.Map.Bounds.Top;
+			return new int2(mapRect.X + (int)MathF.Round(previewScale * cellWidth * u), mapRect.Y + (int)MathF.Round(previewScale * v));
+		}
+
 		int2 CellToMinimapPixel(CPos p)
 		{
 			var uv = p.ToMPos(world.Map);
@@ -520,6 +548,14 @@ namespace OpenRA.Mods.Common.Widgets
 				var x = v - y;
 				return new Vector2(724 * (x - y), 724 * (x + y));
 			}
+		}
+
+		public override void Relayout()
+		{
+			// The map rectangle is cached in screen coordinates, so it must follow the widget to its new position
+			MapBoundsChanged();
+			var ro = RenderOrigin;
+			mapRect = new Rectangle(previewOrigin.X + ro.X, previewOrigin.Y + ro.Y, mapRect.Width, mapRect.Height);
 		}
 
 		public override void Removed()

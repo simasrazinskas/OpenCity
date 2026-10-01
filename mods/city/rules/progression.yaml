@@ -11,87 +11,87 @@ Player:
 		Xp: 300
 		Money: 5000
 		DevPoints: 1
-		Tiles: 2
+		Tiles: 3
 		Unlocks: school, farm-hub, quarry-hub, policebox, landfill, zone:ResidentialRow, tool:statistics
 	ProgressionMilestone@2:
 		Name: Small Town
 		Xp: 1000
 		Money: 10000
 		DevPoints: 1
-		Tiles: 2
+		Tiles: 3
 		Unlocks: forestry-hub, park-large, taxidepot, zone:ResidentialMedium, zone:ResidentialHigh, zone:CommercialHigh, tool:districts
 	ProgressionMilestone@3:
 		Name: Town
 		Xp: 2000
 		Money: 15000
 		DevPoints: 2
-		Tiles: 2
+		Tiles: 3
 		Unlocks: mine-hub, cemetery, telecom-mast, tool:policies, service:garbage, zone:Warehouse
 	ProgressionMilestone@4:
 		Name: Large Town
 		Xp: 3500
 		Money: 20000
 		DevPoints: 2
-		Tiles: 2
+		Tiles: 3
 		Unlocks: oil-hub, postoffice, zone:Office, zone:ResidentialLowRent, tool:tourism
 	ProgressionMilestone@5:
 		Name: Small City
 		Xp: 5500
 		Money: 30000
 		DevPoints: 3
-		Tiles: 2
+		Tiles: 3
 		Unlocks: zone:ResidentialMixed, service:hotels
 	ProgressionMilestone@6:
 		Name: City
 		Xp: 8500
 		Money: 40000
 		DevPoints: 3
-		Tiles: 2
+		Tiles: 3
 	ProgressionMilestone@7:
 		Name: Big City
 		Xp: 13000
 		Money: 50000
 		DevPoints: 4
-		Tiles: 2
+		Tiles: 3
 		Unlocks: landmark:1
 	ProgressionMilestone@8:
 		Name: Metropolis
 		Xp: 19000
 		Money: 60000
 		DevPoints: 4
-		Tiles: 3
+		Tiles: 4
 		Unlocks: zone:OfficeHigh
 	ProgressionMilestone@9:
 		Name: Large Metropolis
 		Xp: 27000
 		Money: 75000
 		DevPoints: 5
-		Tiles: 3
+		Tiles: 4
 	ProgressionMilestone@10:
 		Name: Great Metropolis
 		Xp: 37000
 		Money: 90000
 		DevPoints: 5
-		Tiles: 3
+		Tiles: 4
 		Unlocks: landmark:2
 	ProgressionMilestone@11:
 		Name: Grand Metropolis
 		Xp: 49000
 		Money: 100000
 		DevPoints: 6
-		Tiles: 3
+		Tiles: 4
 	ProgressionMilestone@12:
 		Name: Capital
 		Xp: 63000
 		Money: 110000
 		DevPoints: 6
-		Tiles: 3
+		Tiles: 4
 	ProgressionMilestone@13:
 		Name: Megacity I
 		Xp: 75000
 		Money: 120000
 		DevPoints: 7
-		Tiles: 3
+		Tiles: 4
 	ProgressionMilestone@14:
 		Name: Megacity II
 		Xp: 88000

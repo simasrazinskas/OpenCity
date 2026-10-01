@@ -9,6 +9,8 @@ Container@CITY_PRODUCTION_ROW:
 			Width: 150
 			Height: 22
 			Font: Small
+			Align: Left
+			LeftMargin: 6
 			Background:
 			VisualHeight: 0
 		Label@PRODUCED:
@@ -47,10 +49,10 @@ Container@CITY_PRODUCTION_ROW:
 			Width: 110
 			Height: 10
 
-Background@CITY_PRODUCTION_PANEL:
+CityPanel@CITY_PRODUCTION_PANEL:
 	Logic: CityProductionLogic
-	X: (WINDOW_WIDTH - 226 - WIDTH) / 2
-	Y: (WINDOW_HEIGHT - HEIGHT) / 2 - 24
+	Placement: Center
+	Avoid: CITY_ADVISOR_PANEL
 	Width: 680
 	Height: 520
 	Background: dialog
@@ -83,16 +85,17 @@ Background@CITY_PRODUCTION_PANEL:
 			Height: 20
 			Children:
 				Label@H_NAME:
-					Width: 150
+					X: 6
+					Width: 144
 					Height: 20
-					Font: TinyBold
+					Font: Small
 					TextColor: E8A030
 					Text: label-production-resource
 				Label@H_PRODUCED:
 					X: 150
 					Width: 66
 					Height: 20
-					Font: TinyBold
+					Font: Small
 					Align: Right
 					TextColor: E8A030
 					Text: label-production-produced
@@ -100,7 +103,7 @@ Background@CITY_PRODUCTION_PANEL:
 					X: 220
 					Width: 66
 					Height: 20
-					Font: TinyBold
+					Font: Small
 					Align: Right
 					TextColor: E8A030
 					Text: label-production-consumed
@@ -108,7 +111,7 @@ Background@CITY_PRODUCTION_PANEL:
 					X: 290
 					Width: 66
 					Height: 20
-					Font: TinyBold
+					Font: Small
 					Align: Right
 					TextColor: E8A030
 					Text: label-production-imported
@@ -116,7 +119,7 @@ Background@CITY_PRODUCTION_PANEL:
 					X: 360
 					Width: 66
 					Height: 20
-					Font: TinyBold
+					Font: Small
 					Align: Right
 					TextColor: E8A030
 					Text: label-production-exported
@@ -124,7 +127,7 @@ Background@CITY_PRODUCTION_PANEL:
 					X: 430
 					Width: 66
 					Height: 20
-					Font: TinyBold
+					Font: Small
 					Align: Right
 					TextColor: E8A030
 					Text: label-production-stock
@@ -132,7 +135,7 @@ Background@CITY_PRODUCTION_PANEL:
 					X: 510
 					Width: 110
 					Height: 20
-					Font: TinyBold
+					Font: Small
 					TextColor: E8A030
 					Text: label-production-balance
 		ScrollPanel@LIST:
@@ -176,7 +179,7 @@ Container@CITY_POLICY_ROW:
 			Font: Regular
 			Shadow: true
 			TooltipContainer: TOOLTIP_CONTAINER
-			TooltipTemplate: SIMPLE_TOOLTIP
+			TooltipTemplate: CITY_TOOLTIP
 		CitySlider@SLIDER:
 			X: 240
 			Y: 5
@@ -196,10 +199,10 @@ Container@CITY_POLICY_ROW:
 			Align: Right
 			TextColor: B4C4D0
 
-Background@CITY_POLICIES_PANEL:
+CityPanel@CITY_POLICIES_PANEL:
 	Logic: CityPoliciesLogic
-	X: (WINDOW_WIDTH - 226 - WIDTH) / 2
-	Y: (WINDOW_HEIGHT - HEIGHT) / 2 - 24
+	Placement: Center
+	Avoid: CITY_ADVISOR_PANEL
 	Width: 620
 	Height: 500
 	Background: dialog
@@ -262,10 +265,10 @@ Button@CITY_NODE_BUTTON:
 	Font: Small
 	TooltipContainer: TOOLTIP_CONTAINER
 
-Background@CITY_PROGRESS_PANEL:
+CityPanel@CITY_PROGRESS_PANEL:
 	Logic: CityProgressLogic
-	X: (WINDOW_WIDTH - 226 - WIDTH) / 2
-	Y: (WINDOW_HEIGHT - HEIGHT) / 2 - 24
+	Placement: Center
+	Avoid: CITY_ADVISOR_PANEL
 	Width: 760
 	Height: 520
 	Background: dialog
@@ -382,10 +385,9 @@ Container@CITY_DISTRICT_ROW:
 			Font: Small
 			Align: Right
 
-Background@CITY_DISTRICTS_PANEL:
+CityPanel@CITY_DISTRICTS_PANEL:
 	Logic: CityDistrictsLogic
-	X: WINDOW_WIDTH - 226 - WIDTH - 8
-	Y: 60
+	Placement: TopRight
 	Width: 330
 	Height: 470
 	Background: dialog
@@ -400,16 +402,16 @@ Background@CITY_DISTRICTS_PANEL:
 			Shadow: true
 			Text: label-districts-title
 		Button@CLOSE:
-			X: PARENT_WIDTH - 40
-			Y: 6
-			Width: 30
-			Height: 26
+			X: PARENT_WIDTH - 36
+			Y: 8
+			Width: 28
+			Height: 24
 			TooltipText: button-budget-close
 			TooltipContainer: TOOLTIP_CONTAINER
 			Children:
 				Image@ICON:
-					X: 7
-					Y: 5
+					X: 6
+					Y: 4
 					ImageCollection: city-icons-small
 					ImageName: close
 		Container@ACTIONS:
@@ -436,10 +438,12 @@ Background@CITY_DISTRICTS_PANEL:
 			Height: 150
 		Label@HINT:
 			X: 12
-			Y: PARENT_HEIGHT - 30
+			Y: PARENT_HEIGHT - 40
 			Width: PARENT_WIDTH - 24
-			Height: 20
-			Font: Tiny
+			Height: 32
+			Font: Small
+			WordWrap: true
+			VAlign: Top
 			TextColor: B4C4D0
 			Text: label-districts-hint
 
@@ -479,10 +483,10 @@ Container@CITY_LINE_ROW:
 			Font: Small
 			Align: Right
 
-Background@CITY_TRANSIT_PANEL:
+CityPanel@CITY_TRANSIT_PANEL:
 	Logic: CityTransitLogic
-	X: (WINDOW_WIDTH - 226 - WIDTH) / 2
-	Y: (WINDOW_HEIGHT - HEIGHT) / 2 - 24
+	Placement: Center
+	Avoid: CITY_ADVISOR_PANEL
 	Width: 600
 	Height: 460
 	Background: dialog

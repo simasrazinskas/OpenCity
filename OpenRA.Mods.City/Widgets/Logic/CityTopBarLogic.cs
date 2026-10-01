@@ -9,6 +9,7 @@
  */
 #endregion
 
+using System;
 using System.Globalization;
 using OpenRA.Mods.City.Traits;
 using OpenRA.Mods.Common.Widgets;
@@ -32,8 +33,14 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		[FluentReference("name", "population")]
 		const string MilestoneMax = "label-city-milestone-max";
 
-		[FluentReference("value")]
-		const string HappinessBar = "label-city-happiness-bar";
+		[FluentReference]
+		const string HappinessStat = "label-city-stat-happiness";
+
+		[FluentReference]
+		const string PowerStat = "label-city-stat-power";
+
+		[FluentReference]
+		const string WaterStat = "label-city-stat-water";
 
 		[FluentReference("value")]
 		const string HappinessTitle = "label-city-happiness-title";
@@ -82,6 +89,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			balance.GetColor = () => manager != null && manager.MonthlyBalance < 0 ? CityUi.Bad : CityUi.Good;
 
 			var date = widget.Get<LabelWidget>("DATE");
+			stripLabels = [cash, balance, date];
 			date.GetText = () => manager?.Date.ToString() ?? "";
 		}
 
@@ -118,24 +126,38 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 		void InitStatus(Widget widget)
 		{
-			var milestoneLabel = widget.Get<LabelWithTooltipWidget>("MILESTONE_LABEL");
-			milestoneLabel.GetTooltipText = ProgressText;
-			milestoneLabel.GetText = () =>
+			string MilestoneText()
 			{
 				if (manager == null)
 					return "";
 
+				var population = manager.Population.ToString("N0", CultureInfo.CurrentCulture);
 				if (manager.NextMilestonePopulation <= manager.Population)
-					return FluentProvider.GetMessage(MilestoneMax, "name", manager.MilestoneName, "population", manager.Population.ToString("N0", CultureInfo.CurrentCulture));
+					return FluentProvider.GetMessage(MilestoneMax, "name", manager.MilestoneName, "population", population);
 
-				return FluentProvider.GetMessage(MilestoneProgress,
-					"name", manager.MilestoneName,
-					"population", manager.Population.ToString("N0", CultureInfo.CurrentCulture),
+				return FluentProvider.GetMessage(MilestoneProgress, "name", manager.MilestoneName, "population", population,
 					"next", manager.NextMilestonePopulation.ToString("N0", CultureInfo.CurrentCulture));
+			}
+
+			var milestone = widget.Get<CityStatWidget>("MILESTONE_STAT");
+			milestone.GetLabel = () => manager?.MilestoneName ?? "";
+			milestone.GetValue = () =>
+			{
+				if (manager == null)
+					return "";
+
+				var population = CityUi.Compact(manager.Population);
+				return manager.NextMilestonePopulation <= manager.Population ? population : population + " / " + CityUi.Compact(manager.NextMilestonePopulation);
 			};
 
-			var milestoneBar = widget.Get<CityBarWidget>("MILESTONE_BAR");
-			milestoneBar.GetPercentage = () =>
+			milestone.GetTooltipText = () =>
+			{
+				var progress = ProgressText();
+				return progress.Length > 0 ? MilestoneText() + "\n" + progress : MilestoneText();
+			};
+
+			milestone.GetBarColor = () => CityUi.Accent;
+			milestone.GetPercentage = () =>
 			{
 				if (manager == null)
 					return 0;
@@ -146,44 +168,59 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				return (int)(manager.Population * 100L / manager.NextMilestonePopulation);
 			};
 
-			var happinessLabel = widget.Get<LabelWidget>("HAPPINESS_LABEL");
-			happinessLabel.GetText = () => manager == null ? "" : FluentProvider.GetMessage(HappinessBar, "value", manager.AverageHappiness);
+			var happiness = widget.Get<CityStatWidget>("HAPPINESS_STAT");
+			var happinessLabel = FluentProvider.GetMessage(HappinessStat);
+			happiness.GetLabel = () => happinessLabel;
+			happiness.GetValue = () => manager == null ? "" : manager.AverageHappiness.ToString(CultureInfo.CurrentCulture) + "%";
+			happiness.GetValueColor = () => CityUi.PercentColor(manager?.AverageHappiness ?? 0);
+			happiness.GetPercentage = () => manager?.AverageHappiness ?? 0;
+			happiness.GetBarColor = () => CityUi.PercentColor(manager?.AverageHappiness ?? 0);
 
-			var happinessBar = widget.Get<CityBarWidget>("HAPPINESS_BAR");
-
-			// Hovering the happiness bar lists what makes the citizens (un)happy.
-			var happinessHover = new FactorHoverWidget
+			// Hovering the happiness readout lists what makes the citizens (un)happy. The sidebar layout keeps it on the readout.
+			happinessHover = new FactorHoverWidget
 			{
 				TooltipContainer = "TOOLTIP_CONTAINER",
-				Bounds = happinessBar.Bounds,
+				Bounds = happiness.Bounds,
 				GetTitle = () => FluentProvider.GetMessage(HappinessTitle, "value", manager?.AverageHappiness ?? 0),
 				GetFactors = () => ctx.Citizens?.HappinessFactors
 			};
 
-			happinessBar.Parent.AddChild(happinessHover);
-			happinessBar.GetPercentage = () => manager?.AverageHappiness ?? 0;
-			happinessBar.GetBarColor = () =>
-			{
-				var happy = manager?.AverageHappiness ?? 0;
-				return happy >= 60 ? CityUi.Good : happy >= 35 ? CityUi.Warn : CityUi.Bad;
-			};
+			happiness.Parent.AddChild(happinessHover);
+			happinessStat = happiness;
 
-			var powerLabel = widget.Get<LabelWidget>("POWER_LABEL");
-			powerLabel.GetText = () => manager == null ? "" :
-				FluentProvider.GetMessage(PowerBar, "used", PowerUsed, "produced", PowerMade);
-
-			var powerBar = widget.Get<CityBarWidget>("POWER_BAR");
-			powerBar.GetPercentage = () => manager == null ? 0 : Ratio(PowerUsed, PowerMade);
-			powerBar.GetBarColor = () => manager != null && PowerUsed > PowerMade ? CityUi.Bad : CityUi.Good;
-
-			var waterLabel = widget.Get<LabelWidget>("WATER_LABEL");
-			waterLabel.GetText = () => manager == null ? "" :
-				FluentProvider.GetMessage(WaterBar, "used", WaterUsed, "produced", WaterMade);
-
-			var waterBar = widget.Get<CityBarWidget>("WATER_BAR");
-			waterBar.GetPercentage = () => manager == null ? 0 : Ratio(WaterUsed, WaterMade);
-			waterBar.GetBarColor = () => manager != null && WaterUsed > WaterMade ? CityUi.Bad : CityUi.Good;
+			SetupUtility(widget.Get<CityStatWidget>("POWER_STAT"), PowerStat, PowerBar, () => PowerUsed, () => PowerMade);
+			SetupUtility(widget.Get<CityStatWidget>("WATER_STAT"), WaterStat, WaterBar, () => WaterUsed, () => WaterMade);
 		}
+
+		void SetupUtility(CityStatWidget stat, string labelKey, string tooltipKey, Func<int> used, Func<int> made)
+		{
+			var label = FluentProvider.GetMessage(labelKey);
+			bool Short() => manager != null && used() > made();
+			stat.GetLabel = () => label;
+			stat.GetValue = () => manager == null ? "" : CityUi.Compact(used()) + " / " + CityUi.Compact(made());
+			stat.GetValueColor = () => Short() ? CityUi.Bad : Color.White;
+			stat.GetTooltipText = () => manager == null ? "" : FluentProvider.GetMessage(tooltipKey, "used", used(), "produced", made());
+			stat.GetPercentage = () => manager == null ? 0 : Ratio(used(), made());
+			stat.GetBarColor = () => Short() ? CityUi.Bad : CityUi.Good;
+		}
+
+		FactorHoverWidget happinessHover;
+		CityStatWidget happinessStat;
+
+		/// <summary>Keeps the happiness factor hover region on its readout after the sidebar moved it.</summary>
+		public override void Tick()
+		{
+			if (happinessHover != null && happinessStat != null)
+				happinessHover.Bounds = happinessStat.Bounds;
+
+			foreach (var label in stripLabels)
+				CityUi.FitFont(label, StripFonts);
+		}
+
+		/// <summary>The strip readouts step down to a smaller font rather than overflow (large numbers, bigger UI scales).</summary>
+		static readonly string[] StripFonts = ["Bold", "Regular", "Small", "Tiny"];
+
+		LabelWidget[] stripLabels = [];
 
 		void InitSpeedButtons(Widget widget)
 		{

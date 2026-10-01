@@ -4,11 +4,11 @@ Cursors:
 		default:
 			Start: 0
 			X: -12
-			Y: -12
+			Y: -13
 		select:
 			Start: 1
 			X: -12
-			Y: -12
+			Y: -13
 		generic-blocked:
 			Start: 2
 			X: 0
@@ -59,7 +59,7 @@ Cursors:
 			Y: -11
 		scroll-tr:
 			Start: 14
-			X: 8
+			X: 7
 			Y: -8
 		scroll-r:
 			Start: 15
@@ -67,8 +67,8 @@ Cursors:
 			Y: 0
 		scroll-br:
 			Start: 16
-			X: 8
-			Y: 8
+			X: 7
+			Y: 7
 		scroll-b:
 			Start: 17
 			X: 0
@@ -76,7 +76,7 @@ Cursors:
 		scroll-bl:
 			Start: 18
 			X: -8
-			Y: 8
+			Y: 7
 		scroll-l:
 			Start: 19
 			X: -11
@@ -91,7 +91,7 @@ Cursors:
 			Y: -11
 		scroll-tr-blocked:
 			Start: 22
-			X: 8
+			X: 7
 			Y: -8
 		scroll-r-blocked:
 			Start: 23
@@ -99,8 +99,8 @@ Cursors:
 			Y: 0
 		scroll-br-blocked:
 			Start: 24
-			X: 8
-			Y: 8
+			X: 7
+			Y: 7
 		scroll-b-blocked:
 			Start: 25
 			X: 0
@@ -108,7 +108,7 @@ Cursors:
 		scroll-bl-blocked:
 			Start: 26
 			X: -8
-			Y: 8
+			Y: 7
 		scroll-l-blocked:
 			Start: 27
 			X: -11

@@ -93,10 +93,8 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			container.Get<ImageWidget>("ORDER_ROW1").IsVisible = () => rows >= 1;
 			container.Get<ImageWidget>("ORDER_ROW2").IsVisible = () => rows >= 2;
 
-			// The sidebar cap moves below the extra rows.
-			var cap = widget.GetOrNull<ImageWidget>("CAP");
-			if (cap != null)
-				cap.Bounds.Y += rows * 48;
+			// The sidebar layout stacks the order rows above the bottom cap.
+			orderRows = rows;
 		}
 
 		OrderButtonSpec Panel(string id, string hotkey, string panelId, Func<bool> available, string unlock = null)

@@ -113,7 +113,7 @@ namespace OpenRA.Mods.City.Traits
 			ProjectedRoadUpkeep = roads != null ? roads.MonthlyUpkeep * upkeepScale / 100 : 0;
 			ProjectedServiceUpkeep = serviceUpkeep;
 			ProjectedIncome = economy != null ? economy.ProjectedMonthlyIncome() : tax;
-			ProjectedExpenses = ProjectedRoadUpkeep + serviceUpkeep;
+			ProjectedExpenses = ProjectedRoadUpkeep + serviceUpkeep + (economy != null ? economy.ProjectedMonthlyServiceWages() : 0);
 		}
 
 		void EndMonth()

@@ -38,7 +38,7 @@ namespace OpenRA.Mods.City.Widgets
 		/// <summary>Label of the sample at a given distance from the newest one (0 = newest), e.g. "3 months ago".</summary>
 		public Func<int, string> GetSampleLabel = _ => "";
 
-		public string Font = "TinyBold";
+		public string Font = "Small";
 		public int LeftMargin = 40;
 
 		readonly List<KeyValuePair<string, Color>> legend = [];
@@ -93,8 +93,8 @@ namespace OpenRA.Mods.City.Widgets
 			var color = Game.Renderer.RgbaColorRenderer;
 
 			var plot = new Rectangle(rb.X + LeftMargin, rb.Y + 4, rb.Width - LeftMargin - 6, rb.Height - 8);
-			WidgetUtils.FillRectWithColor(new Rectangle(plot.X - 1, plot.Y - 1, plot.Width + 2, plot.Height + 2), Color.FromArgb(230, 90, 70, 50));
 			WidgetUtils.FillRectWithColor(plot, Color.FromArgb(255, 12, 8, 8));
+			WidgetUtils.DrawFrame(new Rectangle(plot.X - 1, plot.Y - 1, plot.Width + 2, plot.Height + 2), Color.FromArgb(230, 90, 70, 50));
 
 			var count = 0;
 			var min = 0;

@@ -31,7 +31,6 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		const string CategoryRoad = "label-city-category-road";
 
 		const int TabPitch = 31;
-		const int TabSlots = 9;
 
 		sealed class ToolItem
 		{
@@ -59,6 +58,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		];
 
 		readonly World world;
+		readonly Widget widget;
 		readonly CityManager manager;
 		readonly CityUiContext ctx;
 		readonly UiToolState toolState;
@@ -81,6 +81,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			manager = CityUi.GetManager(world);
 			ctx = CityUiContext.For(world);
 			toolState = UiToolState.For(world);
+			this.widget = widget;
 			palette = widget.Get<CityPaletteWidget>("CITY_PALETTE");
 			tabContainer = widget.Get("CITY_TABS");
 
@@ -194,7 +195,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		void EnsureTabVisible(string tab)
 		{
 			var index = tabs.IndexOf(tab);
-			var visible = tabs.Count > TabSlots ? TabSlots - 2 : tabs.Count;
+			var visible = tabs.Count > tabSlots ? tabSlots - 2 : tabs.Count;
 			if (index < tabOffset || index >= tabOffset + visible)
 			{
 				tabOffset = index;
@@ -371,8 +372,8 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		void LayoutTabs()
 		{
 			tabContainer.RemoveChildren();
-			var overflow = tabs.Count > TabSlots;
-			var visible = overflow ? TabSlots - 2 : tabs.Count;
+			var overflow = tabs.Count > tabSlots;
+			var visible = overflow ? tabSlots - 2 : tabs.Count;
 			tabOffset = Math.Clamp(tabOffset, 0, Math.Max(0, tabs.Count - visible));
 
 			var slot = 0;

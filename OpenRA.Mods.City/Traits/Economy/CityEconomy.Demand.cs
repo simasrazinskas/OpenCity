@@ -87,13 +87,32 @@ namespace OpenRA.Mods.City.Traits
 			return Math.Clamp(share - 15, -30, 50);
 		}
 
+		/// <summary>Monthly wages the city pays its own (service) workers, in dollars: this month's run rate (last month's early in the month).</summary>
+		public int ProjectedMonthlyServiceWages()
+		{
+			var now = flowMonth[LWagesServices];
+			var last = flowLast[LWagesServices];
+			var elapsed = clock != null ? clock.TickOfDay : ticksPerMonth / 2;
+			var projected = elapsed >= ticksPerMonth / 6 ? now * ticksPerMonth / Math.Max(1, elapsed) : Math.Max(last, now);
+			return (int)Math.Min(int.MaxValue / 2, projected / 100);
+		}
+
 		/// <summary>Monthly city income in dollars: this month's run rate (last month's total early in the month).</summary>
 		public int ProjectedMonthlyIncome()
 		{
 			long now = 0;
 			long last = 0;
+
+			// Company profit taxes are booked once, at the end of the month: carry last month's amount instead of a run rate.
+			long companyTax = 0;
 			for (var c = LFeePower; c <= LTaxOffice; c++)
 			{
+				if (c >= LTaxCommercial)
+				{
+					companyTax += flowLast[c];
+					continue;
+				}
+
 				now += flowMonth[c];
 				last += flowLast[c];
 			}
@@ -101,7 +120,7 @@ namespace OpenRA.Mods.City.Traits
 			now += flowMonth[LFeeParking] + flowMonth[LTourismTax];
 			last += flowLast[LFeeParking] + flowLast[LTourismTax];
 			var elapsed = clock != null ? clock.TickOfDay : ticksPerMonth / 2;
-			var projected = elapsed >= ticksPerMonth / 6 ? now * ticksPerMonth / Math.Max(1, elapsed) : Math.Max(last, now);
+			var projected = (elapsed >= ticksPerMonth / 6 ? now * ticksPerMonth / Math.Max(1, elapsed) : Math.Max(last, now)) + companyTax;
 			return (int)Math.Min(int.MaxValue / 2, projected / 100);
 		}
 	}

@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenRA.Mods.City.Traits;
 using OpenRA.Mods.Common.Widgets;
 using OpenRA.Widgets;
@@ -30,9 +31,9 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		const string OffDesc = "label-infoview-off-desc";
 
 		const int Columns = 4;
-		const int ItemWidth = 130;
 		const int ItemHeight = 32;
 		const int Spacing = 6;
+		const int OffWidth = 96;
 		const int SummaryRows = 3;
 
 		readonly World world;
@@ -107,7 +108,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				var visible = panelVisible();
 				if (visible)
 				{
-					EnsureBuilt(widget);
+					EnsureBuilt();
 					FollowMode();
 				}
 
@@ -198,7 +199,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 					yield return def;
 		}
 
-		void EnsureBuilt(Widget panel)
+		void EnsureBuilt()
 		{
 			if (builtFor == 0)
 				return;
@@ -207,6 +208,9 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			tabs.RemoveChildren();
 			tabButtons.Clear();
 
+			// Group tabs share the row left of the "Off" button.
+			var groups = InfoViews.Groups.Count(g => Available(g).Any());
+			var tabWidth = Math.Min(104, (tabs.Bounds.Width - OffWidth - 2 * Spacing) / Math.Max(1, groups) - 4);
 			var x = 0;
 			foreach (var g in InfoViews.Groups)
 			{
@@ -224,7 +228,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				group ??= g;
 				var button = Game.LoadWidget(world, "CITY_INFOVIEW_ITEM", tabs, []) as ButtonWidget;
 				button.Bounds.X = x;
-				button.Bounds.Width = 100;
+				button.Bounds.Width = tabWidth;
 				button.Bounds.Height = 28;
 				var text = CityUi.Message("label-infoview-group-" + g, CityUi.Prettify(g));
 				button.GetText = () => text;
@@ -236,12 +240,12 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				};
 
 				tabButtons[g] = button;
-				x += 104;
+				x += tabWidth + 4;
 			}
 
 			var off = Game.LoadWidget(world, "CITY_INFOVIEW_ITEM", tabs, []) as ButtonWidget;
-			off.Bounds.X = panel.Bounds.Width - 24 - 110;
-			off.Bounds.Width = 110;
+			off.Bounds.X = tabs.Bounds.Width - OffWidth;
+			off.Bounds.Width = OffWidth;
 			off.Bounds.Height = 28;
 			var offText = FluentProvider.GetMessage(Off);
 			off.GetText = () => offText;
@@ -267,9 +271,10 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			{
 				var current = def;
 				var button = Game.LoadWidget(world, "CITY_INFOVIEW_ITEM", modes, []) as ButtonWidget;
-				button.Bounds.X = i % Columns * (ItemWidth + Spacing);
+				var itemWidth = (modes.Bounds.Width - (Columns - 1) * Spacing) / Columns;
+				button.Bounds.X = i % Columns * (itemWidth + Spacing);
 				button.Bounds.Y = i / Columns * (ItemHeight + Spacing);
-				button.Bounds.Width = ItemWidth;
+				button.Bounds.Width = itemWidth;
 				button.Bounds.Height = ItemHeight;
 
 				var text = def.Name;
@@ -312,8 +317,6 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				flowChart.Bounds.Y = trafficModes.Bounds.Y + 34;
 				panel.Bounds.Height += 34 + flowChart.Bounds.Height + 6;
 			}
-
-			panel.Bounds.Y = Game.Renderer.Resolution.Height - panel.Bounds.Height - 52;
 		}
 	}
 }

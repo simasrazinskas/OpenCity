@@ -19,7 +19,8 @@ using OpenRA.Traits;
 namespace OpenRA.Mods.City.Traits
 {
 	[Desc("Draws the problem icons above a city building: a severity tile (grey, blue, yellow, orange, red...) with a glyph on top.",
-		"Shows the two worst active problems side by side (the second slot cycles when more apply). The data comes from CityProblems (see ICityProblems).")]
+		"Shows the two worst active problems side by side (the second slot cycles when more apply). The data comes from CityProblems (see ICityProblems).",
+		"The icons are screen-space annotations: they follow the building at any zoom but keep their size (scaled by the UI scale only).")]
 	public class WithCityStatusIconsInfo : TraitInfo
 	{
 		[Desc("Image containing the tile and glyph sequences.")]
@@ -36,17 +37,24 @@ namespace OpenRA.Mods.City.Traits
 		[PaletteReference]
 		public readonly string Palette = "chrome";
 
-		[Desc("Approximate height of the building sprite above its footprint, in pixels.")]
+		[Desc("Approximate height of the building sprite above its footprint, in world pixels.")]
 		public readonly int BuildingHeight = 28;
+
+		[Desc("Gap between the roof and the bottom of the icons, in UI pixels.")]
+		public readonly int IconGap = 2;
 
 		[Desc("World ticks the second icon stays on one problem when more than two apply.")]
 		public readonly int CycleTicks = 50;
 
-		[Desc("Horizontal distance between the two icons, in pixels.")]
+		[Desc("Horizontal distance between the two icons, in UI pixels.")]
 		public readonly int IconSpacing = 21;
 
-		[Desc("Below this zoom only problems of tier Major or worse are drawn (declutters the zoomed-out view).")]
+		[Desc("Below this zoom only problems of tier Major or worse are drawn (declutters the zoomed-out view).",
+			"The zoom is measured in world pixels per UI pixel (viewport zoom / UI scale), since the icons follow the UI scale.")]
 		public readonly float MajorOnlyBelowZoom = 0.6f;
+
+		[Desc("Below this zoom (world pixels per UI pixel) only the worst problem is drawn, so neighbouring icons do not overlap.")]
+		public readonly float SingleIconBelowZoom = 1f;
 
 		public override object Create(ActorInitializer init) { return new WithCityStatusIcons(init.Self, this); }
 	}
@@ -82,7 +90,8 @@ namespace OpenRA.Mods.City.Traits
 			Span<int> list = stackalloc int[ProblemCatalog.Count + 1];
 			Span<int> priority = stackalloc int[ProblemCatalog.Count + 1];
 			var n = 0;
-			var majorOnly = wr.Viewport.Zoom < info.MajorOnlyBelowZoom;
+			var density = wr.Viewport.Zoom / Game.Settings.Graphics.UIScale;
+			var majorOnly = density < info.MajorOnlyBelowZoom;
 			var bits = problems.Active;
 			while (bits != 0)
 			{
@@ -113,24 +122,36 @@ namespace OpenRA.Mods.City.Traits
 			tiles ??= world.Map.Sequences.GetSequence(info.Image, info.TileSequence);
 			glyphs ??= world.Map.Sequences.GetSequence(info.Image, info.GlyphSequence);
 
-			var second = n > 1 ? 1 + now / Math.Max(1, info.CycleTicks) % (n - 1) : -1;
-			var yPixels = footprintRows * 16 + info.BuildingHeight + 12;
+			var second = n > 1 && density >= info.SingleIconBelowZoom ? 1 + now / Math.Max(1, info.CycleTicks) % (n - 1) : -1;
+
+			// Anchor on the roof in world space, then lay the icons out in whole UI pixels so they stay crisp at any zoom.
+			var roof = self.CenterPosition - new WVec(0, (footprintRows * 16 + info.BuildingHeight) * 1024 / 32, 0);
+			var anchor = wr.Viewport.WorldToViewPx(wr.ScreenPxPosition(roof));
+			var tileSize = tiles.GetSprite(0).Size;
+			var y = anchor.Y - info.IconGap - (int)tileSize.Y / 2;
 			var palette = wr.Palette(info.Palette);
 			var result = new List<IRenderable>(4);
 			var spacing = second >= 0 ? info.IconSpacing : 0;
-			AddIcon(result, self, palette, (CityProblem)list[0], now, second >= 0 ? -spacing / 2 : 0, yPixels);
+			AddIcon(result, self, palette, (CityProblem)list[0], now, new int2(anchor.X - spacing / 2, y));
 			if (second >= 0)
-				AddIcon(result, self, palette, (CityProblem)list[second], now, spacing - spacing / 2, yPixels);
+				AddIcon(result, self, palette, (CityProblem)list[second], now, new int2(anchor.X + spacing - spacing / 2, y));
 
 			return result;
 		}
 
-		void AddIcon(List<IRenderable> result, Actor self, PaletteReference palette, CityProblem problem, int now, int xPixels, int yPixels)
+		void AddIcon(List<IRenderable> result, Actor self, PaletteReference palette, CityProblem problem, int now, int2 center)
 		{
+			// UI sprites are drawn from their top-left corner: centre them on whole UI pixels.
 			var tier = problems.Tier(problem, now);
-			var offset = new WVec(xPixels * 32, -yPixels * 32, 0);
-			result.Add(new SpriteRenderable(tiles.GetSprite((int)tier), self.CenterPosition, offset, 0, palette, 1f, 1f, Vector3.One, TintModifiers.None, true));
-			result.Add(new SpriteRenderable(glyphs.GetSprite((int)problem - 1), self.CenterPosition, offset, 1, palette, 1f, 1f, Vector3.One, TintModifiers.None, true));
+			var tile = tiles.GetSprite((int)tier);
+			var glyph = glyphs.GetSprite((int)problem - 1);
+			result.Add(new UISpriteRenderable(tile, self.CenterPosition, TopLeft(center, tile), 0, palette));
+			result.Add(new UISpriteRenderable(glyph, self.CenterPosition, TopLeft(center, glyph), 1, palette));
+		}
+
+		static Vector2 TopLeft(int2 center, Sprite sprite)
+		{
+			return new Vector2(center.X - (int)sprite.Size.X / 2, center.Y - (int)sprite.Size.Y / 2);
 		}
 	}
 }

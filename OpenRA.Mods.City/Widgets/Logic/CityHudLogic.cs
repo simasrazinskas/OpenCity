@@ -22,8 +22,11 @@ namespace OpenRA.Mods.City.Widgets.Logic
 	/// </summary>
 	public class CityHudLogic : ChromeLogic
 	{
+		// Draw order: the alert strip and the advisor card sit underneath everything the player opens on purpose.
 		static readonly string[] Panels =
 		[
+			"CITY_ALERTS",
+			"CITY_ADVISOR_PANEL",
 			"CITY_BUILDING_PANEL",
 			"CITY_CITIZEN_PANEL",
 			"CITY_BUDGET_PANEL",
@@ -37,9 +40,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			"CITY_TRANSIT_PANEL",
 			"CITY_ACHIEVEMENTS_PANEL",
 			"CITY_TILES_PANEL",
-			"CITY_ADVISOR_PANEL",
-			"CITY_VEHICLE_PANEL",
-			"CITY_ALERTS"
+			"CITY_VEHICLE_PANEL"
 		];
 
 		readonly World world;

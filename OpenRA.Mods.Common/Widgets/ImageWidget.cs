@@ -35,7 +35,7 @@ namespace OpenRA.Mods.Common.Widgets
 		public Func<string> GetTooltipText;
 
 		readonly CachedTransform<(string, string), Sprite> getImageCache = new(
-			((string Collection, string Image) args) => ChromeProvider.GetImage(args.Collection, args.Image));
+			((string Collection, string Image) args) => ChromeProvider.GetImage(args.Collection, args.Image), () => ChromeProvider.Version);
 
 		public ImageWidget()
 		{

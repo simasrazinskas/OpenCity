@@ -74,6 +74,9 @@ namespace OpenRA.Mods.City.Traits
 		public readonly int WaterFee = 150;
 		public readonly int GarbageFee = 30;
 
+		[Desc("Percent of the wages of the city's own workers (services, utilities) paid from the city budget; regional grants cover the rest.")]
+		public readonly int ServiceWageCityPercent = 100;
+
 		[Desc("Percent of the city's road and service upkeep that flows back to households as wages of city workers.")]
 		public readonly int UpkeepReturnPercent = 55;
 

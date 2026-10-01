@@ -17,6 +17,14 @@ using OpenRA.Traits;
 
 namespace OpenRA.Graphics
 {
+	[Desc("Optional mod manifest settings for the mouse cursors.")]
+	public class CursorScaling : IGlobalModData
+	{
+		[Desc("Scale the cursors with the UI scale. Only whole number (nearest neighbour) factors are used, so pixel art cursors stay crisp:",
+			"the factor is the UI scale rounded to the nearest whole number.")]
+		public readonly bool FollowUIScale = false;
+	}
+
 	public sealed class CursorManager : IDisposable
 	{
 		sealed class Cursor
@@ -39,11 +47,14 @@ namespace OpenRA.Graphics
 		int2 lockedPosition;
 		readonly bool hardwareCursorsDisabled = false;
 		bool hardwareCursorsDoubled = false;
+		readonly bool followUIScale;
+		int hardwareCursorsScale = 1;
 
 		public CursorManager(ModData modData)
 		{
 			graphicSettings = Game.Settings.Graphics;
 			hardwareCursorsDisabled = graphicSettings.DisableHardwareCursors;
+			followUIScale = modData.GetOrCreate<CursorScaling>().FollowUIScale;
 			SheetBuilder = new SheetBuilder(SheetType.BGRA, modData.Manifest.RendererConstants.CursorSheetSize);
 
 			// Overwrite previous definitions if there are duplicates
@@ -126,6 +137,7 @@ namespace OpenRA.Graphics
 
 			// Dispose any existing cursors to avoid leaking native resources
 			ClearHardwareCursors();
+			hardwareCursorsScale = UIScaleFactor();
 
 			foreach (var kv in cursors)
 			{
@@ -154,6 +166,19 @@ namespace OpenRA.Graphics
 			hardwareCursorsDoubled = graphicSettings.CursorDouble;
 		}
 
+		/// <summary>
+		/// Whole number factor that the cursor art is scaled by to follow the UI scale (on top of the platform's own HiDPI
+		/// doubling and the "double cursor" setting), or 1 when the mod does not opt in.
+		/// </summary>
+		int UIScaleFactor()
+		{
+			if (!followUIScale || Game.Renderer == null)
+				return 1;
+
+			var platformScale = Game.Renderer.NativeWindowScale > 1.5f ? 2 : 1;
+			return Math.Max(1, (int)Math.Round(Game.Renderer.WindowScale / platformScale, MidpointRounding.AwayFromZero));
+		}
+
 		public void SetCursor(string cursorName)
 		{
 			if ((cursorName == null && cursor == null) || (cursor != null && cursorName == cursor.Name))
@@ -170,7 +195,7 @@ namespace OpenRA.Graphics
 
 		public void Tick()
 		{
-			if (hardwareCursorsDoubled != graphicSettings.CursorDouble)
+			if (hardwareCursorsDoubled != graphicSettings.CursorDouble || (followUIScale && hardwareCursorsScale != UIScaleFactor()))
 			{
 				CreateOrUpdateHardwareCursors();
 				Update();
@@ -213,7 +238,7 @@ namespace OpenRA.Graphics
 			// Render cursor in software
 			var doubleCursor = graphicSettings.CursorDouble;
 			var cursorSprite = cursor.Sprites[frame % cursor.Length];
-			var cursorScale = doubleCursor ? 2 : 1;
+			var cursorScale = (doubleCursor ? 2 : 1) * UIScaleFactor();
 
 			// Cursor is rendered in native window coordinates
 			// Apply same scaling rules as hardware cursors
@@ -289,6 +314,21 @@ namespace OpenRA.Graphics
 					var dest = 4 * ((j + paddingTL.Y) * newWidth + i + paddingTL.X);
 					Array.Copy(srcData, src, rgbaData, dest, 4);
 				}
+			}
+
+			// Follow the UI scale by whole number nearest neighbour scaling (keeps the hotspot on the same art pixel).
+			var n = hardwareCursorsScale;
+			if (n > 1)
+			{
+				var scaled = new byte[4 * n * newWidth * n * newHeight];
+				for (var j = 0; j < n * newHeight; j++)
+					for (var i = 0; i < n * newWidth; i++)
+						Array.Copy(rgbaData, 4 * (j / n * newWidth + i / n), scaled, 4 * (j * n * newWidth + i), 4);
+
+				rgbaData = scaled;
+				newWidth *= n;
+				newHeight *= n;
+				hotspot *= n;
 			}
 
 			return Game.Renderer.Window.CreateHardwareCursor(name, new Size(newWidth, newHeight), rgbaData, hotspot, graphicSettings.CursorDouble);

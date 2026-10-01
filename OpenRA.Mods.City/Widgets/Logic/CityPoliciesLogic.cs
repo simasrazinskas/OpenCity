@@ -217,13 +217,20 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			slider.IsDisabled = () => !Find(id).Unlocked || world.LocalPlayer == null;
 			slider.OnCommit = value => world.IssueOrder(UiOrders.Policy(world.LocalPlayer, id, DistrictId, value));
 
+			// Columns from the right: upkeep, slider value, slider; the name takes the rest.
+			var width = row.Bounds.Width;
+			slider.Bounds.X = width - 292;
+			slider.Bounds.Width = 110;
+			nameLabel.Bounds.Width = slider.Bounds.X - 8 - nameLabel.Bounds.X;
+
 			var value = row.Get<LabelWidget>("VALUE");
-			value.Bounds.X = row.Bounds.Width - 170;
+			value.Bounds.X = width - 174;
+			value.Bounds.Width = 50;
 			value.IsVisible = () => entry.SliderMax > 0;
 			value.GetText = () => slider.DisplayValue.ToString(System.Globalization.CultureInfo.CurrentCulture);
 
 			var upkeep = row.Get<LabelWidget>("UPKEEP");
-			upkeep.Bounds.X = row.Bounds.Width - 116;
+			upkeep.Bounds.X = width - 116;
 			upkeep.Bounds.Width = 110;
 			upkeep.GetText = () => !Find(id).Unlocked ? FluentProvider.GetMessage(Locked) :
 				Find(id).UpkeepPerMonth > 0 ? FluentProvider.GetMessage(Upkeep, "amount", CityUtils.FormatMoney(Find(id).UpkeepPerMonth)) : "";

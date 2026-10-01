@@ -192,6 +192,12 @@ namespace OpenRA
 	public interface IFont : IDisposable
 	{
 		FontGlyph CreateGlyph(char c, int size, float deviceScale);
+
+		/// <summary>
+		/// Renders a glyph of a pixel font at exactly its design pixel size, without hinting or antialiasing:
+		/// <see cref="FontGlyph.Data"/> contains only 0 or 255. Returns a glyph with null data if the font has no such character.
+		/// </summary>
+		FontGlyph CreatePixelGlyph(char c, int pixelSize);
 	}
 
 	public struct FontGlyph

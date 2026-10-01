@@ -121,12 +121,9 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		void AddRow(string key, Func<string> value, Func<Color> color, Func<bool> visible)
 		{
 			var row = Game.LoadWidget(world, "CITY_INFO_ROW", rows, []);
-			row.Bounds.Width = 376;
 			var name = FluentProvider.GetMessage(key);
 			row.Get<LabelWidget>("NAME").GetText = () => name;
 			var label = row.Get<LabelWidget>("VALUE");
-			label.Bounds.X = 130;
-			label.Bounds.Width = 246;
 			label.GetText = value;
 			label.GetColor = color;
 			row.IsVisible = visible;

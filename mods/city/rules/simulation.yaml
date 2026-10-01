@@ -12,3 +12,7 @@ World:
 # without touching growables.yaml. If the zoning package inherits ^CityStatusIcons itself, this is harmless.
 ^Growable:
 	Inherits@statusicons: ^CityStatusIcons
+
+# Zoned lots (ZON's ^Lot actors) are not ^Growable; give them the status icons the same way.
+^Lot:
+	Inherits@statusicons: ^CityStatusIcons

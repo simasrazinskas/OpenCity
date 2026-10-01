@@ -89,7 +89,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 			var description = CityUi.Message(first.DescKey, "");
 			var descriptionLabel = row.Get<LabelWidget>("DESCRIPTION");
-			descriptionLabel.GetText = () =>
+			descriptionLabel.GetText = CityUi.Fitted(descriptionLabel, () =>
 			{
 				var entry = Find(id);
 				var text = description;
@@ -97,7 +97,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 					text += "  " + FluentProvider.GetMessage(StreakLabel, "streak", entry.Streak, "months", entry.Months);
 
 				return text;
-			};
+			});
 
 			var bar = row.Get<CityBarWidget>("PROGRESS");
 			bar.Bounds.X = row.Bounds.Width - 140;

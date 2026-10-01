@@ -12,7 +12,6 @@
 using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using OpenRA.Graphics;
@@ -217,18 +216,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				Game.Renderer.SetVSyncEnabled(graphicSettings.VSync);
 			};
 
-			var uiScaleDropdown = panel.Get<DropDownButtonWidget>("UI_SCALE_DROPDOWN");
-			var uiScaleLabel = new CachedTransform<float, string>(s => $"{(int)(100 * s)}%");
-			uiScaleDropdown.OnMouseDown = _ => ShowUIScaleDropdown(uiScaleDropdown, graphicSettings);
-			uiScaleDropdown.GetText = () => uiScaleLabel.Update(graphicSettings.UIScale);
-
-			var minResolution = viewportSizes.MinEffectiveResolution;
-			var resolution = Game.Renderer.Resolution;
-			var disableUIScale = world.Type != WorldType.Shellmap ||
-				resolution.Width * graphicSettings.UIScale < 1.25f * minResolution.Width ||
-				resolution.Height * graphicSettings.UIScale < 1.25f * minResolution.Height;
-
-			uiScaleDropdown.IsDisabled = () => disableUIScale;
+			BindUIScale(panel, graphicSettings, viewportSizes, world.Type == WorldType.Shellmap);
 
 			panel.Get("DISPLAY_SELECTION_CONTAINER").IsVisible = () => graphicSettings.Mode != WindowMode.Windowed;
 			panel.Get("WINDOW_RESOLUTION_CONTAINER").IsVisible = () => graphicSettings.Mode == WindowMode.Windowed;
@@ -302,13 +290,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				graphicSettings.ViewportDistance = defaultGraphicSettings.ViewportDistance;
 
 				if (graphicSettings.UIScale != defaultGraphicSettings.UIScale)
-				{
-					var oldScale = graphicSettings.UIScale;
-					graphicSettings.UIScale = defaultGraphicSettings.UIScale;
-					Game.Renderer.SetUIScale(defaultGraphicSettings.UIScale);
-					RecalculateWidgetLayout(Ui.Root);
-					Viewport.LastMousePos = int2.FromVector(Viewport.LastMousePos.ToVector2() * oldScale / graphicSettings.UIScale);
-				}
+					ApplyUIScale(graphicSettings, defaultGraphicSettings.UIScale);
 
 				gameSettings.TextNotificationPoolFilters = defaultGameSettings.TextNotificationPoolFilters;
 			};
@@ -498,46 +480,82 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			dropdown.ShowDropDown("LABEL_DROPDOWN_TEMPLATE", 500, validSizes, SetupItem);
 		}
 
-		static void RecalculateWidgetLayout(Widget w, bool insideScrollPanel = false)
+		/// <summary>UI scale slider resolution.</summary>
+		public const float UIScaleStep = 0.05f;
+
+		/// <summary>
+		/// Binds the UI scale control: a slider (UI_SCALE_SLIDER, with an optional UI_SCALE_VALUE label showing the percentage)
+		/// if the layout defines one, otherwise the UI_SCALE_DROPDOWN. The slider applies the new scale when released.
+		/// </summary>
+		public static void BindUIScale(Widget parent, GraphicSettings graphicSettings, WorldViewportSizes viewportSizes, bool allowChange)
 		{
-			// HACK: Recalculate the widget bounds to fit within the new effective window bounds
-			// This is fragile, and only works when called when Settings is opened via the main menu.
-
-			// HACK: Skip children badges container on the main menu and settings tab container
-			// These have a fixed size, with calculated size and children positions that break if we adjust them here
-			if (w.Id == "BADGES_CONTAINER" || w.Id == "SETTINGS_TAB_CONTAINER")
-				return;
-
-			var parentBounds = w.Parent == null
-				? new WidgetBounds(0, 0, Game.Renderer.Resolution.Width, Game.Renderer.Resolution.Height)
-				: w.Parent.Bounds;
-
-			var substitutions = new Dictionary<string, int>
+			// The slider relays the UI out in place (Ui.Relayout), so it also works in game
+			var slider = parent.GetOrNull<SliderWidget>("UI_SCALE_SLIDER");
+			if (slider != null)
 			{
-				{ "WINDOW_WIDTH", Game.Renderer.Resolution.Width },
-				{ "WINDOW_HEIGHT", Game.Renderer.Resolution.Height },
-				{ "PARENT_WIDTH", parentBounds.Width },
-				{ "PARENT_HEIGHT", parentBounds.Height }
+				BindUIScaleSlider(parent, slider, graphicSettings, viewportSizes);
+				return;
+			}
+
+			var uiScaleDropdown = parent.Get<DropDownButtonWidget>("UI_SCALE_DROPDOWN");
+			var uiScaleLabel = new CachedTransform<float, string>(s => $"{(int)(100 * s)}%");
+			uiScaleDropdown.OnMouseDown = _ => ShowUIScaleDropdown(uiScaleDropdown, graphicSettings);
+			uiScaleDropdown.GetText = () => uiScaleLabel.Update(graphicSettings.UIScale);
+
+			var minResolution = viewportSizes.MinEffectiveResolution;
+			var resolution = Game.Renderer.Resolution;
+			var disableUIScale = !allowChange ||
+				resolution.Width * graphicSettings.UIScale < 1.25f * minResolution.Width ||
+				resolution.Height * graphicSettings.UIScale < 1.25f * minResolution.Height;
+
+			uiScaleDropdown.IsDisabled = () => disableUIScale;
+		}
+
+		static void BindUIScaleSlider(Widget parent, SliderWidget slider, GraphicSettings graphicSettings, WorldViewportSizes viewportSizes)
+		{
+			var max = viewportSizes.MaxUIScaleFor(Game.Renderer.NativeResolution);
+			slider.MinimumValue = Math.Min(viewportSizes.MinUIScale, 1f);
+			slider.MaximumValue = Math.Max(1f, MathF.Floor(max / UIScaleStep + 0.001f) * UIScaleStep);
+			slider.Step = UIScaleStep;
+
+			// While dragging only the label follows the thumb: re-laying out the UI under the pointer would make the slider jump
+			float? pending = null;
+			slider.GetValue = () => pending ?? graphicSettings.UIScale;
+			slider.OnChange += v =>
+			{
+				if (Ui.MouseFocusWidget == slider)
+					pending = v;
 			};
 
-			var readOnlySubstitutions = new ReadOnlyDictionary<string, int>(substitutions);
-			var width = w.Width?.Evaluate(readOnlySubstitutions) ?? 0;
-			var height = w.Height?.Evaluate(readOnlySubstitutions) ?? 0;
+			slider.OnRelease += v =>
+			{
+				pending = null;
+				if (Math.Abs(v - graphicSettings.UIScale) > 0.001f)
+					ApplyUIScale(graphicSettings, v);
+			};
 
-			substitutions.Add("WIDTH", width);
-			substitutions.Add("HEIGHT", height);
+			var valueLabel = parent.GetOrNull<LabelWidget>("UI_SCALE_VALUE");
+			if (valueLabel != null)
+			{
+				var text = new CachedTransform<float, string>(s => $"{(int)MathF.Round(100 * s)}%");
+				valueLabel.GetText = () => text.Update(slider.GetValue().Clamp(slider.MinimumValue, slider.MaximumValue));
+			}
+		}
 
-			if (insideScrollPanel)
-				w.Bounds = new WidgetBounds(w.Bounds.X, w.Bounds.Y, width, w.Bounds.Height);
-			else
-				w.Bounds = new WidgetBounds(
-					w.X?.Evaluate(readOnlySubstitutions) ?? 0,
-					w.Y?.Evaluate(readOnlySubstitutions) ?? 0,
-					width,
-					height);
+		/// <summary>Stores a new UI scale setting and applies it (clamped to what fits the window) after the current tick.</summary>
+		public static void ApplyUIScale(GraphicSettings graphicSettings, float scale)
+		{
+			Game.RunAfterTick(() =>
+			{
+				var oldScale = Game.Renderer.UIScale;
+				var oldResolution = Game.Renderer.Resolution;
+				graphicSettings.UIScale = scale;
+				var applied = Game.ModData.GetOrCreate<WorldViewportSizes>().ClampUIScale(scale, Game.Renderer.NativeResolution);
 
-			foreach (var c in w.Children)
-				RecalculateWidgetLayout(c, insideScrollPanel || w is ScrollPanelWidget);
+				Game.Renderer.SetUIScale(applied);
+				Ui.Relayout(oldResolution);
+				Viewport.LastMousePos = int2.FromVector(Viewport.LastMousePos.ToVector2() * oldScale / applied);
+			});
 		}
 
 		public static void ShowUIScaleDropdown(DropDownButtonWidget dropdown, GraphicSettings graphicSettings)
@@ -546,18 +564,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 			{
 				var item = ScrollItemWidget.Setup(itemTemplate,
 					() => graphicSettings.UIScale == o,
-					() =>
-					{
-						Game.RunAfterTick(() =>
-						{
-							var oldScale = graphicSettings.UIScale;
-							graphicSettings.UIScale = o;
-
-							Game.Renderer.SetUIScale(o);
-							RecalculateWidgetLayout(Ui.Root);
-							Viewport.LastMousePos = int2.FromVector(Viewport.LastMousePos.ToVector2() * oldScale / graphicSettings.UIScale);
-						});
-					});
+					() => ApplyUIScale(graphicSettings, o));
 
 				var label = $"{(int)(100 * o)}%";
 				item.Get<LabelWidget>("LABEL").GetText = () => label;

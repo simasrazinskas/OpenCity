@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using OpenRA.Graphics;
 using OpenRA.Mods.City.Widgets;
-using OpenRA.Mods.Common.Graphics;
 using OpenRA.Mods.Common.Widgets;
 using OpenRA.Primitives;
 using OpenRA.Traits;
@@ -473,13 +472,13 @@ namespace OpenRA.Mods.City.Traits
 			if (string.IsNullOrEmpty(text))
 				yield break;
 
+			// Stacked above the hovered cell in UI pixels, so the lines never overlap or drift apart when zooming.
 			var font = Game.Renderer.Fonts["Bold"];
 			var lines = text.Split('\n');
+			var lineHeight = CityAnnotationText.LineHeight(font);
+			var topEdge = world.Map.CenterOfCell(cell) - new WVec(0, 512, 0);
 			for (var i = 0; i < lines.Length; i++)
-			{
-				var position = world.Map.CenterOfCell(cell) + new WVec(0, -1536 + i * 640, 0);
-				yield return new TextAnnotationRenderable(font, position, 0, i == 0 ? Color.White : CityUi.Muted, lines[i]);
-			}
+				yield return new CityAnnotationText(font, topEdge, new int2(0, -6 - (lines.Length - i) * lineHeight), i == 0 ? Color.White : CityUi.Muted, lines[i]);
 		}
 
 		string Describe(CPos cell)

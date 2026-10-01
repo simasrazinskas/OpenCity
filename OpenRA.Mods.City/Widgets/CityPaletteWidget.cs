@@ -34,26 +34,29 @@ namespace OpenRA.Mods.City.Widgets
 
 	/// <summary>
 	/// A Dune 2000 style icon palette: rows of icon cells (3 per row) on the sidebar row background.
-	/// Draws the row backgrounds itself so empty rows keep the sidebar shape.
+	/// Draws the row backgrounds itself so empty rows keep the sidebar shape. The sidebar layout sets its height;
+	/// when the items need more rows than fit, the palette scrolls by whole rows (mouse wheel, or clicking the
+	/// scroll bar in the right frame).
 	/// </summary>
 	public class CityPaletteWidget : Widget
 	{
 		public readonly string TooltipContainer;
-		public readonly string TooltipTemplate = "SIMPLE_TOOLTIP";
+		public readonly string TooltipTemplate = "CITY_TOOLTIP";
 		public readonly int2 IconSize = new(58, 48);
 		public readonly int2 IconMargin = new(2, 0);
 		public readonly int IconX = 39;
 		public readonly int Columns = 3;
-		public readonly int MinimumRows = 5;
+		public readonly int ScrollBarWidth = 4;
 		public readonly string RowCollection = "sidebar";
 		public readonly string RowImage = "background-iconrow";
-		public readonly string Font = "TinyBold";
+		public readonly string Font = "Small";
 
 		readonly ModData modData;
 		readonly Lazy<TooltipContainerWidget> tooltipContainer;
 		readonly List<PaletteItem> items = [];
 		int hover = -1;
 		int pressed = -1;
+		int scrollRow;
 
 		[ObjectCreator.UseCtor]
 		public CityPaletteWidget(ModData modData)
@@ -67,36 +70,73 @@ namespace OpenRA.Mods.City.Widgets
 			items.Clear();
 			items.AddRange(newItems);
 			hover = pressed = -1;
+			scrollRow = 0;
 			RemoveTooltip();
 		}
 
 		public IReadOnlyList<PaletteItem> Items => items;
 
-		int Rows => Math.Max(MinimumRows, (items.Count + Columns - 1) / Columns);
+		int TotalRows => (items.Count + Columns - 1) / Columns;
+
+		/// <summary>Rows that fit completely in the palette's height.</summary>
+		int VisibleRows => Math.Max(1, Bounds.Height / IconSize.Y);
+
+		int MaxScroll => Math.Max(0, TotalRows - VisibleRows);
+
+		bool CanScroll => MaxScroll > 0;
 
 		Rectangle CellRect(int index)
 		{
 			var rb = RenderBounds;
 			var column = index % Columns;
-			var row = index / Columns;
+			var row = index / Columns - scrollRow;
 			return new Rectangle(
 				rb.X + IconX + column * (IconSize.X + IconMargin.X),
 				rb.Y + row * IconSize.Y,
 				IconSize.X, IconSize.Y);
 		}
 
+		bool IsShown(int index)
+		{
+			var row = index / Columns - scrollRow;
+			return row >= 0 && row < VisibleRows;
+		}
+
 		int ItemAt(int2 location)
 		{
 			for (var i = 0; i < items.Count; i++)
-				if (CellRect(i).Contains(location))
+				if (IsShown(i) && CellRect(i).Contains(location))
 					return i;
 
 			return -1;
 		}
 
+		/// <summary>The scroll bar sits in the sidebar's right frame, next to the last icon column.</summary>
+		Rectangle ScrollTrack
+		{
+			get
+			{
+				var rb = RenderBounds;
+				var x = rb.X + IconX + Columns * (IconSize.X + IconMargin.X);
+				return new Rectangle(x, rb.Y + 2, ScrollBarWidth, VisibleRows * IconSize.Y - 4);
+			}
+		}
+
+		void ScrollBy(int rows)
+		{
+			var next = Math.Clamp(scrollRow + rows, 0, MaxScroll);
+			if (next == scrollRow)
+				return;
+
+			scrollRow = next;
+			hover = -1;
+			RemoveTooltip();
+		}
+
 		public override void Tick()
 		{
-			Bounds.Height = Rows * IconSize.Y;
+			// The layout may have grown the palette: never leave empty rows below a scrolled list.
+			scrollRow = Math.Clamp(scrollRow, 0, MaxScroll);
 		}
 
 		void RemoveTooltip()
@@ -127,6 +167,15 @@ namespace OpenRA.Mods.City.Widgets
 
 		public override bool HandleMouseInput(MouseInput mi)
 		{
+			if (mi.Event == MouseInputEvent.Scroll)
+			{
+				if (!CanScroll)
+					return false;
+
+				ScrollBy(mi.Delta.Y > 0 ? -1 : 1);
+				return true;
+			}
+
 			var index = ItemAt(mi.Location);
 			if (mi.Event == MouseInputEvent.Move)
 			{
@@ -136,6 +185,17 @@ namespace OpenRA.Mods.City.Widgets
 
 			if (mi.Button != MouseButton.Left)
 				return false;
+
+			if (mi.Event == MouseInputEvent.Down && CanScroll && index < 0)
+			{
+				var track = ScrollTrack;
+				var hit = new Rectangle(track.X - 2, track.Y, track.Width + 4, track.Height);
+				if (hit.Contains(mi.Location))
+				{
+					ScrollBy(mi.Location.Y < ThumbRect().Y ? -VisibleRows : VisibleRows);
+					return true;
+				}
+			}
 
 			if (mi.Event == MouseInputEvent.Down)
 			{
@@ -162,16 +222,32 @@ namespace OpenRA.Mods.City.Widgets
 			return false;
 		}
 
+		Rectangle ThumbRect()
+		{
+			var track = ScrollTrack;
+			var total = Math.Max(1, TotalRows);
+			var height = Math.Max(8, track.Height * VisibleRows / total);
+			var y = track.Y + (track.Height - height) * scrollRow / Math.Max(1, MaxScroll);
+			return new Rectangle(track.X, y, track.Width, height);
+		}
+
 		public override void Draw()
 		{
 			var rb = RenderBounds;
 			var rowSprite = ChromeProvider.GetImage(RowCollection, RowImage);
-			for (var r = 0; r < Rows; r++)
+
+			// Row backgrounds fill the whole height; a partial last row is clipped at the palette's bottom edge.
+			Game.Renderer.EnableScissor(rb);
+			var rows = (rb.Height + IconSize.Y - 1) / IconSize.Y;
+			for (var r = 0; r < rows; r++)
 				WidgetUtils.DrawSprite(rowSprite, new Vector2(rb.X, rb.Y + r * IconSize.Y));
 
 			var font = Game.Renderer.Fonts[Font];
 			for (var i = 0; i < items.Count; i++)
 			{
+				if (!IsShown(i))
+					continue;
+
 				var item = items[i];
 				var cell = CellRect(i);
 				var disabled = item.IsDisabled();
@@ -182,8 +258,8 @@ namespace OpenRA.Mods.City.Widgets
 				{
 					var size = sprite.Size;
 					WidgetUtils.DrawSprite(sprite, new Vector2(
-						cell.X + (cell.Width - size.X) / 2f,
-						cell.Y + (cell.Height - size.Y) / 2f - 2));
+						cell.X + (int)(cell.Width - size.X) / 2,
+						cell.Y + (int)(cell.Height - size.Y) / 2 - 2));
 				}
 
 				if (disabled)
@@ -195,24 +271,26 @@ namespace OpenRA.Mods.City.Widgets
 				{
 					var textColor = disabled ? Color.FromArgb(0xB0, 0xB0, 0xB0) : affordable ? Color.White : CityUi.Bad;
 					var textSize = font.Measure(item.CostText);
-					font.DrawTextWithShadow(item.CostText,
-						new Vector2(cell.X + (cell.Width - textSize.X) / 2f, cell.Bottom - textSize.Y - 1),
-						textColor, Color.Black, Color.FromArgb(0, 0, 0, 0), 1);
+
+					// A dark chip behind the price keeps it readable on any icon.
+					var chip = new Rectangle(cell.X + (cell.Width - textSize.X) / 2 - 2, cell.Bottom - textSize.Y - 1, textSize.X + 4, textSize.Y);
+					WidgetUtils.FillRectWithColor(chip, Color.FromArgb(170, 0, 0, 0));
+					font.DrawText(item.CostText, new Vector2(chip.X + 2, chip.Y - 1), textColor);
 				}
 
 				if (item.IsActive())
-					DrawFrame(cell, Color.FromArgb(0xFF, 0xA0, 0x20), 2);
+					WidgetUtils.DrawFrame(cell, Color.FromArgb(0xFF, 0xA0, 0x20), 2);
 				else if (i == hover && !disabled)
-					DrawFrame(cell, Color.FromArgb(200, 0xFF, 0xE0, 0xA0), 1);
+					WidgetUtils.DrawFrame(cell, Color.FromArgb(200, 0xFF, 0xE0, 0xA0), 1);
 			}
-		}
 
-		static void DrawFrame(Rectangle r, Color c, int t)
-		{
-			WidgetUtils.FillRectWithColor(new Rectangle(r.X, r.Y, r.Width, t), c);
-			WidgetUtils.FillRectWithColor(new Rectangle(r.X, r.Bottom - t, r.Width, t), c);
-			WidgetUtils.FillRectWithColor(new Rectangle(r.X, r.Y, t, r.Height), c);
-			WidgetUtils.FillRectWithColor(new Rectangle(r.Right - t, r.Y, t, r.Height), c);
+			Game.Renderer.DisableScissor();
+
+			if (CanScroll)
+			{
+				WidgetUtils.FillRectWithColor(ScrollTrack, Color.FromArgb(200, 0, 0, 0));
+				WidgetUtils.FillRectWithColor(ThumbRect(), CityUi.Accent);
+			}
 		}
 	}
 }

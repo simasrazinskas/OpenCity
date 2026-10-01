@@ -152,8 +152,18 @@ namespace OpenRA.Mods.City.Traits
 				c.ProfitMonth -= cents;
 				Move(Acct.Companies, Acct.Households, LWages, cents);
 			}
+			else if (registry?.Get(propertyId)?.Kind == PropertyKind.Residential)
+			{
+				// BALANCE: home businesses are self-employed: their income comes from customers outside the city, not the city budget.
+				Move(Acct.Outside, Acct.Households, LWages, cents);
+			}
 			else
-				Move(Acct.City, Acct.Households, LWagesServices, cents);
+			{
+				// BALANCE: the city carries ServiceWageCityPercent of its own payroll; regional grants cover the rest.
+				var cityShare = cents * Info.ServiceWageCityPercent / 100;
+				Move(Acct.City, Acct.Households, LWagesServices, cityShare);
+				Move(Acct.Outside, Acct.Households, LUpkeepReturn, cents - cityShare);
+			}
 		}
 
 		public void BookIncomeTax(EducationLevel edu, int cents)

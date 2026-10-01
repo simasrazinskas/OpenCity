@@ -87,10 +87,16 @@ def build(mod):
 
     placed = save_atlas(os.path.join(mod, 'bits', 'chrome', 'buildicons-extra.png'), regions, width=256)
     lines = ['', '# Build icons of the transit, signature, battery and fish hub placeables (tools/uibuildicons.py).',
-             'city-buildicons-extra:', '\tImage: buildicons-extra.png', '\tRegions:']
+             'city-buildicons-extra:', '\tInherits: ^CityChrome', '\tImage: buildicons-extra.png', '\tRegions:']
     for name in sorted(placed):
         x, y, w, h = placed[name]
         lines.append('\t\t%s: %d, %d, %d, %d' % (name, x, y, w, h))
 
-    with open(os.path.join(mod, 'chrome-city.yaml'), 'a') as f:
-        f.write('\n'.join(lines) + '\n')
+    # Replace the generated section at the end of chrome-city.yaml (the rest of that file is hand written)
+    path = os.path.join(mod, 'chrome-city.yaml')
+    text = open(path).read()
+    marker = text.find(lines[1])
+    if marker >= 0:
+        text = text[:marker].rstrip('\n') + '\n'
+    with open(path, 'w') as f:
+        f.write(text + '\n'.join(lines) + '\n')

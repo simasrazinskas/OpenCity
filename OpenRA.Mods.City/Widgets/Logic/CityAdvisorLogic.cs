@@ -74,6 +74,11 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 		readonly World world;
 		readonly CityUiContext ctx;
+		readonly Widget panel;
+		readonly LabelWidget text;
+		readonly LabelWidget hint;
+		readonly Widget progressBar;
+		readonly Widget[] buttons;
 		readonly List<Item> items = [];
 		readonly StringBuilder signature = new();
 
@@ -99,8 +104,10 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		{
 			this.world = world;
 			ctx = CityUiContext.For(world);
+			panel = widget;
 
 			var progress = widget.Get<CityBarWidget>("PROGRESS");
+			progressBar = progress;
 			progress.GetPercentage = () => DoneCount() * 100 / Steps.Length;
 			progress.IsVisible = () => Current()?.Tutorial == true;
 			widget.Get<ButtonWidget>("CLOSE").OnClick = () => Dismissed = true;
@@ -122,12 +129,15 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			};
 
 			widget.Get<LabelWidget>("TITLE").GetText = () => Current()?.Title ?? "";
-			widget.Get<LabelWidget>("TEXT").GetText = () => Current()?.Text ?? "";
-			var hint = widget.Get<LabelWidget>("HINT");
+			text = widget.Get<LabelWidget>("TEXT");
+			text.GetText = () => Current()?.Text ?? "";
+			hint = widget.Get<LabelWidget>("HINT");
 			hint.GetText = () => Current()?.Hint ?? "";
 			hint.GetColor = () => Current()?.HintColor ?? CityUi.Good;
 			widget.Get<LabelWidget>("STEP").GetText = () =>
 				items.Count == 0 ? "" : FluentProvider.GetMessage(StepLabel, "current", index + 1, "total", items.Count);
+
+			buttons = [previous, next, locate];
 
 			widget.IsVisible = () =>
 			{
@@ -137,6 +147,43 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				Refresh();
 				return items.Count > 0;
 			};
+		}
+
+		/// <summary>The card hugs its text: message, hint, tutorial progress, then the button row.</summary>
+		public override void Tick()
+		{
+			var y = text.Bounds.Y;
+			y += FitHeight(text) + 6;
+
+			hint.Bounds.Y = y;
+			var hintHeight = FitHeight(hint);
+			if (hintHeight > 0)
+				y += hintHeight + 6;
+
+			progressBar.Bounds.Y = y + 2;
+			if (progressBar.IsVisible())
+				y += progressBar.Bounds.Height + 8;
+
+			foreach (var button in buttons)
+				button.Bounds.Y = y + 2;
+
+			panel.Bounds.Height = y + 2 + 24 + 10;
+		}
+
+		/// <summary>Sizes a word-wrapped label to its text and returns the height (0 when empty).</summary>
+		static int FitHeight(LabelWidget label)
+		{
+			var value = label.GetText();
+			if (string.IsNullOrEmpty(value))
+			{
+				label.Bounds.Height = 0;
+				return 0;
+			}
+
+			var font = Game.Renderer.Fonts[label.Font];
+			var height = font.Measure(WidgetUtils.WrapText(value, label.Bounds.Width, font)).Y + 2;
+			label.Bounds.Height = height;
+			return height;
 		}
 
 		Item Current()

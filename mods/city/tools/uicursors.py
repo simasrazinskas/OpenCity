@@ -31,8 +31,8 @@ def c_default(g, fill=WHITE):
 
 def c_select(g):
     c_default(g, TEAL_LIGHT)
-    g.ring(22.5, 22.5, 3.4, 1.6, OUTLINE)
-    g.ring(22.5, 22.5, 3.4, 1.0, WHITE)
+    g.ring(23, 23, 4, 3.0, OUTLINE)
+    g.ring(23, 23, 4, 1.4, WHITE)
     return (4.5, 3.5)
 
 
@@ -104,6 +104,26 @@ def tool(kind):
     return f
 
 
+def pixelize(cv, shadow=(0, 0, 0, 96)):
+    """Turns the anti-aliased vector render into hard-edged pixel art: every pixel is either fully opaque or empty
+    (coverage >= 50% wins), plus a hard 1px drop shadow. The engine scales cursors by whole numbers only (nearest),
+    so they stay crisp at every UI scale."""
+    w, h = cv.w, cv.h
+    solid = [[False] * w for _ in range(h)]
+    for y in range(h):
+        for x in range(w):
+            c = cv.get(x, y)
+            if c[3] >= 128:
+                cv.set(x, y, (c[0], c[1], c[2], 255))
+                solid[y][x] = True
+            else:
+                cv.set(x, y, (0, 0, 0, 0))
+    for y in range(1, h):
+        for x in range(1, w):
+            if not solid[y][x] and solid[y - 1][x - 1]:
+                cv.set(x, y, shadow)
+
+
 DIRS = {'t': 0, 'tr': 45, 'r': 90, 'br': 135, 'b': 180, 'bl': 225, 'l': 270, 'tl': 315}
 
 
@@ -114,8 +134,9 @@ def build(mod):
     def add(name, fn):
         g = G(SIZE, SIZE, 1)
         hx, hy = fn(g)
+        pixelize(g.cv)
         frames.append(g.cv)
-        entries.append((name, len(frames) - 1, int(round(hx - SIZE / 2)), int(round(hy - SIZE / 2))))
+        entries.append((name, len(frames) - 1, int(math.floor(hx + 1e-6)) - SIZE // 2, int(math.floor(hy + 1e-6)) - SIZE // 2))
 
     add('default', c_default)
     add('select', c_select)

@@ -31,8 +31,13 @@ Every person, household, vehicle and company is simulated individually; the city
   achievements.
 - **Interface**: info views, statistics graphs, budget and production panels, an advisor, an alert strip
   and a chirper feed.
+- **Sharp pixel art at any size**: panels, buttons and icons are drawn by code at the exact screen scale, and
+  text uses pixel fonts. A UI scale slider (Settings → Display) goes from 50% to 300%, and the map stays
+  crisp at every zoom level (0.5× to 4×). Layouts adapt from 1280×720 up to 4K.
 
 Simulation is fully deterministic, so a replay reproduces a game exactly.
+
+Screenshots below are 1920×1080 at 125% UI scale.
 
 ## Screenshots
 

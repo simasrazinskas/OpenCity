@@ -10,6 +10,7 @@
 #endregion
 
 using System;
+using OpenRA.Graphics;
 using OpenRA.Primitives;
 using SDL2;
 
@@ -119,10 +120,12 @@ namespace OpenRA.Platforms.Default
 
 			if (windowSize != surfaceSize)
 			{
-				x = (int)Math.Round(windowScale * x);
-				y = (int)Math.Round(windowScale * y);
-				width = (int)Math.Round(windowScale * width);
-				height = (int)Math.Round(windowScale * height);
+				// Use the same device pixel snapping as the UI geometry so clipped edges line up exactly
+				var r = PixelSnap.ToDevice(new Rectangle(x, y, width, height), windowScale);
+				x = r.X;
+				y = r.Y;
+				width = r.Width;
+				height = r.Height;
 			}
 
 			OpenGL.glScissor(x, y, width, height);

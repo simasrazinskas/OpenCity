@@ -107,11 +107,9 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		{
 			var row = Game.LoadWidget(world, "CITY_INFO_ROW", rows, []);
 			row.Bounds.Y = index * 22;
-			row.Bounds.Width = 236;
 			var name = FluentProvider.GetMessage(key);
 			row.Get<LabelWidget>("NAME").GetText = () => name;
 			var label = row.Get<LabelWidget>("VALUE");
-			label.Bounds.Width = 126;
 			label.GetText = value;
 			label.GetColor = color;
 		}

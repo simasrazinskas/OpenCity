@@ -9,7 +9,8 @@ Player:
 		AdultMaxAge: 64
 		WorkAge: 16
 		ImmigrationFillPercent: 400
-		ImmigrationBase: 40
+		ImmigrationBase: 60
+		JoblessMonthsToEmigrate: 4
 		ImmigrationPopDivisor: 8
 		SearchScansPerDay: 8
 		TriesBeforeLowerJobs: 2
@@ -20,12 +21,14 @@ Player:
 		HomelessDaysToEmigrate: 4
 		StartCashCents: 9000
 		FallbackWageCents: 3000, 3600, 4200, 4800, 5400
-		ShoppingCentsPerPerson: 900
+		ShoppingCentsPerPerson: 3000
+		ShoppingUnitsMilliPerPerson: 6000
+		ShoppingItemsPerVisit: 4
 		ShopTripPercent: 60
 		BirthPPM: 150000
 		MaxKids: 3
 		DeathPPMByAgeBand: 1000, 6000, 20000, 60000, 180000, 400000
-		SickPPM: 60000
+		SickPPM: 35000
 		StudyDaysByLevel: 0, 6, 4, 3, 4
 		StudyPassPercent: 85
 		FallbackSchoolSeats: 60

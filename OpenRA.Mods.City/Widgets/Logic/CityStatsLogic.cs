@@ -248,14 +248,14 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				var nameLabel = new LabelWidget(Game.ModData) { Bounds = new WidgetBounds(8, y, 150, 18), Font = "Small", GetText = () => name };
 				var bar = new CityBarWidget
 				{
-					Bounds = new WidgetBounds(160, y + 2, 250, 14),
+					Bounds = new WidgetBounds(160, y + 2, overview.Bounds.Width - 160 - 98, 14),
 					BarColor = color,
 					GetPercentage = () => (int)(value() * 100L / Math.Max(1, max()))
 				};
 
 				var valueLabel = new LabelWidget(Game.ModData)
 				{
-					Bounds = new WidgetBounds(416, y, 90, 18),
+					Bounds = new WidgetBounds(overview.Bounds.Width - 90, y, 90, 18),
 					Font = "Bold",
 					Align = TextAlign.Right,
 					GetText = () => value().ToString("N0", System.Globalization.CultureInfo.CurrentCulture)

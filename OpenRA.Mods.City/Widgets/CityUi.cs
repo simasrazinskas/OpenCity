@@ -9,6 +9,7 @@
  */
 #endregion
 
+using System;
 using OpenRA.Mods.City.Traits;
 using OpenRA.Primitives;
 
@@ -87,6 +88,50 @@ namespace OpenRA.Mods.City.Widgets
 		public static string SignedMoney(long amount)
 		{
 			return amount >= 0 ? "+" + CityUtils.FormatMoney(amount) : CityUtils.FormatMoney(amount);
+		}
+
+		/// <summary>
+		/// Wraps a label's text source so the text is shortened with an ellipsis when it does not fit the label's
+		/// current width (re-measured only when the text or the width changes).
+		/// </summary>
+		public static Func<string> Fitted(OpenRA.Mods.Common.Widgets.LabelWidget label, Func<string> text)
+		{
+			string lastText = null;
+			var lastWidth = -1;
+			var fitted = "";
+			return () =>
+			{
+				var current = text() ?? "";
+				if (current != lastText || label.Bounds.Width != lastWidth)
+				{
+					lastText = current;
+					lastWidth = label.Bounds.Width;
+					fitted = OpenRA.Mods.Common.Widgets.WidgetUtils.TruncateText(current, lastWidth, Game.Renderer.Fonts[label.Font]);
+				}
+
+				return fitted;
+			};
+		}
+
+		/// <summary>Gives a label the first font (largest first) its current text fits in.</summary>
+		public static void FitFont(OpenRA.Mods.Common.Widgets.LabelWidget label, string[] fonts)
+		{
+			var text = label.GetText() ?? "";
+			foreach (var font in fonts)
+			{
+				if (!Game.Renderer.Fonts.TryGetValue(font, out var f))
+					continue;
+
+				label.Font = font;
+				if (f.Measure(text).X <= label.Bounds.Width)
+					return;
+			}
+		}
+
+		/// <summary>A count for tight readouts: full digits below 10,000, then 12.3k / 4.56M.</summary>
+		public static string Compact(long value)
+		{
+			return CityUtils.FormatMoneyCompact(value, 10000, false);
 		}
 
 		public static string SignedNumber(int value)

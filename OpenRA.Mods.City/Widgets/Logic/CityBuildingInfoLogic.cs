@@ -128,6 +128,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		const string HappinessTitle = "label-building-happiness-title";
 
 		const int ListHeight = 132;
+		const int MinListHeight = 64;
 		const int ExtraRows = 10;
 		const int MaxListed = 60;
 
@@ -426,6 +427,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			var bottom = rowContainer.Bounds.Y + y + 8;
 
 			actions.Bounds.Y = bottom;
+			actions.Bounds.Height = actionsHeight;
 			bottom += actionsHeight;
 
 			var hasResidents = property != null && (property.Residents > 0 || property.HouseholdSlots > 0);
@@ -441,10 +443,14 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 				tabResidents.Visible = hasResidents;
 				tabWorkers.Visible = hasWorkers;
+
+				// The resident / worker list gives up height first when the panel would not fit on screen.
+				var room = (panel as CityPanelWidget)?.MaxHeight ?? int.MaxValue;
+				var listHeight = Math.Clamp(room - bottom - 28 - 10, MinListHeight, ListHeight);
 				listTabs.Bounds.Y = bottom;
 				list.Bounds.Y = bottom + 28;
-				list.Bounds.Height = ListHeight;
-				bottom += 28 + ListHeight + 10;
+				list.Bounds.Height = listHeight;
+				bottom += 28 + listHeight + 10;
 				RefreshList();
 			}
 
@@ -472,7 +478,8 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				var citizenId = id;
 				var item = ScrollItemWidget.Setup(listTemplate, () => ctx.SelectedCitizen == citizenId, () => ctx.SelectedCitizen = citizenId, () => { });
 				var line = view.Name + "  (" + CityUi.AgeName(view.AgeGroup) + ", " + CityUi.EducationName(view.Education) + ")";
-				item.Get<LabelWidget>("NAME").GetText = () => line;
+				var nameLabel = item.Get<LabelWidget>("NAME");
+				nameLabel.GetText = CityUi.Fitted(nameLabel, () => line);
 				list.AddChild(item);
 			}
 

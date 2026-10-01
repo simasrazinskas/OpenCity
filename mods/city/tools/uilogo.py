@@ -159,17 +159,9 @@ def draw_stripe(g):
 
 
 def build(scales, mod):
-    chrome = os.path.join(mod, 'bits', 'chrome')
+    """Window icons only: the logo and load screen are drawn at runtime (OpenRA.Mods.City/UIArt, a port of draw_logo)."""
     for s in scales:
         suf = '' if s == 1 else '-%dx' % s
-        sheet = Canvas(511 * s, 256 * s)
-        sg = G(253, 256, s)
-        draw_stripe(sg)
-        sheet.blit(sg.cv, 258 * s, 0, blend=False)
-        lg = G(256, 256, s)
-        draw_logo(lg)
-        sheet.blit(lg.cv, 0, 0, blend=False)
-        pad_pot(sheet).save(os.path.join(chrome, 'loadscreen%s.png' % suf))
         ic = G(32, 32, s)
         draw_icon(ic)
         ic.cv.save(os.path.join(mod, 'icon%s.png' % suf))

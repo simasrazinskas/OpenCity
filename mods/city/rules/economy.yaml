@@ -4,6 +4,12 @@
 # Q = milli-units one fully staffed worker makes per economy day (1/30 of a month). Consumption = milli-units per resident per month.
 Player:
 	CityEconomy:
+		ServiceWageCityPercent: 80
+		StartupDays: 45
+		CloseAfterInsolventDays: 120
+		ReopenMonths: 1
+		TradeUnitsPerDay: 30000
+		PowerFee: 180
 		Resources:
 			Grain:
 				Price: 20

@@ -11,22 +11,21 @@ Container@MAINMENU:
 				MuteAudioKey: ToggleMute
 		Container@TITLE_BLOCK:
 			X: (WINDOW_WIDTH - WIDTH) / 2
-			Y: 36
-			Width: 400
-			Height: 290
+			Y: (WINDOW_HEIGHT - 600) / 2
+			Width: 300
+			Height: 296
 			Children:
 				Background@TITLE_BACKDROP:
-					X: (PARENT_WIDTH - WIDTH) / 2
-					Y: 0 - 8
-					Width: 300
-					Height: PARENT_HEIGHT + 4
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT
 					Background: city-panel
 				Image@LOGO:
 					X: (PARENT_WIDTH - 256) / 2
+					Y: 8
 					ImageCollection: logos
 					ImageName: logo
 				Label@TAGLINE:
-					Y: 262
+					Y: 270
 					Width: PARENT_WIDTH
 					Height: 22
 					Font: Bold
@@ -44,7 +43,7 @@ Container@MAINMENU:
 			Shadow: true
 		Container@MENUS:
 			X: (WINDOW_WIDTH - WIDTH) / 2
-			Y: 340
+			Y: (WINDOW_HEIGHT - 600) / 2 + 316
 			Width: 260
 			Height: 280
 			Children:

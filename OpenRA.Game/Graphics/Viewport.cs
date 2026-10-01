@@ -73,6 +73,16 @@ namespace OpenRA.Graphics
 		float defaultScale;
 		bool overrideUserScale;
 
+		// Zoom level snapping and animation (WorldViewportSizes.ZoomLevels).
+		float[] zoomLevels = [];
+		float defaultLevelZoom = 1f;
+		float zoomStepAccumulator;
+		bool zoomAnimating;
+		float zoomFrom;
+		float zoomTarget;
+		long zoomStartTime;
+		int2? zoomAnchor;
+
 		public Func<Vector2> ViewportCenterProvider;
 		public event Action ViewportTick;
 
@@ -84,6 +94,8 @@ namespace OpenRA.Graphics
 			{
 				zoom = value;
 				ViewportSize = Size.FromVector(1f / zoom * Game.Renderer.NativeResolution.ToVector2());
+				if (viewportSizes.KeepViewInsideMap)
+					CenterLocation = ClampCenter(CenterLocation);
 				cellsDirty = true;
 				allCellsDirty = true;
 			}
@@ -101,22 +113,121 @@ namespace OpenRA.Graphics
 
 		public void AdjustZoom(float dz)
 		{
+			if (zoomLevels.Length > 0)
+			{
+				StepZoom(dz, null);
+				return;
+			}
+
 			// Exponential ensures that equal positive and negative steps have the same effect
 			Zoom = (zoom * (float)Math.Exp(dz)).Clamp(unlockMinZoom ? unlockedMinZoom : MinZoom, MaxZoom);
 		}
 
 		public void AdjustZoom(float dz, int2 center)
 		{
+			if (zoomLevels.Length > 0)
+			{
+				StepZoom(dz, center);
+				return;
+			}
+
 			var oldCenter = worldRenderer.Viewport.ViewToWorldPx(center);
 			AdjustZoom(dz);
 			var newCenter = worldRenderer.Viewport.ViewToWorldPx(center);
 
 			var candidateCenterLocation = CenterLocation + (oldCenter - newCenter).ToVector2();
-			CenterLocation = mapBounds.Clamp(candidateCenterLocation);
+			CenterLocation = ClampCenter(candidateCenterLocation);
 		}
+
+		/// <summary>
+		/// Sets the zoom immediately (no zoom level snapping or animation), keeping the world point under
+		/// <paramref name="anchor"/> (view pixels, default: the viewport center) in place.
+		/// </summary>
+		public void SetZoom(float value, int2? anchor = null)
+		{
+			zoomAnimating = false;
+			ApplyZoom(value.Clamp(unlockMinZoom ? unlockedMinZoom : MinZoom, MaxZoom), anchor);
+		}
+
+		/// <summary>Steps between the configured ZoomLevels: one wheel notch or hotkey press is one level.</summary>
+		void StepZoom(float dz, int2? anchor)
+		{
+			if (dz == 0)
+				return;
+
+			// Small (e.g. touchpad) deltas accumulate until they add up to a wheel notch.
+			if (Math.Sign(dz) != Math.Sign(zoomStepAccumulator))
+				zoomStepAccumulator = 0;
+
+			zoomStepAccumulator += dz;
+			var notch = 0.999f * Math.Clamp(Game.Settings.Game.ZoomSpeed, 0.001f, 0.25f);
+			var steps = (int)(zoomStepAccumulator / notch);
+			if (steps == 0)
+				return;
+
+			zoomStepAccumulator -= steps * notch;
+
+			// Continue from the level that is being animated towards, so quick wheel spins skip ahead.
+			var from = zoomAnimating ? zoomTarget : zoom;
+			var index = Array.FindLastIndex(zoomLevels, l => l <= from * 1.001f);
+			if (steps > 0 && (index < 0 || zoomLevels[index] < from * 0.999f))
+				steps--;
+
+			index = Math.Clamp(index + steps, 0, zoomLevels.Length - 1);
+			AnimateZoomTo(zoomLevels[index], anchor);
+		}
+
+		void AnimateZoomTo(float target, int2? anchor)
+		{
+			zoomAnchor = anchor;
+			if (viewportSizes.ZoomAnimationDuration <= 0 || target == zoom)
+			{
+				zoomAnimating = false;
+				ApplyZoom(target, anchor);
+				return;
+			}
+
+			zoomFrom = zoom;
+			zoomTarget = target;
+			zoomStartTime = Game.RunTime;
+			zoomAnimating = true;
+		}
+
+		void TickZoomAnimation()
+		{
+			if (!zoomAnimating)
+				return;
+
+			// Ease out in log space, so that zooming in and out feel symmetric.
+			var t = Math.Clamp((float)(Game.RunTime - zoomStartTime) / viewportSizes.ZoomAnimationDuration, 0f, 1f);
+			var eased = 1 - (1 - t) * (1 - t) * (1 - t);
+			var z = t >= 1 ? zoomTarget : (float)Math.Exp(float.Lerp(MathF.Log(zoomFrom), MathF.Log(zoomTarget), eased));
+			zoomAnimating = t < 1;
+			ApplyZoom(z, zoomAnchor);
+		}
+
+		/// <summary>Changes the zoom while keeping the world point under <paramref name="anchor"/> (view pixels) fixed.</summary>
+		void ApplyZoom(float value, int2? anchor)
+		{
+			var view = (anchor ?? (Game.Renderer.Resolution.ToInt2() / 2)).ToVector2();
+			var before = ViewToWorldPxF(view);
+			Zoom = value;
+			var after = ViewToWorldPxF(view);
+			CenterLocation = ClampCenter(CenterLocation + before - after);
+		}
+
+		Vector2 ViewToWorldPxF(Vector2 view)
+			=> Game.Renderer.UIScale / Zoom * view + CenterLocation - (ViewportSize.ToInt2() / 2).ToVector2();
 
 		public void ToggleZoom()
 		{
+			if (zoomLevels.Length > 0)
+			{
+				// Reset to the default level, or jump to the closest level when already there.
+				AnimateZoomTo(Math.Abs(zoom - defaultLevelZoom) > 0.001f ? defaultLevelZoom : MaxZoom, null);
+				return;
+			}
+
 			// Unlocked zooms always reset to the default zoom
 			if (zoom < MinZoom)
 				Zoom = MinZoom;
@@ -137,13 +248,14 @@ namespace OpenRA.Graphics
 		public ScrollDirection GetBlockedDirections()
 		{
 			var ret = ScrollDirection.None;
-			if (CenterLocation.Y <= mapBounds.Top)
+			var (min, max) = CenterRange();
+			if (CenterLocation.Y <= min.Y)
 				ret |= ScrollDirection.Up;
-			if (CenterLocation.X <= mapBounds.Left)
+			if (CenterLocation.X <= min.X)
 				ret |= ScrollDirection.Left;
-			if (CenterLocation.Y >= mapBounds.Bottom)
+			if (CenterLocation.Y >= max.Y)
 				ret |= ScrollDirection.Down;
-			if (CenterLocation.X >= mapBounds.Right)
+			if (CenterLocation.X >= max.X)
 				ret |= ScrollDirection.Right;
 
 			return ret;
@@ -184,6 +296,8 @@ namespace OpenRA.Graphics
 		{
 			if (lastViewportDistance != graphicSettings.ViewportDistance)
 				UpdateViewportZooms();
+
+			TickZoomAnimation();
 
 			if (ViewportCenterProvider != null)
 				Center(ViewportCenterProvider());
@@ -238,7 +352,9 @@ namespace OpenRA.Graphics
 				MinZoom * viewportSizes.MaxZoomScale,
 				Game.Renderer.NativeResolution.Height * defaultScale / viewportSizes.MaxZoomWindowHeight);
 
-			if (unlockMinZoom)
+			if (viewportSizes.ZoomLevels.Length > 0)
+				UpdateZoomLevels();
+			else if (unlockMinZoom)
 			{
 				// Spectators and the map editor support zooming out by an extra factor of two.
 				// TODO: Allow zooming out until the full map is visible
@@ -247,10 +363,11 @@ namespace OpenRA.Graphics
 				unlockedMinZoom = MinZoom * unlockedMinZoomScale;
 			}
 
+			zoomAnimating = false;
 			if (resetCurrentZoom)
-				Zoom = MinZoom;
+				Zoom = zoomLevels.Length > 0 ? defaultLevelZoom : MinZoom;
 			else
-				Zoom = Zoom.Clamp(MinZoom, MaxZoom);
+				Zoom = Zoom.Clamp(unlockMinZoom ? unlockedMinZoom : MinZoom, MaxZoom);
 
 			var minZoom = unlockMinZoom ? unlockedMinZoom : MinZoom;
 			var maxSize = Size.FromVector(1f / minZoom * Game.Renderer.NativeResolution.ToVector2());
@@ -258,6 +375,60 @@ namespace OpenRA.Graphics
 
 			foreach (var t in worldRenderer.World.WorldActor.TraitsImplementing<INotifyViewportZoomExtentsChanged>())
 				t.ViewportZoomExtentsChanged(minZoom, MaxZoom);
+		}
+
+		/// <summary>
+		/// Fixed zoom levels replace the continuous zoom range: the levels themselves are absolute (native window pixels per
+		/// world pixel) so that whole levels stay pixel-perfect, and the viewport distance setting picks the closest default level.
+		/// </summary>
+		void UpdateZoomLevels()
+		{
+			// MinZoom still holds the zoom that the classic viewport distance logic picked for this window size.
+			var preferred = MinZoom;
+			var levels = viewportSizes.ZoomLevels.Where(l => l > 0).Order().ToList();
+			if (unlockMinZoom)
+			{
+				// Spectators and the map editor may zoom out further, in halving steps.
+				var unlockedMin = levels[0] * unlockedMinZoomScale;
+				for (var l = levels[0] / 2; l >= unlockedMin * 0.999f; l /= 2)
+					levels.Insert(0, l);
+			}
+
+			zoomLevels = [.. levels];
+			MinZoom = viewportSizes.ZoomLevels.Where(l => l > 0).Min();
+			MaxZoom = zoomLevels[^1];
+			unlockedMinZoom = zoomLevels[0];
+			defaultLevelZoom = zoomLevels.MinBy(l => Math.Abs(Math.Log(l / preferred)));
+		}
+
+		/// <summary>
+		/// The range that the viewport center may take: the map bounds, or (WorldViewportSizes.KeepViewInsideMap) the map bounds
+		/// shrunk by half the viewport, so that zooming out never reveals the void beyond the map edge.
+		/// A map axis smaller than the viewport keeps the view centred on that axis.
+		/// </summary>
+		(Vector2 Min, Vector2 Max) CenterRange()
+		{
+			Vector2 min = new(mapBounds.Left, mapBounds.Top);
+			Vector2 max = new(mapBounds.Right, mapBounds.Bottom);
+			if (!viewportSizes.KeepViewInsideMap)
+				return (min, max);
+
+			var half = ViewportSize.ToInt2().ToVector2() / 2;
+			var mid = (min + max) / 2;
+			min += half;
+			max -= half;
+			if (min.X > max.X)
+				min.X = max.X = mid.X;
+			if (min.Y > max.Y)
+				min.Y = max.Y = mid.Y;
+
+			return (min, max);
+		}
+
+		Vector2 ClampCenter(Vector2 center)
+		{
+			var (min, max) = CenterRange();
+			return Vector2.Clamp(center, min, max);
 		}
 
 		public CPos ViewToWorld(int2 view)
@@ -328,13 +499,13 @@ namespace OpenRA.Graphics
 		}
 
 		public int2 ViewToWorldPx(int2 view)
-			=> int2.FromVector(graphicSettings.UIScale / Zoom * view.ToVector2() + CenterLocation - (ViewportSize.ToInt2() / 2).ToVector2());
+			=> int2.FromVector(Game.Renderer.UIScale / Zoom * view.ToVector2() + CenterLocation - (ViewportSize.ToInt2() / 2).ToVector2());
 
 		public int2 WorldToViewPx(int2 world)
-			=> int2.FromVector(Zoom / graphicSettings.UIScale * (world.ToVector2() - CenterLocation + (ViewportSize.ToInt2() / 2).ToVector2()));
+			=> int2.FromVector(Zoom / Game.Renderer.UIScale * (world.ToVector2() - CenterLocation + (ViewportSize.ToInt2() / 2).ToVector2()));
 
 		public int2 WorldToViewPx(in Vector3 world)
-			=> int2.FromVector(Zoom / graphicSettings.UIScale * (world.AsVector2() - CenterLocation + ViewportSize.ToVector2() / 2));
+			=> int2.FromVector(Zoom / Game.Renderer.UIScale * (world.AsVector2() - CenterLocation + ViewportSize.ToVector2() / 2));
 
 		public void Center(IEnumerable<Actor> actors)
 		{
@@ -349,14 +520,14 @@ namespace OpenRA.Graphics
 
 		public void Center(WPos pos)
 		{
-			CenterLocation = mapBounds.Clamp(worldRenderer.ScreenPxPosition(pos).ToVector2());
+			CenterLocation = ClampCenter(worldRenderer.ScreenPxPosition(pos).ToVector2());
 			cellsDirty = true;
 			allCellsDirty = true;
 		}
 
 		public void Center(Vector2 pos)
 		{
-			CenterLocation = mapBounds.Clamp(worldRenderer.ScreenPosition(pos));
+			CenterLocation = ClampCenter(worldRenderer.ScreenPosition(pos));
 			cellsDirty = true;
 			allCellsDirty = true;
 		}
@@ -369,7 +540,7 @@ namespace OpenRA.Graphics
 			allCellsDirty = true;
 
 			if (!ignoreBorders)
-				CenterLocation = mapBounds.Clamp(CenterLocation);
+				CenterLocation = ClampCenter(CenterLocation);
 		}
 
 		// Rectangle (in viewport coords) that contains things to be drawn

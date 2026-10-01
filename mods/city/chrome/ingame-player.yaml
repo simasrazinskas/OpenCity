@@ -161,6 +161,7 @@ Container@PLAYER_WIDGETS:
 					Children:
 						Radar@RADAR_MINIMAP:
 							WorldInteractionController: INTERACTION_CONTROLLER
+							PixelArtScaling: true
 							X: 12
 							Y: 34
 							Width: 202
@@ -201,24 +202,26 @@ Container@PLAYER_WIDGETS:
 				LabelWithTooltip@CASH:
 					X: 29
 					Y: 4
-					Width: 60
+					Width: 96
 					Height: 22
 					Font: Bold
 					TooltipContainer: TOOLTIP_CONTAINER
-					TooltipTemplate: SIMPLE_TOOLTIP
+					TooltipTemplate: CITY_TOOLTIP
 				Label@BALANCE:
-					X: 88
+					X: 124
 					Y: 4
-					Width: 50
-					Height: 22
-					Font: TinyBold
-				Label@DATE:
-					X: 130
-					Y: 4
-					Width: 84
+					Width: 88
 					Height: 22
 					Align: Right
-					Font: TinyBold
+					Font: Bold
+		Label@DATE:
+			X: 317
+			Y: WINDOW_HEIGHT - 38
+			Width: 116
+			Height: 23
+			Align: Center
+			Font: Bold
+			Shadow: true
 		Container@CITY_PRODUCTION:
 			X: WINDOW_WIDTH - 226
 			Y: 279
@@ -226,7 +229,6 @@ Container@PLAYER_WIDGETS:
 			Height: 288
 			Children:
 				CityPalette@CITY_PALETTE:
-					MinimumRows: 6
 					Width: 226
 					Height: 288
 					TooltipContainer: TOOLTIP_CONTAINER
@@ -239,28 +241,55 @@ Container@PLAYER_WIDGETS:
 			X: WINDOW_WIDTH - 226
 			Y: 567
 			Width: 226
-			Height: 172
+			Height: 144
 			Children:
 				Image@ROW1:
 					Width: 226
 					Height: 48
 					ClickThrough: false
 					ImageCollection: sidebar
-					ImageName: background-iconrow
+					ImageName: background-plainrow
 				Image@ROW2:
 					Y: 48
 					Width: 226
 					Height: 48
 					ClickThrough: false
 					ImageCollection: sidebar
-					ImageName: background-iconrow
+					ImageName: background-plainrow
 				Image@ROW3:
 					Y: 96
 					Width: 226
 					Height: 48
 					ClickThrough: false
 					ImageCollection: sidebar
-					ImageName: background-iconrow
+					ImageName: background-plainrow
+				CityStat@MILESTONE_STAT:
+					X: 40
+					Y: 4
+					Width: 176
+					Height: 20
+					Icon: milestone
+					TooltipContainer: TOOLTIP_CONTAINER
+				CityStat@HAPPINESS_STAT:
+					X: 40
+					Y: 28
+					Width: 176
+					Height: 20
+					Icon: happiness
+				CityStat@POWER_STAT:
+					X: 40
+					Y: 52
+					Width: 176
+					Height: 20
+					Icon: electricity
+					TooltipContainer: TOOLTIP_CONTAINER
+				CityStat@WATER_STAT:
+					X: 40
+					Y: 76
+					Width: 176
+					Height: 20
+					Icon: water
+					TooltipContainer: TOOLTIP_CONTAINER
 				DemandBars@DEMAND_BARS:
 					X: 40
 					Y: 100
@@ -268,67 +297,6 @@ Container@PLAYER_WIDGETS:
 					Height: 42
 					Font: Bold
 					TooltipContainer: TOOLTIP_CONTAINER
-				Image@CAP:
-					Y: 144
-					Width: 226
-					Height: 28
-					ClickThrough: false
-					ImageCollection: sidebar
-					ImageName: background-bottom
-				CityBar@MILESTONE_BAR:
-					X: 40
-					Y: 6
-					Width: 176
-					Height: 18
-				LabelWithTooltip@MILESTONE_LABEL:
-					X: 40
-					Y: 6
-					Width: 176
-					Height: 18
-					Font: TinyBold
-					Align: Center
-					Shadow: true
-					TooltipContainer: TOOLTIP_CONTAINER
-					TooltipTemplate: SIMPLE_TOOLTIP
-				CityBar@HAPPINESS_BAR:
-					X: 40
-					Y: 30
-					Width: 176
-					Height: 18
-				Label@HAPPINESS_LABEL:
-					X: 40
-					Y: 30
-					Width: 176
-					Height: 18
-					Font: TinyBold
-					Align: Center
-					Shadow: true
-				CityBar@POWER_BAR:
-					X: 40
-					Y: 54
-					Width: 176
-					Height: 18
-				Label@POWER_LABEL:
-					X: 40
-					Y: 54
-					Width: 176
-					Height: 18
-					Font: TinyBold
-					Align: Center
-					Shadow: true
-				CityBar@WATER_BAR:
-					X: 40
-					Y: 78
-					Width: 176
-					Height: 18
-				Label@WATER_LABEL:
-					X: 40
-					Y: 78
-					Width: 176
-					Height: 18
-					Font: TinyBold
-					Align: Center
-					Shadow: true
 		Container@CITY_ORDERS:
 			X: WINDOW_WIDTH - 226
 			Y: 711
@@ -340,12 +308,20 @@ Container@PLAYER_WIDGETS:
 					Height: 48
 					ClickThrough: false
 					ImageCollection: sidebar
-					ImageName: background-iconrow
+					ImageName: background-plainrow
 				Image@ORDER_ROW2:
 					Y: 48
 					Width: 226
 					Height: 48
 					ClickThrough: false
 					ImageCollection: sidebar
-					ImageName: background-iconrow
+					ImageName: background-plainrow
+		Image@SIDEBAR_CAP:
+			X: WINDOW_WIDTH - 226
+			Y: WINDOW_HEIGHT - 28
+			Width: 226
+			Height: 28
+			ClickThrough: false
+			ImageCollection: sidebar
+			ImageName: background-bottom
 		LogicKeyListener@CITY_KEYS:

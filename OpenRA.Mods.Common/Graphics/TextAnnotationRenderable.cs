@@ -53,7 +53,7 @@ namespace OpenRA.Mods.Common.Graphics
 		public IFinalizedRenderable PrepareRender(WorldRenderer wr) { return this; }
 		public void Render(WorldRenderer wr)
 		{
-			var screenPos = wr.Viewport.WorldToViewPx(wr.ScreenPosition(Pos).AsVector3()).ToVector2() - 0.5f * font.Measure(text).ToVector2();
+			var screenPos = wr.Viewport.WorldToViewPx(wr.ScreenPosition(Pos).AsVector3()).ToVector2() - (font.Measure(text) / 2).ToVector2();
 			font.DrawTextWithContrast(text, screenPos, color, bgDark, bgLight, 1);
 		}
 

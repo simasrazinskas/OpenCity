@@ -16,6 +16,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using OpenRA.FileSystem;
 using OpenRA.Primitives;
+using OpenRA.Support;
 
 namespace OpenRA.Graphics
 {
@@ -52,6 +53,10 @@ namespace OpenRA.Graphics
 			public readonly ImmutableArray<int> PanelRegion = default;
 			public readonly PanelSides PanelSides = PanelSides.All;
 			public readonly FrozenDictionary<string, Rectangle> Regions = FrozenDictionary<string, Rectangle>.Empty;
+
+			[Desc("Draw this collection at runtime with the IChromeGenerator named `<Generator>Generator`",
+				"instead of loading an image. Generated art is redrawn whenever the device scale changes.")]
+			public readonly string Generator = null;
 		}
 
 		public static IReadOnlyDictionary<string, Collection> Collections => collections;
@@ -63,6 +68,14 @@ namespace OpenRA.Graphics
 
 		static IReadOnlyFileSystem fileSystem;
 		static float dpiScale = 1;
+
+		// Generated collections: the yaml of each collection, grouped by generator, and the art drawn per device scale.
+		// Art for previous scales is kept alive (widgets may still hold sprites) until Deinitialize.
+		static Dictionary<string, Dictionary<string, MiniYaml>> generatorCollections;
+		static Dictionary<(string Generator, float Scale), (ChromeGeneratorContext Context, SheetBuilder Sheets)> generated;
+
+		/// <summary>Increments whenever the chrome art changes (device scale changes), so widgets can drop cached sprites.</summary>
+		public static int Version { get; private set; }
 
 		public static void Initialize(ModData modData)
 		{
@@ -78,6 +91,8 @@ namespace OpenRA.Graphics
 			cachedSprites = [];
 			cachedPanelSprites = [];
 			cachedCollectionSheets = [];
+			generatorCollections = [];
+			generated = [];
 
 			var stringPool = new HashSet<string>(); // Reuse common strings in YAML
 			var chrome = MiniYaml.Merge(modData.Manifest.Chrome
@@ -94,7 +109,13 @@ namespace OpenRA.Graphics
 				foreach (var sheet in cachedSheets.Values)
 					sheet.Sheet.Dispose();
 
+			if (generated != null)
+				foreach (var (_, sheets) in generated.Values)
+					sheets.Dispose();
+
 			collections = null;
+			generatorCollections = null;
+			generated = null;
 			cachedSheets = null;
 			cachedSprites = null;
 			cachedPanelSprites = null;
@@ -104,7 +125,32 @@ namespace OpenRA.Graphics
 		static void LoadCollection(string name, MiniYaml yaml)
 		{
 			Game.ModData.LoadScreen?.Display();
-			collections.Add(name, FieldLoader.Load<Collection>(yaml));
+			var collection = FieldLoader.Load<Collection>(yaml);
+			collections.Add(name, collection);
+
+			if (!string.IsNullOrEmpty(collection.Generator))
+			{
+				if (!generatorCollections.TryGetValue(collection.Generator, out var group))
+					generatorCollections[collection.Generator] = group = [];
+
+				group[name] = yaml;
+			}
+		}
+
+		static ChromeGeneratorContext GeneratedArt(string generatorName)
+		{
+			var key = (generatorName, dpiScale);
+			if (generated.TryGetValue(key, out var art))
+				return art.Context;
+
+			var generator = Game.ModData.ObjectCreator.CreateObject<IChromeGenerator>(generatorName + "Generator");
+			var sheets = new SheetBuilder(SheetType.BGRA, 2048);
+			var context = new ChromeGeneratorContext(dpiScale, fileSystem, generatorCollections[generatorName], sheets);
+			using (new PerfTimer($"ChromeGenerator {generatorName} @{dpiScale}x"))
+				generator.Generate(context);
+
+			generated.Add(key, (context, sheets));
+			return context;
 		}
 
 		static (Sheet Sheet, int Density) SheetForCollection(Collection c)
@@ -165,6 +211,22 @@ namespace OpenRA.Graphics
 			if (!collections.TryGetValue(collectionName, out var collection))
 				return null;
 
+			if (!string.IsNullOrEmpty(collection.Generator))
+			{
+				if (!GeneratedArt(collection.Generator).Images.TryGetValue(collectionName, out var images)
+						|| !images.TryGetValue(imageName, out var generatedSprite))
+					return null;
+
+				if (cachedCollection == null)
+				{
+					cachedCollection = [];
+					cachedSprites.Add(collectionName, cachedCollection);
+				}
+
+				cachedCollection.Add(imageName, generatedSprite);
+				return generatedSprite;
+			}
+
 			if (!collection.Regions.TryGetValue(imageName, out var mi))
 				return null;
 
@@ -204,7 +266,12 @@ namespace OpenRA.Graphics
 				return null;
 
 			Sprite[] sprites;
-			if (collection.PanelRegion != null)
+			if (!string.IsNullOrEmpty(collection.Generator))
+			{
+				if (!GeneratedArt(collection.Generator).Panels.TryGetValue(collectionName, out sprites))
+					return null;
+			}
+			else if (collection.PanelRegion != null)
 			{
 				if (collection.PanelRegion.Length != 8)
 				{
@@ -274,6 +341,9 @@ namespace OpenRA.Graphics
 				return new Size(0, 0);
 			}
 
+			if (!string.IsNullOrEmpty(collection.Generator))
+				return GeneratedArt(collection.Generator).PanelMinimumSizes.TryGetValue(collectionName, out var size) ? size : new Size(0, 0);
+
 			if (collection.PanelRegion == null || collection.PanelRegion.Length != 8)
 			{
 				Log.Write("debug", $"Collection '{collectionName}' does not define a valid PanelRegion");
@@ -300,6 +370,7 @@ namespace OpenRA.Graphics
 			cachedSprites.Clear();
 			cachedPanelSprites.Clear();
 			cachedCollectionSheets.Clear();
+			Version++;
 		}
 	}
 }

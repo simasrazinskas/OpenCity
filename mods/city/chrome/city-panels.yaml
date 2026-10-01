@@ -1,10 +1,10 @@
 # City HUD panels (budget, info views, building info, new city). Owned by the UI work package.
 # CityHudLogic loads the in-game panels into PLAYER_WIDGETS; the templates are cloned by their panel logic.
 
-Background@CITY_INFOVIEWS_PANEL:
+CityPanel@CITY_INFOVIEWS_PANEL:
 	Logic: CityInfoViewsLogic
-	X: (WINDOW_WIDTH - 226 - WIDTH) / 2
-	Y: WINDOW_HEIGHT - HEIGHT - 52
+	Placement: BottomCenter
+	Avoid: CITY_ADVISOR_PANEL
 	Width: 556
 	Height: 308
 	Background: dialog
@@ -38,7 +38,7 @@ Background@CITY_INFOVIEWS_PANEL:
 			Y: 216
 			Width: 120
 			Height: 18
-			Font: TinyBold
+			Font: Small
 			Shadow: true
 		Label@LEGEND_DESC:
 			X: 132
@@ -53,7 +53,7 @@ Background@CITY_INFOVIEWS_PANEL:
 			Y: 216
 			Width: 120
 			Height: 18
-			Font: TinyBold
+			Font: Small
 			Align: Right
 			Shadow: true
 		Container@SUMMARY:
@@ -71,6 +71,22 @@ Background@CITY_INFOVIEWS_PANEL:
 			Width: PARENT_WIDTH - 24
 			Height: 90
 			Visible: false
+
+Background@CITY_TOOLTIP:
+	Logic: CityTooltipLogic
+	Background: dialog4
+	Height: 32
+	Children:
+		Label@TITLE:
+			X: 8
+			Y: 4
+			Height: 20
+			Font: Bold
+		Label@BODY:
+			X: 8
+			Font: Small
+			VAlign: Top
+			TextColor: D8E0E6
 
 Background@CITY_FACTOR_TOOLTIP:
 	Logic: CityFactorTooltipLogic
@@ -139,6 +155,8 @@ Container@CITY_SLIDER_ROW:
 			Width: 150
 			Height: 26
 			Font: Regular
+			Align: Left
+			LeftMargin: 4
 		CitySlider@SLIDER:
 			X: 158
 			Y: 3
@@ -152,10 +170,10 @@ Container@CITY_SLIDER_ROW:
 			Align: Right
 			Shadow: true
 
-Background@CITY_BUDGET_PANEL:
+CityPanel@CITY_BUDGET_PANEL:
 	Logic: CityBudgetLogic
-	X: (WINDOW_WIDTH - 226 - WIDTH) / 2
-	Y: (WINDOW_HEIGHT - HEIGHT) / 2 - 24
+	Placement: Center
+	Avoid: CITY_ADVISOR_PANEL
 	Width: 600
 	Height: 520
 	Background: dialog
@@ -315,12 +333,14 @@ Background@CITY_BUDGET_PANEL:
 				Label@FEES_HINT:
 					Y: 24
 					Width: PARENT_WIDTH
-					Height: 18
+					Height: 32
 					Font: Small
+					WordWrap: true
+					VAlign: Top
 					TextColor: B4C4D0
 					Text: label-budget-fees-hint
 				Container@FEE_ROWS:
-					Y: 50
+					Y: 60
 					Width: PARENT_WIDTH
 					Height: 200
 		Container@PAGE_LOAN:
@@ -365,27 +385,26 @@ Background@CITY_BUDGET_PANEL:
 					Text: label-budget-loan-note
 
 Container@CITY_INFO_ROW:
-	Width: 256
+	Width: PARENT_WIDTH
 	Height: 20
 	Children:
 		Label@NAME:
-			Width: 120
+			Width: PARENT_WIDTH * 11 / 20
 			Height: 20
 			Font: Small
 			TextColor: B4C4D0
 			Shadow: true
 		Label@VALUE:
-			X: 110
-			Width: 142
+			X: PARENT_WIDTH * 2 / 5
+			Width: PARENT_WIDTH * 3 / 5
 			Height: 20
 			Font: Bold
 			Align: Right
 			Shadow: true
 
-Background@CITY_BUILDING_PANEL:
+CityPanel@CITY_BUILDING_PANEL:
 	Logic: CityBuildingInfoLogic
-	X: WINDOW_WIDTH - 226 - WIDTH - 8
-	Y: 8
+	Placement: TopRight
 	Width: 280
 	Height: 220
 	Background: dialog
@@ -436,11 +455,11 @@ Background@CITY_BUILDING_PANEL:
 							Height: 20
 							Font: Small
 
-Background@CITY_CITIZEN_PANEL:
+CityPanel@CITY_CITIZEN_PANEL:
 	Logic: CityCitizenInfoLogic
-	X: WINDOW_WIDTH - 226 - 8 - 280 - 8 - WIDTH
-	Y: 8
-	Width: 270
+	Placement: TopRight
+	LeftOf: CITY_BUILDING_PANEL
+	Width: 280
 	Height: 262
 	Background: dialog
 	Visible: false
@@ -461,16 +480,16 @@ Background@CITY_CITIZEN_PANEL:
 			TextColor: B4C4D0
 			Shadow: true
 		Button@CLOSE:
-			X: PARENT_WIDTH - 40
-			Y: 6
-			Width: 30
-			Height: 26
+			X: PARENT_WIDTH - 36
+			Y: 8
+			Width: 28
+			Height: 24
 			TooltipText: button-budget-close
 			TooltipContainer: TOOLTIP_CONTAINER
 			Children:
 				Image@ICON:
-					X: 0
-					Y: 0
+					X: 6
+					Y: 4
 					ImageCollection: city-icons-small
 					ImageName: close
 		Container@ROWS:
@@ -537,7 +556,7 @@ Background@CITY_NEWGAME_PANEL:
 							Y: 22
 							Width: PARENT_WIDTH - 20
 							Height: 16
-							Font: Tiny
+							Font: Small
 		Background@PREVIEW_BG:
 			X: 324
 			Y: 56

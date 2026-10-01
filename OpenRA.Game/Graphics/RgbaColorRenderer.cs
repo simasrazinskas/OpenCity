@@ -195,9 +195,63 @@ namespace OpenRA.Graphics
 
 		public void DrawRect(in Vector3 tl, in Vector3 br, float width, Color color, BlendMode blendMode = BlendMode.Alpha)
 		{
+			// The stroke is centred on the rectangle edges, which are offset by half a pixel like other lines
+			if (parent.PixelSnapScale > 0 && tl.X <= br.X && tl.Y <= br.Y)
+			{
+				var outset = new Vector3(width / 2, width / 2, 0);
+				DrawFrame(tl - outset + Offset, br + outset + Offset, width, color, blendMode);
+				return;
+			}
+
 			var tr = new Vector3(br.X, tl.Y, tl.Z);
 			var bl = new Vector3(tl.X, br.Y, br.Z);
 			DrawPolygon([tl, tr, br, bl], width, color, blendMode);
+		}
+
+		/// <summary>
+		/// Draws a rectangular frame of the given thickness inside the outer edges <paramref name="tl"/> - <paramref name="br"/>.
+		/// In the UI pass the frame is built on the device pixel grid so all four sides have the same whole-pixel thickness.
+		/// </summary>
+		public void DrawFrame(in Vector3 tl, in Vector3 br, float thickness, Color color, BlendMode blendMode = BlendMode.Alpha)
+		{
+			var s = parent.PixelSnapScale;
+			if (s <= 0)
+			{
+				FrameQuads(tl.X, tl.Y, br.X, br.Y, thickness, tl.Z, color, blendMode);
+				return;
+			}
+
+			var x0 = PixelSnap.ToDevice(tl.X, s);
+			var y0 = PixelSnap.ToDevice(tl.Y, s);
+			var x1 = PixelSnap.ToDevice(br.X, s);
+			var y1 = PixelSnap.ToDevice(br.Y, s);
+			var n = Math.Abs(PixelSnap.DeviceLength(thickness, s));
+			FrameQuads(x0 / s, y0 / s, x1 / s, y1 / s, n / s, tl.Z, color, blendMode);
+		}
+
+		void FrameQuads(float x0, float y0, float x1, float y1, float t, float z, Color color, BlendMode blendMode)
+		{
+			// Solid if the sides would meet
+			if (x1 - x0 <= 2 * t || y1 - y0 <= 2 * t)
+			{
+				Quad(x0, y0, x1, y1, z, color, blendMode);
+				return;
+			}
+
+			Quad(x0, y0, x1, y0 + t, z, color, blendMode);
+			Quad(x0, y1 - t, x1, y1, z, color, blendMode);
+			Quad(x0, y0 + t, x0 + t, y1 - t, z, color, blendMode);
+			Quad(x1 - t, y0 + t, x1, y1 - t, z, color, blendMode);
+		}
+
+		void Quad(float x0, float y0, float x1, float y1, float z, Color color, BlendMode blendMode)
+		{
+			var c = Util.PremultiplyAlpha(color).ToVector4();
+			vertices[0] = new Vertex(new Vector3(x0, y0, z), c.X, c.Y, c.Z, c.W, 0);
+			vertices[1] = new Vertex(new Vector3(x1, y0, z), c.X, c.Y, c.Z, c.W, 0);
+			vertices[2] = new Vertex(new Vector3(x1, y1, z), c.X, c.Y, c.Z, c.W, 0);
+			vertices[3] = new Vertex(new Vector3(x0, y1, z), c.X, c.Y, c.Z, c.W, 0);
+			parent.DrawRGBAQuad(vertices, blendMode);
 		}
 
 		public void FillRect(in Vector3 tl, in Vector3 br, Color color, BlendMode blendMode = BlendMode.Alpha)

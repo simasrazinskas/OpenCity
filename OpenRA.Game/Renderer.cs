@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Threading;
@@ -56,7 +57,7 @@ namespace OpenRA
 		Sheet worldSheet;
 		Sprite worldSprite;
 		Size lastMaximumViewportSize;
-		Size lastWorldViewportSize;
+		Vector2 worldSpriteScale = Vector2.One;
 
 		public Size WorldFrameBufferSize => worldSheet.Size;
 		public int WorldDownscaleFactor { get; private set; } = 1;
@@ -79,7 +80,6 @@ namespace OpenRA
 		Size lastBufferSize = new(-1, -1);
 
 		Rectangle lastWorldViewport;
-		Vector2 lastViewportLocation;
 		ITexture currentPaletteTexture;
 		int currentPaletteHeight = 0;
 		IBatchRenderer currentBatchRenderer;
@@ -121,9 +121,27 @@ namespace OpenRA
 			return new Size(size.X, size.Y);
 		}
 
+		/// <summary>
+		/// Changes the UI scale. Fonts, chrome and the world buffer are updated immediately so that the UI can be laid out
+		/// again right away (see Ui.Relayout).
+		/// </summary>
 		public void SetUIScale(float scale)
 		{
 			Window.SetScaleModifier(scale);
+			ApplyWindowScale(Window.EffectiveWindowScale);
+		}
+
+		void ApplyWindowScale(float effectiveScale)
+		{
+			// Recalculate downscaling factor for the new window scale (once a world has set up its buffer)
+			if (lastMaximumViewportSize.Width > 0 && lastMaximumViewportSize.Height > 0)
+				SetMaximumViewportSize(lastMaximumViewportSize);
+
+			ChromeProvider.SetDPIScale(effectiveScale);
+
+			if (Fonts != null)
+				foreach (var f in Fonts)
+					f.Value.SetScale(effectiveScale);
 		}
 
 		public void InitializeFonts(ModData modData)
@@ -135,25 +153,29 @@ namespace OpenRA
 			{
 				fontSheetBuilder?.Dispose();
 				fontSheetBuilder = new SheetBuilder(SheetType.BGRA, modData.Manifest.RendererConstants.FontSheetSize);
+				byte[] ReadFile(string file) => modData.DefaultFileSystem.Open(file).ReadAllBytes();
 				Fonts = modData.GetOrCreate<Fonts>().FontList.ToDictionary(x => x.Key,
 					x => new SpriteFont(
-						platform, x.Value.Font, modData.DefaultFileSystem.Open(x.Value.Font).ReadAllBytes(),
-						x.Value.Size, x.Value.Ascender, Window.EffectiveWindowScale, fontSheetBuilder));
+						platform, x.Value.Font, ReadFile(x.Value.Font),
+						x.Value.Size, x.Value.Ascender, Window.EffectiveWindowScale, fontSheetBuilder,
+						x.Value.PixelFaces.Select(f => PixelFace.Parse(platform, f, ReadFile)).ToArray(), new PixelFontMetrics
+						{
+							Bold = x.Value.PixelBold,
+							CapRatio = x.Value.PixelCapRatio,
+							AdvanceRatio = x.Value.PixelAdvanceRatio,
+							WidthLimit = x.Value.PixelWidthLimit,
+							SizeTolerance = x.Value.PixelSizeTolerance,
+							MinCapHeight = x.Value.PixelMinCapHeight
+						}));
+
+				foreach (var f in modData.GetOrCreate<Fonts>().FontList)
+					if (f.Value.PixelLargerThan != null)
+						Fonts[f.Key].SetLargerThan(Fonts.TryGetValue(f.Value.PixelLargerThan, out var other) ? other
+							: throw new InvalidDataException($"Font {f.Key}: PixelLargerThan font `{f.Value.PixelLargerThan}` does not exist."));
 			}
 
 			Window.OnWindowScaleChanged += (oldNative, oldEffective, newNative, newEffective) =>
-			{
-				Game.RunAfterTick(() =>
-				{
-					// Recalculate downscaling factor for the new window scale
-					SetMaximumViewportSize(lastMaximumViewportSize);
-
-					ChromeProvider.SetDPIScale(newEffective);
-
-					foreach (var f in Fonts)
-						f.Value.SetScale(newEffective);
-				});
-			};
+				Game.RunAfterTick(() => ApplyWindowScale(newEffective));
 		}
 
 		public void SetDepthMargin(float depthMargin)
@@ -234,7 +256,13 @@ namespace OpenRA
 			lastMaximumViewportSize = size;
 		}
 
-		public void BeginWorld(Vector2 viewportLocation, Size viewportSize)
+		/// <summary>
+		/// Starts rendering the world into the world frame buffer.
+		/// <paramref name="zoom"/> is the number of native window pixels per world pixel (the viewport zoom); it is
+		/// used to scale the world buffer onto the screen exactly, so whole zooms stay pixel-perfect at any UI scale.
+		/// A value of 0 derives it from the viewport size instead.
+		/// </summary>
+		public void BeginWorld(Vector2 viewportLocation, Size viewportSize, float zoom = 0f)
 		{
 			if (renderType != RenderType.None)
 				throw new InvalidOperationException($"BeginWorld called with renderType = {renderType}, expected RenderType.None.");
@@ -244,33 +272,41 @@ namespace OpenRA
 			if (worldSheet == null)
 				throw new InvalidOperationException("BeginWorld called before SetMaximumViewportSize has been set.");
 
+			if (zoom <= 0f)
+				zoom = (float)Window.NativeWindowSize.Width / Math.Max(1, viewportSize.Width);
+
+			// The world sprite is cheap to rebuild, and depends on the scroll position, zoom, window size and UI scale.
 			var centerLocation = int2.FromVector(viewportLocation);
-			if (worldSprite == null || viewportSize != lastWorldViewportSize || viewportLocation != lastViewportLocation)
-			{
-				lastViewportLocation = viewportLocation;
-				lastWorldViewportSize = viewportSize;
 
-				// Downscale world rendering if needed to fit within the framebuffer
-				var vw = viewportSize.Width;
-				var vh = viewportSize.Height;
-				var bw = worldSheet.Size.Width;
-				var bh = worldSheet.Size.Height;
-				WorldDownscaleFactor = 1;
-				while (vw / WorldDownscaleFactor > bw || vh / WorldDownscaleFactor > bh)
-					WorldDownscaleFactor++;
+			// Downscale world rendering if needed to fit within the framebuffer
+			var vw = viewportSize.Width;
+			var vh = viewportSize.Height;
+			var bw = worldSheet.Size.Width;
+			var bh = worldSheet.Size.Height;
+			WorldDownscaleFactor = 1;
+			while (vw / WorldDownscaleFactor > bw || vh / WorldDownscaleFactor > bh)
+				WorldDownscaleFactor++;
 
-				// We need to add 1 to scroll in order to handle interpixel 0-0.99 fractionalOffset.
-				var s = new Size(vw / WorldDownscaleFactor + 1, vh / WorldDownscaleFactor + 1);
-				var fractionalOffset = centerLocation.ToVector2() - viewportLocation;
+			// Add 2 pixels: one for the interpixel 0-0.99 fractional offset and one because the
+			// viewport size is truncated, so that the buffer always covers the far window edges.
+			var s = new Size(Math.Min(vw / WorldDownscaleFactor + 2, bw), Math.Min(vh / WorldDownscaleFactor + 2, bh));
 
-				// If scaling by an integer factor (including 1:1) we must round the offset
-				// to an integer number of screen-space pixels to preserve sharp pixel edges
-				var renderScale = screenSprite.Size.X / (s.Width - 1f);
-				if (float.IsInteger(renderScale))
-					fractionalOffset = Vector2.Round(fractionalOffset * renderScale) / renderScale;
+			// Window surface pixels per world buffer pixel.
+			var surfaceScale = zoom * WorldDownscaleFactor * screenSprite.Bounds.Width / Math.Max(1, Window.NativeWindowSize.Width);
 
-				worldSprite = new Sprite(worldSheet, new Rectangle(int2.Zero, s), 0, fractionalOffset.AsVector3(), TextureChannel.RGBA);
-			}
+			// Snap the sub-pixel scroll offset to whole surface pixels so that pixel edges stay in a fixed
+			// phase with the screen at every zoom: this avoids shimmering and swimming seams while panning.
+			var fractionalOffset = (centerLocation.ToVector2() - viewportLocation) / WorldDownscaleFactor;
+			fractionalOffset = Vector2.Round(fractionalOffset * surfaceScale) / surfaceScale;
+
+			worldSprite = new Sprite(worldSheet, new Rectangle(int2.Zero, s), 0, fractionalOffset.AsVector3(), TextureChannel.RGBA);
+
+			// The UI pass maps its (whole number sized) viewport onto the surface buffer, so at fractional UI scales one
+			// UI unit is not exactly EffectiveWindowScale surface pixels: use the real ratio to keep the world pixel-exact.
+			var surfaceBufferSize = Window.SurfaceSize.NextPowerOf2();
+			worldSpriteScale = new Vector2(
+				surfaceScale * lastBufferSize.Width / surfaceBufferSize.Width,
+				surfaceScale * lastBufferSize.Height / surfaceBufferSize.Height);
 
 			worldBuffer.Bind();
 			var rect = new Rectangle(centerLocation, viewportSize);
@@ -292,16 +328,11 @@ namespace OpenRA
 				Flush();
 				worldBuffer.Unbind();
 
-				// Render the world buffer into the UI buffer
+				// Render the world buffer into the UI buffer at exactly the viewport zoom (UI units per world buffer pixel).
+				// The pixel art filter keeps whole zooms nearest-neighbour sharp, gives fractional zooms a one pixel
+				// anti-aliased edge (sharp bilinear) and area-averages when zoomed out.
 				screenBuffer.Bind();
-
-				var scale = Window.EffectiveWindowScale;
-
-				// We added 1 to worldSprite now we need to subtract.
-				var bufferScale = new Vector3(
-					(int)(screenSprite.Bounds.Width / scale) / (worldSprite.Size.X - 1),
-					(int)(-screenSprite.Bounds.Height / scale) / (worldSprite.Size.Y - 1),
-					1f);
+				var bufferScale = new Vector3(worldSpriteScale, 1f);
 
 				SpriteRenderer.EnablePixelArtScaling(true);
 				RgbaSpriteRenderer.DrawSprite(worldSprite, Vector3.Zero, bufferScale);
@@ -314,6 +345,9 @@ namespace OpenRA
 				BeginFrame();
 				screenBuffer.Bind();
 			}
+
+			// Snap UI geometry to whole device pixels so that fractional UI scales stay crisp
+			SpriteRenderer.PixelSnapScale = Window.EffectiveWindowScale;
 
 			renderType = RenderType.UI;
 		}
@@ -343,6 +377,7 @@ namespace OpenRA
 				throw new InvalidOperationException($"EndFrame called with renderType = {renderType}, expected RenderType.UI.");
 
 			Flush();
+			SpriteRenderer.PixelSnapScale = 0;
 
 			screenBuffer.Unbind();
 
@@ -388,6 +423,10 @@ namespace OpenRA
 		public Size NativeResolution => Window.NativeWindowSize;
 		public float WindowScale => Window.EffectiveWindowScale;
 		public float NativeWindowScale => Window.NativeWindowScale;
+
+		/// <summary>The UI scale currently applied (may be smaller than the Graphics.UIScale setting if the window is too small for it).</summary>
+		public float UIScale => Window.EffectiveWindowScale / Window.NativeWindowScale;
+
 		public GLProfile GLProfile => Window.GLProfile;
 		public GLProfile[] SupportedGLProfiles => Window.SupportedGLProfiles;
 

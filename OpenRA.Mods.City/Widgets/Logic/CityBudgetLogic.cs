@@ -122,13 +122,16 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				("loan", TabLoan, () => ctx.EconomyUi != null)
 			};
 
+			// The tabs share the row evenly.
 			var x = 0;
+			var tabWidth = (container.Bounds.Width - (tabs.Count - 1) * 4) / tabs.Count;
 			foreach (var (id, key, available) in tabs)
 			{
 				var tab = id;
 				var button = Game.LoadWidget(world, "CITY_INFOVIEW_ITEM", container, []) as ButtonWidget;
+				button.Id = "BUDGET_TAB_" + id.ToUpperInvariant();
 				button.Bounds.X = x;
-				button.Bounds.Width = 108;
+				button.Bounds.Width = tabWidth;
 				button.Bounds.Height = 28;
 				var text = FluentProvider.GetMessage(key);
 				button.GetText = () => text;
@@ -136,7 +139,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				button.IsVisible = available;
 				button.OnClick = () => ShowPage(tab);
 				tabButtons[id] = button;
-				x += 112;
+				x += tabWidth + 4;
 			}
 		}
 

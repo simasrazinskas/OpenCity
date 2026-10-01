@@ -14,7 +14,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using OpenRA.Graphics;
+using OpenRA.Mods.Common.Widgets;
 using OpenRA.Traits;
+using OpenRA.Widgets;
 
 namespace OpenRA.Mods.City.Traits
 {
@@ -22,13 +24,17 @@ namespace OpenRA.Mods.City.Traits
 	[Desc("Developer harness: when the OPENCITY_AUTOTEST environment variable is set, builds a test city through",
 		"real player orders, logs city stats, takes screenshots and exits. Does nothing otherwise.",
 		"OPENCITY_AUTOTEST format: semicolon-separated key=value pairs, e.g.",
-		"'ticks=3000;shots=100,1500,3000;timestep=5;log=250;scenario=basic'.")]
+		"'ticks=3000;shots=100,1500,3000;timestep=5;log=250;scenario=basic'.",
+		"shotui=a,b,... opens UI per shot (n-th entry before the n-th shot; join several actions with '+'): a panel name",
+		"('budget' = CITY_BUDGET_PANEL), a widget id ('CITY_TILES_PANEL'), 'select:<actor type>', 'citizen', 'vehicle',",
+		"'click:<BUTTON_ID>' (presses a button anywhere in the UI), 'key:<HotkeyName>', 'hover:<ID>[@x/y]', 'close' (closes the top window) or 'none'. 'audit=1' reports",
+		"clipped text and widgets outside their parent after each shot.")]
 	public class CityAutoTestInfo : TraitInfo
 	{
 		public override object Create(ActorInitializer init) { return new CityAutoTest(); }
 	}
 
-	public class CityAutoTest : IWorldLoaded, ITick
+	public partial class CityAutoTest : IWorldLoaded, ITick
 	{
 		bool enabled;
 		int endTick = 3000;
@@ -40,12 +46,26 @@ namespace OpenRA.Mods.City.Traits
 		CityInfoView shotView;
 		(int U, int V) shotCenter = (14, 0);
 		readonly HashSet<int> shotTicks = [];
+		readonly List<string> shotUi = [];
+		readonly HashSet<string> audited = [];
+		int2? hoverAt;
+		bool audit;
+		int shotIndex;
 		WorldRenderer worldRenderer;
 		CPos anchor;
 		bool issued;
 		bool menuOnly;
 		readonly List<(int Tick, string Name, Action<World, Player> Run)> scheduled = [];
+
+		// click=<tick>:<WIDGET_ID>,...: presses buttons at the given ticks (see also ui=)
+		readonly List<(int Tick, string Widget)> clicks = [];
+
+		// mouse=<x>,<y>: where the pointer is parked for screenshots (logical pixels, negative = from the right/bottom)
+		int2? mousePos;
 		bool reportedGameOver;
+		readonly List<string> uiClicks = [];
+		float liveUIScale;
+		bool logFonts;
 
 		void IWorldLoaded.WorldLoaded(World w, WorldRenderer wr)
 		{
@@ -79,6 +99,23 @@ namespace OpenRA.Mods.City.Traits
 						shotCenter = (int.Parse(uv[0], CultureInfo.InvariantCulture), int.Parse(uv[1], CultureInfo.InvariantCulture));
 						break;
 					case "view": shotView = Enum.Parse<CityInfoView>(parts[1].Trim(), true); break;
+					case "shotui": shotUi.AddRange(parts[1].Split(',')); break;
+					case "audit": audit = parts[1].Trim() == "1"; break;
+					case "click":
+						foreach (var c in parts[1].Split(',', StringSplitOptions.RemoveEmptyEntries))
+						{
+							var tw = c.Split(':', 2);
+							clicks.Add((int.Parse(tw[0], CultureInfo.InvariantCulture), tw[1].Trim()));
+						}
+
+						break;
+					case "mouse":
+						var xy = parts[1].Split(',');
+						mousePos = new int2(int.Parse(xy[0], CultureInfo.InvariantCulture), int.Parse(xy[1], CultureInfo.InvariantCulture));
+						break;
+					case "ui": uiClicks.AddRange(parts[1].Split(',', StringSplitOptions.RemoveEmptyEntries)); break;
+					case "fonts": logFonts = parts[1].Trim() == "1"; break;
+					case "uiscale": liveUIScale = float.Parse(parts[1], CultureInfo.InvariantCulture); break;
 					case "shots":
 						foreach (var s in parts[1].Split(',', StringSplitOptions.RemoveEmptyEntries))
 							shotTicks.Add(int.Parse(s, CultureInfo.InvariantCulture));
@@ -93,6 +130,34 @@ namespace OpenRA.Mods.City.Traits
 				anchor = new MPos(w.Map.Bounds.Left + w.Map.Bounds.Width / 2, w.Map.Bounds.Top + w.Map.Bounds.Height / 2).ToCPos(w.Map);
 
 			Report(w, $"autotest enabled: scenario={scenario} ticks={endTick} anchor={anchor}");
+		}
+
+		/// <summary>UI-only test steps (button clicks); they run outside the tick, like player input.</summary>
+		void RunUiSteps(World w, int tick)
+		{
+			foreach (var (_, id) in clicks.Where(c => c.Tick == tick))
+			{
+				Game.RunAfterTick(() =>
+				{
+					var button = FindButton(Ui.Root, id);
+					if (button == null)
+						Report(w, $"click: no button `{id}`");
+					else
+					{
+						button.OnClick();
+						Report(w, $"click: {id}");
+					}
+				});
+			}
+		}
+
+		int2 MousePosition(int2 fallback)
+		{
+			if (mousePos is not int2 p)
+				return fallback;
+
+			var r = Game.Renderer.Resolution;
+			return new int2(p.X < 0 ? r.Width + p.X : p.X, p.Y < 0 ? r.Height + p.Y : p.Y);
 		}
 
 		void ITick.Tick(Actor self)
@@ -118,6 +183,11 @@ namespace OpenRA.Mods.City.Traits
 					Report(w, "REPLAY ENDED EARLY OR WENT OUT OF SYNC");
 				}
 
+				// The mayor re-derives its decisions from synced state without issuing orders (they come from the replay),
+				// so its 'report mayor' lines can be compared with the recording run.
+				if (scenario == "automayor")
+					MayorTick(w, w.Players.FirstOrDefault(pl => pl.Playable));
+
 				if (tick % logInterval == 0)
 					LogStats(w);
 
@@ -131,10 +201,50 @@ namespace OpenRA.Mods.City.Traits
 				return;
 			}
 
+			RunUiSteps(w, tick);
+
+			// Hover the parked pointer like a real mouse move, so hover states and tooltips show up in the shots
+			if (mousePos != null)
+			{
+				Game.RunAfterTick(() =>
+				{
+					var p = MousePosition(Viewport.LastMousePos);
+					Viewport.LastMousePos = p;
+					Ui.HandleInput(new MouseInput(MouseInputEvent.Move, MouseButton.None, p, int2.Zero, Modifiers.None, 0));
+				});
+			}
+
+			// "ui=ID1,ID2": click the visible buttons with these widget ids, one every 10 ticks from tick 20 (e.g. to open dialogs).
+			if (tick >= 20 && tick % 10 == 0 && (tick - 20) / 10 < uiClicks.Count)
+			{
+				var id = uiClicks[(tick - 20) / 10].Trim();
+				Game.RunAfterTick(() => ClickButton(w, id));
+			}
+
+			// "fonts=1": log the pixel face and multiple that each font uses at the current UI scale.
+			if (tick == 25 && logFonts)
+				foreach (var f in Game.Renderer.Fonts.OrderBy(f => f.Key, StringComparer.Ordinal))
+					if (f.Value.IsPixelFont)
+						Report(w, $"font {f.Key}: grid {f.Value.CurrentPixelFace.Grid}{(f.Value.CurrentPixelFace.IsBold ? " bold" : "")}"
+							+ $" x{f.Value.PixelScale} cap {f.Value.CurrentPixelFace.CapHeight * f.Value.PixelScale}px at scale {Game.Renderer.WindowScale}");
+
+			// "uiscale=1.5": change the UI scale live at tick 45 (after any ui= clicks), like releasing the settings slider does.
+			if (tick == 45 && liveUIScale > 0)
+			{
+				Mods.Common.Widgets.Logic.DisplaySettingsLogic.ApplyUIScale(Game.Settings.Graphics, liveUIScale);
+				Report(w, $"ui: scale set to {liveUIScale}");
+			}
+
 			if (menuOnly)
 			{
 				if (shotTicks.Contains(tick))
-					Game.RunAfterTick(Game.TakeScreenshot);
+				{
+					var ui = shotIndex < shotUi.Count ? shotUi[shotIndex] : null;
+					shotIndex++;
+					Game.RunAfterTick(() => ApplyUi(w, ui));
+					Game.RunAfterDelay(200, Game.TakeScreenshot);
+					Game.RunAfterDelay(250, () => Audit(w, ui));
+				}
 
 				if (tick >= endTick)
 				{
@@ -164,6 +274,9 @@ namespace OpenRA.Mods.City.Traits
 				Report(w, $"scenario step '{name}' issued");
 			}
 
+			if (scenario == "automayor" && w.LocalPlayer != null)
+				MayorTick(w, w.LocalPlayer);
+
 			if (tick % logInterval == 0)
 				LogStats(w);
 
@@ -171,18 +284,24 @@ namespace OpenRA.Mods.City.Traits
 			{
 				var viewport = worldRenderer.Viewport;
 				if (shotZoom > 0)
-					viewport.AdjustZoom((float)Math.Log(shotZoom / viewport.Zoom));
+					viewport.SetZoom(shotZoom);
 
 				viewport.Center(w.Map.CenterOfCell(At(shotCenter.U, shotCenter.V)));
-				Game.RunAfterTick(() =>
+				var ui = shotIndex < shotUi.Count ? shotUi[shotIndex] : null;
+				shotIndex++;
+				Game.RunAfterTick(() => Sync.RunUnsynced(w, () => ApplyUi(w, ui)));
+
+				// Opened panels fill their lists on their first UI tick: give them a few frames before the shot.
+				Game.RunAfterDelay(string.IsNullOrWhiteSpace(ui) ? 0 : 120, () =>
 				{
 					// Order generators may only be swapped outside synced code.
 					if (probe != null)
 						Sync.RunUnsynced(w, () => ActivateProbe(w));
 					else
 					{
-						// Park the pointer on the HUD's bottom strip so no world tooltip shows up in the shot.
-						Viewport.LastMousePos = new int2(380, Game.Renderer.Resolution.Height - 20);
+						// Park the pointer on the HUD's bottom strip so no world tooltip shows up in the shot (unless "hover:" or "mouse=" put it somewhere).
+						Viewport.LastMousePos = hoverAt ?? MousePosition(new int2(380, Game.Renderer.Resolution.Height - 20));
+						hoverAt = null;
 					}
 
 					var infoView = w.WorldActor.TraitOrDefault<InfoViewLayer>();
@@ -190,6 +309,7 @@ namespace OpenRA.Mods.City.Traits
 						infoView.Mode = shotView;
 
 					Game.TakeScreenshot();
+					Game.RunAfterDelay(100, () => Audit(w, ui));
 				});
 				Report(w, $"screenshot requested at tick {tick}");
 			}
@@ -201,6 +321,148 @@ namespace OpenRA.Mods.City.Traits
 				Report(w, "autotest finished");
 				Game.RunAfterDelay(500, Game.Exit);
 			}
+		}
+
+		/// <summary>Opens the UI named by the "shotui=" entry of the current shot (panels close first; UI state only, nothing synced).</summary>
+		void ApplyUi(World w, string spec)
+		{
+			if (string.IsNullOrWhiteSpace(spec))
+				return;
+
+			var ctx = Widgets.CityUiContext.For(w);
+			foreach (var panel in w.Type == WorldType.Shellmap ? [] : PanelIds)
+				if (Ui.Root.GetOrNull(panel) is { } open)
+					open.Visible = false;
+
+			foreach (var raw in spec.Split('+', StringSplitOptions.RemoveEmptyEntries))
+			{
+				var action = raw.Trim();
+				if (action == "none")
+					continue;
+
+				if (action.StartsWith("select:", StringComparison.Ordinal))
+				{
+					var type = action["select:".Length..];
+					var actor = w.Actors.Where(a => a.Info.Name == type && a.IsInWorld).OrderBy(a => a.ActorID).FirstOrDefault();
+					if (actor != null)
+						w.Selection.Combine(w, [actor], false, true);
+
+					Report(w, $"ui select {type}: {(actor != null ? actor.ActorID.ToString(CultureInfo.InvariantCulture) : "none")}");
+				}
+				else if (action.StartsWith("click:", StringComparison.Ordinal))
+					ClickButton(w, action["click:".Length..]);
+				else if (action.StartsWith("hover:", StringComparison.Ordinal))
+				{
+					// Moves the pointer onto a widget (its centre, or "ID@x/y" for an offset inside it) so its tooltip shows.
+					var target = action["hover:".Length..].Split('@');
+					var widget = Ui.Root.GetOrNull(target[0]);
+					if (widget != null)
+					{
+						var rb = widget.RenderBounds;
+						var at = new int2(rb.X + rb.Width / 2, rb.Y + rb.Height / 2);
+						if (target.Length > 1 && target[1].Split('/') is [var hx, var hy])
+							at = new int2(rb.X + int.Parse(hx, CultureInfo.InvariantCulture), rb.Y + int.Parse(hy, CultureInfo.InvariantCulture));
+
+						hoverAt = at;
+						Viewport.LastMousePos = at;
+						Ui.HandleInput(new MouseInput(MouseInputEvent.Move, MouseButton.None, at, int2.Zero, Modifiers.None, 0));
+					}
+
+					Report(w, $"ui hover {target[0]}: {(widget != null ? "ok" : "not found")}");
+				}
+				else if (action.StartsWith("key:", StringComparison.Ordinal))
+				{
+					// Presses a hotkey by its name in the hotkey definitions (e.g. key:CityTiles).
+					var name = action["key:".Length..];
+					var hotkey = Game.ModData.Hotkeys[name].GetValue();
+					var handled = Ui.HandleKeyPress(new KeyInput { Event = KeyInputEvent.Down, Key = hotkey.Key, Modifiers = hotkey.Modifiers });
+					Ui.HandleKeyPress(new KeyInput { Event = KeyInputEvent.Up, Key = hotkey.Key, Modifiers = hotkey.Modifiers });
+					Report(w, $"ui key {name} ({hotkey}): {(handled ? "handled" : "not handled")}");
+				}
+				else if (action == "close")
+				{
+					Ui.CloseWindow();
+					Report(w, "ui close window");
+				}
+				else if (action == "citizen")
+				{
+					var citizens = ctx.Citizens;
+					var properties = ctx.Properties;
+					ctx.SelectedCitizen = citizens == null || properties == null ? 0 :
+						properties.All.SelectMany(p => citizens.ResidentsOf(p.Id)).FirstOrDefault();
+					Report(w, $"ui citizen {ctx.SelectedCitizen}");
+				}
+				else if (action == "vehicle")
+				{
+					var inspector = ctx.Get<IVehicleInspector>();
+					var center = worldRenderer.Viewport.CenterPosition;
+					if (inspector != null && inspector.TryGetVehicleAt(center, 1024 * 256, out var view))
+						ctx.SelectedVehicle = view.TripId;
+
+					Report(w, $"ui vehicle {ctx.SelectedVehicle}");
+				}
+				else
+				{
+					var id = action.Any(char.IsLower) ? "CITY_" + action.ToUpperInvariant() + "_PANEL" : action;
+					var widget = Ui.Root.GetOrNull(id);
+					if (widget != null)
+						widget.Visible = true;
+
+					Report(w, $"ui open {id}: {(widget != null ? "ok" : "not found")}");
+				}
+			}
+		}
+
+		/// <summary>"audit=1": reports clipped text and widgets outside their parent after each shot (each issue once per run).</summary>
+		void Audit(World w, string ui)
+		{
+			if (!audit)
+				return;
+
+			var issues = CityUiAudit.Run(Ui.Root);
+			var fresh = 0;
+			foreach (var issue in issues)
+				if (audited.Add(issue) && fresh++ < 80)
+					Report(w, $"audit [{ui ?? "none"}] {issue}");
+
+			Report(w, $"audit [{ui ?? "none"}] {issues.Count} issues ({fresh} new) at {Game.Renderer.Resolution.Width}x{Game.Renderer.Resolution.Height}");
+		}
+
+		static readonly string[] PanelIds =
+		[
+			"CITY_BUDGET_PANEL", "CITY_INFOVIEWS_PANEL", "CITY_STATS_PANEL", "CITY_CHIRPER_PANEL", "CITY_PRODUCTION_PANEL",
+			"CITY_POLICIES_PANEL", "CITY_PROGRESS_PANEL", "CITY_DISTRICTS_PANEL", "CITY_TRANSIT_PANEL", "CITY_ACHIEVEMENTS_PANEL"
+		];
+
+		static void ClickButton(World w, string id)
+		{
+			var button = FindButton(Ui.Root, id);
+			if (button == null)
+			{
+				Report(w, $"ui: no visible button '{id}'");
+				return;
+			}
+
+			button.OnClick();
+			Report(w, $"ui: clicked '{id}'");
+		}
+
+		static ButtonWidget FindButton(Widget parent, string id)
+		{
+			foreach (var c in parent.Children)
+			{
+				if (!c.IsVisible())
+					continue;
+
+				if (c.Id == id && c is ButtonWidget b && !b.IsDisabled())
+					return b;
+
+				var found = FindButton(c, id);
+				if (found != null)
+					return found;
+			}
+
+			return null;
 		}
 
 		/// <summary>Activates a placement tool with the pointer over a fixed cell, so screenshots show whether its preview lines up at any zoom.</summary>
@@ -257,6 +519,14 @@ namespace OpenRA.Mods.City.Traits
 
 			if (scenario == "full")
 				ScheduleFullScenario();
+
+			if (scenario == "automayor")
+			{
+				// The AutoMayor plays through real orders from its own tick hook (CityAutoTest.AutoMayor.cs).
+				w.IssueOrder(CityOrders.SetSpeedOrder(p, 3));
+				Report(w, "issued automayor start");
+				return;
+			}
 
 			if (scenario == "stress")
 			{

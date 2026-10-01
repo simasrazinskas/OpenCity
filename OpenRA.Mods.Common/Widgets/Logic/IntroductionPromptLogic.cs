@@ -153,18 +153,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 				modData, battlefieldCameraDropDown, viewportSizes, graphicSettings);
 			battlefieldCameraDropDown.GetText = () => battlefieldCameraLabel.Update(graphicSettings.ViewportDistance);
 
-			var uiScaleDropdown = widget.Get<DropDownButtonWidget>("UI_SCALE_DROPDOWN");
-			var uiScaleLabel = new CachedTransform<float, string>(s => $"{(int)(100 * s)}%");
-			uiScaleDropdown.OnMouseDown = _ => DisplaySettingsLogic.ShowUIScaleDropdown(uiScaleDropdown, graphicSettings);
-			uiScaleDropdown.GetText = () => uiScaleLabel.Update(graphicSettings.UIScale);
-
-			var minResolution = viewportSizes.MinEffectiveResolution;
-			var resolution = Game.Renderer.Resolution;
-			var disableUIScale = worldRenderer.World.Type != WorldType.Shellmap ||
-				resolution.Width * graphicSettings.UIScale < 1.25f * minResolution.Width ||
-				resolution.Height * graphicSettings.UIScale < 1.25f * minResolution.Height;
-
-			uiScaleDropdown.IsDisabled = () => disableUIScale;
+			DisplaySettingsLogic.BindUIScale(widget, graphicSettings, viewportSizes, worldRenderer.World.Type == WorldType.Shellmap);
 
 			SettingsUtils.BindCheckboxPref(widget, "CURSORDOUBLE_CHECKBOX", graphicSettings, "CursorDouble");
 

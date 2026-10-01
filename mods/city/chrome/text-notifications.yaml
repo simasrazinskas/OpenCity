@@ -1,0 +1,62 @@
+Container@CHAT_LINE_TEMPLATE:
+	Width: PARENT_WIDTH
+	Height: 16
+	Children:
+		Label@TIME:
+			X: 5
+			Width: 37
+			Height: 16
+			Shadow: True
+		Label@PREFIX:
+			X: 5
+			Height: 16
+			Shadow: True
+		ClientTooltipRegion@PROFILE_TOOLTIP:
+			Visible: false
+			TooltipContainer: TOOLTIP_CONTAINER
+			Template: ANONYMOUS_PLAYER_TOOLTIP
+		Label@TEXT:
+			X: 5
+			Height: 16
+			WordWrap: True
+			Shadow: True
+
+Container@SYSTEM_LINE_TEMPLATE:
+	Width: PARENT_WIDTH
+	Height: 16
+	Children:
+		Label@TIME:
+			X: 5
+			Width: 37
+			Height: 16
+			Shadow: True
+		Label@PREFIX:
+			X: 5
+			Height: 16
+			Shadow: True
+			TextColor: FFFF00
+		Label@TEXT:
+			X: 5
+			Height: 16
+			WordWrap: True
+			Shadow: True
+			TextColor: FFFF00
+
+# OpenCity: transient messages float over the busy world view, so each line gets a dark backdrop.
+Container@TRANSIENT_LINE_TEMPLATE:
+	Width: PARENT_WIDTH
+	Height: 18
+	Children:
+		Label@TIME:
+			X: 5
+			Width: 37
+			Height: 18
+			Shadow: True
+		CityTextBackdrop@BACKDROP:
+			Target: TEXT
+		Label@TEXT:
+			X: 5
+			Height: 18
+			WordWrap: True
+			Shadow: True
+			TextColor: E8F4F4

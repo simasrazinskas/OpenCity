@@ -10,7 +10,10 @@ Container@CITY_ALERTS:
 Button@CITY_ALERT_CHIP:
 	Width: 176
 	Height: 28
-	Font: TinyBold
+	Font: Small
+	LeftMargin: 16
+	RightMargin: 4
+	TooltipContainer: TOOLTIP_CONTAINER
 	Children:
 		ColorBlock@TIER:
 			X: 4
@@ -18,10 +21,9 @@ Button@CITY_ALERT_CHIP:
 			Width: 8
 			Height: 18
 
-Background@CITY_ADVISOR_PANEL:
+CityPanel@CITY_ADVISOR_PANEL:
 	Logic: CityAdvisorLogic
-	X: 8
-	Y: WINDOW_HEIGHT - HEIGHT - 52
+	Placement: BottomLeft
 	Width: 360
 	Height: 200
 	Background: dialog
@@ -30,22 +32,22 @@ Background@CITY_ADVISOR_PANEL:
 		Label@TITLE:
 			X: 12
 			Y: 8
-			Width: PARENT_WIDTH - 60
+			Width: PARENT_WIDTH - 156
 			Height: 22
 			Font: Bold
 			Shadow: true
 			TextColor: E8A030
 		Label@STEP:
-			X: PARENT_WIDTH - 108
+			X: PARENT_WIDTH - 140
 			Y: 8
-			Width: 66
+			Width: 98
 			Height: 22
-			Font: TinyBold
+			Font: Small
 			Align: Right
 			TextColor: B4C4D0
 		Button@CLOSE:
 			X: PARENT_WIDTH - 36
-			Y: 6
+			Y: 8
 			Width: 28
 			Height: 24
 			TooltipText: button-advisor-close
@@ -69,7 +71,7 @@ Background@CITY_ADVISOR_PANEL:
 			Y: 100
 			Width: PARENT_WIDTH - 24
 			Height: 46
-			Font: TinyBold
+			Font: Small
 			WordWrap: true
 			VAlign: Top
 			TextColor: 5CD67A
@@ -80,7 +82,7 @@ Background@CITY_ADVISOR_PANEL:
 			Height: 8
 		Button@LOCATE:
 			X: PARENT_WIDTH / 2 - 14
-			Y: PARENT_HEIGHT - 32
+			Y: 160
 			Width: 28
 			Height: 24
 			TooltipText: button-chirper-locate
@@ -93,18 +95,18 @@ Background@CITY_ADVISOR_PANEL:
 					ImageName: locate
 		Button@PREVIOUS:
 			X: 12
-			Y: PARENT_HEIGHT - 30
-			Width: 80
-			Height: 22
+			Y: 160
+			Width: 96
+			Height: 24
 			Text: button-advisor-previous
-			Font: TinyBold
+			Font: Regular
 		Button@NEXT:
-			X: PARENT_WIDTH - 92
-			Y: PARENT_HEIGHT - 30
-			Width: 80
-			Height: 22
+			X: PARENT_WIDTH - 108
+			Y: 160
+			Width: 96
+			Height: 24
 			Text: button-advisor-next
-			Font: TinyBold
+			Font: Regular
 
 Container@CITY_ACHIEVEMENT_ROW:
 	Width: PARENT_WIDTH
@@ -139,14 +141,14 @@ Container@CITY_ACHIEVEMENT_ROW:
 			Y: 26
 			Width: 120
 			Height: 16
-			Font: TinyBold
+			Font: Small
 			Align: Right
 			TextColor: F2C94C
 
-Background@CITY_ACHIEVEMENTS_PANEL:
+CityPanel@CITY_ACHIEVEMENTS_PANEL:
 	Logic: CityAchievementsLogic
-	X: (WINDOW_WIDTH - 226 - WIDTH) / 2
-	Y: (WINDOW_HEIGHT - HEIGHT) / 2 - 24
+	Placement: Center
+	Avoid: CITY_ADVISOR_PANEL
 	Width: 600
 	Height: 480
 	Background: dialog
@@ -188,10 +190,9 @@ Background@CITY_ACHIEVEMENTS_PANEL:
 			TopBottomSpacing: 2
 			ItemSpacing: 2
 
-Background@CITY_TILES_PANEL:
+CityPanel@CITY_TILES_PANEL:
 	Logic: CityTilesLogic
-	X: (WINDOW_WIDTH - 226 - WIDTH) / 2
-	Y: 44
+	Placement: TopCenter
 	Width: 400
 	Height: 132
 	Background: dialog
@@ -216,10 +217,9 @@ Background@CITY_TILES_PANEL:
 			Width: PARENT_WIDTH - 24
 			Height: 20
 
-Background@CITY_VEHICLE_PANEL:
+CityPanel@CITY_VEHICLE_PANEL:
 	Logic: CityVehicleLogic
-	X: 8
-	Y: 48
+	Placement: TopLeft
 	Width: 260
 	Height: 232
 	Background: dialog
@@ -233,8 +233,8 @@ Background@CITY_VEHICLE_PANEL:
 			Font: MediumBold
 			Shadow: true
 		Button@CLOSE:
-			X: PARENT_WIDTH - 40
-			Y: 6
+			X: PARENT_WIDTH - 36
+			Y: 8
 			Width: 28
 			Height: 24
 			TooltipText: button-budget-close

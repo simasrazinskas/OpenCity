@@ -4,6 +4,8 @@
 
 Player:
 	ServiceSimulation:
+		PatrolRelief: 5
+		WildfirePermille: 3
 
 World:
 	ServiceEffects:
@@ -79,7 +81,7 @@ powerplant-coal:
 		Upkeep: 400
 		PowerUse: 0
 		WaterUse: 2
-		MaxJobs: 20
+		MaxJobs: 10
 		Pollution: 70
 	UtilityProducer:
 		Power: 300
@@ -116,7 +118,7 @@ powerplant-gas:
 		Upkeep: 1100
 		PowerUse: 0
 		WaterUse: 3
-		MaxJobs: 30
+		MaxJobs: 15
 		Pollution: 35
 	UtilityProducer:
 		Power: 450
@@ -155,7 +157,7 @@ powerplant-nuclear:
 		Upkeep: 5000
 		PowerUse: 0
 		WaterUse: 40
-		MaxJobs: 60
+		MaxJobs: 30
 		Pollution: 10
 	UtilityProducer:
 		Power: 2000
@@ -263,7 +265,7 @@ incinerator:
 	Tooltip:
 		Name: actor-incinerator.name
 	CityPlaceable:
-		Cost: 55000
+		Cost: 20000
 		Category: garbage
 		DisplayOrder: 1
 		Description: actor-incinerator.description
@@ -272,7 +274,7 @@ incinerator:
 		Upkeep: 1300
 		PowerUse: 3
 		WaterUse: 2
-		MaxJobs: 25
+		MaxJobs: 14
 		Pollution: 40
 	UtilityProducer:
 		Power: 40
@@ -305,7 +307,7 @@ recycling:
 	Tooltip:
 		Name: actor-recycling.name
 	CityPlaceable:
-		Cost: 40000
+		Cost: 15000
 		Category: garbage
 		DisplayOrder: 2
 		Description: actor-recycling.description
@@ -314,7 +316,7 @@ recycling:
 		Upkeep: 1000
 		PowerUse: 3
 		WaterUse: 2
-		MaxJobs: 20
+		MaxJobs: 12
 		Pollution: 12
 	ServiceBuilding:
 		Kind: Garbage
@@ -348,7 +350,7 @@ clinic:
 		Upkeep: 300
 		PowerUse: 2
 		WaterUse: 2
-		MaxJobs: 15
+		MaxJobs: 10
 	ServiceBuilding:
 		Kind: Health
 		Capacity: 30
@@ -376,7 +378,7 @@ hospital:
 	Tooltip:
 		Name: actor-hospital.name
 	CityPlaceable:
-		Cost: 60000
+		Cost: 28000
 		Category: health
 		DisplayOrder: 1
 		Description: actor-hospital.description
@@ -385,7 +387,7 @@ hospital:
 		Upkeep: 2500
 		PowerUse: 4
 		WaterUse: 4
-		MaxJobs: 60
+		MaxJobs: 36
 	ServiceBuilding:
 		Kind: Health
 		Capacity: 200
@@ -490,7 +492,7 @@ school:
 		Upkeep: 350
 		PowerUse: 2
 		WaterUse: 1
-		MaxJobs: 15
+		MaxJobs: 10
 	ServiceBuilding:
 		Kind: Education
 		SchoolLevel: 1
@@ -517,7 +519,7 @@ highschool:
 	Tooltip:
 		Name: actor-highschool.name
 	CityPlaceable:
-		Cost: 25000
+		Cost: 15000
 		Category: education
 		DisplayOrder: 1
 		Description: actor-highschool.description
@@ -526,7 +528,7 @@ highschool:
 		Upkeep: 900
 		PowerUse: 3
 		WaterUse: 2
-		MaxJobs: 30
+		MaxJobs: 20
 	ServiceBuilding:
 		Kind: Education
 		SchoolLevel: 2
@@ -553,7 +555,7 @@ college:
 	Tooltip:
 		Name: actor-college.name
 	CityPlaceable:
-		Cost: 60000
+		Cost: 35000
 		Category: education
 		DisplayOrder: 2
 		Description: actor-college.description
@@ -562,7 +564,7 @@ college:
 		Upkeep: 1800
 		PowerUse: 4
 		WaterUse: 3
-		MaxJobs: 50
+		MaxJobs: 30
 	ServiceBuilding:
 		Kind: Education
 		SchoolLevel: 3
@@ -589,7 +591,7 @@ university:
 	Tooltip:
 		Name: actor-university.name
 	CityPlaceable:
-		Cost: 120000
+		Cost: 70000
 		Category: education
 		DisplayOrder: 3
 		Description: actor-university.description
@@ -598,7 +600,7 @@ university:
 		Upkeep: 3500
 		PowerUse: 6
 		WaterUse: 4
-		MaxJobs: 80
+		MaxJobs: 45
 	ServiceBuilding:
 		Kind: Education
 		SchoolLevel: 4
@@ -660,7 +662,7 @@ police:
 		Upkeep: 250
 		PowerUse: 2
 		WaterUse: 1
-		MaxJobs: 12
+		MaxJobs: 8
 	ServiceBuilding:
 		Kind: Police
 		Capacity: 8
@@ -688,7 +690,7 @@ police-hq:
 	Tooltip:
 		Name: actor-police-hq.name
 	CityPlaceable:
-		Cost: 40000
+		Cost: 20000
 		Category: police
 		DisplayOrder: 2
 		Description: actor-police-hq.description
@@ -697,7 +699,7 @@ police-hq:
 		Upkeep: 1400
 		PowerUse: 4
 		WaterUse: 2
-		MaxJobs: 50
+		MaxJobs: 30
 	ServiceBuilding:
 		Kind: Police
 		Capacity: 20
@@ -725,7 +727,7 @@ prison:
 	Tooltip:
 		Name: actor-prison.name
 	CityPlaceable:
-		Cost: 35000
+		Cost: 20000
 		Category: police
 		DisplayOrder: 3
 		Description: actor-prison.description
@@ -734,7 +736,7 @@ prison:
 		Upkeep: 1200
 		PowerUse: 3
 		WaterUse: 3
-		MaxJobs: 30
+		MaxJobs: 20
 	ServiceBuilding:
 		Kind: Police
 		Prison: true
@@ -912,7 +914,7 @@ postoffice:
 		Upkeep: 350
 		PowerUse: 2
 		WaterUse: 1
-		MaxJobs: 14
+		MaxJobs: 8
 	ServiceBuilding:
 		Kind: Post
 		Fleet: 3
@@ -933,7 +935,7 @@ sortingcenter:
 	Tooltip:
 		Name: actor-sortingcenter.name
 	CityPlaceable:
-		Cost: 60000
+		Cost: 30000
 		Category: comms
 		DisplayOrder: 1
 		Description: actor-sortingcenter.description
@@ -942,7 +944,7 @@ sortingcenter:
 		Upkeep: 1500
 		PowerUse: 4
 		WaterUse: 2
-		MaxJobs: 40
+		MaxJobs: 20
 	ServiceBuilding:
 		Kind: Post
 		Fleet: 6
@@ -1005,7 +1007,7 @@ cityhall:
 	Tooltip:
 		Name: actor-cityhall.name
 	CityPlaceable:
-		Cost: 30000
+		Cost: 20000
 		Category: admin
 		DisplayOrder: 0
 		Description: actor-cityhall.description
@@ -1014,7 +1016,7 @@ cityhall:
 		Upkeep: 1500
 		PowerUse: 3
 		WaterUse: 2
-		MaxJobs: 40
+		MaxJobs: 24
 	ServiceBuilding:
 		Kind: Admin
 		CityWide: true
@@ -1038,7 +1040,7 @@ welfare:
 		Upkeep: 700
 		PowerUse: 2
 		WaterUse: 1
-		MaxJobs: 20
+		MaxJobs: 12
 	ServiceBuilding:
 		Kind: Admin
 		Capacity: 3000

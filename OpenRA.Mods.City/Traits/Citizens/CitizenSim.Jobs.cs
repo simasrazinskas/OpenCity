@@ -274,33 +274,38 @@ namespace OpenRA.Mods.City.Traits
 		void BuyNow(int hh)
 		{
 			ref var h = ref hhs[hh];
-			var budget = h.Size * info.ShoppingCentsPerPerson;
-			var spend = Math.Min(budget, Math.Max(0, h.Cash));
-			if (spend <= 0)
+			var items = Math.Max(1, info.ShoppingItemsPerVisit);
+			var perItem = h.Size * info.ShoppingCentsPerPerson / items;
+			h.Spent = 0;
+			for (var item = 0; item < items; item++)
 			{
-				if (budget > 0)
-					unmetShopping++;
+				var spend = Math.Min(perItem, Math.Max(0, h.Cash));
+				if (spend <= 0)
+				{
+					if (perItem > 0)
+						unmetShopping++;
 
-				return;
+					return;
+				}
+
+				var charged = spend;
+				if (economy != null && economy.ConsumerResources.Count > 0)
+				{
+					var home = registry.Get(h.Home);
+					var res = economy.ConsumerResources[(Hash(hh, Today, 51) + item) % economy.ConsumerResources.Count];
+					var shop = home != null ? economy.FindShop(res, home.AccessRoad) : 0;
+					charged = 0;
+					if (shop != 0)
+						economy.SellToHousehold(shop, res, info.ShoppingUnitsMilliPerPerson * h.Size / items, spend, out charged);
+
+					if (charged <= 0)
+						unmetShopping++;
+				}
+
+				h.Cash -= charged;
+				spentCents += charged;
+				h.Spent += charged;
 			}
-
-			var charged = spend;
-			if (economy != null && economy.ConsumerResources.Count > 0)
-			{
-				var home = registry.Get(h.Home);
-				var res = economy.ConsumerResources[Hash(hh, Today, 51) % economy.ConsumerResources.Count];
-				var shop = home != null ? economy.FindShop(res, home.AccessRoad) : 0;
-				charged = 0;
-				if (shop != 0)
-					economy.SellToHousehold(shop, res, 2000 * h.Size, spend, out charged);
-
-				if (charged <= 0)
-					unmetShopping++;
-			}
-
-			h.Cash -= charged;
-			spentCents += charged;
-			h.Spent = charged;
 		}
 	}
 }

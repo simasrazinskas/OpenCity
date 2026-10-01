@@ -51,7 +51,7 @@ namespace OpenRA.Mods.Common.Widgets
 						var collectionName = collection + (args.Highlighted ? "-highlighted" : "");
 						var variantImageName = GetStatefulImageName(imageName, args.Disabled, args.Pressed, args.Hover, args.Focused);
 						return ChromeProvider.TryGetImage(collectionName, variantImageName) ?? ChromeProvider.GetImage(collectionName, imageName);
-					});
+					}, () => ChromeProvider.Version);
 		}
 
 		// TODO: refactor buttons and related UI to use this function
@@ -64,7 +64,7 @@ namespace OpenRA.Mods.Common.Widgets
 						var collectionName = collection + (args.Highlighted ? "-highlighted" : "");
 						var variantCollectionName = GetStatefulImageName(collectionName, args.Disabled, args.Pressed, args.Hover, args.Focused);
 						return ChromeProvider.TryGetPanelImages(variantCollectionName) ?? ChromeProvider.GetPanelImages(collectionName);
-					});
+					}, () => ChromeProvider.Version);
 		}
 
 		public static void DrawSprite(Sprite s, Vector2 pos)
@@ -140,6 +140,15 @@ namespace OpenRA.Mods.Common.Widgets
 			Game.Renderer.RgbaColorRenderer.FillRect(tl, tr, br, bl, topLeftColor, topRightColor, bottomRightColor, bottomLeftColor);
 		}
 
+		/// <summary>
+		/// Draws a border of the given thickness just inside <paramref name="r"/>. Unlike stacking an outer and an inner
+		/// FillRectWithColor, all four sides get the same whole number of device pixels at fractional UI scales.
+		/// </summary>
+		public static void DrawFrame(Rectangle r, Color c, int thickness = 1)
+		{
+			Game.Renderer.RgbaColorRenderer.DrawFrame(new Vector3(r.Left, r.Top, 0), new Vector3(r.Right, r.Bottom, 0), thickness, c);
+		}
+
 		public static void FillEllipseWithColor(Rectangle r, Color c)
 		{
 			var tl = new Vector3(r.Left, r.Top, 0);
@@ -164,37 +173,40 @@ namespace OpenRA.Mods.Common.Widgets
 			if (sprites.Length != 9)
 				return;
 
-			var marginTop = sprites[1] == null ? 0 : (int)sprites[1].Size.Y;
-			var marginLeft = sprites[3] == null ? 0 : (int)sprites[3].Size.X;
-			var marginRight = sprites[5] == null ? 0 : (int)sprites[5].Size.X;
-			var marginBottom = sprites[7] == null ? 0 : (int)sprites[7].Size.Y;
+			// Margins are kept fractional: generated chrome (ChromeProvider generators) has borders that are a whole
+			// number of device pixels, which is a fractional number of logical pixels at fractional UI scales.
+			// Image based chrome has integer sprite sizes, for which this is identical to integer margins.
+			var marginTop = sprites[1] == null ? 0 : sprites[1].Size.Y;
+			var marginLeft = sprites[3] == null ? 0 : sprites[3].Size.X;
+			var marginRight = sprites[5] == null ? 0 : sprites[5].Size.X;
+			var marginBottom = sprites[7] == null ? 0 : sprites[7].Size.Y;
 			var marginWidth = marginRight + marginLeft;
 			var marginHeight = marginBottom + marginTop;
 
 			// Center
 			if (sprites[4] != null)
-				FillRectWithSprite(new Rectangle(bounds.Left + marginLeft, bounds.Top + marginTop,
-					bounds.Width - marginWidth, bounds.Height - marginHeight), sprites[4]);
+				FillRectWithSprite(bounds.Left + marginLeft, bounds.Top + marginTop,
+					bounds.Width - marginWidth, bounds.Height - marginHeight, sprites[4]);
 
 			// Left edge
 			if (sprites[3] != null)
-				FillRectWithSprite(new Rectangle(bounds.Left, bounds.Top + marginTop,
-						marginLeft, bounds.Height - marginHeight), sprites[3]);
+				FillRectWithSprite(bounds.Left, bounds.Top + marginTop,
+					marginLeft, bounds.Height - marginHeight, sprites[3]);
 
 			// Right edge
 			if (sprites[5] != null)
-				FillRectWithSprite(new Rectangle(bounds.Right - marginRight, bounds.Top + marginTop,
-					marginLeft, bounds.Height - marginHeight), sprites[5]);
+				FillRectWithSprite(bounds.Right - marginRight, bounds.Top + marginTop,
+					marginRight, bounds.Height - marginHeight, sprites[5]);
 
 			// Top edge
 			if (sprites[1] != null)
-				FillRectWithSprite(new Rectangle(bounds.Left + marginLeft, bounds.Top,
-					bounds.Width - marginWidth, marginTop), sprites[1]);
+				FillRectWithSprite(bounds.Left + marginLeft, bounds.Top,
+					bounds.Width - marginWidth, marginTop, sprites[1]);
 
 			// Bottom edge
 			if (sprites[7] != null)
-				FillRectWithSprite(new Rectangle(bounds.Left + marginLeft, bounds.Bottom - marginBottom,
-					bounds.Width - marginWidth, marginTop), sprites[7]);
+				FillRectWithSprite(bounds.Left + marginLeft, bounds.Bottom - marginBottom,
+					bounds.Width - marginWidth, marginBottom, sprites[7]);
 
 			// Top-left corner
 			if (sprites[0] != null)
@@ -211,6 +223,42 @@ namespace OpenRA.Mods.Common.Widgets
 			// Bottom-right corner
 			if (sprites[8] != null)
 				DrawSprite(sprites[8], new Vector2(bounds.Right - sprites[8].Size.X, bounds.Bottom - sprites[8].Size.Y));
+		}
+
+		/// <summary>Tiles a sprite over a rectangle given in fractional logical pixels.</summary>
+		public static void FillRectWithSprite(float left, float top, float width, float height, Sprite s)
+		{
+			if (width <= 0 || height <= 0 || s.Size.X <= 0 || s.Size.Y <= 0)
+				return;
+
+			// Tolerance for float error, so that a sprite that exactly fits is not cropped by a sub-pixel amount
+			const float Epsilon = 1 / 512f;
+			var right = left + width;
+			var bottom = top + height;
+			var scale = s.Size.X / s.Bounds.Width;
+			for (var x = left; x < right - Epsilon; x += s.Size.X)
+			{
+				for (var y = top; y < bottom - Epsilon; y += s.Size.Y)
+				{
+					var ss = s;
+					var dx = right - x;
+					var dy = bottom - y;
+					if (dx < s.Size.X - Epsilon || dy < s.Size.Y - Epsilon)
+					{
+						var rr = new Rectangle(
+							s.Bounds.Left,
+							s.Bounds.Top,
+							Math.Min(s.Bounds.Width, (int)Math.Round(dx / scale)),
+							Math.Min(s.Bounds.Height, (int)Math.Round(dy / scale)));
+						if (rr.Width <= 0 || rr.Height <= 0)
+							continue;
+
+						ss = new Sprite(s.Sheet, rr, s.Channel, scale);
+					}
+
+					DrawSprite(ss, new Vector2(x, y));
+				}
+			}
 		}
 
 		public static string FormatTime(int ticks, int timestep)

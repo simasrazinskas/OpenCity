@@ -1,0 +1,66 @@
+# OpenCity UI style: the single place to tweak the colours of the procedural chrome.
+# Everything in chrome.yaml / chrome-city.yaml with `Generator: CityChrome` is drawn at runtime by
+# OpenRA.Mods.City/Graphics/Chrome at the exact device scale (window scale x UI scale), using these colours.
+# Colours are RRGGBB or RRGGBBAA.
+
+Palette:
+	# Outlines and shadows
+	Outline: 120A06
+	Shadow: 00000070
+	# Panel bodies (dark warm brown) and sunken wells
+	Panel: 28170F
+	PanelLight: 3A2417
+	PanelDark: 170D08
+	Well: 110A06
+	WellEdge: 7A5530
+	WellEdgeDark: 4A3220
+	# Dune 2000 house red, darkest to lightest
+	Red0: 3A0D08
+	Red1: 5C160D
+	Red2: 7E2213
+	Red3: A3321C
+	Red4: CF4C2C
+	# Gold / amber accents, darkest to lightest
+	Gold0: 54360F
+	Gold1: 8A5B1C
+	Gold2: BF872C
+	Gold3: E8B54E
+	Gold4: FFE59E
+	# Neutral (disabled) browns
+	Grey0: 262019
+	Grey1: 3A3129
+	Grey2: 564A3F
+	Grey3: 7A6B5D
+	# Light sand (light glyphs)
+	Sand: F2E0BA
+	# Selection / hover fills of list items
+	ItemHover: 3A2417
+	ItemSelected: 6A1D10
+	ItemSelectedEdge: BF872C
+	# Outline colour of icons and glyphs
+	IconOutline: 1A0B05
+
+Settings:
+	# Icon pixel grid: Scaled = art pixels are floor(scale) device pixels (crisp pixel art at every scale),
+	# Device = art pixels are device pixels (smoother, more detail at large scales).
+	IconPixels: Scaled
+	# Hard (1 bit) icon edges instead of anti-aliased ones.
+	IconHardEdges: false
+
+# Body colours (dark, light) of the sidebar order tiles, per tile name.
+OrderTiles:
+	bulldoze: 9C3416, D26028
+	infoviews: 16409E, 3C78E6
+	budget: 126E1E, 32BE3C
+	stats: 0C5260, 2496A8
+	chirper: 0A7092, 30C4E6
+	production: 5C5016, A28C34
+	policies: 4E1C80, 9048D6
+	progression: 48680E, B0B628
+	districts: B26008, F6A028
+	tiles: 603E20, A47442
+	transit: 12389A, 387AE0
+	achievements: 8C6006, E8B824
+	advisor: 16624A, 3CBC8C
+	options: 5A3A12, A8782C
+	power: 7A5A06, E0B020

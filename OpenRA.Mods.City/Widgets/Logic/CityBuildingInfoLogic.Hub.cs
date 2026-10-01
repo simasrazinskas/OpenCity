@@ -128,7 +128,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			var label = new LabelWidget(Game.ModData)
 			{
 				Bounds = new WidgetBounds(0, top * 34, 256, 18),
-				Font = "TinyBold",
+				Font = "Small",
 				GetText = () => CityUi.Message("label-service-districts"),
 				GetColor = () => CityUi.Muted
 			};

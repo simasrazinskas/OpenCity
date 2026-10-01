@@ -20,6 +20,9 @@ namespace OpenRA.Mods.Common.Widgets
 	public class SliderWidget : InputWidget
 	{
 		public event Action<float> OnChange = _ => { };
+
+		[Desc("Raised with the final value when the user releases the thumb after dragging or clicking.")]
+		public event Action<float> OnRelease = _ => { };
 		public int Ticks = 0;
 		public int TrackHeight = 5;
 		public string Thumb = "slider-thumb";
@@ -27,6 +30,9 @@ namespace OpenRA.Mods.Common.Widgets
 		public float MinimumValue = 0;
 		public float MaximumValue = 1;
 		public float Value = 0;
+
+		[Desc("If greater than zero, values snap to multiples of this step above MinimumValue.")]
+		public float Step = 0;
 		public Func<float> GetValue;
 
 		protected bool isMoving = false;
@@ -46,11 +52,16 @@ namespace OpenRA.Mods.Common.Widgets
 			Value = other.Value;
 			TrackHeight = other.TrackHeight;
 			GetValue = other.GetValue;
+			Step = other.Step;
+			OnRelease = other.OnRelease;
 		}
 
 		public void UpdateValue(float newValue)
 		{
 			var oldValue = Value;
+			if (Step > 0)
+				newValue = MinimumValue + MathF.Round((newValue - MinimumValue) / Step) * Step;
+
 			Value = newValue.Clamp(MinimumValue, MaximumValue);
 			if (oldValue != Value)
 				OnChange(Value);
@@ -68,6 +79,7 @@ namespace OpenRA.Mods.Common.Widgets
 				case MouseInputEvent.Up:
 					isMoving = false;
 					YieldMouseFocus(mi);
+					OnRelease(Value);
 					break;
 
 				case MouseInputEvent.Down:

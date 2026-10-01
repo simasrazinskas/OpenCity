@@ -49,9 +49,9 @@ namespace OpenRA.Mods.City.Widgets
 			WidgetUtils.FillRectWithColor(rb, TrackColor);
 
 			var percentage = Math.Clamp(GetPercentage(), 0, 100);
-			var width = (rb.Width - 2) * percentage / 100;
+			var width = rb.Width * percentage / 100;
 			if (width > 0)
-				WidgetUtils.FillRectWithColor(new Rectangle(rb.X + 1, rb.Y + 1, width, rb.Height - 2), GetBarColor());
+				WidgetUtils.FillRectWithColor(new Rectangle(rb.X, rb.Y, width, rb.Height), GetBarColor());
 		}
 	}
 }

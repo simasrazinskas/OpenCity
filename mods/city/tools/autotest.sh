@@ -10,6 +10,11 @@
 #
 # Prints autotest log lines + any exception logs, and the paths of screenshots taken.
 # Screenshots end up in <support-dir>/Screenshots/city/{DEV_VERSION}/*.png (view them with the Read tool).
+#
+# Environment overrides (to check the UI at other sizes):
+#   OPENCITY_RES=1920,1080   window size (default 1600,900)
+#   OPENCITY_UISCALE=1.5     Graphics.UIScale (default: the engine default)
+#   OPENCITY_ARGS="..."      any extra launch arguments (e.g. "Graphics.ViewportDistance=Far")
 set -u
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 MAP=${1:-}
@@ -29,8 +34,8 @@ elif [[ "$MAP" == replay:* ]]; then
 	LAUNCH=(Launch.Replay="${MAP#replay:}")
 fi
 OPENCITY_AUTOTEST="$SPEC" SDL_VIDEODRIVER=offscreen timeout 600 dotnet bin/OpenRA.dll Engine.EngineDir=".." \
-	Engine.SupportDir="$SD" Game.Mod=city "${LAUNCH[@]}" Graphics.Mode=Windowed Graphics.WindowedSize=1600,900 \
-	Sound.Engine=Dummy 2>&1 | grep -E "autotest|Exception|exception" | head -20000
+	Engine.SupportDir="$SD" Game.Mod=city "${LAUNCH[@]}" Graphics.Mode=Windowed Graphics.WindowedSize="${OPENCITY_RES:-1600,900}" \
+	${OPENCITY_UISCALE:+Graphics.UIScale=$OPENCITY_UISCALE} ${OPENCITY_ARGS:-} Sound.Engine=Dummy 2>&1 | grep -E "autotest|Exception|exception" | head -20000
 for f in "$SD"/Logs/exception*.log; do
 	[ -f "$f" ] && { echo "== $f"; grep -v "^\s*at System\." "$f" | head -40; }
 done

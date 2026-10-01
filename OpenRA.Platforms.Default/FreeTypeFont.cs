@@ -22,7 +22,10 @@ namespace OpenRA.Platforms.Default
 	static class FreeType
 	{
 		internal const uint OK = 0x00;
+		internal const int FT_LOAD_NO_HINTING = 0x02;
 		internal const int FT_LOAD_RENDER = 0x04;
+		internal const int BitmapRowsOffset = 0; // offsetof(FT_Bitmap, rows)
+		internal const int BitmapWidthOffset = 4; // offsetof(FT_Bitmap, width)
 
 		internal const int MetricsWidthOffset = 0; // offsetof(FT_Glyph_Metrics, width)
 		internal const int BitmapPitchOffset = 8; // offsetof(FT_Bitmap, pitch)
@@ -49,6 +52,9 @@ namespace OpenRA.Platforms.Default
 
 		[DllImport("freetype6", CallingConvention = CallingConvention.Cdecl)]
 		internal static extern uint FT_Load_Char(IntPtr face, uint char_code, int load_flags);
+
+		[DllImport("freetype6", CallingConvention = CallingConvention.Cdecl)]
+		internal static extern uint FT_Get_Char_Index(IntPtr face, uint charcode);
 	}
 
 	public sealed class FreeTypeFont : IFont
@@ -121,6 +127,56 @@ namespace OpenRA.Platforms.Default
 				{
 					for (var i = 0; i < glyphSize.Width; i++)
 						g.Data[k++] = p[i];
+
+					p += bitmapPitch;
+				}
+			}
+
+			return g;
+		}
+
+		public FontGlyph CreatePixelGlyph(char c, int pixelSize)
+		{
+			if (FreeType.FT_Get_Char_Index(face, c) == 0)
+				return EmptyGlyph;
+
+			if (FreeType.FT_Set_Pixel_Sizes(face, (uint)pixelSize, (uint)pixelSize) != FreeType.OK)
+				return EmptyGlyph;
+
+			// Pixel fonts are drawn on whole pixels at their design size: hinting would only distort them
+			if (FreeType.FT_Load_Char(face, c, FreeType.FT_LOAD_RENDER | FreeType.FT_LOAD_NO_HINTING) != FreeType.OK)
+				return EmptyGlyph;
+
+			var glyph = Marshal.ReadIntPtr(IntPtr.Add(face, FreeType.FaceRecGlyphOffset)); // face->glyph
+			var metrics = IntPtr.Add(glyph, FreeType.GlyphSlotMetricsOffset); // face->glyph->metrics
+			var metricsAdvance = Marshal.ReadIntPtr(IntPtr.Add(metrics, FreeType.MetricsAdvanceOffset)); // face->glyph->metrics.horiAdvance
+
+			var bitmap = IntPtr.Add(glyph, FreeType.GlyphSlotBitmapOffset); // face->glyph->bitmap
+			var rows = Marshal.ReadInt32(IntPtr.Add(bitmap, FreeType.BitmapRowsOffset));
+			var width = Marshal.ReadInt32(IntPtr.Add(bitmap, FreeType.BitmapWidthOffset));
+			var bitmapPitch = Marshal.ReadInt32(IntPtr.Add(bitmap, FreeType.BitmapPitchOffset));
+			var bitmapBuffer = Marshal.ReadIntPtr(IntPtr.Add(bitmap, FreeType.BitmapBufferOffset));
+			var bitmapLeft = Marshal.ReadInt32(IntPtr.Add(glyph, FreeType.GlyphSlotBitmapLeftOffset));
+			var bitmapTop = Marshal.ReadInt32(IntPtr.Add(glyph, FreeType.GlyphSlotBitmapTopOffset));
+
+			var g = new FontGlyph
+			{
+				// Round the 26.6 fixed point advance to whole pixels
+				Advance = ((int)metricsAdvance + 32) >> 6,
+				Offset = new int2(bitmapLeft, -bitmapTop),
+				Size = new Size(width, rows),
+				Data = new byte[width * rows]
+			};
+
+			unsafe
+			{
+				var p = (byte*)bitmapBuffer;
+				var k = 0;
+				for (var j = 0; j < rows; j++)
+				{
+					// Threshold any coverage left by outlines that are not exactly on the pixel grid
+					for (var i = 0; i < width; i++)
+						g.Data[k++] = p[i] >= 128 ? (byte)255 : (byte)0;
 
 					p += bitmapPitch;
 				}

@@ -61,6 +61,10 @@ namespace OpenRA.Mods.City.Traits
 		[Desc("Days a homeless household stays before it emigrates.")]
 		public readonly int HomelessDaysToEmigrate = 4;
 
+		[Desc("A household whose working-age adults have all been jobless for this many months may emigrate (0 = never), with this chance (percent) per month.")]
+		public readonly int JoblessMonthsToEmigrate = 0;
+		public readonly int JoblessEmigratePercent = 35;
+
 		[Desc("Households whose cash is below minus this (cents) for DebtDaysToEvict days are evicted.")]
 		public readonly int DebtLimitCents = 15000;
 		public readonly int DebtDaysToEvict = 2;
@@ -83,6 +87,12 @@ namespace OpenRA.Mods.City.Traits
 		[Desc("Shopping budget per person and day, in cents, and the share (percent) of households shopping in person per day.")]
 		public readonly int ShoppingCentsPerPerson = 900;
 		public readonly int ShopTripPercent = 60;
+
+		[Desc("Most units (milli) of the one resource a household buys per shopping visit, per household member.")]
+		public readonly int ShoppingUnitsMilliPerPerson = 2000;
+
+		[Desc("Different consumer goods a household shops for per visit (the budget is split between them).")]
+		public readonly int ShoppingItemsPerVisit = 1;
 
 		[Desc("Annual birth chance (ppm per citizen year) for eligible couples and singles, and the max kids per household.")]
 		public readonly int BirthPPM = 150000;

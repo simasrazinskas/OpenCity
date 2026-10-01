@@ -12,7 +12,6 @@
 using System;
 using System.Collections.Generic;
 using OpenRA.Graphics;
-using OpenRA.Mods.Common.Graphics;
 using OpenRA.Orders;
 using OpenRA.Primitives;
 
@@ -212,12 +211,12 @@ namespace OpenRA.Mods.City
 				yield return Marker(c, color);
 		}
 
-		/// <summary>A text label centred a little below the given cell (e.g. a cost readout).</summary>
+		/// <summary>A text label centred just below the given cell (e.g. a cost readout); its gap and size do not depend on the zoom.</summary>
 		protected static IRenderable Label(World w, CPos cell, string text, Color color)
 		{
 			var font = Game.Renderer.Fonts["Bold"];
-			var pos = w.Map.CenterOfCell(cell) + new WVec(0, 1024, 0);
-			return new TextAnnotationRenderable(font, pos, 0, color, text);
+			var bottomEdge = w.Map.CenterOfCell(cell) + new WVec(0, 512, 0);
+			return new CityAnnotationText(font, bottomEdge, new int2(0, 4), color, text);
 		}
 
 		/// <summary>Number of cells in the rectangle spanned by two corners.</summary>

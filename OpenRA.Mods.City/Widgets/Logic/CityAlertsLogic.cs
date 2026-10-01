@@ -8,6 +8,7 @@
  */
 #endregion
 
+using System;
 using System.Collections.Generic;
 using OpenRA.Mods.City.Traits;
 using OpenRA.Mods.Common.Widgets;
@@ -27,6 +28,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 		const int MaxChips = 4;
 		const int ChipWidth = 184;
+		const int ChipGap = 8;
 
 		readonly World world;
 		readonly CityUiContext ctx;
@@ -125,23 +127,39 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			Rebuild();
 		}
 
+		/// <summary>Keeps the strip centred over the world view (window resizes, UI scale changes).</summary>
+		public override void Tick()
+		{
+			var area = CityLayout.WorkArea(false);
+			var fit = Math.Max(1, (area.Width + ChipGap) / (ChipWidth + ChipGap));
+			if (fit != fittingChips)
+			{
+				fittingChips = fit;
+				Rebuild();
+			}
+
+			strip.Bounds.X = CityLayout.Snap(area.X + (area.Width - strip.Bounds.Width) / 2);
+			strip.Bounds.Y = 6;
+		}
+
+		int fittingChips = MaxChips;
+
 		void Rebuild()
 		{
 			strip.RemoveChildren();
-			var width = shown.Count * (ChipWidth + 6) - 6;
-			strip.Bounds.Width = width;
-			strip.Bounds.X = (Game.Renderer.Resolution.Width - 226 - width) / 2;
+			var count = Math.Min(shown.Count, fittingChips);
+			strip.Bounds.Width = Math.Max(0, count * (ChipWidth + ChipGap) - ChipGap);
 
-			for (var i = 0; i < shown.Count; i++)
+			for (var i = 0; i < count; i++)
 			{
 				var entry = shown[i];
 				var chip = Game.LoadWidget(world, "CITY_ALERT_CHIP", strip, []) as ButtonWidget;
-				chip.Bounds.X = i * (ChipWidth + 6);
+				chip.Bounds.X = i * (ChipWidth + ChipGap);
 				chip.Bounds.Width = ChipWidth;
 				var color = TierColor(entry.Tier);
 				chip.Get<ColorBlockWidget>("TIER").GetColor = () => color;
 				var text = FluentProvider.GetMessage(ChipText, "name", entry.Name, "count", entry.Count);
-				chip.GetText = () => text;
+				WidgetUtils.TruncateButtonToTooltip(chip, text);
 				chip.Bounds.Y = 0;
 				chip.OnClick = () =>
 				{

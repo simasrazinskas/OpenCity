@@ -1,558 +1,590 @@
-# Dune 2000-style base chrome: OpenRA's own D2k UI art (mods/d2k/uibits, GPL), reused for OpenCity.
-# The loadscreen/logo image is OpenCity's own (bits/chrome/loadscreen*.png).
-^Chrome:
-	Image: chrome.png
+# OpenCity base chrome. Everything here is drawn at runtime by OpenRA.Mods.City/UIArt (CityChromeGenerator) at the exact
+# device scale (window scale x UI scale), so it stays sharp pixel art at every size. Colours live in uistyle.yaml,
+# icon/glyph designs in bits/chrome/cityicons.vec (exported from the tools/ui*.py recipes by tools/uiexport.py).
+#   Panel: <kind> + State: <state>    nine-slice panels (see CityChromeGenerator.Panels.cs for kinds and states)
+#   Images: name: <recipe> ...        glyph <name> [w h] | glyph-disabled <name> | icon <set>/<name> <size>
+#                                     | art <recipe> <w> <h> | tile <kind> <state> [w h] | alias <collection>/<image> | empty
+^CityChrome:
+	Generator: CityChrome
+	Style: city|uistyle.yaml
+	Icons: cityicons.vec
 
-^Dialog:
-	Image: dialog.png
-
-^Glyphs:
-	Image: glyphs.png
-	Image2x: glyphs-2x.png
-	Image3x: glyphs-3x.png
-
-^LoadScreen:
-	Image: loadscreen.png
-	Image2x: loadscreen-2x.png
-	Image3x: loadscreen-3x.png
+# ---- in-game sidebar and command bar --------------------------------------------------------------
 
 sidebar:
-	Inherits: ^Chrome
-	Regions:
-		background-top: 0, 0, 226, 295
-		background-iconrow: 0, 295, 226, 48
-		background-bottom: 0, 343, 226, 28
-		purchase-button: 226, 281, 125, 29
-
+	Inherits: ^CityChrome
+	Images:
+		background-top: art sidebar-top 226 295
+		background-iconrow: art sidebar-row 226 48
+		background-plainrow: art sidebar-plainrow 226 48
+		background-bottom: art sidebar-bottom 226 28
 
 sidebar-button:
-	Inherits: ^Chrome
-	PanelRegion: 381, 0, 0, 0, 25, 25, 0, 0
-	PanelSides: Center
-sidebar-button-pressed:
-	Inherits: ^Chrome
-	PanelRegion: 407, 0, 0, 0, 25, 25, 0, 0
-	PanelSides: Center
+	Inherits: ^CityChrome
+	Panel: Compact
+	State: Normal
+
 sidebar-button-hover:
-	Inherits: sidebar-button-pressed
-sidebar-button-highlighted:
-	Inherits: sidebar-button-pressed
-sidebar-button-highlighted-hover:
-	Inherits: sidebar-button-pressed
-sidebar-button-highlighted-pressed:
-	Inherits: sidebar-button-pressed
+	Inherits: ^CityChrome
+	Panel: Compact
+	State: Hover
+
+sidebar-button-pressed:
+	Inherits: ^CityChrome
+	Panel: Compact
+	State: Pressed
+
 sidebar-button-disabled:
-	Inherits: ^Chrome
-	PanelRegion: 433, 0, 0, 0, 25, 25, 0, 0
-	PanelSides: Center
+	Inherits: ^CityChrome
+	Panel: Compact
+	State: Disabled
+
+sidebar-button-highlighted:
+	Inherits: ^CityChrome
+	Panel: Compact
+	State: Highlighted
+
+sidebar-button-highlighted-hover:
+	Inherits: ^CityChrome
+	Panel: Compact
+	State: HighlightedHover
+
+sidebar-button-highlighted-pressed:
+	Inherits: ^CityChrome
+	Panel: Compact
+	State: HighlightedPressed
+
 sidebar-button-highlighted-disabled:
-	Inherits: sidebar-button-disabled
+	Inherits: ^CityChrome
+	Panel: Compact
+	State: HighlightedDisabled
 
 sidebar-bits:
-	Inherits: ^Glyphs
-	Regions:
-		production-tooltip-time: 136, 51, 16, 16
-		production-tooltip-power: 102, 51, 16, 16
-		production-tooltip-cost: 68, 51, 16, 16
-		indicator-muted: 0, 119, 26, 24
+	Inherits: ^CityChrome
+	Images:
+		production-tooltip-time: glyph clock
+		production-tooltip-power: glyph bolt
+		production-tooltip-cost: glyph coin
+		indicator-muted: glyph muted-indicator
 
 commandbar:
-	Inherits: ^Chrome
-	Regions:
-		background: 0, 469, 454, 43
+	Inherits: ^CityChrome
+	Images:
+		background: art commandbar 454 43
 
 minimap-overlay:
-	Inherits: ^Chrome
-	Regions:
-		top-left: 239, 15, 7, 7
-		top: 239, 0, 141, 4
-		top-right: 247, 15, 7, 7
-		left: 233, 0, 5, 22
-		right: 227, 0, 5, 22
-		bottom-left: 239, 7, 7, 7
-		bottom-right: 247, 7, 7, 7
-
-radar-atreides:
-	Inherits: ^Chrome
-	Regions:
-		insignia: 227, 26, 100, 100
-
-radar-ordos:
-	Inherits: ^Chrome
-	Regions:
-		insignia: 328, 26, 100, 100
-
-radar-harkonnen:
-	Inherits: ^Chrome
-	Regions:
-		insignia: 227, 127, 100, 90
+	Inherits: ^CityChrome
+	Images:
+		top-left: art minimap-tl 7 7
+		top-right: art minimap-tr 7 7
+		bottom-left: art minimap-bl 7 7
+		bottom-right: art minimap-br 7 7
+		top: empty
+		left: empty
+		right: empty
 
 power-icons:
-	Inherits: ^Glyphs
-	Regions:
-		power-normal: 102, 51, 16, 16
-		power-critical: 119, 51, 16, 16
+	Inherits: ^CityChrome
+	Images:
+		power-normal: glyph bolt
+		power-critical: glyph bolt-critical
 
-production-icons:
-	Inherits: ^Glyphs
-	Regions:
-		building: 0, 68, 16, 16
-		building-disabled: 0, 85, 16, 16
-		building-alert: 0, 102, 16, 16
-		upgrade: 17, 68, 16, 16
-		upgrade-disabled: 17, 85, 16, 16
-		upgrade-alert: 17, 102, 16, 16
-		infantry: 34, 68, 16, 16
-		infantry-disabled: 34, 85, 16, 16
-		infantry-alert: 34, 102, 16, 16
-		vehicle: 51, 68, 16, 16
-		vehicle-disabled: 51, 85, 16, 16
-		vehicle-alert: 51, 102, 16, 16
-		armor: 68, 68, 16, 16
-		armor-disabled: 68, 85, 16, 16
-		armor-alert: 68, 102, 16, 16
-		aircraft: 85, 68, 16, 16
-		aircraft-disabled: 85, 85, 16, 16
-		aircraft-alert: 85, 102, 16, 16
-		starport: 102, 68, 16, 16
-		starport-disabled: 102, 85, 16, 16
-		starport-alert: 102, 102, 16, 16
+# Legacy D2k order buttons: aliases of the OpenCity order tiles (chrome-city.yaml)
 
 order-icons:
-	Inherits: ^Chrome
-	Regions:
-		repair: 238, 357, 34, 35
-		repair-disabled: 238, 393, 34, 35
-		repair-active: 238, 430, 34, 35
-		sell: 277, 357, 34, 35
-		sell-disabled: 277, 393, 34, 35
-		sell-active: 277, 430, 34, 35
-		options: 315, 357, 40, 38
-		options-disabled: 315, 393, 40, 38
-		options-active: 315, 430, 40, 38
-		beacon: 359, 357, 36, 35
-		beacon-disabled: 359, 393, 36, 35
-		beacon-active: 359, 430, 36, 35
-		power: 398, 357, 34, 35
-		power-disabled: 398, 393, 36, 35
-		power-active: 398, 430, 36, 35
+	Inherits: ^CityChrome
+	Images:
+		repair: alias city-order-icons/bulldoze
+		repair-disabled: alias city-order-icons/bulldoze-disabled
+		repair-active: alias city-order-icons/bulldoze-active
+		beacon: alias city-order-icons/infoviews
+		beacon-disabled: alias city-order-icons/infoviews-disabled
+		beacon-active: alias city-order-icons/infoviews-active
+		sell: alias city-order-icons/budget
+		sell-disabled: alias city-order-icons/budget-disabled
+		sell-active: alias city-order-icons/budget-active
+		options: alias city-order-icons/options
+		options-disabled: alias city-order-icons/options-disabled
+		options-active: alias city-order-icons/options-active
+		power: alias city-order-icons/power
+		power-disabled: alias city-order-icons/power-disabled
+		power-active: alias city-order-icons/power-active
 
 command-button:
-	Inherits: ^Chrome
-	PanelRegion: 232, 312, 0, 0, 34, 41, 0, 0
-	PanelSides: Center
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Normal
+
 command-button-hover:
-	Inherits: command-button
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Hover
+
 command-button-pressed:
-	Inherits: ^Chrome
-	PanelRegion: 301, 312, 0, 0, 34, 41, 0, 0
-	PanelSides: Center
-command-button-highlighted:
-	Inherits: command-button-pressed
-command-button-highlighted-hover:
-	Inherits: command-button-pressed
-command-button-highlighted-pressed:
-	Inherits: command-button-pressed
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Pressed
+
 command-button-disabled:
-	Inherits: ^Chrome
-	PanelRegion: 266, 312, 0, 0, 34, 41, 0, 0
-	PanelSides: Center
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Disabled
+
+command-button-highlighted:
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Highlighted
+
+command-button-highlighted-hover:
+	Inherits: ^CityChrome
+	Panel: Button
+	State: HighlightedHover
+
+command-button-highlighted-pressed:
+	Inherits: ^CityChrome
+	Panel: Button
+	State: HighlightedPressed
+
 command-button-highlighted-disabled:
-	Inherits: command-button-disabled
-
-command-icons:
-	Inherits: ^Chrome
-	Regions:
-		attack-move: 408, 144, 26, 26
-		attack-move-disabled: 408, 170, 26, 26
-		force-move: 434, 144, 26, 26
-		force-move-disabled: 434, 170, 26, 26
-		force-attack: 460, 144, 26, 26
-		force-attack-disabled: 460, 170, 26, 26
-		guard: 486, 144, 26, 26
-		guard-disabled: 486, 170, 26, 26
-		deploy: 408, 196, 26, 26
-		deploy-disabled: 408, 222, 26, 26
-		scatter: 434, 196, 26, 26
-		scatter-disabled: 434, 222, 26, 26
-		stop: 460, 196, 26, 26
-		stop-disabled: 460, 222, 26, 26
-		queue-orders: 486, 196, 26, 26
-		queue-orders-disabled: 486, 222, 26, 26
-
-command-icons-highlighted:
-	Inherits: command-icons
-
-stance-icons:
-	Inherits: ^Chrome
-	Regions:
-		attack-anything: 416, 248, 16, 16
-		attack-anything-disabled: 432, 248, 16, 16
-		defend: 464, 248, 16, 16
-		defend-disabled: 480, 248, 16, 16
-		return-fire: 416, 264, 16, 16
-		return-fire-disabled: 432, 264, 16, 16
-		hold-fire: 464, 264, 16, 16
-		hold-fire-disabled: 480, 264, 16, 16
-
-stance-icons-highlighted:
-	Inherits: stance-icons
-	Regions:
-		attack-anything: 448, 248, 16, 16
-		defend: 496, 248, 16, 16
-		return-fire: 448, 264, 16, 16
-		hold-fire: 496, 264, 16, 16
+	Inherits: ^CityChrome
+	Panel: Button
+	State: HighlightedDisabled
 
 flags:
-	Inherits: ^Glyphs
-	Regions:
-		atreides: 234, 59, 22, 21
-		harkonnen: 234, 81, 22, 21
-		ordos: 234, 103, 22, 21
-		corrino: 234, 125, 22, 21
-		smuggler: 234, 147, 22, 21
-		fremen: 234, 169, 22, 21
-		worm: 234, 191, 22, 21
-		mercenary: 234, 213, 22, 21
-		spectator: 234, 235, 22, 21
-		Random: 234, 235, 22, 21
-		city: 234, 59, 22, 21
+	Inherits: ^CityChrome
+	Images:
+		city: glyph flag-city
+		Random: glyph flag-random
+		spectator: glyph flag-spectator
 
-# Used for the menu
+# ---- dialogs and panels ----------------------------------------------------------------------------
+
 dialog:
-	Inherits: ^Dialog
-	Regions:
-		background: 1, 1, 478, 478
-		border-r: 490, 1, 9, 190
-		border-l: 481, 1, 9, 190
-		border-b: 1, 490, 189, 9
-		border-t: 1, 481, 189, 9
-		corner-tl: 192, 481, 9, 9
-		corner-tr: 201, 481, 9, 9
-		corner-bl: 192, 490, 9, 9
-		corner-br: 201, 490, 9, 9
+	Inherits: ^CityChrome
+	Panel: Dialog
+
+# Raised content panel
 
 dialog2:
-	Inherits: button
+	Inherits: ^CityChrome
+	Panel: Raised
+
+# Sunken content panel (map previews, lists)
 
 dialog3:
-	Inherits: button-pressed
+	Inherits: ^CityChrome
+	Panel: Well
 
-# Same as the half transparent frame used in the Asset Browser
+# Tooltips and overlay frames
+
 dialog4:
-	Inherits: ^Dialog
-	PanelRegion: 512, 387, 6, 6, 52, 52, 6, 6
+	Inherits: ^CityChrome
+	Panel: Frame
 
-# Dummy definition, partial copy of dialog because the widget definition in `common` expects it with this name.
+# Background only (the widget definitions in `common` expect this name)
+
 dialog5:
-	Inherits: ^Dialog
-	Regions:
-		background: 1, 1, 478, 478
+	Inherits: ^CityChrome
+	Panel: Dialog
+	PanelSides: Center
 
-lobby-bits:
-	Inherits: ^Glyphs
-	Regions:
-		spawn-claimed: 27, 119, 22, 22
-		spawn-unclaimed: 50, 119, 22, 22
-		spawn-disabled: 73, 119, 22, 22
-		admin: 170, 0, 6, 5
-		colorpicker: 27, 119, 22, 22
-		huepicker: 136, 0, 7, 15
-		kick: 153, 0, 11, 11
-		protected: 0, 17, 12, 13
-		protected-disabled: 17, 17, 12, 13
-		authentication: 34, 17, 12, 13
-		authentication-disabled: 51, 17, 12, 13
-		admin-registered: 0, 51, 16, 16
-		admin-anonymous: 34, 51, 16, 16
-		player-registered: 17, 51, 16, 16
-		player-anonymous: 51, 51, 16, 16
-		bot: 170, 51, 16, 16
+separator:
+	Inherits: ^CityChrome
+	Panel: Header
 
-reload-icon:
-	Inherits: ^Glyphs
-	Regions:
-		enabled: 0, 34, 16, 16
-		disabled-0: 17, 34, 16, 16
-		disabled-1: 34, 34, 16, 16
-		disabled-2: 51, 34, 16, 16
-		disabled-3: 68, 34, 16, 16
-		disabled-4: 85, 34, 16, 16
-		disabled-5: 102, 34, 16, 16
-		disabled-6: 119, 34, 16, 16
-		disabled-7: 136, 34, 16, 16
-		disabled-8: 153, 34, 16, 16
-		disabled-9: 170, 34, 16, 16
-		disabled-10: 187, 34, 16, 16
-		disabled-11: 204, 34, 16, 16
+scrollheader:
+	Inherits: ^CityChrome
+	Panel: Header
 
-music:
-	Inherits: ^Glyphs
-	Regions:
-		pause: 0, 0, 16, 16
-		stop: 17, 0, 16, 16
-		play: 34, 0, 16, 16
-		next: 51, 0, 16, 16
-		prev: 68, 0, 16, 16
-		fastforward: 85, 0, 16, 16
+scrollheader-highlighted:
+	Inherits: ^CityChrome
+	Panel: Header
 
-progressbar-bg:
-	Inherits: button-pressed
-
-progressbar-thumb:
-	Inherits: button
-
-button-purchase:
-	Inherits: ^Chrome
-	PanelRegion: 226, 281, 0, 0, 125, 29,0 ,0
-
-button-purchase-disabled:
-	Inherits: button-purchase
-
-button-purchase-hover:
-	Inherits: ^Chrome
-	PanelRegion: 226, 252, 0, 0, 125, 29,0 ,0
-
-button-purchase-highlighted:
-	Inherits: button-purchase-hover
-
-button-purchase-highlighted-hover:
-	Inherits: button-purchase-hover
-
-button-purchase-pressed:
-	Inherits: ^Chrome
-	PanelRegion: 226, 223, 0, 0, 125, 29,0 ,0
-
-button-purchase-highlighted-pressed:
-	Inherits: button-purchase-pressed
-
-button-purchase-highlighted-disabled:
-	Inherits: button-purchase
+# ---- buttons and inputs ----------------------------------------------------------------------------
 
 button:
-	Inherits: ^Dialog
-	PanelRegion: 513, 1, 2, 2, 122, 122, 2, 2
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Normal
 
-# 5% lighter than a normal button
 button-hover:
-	Inherits: ^Dialog
-	PanelRegion: 513, 129, 2, 2, 122, 122, 2, 2
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Hover
 
 button-pressed:
-	Inherits: ^Dialog
-	PanelRegion: 641, 1, 2, 2, 122, 122, 2, 2
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Pressed
 
-# 10% darker than a normal button
 button-disabled:
-	Inherits: ^Dialog
-	PanelRegion: 513, 257, 2, 2, 122, 122, 2, 2
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Disabled
 
-# A yellow (normal) button
 button-highlighted:
-	Inherits: ^Dialog
-	PanelRegion: 769, 1, 2, 2, 122, 122, 2, 2
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Highlighted
 
 button-highlighted-hover:
-	Inherits: button-highlighted
+	Inherits: ^CityChrome
+	Panel: Button
+	State: HighlightedHover
 
 button-highlighted-pressed:
-	Inherits: ^Dialog
-	PanelRegion: 897, 1, 2, 2, 122, 122, 2, 2
+	Inherits: ^CityChrome
+	Panel: Button
+	State: HighlightedPressed
 
 button-highlighted-disabled:
-	Inherits: button-highlighted
+	Inherits: ^CityChrome
+	Panel: Button
+	State: HighlightedDisabled
+
+button-purchase:
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Normal
+
+button-purchase-hover:
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Hover
+
+button-purchase-pressed:
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Pressed
+
+button-purchase-disabled:
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Disabled
+
+button-purchase-highlighted:
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Highlighted
+
+button-purchase-highlighted-hover:
+	Inherits: ^CityChrome
+	Panel: Button
+	State: HighlightedHover
+
+button-purchase-highlighted-pressed:
+	Inherits: ^CityChrome
+	Panel: Button
+	State: HighlightedPressed
+
+button-purchase-highlighted-disabled:
+	Inherits: ^CityChrome
+	Panel: Button
+	State: HighlightedDisabled
 
 textfield:
-	Inherits: button-pressed
+	Inherits: ^CityChrome
+	Panel: Well
+	State: Normal
 
 textfield-hover:
-	Inherits: checkbox-hover
+	Inherits: ^CityChrome
+	Panel: Well
+	State: Hover
 
 textfield-disabled:
-	Inherits: button-pressed
+	Inherits: ^CityChrome
+	Panel: Well
+	State: Disabled
 
 textfield-focused:
-	Inherits: button-pressed
-
-scrollpanel-bg:
-	Inherits: button-pressed
-
-scrollpanel-button:
-	Inherits: button
-
-scrollpanel-button-hover:
-	Inherits: button-hover
-
-scrollpanel-button-pressed:
-	Inherits: button-pressed
-
-scrollpanel-button-disabled:
-	Inherits: button
-
-slider:
-	Inherits: ^Dialog
-	Regions:
-		tick: 513, 1, 2, 4
-
-slider-track:
-	Inherits: button
-
-slider-thumb:
-	Inherits: button
-
-slider-thumb-hover:
-	Inherits: button-hover
-
-slider-thumb-pressed:
-	Inherits: button-pressed
-
-slider-thumb-disabled:
-	Inherits: button-disabled
+	Inherits: ^CityChrome
+	Panel: Well
+	State: Focused
 
 checkbox:
-	Inherits: button-pressed
+	Inherits: ^CityChrome
+	Panel: Well
+	State: Normal
+
+checkbox-hover:
+	Inherits: ^CityChrome
+	Panel: Well
+	State: Hover
+
+checkbox-pressed:
+	Inherits: ^CityChrome
+	Panel: Well
+	State: Pressed
+
+checkbox-disabled:
+	Inherits: ^CityChrome
+	Panel: Well
+	State: Disabled
+
+checkbox-highlighted:
+	Inherits: ^CityChrome
+	Panel: Well
+	State: Highlighted
+
+checkbox-highlighted-hover:
+	Inherits: ^CityChrome
+	Panel: Well
+	State: HighlightedHover
+
+checkbox-highlighted-pressed:
+	Inherits: ^CityChrome
+	Panel: Well
+	State: HighlightedPressed
+
+checkbox-highlighted-disabled:
+	Inherits: ^CityChrome
+	Panel: Well
+	State: HighlightedDisabled
+
+# Toggle buttons: flat until hovered or pressed
+
+checkbox-toggle-hover:
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Normal
+
+checkbox-toggle-pressed:
+	Inherits: ^CityChrome
+	Panel: Well
+	State: Pressed
+
+checkbox-toggle-highlighted-hover:
+	Inherits: ^CityChrome
+	Panel: Button
+	State: Highlighted
+
+checkbox-toggle-highlighted-pressed:
+	Inherits: ^CityChrome
+	Panel: Well
+	State: HighlightedPressed
+
+checkbox-toggle:
+
+checkbox-toggle-highlighted:
 
 checkmark-tick:
-	Inherits: ^Glyphs
-	Regions:
-		checked: 187, 0, 16, 16
-		checked-pressed: 204, 0, 16, 16
-		unchecked: 0, 0, 0, 0
-		unchecked-pressed: 204, 0, 16, 16
+	Inherits: ^CityChrome
+	Images:
+		checked: glyph check
+		checked-pressed: glyph check
+		unchecked: empty
+		unchecked-pressed: glyph check-faint
 
 checkmark-tick-highlighted:
 	Inherits: checkmark-tick
 
 checkmark-cross:
-	Inherits: ^Glyphs
-	Regions:
-		checked: 221, 0, 16, 16
-		checked-pressed: 238, 0, 16, 16
-		unchecked: 0, 0, 0, 0
-		unchecked-pressed: 238, 0, 16, 16
+	Inherits: ^CityChrome
+	Images:
+		checked: glyph cross
+		checked-pressed: glyph cross
+		unchecked: empty
+		unchecked-pressed: glyph cross-faint
 
 checkmark-cross-highlighted:
 	Inherits: checkmark-cross
 
 checkmark-mute:
-	Inherits: ^Glyphs
-	Regions:
-		unchecked: 221, 34, 16, 16
-		unchecked-pressed: 238, 34, 16, 16
-		checked: 238, 34, 16, 16
-		checked-pressed: 221, 34, 16, 16
+	Inherits: ^CityChrome
+	Images:
+		unchecked: glyph speaker
+		unchecked-pressed: glyph speaker-muted
+		checked: glyph speaker-muted
+		checked-pressed: glyph speaker
 
 checkmark-mute-highlighted:
 	Inherits: checkmark-mute
 
-checkbox-hover:
-	Inherits: ^Dialog
-	PanelRegion: 641, 129, 2, 2, 122, 122, 2, 2
+slider:
+	Inherits: ^CityChrome
+	Images:
+		tick: art slider-tick 2 4
 
-checkbox-pressed:
-	Inherits: checkbox-hover
+slider-track:
+	Inherits: ^CityChrome
+	Panel: Track
+	State: Normal
 
-# Same as a button-disabled-pressed
-checkbox-disabled:
-	Inherits: ^Dialog
-	PanelRegion: 641, 257, 2, 2, 122, 122, 2, 2
+slider-thumb:
+	Inherits: ^CityChrome
+	Panel: Thumb
+	State: Normal
 
-checkbox-highlighted:
-	Inherits: button-highlighted-pressed
+slider-thumb-hover:
+	Inherits: ^CityChrome
+	Panel: Thumb
+	State: Hover
 
-checkbox-highlighted-hover:
-	Inherits: checkbox-highlighted
+slider-thumb-pressed:
+	Inherits: ^CityChrome
+	Panel: Thumb
+	State: Pressed
 
-checkbox-highlighted-pressed:
-	Inherits: checkbox-highlighted
+slider-thumb-disabled:
+	Inherits: ^CityChrome
+	Panel: Thumb
+	State: Disabled
 
-checkbox-highlighted-disabled:
-	Inherits: checkbox-disabled
+progressbar-bg:
+	Inherits: ^CityChrome
+	Panel: Well
+	State: Normal
 
-checkbox-toggle:
+progressbar-thumb:
+	Inherits: ^CityChrome
+	Panel: Bar
 
-checkbox-toggle-hover:
-	Inherits: button
+# ---- lists, scrollbars and dropdowns ---------------------------------------------------------------
 
-checkbox-toggle-pressed:
-	Inherits: checkbox-pressed
+scrollpanel-bg:
+	Inherits: ^CityChrome
+	Panel: Well
+	State: Normal
 
-checkbox-toggle-highlighted:
+scrollpanel-button:
+	Inherits: ^CityChrome
+	Panel: Compact
+	State: Normal
 
-checkbox-toggle-highlighted-hover:
-	Inherits: button-highlighted
+scrollpanel-button-hover:
+	Inherits: ^CityChrome
+	Panel: Compact
+	State: Hover
 
-checkbox-toggle-highlighted-pressed:
-	Inherits: checkbox-highlighted-pressed
+scrollpanel-button-pressed:
+	Inherits: ^CityChrome
+	Panel: Compact
+	State: Pressed
+
+scrollpanel-button-disabled:
+	Inherits: ^CityChrome
+	Panel: Compact
+	State: Disabled
 
 scrollitem:
-
-scrollitem-hover:
-	Inherits: button
-
-scrollitem-pressed:
-	Inherits: button-hover
-
-scrollitem-highlighted:
-	Inherits: button-pressed
 
 scrollitem-nohover:
 
 scrollitem-nohover-highlighted:
 
-scrollheader:
-	Inherits: button
+scrollitem-hover:
+	Inherits: ^CityChrome
+	Panel: Item
+	State: Hover
 
-scrollheader-highlighted:
-	Inherits: button
+scrollitem-pressed:
+	Inherits: ^CityChrome
+	Panel: Item
+	State: Pressed
+
+scrollitem-highlighted:
+	Inherits: ^CityChrome
+	Panel: Item
+	State: Highlighted
 
 scrollpanel-decorations:
-	Inherits: ^Glyphs
-	Regions:
-		down: 119, 0, 16, 16
-		up: 102, 0, 16, 16
-		right: 136, 17, 16, 16
-		right-disabled: 153, 17, 16, 16
-		left: 170, 17, 16, 16
-		left-disabled: 187, 17, 16, 16
+	Inherits: ^CityChrome
+	Images:
+		up: glyph arrow-up
+		up-disabled: glyph-disabled arrow-up
+		down: glyph arrow-down
+		down-disabled: glyph-disabled arrow-down
+		left: glyph arrow-left
+		left-disabled: glyph-disabled arrow-left
+		right: glyph arrow-right
+		right-disabled: glyph-disabled arrow-right
 
 dropdown-decorations:
-	Inherits: ^Glyphs
-	Regions:
-		marker: 119, 0, 16, 16
+	Inherits: ^CityChrome
+	Images:
+		marker: glyph arrow-down
+		marker-disabled: glyph-disabled arrow-down
 
 dropdown-separators:
-	Inherits: ^Dialog
-	Regions:
-		separator: 513, 2, 1, 19
-		separator-hover: 513, 130, 1, 19
-		separator-pressed: 641, 2, 1, 19
-		separator-disabled: 513, 258, 1, 19
+	Inherits: ^CityChrome
+	Images:
+		separator: art separator 1 19
+		separator-hover: art separator-hover 1 19
+		separator-pressed: art separator-pressed 1 19
+		separator-disabled: art separator-disabled 1 19
 
-separator:
-	Inherits: button
+# ---- glyphs ----------------------------------------------------------------------------------------
 
-logos:
-	Inherits: ^LoadScreen
-	Regions:
-		logo: 0, 0, 256, 256
+lobby-bits:
+	Inherits: ^CityChrome
+	Images:
+		spawn-claimed: glyph spawn-claimed
+		spawn-unclaimed: glyph spawn-unclaimed
+		spawn-disabled: glyph spawn-disabled
+		admin: glyph admin-tiny
+		colorpicker: glyph colorpicker
+		huepicker: glyph hue-marker
+		kick: glyph kick
+		protected: glyph lock
+		protected-disabled: glyph lock-disabled
+		authentication: glyph key
+		authentication-disabled: glyph key-disabled
+		admin-registered: glyph admin-registered
+		admin-anonymous: glyph admin-anonymous
+		player-registered: glyph player-registered
+		player-anonymous: glyph player-anonymous
+		bot: glyph bot
 
-loadscreen-stripe:
-	Inherits: ^LoadScreen
-	PanelRegion: 258, 0, 0, 0, 253, 256, 0, 0
-	PanelSides: Center
+reload-icon:
+	Inherits: ^CityChrome
+	Images:
+		enabled: glyph reload
+		disabled-0: glyph spinner-0
+		disabled-1: glyph spinner-1
+		disabled-2: glyph spinner-2
+		disabled-3: glyph spinner-3
+		disabled-4: glyph spinner-4
+		disabled-5: glyph spinner-5
+		disabled-6: glyph spinner-6
+		disabled-7: glyph spinner-7
+		disabled-8: glyph spinner-8
+		disabled-9: glyph spinner-9
+		disabled-10: glyph spinner-10
+		disabled-11: glyph spinner-11
+
+music:
+	Inherits: ^CityChrome
+	Images:
+		pause: glyph pause
+		stop: glyph stop
+		play: glyph play
+		next: glyph next
+		prev: glyph prev
+		fastforward: glyph fastforward
 
 editor:
-	Inherits: ^Glyphs
-	Regions:
-		select: 51, 144, 16, 16
-		tiles: 0, 144, 16, 16
-		overlays: 17, 144, 16, 16
-		actors: 34, 68, 16, 16
-		tools: 34, 144, 16, 16
-		history: 136, 51, 16, 16
-		erase: 67, 144, 16, 16
-		copy: 84, 144, 16, 16
-		paste: 101, 144, 16, 16
-		undo: 118, 144, 16, 16
-		redo: 135, 144, 16, 16
+	Inherits: ^CityChrome
+	Images:
+		select: glyph select
+		tiles: glyph tiles
+		overlays: glyph overlays
+		actors: glyph actors
+		tools: glyph tools
+		history: glyph history
+		erase: glyph erase
+		copy: glyph copy
+		paste: glyph paste
+		undo: glyph undo
+		redo: glyph redo
+
+# ---- logo and load screen ---------------------------------------------------------------------------
+
+logos:
+	Inherits: ^CityChrome
+	Images:
+		logo: art logo 256 256
+
+loadscreen-stripe:
+	Inherits: ^CityChrome
+	Panel: Stripe

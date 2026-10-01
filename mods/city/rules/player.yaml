@@ -19,3 +19,4 @@ Player:
 	PlayerRadarTerrain:
 	PlayerStatistics:
 	CityManager:
+		UpkeepScalePercent: 130

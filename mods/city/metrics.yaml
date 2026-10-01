@@ -1,6 +1,8 @@
 # OpenCity chrome metrics overrides (on top of common|metrics.yaml), matching the Dune 2000-style chrome.
 
 Metrics:
+	# Disabled button captions stay legible on the dark leather buttons.
+	ButtonTextColorDisabled: A0A0A0
 	TextfieldColorHighlight: 7f4d29
 	PlayerJoinedSound: PlayerJoined
 	LobbyOptionChangedSound: LobbyOptionChanged

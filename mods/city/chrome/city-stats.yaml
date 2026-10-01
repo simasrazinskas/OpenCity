@@ -1,9 +1,9 @@
 # City statistics, chirper and production panels. Owned by the UI work package; loaded by CityHudLogic.
 
-Background@CITY_STATS_PANEL:
+CityPanel@CITY_STATS_PANEL:
 	Logic: CityStatsLogic
-	X: (WINDOW_WIDTH - 226 - WIDTH) / 2
-	Y: (WINDOW_HEIGHT - HEIGHT) / 2 - 24
+	Placement: Center
+	Avoid: CITY_ADVISOR_PANEL
 	Width: 700
 	Height: 570
 	Background: dialog
@@ -74,7 +74,7 @@ Container@CITY_CHIRP_TEMPLATE:
 			Y: 2
 			Width: PARENT_WIDTH - 40
 			Height: 16
-			Font: TinyBold
+			Font: Small
 			TextColor: E8A030
 			Shadow: true
 		Label@TEXT:
@@ -99,12 +99,11 @@ Container@CITY_CHIRP_TEMPLATE:
 					ImageCollection: city-icons-small
 					ImageName: locate
 
-Background@CITY_CHIRPER_PANEL:
+CityPanel@CITY_CHIRPER_PANEL:
 	Logic: CityChirperLogic
-	X: WINDOW_WIDTH - 226 - WIDTH - 8
-	Y: WINDOW_HEIGHT - HEIGHT - 52
+	Placement: BottomRight
 	Width: 340
-	Height: 300
+	Height: WINDOW_HEIGHT * 5 / 12
 	Background: dialog
 	Visible: false
 	Children:
@@ -117,16 +116,16 @@ Background@CITY_CHIRPER_PANEL:
 			Shadow: true
 			Text: label-chirper-title
 		Button@CLOSE:
-			X: PARENT_WIDTH - 40
-			Y: 6
-			Width: 30
-			Height: 26
+			X: PARENT_WIDTH - 36
+			Y: 8
+			Width: 28
+			Height: 24
 			TooltipText: button-budget-close
 			TooltipContainer: TOOLTIP_CONTAINER
 			Children:
 				Image@ICON:
-					X: 7
-					Y: 5
+					X: 6
+					Y: 4
 					ImageCollection: city-icons-small
 					ImageName: close
 		ScrollPanel@FEED:

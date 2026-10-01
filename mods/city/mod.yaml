@@ -81,7 +81,7 @@ ChromeLayout:
 	common|chrome/ingame-infochat.yaml
 	common|chrome/mainmenu-prompts.yaml
 	common|chrome/settings.yaml
-	common|chrome/settings-display.yaml
+	city|chrome/settings-display.yaml
 	common|chrome/settings-audio.yaml
 	common|chrome/settings-input.yaml
 	common|chrome/settings-hotkeys.yaml
@@ -113,7 +113,7 @@ ChromeLayout:
 	common|chrome/confirmation-dialogs.yaml
 	common|chrome/editor.yaml
 	common|chrome/playerprofile.yaml
-	common|chrome/text-notifications.yaml
+	city|chrome/text-notifications.yaml
 	city|chrome/gamesave-loading.yaml
 	city|chrome/ingame-debug.yaml
 	city|chrome/mainmenu.yaml
@@ -168,10 +168,9 @@ Hotkeys:
 	common|hotkeys/control-groups.yaml
 	city|hotkeys.yaml
 
-LoadScreen: LogoStripeLoadScreen
-	Image: city|bits/chrome/loadscreen.png
-	Image2x: city|bits/chrome/loadscreen-2x.png
-	Image3x: city|bits/chrome/loadscreen-3x.png
+LoadScreen: CityLoadScreen
+	Style: city|uistyle.yaml
+	Icons: city|bits/chrome/cityicons.vec
 
 ServerTraits:
 	LobbyCommands
@@ -184,38 +183,63 @@ ChromeMetrics:
 	city|metrics.yaml
 
 Fonts:
+	# Pixel fonts (see mods/city/fonts/README.md): for every UI scale the engine picks the face and whole multiple of its
+	# pixel grid whose cap height is closest to Size * PixelCapRatio (FontData.PixelFaces), so text stays sharp and in
+	# proportion at every scale. PixelMinCapHeight keeps small text readable (at least 7 device pixels tall capitals).
 	Tiny:
-		Font: common|FreeSans.ttf
+		Font: city|fonts/OpenCityPixel-Regular.ttf
 		Size: 10
 		Ascender: 8
+		PixelFaces: city|fonts/OpenCityPixel8.ttf 8, city|fonts/OpenCityPixel10.ttf 10, city|fonts/OpenCityPixel12.ttf 12
+		PixelMinCapHeight: 7
 	TinyBold:
-		Font: common|FreeSansBold.ttf
+		Font: city|fonts/OpenCityPixel-Bold.ttf
 		Size: 10
 		Ascender: 8
+		PixelFaces: city|fonts/OpenCityPixel-Bold.ttf 16 bold, city|fonts/OpenCityPixel8.ttf 8, city|fonts/OpenCityPixel10.ttf 10, city|fonts/OpenCityPixel12.ttf 12
+		PixelBold: true
+		PixelMinCapHeight: 7
 	Small:
-		Font: common|FreeSans.ttf
+		Font: city|fonts/OpenCityPixel-Regular.ttf
 		Size: 12
 		Ascender: 9
+		PixelFaces: city|fonts/OpenCityPixel8.ttf 8, city|fonts/OpenCityPixel10.ttf 10, city|fonts/OpenCityPixel12.ttf 12
+		PixelMinCapHeight: 7
 	Regular:
-		Font: common|FreeSans.ttf
+		Font: city|fonts/OpenCityPixel-Regular.ttf
 		Size: 14
 		Ascender: 11
+		PixelFaces: city|fonts/OpenCityPixel8.ttf 8, city|fonts/OpenCityPixel10.ttf 10, city|fonts/OpenCityPixel12.ttf 12
+		PixelMinCapHeight: 7
 	Bold:
-		Font: common|FreeSansBold.ttf
+		Font: city|fonts/OpenCityPixel-Bold.ttf
 		Size: 14
 		Ascender: 11
+		PixelFaces: city|fonts/OpenCityPixel-Bold.ttf 16 bold, city|fonts/OpenCityPixel8.ttf 8, city|fonts/OpenCityPixel10.ttf 10, city|fonts/OpenCityPixel12.ttf 12
+		PixelBold: true
+		PixelMinCapHeight: 7
 	MediumBold:
-		Font: common|FreeSansBold.ttf
+		Font: city|fonts/OpenCityPixel-Bold.ttf
 		Size: 18
 		Ascender: 14
+		PixelFaces: city|fonts/OpenCityPixel-Bold.ttf 16 bold, city|fonts/OpenCityPixel8.ttf 8, city|fonts/OpenCityPixel10.ttf 10, city|fonts/OpenCityPixel12.ttf 12
+		PixelBold: true
+		PixelMinCapHeight: 7
+		PixelLargerThan: Bold
 	BigBold:
-		Font: common|FreeSansBold.ttf
+		Font: city|fonts/OpenCityPixel-Bold.ttf
 		Size: 24
 		Ascender: 18
+		PixelFaces: city|fonts/OpenCityPixel-Bold.ttf 16 bold, city|fonts/OpenCityPixel8.ttf 8, city|fonts/OpenCityPixel10.ttf 10, city|fonts/OpenCityPixel12.ttf 12
+		PixelBold: true
+		PixelMinCapHeight: 7
 	Title:
-		Font: common|FreeSansBold.ttf
+		Font: city|fonts/OpenCityPixel-Bold.ttf
 		Size: 48
 		Ascender: 36
+		PixelFaces: city|fonts/OpenCityPixel-Bold.ttf 16 bold, city|fonts/OpenCityPixel8.ttf 8, city|fonts/OpenCityPixel10.ttf 10, city|fonts/OpenCityPixel12.ttf 12
+		PixelBold: true
+		PixelMinCapHeight: 7
 
 MapGrid:
 	Type: Rectangular
