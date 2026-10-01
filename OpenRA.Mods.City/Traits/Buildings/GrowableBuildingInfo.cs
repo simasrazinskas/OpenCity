@@ -60,6 +60,16 @@ namespace OpenRA.Mods.City.Traits
 		[Desc("Utility use per cell falls by this many percent per level above 1.")]
 		public readonly int UtilityDiscountPercent = 8;
 
+		// ---- wave 2 features (all 0 = not offered) ----
+		[Desc("Hotel rooms per cell in thousandths (tourist lodging, level scaled like other capacity). 0 = none.")]
+		public readonly int LodgingPerCellMilli = 0;
+
+		[Desc("Storage capacity per cell in thousandths of a unit (warehouse companies of IND/ECO). 0 = none.")]
+		public readonly int StoragePerCellMilli = 0;
+
+		[Desc("Percent of the household slots that are student housing (cheap flats for students).")]
+		public readonly int StudentHousingPercent = 0;
+
 		// ---- money ----
 		[Desc("Monthly upkeep per cell at level 1 (dollars).")]
 		public readonly int UpkeepPerCell = 4;

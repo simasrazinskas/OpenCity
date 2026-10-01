@@ -59,7 +59,7 @@ namespace OpenRA.Mods.City.Traits
 
 		string ICityAutoTestReporter.AutoTestReport()
 		{
-			int homes = 0, jobs = 0, households = 0, filled = 0, abandoned = 0, building = 0, lots = 0, rent = 0, declining = 0, landSum = 0;
+			int homes = 0, jobs = 0, households = 0, filled = 0, abandoned = 0, building = 0, lots = 0, rent = 0, declining = 0, landSum = 0, corners = 0, storage = 0;
 			long condition = 0;
 			var levels = new int[6];
 			var shapes = new int[5, 5];
@@ -78,6 +78,10 @@ namespace OpenRA.Mods.City.Traits
 					continue;
 
 				lots++;
+				if (records[i].Corner)
+					corners++;
+
+				storage += g.StorageCapacity;
 				levels[Math.Clamp(g.Level, 0, 5)]++;
 				shapes[Math.Min(4, p.Width), Math.Min(4, p.Depth)]++;
 				rent += p.RentPerMonth;
@@ -108,11 +112,12 @@ namespace OpenRA.Mods.City.Traits
 				if (decliningByZone[z] > 0 || upByZone[z] > 0)
 					zoneParts.Append((ZoneType)z).Append(":up").Append(upByZone[z]).Append("/down").Append(decliningByZone[z]).Append(' ');
 
+			LodgingTotals(out var rooms, out var guests);
 			var avgRent = lots > 0 ? rent / lots : 0;
 			var avgCondition = lots > 0 ? (int)(condition / lots) : 0;
 			return $"properties n={records.Count} lots={lots} homes={households}/{homes} jobs={filled}/{jobs} " +
 				$"levels=L1:{levels[1]},L2:{levels[2]},L3:{levels[3]},L4:{levels[4]},L5:{levels[5]} abandoned={abandoned} building={building} declining={declining} " +
-				$"avgRent={avgRent} avgLV={(lots > 0 ? landSum / lots : 0)} avgCond={avgCondition} payers={(PaymentsActive ? 1 : 0)} byZone=[{zoneParts.ToString().TrimEnd()}] shapes=[{sb.ToString().TrimEnd()}] hash={StateHash:X8}";
+				$"corners={corners} rooms={guests}/{rooms} storage={storage} avgRent={avgRent} avgLV={(lots > 0 ? landSum / lots : 0)} avgCond={avgCondition} payers={(PaymentsActive ? 1 : 0)} byZone=[{zoneParts.ToString().TrimEnd()}] shapes=[{sb.ToString().TrimEnd()}] hash={StateHash:X8}";
 		}
 	}
 }

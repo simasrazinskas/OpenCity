@@ -22,6 +22,38 @@ namespace OpenRA.Mods.City.Traits
 		"Implements IProgression. The catalogue is data: ProgressionMilestone / ProgressionNode / ProgressionPolicy trait instances.")]
 	public class ProgressionInfo : TraitInfo
 	{
+		// Fluent keys the UI and the chirper resolve at runtime (referenced here so the lint sees them as used).
+		[FluentReference("name", "money", "points", "tiles")]
+		public const string MilestoneNotification = "notification-prg-milestone";
+
+		[FluentReference("name", "price")]
+		public const string TileNotification = "notification-prg-tile";
+
+		[FluentReference("id")]
+		public const string DistrictDefaultName = "district-default-name";
+
+		[FluentReference("name")]
+		public static readonly string[] NameNotifications = ["notification-prg-node", "notification-prg-achievement"];
+
+		[FluentReference("arg")]
+		public static readonly string[] Chirps = ["chirp-prg-milestone", "chirp-prg-achievement", "chirp-prg-node", "chirp-prg-tile"];
+
+		[FluentReference]
+		public static readonly string[] DemandFactorNames =
+		[
+			"demand-factor-start", "demand-factor-jobs", "demand-factor-happiness", "demand-factor-taxes", "demand-factor-homeless",
+			"demand-factor-students", "demand-factor-utilities", "demand-factor-free-housing", "demand-factor-free-buildings",
+			"demand-factor-local-demand", "demand-factor-service", "demand-factor-goods", "demand-factor-workforce", "demand-factor-hotels",
+			"demand-factor-labor", "demand-factor-labor-skilled", "demand-factor-storage", "demand-factor-tourism"
+		];
+
+		[FluentReference]
+		public static readonly string[] XpSourceNames =
+		[
+			"xp-source-population", "xp-source-workers", "xp-source-roads", "xp-source-happiness", "xp-source-placement",
+			"xp-source-achievement", "xp-source-other"
+		];
+
 		[Desc("World ticks between passive-XP / tourism updates (one aggregate pulse).")]
 		public readonly int UpdateTicks = 25;
 
@@ -74,6 +106,9 @@ namespace OpenRA.Mods.City.Traits
 
 		[Desc("Percent of the visitor arrivals lost per tourist without a bed (CIT's lodging report), at most 50.")]
 		public readonly int UnhousedPenaltyPercent = 5;
+
+		[Desc("Tourist attractiveness points per 10 hotel rooms (operational lodging properties of the zoning registry).")]
+		public readonly int HotelPointsPer10Rooms = 2;
 
 		public override object Create(ActorInitializer init) { return new Progression(init.Self, this); }
 	}
@@ -300,7 +335,10 @@ namespace OpenRA.Mods.City.Traits
 			statistics = world.WorldActor.TraitsImplementing<ICityStatistics>().FirstOrDefault()
 				?? self.TraitsImplementing<ICityStatistics>().FirstOrDefault();
 			roadLayer = world.WorldActor.TraitOrDefault<RoadLayer>();
-			signatures = ZoningLookup.Find<ISignatureUnlocks>(world);
+
+			// Own player first: every player actor (incl. Neutral) carries a SignatureUnlocks, only ours tracks our city.
+			signatures = self.TraitsImplementing<ISignatureUnlocks>().FirstOrDefault() ?? ZoningLookup.Find<ISignatureUnlocks>(world);
+			lodging = world.WorldActor.TraitOrDefault<PropertyRegistry>();
 			ResolveStats();
 			clock = world.WorldActor.TraitOrDefault<CityClock>();
 			lastClockDay = clock?.DayIndex ?? 0;
@@ -471,6 +509,18 @@ namespace OpenRA.Mods.City.Traits
 			}
 		}
 
+		// Signature buildings the player may place right now (rules met, not built yet), via ZON's ISignatureUnlocks.
+		int SignaturesOpen()
+		{
+			var n = 0;
+			if (signatures != null)
+				foreach (var sig in signatures.Signatures)
+					if (IsUnlocked(sig))
+						n++;
+
+			return n;
+		}
+
 		string ICityAutoTestReporter.AutoTestReport()
 		{
 			var names = placed.Keys.ToList();
@@ -480,7 +530,8 @@ namespace OpenRA.Mods.City.Traits
 				$"next={NextMilestoneXp} dp={DevPoints} permits={Permits} " +
 				$"tiles={OwnedTileCount}/{TileGrid * TileGrid} ownedRect={OwnedBounds()} nodes={OwnedNodeCount}/{NodeCount} " +
 				$"policies={ActivePolicyCount} districts={DistrictCount} " +
-				$"ach={UnlockedAchievementCount}/{AchievementCount} xpSrc=[{string.Join("/", xpBySource)}] " +
+				$"sigOpen={SignaturesOpen()} lodging={LodgingRooms}/{LodgingGuests} ach={UnlockedAchievementCount}/{AchievementCount} " +
+				$"xpSrc=[{string.Join("/", xpBySource)}] " +
 				$"attr={Attractiveness} visitors={VisitorGroupsPerMonth} hash={StateHash}";
 		}
 	}

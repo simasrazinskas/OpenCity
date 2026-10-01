@@ -39,6 +39,9 @@ namespace OpenRA.Mods.City.Traits
 		[Desc("Rent payments (ReportRentPaid) older than this many months no longer count as 'tenants are paying'; the fallback loop takes over.")]
 		public readonly int PaymentsWindowMonths = 2;
 
+		[Desc("Land value bonus of corner lots (frontage on two connected roads).")]
+		public readonly int CornerLandValueBonus = 5;
+
 		[Desc("Ticks between pulses that refresh flags, land value and rent (a quarter of the records each pulse).")]
 		public readonly int Pulse = 25;
 
@@ -52,6 +55,7 @@ namespace OpenRA.Mods.City.Traits
 			public Property P;
 			public CityBuilding City;
 			public GrowableBuilding Growable;
+			public bool Corner;
 			public Action<GrowableBuilding> OnChanged;
 		}
 
@@ -347,6 +351,13 @@ namespace OpenRA.Mods.City.Traits
 			var p = r.P;
 			var cells = p.Width * p.Depth;
 			var lv = SampleLandValue(r);
+			if (r.Corner)
+				lv = Math.Min(100, lv + Info.CornerLandValueBonus);
+
+			// Road add-ons (trees, street lights) around the lot (NET).
+			if (r.Growable != null && roads is RoadLayer roadLayer)
+				lv = Math.Min(100, lv + roadLayer.GetLandValueBonusAround(p.AccessCell));
+
 			p.LandValue = lv;
 			if (landValue != null)
 				r.City.SetZoningLandValue(lv);

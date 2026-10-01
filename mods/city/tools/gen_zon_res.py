@@ -1,15 +1,17 @@
 """gen_zon_res.py - low density residential lots: res-low (houses) and res-row (terraces)."""
 import genworld as G
-from genworld import H
+from genworld import H, WARM, DARKWIN
 from pngkit import shade, mix
 from gen_zon_base import (layers, finish, shadow, lawn, paving, hedge, pool, trees, car,
-                          roof_gear)
+                          roof_gear, pk, tiled, dormers, mansard, eu_windows, light_up, planters,
+                          flag, SHUTTER, EU_TILE, EU_SLATE)
 
-GRASS = [H("78BE55"), H("6FB850"), H("82C25C"), H("74B954")]
-ROOFS = G.ROOFS_RES
-WALLS = G.WALLS_RES
-VILLA_ROOF = [H("9A9187"), H("6E7F96"), H("B0634A"), H("5E6B5E")]
-VILLA_WALL = [H("F7F3EA"), H("F4E6C8"), H("FFFFFF"), H("E9D9C4")]
+# 8-entry palettes: 0-3 North American, 4-7 European (pick with pk)
+GRASS = [H("78BE55"), H("6FB850"), H("82C25C"), H("74B954"), H("6DAE4E"), H("79B65A"), H("69A84C"), H("73B352")]
+ROOFS = G.ROOFS_RES + [EU_TILE[0], EU_SLATE[0], EU_TILE[2], EU_TILE[1]]
+WALLS = G.WALLS_RES + [H("F3E3C3"), H("EBC6A4"), H("F2D7CF"), H("DCE5D0")]
+VILLA_ROOF = [H("9A9187"), H("6E7F96"), H("B0634A"), H("5E6B5E"), EU_SLATE[1], EU_TILE[0], EU_SLATE[0], EU_TILE[3]]
+VILLA_WALL = [H("F7F3EA"), H("F4E6C8"), H("FFFFFF"), H("E9D9C4"), H("F6EFDF"), H("E9D29E"), H("F2D7CF"), H("EDE3CF")]
 
 
 def hipped(b, x, y, w, d, col):
@@ -29,13 +31,28 @@ def hipped(b, x, y, w, d, col):
     b.rect(x, y + d - 1, w, 1, shade(col, 0.6))
 
 
-def house(b, g, L, x, yb, w, d, h, roof, wall, seed, kind="gable", ridge_v=False, lit=0.4):
-    shadow(g, L, x, yb, w, d, h + 3)
+def house(b, g, L, x, yb, w, d, h, roof, wall, seed, kind="gable", ridge_v=False, lit=0.4, eu=None):
+    """eu = shutter colour (EU theme): steeper tiled roofs (5px lift), dormers, shuttered sashes."""
+    lift = 5 if eu else 3
+    shadow(g, L, x, yb, w, d, h + lift)
     rx, ry, rw, rd = G.box3d(b, x, yb, w, d, h, roof, wall)
+    ytop, dd = ry - lift, rd + lift
     if kind == "gable":
-        G.pitched(b, rx, ry - 3, rw, rd + 3, roof, ridge_vertical=ridge_v)
+        if eu:
+            tiled(b, rx, ytop, rw, dd, roof, ridge_vertical=ridge_v)
+            if not ridge_v and rw >= 10:
+                dormers(b, rx + 2, ytop + dd // 2 + 1, rw - 4, roof, wall, lit, seed, 9)
+        else:
+            G.pitched(b, rx, ytop, rw, dd, roof, ridge_vertical=ridge_v)
     elif kind == "hip":
-        hipped(b, rx, ry - 3, rw, rd + 3, roof)
+        hipped(b, rx, ytop, rw, dd, roof)
+        if eu:
+            for yy in range(ytop + 2, ytop + dd - 1, 2):
+                b.hline(rx + 1, rx + rw - 2, yy, (0, 0, 0, 22))
+            if rw >= 14:
+                dormers(b, rx + 4, ytop + dd // 2 + 1, rw - 8, roof, wall, lit, seed, 10)
+    elif kind == "mansard":
+        mansard(b, (rx, ytop, rw, dd), roof, wall=wall, lit=lit, seed=seed, step=8)
     else:  # flat with parapet
         b.rect(rx, ry, rw, 1, shade(roof, 1.3))
         b.rect(rx, ry + rd - 1, rw, 1, shade(roof, 0.7))
@@ -43,22 +60,32 @@ def house(b, g, L, x, yb, w, d, h, roof, wall, seed, kind="gable", ridge_v=False
     fh = h // floors
     for f in range(floors):
         wy = yb - h + f * fh + (fh - 3) // 2
-        G.windows(b, x + 2, wy, w - 4, 3, max(2, (w - 4) // 5), 1, lit=lit, seed=seed + f, ww=2, wh=2)
-    return (rx, ry - 3, rw, rd + 3)
+        if eu:
+            eu_windows(b, x + 2, yb - h + f * fh, w - 4, fh, seed + f, lit, eu, step=6, wh=3 if fh >= 5 else 2)
+        else:
+            G.windows(b, x + 2, wy, w - 4, 3, max(2, (w - 4) // 5), 1, lit=lit, seed=seed + f, ww=2, wh=2)
+    return (rx, ytop, rw, dd)
 
 
 def res_low(L):
     g, b = layers(L.W, L.H)
     r = L.rng("rl")
-    v, T, fw, fd, y0, yB = L.v, L.tier, L.fw, L.fd, L.y0, L.yB
-    roof = ROOFS[v] if T < 3 else VILLA_ROOF[v]
-    wall = WALLS[(v + T) % 4] if T < 3 else VILLA_WALL[v]
+    v, T, fw, fd, y0, yB = L.lv, L.tier, L.fw, L.fd, L.y0, L.yB
+    eu = SHUTTER[(v + T) % 4] if L.eu else None
+    roof = pk(ROOFS, L) if T < 3 else pk(VILLA_ROOF, L)
+    wall = pk(WALLS, L, v + T) if T < 3 else pk(VILLA_WALL, L)
     if L.up:
         wall = shade(wall, 1.05)
     lit = 0.35 + 0.25 * L.up
-    lawn(g, 0, y0, fw, fd, GRASS[v], seed=L.seed("lawn"))
-    g.rect(0, y0, fw, 1, shade(GRASS[v], 0.8))
-    if T < 3:
+    lawn(g, 0, y0, fw, fd, pk(GRASS, L), seed=L.seed("lawn"))
+    g.rect(0, y0, fw, 1, shade(pk(GRASS, L), 0.8))
+    if eu:  # clipped hedges all round + low garden wall at the street
+        hedge(g, 1, y0 + 1, fw - 2)
+        g.rect(1, y0 + 1, 2, fd - 3, H("3E8E45"))
+        g.rect(fw - 3, y0 + 1, 2, fd - 3, H("2F7A3A"))
+        g.rect(1, yB - 3, fw - 2, 2, H("C9BFAE"))
+        g.rect(1, yB - 3, fw - 2, 1, H("E3DACB"))
+    elif T < 3:
         G.fence(g, 1, y0 + 1, fw - 2, fd - 2, sides="tblr")
     else:
         hedge(g, 1, y0 + 1, fw - 2)
@@ -93,16 +120,22 @@ def res_low(L):
         g.rect(gx + 1, yb, 8, yB - yb, H("BDB7A8"))
     # house
     kind = "gable" if T == 1 else ("gable" if v % 2 == 0 else "hip") if T == 2 else ("hip" if v % 2 else "flat")
-    rr = house(b, g, L, x, yb, w, d, h, roof, wall, L.seed("h"), kind, ridge_v=(T == 1 and v % 2 == 1), lit=lit)
-    G.door(b, x + w // 2 - 1 + (v % 3) - 1, yb - 4, 3, 4)
-    if T >= 2 and kind != "flat":
+    if eu and kind == "flat":
+        kind = "mansard"
+    rr = house(b, g, L, x, yb, w, d, h, roof, wall, L.seed("h"), kind, ridge_v=(T == 1 and v % 2 == 1), lit=lit, eu=eu)
+    G.door(b, x + w // 2 - 1 + (v % 3) - 1, yb - 4, 3, 4, shade(eu, 0.8) if eu else H("6B4A32"))
+    if eu and T == 1:
+        G.chimney(b, x + w - 5 - 3 * (v % 2), rr[1] + 5, 4, 3, H("A4523C"))
+    if T >= 2 and kind not in ("flat", "mansard"):
         G.chimney(b, x + w - 6 - 3 * (v % 2), rr[1] + 4, 4)
     if T == 3:
         # front wing of the villa (L-shape), terrace roof
         ww = max(9, w // 3)
         wx = x if v % 2 == 0 else x + w - ww
-        wrr = house(b, g, L, wx, yb + 4, ww, 8, 7, shade(roof, 1.05), wall, L.seed("wing"), "flat", lit=lit)
-        b.rect(wrr[0] + 2, wrr[1] + 5, wrr[2] - 4, 3, H("C9A27A"))  # timber deck on terrace
+        wrr = house(b, g, L, wx, yb + 4, ww, 8, 7, shade(roof, 1.05), wall, L.seed("wing"),
+                    "gable" if eu else "flat", ridge_v=True, lit=lit, eu=eu)
+        if not eu:
+            b.rect(wrr[0] + 2, wrr[1] + 5, wrr[2] - 4, 3, H("C9A27A"))  # timber deck on terrace
         b.rect(wx + 2, yb, ww - 4, 1, H("6FB3D8"))  # glazing strip
         if kind == "flat":
             roof_gear(b, (rr[0], rr[1] + 3, rr[2], rr[3] - 3), L, 0.5, solar=L.up, sky=True)
@@ -115,14 +148,14 @@ def res_low(L):
         b.rect(gx + 2, yb - 4, gw - 4, 3, shade(wall, 0.62))
         for yy in range(yb - 4, yb - 1, 1):
             b.hline(gx + 2, gx + gw - 3, yy, (0, 0, 0, 30 if yy % 2 else 0))
-        G.pitched(b, grr[0], grr[1] - 1, grr[2], grr[3] + 1, shade(roof, 0.95), ridge_vertical=True)
+        (tiled if eu else G.pitched)(b, grr[0], grr[1] - 1, grr[2], grr[3] + 1, shade(roof, 0.95), ridge_vertical=True)
         if T >= 2 or L.up:
             car(g, gx + 3, yb + 2, G.CARCOLS[(v + L.level) % 6], horizontal=False)
     elif L.up or T >= 2:
         car(g, 3 if side < 0 else fw - 7, yb + 1, G.CARCOLS[(v + L.level) % 6], horizontal=False)
     # upgrade: solar, flowers, extra greenery
     if L.up:
-        if kind != "flat":
+        if kind not in ("flat", "mansard"):
             G.solar_panel(b, rr[0] + 2, rr[1] + rr[3] // 2 + 1, min(rr[2] - 4, 10), 3)
         G.flowerbed(g, x + 1, yb + 1, min(6, w // 2), seed=v)
         G.flowerbed(g, x + w - 7, yb + 1, 6, seed=v + 3)
@@ -137,6 +170,18 @@ def res_low(L):
     if T == 3:
         for xx in range(4, fw - 4, 6):
             G.bush(g, xx, yB - 3, H("3E8E45"))
+    if L.boost:  # upgrade: everyone home, porch canopy, patio with parasol, flag, planters
+        light_up(b, x, yb - h, w, h, 0.8, L.seed("lu"))
+        b.rect(x + 2, yb - 6, w - 4, 1, (255, 255, 255, 170))
+        for px in range(x + 3, x + w - 3, max(4, (w - 6) // 3)):
+            b.rect(px, yb - 5, 1, 5, (255, 255, 255, 140))
+        px = x + 2 if side > 0 else x + w - 12
+        g.rect(px, yb + 2, 10, 6, H("C9A27A"))
+        for xx in range(px + 1, px + 10, 2):
+            g.vline(xx, yb + 2, yb + 7, (0, 0, 0, 22))
+        g.circle(px + 5, yb + 4, 2.6, H("E86F4A") if not eu else H("F4F4F4"))
+        g.circle(px + 4.6, yb + 3.6, 1.4, H("F2A07A") if not eu else H("FFFFFF"))
+        flag(b, fw - 6 if side < 0 else 4, yB - 3, 12, H("C0392B") if not eu else H("2F5E8A"))
     return finish(b, g)
 
 
@@ -196,18 +241,38 @@ def garden_props(g, b, L, x0, y0, x1, y1, hx0, hx1, hy):
 BRICKS = [[H("B5654A"), H("9E5D4C"), H("C4775A"), H("A85A44")],
           [H("D9B48F"), H("C9A57A"), H("E2CDA8"), H("D1AE84")],
           [H("F2D0DC"), H("CFE6F2"), H("F7EBC0"), H("D6EBD0")],
-          [H("E6E3DC"), H("CFCBC4"), H("BFC4C9"), H("DAD4C6")]]
-ROW_ROOFS = [H("5F6670"), H("8B4A3C"), H("4E5A6E"), H("6B5B4E")]
+          [H("E6E3DC"), H("CFCBC4"), H("BFC4C9"), H("DAD4C6")],
+          # EU: canal-house brick, brick + stucco, pastel stucco, mixed
+          [H("A4523C"), H("8E4A3A"), H("B2603F"), H("7E3E30")],
+          [H("B2603F"), H("F3E3C3"), H("8E4A3A"), H("D9C3A0")],
+          [H("F2D7CF"), H("DCE5D0"), H("F6EFDF"), H("E9D29E")],
+          [H("EBC6A4"), H("A4523C"), H("C9D6E0"), H("E6B8A2")]]
+ROW_ROOFS = [H("5F6670"), H("8B4A3C"), H("4E5A6E"), H("6B5B4E"), EU_TILE[1], EU_SLATE[0], EU_TILE[0], EU_SLATE[2]]
+
+
+def step_gable(b, x, ybase, w, wall, lit, seed, stepped=True):
+    """Street-facing gable rising above the eaves line ybase (stepped = Flemish/Dutch)."""
+    r = G.rng("gable", x, ybase, seed)
+    hgt = min(8, w // 2 + 1)
+    for k in range(hgt):
+        ins = min(w // 2 - 1, (k // 2) * 2 if stepped else k)
+        b.rect(x + ins, ybase - 1 - k, w - 2 * ins, 1, wall)
+        b.set(x + ins, ybase - 1 - k, shade(wall, 1.15))
+        b.set(x + w - 1 - ins, ybase - 1 - k, shade(wall, 0.75))
+        if stepped and k % 2 == 1:
+            b.rect(x + ins, ybase - 1 - k, w - 2 * ins, 1, shade(wall, 1.2))  # coping
+    b.rect(x + w // 2 - 1, ybase - 4, 2, 2, WARM if r.random() < lit else DARKWIN)
 
 
 def res_row(L):
     g, b = layers(L.W, L.H)
-    v, T, fw, fd, y0, yB = L.v, L.tier, L.fw, L.fd, L.y0, L.yB
+    v, T, fw, fd, y0, yB = L.lv, L.tier, L.fw, L.fd, L.y0, L.yB
+    eu = L.eu
     r = L.rng("row")
     lit = 0.35 + 0.25 * L.up
-    lawn(g, 0, y0, fw, fd, GRASS[(v + 1) % 4], seed=L.seed("lawn"))
-    g.rect(0, y0, fw, 1, shade(GRASS[v], 0.8))
-    uw_t = {1: 11, 2: 13, 3: 16}[T]
+    lawn(g, 0, y0, fw, fd, pk(GRASS, L, v + 1), seed=L.seed("lawn"))
+    g.rect(0, y0, fw, 1, shade(pk(GRASS, L), 0.8))
+    uw_t = {1: 9, 2: 10, 3: 12}[T] if eu else {1: 11, 2: 13, 3: 16}[T]
     n = max(2, round(fw / uw_t))
     xs = [round(i * fw / n) for i in range(n + 1)]
     h = {1: 11, 2: 15, 3: 20}[T]
@@ -239,8 +304,9 @@ def res_row(L):
                     g.rect(ux + 1, gy + 1, uw - 2, 5, H("D9CDB4"))  # patio
                     g.circle(ux + uw // 2, gy + 3, 1.5, H("F4F4F4"))
     shadow(g, L, 0, yb, fw, d, h + 3)
-    roofc = ROW_ROOFS[v]
-    pal = BRICKS[v]
+    roofc = pk(ROW_ROOFS, L)
+    pal = BRICKS[4 * eu + v]
+    gable = eu and not (T == 3 and v % 2 == 1)
     for i in range(n):
         x0, ww = xs[i], xs[i + 1] - xs[i]
         wall = pal[(i * 3 + i // 2) % 4] if T < 3 else pal[i % 2]
@@ -248,7 +314,10 @@ def res_row(L):
             wall = shade(wall, 1.06)
         rx, ry, rw, rd = G.box3d(b, x0, yb, ww, d, h, roofc, wall, light=False)
         ytop = ry - 3
-        if T == 3 and v % 2 == 1:  # mansard: flat top, dark slate band with dormers
+        if gable:  # EU: ridge front-to-back, street-facing (stepped) gable
+            tiled(b, rx, ytop, rw, rd + 3, shade(roofc, 1.0 + 0.06 * (i % 3)), ridge_vertical=True)
+            step_gable(b, x0, ry + rd, ww, wall, lit, L.seed("g", i), stepped=(i + v) % 3 != 0)
+        elif T == 3 and v % 2 == 1:  # mansard: flat top, dark slate band with dormers
             b.rect(rx, ytop, rw, rd + 3, shade(roofc, 0.9))
             b.rect(rx, ytop + rd - 1, rw, 4, shade(roofc, 0.7))
             b.rect(rx + ww // 2 - 2, ytop + rd, 4, 2, H("E8E4DA"))
@@ -264,6 +333,9 @@ def res_row(L):
             wy = yb - h + 1 + f * 5
             if f == floors - 1:
                 continue
+            if eu:
+                eu_windows(b, x0 + 1, wy - 1, ww - 2, 5, L.seed("w", i, f), lit, None, step=4 if ww < 11 else 5)
+                continue
             G.windows(b, x0 + 1, wy, ww - 2, 3, 2, 1, lit=lit, seed=L.seed("w", i, f))
         # ground floor: door + window (bay window on T2+)
         dside = (i + v) % 2
@@ -276,10 +348,10 @@ def res_row(L):
             b.rect(wx - 1, yb - 1, 5, 1, (10, 18, 30, 90))
         else:
             b.rect(wx, yb - 4, 3, 2, H("FFD98A") if r.random() < lit else H("2C3A52"))
-        if i > 0 and (i % 2 == 0 or T == 1):
+        if i > 0 and (i % 2 == 0 or T == 1) and not gable:
             G.chimney(b, x0 - 1, ry + 3, 4, 3, shade(wall, 0.8))
         if L.up and i % 2 == v % 2:
-            if T == 1:
+            if T == 1 and not gable:
                 G.solar_panel(b, rx + 1, ytop + rd // 2 + 2, ww - 2, 3)
             else:
                 G.flowerbed(b, x0 + 1, yb - 9, ww - 2, seed=i)
@@ -297,4 +369,14 @@ def res_row(L):
             G.tree(g, x, yB - 6, 3, H("3F9B4A"))
     elif L.cy == 1 and L.up:
         G.tree(g, fw - 5, yB - 7, 3, H("52A857"))
+    if L.boost:  # upgrade: lights on, window boxes on every unit, bunting, street planters
+        light_up(b, 0, yb - h, fw, h, 0.75, L.seed("lu"))
+        win = (tuple(WARM), tuple(DARKWIN))
+        for yy in range(yb - h, yb - 7):  # flower boxes under the upper-floor windows
+            for xx in range(1, fw - 1):
+                if tuple(b.get(xx, yy)) in win and tuple(b.get(xx, yy + 1)) not in win:
+                    b.set(xx, yy + 1, [H("F26B6B"), H("5DB062"), H("F7D154")][(xx + yy) % 3])
+        for xx in range(0, fw, 2):
+            b.set(xx, yb - h + 2 + (xx // 2) % 2, [H("E84545"), H("F2C94C"), H("2C6FD1")][(xx // 2) % 3])
+        planters(g, 2, yB - 2, fw - 4, 9, L.seed("pl"))
     return finish(b, g)

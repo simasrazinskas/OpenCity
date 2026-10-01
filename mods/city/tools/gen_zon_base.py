@@ -69,6 +69,11 @@ def finish(b, g):
     return g
 
 
+def pk(lst, L, i=None):
+    """Pick from an 8-entry palette (0-3 NA, 4-7 EU): entry i (default the layout variant) of the lot's theme."""
+    return lst[4 * L.eu + ((L.lv if i is None else i) % 4)]
+
+
 # --------------------------------------------------------------------------- lot geometry
 class Lot:
     """Geometry + identity of one frame."""
@@ -76,8 +81,11 @@ class Lot:
     def __init__(self, zone, cx, cy, hr, level, v):
         self.zone, self.cx, self.cy, self.hr = zone, cx, cy, hr
         self.level, self.v = level, v
+        self.eu = v >= 4           # variants 4-7: European theme, 0-3: North American
+        self.lv = v % 4            # layout variant (same massing family in both themes)
         self.tier = {1: 1, 2: 1, 3: 2, 4: 2, 5: 3}[level]
         self.up = level in (2, 4)
+        self.boost = self.up and cx >= 2 and cy >= 2   # extra-visible upgrade dressing
         self.fw, self.fd = 32 * cx, 32 * cy
         self.W, self.H = self.fw, 32 * (cy + hr)
         self.y0 = 32 * hr          # top of the footprint
@@ -209,7 +217,9 @@ def part(b, g, L, x, yb, w, d, h, roof, wall, style=None, seed=0, lit=0.35, acce
     if shad:
         shadow(g, L, x, yb, w, d, h)
     rr = G.box3d(b, x, yb, w, d, h, roof, wall)
-    if style:
+    if style in ("eu", "eushop"):
+        eu_facade(b, x, rr[1] + rr[3], w, h, seed, lit, accent, shops=style == "eushop")
+    elif style:
         G.facade(b, x, rr[1] + rr[3], w, h, style, seed, accent=accent, lit=lit)
     return rr
 
@@ -342,3 +352,222 @@ def shopfront(b, x, y, w, h=4, seed=0):
     for xx in range(x + 1, x + w - 1, 3):
         if r.random() < 0.4:
             b.set(xx, y + h - 2, (255, 226, 150, 220))
+
+
+# =========================================================================== EU theme primitives
+# Variants 4-7 of every zone. Warm stucco / brick facades, steep tiled or slate roofs with
+# dormers, mansards, shutters, shop awnings, cafe tables, cobbles.
+EU_TILE = [H("B4553A"), H("9C4A36"), H("C46A44"), H("8A4B3B")]     # terracotta
+EU_SLATE = [H("4F5664"), H("5D6372"), H("454C58"), H("666B75")]     # slate / zinc mansards
+EU_ZINC = H("9AA5AF")
+EU_STUCCO = [H("F3E3C3"), H("EBC6A4"), H("F2D7CF"), H("DCE5D0"), H("F6EFDF"), H("E9D29E")]
+EU_BRICK = [H("A4523C"), H("B2603F"), H("8E4A3A"), H("C07A55")]
+SHUTTER = [H("3E7A55"), H("2F5E8A"), H("8A3A30"), H("6F7B52")]
+FRAME = H("F4F1EA")
+
+
+def tiled(b, x, y, w, d, col, ridge_vertical=False, step=2):
+    """Steep clay/slate roof: G.pitched plus tile courses."""
+    G.pitched(b, x, y, w, d, col, ridge_vertical)
+    if ridge_vertical:
+        for xx in range(x + 1, x + w - 1, step):
+            b.vline(xx, y + 1, y + d - 2, (0, 0, 0, 26))
+    else:
+        for yy in range(y + 1, y + d - 1, step):
+            b.hline(x, x + w - 1, yy, (0, 0, 0, 26))
+
+
+def dormers(b, x, y, w, roof, wall, lit=0.35, seed=0, step=7):
+    """Row of small dormers (4 wide, base row y) centred in x..x+w."""
+    if w < 6:
+        return
+    r = random.Random(seed)
+    n = max(1, (w - 2) // step)
+    ox = x + (w - (n - 1) * step - 4) // 2
+    for i in range(n):
+        dx = ox + i * step
+        b.rect(dx, y - 1, 4, 1, shade(roof, 1.3))
+        b.rect(dx, y, 4, 3, wall)
+        b.rect(dx + 3, y, 1, 3, shade(wall, 0.75))
+        b.rect(dx + 1, y + 1, 2, 2, WARM if r.random() < lit else DARKWIN)
+
+
+def mansard(b, rr, slate, top=EU_ZINC, wall=FRAME, lit=0.35, seed=0, step=7):
+    """Mansard seen from above: slate border, zinc flat with seams, steep front slope with dormers."""
+    x, y, w, d = rr
+    b.rect(x, y, w, d, slate)
+    if w < 6 or d < 6:
+        return
+    b.rect(x, y, w, 1, shade(slate, 1.3))
+    b.rect(x, y, 1, d, shade(slate, 1.15))
+    b.rect(x + w - 1, y, 1, d, shade(slate, 0.8))
+    if d >= 10:
+        b.rect(x + 2, y + 2, w - 4, d - 8, top)
+        b.rect(x + 2, y + 2, w - 4, 1, shade(top, 1.15))
+        for xx in range(x + 4, x + w - 3, 3):
+            b.vline(xx, y + 3, y + d - 7, (255, 255, 255, 40))
+    b.rect(x, y + d - 5, w, 5, shade(slate, 0.86))
+    b.rect(x, y + d - 1, w, 1, FRAME)  # cornice
+    dormers(b, x, y + d - 4, w, slate, wall, lit, seed, step)
+
+
+def eu_windows(c, x, y, w, h, seed, lit=0.35, shutter=None, step=6, wh=3):
+    """One floor band: tall 2px sash windows, shutters (1px each side) or a light lintel."""
+    if w < 4 or h < 2:
+        return
+    r = random.Random(seed)
+    wh = max(1, min(wh, h - 1))
+    n = max(1, (w - 1) // step)
+    ox = x + (w - (n - 1) * step - 2) // 2
+    wy = y + max(0, (h - wh) // 2)
+    for i in range(n):
+        px = ox + i * step
+        on = r.random() < lit
+        c.rect(px, wy, 2, wh, WARM if on else DARKWIN)
+        if not on:
+            c.blend(px, wy, (255, 255, 255, 40))
+        if shutter:
+            c.rect(px - 1, wy, 1, wh, shutter)
+            c.rect(px + 2, wy, 1, wh, shade(shutter, 0.8))
+        else:
+            c.rect(px - 1, wy - 1, 4, 1, (255, 255, 255, 110))
+        c.rect(px - 1, wy + wh, 4, 1, (255, 255, 255, 70))
+
+
+def eu_facade(c, x, y, w, h, seed, lit=0.35, accent=None, shops=False):
+    """European facade on rect (x, y, w, h): floors of sash windows (shuttered in `accent`)
+    with string courses; shops=True adds a shop ground floor with an awning in `accent`."""
+    if h < 4 or w < 4:
+        return
+    gh = min(6, h // 3) if shops and h >= 9 else 0
+    up = h - gh
+    floors = max(1, up // 6)
+    fh = up / floors
+    for j in range(floors):
+        fy = int(y + j * fh)
+        eu_windows(c, x + 1, fy, w - 2, int(fh) - 1, seed * 13 + j, lit, None if shops else accent,
+                   wh=3 if fh >= 6 else 2)
+        c.hline(x + 1, x + w - 2, int(fy + fh) - 1, (255, 255, 255, 60))
+    if gh:
+        gy = y + up
+        shopfront(c, x + 2, gy + 2, w - 4, gh - 2, seed)
+        awnings(c, x + 2, gy, w - 4, [accent or SHUTTER[seed % 4]], 7)
+    else:
+        c.rect(x + 1, y + h - 2, w - 2, 1, (0, 0, 0, 30))  # plinth
+
+
+def brick(b, x, y, w, h, alpha=38):
+    """Mortar courses + staggered joints over a wall rect."""
+    for yy in range(y + 1, y + h, 2):
+        b.hline(x, x + w - 1, yy, (235, 225, 205, alpha))
+        for xx in range(x + (yy // 2 % 2) * 2, x + w, 4):
+            b.blend(xx, yy - 1, (40, 20, 10, alpha))
+
+
+def cobbles(g, x, y, w, h, col=H("B9AFA0"), seed=0):
+    g.rect(x, y, w, h, col)
+    g.noise(0.07, seed=seed, x=x, y=y, w=w, h=h)
+    for yy in range(y + 2, y + h, 3):
+        g.rect(x, yy, w, 1, with_alpha(shade(col, 0.88), 120))
+
+
+def cafe(g, x, y, w, seed, cols=None, step=7):
+    """Cafe tables with parasols along y (parasol centre row)."""
+    r = random.Random(seed)
+    cols = cols or [H("C0392B"), H("F4F4F4"), H("2E6B4C"), H("E9C46A")]
+    for xx in range(x + 3, x + w - 3, step):
+        col = r.choice(cols)
+        g.ellipse(xx + 1, y + 2, 2.5, 1.2, (10, 18, 30, 60))
+        g.circle(xx, y, 2.2, shade(col, 0.85))
+        g.circle(xx - 0.4, y - 0.4, 1.4, col)
+        g.set(xx - 3, y + 1, H("5E4632"))
+        g.set(xx + 3, y + 1, H("5E4632"))
+
+
+# =========================================================================== upgrade dressing (L2 / L4)
+def light_up(b, x, y, w, h, frac, seed):
+    """Switch on a share of the unlit windows (small dark-blue pixel blobs) inside a rect."""
+    r = random.Random(seed)
+    x0, x1 = max(0, x), min(b.w, x + w)
+    y0, y1 = max(0, y), min(b.h, y + h)
+    px, W = b.px, b.w
+
+    def dark(c):
+        return c[3] == 255 and c[0] < 95 and c[1] < 105 and 60 < c[2] < 125 and c[2] - c[0] >= 22
+
+    seen = set()
+    for yy in range(y0, y1):
+        for xx in range(x0, x1):
+            if (xx, yy) in seen or not dark(px[yy * W + xx]):
+                continue
+            comp, todo = [], [(xx, yy)]
+            seen.add((xx, yy))
+            while todo:
+                cx, cy = todo.pop()
+                comp.append((cx, cy))
+                for nx, ny in ((cx + 1, cy), (cx - 1, cy), (cx, cy + 1), (cx, cy - 1)):
+                    if x0 <= nx < x1 and y0 <= ny < y1 and (nx, ny) not in seen and dark(px[ny * W + nx]):
+                        seen.add((nx, ny))
+                        todo.append((nx, ny))
+            if len(comp) <= 8 and r.random() < frac:
+                for cx, cy in comp:
+                    px[cy * W + cx] = list(WARM)
+
+
+def flag(b, x, yb, h=10, col=H("2C6FD1")):
+    b.rect(x, yb - h, 1, h, H("D4D8DE"))
+    b.rect(x + 1, yb - h, 4, 3, col)
+    b.rect(x + 1, yb - h + 2, 4, 1, shade(col, 0.72))
+    b.set(x, yb - h - 1, H("F2C94C"))
+
+
+def planters(g, x, y, w, step=6, seed=0):
+    """Timber planter boxes with flowers along y."""
+    r = random.Random(seed)
+    for xx in range(x, x + w - 3, step):
+        g.rect(xx, y, 4, 2, H("8C6A4F"))
+        g.rect(xx, y + 2, 4, 1, (10, 18, 30, 60))
+        g.rect(xx, y - 1, 4, 1, H("4FA55B"))
+        g.set(xx + r.randrange(4), y - 1, r.choice([H("F26B6B"), H("F7D154"), H("FFFFFF"), H("C77DE8")]))
+
+
+def roof_terrace(b, rr, seed):
+    """Rooftop terrace: planted edge, timber deck strip, parasols."""
+    x, y, w, d = rr
+    if w < 12 or d < 8:
+        return
+    r = random.Random(seed)
+    b.rect(x + 2, y + d - 6, w - 4, 4, H("B08A62"))
+    for xx in range(x + 3, x + w - 3, 3):
+        b.vline(xx, y + d - 6, y + d - 3, (0, 0, 0, 25))
+    for (gx, gy, gw, gh) in ((x + 1, y + 1, w - 2, 2), (x + 1, y + 1, 2, d - 2), (x + w - 3, y + 1, 2, d - 2)):
+        b.rect(gx, gy, gw, gh, H("5DB062"))
+    for i in range(max(1, (w - 8) // 7)):
+        G.bush(b, x + 4 + i * 7 + r.randrange(2), y + 2, H("4FA55B"))
+    for px in range(x + 5, x + w - 4, 9):
+        b.circle(px, y + d - 5, 1.8, r.choice([H("F4F4F4"), H("E86F4A"), H("F2C94C")]))
+
+
+def boost(b, g, L, out, lit=0.6, terrace=True, flags=True, col=H("2C6FD1")):
+    """Visible L2/L4 dressing on >=2x2 lots for draw_parts output: lit windows, a roof terrace
+    on the largest flat roof, flags at the front corners of the frontmost part."""
+    if not L.boost or not out:
+        return
+    for rr, p in out:
+        light_up(b, p["x"], rr[1] + rr[3], p["w"], p["h"], lit, L.seed("lu", p["x"], p["yb"]))
+    if terrace:
+        k = max(range(len(out)), key=lambda i: out[i][0][2] * out[i][0][3])
+        rr = out[k][0]
+        # parts drawn later (e.g. a tower standing on this podium) must stay on top
+        later = [(r2[0], r2[1], r2[2], r2[3] + p2["h"]) for r2, p2 in out[k + 1:]]
+        x, y, w, d = rr
+        keep = {(xx, yy): b.px[yy * b.w + xx][:] for yy in range(max(0, y), min(b.h, y + d))
+                for xx in range(max(0, x), min(b.w, x + w))
+                if any(lx <= xx < lx + lw and ly <= yy < ly + lh for lx, ly, lw, lh in later)}
+        roof_terrace(b, rr, L.seed("rt"))
+        for (xx, yy), c in keep.items():
+            b.px[yy * b.w + xx] = c
+    if flags:
+        rr, p = max(out, key=lambda o: o[1]["yb"])
+        for fx in (p["x"] + 1, p["x"] + p["w"] - 6):
+            flag(b, fx, p["yb"], min(12, p["h"] + 2), col)

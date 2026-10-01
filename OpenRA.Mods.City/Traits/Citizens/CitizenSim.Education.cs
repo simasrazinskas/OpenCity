@@ -147,7 +147,7 @@ namespace OpenRA.Mods.City.Traits
 			{
 				cits[ci].Education = (byte)level;
 				graduates++;
-				Announce("chirp-citizen-graduated", ci, 2, 35);
+				Announce(1, ci, 35);
 				ReleaseWork(ci);
 			}
 			else

@@ -13,6 +13,13 @@ using System;
 
 namespace OpenRA.Mods.City.Traits
 {
+	/// <summary>Visual theme of a lot (0 = any, 1 = North American, 2 = European). Picks the variant block of the sprite.</summary>
+	public class GrowableThemeInit : ValueActorInit<int>, ISingleInstanceInit
+	{
+		public GrowableThemeInit(int value)
+			: base(value) { }
+	}
+
 	/// <summary>Initial level of a growable created in code (ZoneGrowth spawns buildings above level 1 on expensive land).</summary>
 	public class GrowableLevelInit : ValueActorInit<int>, ISingleInstanceInit
 	{
@@ -100,6 +107,32 @@ namespace OpenRA.Mods.City.Traits
 				mix[lowest + 1] += move;
 				points -= move;
 			}
+		}
+
+		/// <summary>Hotel rooms of the lot (0 when the zone offers no lodging).</summary>
+		public static int Lodging(GrowableBuildingInfo info, int cells, int level)
+		{
+			if (info.LodgingPerCellMilli <= 0)
+				return 0;
+
+			var milli = (long)info.LodgingPerCellMilli * cells * LevelPercent(level, info.LevelCapacityPercent) / 100;
+			return Math.Max(1, (int)((milli + 500) / 1000));
+		}
+
+		/// <summary>Storage capacity (units) of the lot.</summary>
+		public static int Storage(GrowableBuildingInfo info, int cells, int level)
+		{
+			if (info.StoragePerCellMilli <= 0)
+				return 0;
+
+			var milli = (long)info.StoragePerCellMilli * cells * LevelPercent(level, info.LevelCapacityPercent) / 100;
+			return Math.Max(1, (int)((milli + 500) / 1000));
+		}
+
+		/// <summary>Household slots reserved for students.</summary>
+		public static int StudentHousing(GrowableBuildingInfo info, int householdSlots)
+		{
+			return info.StudentHousingPercent <= 0 ? 0 : Math.Max(1, householdSlots * info.StudentHousingPercent / 100);
 		}
 
 		/// <summary>Power or water use for the lot: per-cell base, falling by UtilityDiscountPercent per level above 1.</summary>

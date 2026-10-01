@@ -276,10 +276,7 @@ namespace OpenRA.Mods.City.Traits
 					cRequests += n;
 					StartLeg(v, t);
 				}
-				else if (TryHeliMedevac(d, waiting, t))
-				{
-				}
-				else if (((a == null && b == null) || ImportPolicy(AccessOf(d))) && t - d.SickSince > 60)
+				else if (!TryHeliMedevac(d, waiting, t) && ((a == null && b == null) || ImportPolicy(AccessOf(d))) && t - d.SickSince > 60)
 					ImportVehicle(ServiceKind.Health, d, waiting, Info.ImportCostAmbulance, t);
 			}
 		}

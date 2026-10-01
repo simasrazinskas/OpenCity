@@ -84,7 +84,7 @@ namespace OpenRA.Mods.City.Traits
 			var home = hh >= 0 ? hhs[hh].Home : 0;
 			deaths++;
 			deathsMonth++;
-			Announce("chirp-citizen-died", ci, 2, AgeOf(ci) > info.AdultMaxAge ? 35 : 100);
+			Announce(2, ci, AgeOf(ci) > info.AdultMaxAge ? 35 : 100);
 			services?.ReportDeath(ci + 1, home);
 			CancelActiveTrip(ci);
 
@@ -207,7 +207,7 @@ namespace OpenRA.Mods.City.Traits
 			cits[ci].Cooldown = 2;
 			births++;
 			birthsMonth++;
-			Announce("chirp-citizen-born", ci, 2, 35);
+			Announce(0, ci, 35);
 			if (h.Type == HhType.Single)
 				h.Type = HhType.Family;
 		}

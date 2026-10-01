@@ -91,6 +91,7 @@ namespace OpenRA.Mods.City.Traits
 		CityCoverageLayer coverage;
 		ICityServices services;
 		IPollutionMap pollution;
+		IProgression progression;
 
 		public LandValueLayer(Actor self, LandValueLayerInfo info)
 		{
@@ -138,6 +139,15 @@ namespace OpenRA.Mods.City.Traits
 			coverage = w.WorldActor.TraitOrDefault<CityCoverageLayer>();
 			services = ZoningLookup.Find<ICityServices>(w);
 			pollution = ZoningLookup.Find<IPollutionMap>(w);
+
+			// Policies (LandValuePct) come from the city player's progression.
+			foreach (var pl in w.Players)
+				if (pl.Playable && pl.PlayerActor.TraitOrDefault<CityManager>() != null)
+				{
+					progression = pl.PlayerActor.TraitsImplementing<IProgression>().FirstOrDefault();
+					break;
+				}
+
 			ComputeWater();
 		}
 
@@ -326,7 +336,14 @@ namespace OpenRA.Mods.City.Traits
 						}
 					}
 
-					next[y * width + x] = (byte)Math.Clamp(sum / n, 0, 100);
+					var v = sum / n;
+
+					// Policy "LandValuePct": percent change of the land value (per district), 0 = off.
+					var pct = progression != null ? progression.GetPolicy("LandValuePct", new CPos(x, y)) : 0;
+					if (pct != 0)
+						v = v * (100 + pct) / 100;
+
+					next[y * width + x] = (byte)Math.Clamp(v, 0, 100);
 				}
 			}
 

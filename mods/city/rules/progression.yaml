@@ -139,24 +139,32 @@ Player:
 	# ---- development tree (cost 1/2/4/8; total must stay <= the 110 points the milestones grant) ----
 	ProgressionNode@road-roundabout:
 		Tree: roads
+		Name: node-road-roundabout
+		TreeName: tree-roads
 		Cost: 1
 		Milestone: 1
 		Tier: 1
 		Unlocks: tool:roundabout
 	ProgressionNode@road-oneway:
 		Tree: roads
+		Name: node-road-oneway
+		TreeName: tree-roads
 		Cost: 1
 		Milestone: 2
 		Tier: 1
 		Unlocks: tool:oneway
 	ProgressionNode@road-avenue:
 		Tree: roads
+		Name: node-road-avenue
+		TreeName: tree-roads
 		Cost: 2
 		Milestone: 2
 		Tier: 2
 		Unlocks: road:avenue
 	ProgressionNode@road-highway:
 		Tree: roads
+		Name: node-road-highway
+		TreeName: tree-roads
 		Cost: 2
 		Milestone: 4
 		Tier: 2
@@ -164,6 +172,8 @@ Player:
 		Unlocks: road:highway
 	ProgressionNode@road-boulevard:
 		Tree: roads
+		Name: node-road-boulevard
+		TreeName: tree-roads
 		Cost: 4
 		Milestone: 5
 		Tier: 3
@@ -171,18 +181,24 @@ Player:
 		Unlocks: road:boulevard
 	ProgressionNode@elec-gas:
 		Tree: electricity
+		Name: node-elec-gas
+		TreeName: tree-electricity
 		Cost: 2
 		Milestone: 2
 		Tier: 1
 		Unlocks: powerplant-gas
 	ProgressionNode@elec-battery:
 		Tree: electricity
+		Name: node-elec-battery
+		TreeName: tree-electricity
 		Cost: 1
 		Milestone: 3
 		Tier: 1
 		Unlocks: battery
 	ProgressionNode@elec-solar:
 		Tree: electricity
+		Name: node-elec-solar
+		TreeName: tree-electricity
 		Cost: 4
 		Milestone: 3
 		Tier: 2
@@ -190,6 +206,8 @@ Player:
 		Unlocks: solarplant
 	ProgressionNode@elec-hydro:
 		Tree: electricity
+		Name: node-elec-hydro
+		TreeName: tree-electricity
 		Cost: 4
 		Milestone: 6
 		Tier: 2
@@ -197,6 +215,8 @@ Player:
 		Unlocks: hydro-dam
 	ProgressionNode@elec-nuclear:
 		Tree: electricity
+		Name: node-elec-nuclear
+		TreeName: tree-electricity
 		Cost: 8
 		Milestone: 10
 		Tier: 3
@@ -204,12 +224,16 @@ Player:
 		Unlocks: powerplant-nuclear
 	ProgressionNode@water-treatment:
 		Tree: water
+		Name: node-water-treatment
+		TreeName: tree-water
 		Cost: 2
 		Milestone: 2
 		Tier: 1
 		Unlocks: treatment-plant
 	ProgressionNode@water-pump-large:
 		Tree: water
+		Name: node-water-pump-large
+		TreeName: tree-water
 		Cost: 2
 		Milestone: 4
 		Tier: 2
@@ -217,24 +241,32 @@ Player:
 		Unlocks: waterpump-large
 	ProgressionNode@health-hospital:
 		Tree: health
+		Name: node-health-hospital
+		TreeName: tree-health
 		Cost: 2
 		Milestone: 2
 		Tier: 1
 		Unlocks: hospital
 	ProgressionNode@health-crematorium:
 		Tree: health
+		Name: node-health-crematorium
+		TreeName: tree-health
 		Cost: 1
 		Milestone: 2
 		Tier: 1
 		Unlocks: crematorium
 	ProgressionNode@edu-highschool:
 		Tree: education
+		Name: node-edu-highschool
+		TreeName: tree-education
 		Cost: 1
 		Milestone: 2
 		Tier: 1
 		Unlocks: highschool
 	ProgressionNode@edu-college:
 		Tree: education
+		Name: node-edu-college
+		TreeName: tree-education
 		Cost: 2
 		Milestone: 4
 		Tier: 2
@@ -242,6 +274,8 @@ Player:
 		Unlocks: college
 	ProgressionNode@edu-university:
 		Tree: education
+		Name: node-edu-university
+		TreeName: tree-education
 		Cost: 4
 		Milestone: 6
 		Tier: 3
@@ -249,12 +283,16 @@ Player:
 		Unlocks: university
 	ProgressionNode@police-hq:
 		Tree: police
+		Name: node-police-hq
+		TreeName: tree-police
 		Cost: 2
 		Milestone: 3
 		Tier: 1
 		Unlocks: police-hq
 	ProgressionNode@police-prison:
 		Tree: police
+		Name: node-police-prison
+		TreeName: tree-police
 		Cost: 4
 		Milestone: 6
 		Tier: 2
@@ -262,12 +300,16 @@ Player:
 		Unlocks: prison
 	ProgressionNode@garbage-incinerator:
 		Tree: garbage
+		Name: node-garbage-incinerator
+		TreeName: tree-garbage
 		Cost: 2
 		Milestone: 3
 		Tier: 1
 		Unlocks: incinerator
 	ProgressionNode@garbage-recycling:
 		Tree: garbage
+		Name: node-garbage-recycling
+		TreeName: tree-garbage
 		Cost: 2
 		Milestone: 4
 		Tier: 2
@@ -275,18 +317,24 @@ Player:
 		Unlocks: recycling
 	ProgressionNode@park-sports:
 		Tree: parks
+		Name: node-park-sports
+		TreeName: tree-parks
 		Cost: 2
 		Milestone: 4
 		Tier: 1
 		Unlocks: sportsfield
 	ProgressionNode@comms-tower:
 		Tree: comms
+		Name: node-comms-tower
+		TreeName: tree-comms
 		Cost: 4
 		Milestone: 5
 		Tier: 1
 		Unlocks: telecom-tower
 	ProgressionNode@comms-sorting:
 		Tree: comms
+		Name: node-comms-sorting
+		TreeName: tree-comms
 		Cost: 4
 		Milestone: 7
 		Tier: 2
@@ -294,12 +342,16 @@ Player:
 		Unlocks: sortingcenter
 	ProgressionNode@admin-welfare:
 		Tree: admin
+		Name: node-admin-welfare
+		TreeName: tree-admin
 		Cost: 1
 		Milestone: 3
 		Tier: 1
 		Unlocks: welfare
 	ProgressionNode@admin-cityhall:
 		Tree: admin
+		Name: node-admin-cityhall
+		TreeName: tree-admin
 		Cost: 4
 		Milestone: 5
 		Tier: 2
@@ -307,6 +359,8 @@ Player:
 		Unlocks: cityhall
 	ProgressionNode@transit-metro:
 		Tree: transport
+		Name: node-transit-metro
+		TreeName: tree-transport
 		Cost: 4
 		Milestone: 6
 		Tier: 1
@@ -314,61 +368,87 @@ Player:
 
 	# ---- policies (effect keys are integers summed over city + district; consumers query IProgression.GetPolicy) ----
 	ProgressionPolicy@min-fare:
+		Name: policy-min-fare
+		Description: policy-min-fare-desc
 		Scope: City
 		Milestone: 3
 		Effects: FareMinPct=20
 	ProgressionPolicy@import-services:
+		Name: policy-import-services
+		Description: policy-import-services-desc
 		Scope: City
 		Milestone: 3
 		Upkeep: 150
 		Effects: ImportServices=1
 	ProgressionPolicy@smoking-ban:
+		Name: policy-smoking-ban
+		Description: policy-smoking-ban-desc
 		Scope: City
 		Milestone: 4
 		UpkeepPer100Residents: 2
 		Effects: HappinessFlat=2, JobsCommercialPct=-3
 	ProgressionPolicy@education-boost:
+		Name: policy-education-boost
+		Description: policy-education-boost-desc
 		Scope: City
 		Milestone: 5
 		UpkeepPer100Residents: 5
 		Effects: EduBoostPct=20
 	ProgressionPolicy@free-transit:
+		Name: policy-free-transit
+		Description: policy-free-transit-desc
 		Scope: City
 		Milestone: 5
 		UpkeepPer100Residents: 8
 		Effects: TransitRidershipPct=25, FareFree=1
 	ProgressionPolicy@pollution-management:
+		Name: policy-pollution-management
+		Description: policy-pollution-management-desc
 		Scope: City
 		Milestone: 6
 		Upkeep: 100
 		Effects: PollutionPct=-40, GarbagePct=15
 	ProgressionPolicy@city-promotion:
+		Name: policy-city-promotion
+		Description: policy-city-promotion-desc
 		Scope: City
 		Milestone: 7
 		UpkeepPer100Residents: 10
 		Effects: AttractivenessPct=25, CrimePct=10
 	ProgressionPolicy@high-speed-highways:
+		Name: policy-high-speed-highways
+		Description: policy-high-speed-highways-desc
 		Scope: City
 		Milestone: 8
 		Effects: HighwaySpeedPct=30, NoisePct=10, AccidentPct=10
 	ProgressionPolicy@energy-saving:
+		Name: policy-energy-saving
+		Description: policy-energy-saving-desc
 		Scope: District
 		Milestone: 3
 		Effects: PowerUsePct=-5, HappinessFlat=-1
 	ProgressionPolicy@water-saving:
+		Name: policy-water-saving
+		Description: policy-water-saving-desc
 		Scope: District
 		Milestone: 3
 		Effects: WaterUsePct=-10
 	ProgressionPolicy@recycling:
+		Name: policy-recycling
+		Description: policy-recycling-desc
 		Scope: District
 		Milestone: 3
 		UpkeepPer100Residents: 6
 		Effects: GarbagePct=-30, PollutionPct=-5
 	ProgressionPolicy@speed-bumps:
+		Name: policy-speed-bumps
+		Description: policy-speed-bumps-desc
 		Scope: District
 		Milestone: 3
 		Effects: TrafficSpeedPct=-25, AccidentPct=-30, NoisePct=-20
 	ProgressionPolicy@parking-fee:
+		Name: policy-parking-fee
+		Description: policy-parking-fee-desc
 		Scope: District
 		Milestone: 3
 		SliderMin: 1
@@ -376,86 +456,152 @@ Player:
 		SliderDefault: 5
 		Effects: ParkingFee=@slider
 	ProgressionPolicy@small-business:
+		Name: policy-small-business
+		Description: policy-small-business-desc
 		Scope: District
 		Milestone: 5
 		Effects: JobsCommercialPct=10
 	ProgressionPolicy@heavy-traffic-ban:
+		Name: policy-heavy-traffic-ban
+		Description: policy-heavy-traffic-ban-desc
 		Scope: District
 		Milestone: 6
 		Effects: TruckBan=1, NoisePct=-15, PollutionPct=-10
 	ProgressionPolicy@gated-community:
+		Name: policy-gated-community
+		Description: policy-gated-community-desc
 		Scope: District
 		Milestone: 6
 		UpkeepPer100Residents: 4
 		Effects: ThroughTrafficBan=1, CrimePct=-40, LandValuePct=10
 	ProgressionPolicy@industrial-planning:
+		Name: policy-industrial-planning
+		Description: policy-industrial-planning-desc
 		Scope: District
 		Milestone: 6
 		Effects: JobsIndustrialPct=15, PollutionPct=10
 	ProgressionPolicy@combustion-ban:
+		Name: policy-combustion-ban
+		Description: policy-combustion-ban-desc
 		Scope: District
 		Milestone: 8
 		Effects: FuelVehicleBan=1, PollutionPct=-20
 
 	# ---- achievements (conditions are ANDed; Months = consecutive months they must hold) ----
 	ProgressionAchievement@first-steps:
+		Name: achievement-first-steps
+		Description: achievement-first-steps-desc
 		Conditions: population>=100
 	ProgressionAchievement@small-town-spirit:
+		Name: achievement-small-town-spirit
+		Description: achievement-small-town-spirit-desc
 		Conditions: population>=1000
 	ProgressionAchievement@big-city-life:
+		Name: achievement-big-city-life
+		Description: achievement-big-city-life-desc
 		Conditions: population>=10000
 	ProgressionAchievement@metropolis:
+		Name: achievement-metropolis
+		Description: achievement-metropolis-desc
 		Conditions: population>=50000
 	ProgressionAchievement@six-figures:
+		Name: achievement-six-figures
+		Description: achievement-six-figures-desc
 		Conditions: population>=100000
 	ProgressionAchievement@all-smiles:
+		Name: achievement-all-smiles
+		Description: achievement-all-smiles-desc
 		Conditions: population>=1000, happiness>=75
 	ProgressionAchievement@in-the-black:
+		Name: achievement-in-the-black
+		Description: achievement-in-the-black-desc
 		Conditions: monthly_balance>=0, population>=100
 		Months: 6
 	ProgressionAchievement@balanced-books:
+		Name: achievement-balanced-books
+		Description: achievement-balanced-books-desc
 		Conditions: monthly_balance>=0, population>=100
 		Months: 12
 	ProgressionAchievement@millionaire:
+		Name: achievement-millionaire
+		Description: achievement-millionaire-desc
 		Conditions: funds>=1000000
 	ProgressionAchievement@full-service:
+		Name: achievement-full-service
+		Description: achievement-full-service-desc
 		Conditions: service_categories>=8
 	ProgressionAchievement@transit-city:
+		Name: achievement-transit-city
+		Description: achievement-transit-city-desc
 		Conditions: transit_passengers>=1000
 	ProgressionAchievement@mass-transit:
+		Name: achievement-mass-transit
+		Description: achievement-mass-transit-desc
 		Conditions: transit_passengers>=10000
 	ProgressionAchievement@eco-city:
+		Name: achievement-eco-city
+		Description: achievement-eco-city-desc
 		Conditions: population>=1000, pollution<=5
 		Months: 6
 	ProgressionAchievement@industrial-giant:
+		Name: achievement-industrial-giant
+		Description: achievement-industrial-giant-desc
 		Conditions: industrial_jobs>=2000
 	ProgressionAchievement@business-hub:
+		Name: achievement-business-hub
+		Description: achievement-business-hub-desc
 		Conditions: companies>=50
 	ProgressionAchievement@top-of-the-class:
+		Name: achievement-top-of-the-class
+		Description: achievement-top-of-the-class-desc
 		Conditions: population>=1000, educated_pct>=20
 	ProgressionAchievement@explorer:
+		Name: achievement-explorer
+		Description: achievement-explorer-desc
 		Conditions: tiles_owned>=50
 	ProgressionAchievement@land-baron:
+		Name: achievement-land-baron
+		Description: achievement-land-baron-desc
 		Conditions: tiles_owned>=81
 	ProgressionAchievement@calling-the-shots:
+		Name: achievement-calling-the-shots
+		Description: achievement-calling-the-shots-desc
 		Conditions: city_policies>=5
 	ProgressionAchievement@wide-variety:
+		Name: achievement-wide-variety
+		Description: achievement-wide-variety-desc
 		Conditions: districts_with_policies>=5
 	ProgressionAchievement@city-planner:
+		Name: achievement-city-planner
+		Description: achievement-city-planner-desc
 		Conditions: districts>=3
 	ProgressionAchievement@making-a-mark:
+		Name: achievement-making-a-mark
+		Description: achievement-making-a-mark-desc
 		Conditions: signatures>=5
 	ProgressionAchievement@tourist-trap:
+		Name: achievement-tourist-trap
+		Description: achievement-tourist-trap-desc
 		Conditions: attractiveness>=50
 	ProgressionAchievement@simply-irresistible:
+		Name: achievement-simply-irresistible
+		Description: achievement-simply-irresistible-desc
 		Conditions: attractiveness>=90
 	ProgressionAchievement@welcome-one-and-all:
+		Name: achievement-welcome-one-and-all
+		Description: achievement-welcome-one-and-all-desc
 		Conditions: tourist_visits>=10000
 	ProgressionAchievement@scholar:
+		Name: achievement-scholar
+		Description: achievement-scholar-desc
 		Conditions: nodes_owned>=10
 	ProgressionAchievement@small-city:
+		Name: achievement-small-city
+		Description: achievement-small-city-desc
 		Conditions: milestone>=5
 	ProgressionAchievement@last-mile-marker:
+		Name: achievement-last-mile-marker
+		Description: achievement-last-mile-marker-desc
 		Conditions: milestone>=20
 
 World:

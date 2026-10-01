@@ -187,7 +187,6 @@ namespace OpenRA.Mods.City.Traits
 
 		// The logistics package owns the physical stock (capacity, balancing, trucks). A Storage company is the business on top:
 		// it pays producers for surplus the warehouse still wants and charges buyers for what the warehouse sells.
-
 		int StoredUnits(Company c)
 		{
 			var sum = 0;

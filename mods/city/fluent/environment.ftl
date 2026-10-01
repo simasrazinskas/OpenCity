@@ -64,24 +64,8 @@ problem-noservice = Missing service
 problem-flooded = Flooded
 
 ## Problem severity tiers.
-tier-minimal = Minor
-tier-info = Information
-tier-problem = Problem
-tier-warning = Warning
-tier-major = Major problem
-tier-error = Error
-tier-fatal = Fatal
 
 ## Weather and seasons (for the clock, tooltips and the UI).
-weather-clear = Clear
-weather-cloudy = Cloudy
-weather-rain = Rain
-weather-snow = Snow
-weather-storm = Storm
-season-spring = Spring
-season-summer = Summer
-season-autumn = Autumn
-season-winter = Winter
 
 ## Disasters and trees (chirper).
 chirp-flood-warning-1 = Flood warning! The rain will not stop and the shores are filling up.

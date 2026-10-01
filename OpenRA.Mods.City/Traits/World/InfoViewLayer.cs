@@ -115,7 +115,7 @@ namespace OpenRA.Mods.City.Traits
 			var def = InfoViews.Get(mode);
 			var ramp = def?.Ramp ?? InfoRamp.Good;
 			var map = world.Map;
-			var renderer = Game.Renderer.RgbaColorRenderer;
+			var renderer = Game.Renderer.WorldRgbaColorRenderer;
 			foreach (var puv in wr.Viewport.AllVisibleCells)
 			{
 				var cell = ((MPos)puv).ToCPos(map);
@@ -132,10 +132,10 @@ namespace OpenRA.Mods.City.Traits
 
 				var r = map.Grid.Ramps[map.Ramp[cell]];
 				var wpos = map.CenterOfCell(cell) - new WVec(0, 0, r.CenterHeightOffset);
-				var c0 = wr.Viewport.WorldToViewPx(wr.Screen3DPosition(wpos + r.Corners[0])).ToVector3();
-				var c1 = wr.Viewport.WorldToViewPx(wr.Screen3DPosition(wpos + r.Corners[1])).ToVector3();
-				var c2 = wr.Viewport.WorldToViewPx(wr.Screen3DPosition(wpos + r.Corners[2])).ToVector3();
-				var c3 = wr.Viewport.WorldToViewPx(wr.Screen3DPosition(wpos + r.Corners[3])).ToVector3();
+				var c0 = wr.Screen3DPosition(wpos + r.Corners[0]);
+				var c1 = wr.Screen3DPosition(wpos + r.Corners[1]);
+				var c2 = wr.Screen3DPosition(wpos + r.Corners[2]);
+				var c3 = wr.Screen3DPosition(wpos + r.Corners[3]);
 				renderer.FillRect(c0, c1, c2, c3, color);
 			}
 		}

@@ -90,6 +90,14 @@ namespace OpenRA.Mods.City.Traits
 			return unchecked(TouristVisits * 31 + TouristSpendingThisMonth * 17 + TouristSpendingLastMonth + TouristsUnhoused * 7 + LodgingOccupancyPercent);
 		}
 
+		PropertyRegistry lodging;
+		int lodgingReportTick = -1000;
+
+		/// <summary>Hotel rooms and guests over all operational lodging properties (zoning registry).</summary>
+		public int LodgingRooms { get; private set; }
+
+		public int LodgingGuests { get; private set; }
+
 		public int TouristsUnhoused { get; private set; }
 
 		public int LodgingOccupancyPercent { get; private set; } = -1;
@@ -98,6 +106,7 @@ namespace OpenRA.Mods.City.Traits
 
 		public void ReportLodging(int touristsUnhoused, int occupancyPercent)
 		{
+			lodgingReportTick = world.WorldTick;
 			TouristsUnhoused = Math.Max(0, touristsUnhoused);
 			LodgingOccupancyPercent = occupancyPercent;
 		}
@@ -130,6 +139,21 @@ namespace OpenRA.Mods.City.Traits
 
 			if (signatures != null)
 				raw += signatures.Attractiveness;
+
+			// Hotels: rooms add attractiveness, and the registry's room/guest totals give occupancy and unhoused tourists
+			// unless the citizen sim reported lodging itself during the last few pulses.
+			if (lodging != null)
+			{
+				lodging.LodgingTotals(out var rooms, out var guests);
+				LodgingRooms = rooms;
+				LodgingGuests = guests;
+				raw += rooms * Info.HotelPointsPer10Rooms / 10;
+				if (world.WorldTick - lodgingReportTick > Info.UpdateTicks * 8)
+				{
+					LodgingOccupancyPercent = rooms > 0 ? Math.Min(100, guests * 100 / rooms) : -1;
+					TouristsUnhoused = citizens != null && rooms > 0 ? Math.Max(0, citizens.Tourists - rooms) : 0;
+				}
+			}
 
 			AttractionPoints = raw;
 			var x = (int)Math.Min(int.MaxValue / 2, (long)raw * (100 + GetCityPolicy("AttractivenessPct")) / 100);

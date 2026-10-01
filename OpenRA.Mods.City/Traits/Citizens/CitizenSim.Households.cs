@@ -256,6 +256,18 @@ namespace OpenRA.Mods.City.Traits
 			return Math.Max(1, income);
 		}
 
+		bool IsStudentHousehold(int hh)
+		{
+			if (hhs[hh].Type == HhType.Student)
+				return true;
+
+			for (var m = hhs[hh].FirstMember; m >= 0; m = cits[m].NextInHousehold)
+				if ((cits[m].Flags & CitFlags.Student) != 0 && AgeOf(m) > info.TeenMaxAge)
+					return true;
+
+			return false;
+		}
+
 		/// <summary>Best affordable home among sampled candidates (null if none). `current` is the present home id for relocation.</summary>
 		Property ChooseHome(int hh, int current)
 		{
@@ -266,6 +278,7 @@ namespace OpenRA.Mods.City.Traits
 			var income = ExpectedIncome(hh);
 			var size = hhs[hh].Size;
 			var family = hhs[hh].Kids > 0;
+			var student = IsStudentHousehold(hh);
 			Property best = null;
 			var bestScore = int.MinValue;
 			for (var s = 0; s < info.SearchSamples; s++)
@@ -290,7 +303,10 @@ namespace OpenRA.Mods.City.Traits
 
 				var fit = family == p.HouseholdSlots <= 3 ? 1 : 0;
 				var crowd = (p.Residents + size) * 100 / Math.Max(1, p.HouseholdSlots * 3);
-				var score = quality * 3 + p.LandValue - rent * 200 / income + fit * 20 - crowd / 10;
+
+				// Student flats (low rent, ZON) go to students first; other households only take them when nothing else is free.
+				var studentFlat = propReg != null && propReg.GetStudentHousing(p.Id) > 0 ? (student ? 40 : -25) : 0;
+				var score = studentFlat + quality * 3 + p.LandValue - rent * 200 / income + fit * 20 - crowd / 10;
 				if (score > bestScore)
 				{
 					bestScore = score;

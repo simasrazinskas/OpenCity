@@ -17,6 +17,44 @@ using OpenRA.Traits;
 
 namespace OpenRA.Mods.City.Traits
 {
+	/// <summary>One unlock rule of a signature building with the current value, for the placement panel.</summary>
+	public struct SignatureRuleStatus
+	{
+		/// <summary>ZoneCells, Level5Count, Happiness, Population, Milestone or ServiceBuilt.</summary>
+		public string Kind;
+
+		/// <summary>Zone type name or service actor name, or null.</summary>
+		public string Target;
+
+		public int Have;
+		public int Need;
+		public bool Met;
+	}
+
+	/// <summary>Everything the UI needs to list a signature building and explain what is missing.</summary>
+	public sealed class SignatureStatus
+	{
+		public string Name;
+		public ZoneType Zone;
+
+		/// <summary>Footprint in cells (for the placement ghost).</summary>
+		public int Width, Depth;
+
+		public bool Unlocked;
+		public bool Built;
+
+		/// <summary>0..100 over all rules.</summary>
+		public int Progress;
+
+		public SignatureRuleStatus[] Rules;
+
+		/// <summary>Bonuses shown in the panel.</summary>
+		public int WellBeing, WellBeingRadius, Attractiveness, EfficiencyPercent, PollutionReductionPercent;
+
+		/// <summary>Fluent key of the description (actor-sig-*.description).</summary>
+		public string DescriptionKey;
+	}
+
 	/// <summary>Player trait of the zoning WP: which signature buildings may be placed, and what the built ones add.</summary>
 	public interface ISignatureUnlocks
 	{
@@ -30,6 +68,9 @@ namespace OpenRA.Mods.City.Traits
 
 		/// <summary>0..100 progress over all rules of the signature (100 = rules met).</summary>
 		int Progress(string actorName);
+
+		/// <summary>Full status for the placement panel (rules with have/need, footprint, bonuses), or null for unknown names.</summary>
+		SignatureStatus GetStatus(string actorName);
 
 		/// <summary>Well-being points (happiness) from signature buildings around a cell.</summary>
 		int WellBeingAt(CPos cell);
@@ -152,6 +193,48 @@ namespace OpenRA.Mods.City.Traits
 
 		public int Progress(string actorName) { return Find(actorName)?.Progress ?? 0; }
 
+		public SignatureStatus GetStatus(string actorName)
+		{
+			var e = Find(actorName);
+			if (e == null)
+				return null;
+
+			var rules = new SignatureRuleStatus[e.Rules.Length];
+			for (var i = 0; i < rules.Length; i++)
+			{
+				var r = e.Rules[i];
+				var have = RuleHave(r);
+				rules[i] = new SignatureRuleStatus
+				{
+					Kind = r.Kind,
+					Target = r.Kind == "ServiceBuilt" ? r.Text : r.Zone != ZoneType.None ? r.Zone.ToString() : null,
+					Have = have,
+					Need = r.Amount,
+					Met = r.Amount <= 0 || have >= r.Amount,
+				};
+			}
+
+			var dims = self.World.Map.Rules.Actors[actorName].TraitInfoOrDefault<Mods.Common.Traits.BuildingInfo>()?.Dimensions ?? new CVec(3, 3);
+			var growable = self.World.Map.Rules.Actors[actorName].TraitInfoOrDefault<GrowableBuildingInfo>();
+			return new SignatureStatus
+			{
+				Name = actorName,
+				Zone = growable?.Zone ?? ZoneType.None,
+				Width = dims.X,
+				Depth = dims.Y,
+				Unlocked = e.Unlocked,
+				Built = e.Built,
+				Progress = e.Progress,
+				Rules = rules,
+				WellBeing = e.Info.WellBeing,
+				WellBeingRadius = e.Info.WellBeingRadius,
+				Attractiveness = e.Info.Attractiveness,
+				EfficiencyPercent = e.Info.EfficiencyPercent,
+				PollutionReductionPercent = e.Info.PollutionReductionPercent,
+				DescriptionKey = e.Info.Description,
+			};
+		}
+
 		public int WellBeingAt(CPos cell)
 		{
 			var total = 0;
@@ -219,32 +302,25 @@ namespace OpenRA.Mods.City.Traits
 		// 0..100 progress of one rule.
 		int RuleProgress(Rule r)
 		{
-			int have;
+			if (r.Kind != "ZoneCells" && r.Kind != "Level5Count" && r.Kind != "Happiness" && r.Kind != "Population" && r.Kind != "Milestone" && r.Kind != "ServiceBuilt")
+				return 100;
+
+			var have = RuleHave(r);
+			return r.Amount <= 0 ? 100 : Math.Clamp(have * 100 / r.Amount, 0, 100);
+		}
+
+		int RuleHave(Rule r)
+		{
 			switch (r.Kind)
 			{
-				case "ZoneCells":
-					have = CellsOf(r.Zone, 1);
-					break;
-				case "Level5Count":
-					have = LotsOf(r.Zone, 5);
-					break;
-				case "Happiness":
-					have = citizens != null ? citizens.AverageHappiness : manager?.AverageHappiness ?? 0;
-					break;
-				case "Population":
-					have = citizens != null ? citizens.Population : manager?.Population ?? 0;
-					break;
-				case "Milestone":
-					have = progression != null ? progression.MilestoneIndex : -1;
-					break;
-				case "ServiceBuilt":
-					have = CountActors(r.Text);
-					break;
-				default:
-					return 100;
+				case "ZoneCells": return CellsOf(r.Zone, 1);
+				case "Level5Count": return LotsOf(r.Zone, 5);
+				case "Happiness": return citizens != null ? citizens.AverageHappiness : manager?.AverageHappiness ?? 0;
+				case "Population": return citizens != null ? citizens.Population : manager?.Population ?? 0;
+				case "Milestone": return progression != null ? progression.MilestoneIndex : -1;
+				case "ServiceBuilt": return CountActors(r.Text);
+				default: return 0;
 			}
-
-			return r.Amount <= 0 ? 100 : Math.Clamp(have * 100 / r.Amount, 0, 100);
 		}
 
 		int CellsOf(ZoneType zone, int level)
@@ -278,7 +354,18 @@ namespace OpenRA.Mods.City.Traits
 		string ICityAutoTestReporter.AutoTestReport()
 		{
 			var parts = entries.Select(e => $"{e.Name}:{(e.Built ? "built" : e.Unlocked ? "open" : e.Progress + "%")}");
-			return "signatures [" + string.Join(" ", parts) + "]";
+			var detail = "";
+			foreach (var e in entries)
+			{
+				if (e.Built)
+					continue;
+
+				var st = GetStatus(e.Name);
+				detail = $" next={e.Name}({st.Width}x{st.Depth}) rules=[{string.Join(" ", st.Rules.Select(r => r.Kind + ":" + r.Have + "/" + r.Need))}]";
+				break;
+			}
+
+			return "signatures [" + string.Join(" ", parts) + "]" + detail;
 		}
 	}
 }

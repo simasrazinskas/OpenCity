@@ -35,6 +35,9 @@ namespace OpenRA.Mods.City.Traits
 		[Desc("Number of random frontage anchors planned per spawn; the best scoring lot is built.")]
 		public readonly int Candidates = 3;
 
+		[Desc("Visual theme of new lots: Any (neighbourhoods of 8x8 cells alternate), NA (North American) or EU (European).")]
+		public readonly string Theme = "Any";
+
 		[Desc("Frontage is searched this many cells either way from an anchor.")]
 		public readonly int RunReach = 12;
 

@@ -49,6 +49,14 @@ namespace OpenRA.Mods.City.Traits
 		[Desc("Tree (service) the node belongs to, for the UI.")]
 		public readonly string Tree = "";
 
+		[FluentReference]
+		[Desc("Fluent key of the node name.")]
+		public readonly string Name = null;
+
+		[FluentReference]
+		[Desc("Fluent key of the tree name (same for every node of a tree).")]
+		public readonly string TreeName = null;
+
 		[Desc("Development points to buy it (CS2 tiers 1/2/4/8). 0 = granted automatically when the milestone is reached.")]
 		public readonly int Cost = 1;
 
@@ -74,6 +82,14 @@ namespace OpenRA.Mods.City.Traits
 	public class ProgressionPolicyInfo : TraitInfo
 	{
 		public readonly PolicyScope Scope = PolicyScope.City;
+
+		[FluentReference]
+		[Desc("Fluent key of the policy name.")]
+		public readonly string Name = null;
+
+		[FluentReference]
+		[Desc("Fluent key of the policy description.")]
+		public readonly string Description = null;
 
 		[Desc("Milestone that makes the policy available (-1 = only via a node's Unlocks).")]
 		public readonly int Milestone = 4;

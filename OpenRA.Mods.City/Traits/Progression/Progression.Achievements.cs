@@ -27,6 +27,14 @@ namespace OpenRA.Mods.City.Traits
 		[Desc("The conditions must hold at the end of this many consecutive months (0 = unlock as soon as they hold).")]
 		public readonly int Months = 0;
 
+		[FluentReference]
+		[Desc("Fluent key of the achievement name.")]
+		public readonly string Name = null;
+
+		[FluentReference]
+		[Desc("Fluent key of the achievement description.")]
+		public readonly string Description = null;
+
 		[Desc("XP granted once when unlocked (0 = none).")]
 		public readonly int Xp = 0;
 

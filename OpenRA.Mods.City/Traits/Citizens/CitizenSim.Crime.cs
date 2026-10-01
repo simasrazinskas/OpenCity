@@ -231,7 +231,7 @@ namespace OpenRA.Mods.City.Traits
 			cits[ci].Loc = 0;
 			arrests++;
 			arrestsMonth++;
-			Announce("chirp-citizen-arrested", ci, 2);
+			Announce(3, ci);
 		}
 
 		/// <summary>Daily: count down the sentence and release.</summary>

@@ -199,10 +199,10 @@ namespace OpenRA.Mods.City
 				DragCurrent = HoverCell;
 		}
 
-		/// <summary>A translucent cell highlight.</summary>
+		/// <summary>A translucent cell highlight for RenderPreview (world pass). Annotations must use MarkerTileRenderable instead.</summary>
 		protected static IRenderable Marker(CPos cell, Color color)
 		{
-			return new MarkerTileRenderable(cell, color);
+			return new CityTileMarkerRenderable(cell, color);
 		}
 
 		/// <summary>Highlights every cell of the rectangle spanned by two corners.</summary>

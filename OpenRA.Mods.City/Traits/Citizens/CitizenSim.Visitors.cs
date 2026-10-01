@@ -37,21 +37,14 @@ namespace OpenRA.Mods.City.Traits
 		long tourismCents;
 		long tourismPool;
 		int touristTripsRequested;
-		readonly List<Property> lodgingCands = [];
 		readonly Dictionary<int, int> lodgingUsed = [];
+		readonly List<int> lodgingIds = [];
 
 		public int Tourists { get; private set; }
 
 		/// <summary>Tourists with a bed, and beds available (hotels and spare commercial lodging).</summary>
 		public int TouristsLodged { get; private set; }
 		public int LodgingBeds { get; private set; }
-
-		int BedsOf(Property p)
-		{
-			var jobs = p.TotalJobSlots;
-			var hotel = p.Actor != null && p.Actor.Info.Name.Contains("hotel", StringComparison.OrdinalIgnoreCase);
-			return hotel ? jobs * info.HotelBedsPerJob : jobs / Math.Max(1, info.SpareLodgingJobsDivisor);
-		}
 
 		/// <summary>Daily: without ITourism the arrival rate is derived from park coverage around homes.</summary>
 		void UpdateTourists()
@@ -140,6 +133,16 @@ namespace OpenRA.Mods.City.Traits
 					lodged += groups[i].Size;
 			}
 
+			var rooms = 0;
+			if (propReg != null)
+			{
+				lodgingIds.Clear();
+				propReg.GetLodgingProperties(lodgingIds);
+				for (var i = 0; i < lodgingIds.Count; i++)
+					rooms += propReg.GetLodgingRooms(lodgingIds[i]);
+			}
+
+			LodgingBeds = rooms;
 			TouristsLodged = lodged;
 			Tourists = unhoused + lodged;
 			tourism?.ReportLodging(unhoused, LodgingBeds > 0 ? Math.Min(100, lodged * 100 / LodgingBeds) : -1);
@@ -147,6 +150,7 @@ namespace OpenRA.Mods.City.Traits
 
 		void SpawnGroup(bool byRail, int railSize)
 		{
+			var arrivalRoad = ArrivalRoad(byRail);
 			if (groupCount == groups.Length)
 				Array.Resize(ref groups, groups.Length * 2);
 
@@ -157,25 +161,19 @@ namespace OpenRA.Mods.City.Traits
 				DaysLeft = Math.Max(1, info.TouristStayDays),
 			};
 
-			var n = lodgingCands.Count;
+			// ZON's lodging API: the nearest operational lot with enough free hotel rooms (rooms are counted per person).
 			Property best = null;
-			for (var s = 0; s < 4 && n > 0; s++)
+			var lodgingId = propReg != null ? propReg.FindLodging(arrivalRoad, g.Size) : 0;
+			if (lodgingId != 0)
 			{
-				var p = lodgingCands[NextRandom(n)];
-				lodgingUsed.TryGetValue(p.Id, out var used);
-				if (!Alive(p) || used + g.Size > BedsOf(p))
-					continue;
-
-				// Prefer hotels.
-				if (best == null || (p.Actor != null && p.Actor.Info.Name.Contains("hotel", StringComparison.OrdinalIgnoreCase)))
-					best = p;
-			}
-
-			if (best != null)
-			{
-				g.Lodging = best.Id;
-				lodgingUsed.TryGetValue(best.Id, out var u);
-				lodgingUsed[best.Id] = u + g.Size;
+				best = registry.Get(lodgingId);
+				if (best != null)
+				{
+					g.Lodging = best.Id;
+					lodgingUsed.TryGetValue(best.Id, out var u);
+					lodgingUsed[best.Id] = u + g.Size;
+					propReg.ReportGuests(best.Id, u + g.Size);
+				}
 			}
 
 			groups[groupCount++] = g;
@@ -238,10 +236,20 @@ namespace OpenRA.Mods.City.Traits
 				tourism?.ReportTouristSpending(charged);
 		}
 
+		CPos ArrivalRoad(bool byRail)
+		{
+			var arrival = byRail ? rail?.ConnectedStationCells : tourism?.ArrivalCells;
+			return arrival != null && arrival.Count > 0 ? arrival[Hash(nextGroupId, Today, 130) % arrival.Count] : CPos.Zero;
+		}
+
 		void RemoveGroup(int i)
 		{
 			if (groups[i].Lodging != 0 && lodgingUsed.TryGetValue(groups[i].Lodging, out var used))
-				lodgingUsed[groups[i].Lodging] = Math.Max(0, used - groups[i].Size);
+			{
+				used = Math.Max(0, used - groups[i].Size);
+				lodgingUsed[groups[i].Lodging] = used;
+				propReg?.ReportGuests(groups[i].Lodging, used);
+			}
 
 			groups[i] = groups[--groupCount];
 		}

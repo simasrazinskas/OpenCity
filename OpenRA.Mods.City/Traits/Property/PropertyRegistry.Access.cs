@@ -68,6 +68,9 @@ namespace OpenRA.Mods.City.Traits
 			if (roads == null)
 				return;
 
+			if (r.Growable != null)
+				r.Corner = CountFrontageSides(p) >= 2;
+
 			if (r.Growable != null && TryFrontageAccess(p))
 				return;
 
@@ -84,6 +87,27 @@ namespace OpenRA.Mods.City.Traits
 				foreach (var d in CityUtils.Neighbours4)
 					if (c + d == p.AccessRoad)
 						p.AccessCell = c;
+		}
+
+		// Number of footprint sides that touch a connected frontage road.
+		int CountFrontageSides(Property p)
+		{
+			var sides = 0;
+			for (var side = 0; side < 4; side++)
+			{
+				var len = side % 2 == 0 ? p.Width : p.Depth;
+				for (var i = 0; i < len; i++)
+				{
+					var road = SideRoad(p, side, i);
+					if (IsFrontage(road) && roads.IsConnectedToOutside(road))
+					{
+						sides++;
+						break;
+					}
+				}
+			}
+
+			return sides;
 		}
 
 		bool IsFrontage(CPos road)

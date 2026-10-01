@@ -387,6 +387,7 @@ namespace OpenRA.Mods.City.Traits
 					if (s.Active)
 						heliActive++;
 				}
+
 				fleetUse += s.FleetInUse;
 			}
 

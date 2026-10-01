@@ -35,6 +35,10 @@ namespace OpenRA.Mods.City.Traits
 		int logInterval = 250;
 		int timestep = 0;
 		string scenario = "basic";
+		float shotZoom;
+		string probe;
+		CityInfoView shotView;
+		(int U, int V) shotCenter = (14, 0);
 		readonly HashSet<int> shotTicks = [];
 		WorldRenderer worldRenderer;
 		CPos anchor;
@@ -68,6 +72,13 @@ namespace OpenRA.Mods.City.Traits
 					case "log": logInterval = Math.Max(1, int.Parse(parts[1], CultureInfo.InvariantCulture)); break;
 					case "timestep": timestep = int.Parse(parts[1], CultureInfo.InvariantCulture); break;
 					case "scenario": scenario = parts[1].Trim(); break;
+					case "zoom": shotZoom = float.Parse(parts[1], CultureInfo.InvariantCulture); break;
+					case "probe": probe = parts[1].Trim(); break;
+					case "center":
+						var uv = parts[1].Split(',');
+						shotCenter = (int.Parse(uv[0], CultureInfo.InvariantCulture), int.Parse(uv[1], CultureInfo.InvariantCulture));
+						break;
+					case "view": shotView = Enum.Parse<CityInfoView>(parts[1].Trim(), true); break;
 					case "shots":
 						foreach (var s in parts[1].Split(',', StringSplitOptions.RemoveEmptyEntries))
 							shotTicks.Add(int.Parse(s, CultureInfo.InvariantCulture));
@@ -158,8 +169,23 @@ namespace OpenRA.Mods.City.Traits
 
 			if (shotTicks.Contains(tick))
 			{
-				worldRenderer.Viewport.Center(w.Map.CenterOfCell(At(14, 0)));
-				Game.RunAfterTick(Game.TakeScreenshot);
+				var viewport = worldRenderer.Viewport;
+				if (shotZoom > 0)
+					viewport.AdjustZoom((float)Math.Log(shotZoom / viewport.Zoom));
+
+				viewport.Center(w.Map.CenterOfCell(At(shotCenter.U, shotCenter.V)));
+				Game.RunAfterTick(() =>
+				{
+					// Order generators may only be swapped outside synced code.
+					if (probe != null)
+						Sync.RunUnsynced(w, () => ActivateProbe(w));
+
+					var infoView = w.WorldActor.TraitOrDefault<InfoViewLayer>();
+					if (infoView != null)
+						infoView.Mode = shotView;
+
+					Game.TakeScreenshot();
+				});
 				Report(w, $"screenshot requested at tick {tick}");
 			}
 
@@ -170,6 +196,15 @@ namespace OpenRA.Mods.City.Traits
 				Report(w, "autotest finished");
 				Game.RunAfterDelay(500, Game.Exit);
 			}
+		}
+
+		/// <summary>Activates a placement tool with the pointer over a fixed cell, so screenshots show whether its preview lines up at any zoom.</summary>
+		void ActivateProbe(World w)
+		{
+			w.OrderGenerator = probe == "bulldoze" ? new BulldozeOrderGenerator(w) : new PlaceCityBuildingOrderGenerator(w, probe);
+			var target = w.Map.CenterOfCell(At(18, 3));
+			Viewport.LastMousePos = worldRenderer.Viewport.WorldToViewPx(worldRenderer.ScreenPxPosition(target));
+			Report(w, $"probe '{probe}' at {At(18, 3)} zoom={worldRenderer.Viewport.Zoom:0.00} mouse={Viewport.LastMousePos}");
 		}
 
 		// Scenario layout assumes the outside connection road runs east (Direction 1,0); (u, v) = (east, south) offsets from its end.

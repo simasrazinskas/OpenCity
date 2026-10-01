@@ -125,7 +125,8 @@ namespace OpenRA.Mods.City.Traits
 					if (hs.X < tl.X || hs.Y < tl.Y || hs.X > br.X || hs.Y > br.Y)
 						continue;
 
-					yield return new SpriteRenderable(heli.GetSprite(world.WorldTick / 2 % heli.Length), pos, WVec.Zero, 4096, palette, 1f, 1f, new Vector3(1f, 1f, 1f), TintModifiers.None, false);
+					var sprite = heli.GetSprite(world.WorldTick / 2 % heli.Length);
+					yield return new SpriteRenderable(sprite, pos, WVec.Zero, 4096, palette, 1f, 1f, new Vector3(1f, 1f, 1f), TintModifiers.None, false);
 				}
 
 				piles.Clear();

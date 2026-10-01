@@ -61,9 +61,15 @@ namespace OpenRA.Mods.City.Traits
 
 		readonly List<Property> overfull = [];
 
+		/// <summary>Shops: commercial lots and mixed-use lots (which carry both household slots and shop jobs).</summary>
+		static bool IsShop(Property p)
+		{
+			return p.Kind == PropertyKind.Commercial || (p.Zone == ZoneType.ResidentialMixed && p.TotalJobSlots > 0);
+		}
+
 		static bool IsLeisure(Property p)
 		{
-			if (p.Kind == PropertyKind.Commercial)
+			if (IsShop(p))
 				return true;
 
 			return p.Actor != null && p.Actor.Info.HasTraitInfo<ServiceBuildingInfo>()
@@ -233,8 +239,6 @@ namespace OpenRA.Mods.City.Traits
 			commuterTotal = 0;
 			shopCands.Clear();
 			leisureCands.Clear();
-			lodgingCands.Clear();
-			LodgingBeds = 0;
 			for (var e = 0; e < 5; e++)
 			{
 				jobCands[e].Clear();
@@ -294,16 +298,8 @@ namespace OpenRA.Mods.City.Traits
 					}
 				}
 
-				if (p.Kind == PropertyKind.Commercial)
-				{
+				if (IsShop(p))
 					shopCands.Add(p);
-					var beds = BedsOf(p);
-					if (beds > 0)
-					{
-						lodgingCands.Add(p);
-						LodgingBeds += beds;
-					}
-				}
 
 				if (IsLeisure(p))
 					leisureCands.Add(p);

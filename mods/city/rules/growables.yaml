@@ -224,6 +224,7 @@
 		Name: actor-lot-res-lowrent.name
 	GrowableBuilding:
 		Zone: ResidentialLowRent
+		StudentHousingPercent: 60
 		HouseholdsPerCellMilli: 4000
 		ResidentsPerHousehold: 2
 		UpkeepPerCell: 4
@@ -256,6 +257,7 @@
 		Name: actor-lot-com-low.name
 	GrowableBuilding:
 		Zone: CommercialLow
+		LodgingPerCellMilli: 500
 		JobsPerCellMilli: 3000
 		JobMix: 25, 50, 25, 0, 0
 		UpkeepPerCell: 3
@@ -270,6 +272,7 @@
 		Name: actor-lot-com-high.name
 	GrowableBuilding:
 		Zone: CommercialHigh
+		LodgingPerCellMilli: 1500
 		JobsPerCellMilli: 6000
 		JobMix: 15, 40, 35, 10, 0
 		UpkeepPerCell: 4
@@ -317,6 +320,7 @@
 		Name: actor-lot-ind.name
 	GrowableBuilding:
 		Zone: Industrial
+		StoragePerCellMilli: 2000
 		JobsPerCellMilli: 4000
 		JobMix: 45, 40, 15, 0, 0
 		UpkeepPerCell: 2
@@ -333,6 +337,7 @@
 		Name: actor-lot-warehouse.name
 	GrowableBuilding:
 		Zone: Warehouse
+		StoragePerCellMilli: 20000
 		JobsPerCellMilli: 1000
 		JobMix: 60, 35, 5, 0, 0
 		UpkeepPerCell: 1

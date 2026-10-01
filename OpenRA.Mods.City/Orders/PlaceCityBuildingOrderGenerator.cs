@@ -152,7 +152,7 @@ namespace OpenRA.Mods.City
 			var tiles = check.Tiles.Count > 0 ? check.Tiles : [.. buildingInfo.Tiles(topLeft)];
 			foreach (var t in tiles)
 				if (w.Map.Contains(t))
-					yield return new MarkerTileRenderable(t, ok ? CityDragOrderGenerator.ValidColor : CityDragOrderGenerator.InvalidColor);
+					yield return new CityTileMarkerRenderable(t, ok ? CityDragOrderGenerator.ValidColor : CityDragOrderGenerator.InvalidColor);
 
 			var ghost = Ghost(wr, w, topLeft);
 			if (ghost != null)

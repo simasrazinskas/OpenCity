@@ -120,7 +120,17 @@ namespace OpenRA.Mods.City.Traits
 			if (levels > 1 && count >= levels && count % levels == 0)
 			{
 				var variants = count / levels;
-				return (Math.Clamp(growable.Level, 1, levels) - 1) * variants + WithGrowableSpriteInfo.VariantFor(cell, variants);
+
+				// Themes split the variants: the first half is North American, the second half European.
+				var first = 0;
+				var span = variants;
+				if (growable.Theme != 0 && variants >= 2)
+				{
+					span = variants / 2;
+					first = growable.Theme == 2 ? variants - span : 0;
+				}
+
+				return (Math.Clamp(growable.Level, 1, levels) - 1) * variants + first + WithGrowableSpriteInfo.VariantFor(cell, span);
 			}
 
 			return WithGrowableSpriteInfo.VariantFor(cell, count);

@@ -19,16 +19,16 @@ namespace OpenRA.Mods.City.Traits
 		int chirpsToday;
 		int commuteQuits;
 
-		/// <summary>Posts a life-event chirp (key + "-1".."-variants", argument = the citizen's name), within the daily budget.</summary>
-		void Announce(string key, int ci, int variants, int percent = 100)
+		/// <summary>Posts a life-event chirp (kind: 0 born, 1 graduated, 2 died, 3 arrested; two variants each; argument = the citizen's name), within the daily budget.</summary>
+		void Announce(int kind, int ci, int percent = 100)
 		{
 			if (stats == null || chirpsToday >= info.ChirpsPerDay || (percent < 100 && Hash(ci, Today, 120) % 100 >= percent))
 				return;
 
 			chirpsToday++;
 			var name = NameOf(ci, cits[ci].BirthDay, (cits[ci].Flags & CitFlags.Male) != 0);
-			var v = 1 + Hash(ci, Today, 121) % Math.Max(1, variants);
-			stats.Chirp(key + "-" + v, ci + 1, name);
+			var v = Hash(ci, Today, 121) % 2;
+			stats.Chirp(CitizenSimInfo.ChirpKeys[kind * 2 + v], ci + 1, name);
 		}
 
 		/// <summary>Happiness penalty (0..10) of the worker's commute.</summary>

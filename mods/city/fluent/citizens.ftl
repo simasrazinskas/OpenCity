@@ -20,29 +20,8 @@ happiness-factor-employment = Employment
 happiness-factor-leisure = Leisure
 
 ## Citizen activities (CitizenView.Activity)
-citizen-activity-home = At home
-citizen-activity-working = Working
-citizen-activity-studying = Studying
-citizen-activity-shopping = Shopping
-citizen-activity-leisure = Relaxing
-citizen-activity-travelling = On the road
-citizen-activity-hospital = At the hospital
-citizen-activity-moving = Looking for a home
 
 ## Household types and population labels
-citizen-age-child = Children
-citizen-age-teen = Teens
-citizen-age-adult = Adults
-citizen-age-senior = Seniors
-citizen-edu-0 = Uneducated
-citizen-edu-1 = Poorly educated
-citizen-edu-2 = Educated
-citizen-edu-3 = Well educated
-citizen-edu-4 = Highly educated
-citizen-stat-homeless = Homeless
-citizen-stat-unemployed = Unemployed
-citizen-stat-commuters = Commuters
-citizen-stat-tourists = Tourists
 happiness-factor-noise = Noise
 happiness-factor-policies = Policies
 happiness-factor-commute = Long commute
@@ -57,4 +36,27 @@ chirp-citizen-died-1 = { $arg } passed away. They will be missed.
 chirp-citizen-died-2 = Rest in peace, { $arg }.
 chirp-citizen-arrested-1 = { $arg } was caught committing a crime and is now behind bars.
 chirp-citizen-arrested-2 = Police arrested { $arg }. Justice served.
+
+## Labels looked up through static key tables
+citizen-activity-home = At home
+citizen-activity-working = Working
+citizen-activity-studying = Studying
+citizen-activity-shopping = Shopping
+citizen-activity-leisure = Relaxing
+citizen-activity-travelling = On the road
+citizen-activity-hospital = At the hospital
+citizen-activity-moving = Looking for a home
+citizen-age-child = Children
+citizen-age-teen = Teens
+citizen-age-adult = Adults
+citizen-age-senior = Seniors
+citizen-edu-0 = Uneducated
+citizen-edu-1 = Poorly educated
+citizen-edu-2 = Educated
+citizen-edu-3 = Well educated
+citizen-edu-4 = Highly educated
+citizen-stat-homeless = Homeless
+citizen-stat-unemployed = Unemployed
+citizen-stat-commuters = Commuters
+citizen-stat-tourists = Tourists
 citizen-activity-prison = Serving a sentence

@@ -15,6 +15,7 @@ using OpenRA.Traits;
 namespace OpenRA.Mods.City.Traits
 {
 	[TraitLocation(SystemActors.World)]
+	[IncludeStaticFluentReferences(typeof(CityFluentKeys))]
 	[Desc("The single source of in-game time. A pure function of World.WorldTick (synced, stops while paused).",
 		"As in Cities: Skylines 2, one day/night cycle is one calendar month.")]
 	public class CityClockInfo : TraitInfo

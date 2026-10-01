@@ -141,11 +141,6 @@ namespace OpenRA.Mods.City.Traits
 		public readonly int PrisonDays = 6;
 		public readonly int CrimeVictimWellbeing = 15;
 
-		[Desc("Lodging for tourists: beds per job of a hotel (an actor whose name contains 'hotel'),",
-			"and spare beds of any other commercial property = jobs / divisor.")]
-		public readonly int HotelBedsPerJob = 3;
-		public readonly int SpareLodgingJobsDivisor = 4;
-
 		[Desc("Tourist spending per person and day in cents (at a shop via ICityEconomy, else booked as tourism income), and per leisure visit of a resident.")]
 		public readonly int TouristSpendCents = 500;
 		public readonly int LeisureSpendCents = 300;
@@ -159,6 +154,35 @@ namespace OpenRA.Mods.City.Traits
 
 		[Desc("Maximum life-event chirps (births, graduations, deaths, arrests) per day.")]
 		public readonly int ChirpsPerDay = 6;
+
+		// Fluent keys used by the simulation and the UI. Declared here so the fluent lint sees them as referenced.
+		[FluentReference]
+		public static readonly string[] HappinessFactorKeys =
+		[
+			"happiness-factor-power", "happiness-factor-water", "happiness-factor-roads", "happiness-factor-police",
+			"happiness-factor-fire", "happiness-factor-healthcare", "happiness-factor-education", "happiness-factor-parks",
+			"happiness-factor-pollution", "happiness-factor-landvalue", "happiness-factor-taxes", "happiness-factor-wealth",
+			"happiness-factor-crowding", "happiness-factor-homeless", "happiness-factor-health", "happiness-factor-employment",
+			"happiness-factor-leisure", "happiness-factor-noise", "happiness-factor-policies", "happiness-factor-commute",
+			"happiness-factor-crime",
+		];
+
+		[FluentReference]
+		public static readonly string[] ChirpKeys =
+		[
+			"chirp-citizen-born-1", "chirp-citizen-born-2", "chirp-citizen-graduated-1", "chirp-citizen-graduated-2",
+			"chirp-citizen-died-1", "chirp-citizen-died-2", "chirp-citizen-arrested-1", "chirp-citizen-arrested-2",
+		];
+
+		[FluentReference]
+		public static readonly string[] LabelKeys =
+		[
+			"citizen-activity-home", "citizen-activity-working", "citizen-activity-studying", "citizen-activity-shopping",
+			"citizen-activity-leisure", "citizen-activity-travelling", "citizen-activity-hospital", "citizen-activity-prison",
+			"citizen-activity-moving", "citizen-age-child", "citizen-age-teen", "citizen-age-adult", "citizen-age-senior",
+			"citizen-edu-0", "citizen-edu-1", "citizen-edu-2", "citizen-edu-3", "citizen-edu-4",
+			"citizen-stat-homeless", "citizen-stat-unemployed", "citizen-stat-commuters", "citizen-stat-tourists",
+		];
 
 		public override object Create(ActorInitializer init) { return new CitizenSim(init.Self, this); }
 	}
@@ -247,6 +271,7 @@ namespace OpenRA.Mods.City.Traits
 		IDemandModel demandModel;
 		ITransitPlanner planner;
 		IIntercityRail rail;
+		PropertyRegistry propReg;
 		TransitLayer transitLayer;
 		IProgression progression;
 		ITourism tourism;
@@ -289,6 +314,7 @@ namespace OpenRA.Mods.City.Traits
 			traffic = self.TraitsImplementing<ITrafficService>().FirstOrDefault() ?? wa.TraitsImplementing<ITrafficService>().FirstOrDefault();
 			demandModel = wa.TraitsImplementing<IDemandModel>().FirstOrDefault() ?? self.TraitsImplementing<IDemandModel>().FirstOrDefault();
 			cm = self.TraitOrDefault<CityManager>();
+			propReg = registry as PropertyRegistry;
 			planner = wa.TraitsImplementing<ITransitPlanner>().FirstOrDefault() ?? self.TraitsImplementing<ITransitPlanner>().FirstOrDefault();
 			transitLayer = planner as TransitLayer;
 			rail = planner as IIntercityRail;

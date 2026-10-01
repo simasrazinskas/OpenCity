@@ -97,21 +97,21 @@ zone("ResMed", "ResidentialMedium", "res-med", HouseholdsPerCellMilli=1500, Resi
      RentSpacePercent=150, PowerPerCellMilli=1200, WaterPerCellMilli=1200)
 zone("ResHigh", "ResidentialHigh", "res-high", HouseholdsPerCellMilli=6000, ResidentsPerHousehold=3, UpkeepPerCell=6, RentZoneFactor=3,
      RentSpacePercent=250, PowerPerCellMilli=2000, WaterPerCellMilli=2000, SpawnLevel2LandValue=70)
-zone("ResLowRent", "ResidentialLowRent", "res-lowrent", HouseholdsPerCellMilli=4000, ResidentsPerHousehold=2, UpkeepPerCell=4, RentZoneFactor=2,
+zone("ResLowRent", "ResidentialLowRent", "res-lowrent", StudentHousingPercent=60, HouseholdsPerCellMilli=4000, ResidentsPerHousehold=2, UpkeepPerCell=4, RentZoneFactor=2,
      RentSpacePercent=150, PowerPerCellMilli=1500, WaterPerCellMilli=1500)
 zone("ResMixed", "ResidentialMixed", "res-mixed", HouseholdsPerCellMilli=1500, ResidentsPerHousehold=3, JobsPerCellMilli=2000, JobMix=[30, 50, 20, 0, 0],
      UpkeepPerCell=5, RentZoneFactor=5, RentSpacePercent=150, PowerPerCellMilli=1500, WaterPerCellMilli=1200)
-zone("ComLow", "CommercialLow", "com-low", JobsPerCellMilli=3000, JobMix=[25, 50, 25, 0, 0], UpkeepPerCell=3, RentZoneFactor=5,
+zone("ComLow", "CommercialLow", "com-low", LodgingPerCellMilli=500, JobsPerCellMilli=3000, JobMix=[25, 50, 25, 0, 0], UpkeepPerCell=3, RentZoneFactor=5,
      PowerPerCellMilli=1000, WaterPerCellMilli=1000)
-zone("ComHigh", "CommercialHigh", "com-high", JobsPerCellMilli=6000, JobMix=[15, 40, 35, 10, 0], UpkeepPerCell=4, RentZoneFactor=6, LandValueBonus=10,
+zone("ComHigh", "CommercialHigh", "com-high", LodgingPerCellMilli=1500, JobsPerCellMilli=6000, JobMix=[15, 40, 35, 10, 0], UpkeepPerCell=4, RentZoneFactor=6, LandValueBonus=10,
      PowerPerCellMilli=2000, WaterPerCellMilli=1000, SpawnLevel2LandValue=70)
 zone("Office", "Office", "off", JobsPerCellMilli=6000, JobMix=[0, 10, 35, 40, 15], UpkeepPerCell=4, RentZoneFactor=8,
      PowerPerCellMilli=1500, WaterPerCellMilli=1000, SpawnLevel2LandValue=70)
 zone("OfficeHigh", "OfficeHigh", "off-high", JobsPerCellMilli=10000, JobMix=[0, 5, 30, 45, 20], UpkeepPerCell=5, RentZoneFactor=9, RentSpacePercent=120,
      PowerPerCellMilli=2000, WaterPerCellMilli=1200, SpawnLevel2LandValue=70)
-zone("Ind", "Industrial", "ind", JobsPerCellMilli=4000, JobMix=[45, 40, 15, 0, 0], UpkeepPerCell=2, RentZoneFactor=3, LandValueCap=60,
+zone("Ind", "Industrial", "ind", StoragePerCellMilli=2000, JobsPerCellMilli=4000, JobMix=[45, 40, 15, 0, 0], UpkeepPerCell=2, RentZoneFactor=3, LandValueCap=60,
      PowerPerCellMilli=3000, WaterPerCellMilli=2000, pollution=40)
-zone("Warehouse", "Warehouse", "warehouse", JobsPerCellMilli=1000, JobMix=[60, 35, 5, 0, 0], UpkeepPerCell=1, RentZoneFactor=2, LandValueCap=60,
+zone("Warehouse", "Warehouse", "warehouse", StoragePerCellMilli=20000, JobsPerCellMilli=1000, JobMix=[60, 35, 5, 0, 0], UpkeepPerCell=1, RentZoneFactor=2, LandValueCap=60,
      PowerPerCellMilli=800, WaterPerCellMilli=300, pollution=10)
 
 w("# ---- lot archetypes: <prefix>-<W>x<D> ----")

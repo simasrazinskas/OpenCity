@@ -19,7 +19,6 @@ demand-factor-labor = Uneducated workforce
 demand-factor-labor-skilled = Educated workforce
 demand-factor-storage = Storage and exports
 demand-factor-tourism = Tourism
-demand-factor-line = { $factor }: { $value }
 
 ## Notifications
 notification-prg-milestone = Milestone reached: { $name }! Reward { $money }, { $points } development points, { $tiles } map tiles.
@@ -27,15 +26,7 @@ notification-prg-node = Unlocked: { $name }.
 notification-prg-tile = Map tile { $name } purchased for { $price }.
 
 ## Milestones, tiles, districts, tourism
-label-progression-milestone = Milestone { $index }: { $name }
-label-progression-xp = { $xp } / { $next } XP
-label-progression-points = { $points } development points
-label-progression-permits = { $permits } map tile permits
-label-tile-price = Tile { $name }: { $price } and 1 permit
-label-tile-owned = Tile { $name } (owned)
 district-default-name = District { $id }
-label-tourism-attractiveness = Attractiveness { $value }
-label-tourism-visitors = { $count } visitor groups per month
 
 ## Development tree nodes
 node-road-roundabout = Roundabout
@@ -175,7 +166,6 @@ achievement-small-city-desc = Reach the fifth milestone.
 achievement-last-mile-marker = The Last Mile Marker
 achievement-last-mile-marker-desc = Reach the final milestone.
 notification-prg-achievement = Achievement unlocked: { $name }.
-label-achievements = Achievements: { $done } / { $total }
 
 ## Chirps (the chirper passes the text as $arg)
 chirp-prg-milestone = We reached a new milestone: { $arg }!

@@ -25,6 +25,8 @@ namespace OpenRA.Mods.City.Traits
 			public int Cx, Cy;
 			public int Score;
 			public int Level;
+			public int Area;
+			public int Theme;
 		}
 
 		static bool IsHighDensity(ZoneType zone)
@@ -51,6 +53,16 @@ namespace OpenRA.Mods.City.Traits
 					list.RemoveAt(list.Count - 1);
 					rejected++;
 					continue;
+				}
+
+				// Corner lots use the side with the larger lot (the longer frontage).
+				for (var side = 0; side < 4; side++)
+				{
+					if (side == anchor.Side || !FrontOk(anchor.Cell, side, zone))
+						continue;
+
+					if (PlanLot(zone, new Anchor { Cell = anchor.Cell, Side = side }, out var alt) && alt.Area > plan.Area)
+						plan = alt;
 				}
 
 				var lv = LandValueAt(anchor.Cell, zone);
@@ -216,6 +228,8 @@ namespace OpenRA.Mods.City.Traits
 
 			plan = new Plan
 			{
+				Area = shape.Area,
+				Theme = ThemeAt(origin),
 				Zone = zone,
 				Actor = side % 2 == 0 ? shape.ActorNS : shape.ActorEW,
 				Origin = origin,
@@ -223,6 +237,16 @@ namespace OpenRA.Mods.City.Traits
 				Cy = side % 2 == 0 ? shape.D : shape.W,
 				Level = level,
 			};
+		}
+
+		int ThemeAt(CPos origin)
+		{
+			switch (Info.Theme)
+			{
+				case "NA": return 1;
+				case "EU": return 2;
+				default: return 1 + ((origin.X / 8 + origin.Y / 8) & 1);
+			}
 		}
 
 		void Spawn(Plan plan)
@@ -254,7 +278,7 @@ namespace OpenRA.Mods.City.Traits
 					a.Dispose();
 
 				clearList.Clear();
-				w.CreateActor(plan.Actor, [new LocationInit(plan.Origin), new OwnerInit(owner), new GrowableLevelInit(plan.Level)]);
+				w.CreateActor(plan.Actor, [new LocationInit(plan.Origin), new OwnerInit(owner), new GrowableLevelInit(plan.Level), new GrowableThemeInit(plan.Theme)]);
 			});
 		}
 	}

@@ -150,7 +150,8 @@ namespace OpenRA.Mods.City.Traits
 		public readonly int HeliWaitTicks = 150;
 		public readonly int HeliTicksPerCell = 3;
 
-		[Desc("Chance per clear hot day (per mille) that a tree catches fire; wildfires spread, burn WildfireBurnTicks and are put out by firewatch towers and fire stations.")]
+		[Desc("Chance per clear hot day (per mille) that a tree catches fire.",
+			"Wildfires spread, burn WildfireBurnTicks and are put out by firewatch towers and fire stations.")]
 		public readonly int WildfirePermille = 0;
 		public readonly int WildfireMinTempX10 = 280;
 		public readonly int WildfireBurnTicks = 600;

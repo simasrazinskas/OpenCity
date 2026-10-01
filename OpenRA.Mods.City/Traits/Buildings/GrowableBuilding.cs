@@ -59,6 +59,7 @@ namespace OpenRA.Mods.City.Traits
 			Cells = Width * Depth;
 
 			Level = Math.Clamp(init.GetValue<GrowableLevelInit, int>(info.Level), 1, Math.Max(1, info.MaxLevel));
+			Theme = init.GetValue<GrowableThemeInit, int>(0);
 			Condition = 0;
 			balanceMilli = LotMath.Upkeep(info, Cells, Level) * 1000;
 
@@ -154,6 +155,19 @@ namespace OpenRA.Mods.City.Traits
 				return new PollutionEmission { Ground = p, Air = p * 3 / 4, Noise = p / 2, Radius = 0 };
 			}
 		}
+
+		/// <summary>Visual theme: 0 any, 1 North American, 2 European (chosen at spawn, never changes).</summary>
+		public int Theme { get; }
+
+		/// <summary>Hotel rooms of this building at its current level.</summary>
+		public int LodgingRooms => LotMath.Lodging(Info, Cells, Level);
+
+		/// <summary>Storage capacity (units) of this building at its current level.</summary>
+		public int StorageCapacity => LotMath.Storage(Info, Cells, Level);
+
+		/// <summary>Hotel guests currently staying (written by CIT through PropertyRegistry.ReportGuests).</summary>
+		[VerifySync]
+		public int Guests { get; internal set; }
 
 		/// <summary>Default capacity numbers of the current level for the registry.</summary>
 		internal int HouseholdSlots => LotMath.HouseholdSlots(Info, Cells, Level);

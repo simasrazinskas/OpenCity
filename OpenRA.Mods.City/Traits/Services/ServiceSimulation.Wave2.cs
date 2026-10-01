@@ -90,7 +90,7 @@ namespace OpenRA.Mods.City.Traits
 			}
 		}
 
-		void CrimeEscaped(PropData d)
+		static void CrimeEscaped(PropData d)
 		{
 			var id = d.CrimeCriminal;
 			var listener = d.CrimeListener;

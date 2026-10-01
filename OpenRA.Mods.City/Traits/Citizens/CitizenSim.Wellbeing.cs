@@ -25,14 +25,7 @@ namespace OpenRA.Mods.City.Traits
 			Homeless, PersonalHealth, Employment, Leisure, Noise, Policies, Commute, Crime,
 		}
 
-		static readonly string[] FactorKeys =
-		[
-			"happiness-factor-power", "happiness-factor-water", "happiness-factor-roads", "happiness-factor-police",
-			"happiness-factor-fire", "happiness-factor-healthcare", "happiness-factor-education", "happiness-factor-parks",
-			"happiness-factor-pollution", "happiness-factor-landvalue", "happiness-factor-taxes", "happiness-factor-wealth",
-			"happiness-factor-crowding", "happiness-factor-homeless", "happiness-factor-health", "happiness-factor-employment",
-			"happiness-factor-leisure", "happiness-factor-noise", "happiness-factor-policies", "happiness-factor-commute", "happiness-factor-crime",
-		];
+		static readonly string[] FactorKeys = CitizenSimInfo.HappinessFactorKeys;
 
 		readonly long[] factorSum = new long[FactorKeys.Length];
 		readonly int[] factorN = new int[FactorKeys.Length];

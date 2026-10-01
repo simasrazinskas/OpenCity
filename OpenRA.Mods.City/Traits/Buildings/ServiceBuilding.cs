@@ -61,7 +61,8 @@ namespace OpenRA.Mods.City.Traits
 		[Desc("Effects apply to the whole city (city hall: less crime everywhere).")]
 		public readonly bool CityWide = false;
 
-		[Desc("Bit mask of the PRG districts this provider serves (bit n = district n, bit 0 = outside districts). 0 = unrestricted. The player can change it with CitySetServiceDistricts.")]
+		[Desc("Bit mask of the PRG districts this provider serves (bit n = district n, bit 0 = outside districts). 0 = unrestricted.",
+			"The player can change it with CitySetServiceDistricts.")]
 		public readonly int DistrictMask = 0;
 
 		[Desc("Helicopter base: no road catchment; its helicopters fly straight to the target within FlightRange cells.")]
