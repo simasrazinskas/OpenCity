@@ -241,6 +241,15 @@ Fonts:
 		PixelBold: true
 		PixelMinCapHeight: 7
 
+WorldViewportSizes:
+	ZoomLevels: 0.5, 1, 1.5, 2, 3, 4
+	ZoomAnimationDuration: 140
+	KeepViewInsideMap: true
+
+# Cursors follow the UI scale by whole-number (nearest) factors so the pixel art stays crisp.
+CursorScaling:
+	FollowUIScale: true
+
 MapGrid:
 	Type: Rectangular
 	# Vehicles share road cells; they keep to their lane via WithLaneOffset, so sub-cells must not shift them.
