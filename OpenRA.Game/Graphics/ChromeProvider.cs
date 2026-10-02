@@ -57,6 +57,10 @@ namespace OpenRA.Graphics
 			[Desc("Draw this collection at runtime with the IChromeGenerator named `<Generator>Generator`",
 				"instead of loading an image. Generated art is redrawn whenever the device scale changes.")]
 			public readonly string Generator = null;
+
+			[Desc("The generator may also draw collections that are not declared in yaml (e.g. one set of widget art",
+				"per colour scheme). Names that no yaml collection declares are looked up in the art of this generator.")]
+			public readonly bool Dynamic = false;
 		}
 
 		public static IReadOnlyDictionary<string, Collection> Collections => collections;
@@ -73,6 +77,7 @@ namespace OpenRA.Graphics
 		// Art for previous scales is kept alive (widgets may still hold sprites) until Deinitialize.
 		static Dictionary<string, Dictionary<string, MiniYaml>> generatorCollections;
 		static Dictionary<(string Generator, float Scale), (ChromeGeneratorContext Context, SheetBuilder Sheets)> generated;
+		static List<string> dynamicGenerators;
 
 		/// <summary>Increments whenever the chrome art changes (device scale changes), so widgets can drop cached sprites.</summary>
 		public static int Version { get; private set; }
@@ -93,6 +98,7 @@ namespace OpenRA.Graphics
 			cachedCollectionSheets = [];
 			generatorCollections = [];
 			generated = [];
+			dynamicGenerators = [];
 
 			var stringPool = new HashSet<string>(); // Reuse common strings in YAML
 			var chrome = MiniYaml.Merge(modData.Manifest.Chrome
@@ -116,6 +122,7 @@ namespace OpenRA.Graphics
 			collections = null;
 			generatorCollections = null;
 			generated = null;
+			dynamicGenerators = null;
 			cachedSheets = null;
 			cachedSprites = null;
 			cachedPanelSprites = null;
@@ -134,7 +141,22 @@ namespace OpenRA.Graphics
 					generatorCollections[collection.Generator] = group = [];
 
 				group[name] = yaml;
+				if (collection.Dynamic && !dynamicGenerators.Contains(collection.Generator))
+					dynamicGenerators.Add(collection.Generator);
 			}
+		}
+
+		/// <summary>Finds a collection that no yaml declares in the art of the generators that draw such collections.</summary>
+		static ChromeGeneratorContext DynamicArt(string collectionName)
+		{
+			foreach (var generator in dynamicGenerators)
+			{
+				var art = GeneratedArt(generator);
+				if (art.Contains(collectionName))
+					return art;
+			}
+
+			return null;
 		}
 
 		static ChromeGeneratorContext GeneratedArt(string generatorName)
@@ -209,7 +231,20 @@ namespace OpenRA.Graphics
 				return sprite;
 
 			if (!collections.TryGetValue(collectionName, out var collection))
-				return null;
+			{
+				var art = DynamicArt(collectionName);
+				if (art == null || !art.Images.TryGetValue(collectionName, out var dynamicImages) || !dynamicImages.TryGetValue(imageName, out var dynamicSprite))
+					return null;
+
+				if (cachedCollection == null)
+				{
+					cachedCollection = [];
+					cachedSprites.Add(collectionName, cachedCollection);
+				}
+
+				cachedCollection.Add(imageName, dynamicSprite);
+				return dynamicSprite;
+			}
 
 			if (!string.IsNullOrEmpty(collection.Generator))
 			{
@@ -262,10 +297,17 @@ namespace OpenRA.Graphics
 			if (cachedPanelSprites.TryGetValue(collectionName, out var cachedSprites))
 				return cachedSprites;
 
-			if (!collections.TryGetValue(collectionName, out var collection))
-				return null;
-
 			Sprite[] sprites;
+			if (!collections.TryGetValue(collectionName, out var collection))
+			{
+				var art = DynamicArt(collectionName);
+				if (art == null || !art.Panels.TryGetValue(collectionName, out sprites))
+					return null;
+
+				cachedPanelSprites.Add(collectionName, sprites);
+				return sprites;
+			}
+
 			if (!string.IsNullOrEmpty(collection.Generator))
 			{
 				if (!GeneratedArt(collection.Generator).Panels.TryGetValue(collectionName, out sprites))
@@ -337,6 +379,10 @@ namespace OpenRA.Graphics
 
 			if (!collections.TryGetValue(collectionName, out var collection))
 			{
+				var art = DynamicArt(collectionName);
+				if (art != null && art.PanelMinimumSizes.TryGetValue(collectionName, out var dynamicSize))
+					return dynamicSize;
+
 				Log.Write("debug", $"Could not find collection '{collectionName}'");
 				return new Size(0, 0);
 			}
@@ -367,9 +413,10 @@ namespace OpenRA.Graphics
 			// the overhead of having to dispose and reload everything.
 			// Changing the DPI scale is rare, but if it does happen then there
 			// is a reasonable chance that it may happen again this session.
-			cachedSprites.Clear();
-			cachedPanelSprites.Clear();
-			cachedCollectionSheets.Clear();
+			// The renderer may apply a UI scale before the chrome is initialized (e.g. a UI scale setting on start-up).
+			cachedSprites?.Clear();
+			cachedPanelSprites?.Clear();
+			cachedCollectionSheets?.Clear();
 			Version++;
 		}
 	}

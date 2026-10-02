@@ -1,0 +1,152 @@
+# Chirper window (design/iso/ui/panels/chirper-feed.png, chirper-filter-open.png): people family. A filter row (icon, category
+# dropdown and three quick filter buttons) over a feed of chirps. CityChirperLogic builds the rows from CITY_CHIRP_TEMPLATE.
+
+# One chirp: avatar box (icon on a coloured raised pill), author, age, text, likes and a locate button.
+Container@CITY_CHIRP_TEMPLATE:
+	Width: PARENT_WIDTH
+	Height: 62
+	Children:
+		CityRowBackground@BG:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Hover: false
+		Background@AVATAR:
+			X: 4
+			Y: 4
+			Width: 28
+			Height: 28
+			Background: chip-purple
+			Children:
+				CityIcon@ICON:
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT
+		Label@AUTHOR:
+			X: 38
+			Y: 3
+			Width: PARENT_WIDTH - 100
+			Height: 12
+			Font: TinyBold
+		Label@AGE:
+			X: PARENT_WIDTH - 66
+			Y: 3
+			Width: 62
+			Height: 12
+			Font: Tiny
+			Align: Right
+		Label@TEXT:
+			X: 38
+			Y: 15
+			Width: PARENT_WIDTH - 44
+			Height: 22
+			Font: Tiny
+			WordWrap: true
+			VAlign: Top
+		CityIcon@LIKE_ICON:
+			X: 38
+			Y: 40
+			Width: 16
+			Height: 18
+			Icon: ui_like
+		Label@LIKES:
+			X: 56
+			Y: 40
+			Width: 60
+			Height: 18
+			Font: Tiny
+		Button@LOCATE:
+			X: PARENT_WIDTH - 22
+			Y: 40
+			Width: 18
+			Height: 18
+			TooltipContainer: TOOLTIP_CONTAINER
+			Children:
+				CityIcon@ICON:
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT
+					Icon: ui_locate
+		Background@LINE:
+			Y: PARENT_HEIGHT - 2
+			Width: PARENT_WIDTH
+			Height: 2
+			Background: etched-h
+
+CityPanel@CITY_CHIRPER_PANEL:
+	Logic: CityChirperLogic
+	Title: label-chirper-title
+	Family: people
+	Placement: BottomRight
+	Width: 300
+	Height: 384
+	Visible: false
+	Children:
+		Container@HEADER:
+			X: 4
+			Y: 21
+			Width: PARENT_WIDTH - 8
+			Height: 18
+			Children:
+				CityIcon@ICON:
+					Width: 16
+					Height: 18
+					Icon: pnl_chirper
+				Label@FILTER_LABEL:
+					X: 20
+					Width: 32
+					Height: 18
+					Font: Tiny
+					Text: label-chirper-filter
+				DropDownButton@FILTER:
+					X: 52
+					Y: 2
+					Width: PARENT_WIDTH - 52 - 64
+					Height: 14
+					Font: Tiny
+					Align: Left
+					LeftMargin: 4
+				Button@FILTER_SERVICES:
+					X: PARENT_WIDTH - 58
+					Width: 18
+					Height: 18
+					TooltipContainer: TOOLTIP_CONTAINER
+					Children:
+						CityIcon@ICON:
+							Width: PARENT_WIDTH
+							Height: PARENT_HEIGHT
+							Icon: ui_info
+				Button@FILTER_CITIZENS:
+					X: PARENT_WIDTH - 38
+					Width: 18
+					Height: 18
+					TooltipContainer: TOOLTIP_CONTAINER
+					Children:
+						CityIcon@ICON:
+							Width: PARENT_WIDTH
+							Height: PARENT_HEIGHT
+							Icon: stat_citizen
+				Button@FILTER_ALERTS:
+					X: PARENT_WIDTH - 18
+					Width: 18
+					Height: 18
+					TooltipContainer: TOOLTIP_CONTAINER
+					Children:
+						CityIcon@ICON:
+							Width: PARENT_WIDTH
+							Height: PARENT_HEIGHT
+							Icon: ui_warning
+		ScrollPanel@FEED:
+			X: 4
+			Y: 45
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 49
+			TopBottomSpacing: 0
+			ItemSpacing: 0
+			ScrollbarWidth: 10
+		Label@EMPTY:
+			X: 12
+			Y: 70
+			Width: PARENT_WIDTH - 24
+			Height: 40
+			Font: Tiny
+			Align: Center
+			WordWrap: true
+			Text: label-chirper-empty

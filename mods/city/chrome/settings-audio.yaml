@@ -1,0 +1,164 @@
+# Settings: Audio tab (design/iso/ui/panels/settings-audio.png). Cash ticks and video volume have no use in a city
+# builder and stay in the hidden UNUSED container so AudioSettingsLogic can bind them.
+Container@AUDIO_PANEL:
+	Logic: AudioSettingsLogic
+	Width: PARENT_WIDTH
+	Height: PARENT_HEIGHT
+	Children:
+		Container@UNUSED:
+			Visible: false
+			Children:
+				Container@CASH_TICKS_CONTAINER:
+					Children:
+						Checkbox@CASH_TICKS:
+				Container@VIDEO_VOLUME_CONTAINER:
+					Children:
+						ExponentialSlider@VIDEO_VOLUME:
+							Ticks: 7
+		ScrollPanel@SETTINGS_SCROLLPANEL:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			CollapseHiddenChildren: True
+			Background: none
+			ScrollbarWidth: 10
+			TopBottomSpacing: 2
+			ItemSpacing: 4
+			Children:
+				CityHeader@AUDIO_SECTION_HEADER:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 12
+					Text: label-audio-section-header
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@NO_AUDIO_DEVICE_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 14
+							Children:
+								CityIcon@NO_AUDIO_ICON:
+									Width: 16
+									Height: 14
+									Icon: ui_muted
+								Label@NO_AUDIO_DEVICE:
+									X: 20
+									Width: PARENT_WIDTH - 20
+									Height: 14
+									Font: Tiny
+									Text: label-no-audio-device-container
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@SOUND_VOLUME_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 14
+							Children:
+								CityIcon@SOUND_ICON:
+									Width: 16
+									Height: 14
+									Icon: ui_speaker
+								Label@SOUND_LABEL:
+									X: 20
+									Width: 90
+									Height: 14
+									Font: Tiny
+									Text: label-sound-volume-container
+								ExponentialSlider@SOUND_VOLUME:
+									X: 110
+									Y: 1
+									Width: 220
+									Height: 12
+									Ticks: 7
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@MUSIC_VOLUME_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 14
+							Children:
+								CityIcon@MUSIC_ICON:
+									Width: 16
+									Height: 14
+									Icon: ui_music
+								Label@MUSIC_LABEL:
+									X: 20
+									Width: 90
+									Height: 14
+									Font: Tiny
+									Text: label-music-title-volume-container
+								ExponentialSlider@MUSIC_VOLUME:
+									X: 110
+									Y: 1
+									Width: 220
+									Height: 12
+									Ticks: 7
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@MUTE_SOUND_CONTAINER:
+							Width: 190
+							Height: 14
+							Children:
+								Checkbox@MUTE_SOUND:
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+									Text: checkbox-mute-sound-container
+						Container@MUTE_BACKGROUND_MUSIC_CONTAINER:
+							X: 200
+							Width: 190
+							Height: 14
+							Children:
+								Checkbox@MUTE_BACKGROUND_MUSIC:
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+									Text: checkbox-mute-background-music-container.label
+									TooltipText: checkbox-mute-background-music-container.tooltip
+									TooltipContainer: SETTINGS_TOOLTIP_CONTAINER
+				CityHeader@DEVICE_SECTION_HEADER:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 12
+					Text: label-settings-device-header
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@AUDIO_DEVICE_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 14
+							Children:
+								Label@AUDIO_DEVICE_LABEL:
+									Width: 108
+									Height: 14
+									Font: Tiny
+									Text: label-audio-device-container
+								DropDownButton@AUDIO_DEVICE:
+									X: 110
+									Width: 220
+									Height: 14
+									Font: Tiny
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 12
+					Children:
+						Container@RESTART_REQUIRED_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 12
+							Children:
+								Label@AUDIO_RESTART_REQUIRED_DESC:
+									Width: PARENT_WIDTH
+									Height: 12
+									Font: Tiny
+									Text: label-restart-required-container-audio-desc

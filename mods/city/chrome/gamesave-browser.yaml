@@ -1,0 +1,208 @@
+# Save city window (design/iso/ui/panels/save-dialog.png): saved cities on the left (name, saved time, map and play time),
+# the selected save (map preview, dates) on the right, the file name below the list. GameSaveBrowserLogic (common) drives
+# the widgets, CitySaveBrowserLogic restyles its rows and the preview and makes the close box act as Cancel.
+CityPanel@GAMESAVE_BROWSER_PANEL:
+	Logic: GameSaveBrowserLogic, CitySaveBrowserLogic
+	Title: label-save-dialog-title
+	Family: system
+	Width: 470
+	Height: 290
+	Children:
+		CityHeader@SAVE_TITLE:
+			X: 4
+			Y: 21
+			Width: 292
+			Height: 12
+			Text: label-save-list-header
+		ScrollPanel@GAME_LIST:
+			X: 4
+			Y: 35
+			Width: 292
+			Height: PARENT_HEIGHT - 73
+			TopBottomSpacing: 1
+			ItemSpacing: 0
+			ScrollbarWidth: 10
+			Children:
+				ScrollItem@DATE_HEADER:
+					Background:
+					Width: PARENT_WIDTH - 12
+					Height: 12
+					Visible: false
+					Children:
+						Background@BG:
+							Background: scrollheader
+							Width: PARENT_WIDTH
+							Height: PARENT_HEIGHT
+						Label@LABEL:
+							Font: TinyBold
+							Width: PARENT_WIDTH
+							Height: 12
+							Align: Center
+				ScrollItem@GAME_TEMPLATE:
+					Background:
+					Width: PARENT_WIDTH - 12
+					Height: 26
+					Visible: false
+					EnableChildMouseOver: True
+					Children:
+						CityRowBackground@BG:
+							Width: PARENT_WIDTH
+							Height: PARENT_HEIGHT
+						LabelWithTooltip@TITLE:
+							X: 4
+							Y: 2
+							Width: PARENT_WIDTH - 60
+							Height: 12
+							Font: TinyBold
+							TooltipContainer: GAMESAVE_TOOLTIP_CONTAINER
+							TooltipTemplate: SIMPLE_TOOLTIP
+						Label@CREATION_TIME:
+							X: PARENT_WIDTH - 54
+							Y: 2
+							Width: 50
+							Height: 12
+							Font: Tiny
+							Align: Right
+						Label@INFO:
+							X: 4
+							Y: 13
+							Width: PARENT_WIDTH - 8
+							Height: 10
+							Font: Tiny
+		CityHeader@SELECTED_HEADER:
+			X: 302
+			Y: 21
+			Width: PARENT_WIDTH - 306
+			Height: 12
+			Text: label-save-selected-header
+		Container@MAP_PREVIEW_ROOT:
+			X: 302
+			Y: 35
+			Width: PARENT_WIDTH - 306
+			Height: 148
+		Container@SAVE_INFO:
+			X: 302
+			Y: 186
+			Width: PARENT_WIDTH - 306
+			Height: 34
+			Children:
+				Label@NO_SAVE_SELECTED_LABEL:
+					Width: PARENT_WIDTH
+					Height: 11
+					Font: Tiny
+					Text: label-gamesave-browser-panel-no-save-selected
+					Visible: False
+				Label@INCOMPATIBLE_TITLE_LABEL:
+					Width: PARENT_WIDTH
+					Height: 11
+					Font: TinyBold
+					Text: label-load-game-browser-panel-incompatible-title
+					Visible: False
+				Label@INCOMPATIBLE_LABEL_A:
+					Y: 11
+					Width: PARENT_WIDTH
+					Height: 11
+					Font: Tiny
+					Text: label-load-game-browser-panel-incompatible-a
+				Label@INCOMPATIBLE_LABEL_B:
+					Y: 22
+					Width: PARENT_WIDTH
+					Height: 11
+					Font: Tiny
+					Text: label-load-game-browser-panel-incompatible-b
+				Label@SAVEGAME_INFO_DATE:
+					Width: PARENT_WIDTH
+					Height: 11
+					Font: Tiny
+					Visible: False
+				Label@SAVEGAME_INFO_DURATION:
+					Y: 11
+					Width: PARENT_WIDTH
+					Height: 11
+					Font: Tiny
+					Visible: False
+				ScrollPanel@PLAYER_LIST:
+					Width: PARENT_WIDTH
+					Height: 12
+					Visible: False
+					Children:
+						ScrollItem@HEADER:
+							Width: PARENT_WIDTH
+							Height: 12
+							Visible: false
+							Children:
+								Label@LABEL:
+									Font: TinyBold
+									Width: PARENT_WIDTH
+									Height: 12
+						ScrollItem@TEMPLATE:
+							Width: PARENT_WIDTH
+							Height: 12
+							Visible: false
+							Children:
+								Image@FLAG:
+									Width: 12
+									Height: 12
+								Label@LABEL:
+									X: 14
+									Width: PARENT_WIDTH - 14
+									Height: 12
+									Font: Tiny
+		Container@SAVE_WIDGETS:
+			X: 4
+			Y: PARENT_HEIGHT - 52
+			Width: 292
+			Height: 18
+			Visible: False
+			Children:
+				Label@NAME_LABEL:
+					Width: 40
+					Height: 18
+					Font: Regular
+					Text: label-save-name
+				TextField@SAVE_TEXTFIELD:
+					X: 42
+					Width: PARENT_WIDTH - 42
+					Height: 18
+					Type: Filename
+		Button@DELETE_ALL_BUTTON:
+			X: 4
+			Y: PARENT_HEIGHT - 24
+			Width: 76
+			Height: 18
+			Text: button-gamesave-browser-panel-delete-all
+			Font: Regular
+		Button@DELETE_BUTTON:
+			X: 84
+			Y: PARENT_HEIGHT - 24
+			Width: 56
+			Height: 18
+			Text: button-gamesave-browser-panel-delete
+			Font: Regular
+			Key: Delete
+		Button@RENAME_BUTTON:
+			X: 144
+			Y: PARENT_HEIGHT - 24
+			Width: 56
+			Height: 18
+			Text: button-gamesave-browser-panel-rename
+			Font: Regular
+			Key: F2
+		Button@SAVE_BUTTON:
+			Key: return
+			X: PARENT_WIDTH - 4 - 64 - 4 - 64
+			Y: PARENT_HEIGHT - 24
+			Width: 64
+			Height: 18
+			Text: button-gamesave-browser-panel-save
+			Font: Regular
+			Visible: False
+		Button@CANCEL_BUTTON:
+			Key: escape
+			X: PARENT_WIDTH - 4 - 64
+			Y: PARENT_HEIGHT - 24
+			Width: 64
+			Height: 18
+			Text: button-cancel
+			Font: Regular
+		TooltipContainer@GAMESAVE_TOOLTIP_CONTAINER:

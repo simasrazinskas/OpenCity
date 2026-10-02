@@ -21,14 +21,28 @@ using OpenRA.Widgets;
 namespace OpenRA.Mods.City.Traits
 {
 	[TraitLocation(SystemActors.World)]
-	[Desc("Renders the selected info view (coloured cell overlay) and a hover read-out. Mode is local UI state, not synced.")]
-	public class InfoViewLayerInfo : TraitInfo
+	[Desc("Renders the selected info view (coloured ground overlay under the actors, CS2-style building tint via WithIsoSprite)",
+		"and a hover read-out. Mode is local UI state, not synced.")]
+	public class InfoViewLayerInfo : TraitInfo, NotBefore<RoadLayerInfo>, NotBefore<ZoneOverlayInfo>
 	{
 		[Desc("Minimum real time in milliseconds between two overlay refreshes.")]
 		public readonly int RefreshInterval = 500;
 
 		[Desc("Residents sampled per building for the citizen based views (education, wealth, age, happiness).")]
 		public readonly int ResidentSamples = 16;
+
+		[Desc("Image with the dithered ramp tiles (ramp-good, ramp-bad, ramp-pollution, ramp-blue, ramp-green, category,",
+			"resource). Without it the cells are filled with the InfoViewRamps colours.")]
+		public readonly string TileImage = "overlays";
+
+		[Desc("Tint buildings with the view colour (CS2 style). Buildings without a value are drawn pale grey.")]
+		public readonly bool TintBuildings = true;
+
+		[Desc("Brightness of the tint applied to buildings that have no value in the active view.")]
+		public readonly float NeutralBrightness = 0.92f;
+
+		[Desc("How far a building's colour is pulled towards white before the view colour multiplies it (keeps detail visible).")]
+		public readonly float TintLift = 0.35f;
 
 		public override object Create(ActorInitializer init) { return new InfoViewLayer(init.Self, this); }
 	}
@@ -38,7 +52,7 @@ namespace OpenRA.Mods.City.Traits
 	/// CityInterfaces.cs (pollution, utilities, traffic, services, properties, citizens) and from any
 	/// <see cref="IInfoViewSource"/>; the legacy coverage layer is the fallback. Everything is read only.
 	/// </summary>
-	public class InfoViewLayer : IRenderAboveWorld, IRenderAnnotations, INotifyActorDisposing
+	public class InfoViewLayer : IRenderOverlay, IRenderAnnotations, INotifyActorDisposing
 	{
 		readonly InfoViewLayerInfo info;
 		readonly World world;
@@ -73,7 +87,36 @@ namespace OpenRA.Mods.City.Traits
 
 				mode = value;
 				dirty = true;
+				ModeChanged?.Invoke(value);
 			}
+		}
+
+		/// <summary>Raised after <see cref="Mode"/> changed (local UI state).</summary>
+		public event Action<CityInfoView> ModeChanged;
+
+		/// <summary>The info view layer of a world, or null.</summary>
+		public static InfoViewLayer Get(World world) { return world?.WorldActor.TraitOrDefault<InfoViewLayer>(); }
+
+		/// <summary>Whether buildings are currently drawn in view colours (an info view is active and tinting is on).</summary>
+		public bool TintsBuildings => mode != CityInfoView.None && info.TintBuildings;
+
+		/// <summary>
+		/// Shader tint for a building under the active view (multiplies the sprite colour), or null when no view is
+		/// active. Buildings without a value get a neutral pale tint, so the coloured ones stand out (CS2 style).
+		/// </summary>
+		public System.Numerics.Vector3? BuildingTint(Actor actor)
+		{
+			if (!TintsBuildings)
+				return null;
+
+			var value = ValueAt(world.Map.CellContaining(actor.CenterPosition));
+			if (value < 0)
+				return new System.Numerics.Vector3(info.NeutralBrightness);
+
+			var c = InfoViewRamps.ColorOf(InfoViews.Get(mode)?.Ramp ?? InfoRamp.Good, value);
+			var lift = info.TintLift;
+			return new System.Numerics.Vector3(
+				lift + (1 - lift) * c.R / 255f, lift + (1 - lift) * c.G / 255f, lift + (1 - lift) * c.B / 255f);
 		}
 
 		CityUiContext Ctx => ctx ??= CityUiContext.For(world);
@@ -92,7 +135,8 @@ namespace OpenRA.Mods.City.Traits
 			return v;
 		}
 
-		void IRenderAboveWorld.RenderAboveWorld(Actor self, WorldRenderer wr)
+		// Drawn in the terrain overlay pass, before the depth-sorted actors, so buildings in front cover the ground fill.
+		void IRenderOverlay.Render(WorldRenderer wr)
 		{
 			if (mode == CityInfoView.None && !dirty)
 				return;
@@ -113,6 +157,7 @@ namespace OpenRA.Mods.City.Traits
 
 			var def = InfoViews.Get(mode);
 			var ramp = def?.Ramp ?? InfoRamp.Good;
+			var tiles = RampTiles(ramp);
 			var map = world.Map;
 			var renderer = Game.Renderer.WorldRgbaColorRenderer;
 			foreach (var puv in wr.Viewport.AllVisibleCells)
@@ -125,7 +170,21 @@ namespace OpenRA.Mods.City.Traits
 				if (value < 0)
 					continue;
 
-				var color = InfoViews.RampColor(ramp, value);
+				// ART's dithered ramp tile (RCT2 look, alpha 0/255) when the overlays image provides it.
+				if (tiles != null)
+				{
+					var frame = TileFrame(ramp, value);
+					if (frame >= 0 && frame < tiles.Length)
+					{
+						var sprite = tiles.GetSprite(frame);
+						var p = wr.Screen3DPxPosition(map.CenterOfCell(cell));
+						Game.Renderer.WorldSpriteRenderer.DrawSprite(sprite, null,
+							new System.Numerics.Vector3(p.X - (int)(0.5f * sprite.Size.X), p.Y - (int)(0.5f * sprite.Size.Y), p.Z), 1f);
+						continue;
+					}
+				}
+
+				var color = InfoViewRamps.ColorOf(ramp, value);
 				if (color.A == 0)
 					continue;
 
@@ -136,6 +195,44 @@ namespace OpenRA.Mods.City.Traits
 				var c2 = wr.Screen3DPosition(wpos + r.Corners[2]);
 				var c3 = wr.Screen3DPosition(wpos + r.Corners[3]);
 				renderer.FillRect(c0, c1, c2, c3, color);
+			}
+		}
+
+		readonly Dictionary<InfoRamp, ISpriteSequence> rampTiles = [];
+
+		// overlays.ramp-good / ramp-bad / ramp-pollution / ramp-blue / ramp-green (11 steps), category (16), resource (6 x 11).
+		ISpriteSequence RampTiles(InfoRamp ramp)
+		{
+			if (rampTiles.TryGetValue(ramp, out var seq))
+				return seq;
+
+			var name = ramp switch
+			{
+				InfoRamp.Good => "ramp-good",
+				InfoRamp.Bad => "ramp-bad",
+				InfoRamp.Pollution => "ramp-pollution",
+				InfoRamp.Blue => "ramp-blue",
+				InfoRamp.Green => "ramp-green",
+				InfoRamp.Category => "category",
+				_ => "resource"
+			};
+
+			var sequences = world.Map.Sequences;
+			seq = sequences.HasSequence(info.TileImage, name) ? sequences.GetSequence(info.TileImage, name) : null;
+			rampTiles[ramp] = seq;
+			return seq;
+		}
+
+		static int TileFrame(InfoRamp ramp, int value)
+		{
+			switch (ramp)
+			{
+				case InfoRamp.Category:
+					return (value % 16 + 16) % 16;
+				case InfoRamp.Resource:
+					return Math.Clamp(value / 16, 0, 5) * 11 + Math.Clamp(value % 16, 0, 10);
+				default:
+					return (Math.Clamp(value, 0, 100) + 5) / 10;
 			}
 		}
 
@@ -476,9 +573,9 @@ namespace OpenRA.Mods.City.Traits
 			var font = Game.Renderer.Fonts["Bold"];
 			var lines = text.Split('\n');
 			var lineHeight = CityAnnotationText.LineHeight(font);
-			var topEdge = world.Map.CenterOfCell(cell) - new WVec(0, 512, 0);
+			var topEdge = world.Map.CenterOfCell(cell) + CityIso.BackCorner(1, 1);
 			for (var i = 0; i < lines.Length; i++)
-				yield return new CityAnnotationText(font, topEdge, new int2(0, -6 - (lines.Length - i) * lineHeight), i == 0 ? Color.White : CityUi.Muted, lines[i]);
+				yield return new CityAnnotationText(font, topEdge, new int2(0, -6 - (lines.Length - i) * lineHeight), i == 0 ? Color.White : CityUi.WorldMuted, lines[i]);
 		}
 
 		string Describe(CPos cell)

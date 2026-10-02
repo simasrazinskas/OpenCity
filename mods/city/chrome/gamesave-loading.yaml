@@ -1,37 +1,82 @@
+# Saved game loading screen (design/iso/ui/screens/loading-1280x720-1x.png): the darkened city picture, the pixel logo with
+# its tagline and an RCT2 loading window with the real progress, a tip and the cancel hint. The boot load screen is
+# drawn in code (UIArt/CityLoadScreen.cs) to look the same.
 Container@GAMESAVE_LOADING_SCREEN:
-	Logic: GameSaveLoadingLogic
+	Logic: CityGameSaveLoadingLogic
 	Width: WINDOW_WIDTH
 	Height: WINDOW_HEIGHT
 	Children:
 		LogicKeyListener@CANCEL_HANDLER:
-		Background@STRIPE:
-			Y: (WINDOW_HEIGHT - HEIGHT) / 2
+		CityBackdrop@BACKDROP:
 			Width: WINDOW_WIDTH
-			Height: 256
-			Background: loadscreen-stripe
+			Height: WINDOW_HEIGHT
 		Image@LOGO:
-			X: (WINDOW_WIDTH - 256) / 2
-			Y: (WINDOW_HEIGHT - 256) / 2
-			ImageCollection: logos
+			X: (WINDOW_WIDTH - 420) / 2
+			Y: WINDOW_HEIGHT / 10
+			ImageCollection: menu-logos
 			ImageName: logo
-		Label@TITLE:
+		CityPlate@TAGLINE:
+			Y: WINDOW_HEIGHT / 10 + 126
 			Width: WINDOW_WIDTH
-			Y: 3 * WINDOW_HEIGHT / 4 - 29
-			Height: 25
+			Height: 22
 			Font: Bold
-			Align: Center
-			Text: label-gamesave-loading-screen-title
-		ProgressBar@PROGRESS:
-			X: (WINDOW_WIDTH - 500) / 2
-			Y: 3 * WINDOW_HEIGHT / 4
-			Width: 500
-			Height: 20
-			Background: observer-scrollpanel-button-pressed
-			Bar: observer-scrollpanel-button
-		Label@DESC:
-			Width: WINDOW_WIDTH
-			Y: 3 * WINDOW_HEIGHT / 4 + 19
-			Height: 25
-			Font: Regular
-			Align: Center
-			Text: label-gamesave-loading-screen-desc
+			Text: label-city-tagline
+		Background@LOADING_WINDOW:
+			X: (WINDOW_WIDTH - WIDTH) / 2
+			Y: WINDOW_HEIGHT - HEIGHT - 56
+			Width: 560
+			Height: 126
+			Background: city-window
+			Children:
+				Label@TITLE:
+					X: 10
+					Y: 8
+					Width: PARENT_WIDTH - 70
+					Height: 14
+					Font: Bold
+					Text: label-gamesave-loading-screen-title
+				Label@PERCENT:
+					X: PARENT_WIDTH - 70
+					Y: 8
+					Width: 60
+					Height: 14
+					Font: Bold
+					Align: Right
+				ProgressBar@PROGRESS:
+					X: 10
+					Y: 26
+					Width: PARENT_WIDTH - 20
+					Height: 14
+					Background: city-progressbar-bg
+					Bar: city-progressbar-thumb
+					BarMargin: 2, 2
+				Label@DESC:
+					X: 10
+					Y: 43
+					Width: PARENT_WIDTH - 20
+					Height: 12
+					Font: Tiny
+					Text: label-gamesave-loading-screen-desc
+				Background@TIP_WELL:
+					X: 10
+					Y: 60
+					Width: PARENT_WIDTH - 20
+					Height: PARENT_HEIGHT - 70
+					Background: city-dialog3
+					Children:
+						Label@TIP:
+							X: 8
+							Y: 6
+							Width: PARENT_WIDTH - 16
+							Height: PARENT_HEIGHT - 20
+							Font: Tiny
+							VAlign: Top
+							WordWrap: true
+						Label@TIP_COUNT:
+							X: 8
+							Y: PARENT_HEIGHT - 16
+							Width: PARENT_WIDTH - 16
+							Height: 12
+							Font: Tiny
+							Align: Right
+							TextColor: 7A5028

@@ -11,7 +11,8 @@
 
 using System;
 using System.Collections.Generic;
-using OpenRA.Mods.City.Traits;
+using System.Globalization;
+using System.Linq;
 using OpenRA.Mods.Common.Widgets;
 using OpenRA.Primitives;
 using OpenRA.Widgets;
@@ -19,9 +20,10 @@ using OpenRA.Widgets;
 namespace OpenRA.Mods.City.Widgets.Logic
 {
 	/// <summary>
-	/// Statistics panel: categories on the left, the series of the category as toggles (up to four lines at once),
-	/// the line chart in the middle and 1 year / 5 years / all time scale buttons. Data: ICityStatistics.History.
-	/// Only series that have at least one sample are offered, so each WP adds a graph by recording a series.
+	/// The RCT2 statistics window (design/iso/ui/panels/statistics-*.png): an icon tab per category, a checklist of the
+	/// category's series (colour key, zebra rows), Year / 5 Years / All buttons, the line chart and a read-out strip with the
+	/// sample under the pointer. Data: ICityStatistics.History. Only series that have at least one sample are offered, so
+	/// each work package adds a graph by recording a series. (The citizen overview moved to the city info window.)
 	/// </summary>
 	public class CityStatsLogic : ChromeLogic
 	{
@@ -34,74 +36,111 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		[FluentReference]
 		const string Empty = "label-stats-empty";
 
-		const int MaxLines = 4;
+		[FluentReference("category")]
+		const string WindowTitle = "label-stats-window-title";
+
+		[FluentReference("shown", "total")]
+		const string SeriesShown = "label-stats-series-shown";
+
+		const int DefaultShown = 4;
+
+		enum Unit { Number, Money, Percent, TenthsCelsius }
 
 		sealed class SeriesDef
 		{
 			public string Id;
 			public string Category;
 			public string NameKey;
+			public Unit Unit;
 			public Color Color;
 		}
 
-		// Series ids follow design 10 section 3.7; sims record them with ICityStatistics.Record.
-		static readonly SeriesDef[] Catalogue =
+		// The key colours of the design (SC in tools/iso_ui_panels_finance.py): bright, for the dark chart.
+		static readonly int[] Palette =
 		[
-			Def("population", "population", "population", 0x7ED957),
-			Def("population", "households", "households", 0x5AB4F0),
-			Def("population", "workers", "workers", 0xF2C94C),
-			Def("population", "unemployed", "unemployed", 0xFF6B5E),
-			Def("population", "jobs", "jobs", 0xB07CE8),
-			Def("population", "students", "students", 0x4FD6C6),
-			Def("population", "tourists", "tourists", 0xE86BB4),
-			Def("population", "buildings", "buildings", 0xB4C4D0),
-			Def("economy", "funds", "money", 0xF2C94C),
-			Def("economy", "income", "income", 0x5CD67A),
-			Def("economy", "expenses", "expenses", 0xFF6B5E),
-			Def("city", "happiness", "happiness", 0xF2C94C),
-			Def("city", "health", "health", 0xFF6B5E),
-			Def("city", "land-value", "landvalue", 0x5AB4F0),
-			Def("city", "demand-residential", "demand-r", 0x7ED957),
-			Def("city", "demand-commercial", "demand-c", 0x5AB4F0),
-			Def("city", "demand-industrial", "demand-i", 0xF2C94C),
-			Def("city", "svc-crimes", "crime", 0xE86BB4),
-			Def("city", "svc-sick", "sick", 0x4FD6C6),
-			Def("city", "svc-deaths", "deaths", 0xB4C4D0),
-			Def("city", "svc-fires", "fires", 0xFF8C3A),
-			Def("city", "svc-garbage-generated-t", "garbage-generated", 0xD69E6B),
-			Def("city", "svc-garbage-collected-t", "garbage-collected", 0x7ED957),
-			Def("utilities", "power-produced", "power-produced", 0xF2C94C),
-			Def("utilities", "power-used", "power-used", 0xFF8C3A),
-			Def("utilities", "water-produced", "water-produced", 0x5AB4F0),
-			Def("utilities", "water-used", "water-used", 0x4FD6C6),
-			Def("environment", "pollution-ground", "pollution-ground", 0xD69E6B),
-			Def("environment", "pollution-air", "pollution-air", 0xB4C4D0),
-			Def("environment", "pollution-noise", "pollution-noise", 0xE86BB4),
-			Def("environment", "temperature", "temperature", 0xFF6B5E),
-			Def("traffic", "traffic-flow", "traffic-flow", 0x5CD67A),
-			Def("traffic", "vehicles", "vehicles", 0x5AB4F0),
+			0x7CF06C, 0xFF6A50, 0x5AB4F0, 0xF2C94C, 0xD08CFF, 0xF08CD0, 0x50E0D0, 0xF0A040, 0xC8C8C8, 0xA0E060, 0xFF9A8A, 0x90A8FF
 		];
 
-		static readonly string[] Categories = ["overview", "population", "economy", "city", "utilities", "environment", "traffic"];
+		// Series ids follow design 10 section 3.7; sims record them with ICityStatistics.Record.
+		static readonly SeriesDef[] Catalogue = BuildCatalogue(
+		[
+			("population", "population", "population", Unit.Number),
+			("population", "households", "households", Unit.Number),
+			("population", "workers", "workers", Unit.Number),
+			("population", "unemployed", "unemployed", Unit.Number),
+			("population", "jobs", "jobs", Unit.Number),
+			("population", "students", "students", Unit.Number),
+			("population", "tourists", "tourists", Unit.Number),
+			("population", "buildings", "buildings", Unit.Number),
+			("economy", "funds", "money", Unit.Money),
+			("economy", "income", "income", Unit.Money),
+			("economy", "expenses", "expenses", Unit.Money),
+			("city", "happiness", "happiness", Unit.Percent),
+			("city", "health", "health", Unit.Percent),
+			("city", "land-value", "landvalue", Unit.Number),
+			("city", "demand-residential", "demand-r", Unit.Percent),
+			("city", "demand-commercial", "demand-c", Unit.Percent),
+			("city", "demand-industrial", "demand-i", Unit.Percent),
+			("city", "svc-crimes", "crime", Unit.Number),
+			("city", "svc-sick", "sick", Unit.Number),
+			("city", "svc-deaths", "deaths", Unit.Number),
+			("city", "svc-fires", "fires", Unit.Number),
+			("city", "svc-garbage-generated-t", "garbage-generated", Unit.Number),
+			("city", "svc-garbage-collected-t", "garbage-collected", Unit.Number),
+			("utilities", "power-produced", "power-produced", Unit.Number),
+			("utilities", "power-used", "power-used", Unit.Number),
+			("utilities", "water-produced", "water-produced", Unit.Number),
+			("utilities", "water-used", "water-used", Unit.Number),
+			("environment", "pollution-ground", "pollution-ground", Unit.Percent),
+			("environment", "pollution-air", "pollution-air", Unit.Percent),
+			("environment", "pollution-noise", "pollution-noise", Unit.Percent),
+			("environment", "temperature", "temperature", Unit.TenthsCelsius),
+			("traffic", "traffic-flow", "traffic-flow", Unit.Percent),
+			("traffic", "vehicles", "vehicles", Unit.Number),
+		]);
+
+		static readonly (string Id, string Icon)[] Categories =
+		[
+			("population", "stat_population"),
+			("economy", "stat_money"),
+			("city", "pnl_city_info"),
+			("utilities", "info_power"),
+			("environment", "info_pollution"),
+			("traffic", "info_traffic"),
+		];
+
 		static readonly int[] Scales = [12, 60, 120];
-		static readonly string[] ScaleKeys = ["button-stats-scale-year", "button-stats-scale-five", "button-stats-scale-all"];
+		static readonly string[] ScaleKeys = ["label-stats-scale-year", "label-stats-scale-five", "label-stats-scale-all"];
 
 		readonly World world;
 		readonly CityUiContext ctx;
-		readonly Widget categoryList;
-		readonly Widget seriesList;
-		readonly Widget overview;
-		readonly Dictionary<string, ButtonWidget> categoryButtons = [];
-		readonly List<string> enabled = [];
+		readonly ScrollPanelWidget seriesList;
+		readonly CityGraphWidget chart;
+		readonly Dictionary<string, HashSet<string>> enabled = [];
 		readonly List<GraphSeries> graph = [];
+		readonly List<Unit> graphUnits = [];
 
-		string category = "overview";
+		string category = Categories[0].Id;
 		int scale = Scales[0];
 		string builtCategory;
 
-		static SeriesDef Def(string category, string id, string nameKey, int rgb)
+		static SeriesDef[] BuildCatalogue((string Category, string Id, string Name, Unit Unit)[] rows)
 		{
-			return new SeriesDef { Category = category, Id = id, NameKey = "label-stats-" + nameKey, Color = CityUi.FromArgb(rgb) };
+			// Each series keeps the colour of its position within its category.
+			var index = new Dictionary<string, int>();
+			return rows.Select(r =>
+			{
+				index.TryGetValue(r.Category, out var i);
+				index[r.Category] = i + 1;
+				return new SeriesDef
+				{
+					Category = r.Category,
+					Id = r.Id,
+					NameKey = "label-stats-" + r.Name,
+					Unit = r.Unit,
+					Color = CityUi.FromArgb(Palette[i % Palette.Length])
+				};
+			}).ToArray();
 		}
 
 		[ObjectCreator.UseCtor]
@@ -109,37 +148,55 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		{
 			this.world = world;
 			ctx = CityUiContext.For(world);
-			widget.Get<ButtonWidget>("CLOSE").OnClick = () => widget.Visible = false;
-			categoryList = widget.Get("CATEGORIES");
-			seriesList = widget.Get("SERIES");
 
-			var scaleContainer = widget.Get("SCALE");
-			scaleContainer.IsVisible = () => category != "overview";
+			var window = (CityPanelWidget)widget;
+			window.GetTitle = () => FluentProvider.GetMessage(WindowTitle, "category", CategoryName(category));
+			window.SetTabs(Categories.Select(c =>
+			{
+				var id = c.Id;
+				var text = CategoryName(id);
+				return new CityWindowTab
+				{
+					Icon = c.Icon,
+					GetTooltip = () => text,
+					IsActive = () => category == id,
+					IsDisabled = () => !Available(id).Any(),
+					OnClick = () => category = id
+				};
+			}));
+
+			seriesList = widget.Get("LEFT").Get<ScrollPanelWidget>("SERIES");
+			var count = widget.Get("LEFT").Get<LabelWidget>("COUNT");
+			count.GetText = () => FluentProvider.GetMessage(SeriesShown, "shown", ShownCount(), "total", Available(category).Count());
+			count.GetColor = () => CityTheme.Muted("info");
+
+			var right = widget.Get("RIGHT");
+			var scaleContainer = right.Get("SCALE");
 			for (var i = 0; i < Scales.Length; i++)
 			{
 				var months = Scales[i];
 				var button = Game.LoadWidget(world, "CITY_INFOVIEW_ITEM", scaleContainer, []) as ButtonWidget;
-				button.Bounds.X = i * 108;
-				button.Bounds.Width = 102;
-				button.Bounds.Height = 26;
+				button.Bounds.X = i * 52;
+				button.Bounds.Width = 50;
+				button.Bounds.Height = 14;
 				var text = FluentProvider.GetMessage(ScaleKeys[i]);
 				button.GetText = () => text;
 				button.IsHighlighted = () => scale == months;
 				button.OnClick = () => scale = months;
 			}
 
-			var chart = widget.Get<CityGraphWidget>("GRAPH");
+			chart = right.Get<CityGraphWidget>("GRAPH");
 			chart.GetSeries = BuildSeries;
-			chart.GetSampleLabel = ago => ago <= 0 ? FluentProvider.GetMessage(Now) : FluentProvider.GetMessage(MonthsAgo, "count", ago);
+			chart.GetSampleLabel = SampleLabel;
 
-			overview = widget.Get("OVERVIEW");
-			overview.IsVisible = () => category == "overview";
-			chart.IsVisible = () => category != "overview";
-			BuildOverview();
-
-			var empty = widget.Get<LabelWidget>("EMPTY");
+			var empty = right.Get<LabelWidget>("EMPTY");
 			empty.GetText = () => FluentProvider.GetMessage(Empty);
-			empty.IsVisible = () => category != "overview" && graph.Count == 0;
+			empty.GetColor = () => CityTheme.InkLight;
+			empty.IsVisible = () => graph.Count == 0;
+
+			var readout = right.Get("READOUT").Get<LabelWidget>("READOUT_TEXT");
+			readout.GetText = ReadOut;
+			readout.GetColor = () => CityTheme.InkLight;
 
 			var panelVisible = widget.IsVisible;
 			widget.IsVisible = () =>
@@ -152,12 +209,15 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			};
 		}
 
+		static string CategoryName(string id) { return CityUi.Message("label-stats-category-" + id, CityUi.Prettify(id)); }
+
+		static string SampleLabel(int ago)
+		{
+			return ago <= 0 ? FluentProvider.GetMessage(Now) : FluentProvider.GetMessage(MonthsAgo, "count", ago);
+		}
+
 		IEnumerable<SeriesDef> Available(string forCategory)
 		{
-			// The overview is a snapshot of the citizens, not a recorded series.
-			if (forCategory == "overview")
-				yield break;
-
 			foreach (var def in Catalogue)
 				if (def.Category == forCategory && HasData(def))
 					yield return def;
@@ -169,169 +229,76 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			return history != null && history.Count > 0;
 		}
 
+		int ShownCount()
+		{
+			return enabled.TryGetValue(category, out var set) ? Available(category).Count(d => set.Contains(d.Id)) : 0;
+		}
+
 		void Refresh()
 		{
-			// Categories without any recorded series are hidden; rebuilt when the first panel frame runs.
-			if (categoryButtons.Count == 0)
-				BuildCategories();
+			// A category without recorded series is not selectable: move to the first that has some.
+			if (!Available(category).Any())
+			{
+				var (firstId, _) = Categories.FirstOrDefault(c => Available(c.Id).Any());
+				if (firstId != null)
+					category = firstId;
+			}
 
 			if (builtCategory != category)
 				BuildSeriesList();
-		}
-
-		void BuildCategories()
-		{
-			categoryList.RemoveChildren();
-			var y = 0;
-			foreach (var c in Categories)
-			{
-				var any = c == "overview" && ctx.Citizens != null;
-				foreach (var _ in Available(c))
-				{
-					any = true;
-					break;
-				}
-
-				if (!any)
-					continue;
-
-				var id = c;
-				var button = Game.LoadWidget(world, "CITY_INFOVIEW_ITEM", categoryList, []) as ButtonWidget;
-				button.Bounds.Y = y;
-				button.Bounds.Width = 150;
-				button.Bounds.Height = 24;
-				var text = CityUi.Message("label-stats-category-" + c, CityUi.Prettify(c));
-				button.GetText = () => text;
-				button.IsHighlighted = () => category == id;
-				button.OnClick = () =>
-				{
-					category = id;
-					builtCategory = null;
-				};
-
-				categoryButtons[c] = button;
-				y += 27;
-			}
-
-			// The series toggles sit below the category buttons.
-			seriesList.Bounds.Y = categoryList.Bounds.Y + y + 10;
-
-			if (categoryButtons.Count > 0 && !categoryButtons.ContainsKey(category))
-				foreach (var c in categoryButtons.Keys)
-				{
-					category = c;
-					break;
-				}
-		}
-
-		void BuildOverview()
-		{
-			var y = 0;
-			void Heading(string key)
-			{
-				var label = new LabelWidget(Game.ModData)
-				{
-					Bounds = new WidgetBounds(0, y, overview.Bounds.Width, 20),
-					Font = "Bold",
-					Shadow = true,
-					GetColor = () => CityUi.Accent
-				};
-
-				var text = FluentProvider.GetMessage(key);
-				label.GetText = () => text;
-				overview.AddChild(label);
-				y += 24;
-			}
-
-			void Bar(string name, Func<int> value, Func<int> max, Color color)
-			{
-				var nameLabel = new LabelWidget(Game.ModData) { Bounds = new WidgetBounds(8, y, 150, 18), Font = "Small", GetText = () => name };
-				var bar = new CityBarWidget
-				{
-					Bounds = new WidgetBounds(160, y + 2, overview.Bounds.Width - 160 - 98, 14),
-					BarColor = color,
-					GetPercentage = () => (int)(value() * 100L / Math.Max(1, max()))
-				};
-
-				var valueLabel = new LabelWidget(Game.ModData)
-				{
-					Bounds = new WidgetBounds(overview.Bounds.Width - 90, y, 90, 18),
-					Font = "Bold",
-					Align = TextAlign.Right,
-					GetText = () => value().ToString("N0", System.Globalization.CultureInfo.CurrentCulture)
-				};
-
-				overview.AddChild(nameLabel);
-				overview.AddChild(bar);
-				overview.AddChild(valueLabel);
-				y += 22;
-			}
-
-			int Population() => ctx.Citizens?.Population ?? 0;
-			Heading("label-overview-age");
-			foreach (var age in new[] { AgeGroup.Child, AgeGroup.Teen, AgeGroup.Adult, AgeGroup.Senior })
-			{
-				var group = age;
-				Bar(CityUi.AgeName(age), () => ctx.Citizens?.CountByAge(group) ?? 0, Population, CityUi.CategoryColor(ZoneCategory.Residential));
-			}
-
-			y += 6;
-			Heading("label-overview-education");
-			foreach (var level in new[] { EducationLevel.Uneducated, EducationLevel.Poorly, EducationLevel.Educated, EducationLevel.Well, EducationLevel.Highly })
-			{
-				var edu = level;
-				Bar(CityUi.EducationName(level), () => ctx.Citizens?.CountByEducation(edu) ?? 0, Population, CityUi.CategoryColor(ZoneCategory.Commercial));
-			}
-
-			y += 6;
-			Heading("label-overview-city");
-			Bar(CityUi.Message("label-overview-workers"), () => ctx.Citizens?.Workers ?? 0, Population, CityUi.Good);
-			Bar(CityUi.Message("label-overview-unemployed"), () => ctx.Citizens?.Unemployed ?? 0, Population, CityUi.Bad);
-			Bar(CityUi.Message("label-overview-students"), () => ctx.Citizens?.Students ?? 0, Population, CityUi.Warn);
-			Bar(CityUi.Message("label-overview-homeless"), () => ctx.Citizens?.Homeless ?? 0, Population, CityUi.Bad);
-			Bar(CityUi.Message("label-overview-tourists"), () => ctx.Citizens?.Tourists ?? 0, Population, CityUi.Accent);
 		}
 
 		void BuildSeriesList()
 		{
 			builtCategory = category;
 			seriesList.RemoveChildren();
-			enabled.Clear();
+			var defs = Available(category).ToList();
+			if (!enabled.TryGetValue(category, out var set))
+				enabled[category] = set = defs.Take(DefaultShown).Select(d => d.Id).ToHashSet();
 
-			var y = 0;
-			foreach (var def in Available(category))
+			foreach (var def in defs)
 			{
 				var current = def;
-				if (enabled.Count < 2)
-					enabled.Add(def.Id);
-
-				var button = Game.LoadWidget(world, "CITY_INFOVIEW_ITEM", seriesList, []) as ButtonWidget;
-				button.Bounds.Y = y;
-				button.Bounds.Width = 150;
-				button.Bounds.Height = 20;
-				var text = CityUi.Message(def.NameKey, CityUi.Prettify(def.Id));
-				button.GetText = () => text;
-				button.GetColor = () => enabled.Contains(current.Id) ? current.Color : CityUi.Muted;
-				button.IsHighlighted = () => enabled.Contains(current.Id);
-				button.OnClick = () =>
+				var row = Game.LoadWidget(world, "CITY_STATS_ROW", seriesList, []);
+				row.Bounds.Width = seriesList.Bounds.Width - seriesList.ScrollbarWidth - 2;
+				void Toggle()
 				{
-					if (!enabled.Remove(current.Id) && enabled.Count < MaxLines)
-						enabled.Add(current.Id);
-				};
+					if (!set.Remove(current.Id))
+						set.Add(current.Id);
+				}
 
-				y += 22;
+				var check = row.Get<CheckboxWidget>("CHECK");
+				check.IsChecked = () => set.Contains(current.Id);
+				check.OnClick = Toggle;
+
+				var key = row.Get<CitySwatchWidget>("KEY");
+				key.Color = def.Color;
+				key.IsDimmed = () => !set.Contains(current.Id);
+
+				var name = row.Get<ButtonWidget>("NAME");
+				var text = CityUi.Message(def.NameKey, CityUi.Prettify(def.Id));
+				name.Background = "";
+				name.Bounds.Width = row.Bounds.Width - name.Bounds.X;
+				row.Get("BG").Bounds.Width = row.Bounds.Width;
+				name.GetText = () => text;
+				name.GetColor = () => set.Contains(current.Id) ? CityTheme.Ink : CityTheme.Muted("info");
+				name.OnClick = Toggle;
 			}
+
+			seriesList.Layout.AdjustChildren();
+			seriesList.ScrollToTop();
 		}
 
 		IReadOnlyList<GraphSeries> BuildSeries()
 		{
 			graph.Clear();
-			if (ctx.Statistics == null)
+			graphUnits.Clear();
+			if (ctx.Statistics == null || !enabled.TryGetValue(category, out var set))
 				return graph;
 
 			foreach (var def in Catalogue)
 			{
-				if (def.Category != category || !enabled.Contains(def.Id))
+				if (def.Category != category || !set.Contains(def.Id) || !HasData(def))
 					continue;
 
 				graph.Add(new GraphSeries
@@ -340,9 +307,38 @@ namespace OpenRA.Mods.City.Widgets.Logic
 					Color = def.Color,
 					Values = ctx.Statistics.History(def.Id, scale)
 				});
+				graphUnits.Add(def.Unit);
 			}
 
 			return graph;
+		}
+
+		static string Format(Unit unit, int value)
+		{
+			switch (unit)
+			{
+				case Unit.Money: return CityUtils.FormatMoney(value);
+				case Unit.Percent: return FluentProvider.GetMessage("label-city-percent", "value", value);
+				case Unit.TenthsCelsius: return (value / 10f).ToString("0.#", CultureInfo.CurrentCulture) + " C";
+				default: return value.ToString("N0", CultureInfo.CurrentCulture);
+			}
+		}
+
+		/// <summary>"3 months ago: Population 1,204" for the first shown series and the sample under the pointer (newest when none).</summary>
+		string ReadOut()
+		{
+			var firstIndex = graph.FindIndex(g => g.Values != null && g.Values.Count > 0);
+			if (firstIndex < 0)
+				return "";
+
+			var first = graph[firstIndex];
+
+			var ago = Math.Max(0, chart.HoverAgo);
+			var index = first.Values.Count - 1 - ago;
+			if (index < 0)
+				return "";
+
+			return SampleLabel(ago) + ": " + first.Name + " " + Format(graphUnits[firstIndex], first.Values[index]);
 		}
 	}
 }

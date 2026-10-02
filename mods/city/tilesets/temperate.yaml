@@ -1,7 +1,7 @@
 General:
 	Name: tileset-temperate
 	Id: TEMPERATE
-	TileSize: 32, 32
+	TileSize: 64, 32
 	SheetSize: 2048
 	EditorTemplateOrder: Terrain, Water, Shore
 

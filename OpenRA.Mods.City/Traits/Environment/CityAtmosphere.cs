@@ -102,6 +102,19 @@ namespace OpenRA.Mods.City.Traits
 		/// <summary>Current tint multiplier (R, G, B including ambient).</summary>
 		public System.Numerics.Vector3 CurrentTint { get; private set; } = System.Numerics.Vector3.One;
 
+		/// <summary>
+		/// Ambient multiply for depth-sorted world sprites (see <see cref="CityView.SpriteTint"/>). Equal to
+		/// <see cref="CurrentTint"/> when the tint post-process runs before the actors (ground only), Vector3.One while it
+		/// still runs after them.
+		/// </summary>
+		public System.Numerics.Vector3 SpriteTint { get; private set; } = System.Numerics.Vector3.One;
+
+		/// <summary>Render-only weather override for headless screenshots (CityAutoTest weather=): 0 clear, 1 rain, 2 snow, 3 storm, 4 fog (-1 off).</summary>
+		public int TestWeather = -1;
+
+		/// <summary>True when sorted sprites must apply <see cref="SpriteTint"/> themselves (the ambient split, §3.5).</summary>
+		public bool SplitAmbient { get; private set; }
+
 		/// <summary>0..1 precipitation intensity for the weather effects.</summary>
 		public float Precipitation { get; private set; }
 
@@ -118,6 +131,18 @@ namespace OpenRA.Mods.City.Traits
 		/// <summary>Colour multiplier for foliage (trees) for the current time of year.</summary>
 		public System.Numerics.Vector3 FoliageTint { get; private set; } = System.Numerics.Vector3.One;
 
+		float? forcedHour, forcedMonth;
+
+		/// <summary>Render-only override of the time of day (0..24) and/or month (0 = Jan .. 12) for screenshots and tests.</summary>
+		public void ForceTime(float? hour, float? month)
+		{
+			if (hour.HasValue)
+				forcedHour = hour;
+
+			if (month.HasValue)
+				forcedMonth = month;
+		}
+
 		/// <summary>Triggers a short lightning flash (render only).</summary>
 		public void Flash(float strength = 1f) { flash = Math.Max(flash, strength); }
 
@@ -127,6 +152,10 @@ namespace OpenRA.Mods.City.Traits
 			climate = w.WorldActor.TraitOrDefault<CityClimate>();
 			tint = w.WorldActor.TraitOrDefault<TintPostProcessEffect>();
 			infoViews = w.WorldActor.TraitOrDefault<InfoViewLayer>();
+
+			// The engine's tint pass darkens everything drawn before it. Run before the actors (AfterTerrain) it only
+			// darkens the ground, and the sorted sprites multiply SpriteTint themselves so lit frames can stay bright.
+			SplitAmbient = tint != null && ((IRenderPostProcessPass)tint).Type == PostProcessPassType.AfterTerrain;
 		}
 
 		void ITickRender.TickRender(WorldRenderer wr, Actor self)
@@ -148,7 +177,12 @@ namespace OpenRA.Mods.City.Traits
 			if (Info.FixedHour >= 0)
 				HourF = Info.FixedHour % 24;
 
+			if (forcedHour.HasValue)
+				HourF = forcedHour.Value % 24;
+
 			MonthF = climate != null ? climate.MonthFloat(clock.Now) + frac / ticksPerDay : 0f;
+			if (forcedMonth.HasValue)
+				MonthF = forcedMonth.Value;
 
 			var daylightHours = climate != null ? climate.DaylightX10(MonthF) / 10f : 12f;
 			var sunrise = 12f - daylightHours / 2f;
@@ -182,6 +216,16 @@ namespace OpenRA.Mods.City.Traits
 				Snowing = climate.TemperatureX10 <= 10;
 				Storm = !Snowing && climate.Weather == CityWeather.Storm;
 				SnowCover = climate.SnowCoverAt(MonthF) / 100f;
+				if (TestWeather == 0)
+					precip = Precipitation = 0f;
+
+				if (TestWeather is > 0 and < 4)
+				{
+					precip = Precipitation = 0.8f;
+					Snowing = TestWeather == 2;
+					Storm = TestWeather == 3;
+					SnowCover = Snowing ? 1f : SnowCover;
+				}
 
 				var dim = cloud * Info.OvercastDarkening + (Storm ? precip * Info.StormDarkening : 0f);
 				ambient *= 1f - dim;
@@ -199,7 +243,17 @@ namespace OpenRA.Mods.City.Traits
 			if (Math.Abs(target - infoDim) < 0.01f)
 				infoDim = target;
 
-			ambient *= 1f - infoDim * (1f - Info.InfoViewDim);
+			if (SplitAmbient)
+			{
+				// Info views read like CS2: neutral daylight on the ground (the ramp colours stay exact), buildings in view
+				// colours (WithIsoSprite), no night or weather cast.
+				r += (1f - r) * infoDim;
+				g += (1f - g) * infoDim;
+				b += (1f - b) * infoDim;
+				ambient += (1f - ambient) * infoDim;
+			}
+			else
+				ambient *= 1f - infoDim * (1f - Info.InfoViewDim);
 
 			// Lightning: pushes the scene towards white and decays quickly.
 			if (flash > 0.01f)
@@ -214,6 +268,7 @@ namespace OpenRA.Mods.City.Traits
 				flash = 0f;
 
 			CurrentTint = new System.Numerics.Vector3(r * ambient, g * ambient, b * ambient);
+			SpriteTint = SplitAmbient ? CurrentTint : System.Numerics.Vector3.One;
 
 			if (tint != null)
 			{

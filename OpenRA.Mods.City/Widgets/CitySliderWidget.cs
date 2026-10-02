@@ -10,7 +10,6 @@
 #endregion
 
 using System;
-using OpenRA.Mods.Common.Widgets;
 using OpenRA.Primitives;
 using OpenRA.Widgets;
 
@@ -143,20 +142,34 @@ namespace OpenRA.Mods.City.Widgets
 			return true;
 		}
 
+		/// <summary>
+		/// RCT2 slider (tools/iso_ui_widgets.slider): a sunken groove filled with the family accent up to the value and a
+		/// raised thumb with a grip line, pressed in while dragged.
+		/// </summary>
 		public override void Draw()
 		{
 			var rb = RenderBounds;
+			var family = CityTheme.FamilyOf(this);
+			var f = CityTheme.Family(family);
+			var b = CityTheme.BevelLogical;
 			var value = CurrentValue;
-			var thumbSize = rb.Height;
-			var usable = rb.Width - thumbSize;
+			var usable = rb.Width - rb.Height;
 			var range = Math.Max(1, MaximumValue - MinimumValue);
-			var thumbX = rb.X + usable * (value - MinimumValue) / range;
-			var trackHeight = Math.Max(4, rb.Height / 4);
-			var trackY = rb.Y + (rb.Height - trackHeight) / 2;
+			var center = rb.X + rb.Height / 2f + usable * (value - MinimumValue) / (float)range;
 
-			WidgetUtils.FillRectWithColor(new Rectangle(rb.X + thumbSize / 2, trackY, usable, trackHeight), TrackColor);
-			WidgetUtils.FillRectWithColor(new Rectangle(rb.X + thumbSize / 2, trackY, thumbX - rb.X, trackHeight), FillColor);
-			WidgetUtils.FillRectWithColor(new Rectangle(thumbX + 2, rb.Y + 2, thumbSize - 4, thumbSize - 4), ThumbColor);
+			var grooveHeight = Math.Max(5, rb.Height / 3);
+			var grooveY = rb.Y + (rb.Height - grooveHeight) / 2f;
+			CityTheme.DrawPanel(CityTheme.Art(family, "slider-track"), rb.X + rb.Height / 2f - 4, grooveY, usable + 8, grooveHeight);
+			var disabled = IsDisabled();
+			CityTheme.Fill(rb.X + rb.Height / 2f - 4 + b, grooveY + b, center - (rb.X + rb.Height / 2f - 4) - b, grooveHeight - 2 * b,
+				CityTheme.Ramp(f.Accent, disabled ? 3 : 5));
+
+			var thumbWidth = Math.Max(8, rb.Height * 2 / 3);
+			var hover = Ui.MouseOverWidget == this;
+			var part = disabled ? "slider-thumb-disabled" : dragging ? "slider-thumb-pressed" : hover ? "slider-thumb-hover" : "slider-thumb";
+			var tx = MathF.Round(center - thumbWidth / 2f);
+			CityTheme.DrawPanel(CityTheme.Art(family, part), tx, rb.Y, thumbWidth, rb.Height);
+			CityTheme.Fill(tx + thumbWidth / 2f - b / 2, rb.Y + 3, b, rb.Height - 6, CityTheme.FamilyShade(family, 2));
 		}
 	}
 }

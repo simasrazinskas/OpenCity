@@ -1,0 +1,238 @@
+# Production and trade window (CityProductionLogic), design/iso/ui/panels/production-trade*.png, tools/iso_ui_panels_finance.py.
+# Finance family: filter strip, sortable resource table (icon, name, produced / consumed meters, imports, exports), the
+# trade summary of the month and the history chart of the selected resource. Column positions are set by the logic.
+Container@CITY_PRODUCTION_ROW:
+	Width: PARENT_WIDTH
+	Height: 15
+	Children:
+		CityRowBackground@BG:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+		CityIcon@ICON:
+			X: 2
+			Width: 16
+			Height: PARENT_HEIGHT
+		Label@NAME:
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		CityBar@PRODUCED_BAR:
+			Y: 3
+			Height: 9
+		Label@PRODUCED:
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right
+		CityBar@CONSUMED_BAR:
+			Y: 3
+			Height: 9
+		Label@CONSUMED:
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right
+		CityTriangle@IMPORT_ARROW:
+			Y: 5
+			Width: 7
+			Height: 4
+		Label@IMPORTED:
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		CityTriangle@EXPORT_ARROW:
+			Y: 5
+			Width: 7
+			Height: 4
+			Up: true
+		Label@EXPORTED:
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		Button@SELECT:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Background:
+			VisualHeight: 0
+
+ScrollPanel@CITY_PRODUCTION_FILTER_TEMPLATE:
+	Width: DROPDOWN_WIDTH
+	Children:
+		ScrollItem@TEMPLATE:
+			Width: PARENT_WIDTH - 12
+			Height: 14
+			X: 1
+			Visible: false
+			Children:
+				Label@LABEL:
+					X: 4
+					Width: PARENT_WIDTH - 8
+					Height: PARENT_HEIGHT
+					Font: Tiny
+
+CityPanel@CITY_PRODUCTION_PANEL:
+	Logic: CityProductionLogic
+	Title: label-production-title
+	Family: finance
+	Placement: Center
+	Avoid: CITY_ADVISOR_PANEL
+	Width: 372
+	Height: 328
+	Visible: false
+	Children:
+		LogicTicker@PRODUCTION_TICKER:
+		DropDownButton@FILTER:
+			X: 4
+			Y: 21
+			Width: 104
+			Height: 13
+			Font: Tiny
+		Checkbox@HIDE_UNUSED:
+			X: 116
+			Y: 21
+			Width: 130
+			Height: 13
+			Font: Tiny
+			Text: label-production-hide-unused
+		Label@COUNT:
+			X: PARENT_WIDTH - 124
+			Y: 21
+			Width: 120
+			Height: 13
+			Font: Tiny
+			Align: Right
+		Container@HEADER:
+			X: 4
+			Y: 37
+			Width: PARENT_WIDTH - 8
+			Height: 14
+			Children:
+				Button@H_NAME:
+					Height: PARENT_HEIGHT
+					Font: Tiny
+					Align: Left
+					LeftMargin: 4
+					Text: label-production-resource
+					Children:
+						CityTriangle@SORT:
+							Y: 5
+							Width: 7
+							Height: 4
+				Button@H_PRODUCED:
+					Height: PARENT_HEIGHT
+					Font: Tiny
+					Align: Left
+					LeftMargin: 4
+					Text: label-production-produced
+					Children:
+						CityTriangle@SORT:
+							Y: 5
+							Width: 7
+							Height: 4
+				Button@H_CONSUMED:
+					Height: PARENT_HEIGHT
+					Font: Tiny
+					Align: Left
+					LeftMargin: 4
+					Text: label-production-consumed
+					Children:
+						CityTriangle@SORT:
+							Y: 5
+							Width: 7
+							Height: 4
+				Button@H_IMPORTED:
+					Height: PARENT_HEIGHT
+					Font: Tiny
+					Align: Left
+					LeftMargin: 4
+					Text: label-production-in
+					Children:
+						CityTriangle@SORT:
+							Y: 5
+							Width: 7
+							Height: 4
+				Button@H_EXPORTED:
+					Height: PARENT_HEIGHT
+					Font: Tiny
+					Align: Left
+					LeftMargin: 4
+					Text: label-production-out
+					Children:
+						CityTriangle@SORT:
+							Y: 5
+							Width: 7
+							Height: 4
+		ScrollPanel@LIST:
+			X: 4
+			Y: 51
+			Width: PARENT_WIDTH - 8
+			Height: 141
+			TopBottomSpacing: 1
+			ItemSpacing: 0
+			ScrollbarWidth: 10
+		CityHeader@TRADE_HEADER:
+			X: 4
+			Y: 197
+			Width: PARENT_WIDTH - 8
+			Height: 12
+			Text: label-production-trade-header
+		Container@TRADE:
+			X: 4
+			Y: 211
+			Width: PARENT_WIDTH - 8
+			Height: 28
+			Children:
+				Label@IMPORTS_LABEL:
+					Width: 84
+					Height: 13
+					Font: Tiny
+					Text: label-production-imports
+				Label@IMPORTS:
+					Width: PARENT_WIDTH / 2 - 8
+					Height: 13
+					Font: TinyBold
+					Align: Right
+				Label@EXPORTS_LABEL:
+					X: PARENT_WIDTH / 2 + 4
+					Width: 84
+					Height: 13
+					Font: Tiny
+					Text: label-production-exports
+				Label@EXPORTS:
+					X: PARENT_WIDTH / 2 + 4
+					Width: PARENT_WIDTH / 2 - 4
+					Height: 13
+					Font: TinyBold
+					Align: Right
+				Label@BALANCE_LABEL:
+					Y: 14
+					Width: 84
+					Height: 13
+					Font: Tiny
+					Text: label-production-trade-balance
+				Label@BALANCE:
+					Y: 14
+					Width: PARENT_WIDTH / 2 - 8
+					Height: 13
+					Font: TinyBold
+					Align: Right
+				Label@SHORTAGES_LABEL:
+					X: PARENT_WIDTH / 2 + 4
+					Y: 14
+					Width: 84
+					Height: 13
+					Font: Tiny
+					Text: label-production-shortages
+				Label@SHORTAGES:
+					X: PARENT_WIDTH / 2 + 4
+					Y: 14
+					Width: PARENT_WIDTH / 2 - 4
+					Height: 13
+					Font: TinyBold
+					Align: Right
+		CityHeader@CHART_HEADER:
+			X: 4
+			Y: 243
+			Width: PARENT_WIDTH - 8
+			Height: 12
+		CityGraph@CHART:
+			X: 4
+			Y: 257
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 257 - 4
+			LeftMargin: 30

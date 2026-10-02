@@ -1,0 +1,66 @@
+# Settings window (design/iso/ui/panels/settings-*.png, tools/iso_ui_menus.py settings_window): an RCT window with icon
+# tabs. CitySettingsLogic is the common SettingsLogic (panels, saving, reset, restart prompts) plus the icon tabs; the
+# common tab buttons stay in the hidden SETTINGS_TAB_CONTAINER and are driven by the icon tabs.
+CityPanel@SETTINGS_PANEL:
+	Logic: CitySettingsLogic
+		ButtonStride: 0, 0
+		Panels:
+			DISPLAY_PANEL: button-panel-display
+			AUDIO_PANEL: button-panel-audio
+			INPUT_PANEL: button-panel-input
+			HOTKEYS_PANEL: button-panel-hotkeys
+			GAMEPLAY_PANEL: button-panel-gameplay
+			ADVANCED_PANEL: button-panel-advanced
+	Family: city
+	Placement: Center
+	BelowAlerts: false
+	Width: 448
+	Height: 340
+	Children:
+		Container@SETTINGS_TAB_CONTAINER:
+			Visible: false
+			Width: PARENT_WIDTH
+			Height: 14
+			Children:
+				Button@BUTTON_TEMPLATE:
+					Width: 64
+					Height: 14
+					Font: Tiny
+		Container@PANEL_CONTAINER:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Children:
+				Container@PANEL_TEMPLATE:
+					X: 6
+					Y: 49
+					Width: PARENT_WIDTH - 12
+					Height: PARENT_HEIGHT - 49 - 25
+		Background@FOOTER_LINE:
+			X: 4
+			Y: PARENT_HEIGHT - 23
+			Width: PARENT_WIDTH - 8
+			Height: 2
+			Background: etched-h
+		Label@SAVED_NOTE:
+			X: 6
+			Y: PARENT_HEIGHT - 18
+			Width: PARENT_WIDTH - 160
+			Height: 12
+			Font: Tiny
+			Text: label-settings-autosave
+		Button@RESET_BUTTON:
+			X: PARENT_WIDTH - 140
+			Y: PARENT_HEIGHT - 19
+			Width: 64
+			Height: 14
+			Text: button-settings-panel-reset
+			Font: Tiny
+		Button@BACK_BUTTON:
+			Key: escape
+			X: PARENT_WIDTH - 72
+			Y: PARENT_HEIGHT - 19
+			Width: 64
+			Height: 14
+			Text: button-back
+			Font: Tiny
+		TooltipContainer@SETTINGS_TOOLTIP_CONTAINER:

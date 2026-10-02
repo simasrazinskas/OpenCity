@@ -1,0 +1,186 @@
+# Settings: Hotkeys, shown under the Input tab (design/iso/ui/panels/settings-input.png): filter and context on top, the
+# hotkey list as a two column grid, and the remap dialog under it (HotkeysSettingsLogic ids unchanged).
+Container@HOTKEYS_PANEL:
+	Logic: HotkeysSettingsLogic
+		HotkeyGroups:
+			hotkey-group-game-commands:
+				Types: OrderGenerator, World, Menu
+			hotkey-group-viewport-commands:
+				Types: Viewport
+			hotkey-group-observer-replay-commands:
+				Types: Observer, Replay
+			hotkey-group-unit-commands:
+				Types: Unit
+			hotkey-group-unit-stance-commands:
+				Types: Stance
+			hotkey-group-production-commands:
+				Types: Production, ProductionSlot
+			hotkey-group-support-power-commands:
+				Types: SupportPower
+			hotkey-group-music-commands:
+				Types: Music
+			hotkey-group-chat-commands:
+				Types: Chat
+			hotkey-group-control-groups:
+				Types: ControlGroups
+			hotkey-group-editor-commands:
+				Types: Editor
+	Width: PARENT_WIDTH
+	Height: PARENT_HEIGHT
+	Children:
+		Button@SUBTAB_MOUSE:
+			Width: 64
+			Height: 14
+			Font: Tiny
+			Text: label-settings-mouse
+		Button@SUBTAB_HOTKEYS:
+			X: 66
+			Width: 64
+			Height: 14
+			Font: Tiny
+			Text: button-panel-hotkeys
+		Label@FILTER_INPUT_LABEL:
+			Y: 18
+			Width: 84
+			Height: 14
+			Font: Tiny
+			Text: label-hotkeys-panel-filter-input
+		TextField@FILTER_INPUT:
+			X: 86
+			Y: 18
+			Width: 110
+			Height: 14
+			Font: Tiny
+		Label@CONTEXT_DROPDOWN_LABEL:
+			X: PARENT_WIDTH - 130 - 4 - 70
+			Y: 18
+			Width: 70
+			Height: 14
+			Font: Tiny
+			Text: label-hotkeys-panel-context-dropdown
+			Align: Right
+		DropDownButton@CONTEXT_DROPDOWN:
+			X: PARENT_WIDTH - 130
+			Y: 18
+			Width: 130
+			Height: 14
+			Font: Tiny
+		ScrollPanel@HOTKEY_LIST:
+			Y: 36
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT - 36 - 42
+			ScrollbarWidth: 10
+			TopBottomSpacing: 2
+			ItemSpacing: 2
+			Children:
+				Container@HEADER:
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Background@BACKGROUND:
+							Width: PARENT_WIDTH
+							Height: 13
+							Background: item-header
+							ClickThrough: True
+						Label@LABEL:
+							Width: PARENT_WIDTH
+							Height: 13
+							Font: TinyBold
+							Align: Center
+				Container@TEMPLATE:
+					Width: (PARENT_WIDTH - 16) / 2 - 2
+					Height: 14
+					Visible: false
+					Children:
+						Label@FUNCTION:
+							Width: PARENT_WIDTH - 60 - 4
+							Height: 14
+							Font: Tiny
+							Align: Right
+						Button@HOTKEY:
+							X: PARENT_WIDTH - WIDTH
+							Width: 60
+							Height: 14
+							Font: Tiny
+							TooltipContainer: SETTINGS_TOOLTIP_CONTAINER
+		Container@HOTKEY_EMPTY_LIST:
+			Y: 36
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT - 36 - 42
+			Visible: false
+			Children:
+				Label@HOTKEY_EMPTY_LIST_MESSAGE:
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT
+					Font: Tiny
+					Align: Center
+					Text: label-hotkey-empty-list-message
+		Background@HOTKEY_REMAP_BGND:
+			Y: PARENT_HEIGHT - HEIGHT
+			Width: PARENT_WIDTH
+			Height: 40
+			Background: well
+			Children:
+				Container@HOTKEY_REMAP_DIALOG:
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT
+					Children:
+						Label@HOTKEY_LABEL:
+							X: 4
+							Y: 4
+							Width: 126
+							Height: 14
+							Font: TinyBold
+							Align: Right
+						HotkeyEntry@HOTKEY_ENTRY:
+							X: 134
+							Y: 4
+							Width: 130
+							Height: 14
+							Font: Tiny
+						Container@NOTICES:
+							X: 134
+							Y: 21
+							Width: PARENT_WIDTH - 138
+							Height: 14
+							Children:
+								Label@ORIGINAL_NOTICE:
+									Width: PARENT_WIDTH
+									Height: PARENT_HEIGHT
+									Font: Tiny
+								Label@DUPLICATE_NOTICE:
+									Width: PARENT_WIDTH
+									Height: PARENT_HEIGHT
+									Font: Tiny
+								Label@READONLY_NOTICE:
+									Width: PARENT_WIDTH
+									Height: PARENT_HEIGHT
+									Font: Tiny
+									Text: label-notices-readonly-notice
+						Button@OVERRIDE_HOTKEY_BUTTON:
+							X: 222
+							Y: 4
+							Width: 42
+							Height: 14
+							Text: button-hotkey-remap-dialog-override
+							Font: Tiny
+						Button@CLEAR_HOTKEY_BUTTON:
+							X: 268
+							Y: 4
+							Width: 42
+							Height: 14
+							Text: button-hotkey-remap-dialog-clear.label
+							Font: Tiny
+							TooltipText: button-hotkey-remap-dialog-clear.tooltip
+							TooltipContainer: SETTINGS_TOOLTIP_CONTAINER
+							TooltipTemplate: SIMPLE_TOOLTIP
+						Button@RESET_HOTKEY_BUTTON:
+							X: 314
+							Y: 4
+							Width: 42
+							Height: 14
+							Text: button-hotkey-remap-dialog-reset.label
+							Font: Tiny
+							TooltipText: button-hotkey-remap-dialog-reset.tooltip
+							TooltipContainer: SETTINGS_TOOLTIP_CONTAINER
+							TooltipTemplate: SIMPLE_TOOLTIP

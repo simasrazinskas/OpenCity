@@ -21,3 +21,7 @@ hotkey-description-citydistricts = Districts
 hotkey-description-citytiles = Buy map tiles
 hotkey-description-cityachievements = Achievements
 hotkey-description-cityadvisor = Advisor
+hotkey-description-cityseethrough = See-through buildings
+hotkey-description-citymap = Map
+hotkey-description-citynotifications = Notifications
+hotkey-description-cityinfo = City info

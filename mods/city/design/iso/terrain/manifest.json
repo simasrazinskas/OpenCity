@@ -1,0 +1,2029 @@
+{
+ "page": "World elements",
+ "section": "Terrain & water",
+ "groups": [
+  {
+   "title": "Ground: base types, 4 variants each",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "ground/grass-1.png",
+     "label": "Grass 1"
+    },
+    {
+     "file": "ground/grass-2.png",
+     "label": "Grass 2"
+    },
+    {
+     "file": "ground/grass-3.png",
+     "label": "Grass 3"
+    },
+    {
+     "file": "ground/grass-4.png",
+     "label": "Grass 4"
+    },
+    {
+     "file": "ground/grass_dry-1.png",
+     "label": "Dry grass 1"
+    },
+    {
+     "file": "ground/grass_dry-2.png",
+     "label": "Dry grass 2"
+    },
+    {
+     "file": "ground/grass_dry-3.png",
+     "label": "Dry grass 3"
+    },
+    {
+     "file": "ground/grass_dry-4.png",
+     "label": "Dry grass 4"
+    },
+    {
+     "file": "ground/meadow-1.png",
+     "label": "Meadow 1"
+    },
+    {
+     "file": "ground/meadow-2.png",
+     "label": "Meadow 2"
+    },
+    {
+     "file": "ground/meadow-3.png",
+     "label": "Meadow 3"
+    },
+    {
+     "file": "ground/meadow-4.png",
+     "label": "Meadow 4"
+    },
+    {
+     "file": "ground/dirt-1.png",
+     "label": "Dirt 1"
+    },
+    {
+     "file": "ground/dirt-2.png",
+     "label": "Dirt 2"
+    },
+    {
+     "file": "ground/dirt-3.png",
+     "label": "Dirt 3"
+    },
+    {
+     "file": "ground/dirt-4.png",
+     "label": "Dirt 4"
+    },
+    {
+     "file": "ground/sand-1.png",
+     "label": "Sand 1"
+    },
+    {
+     "file": "ground/sand-2.png",
+     "label": "Sand 2"
+    },
+    {
+     "file": "ground/sand-3.png",
+     "label": "Sand 3"
+    },
+    {
+     "file": "ground/sand-4.png",
+     "label": "Sand 4"
+    },
+    {
+     "file": "ground/rock-1.png",
+     "label": "Rock 1"
+    },
+    {
+     "file": "ground/rock-2.png",
+     "label": "Rock 2"
+    },
+    {
+     "file": "ground/rock-3.png",
+     "label": "Rock 3"
+    },
+    {
+     "file": "ground/rock-4.png",
+     "label": "Rock 4"
+    },
+    {
+     "file": "ground/gravel-1.png",
+     "label": "Gravel 1"
+    },
+    {
+     "file": "ground/gravel-2.png",
+     "label": "Gravel 2"
+    },
+    {
+     "file": "ground/gravel-3.png",
+     "label": "Gravel 3"
+    },
+    {
+     "file": "ground/gravel-4.png",
+     "label": "Gravel 4"
+    },
+    {
+     "file": "ground/forest_floor-1.png",
+     "label": "Forest floor 1"
+    },
+    {
+     "file": "ground/forest_floor-2.png",
+     "label": "Forest floor 2"
+    },
+    {
+     "file": "ground/forest_floor-3.png",
+     "label": "Forest floor 3"
+    },
+    {
+     "file": "ground/forest_floor-4.png",
+     "label": "Forest floor 4"
+    },
+    {
+     "file": "ground/mud-1.png",
+     "label": "Mud 1"
+    },
+    {
+     "file": "ground/mud-2.png",
+     "label": "Mud 2"
+    },
+    {
+     "file": "ground/mud-3.png",
+     "label": "Mud 3"
+    },
+    {
+     "file": "ground/mud-4.png",
+     "label": "Mud 4"
+    }
+   ],
+   "note": "64x32 diamonds. Variants use different noise origins so large areas don't tile visibly."
+  },
+  {
+   "title": "Ground: grass through the seasons",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "seasons/grass-spring-1.png",
+     "label": "spring 1"
+    },
+    {
+     "file": "seasons/grass-spring-2.png",
+     "label": "spring 2"
+    },
+    {
+     "file": "seasons/grass-summer-1.png",
+     "label": "summer 1"
+    },
+    {
+     "file": "seasons/grass-summer-2.png",
+     "label": "summer 2"
+    },
+    {
+     "file": "seasons/grass-autumn-1.png",
+     "label": "autumn 1"
+    },
+    {
+     "file": "seasons/grass-autumn-2.png",
+     "label": "autumn 2"
+    },
+    {
+     "file": "seasons/grass-winter-light-1.png",
+     "label": "winter light 1"
+    },
+    {
+     "file": "seasons/grass-winter-1.png",
+     "label": "winter 1"
+    },
+    {
+     "file": "seasons/grass-winter-light-2.png",
+     "label": "winter light 2"
+    },
+    {
+     "file": "seasons/grass-winter-2.png",
+     "label": "winter 2"
+    }
+   ]
+  },
+  {
+   "title": "Ground: snow-covered",
+   "columns": 9,
+   "scale": 2,
+   "items": [
+    {
+     "file": "snow/grass-light.png",
+     "label": "Grass light"
+    },
+    {
+     "file": "snow/grass_dry-light.png",
+     "label": "Dry grass light"
+    },
+    {
+     "file": "snow/meadow-light.png",
+     "label": "Meadow light"
+    },
+    {
+     "file": "snow/dirt-light.png",
+     "label": "Dirt light"
+    },
+    {
+     "file": "snow/sand-light.png",
+     "label": "Sand light"
+    },
+    {
+     "file": "snow/rock-light.png",
+     "label": "Rock light"
+    },
+    {
+     "file": "snow/gravel-light.png",
+     "label": "Gravel light"
+    },
+    {
+     "file": "snow/forest_floor-light.png",
+     "label": "Forest floor light"
+    },
+    {
+     "file": "snow/mud-light.png",
+     "label": "Mud light"
+    },
+    {
+     "file": "snow/grass-full.png",
+     "label": "Grass full"
+    },
+    {
+     "file": "snow/grass_dry-full.png",
+     "label": "Dry grass full"
+    },
+    {
+     "file": "snow/meadow-full.png",
+     "label": "Meadow full"
+    },
+    {
+     "file": "snow/dirt-full.png",
+     "label": "Dirt full"
+    },
+    {
+     "file": "snow/sand-full.png",
+     "label": "Sand full"
+    },
+    {
+     "file": "snow/rock-full.png",
+     "label": "Rock full"
+    },
+    {
+     "file": "snow/gravel-full.png",
+     "label": "Gravel full"
+    },
+    {
+     "file": "snow/forest_floor-full.png",
+     "label": "Forest floor full"
+    },
+    {
+     "file": "snow/mud-full.png",
+     "label": "Mud full"
+    }
+   ],
+   "note": "Light snow (patchy) and full snow per type."
+  },
+  {
+   "title": "Farmland: wheat",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "farm/wheat-plowed-x.png",
+     "label": "plowed X"
+    },
+    {
+     "file": "farm/wheat-plowed-y.png",
+     "label": "plowed Y"
+    },
+    {
+     "file": "farm/wheat-sown-x.png",
+     "label": "sown X"
+    },
+    {
+     "file": "farm/wheat-sown-y.png",
+     "label": "sown Y"
+    },
+    {
+     "file": "farm/wheat-sprout-x.png",
+     "label": "sprout X"
+    },
+    {
+     "file": "farm/wheat-sprout-y.png",
+     "label": "sprout Y"
+    },
+    {
+     "file": "farm/wheat-growing-x.png",
+     "label": "growing X"
+    },
+    {
+     "file": "farm/wheat-growing-y.png",
+     "label": "growing Y"
+    },
+    {
+     "file": "farm/wheat-ripening-x.png",
+     "label": "ripening X"
+    },
+    {
+     "file": "farm/wheat-ripening-y.png",
+     "label": "ripening Y"
+    },
+    {
+     "file": "farm/wheat-ripe-x.png",
+     "label": "ripe X"
+    },
+    {
+     "file": "farm/wheat-ripe-y.png",
+     "label": "ripe Y"
+    },
+    {
+     "file": "farm/wheat-stubble-x.png",
+     "label": "stubble X"
+    },
+    {
+     "file": "farm/wheat-stubble-y.png",
+     "label": "stubble Y"
+    }
+   ],
+   "note": "Growth stages; rows along X and along Y."
+  },
+  {
+   "title": "Farmland: corn",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "farm/corn-sprout-x.png",
+     "label": "sprout X"
+    },
+    {
+     "file": "farm/corn-sprout-y.png",
+     "label": "sprout Y"
+    },
+    {
+     "file": "farm/corn-growing-x.png",
+     "label": "growing X"
+    },
+    {
+     "file": "farm/corn-growing-y.png",
+     "label": "growing Y"
+    },
+    {
+     "file": "farm/corn-ripe-x.png",
+     "label": "ripe X"
+    },
+    {
+     "file": "farm/corn-ripe-y.png",
+     "label": "ripe Y"
+    }
+   ]
+  },
+  {
+   "title": "Farmland: rapeseed",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "farm/rapeseed-growing-x.png",
+     "label": "growing X"
+    },
+    {
+     "file": "farm/rapeseed-growing-y.png",
+     "label": "growing Y"
+    },
+    {
+     "file": "farm/rapeseed-flowering-x.png",
+     "label": "flowering X"
+    },
+    {
+     "file": "farm/rapeseed-flowering-y.png",
+     "label": "flowering Y"
+    }
+   ]
+  },
+  {
+   "title": "Farmland: vegetables",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "farm/vegetables-sprout-x.png",
+     "label": "sprout X"
+    },
+    {
+     "file": "farm/vegetables-sprout-y.png",
+     "label": "sprout Y"
+    },
+    {
+     "file": "farm/vegetables-ripe-x.png",
+     "label": "ripe X"
+    },
+    {
+     "file": "farm/vegetables-ripe-y.png",
+     "label": "ripe Y"
+    }
+   ]
+  },
+  {
+   "title": "Farmland: sunflower",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "farm/sunflower-growing-x.png",
+     "label": "growing X"
+    },
+    {
+     "file": "farm/sunflower-growing-y.png",
+     "label": "growing Y"
+    },
+    {
+     "file": "farm/sunflower-ripe-x.png",
+     "label": "ripe X"
+    },
+    {
+     "file": "farm/sunflower-ripe-y.png",
+     "label": "ripe Y"
+    }
+   ]
+  },
+  {
+   "title": "Farmland: lavender",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "farm/lavender-ripe-x.png",
+     "label": "ripe X"
+    },
+    {
+     "file": "farm/lavender-ripe-y.png",
+     "label": "ripe Y"
+    }
+   ]
+  },
+  {
+   "title": "Farmland: winter",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "farm/winter-plowed.png",
+     "label": "plowed snowy"
+    },
+    {
+     "file": "farm/winter-stubble.png",
+     "label": "stubble snowy"
+    }
+   ]
+  },
+  {
+   "title": "Water: open, shallow, deep (frame 0) + 8-frame loops",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "water/water-shallow.png",
+     "label": "shallow"
+    },
+    {
+     "file": "water/water-shallow-anim.png",
+     "label": "shallow: 8 frames"
+    },
+    {
+     "file": "water/water-open.png",
+     "label": "open"
+    },
+    {
+     "file": "water/water-open-anim.png",
+     "label": "open: 8 frames"
+    },
+    {
+     "file": "water/water-deep.png",
+     "label": "deep"
+    },
+    {
+     "file": "water/water-deep-anim.png",
+     "label": "deep: 8 frames"
+    }
+   ],
+   "note": "Water level sits 5 px below land. Loop strips: 8 frames."
+  },
+  {
+   "title": "Coast (Beach): land tiles, all 46 edge/corner masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "coast/beach-land-00.png",
+     "label": "-/NE"
+    },
+    {
+     "file": "coast/beach-land-01.png",
+     "label": "-/SE"
+    },
+    {
+     "file": "coast/beach-land-02.png",
+     "label": "-/NE,SE"
+    },
+    {
+     "file": "coast/beach-land-03.png",
+     "label": "-/SW"
+    },
+    {
+     "file": "coast/beach-land-04.png",
+     "label": "-/NE,SW"
+    },
+    {
+     "file": "coast/beach-land-05.png",
+     "label": "-/SE,SW"
+    },
+    {
+     "file": "coast/beach-land-06.png",
+     "label": "-/NE,SE,SW"
+    },
+    {
+     "file": "coast/beach-land-07.png",
+     "label": "-/NW"
+    },
+    {
+     "file": "coast/beach-land-08.png",
+     "label": "-/NE,NW"
+    },
+    {
+     "file": "coast/beach-land-09.png",
+     "label": "-/SE,NW"
+    },
+    {
+     "file": "coast/beach-land-10.png",
+     "label": "-/NE,SE,NW"
+    },
+    {
+     "file": "coast/beach-land-11.png",
+     "label": "-/SW,NW"
+    },
+    {
+     "file": "coast/beach-land-12.png",
+     "label": "-/NE,SW,NW"
+    },
+    {
+     "file": "coast/beach-land-13.png",
+     "label": "-/SE,SW,NW"
+    },
+    {
+     "file": "coast/beach-land-14.png",
+     "label": "-/NE,SE,SW,NW"
+    },
+    {
+     "file": "coast/beach-land-15.png",
+     "label": "N"
+    },
+    {
+     "file": "coast/beach-land-16.png",
+     "label": "N/SE"
+    },
+    {
+     "file": "coast/beach-land-17.png",
+     "label": "N/SW"
+    },
+    {
+     "file": "coast/beach-land-18.png",
+     "label": "N/SE,SW"
+    },
+    {
+     "file": "coast/beach-land-19.png",
+     "label": "E"
+    },
+    {
+     "file": "coast/beach-land-20.png",
+     "label": "E/SW"
+    },
+    {
+     "file": "coast/beach-land-21.png",
+     "label": "E/NW"
+    },
+    {
+     "file": "coast/beach-land-22.png",
+     "label": "E/SW,NW"
+    },
+    {
+     "file": "coast/beach-land-23.png",
+     "label": "NE"
+    },
+    {
+     "file": "coast/beach-land-24.png",
+     "label": "NE/SW"
+    },
+    {
+     "file": "coast/beach-land-25.png",
+     "label": "S"
+    },
+    {
+     "file": "coast/beach-land-26.png",
+     "label": "S/NE"
+    },
+    {
+     "file": "coast/beach-land-27.png",
+     "label": "S/NW"
+    },
+    {
+     "file": "coast/beach-land-28.png",
+     "label": "S/NE,NW"
+    },
+    {
+     "file": "coast/beach-land-29.png",
+     "label": "NS"
+    },
+    {
+     "file": "coast/beach-land-30.png",
+     "label": "ES"
+    },
+    {
+     "file": "coast/beach-land-31.png",
+     "label": "ES/NW"
+    },
+    {
+     "file": "coast/beach-land-32.png",
+     "label": "NES"
+    },
+    {
+     "file": "coast/beach-land-33.png",
+     "label": "W"
+    },
+    {
+     "file": "coast/beach-land-34.png",
+     "label": "W/NE"
+    },
+    {
+     "file": "coast/beach-land-35.png",
+     "label": "W/SE"
+    },
+    {
+     "file": "coast/beach-land-36.png",
+     "label": "W/NE,SE"
+    },
+    {
+     "file": "coast/beach-land-37.png",
+     "label": "NW"
+    },
+    {
+     "file": "coast/beach-land-38.png",
+     "label": "NW/SE"
+    },
+    {
+     "file": "coast/beach-land-39.png",
+     "label": "EW"
+    },
+    {
+     "file": "coast/beach-land-40.png",
+     "label": "NEW"
+    },
+    {
+     "file": "coast/beach-land-41.png",
+     "label": "SW"
+    },
+    {
+     "file": "coast/beach-land-42.png",
+     "label": "SW/NE"
+    },
+    {
+     "file": "coast/beach-land-43.png",
+     "label": "NSW"
+    },
+    {
+     "file": "coast/beach-land-44.png",
+     "label": "ESW"
+    },
+    {
+     "file": "coast/beach-land-45.png",
+     "label": "NESW"
+    }
+   ],
+   "note": "Label: sides with water (N=up-right E=down-right S=down-left W=up-left) / water corners."
+  },
+  {
+   "title": "Coast (Beach): water tiles, all 46 edge/corner masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "coast/beach-water-00.png",
+     "label": "-/NE"
+    },
+    {
+     "file": "coast/beach-water-01.png",
+     "label": "-/SE"
+    },
+    {
+     "file": "coast/beach-water-02.png",
+     "label": "-/NE,SE"
+    },
+    {
+     "file": "coast/beach-water-03.png",
+     "label": "-/SW"
+    },
+    {
+     "file": "coast/beach-water-04.png",
+     "label": "-/NE,SW"
+    },
+    {
+     "file": "coast/beach-water-05.png",
+     "label": "-/SE,SW"
+    },
+    {
+     "file": "coast/beach-water-06.png",
+     "label": "-/NE,SE,SW"
+    },
+    {
+     "file": "coast/beach-water-07.png",
+     "label": "-/NW"
+    },
+    {
+     "file": "coast/beach-water-08.png",
+     "label": "-/NE,NW"
+    },
+    {
+     "file": "coast/beach-water-09.png",
+     "label": "-/SE,NW"
+    },
+    {
+     "file": "coast/beach-water-10.png",
+     "label": "-/NE,SE,NW"
+    },
+    {
+     "file": "coast/beach-water-11.png",
+     "label": "-/SW,NW"
+    },
+    {
+     "file": "coast/beach-water-12.png",
+     "label": "-/NE,SW,NW"
+    },
+    {
+     "file": "coast/beach-water-13.png",
+     "label": "-/SE,SW,NW"
+    },
+    {
+     "file": "coast/beach-water-14.png",
+     "label": "-/NE,SE,SW,NW"
+    },
+    {
+     "file": "coast/beach-water-15.png",
+     "label": "N"
+    },
+    {
+     "file": "coast/beach-water-16.png",
+     "label": "N/SE"
+    },
+    {
+     "file": "coast/beach-water-17.png",
+     "label": "N/SW"
+    },
+    {
+     "file": "coast/beach-water-18.png",
+     "label": "N/SE,SW"
+    },
+    {
+     "file": "coast/beach-water-19.png",
+     "label": "E"
+    },
+    {
+     "file": "coast/beach-water-20.png",
+     "label": "E/SW"
+    },
+    {
+     "file": "coast/beach-water-21.png",
+     "label": "E/NW"
+    },
+    {
+     "file": "coast/beach-water-22.png",
+     "label": "E/SW,NW"
+    },
+    {
+     "file": "coast/beach-water-23.png",
+     "label": "NE"
+    },
+    {
+     "file": "coast/beach-water-24.png",
+     "label": "NE/SW"
+    },
+    {
+     "file": "coast/beach-water-25.png",
+     "label": "S"
+    },
+    {
+     "file": "coast/beach-water-26.png",
+     "label": "S/NE"
+    },
+    {
+     "file": "coast/beach-water-27.png",
+     "label": "S/NW"
+    },
+    {
+     "file": "coast/beach-water-28.png",
+     "label": "S/NE,NW"
+    },
+    {
+     "file": "coast/beach-water-29.png",
+     "label": "NS"
+    },
+    {
+     "file": "coast/beach-water-30.png",
+     "label": "ES"
+    },
+    {
+     "file": "coast/beach-water-31.png",
+     "label": "ES/NW"
+    },
+    {
+     "file": "coast/beach-water-32.png",
+     "label": "NES"
+    },
+    {
+     "file": "coast/beach-water-33.png",
+     "label": "W"
+    },
+    {
+     "file": "coast/beach-water-34.png",
+     "label": "W/NE"
+    },
+    {
+     "file": "coast/beach-water-35.png",
+     "label": "W/SE"
+    },
+    {
+     "file": "coast/beach-water-36.png",
+     "label": "W/NE,SE"
+    },
+    {
+     "file": "coast/beach-water-37.png",
+     "label": "NW"
+    },
+    {
+     "file": "coast/beach-water-38.png",
+     "label": "NW/SE"
+    },
+    {
+     "file": "coast/beach-water-39.png",
+     "label": "EW"
+    },
+    {
+     "file": "coast/beach-water-40.png",
+     "label": "NEW"
+    },
+    {
+     "file": "coast/beach-water-41.png",
+     "label": "SW"
+    },
+    {
+     "file": "coast/beach-water-42.png",
+     "label": "SW/NE"
+    },
+    {
+     "file": "coast/beach-water-43.png",
+     "label": "NSW"
+    },
+    {
+     "file": "coast/beach-water-44.png",
+     "label": "ESW"
+    },
+    {
+     "file": "coast/beach-water-45.png",
+     "label": "NESW"
+    }
+   ],
+   "note": "Label: sides with land / land corners."
+  },
+  {
+   "title": "Coast (Beach): animated surf, 8 frames",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "coast/beach-water-anim-N.png",
+     "label": "N: 8 frames"
+    },
+    {
+     "file": "coast/beach-water-anim-E.png",
+     "label": "E: 8 frames"
+    },
+    {
+     "file": "coast/beach-water-anim-S.png",
+     "label": "S: 8 frames"
+    },
+    {
+     "file": "coast/beach-water-anim-W.png",
+     "label": "W: 8 frames"
+    },
+    {
+     "file": "coast/beach-water-anim--_NE.png",
+     "label": "-/NE: 8 frames"
+    },
+    {
+     "file": "coast/beach-water-anim--_SE.png",
+     "label": "-/SE: 8 frames"
+    },
+    {
+     "file": "coast/beach-water-anim--_SW.png",
+     "label": "-/SW: 8 frames"
+    },
+    {
+     "file": "coast/beach-water-anim--_NW.png",
+     "label": "-/NW: 8 frames"
+    }
+   ]
+  },
+  {
+   "title": "Coast (Grass bank): land tiles, all 46 edge/corner masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "coast/bank-land-00.png",
+     "label": "-/NE"
+    },
+    {
+     "file": "coast/bank-land-01.png",
+     "label": "-/SE"
+    },
+    {
+     "file": "coast/bank-land-02.png",
+     "label": "-/NE,SE"
+    },
+    {
+     "file": "coast/bank-land-03.png",
+     "label": "-/SW"
+    },
+    {
+     "file": "coast/bank-land-04.png",
+     "label": "-/NE,SW"
+    },
+    {
+     "file": "coast/bank-land-05.png",
+     "label": "-/SE,SW"
+    },
+    {
+     "file": "coast/bank-land-06.png",
+     "label": "-/NE,SE,SW"
+    },
+    {
+     "file": "coast/bank-land-07.png",
+     "label": "-/NW"
+    },
+    {
+     "file": "coast/bank-land-08.png",
+     "label": "-/NE,NW"
+    },
+    {
+     "file": "coast/bank-land-09.png",
+     "label": "-/SE,NW"
+    },
+    {
+     "file": "coast/bank-land-10.png",
+     "label": "-/NE,SE,NW"
+    },
+    {
+     "file": "coast/bank-land-11.png",
+     "label": "-/SW,NW"
+    },
+    {
+     "file": "coast/bank-land-12.png",
+     "label": "-/NE,SW,NW"
+    },
+    {
+     "file": "coast/bank-land-13.png",
+     "label": "-/SE,SW,NW"
+    },
+    {
+     "file": "coast/bank-land-14.png",
+     "label": "-/NE,SE,SW,NW"
+    },
+    {
+     "file": "coast/bank-land-15.png",
+     "label": "N"
+    },
+    {
+     "file": "coast/bank-land-16.png",
+     "label": "N/SE"
+    },
+    {
+     "file": "coast/bank-land-17.png",
+     "label": "N/SW"
+    },
+    {
+     "file": "coast/bank-land-18.png",
+     "label": "N/SE,SW"
+    },
+    {
+     "file": "coast/bank-land-19.png",
+     "label": "E"
+    },
+    {
+     "file": "coast/bank-land-20.png",
+     "label": "E/SW"
+    },
+    {
+     "file": "coast/bank-land-21.png",
+     "label": "E/NW"
+    },
+    {
+     "file": "coast/bank-land-22.png",
+     "label": "E/SW,NW"
+    },
+    {
+     "file": "coast/bank-land-23.png",
+     "label": "NE"
+    },
+    {
+     "file": "coast/bank-land-24.png",
+     "label": "NE/SW"
+    },
+    {
+     "file": "coast/bank-land-25.png",
+     "label": "S"
+    },
+    {
+     "file": "coast/bank-land-26.png",
+     "label": "S/NE"
+    },
+    {
+     "file": "coast/bank-land-27.png",
+     "label": "S/NW"
+    },
+    {
+     "file": "coast/bank-land-28.png",
+     "label": "S/NE,NW"
+    },
+    {
+     "file": "coast/bank-land-29.png",
+     "label": "NS"
+    },
+    {
+     "file": "coast/bank-land-30.png",
+     "label": "ES"
+    },
+    {
+     "file": "coast/bank-land-31.png",
+     "label": "ES/NW"
+    },
+    {
+     "file": "coast/bank-land-32.png",
+     "label": "NES"
+    },
+    {
+     "file": "coast/bank-land-33.png",
+     "label": "W"
+    },
+    {
+     "file": "coast/bank-land-34.png",
+     "label": "W/NE"
+    },
+    {
+     "file": "coast/bank-land-35.png",
+     "label": "W/SE"
+    },
+    {
+     "file": "coast/bank-land-36.png",
+     "label": "W/NE,SE"
+    },
+    {
+     "file": "coast/bank-land-37.png",
+     "label": "NW"
+    },
+    {
+     "file": "coast/bank-land-38.png",
+     "label": "NW/SE"
+    },
+    {
+     "file": "coast/bank-land-39.png",
+     "label": "EW"
+    },
+    {
+     "file": "coast/bank-land-40.png",
+     "label": "NEW"
+    },
+    {
+     "file": "coast/bank-land-41.png",
+     "label": "SW"
+    },
+    {
+     "file": "coast/bank-land-42.png",
+     "label": "SW/NE"
+    },
+    {
+     "file": "coast/bank-land-43.png",
+     "label": "NSW"
+    },
+    {
+     "file": "coast/bank-land-44.png",
+     "label": "ESW"
+    },
+    {
+     "file": "coast/bank-land-45.png",
+     "label": "NESW"
+    }
+   ],
+   "note": "Label: sides with water (N=up-right E=down-right S=down-left W=up-left) / water corners."
+  },
+  {
+   "title": "Coast (Grass bank): water tiles, all 46 edge/corner masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "coast/bank-water-00.png",
+     "label": "-/NE"
+    },
+    {
+     "file": "coast/bank-water-01.png",
+     "label": "-/SE"
+    },
+    {
+     "file": "coast/bank-water-02.png",
+     "label": "-/NE,SE"
+    },
+    {
+     "file": "coast/bank-water-03.png",
+     "label": "-/SW"
+    },
+    {
+     "file": "coast/bank-water-04.png",
+     "label": "-/NE,SW"
+    },
+    {
+     "file": "coast/bank-water-05.png",
+     "label": "-/SE,SW"
+    },
+    {
+     "file": "coast/bank-water-06.png",
+     "label": "-/NE,SE,SW"
+    },
+    {
+     "file": "coast/bank-water-07.png",
+     "label": "-/NW"
+    },
+    {
+     "file": "coast/bank-water-08.png",
+     "label": "-/NE,NW"
+    },
+    {
+     "file": "coast/bank-water-09.png",
+     "label": "-/SE,NW"
+    },
+    {
+     "file": "coast/bank-water-10.png",
+     "label": "-/NE,SE,NW"
+    },
+    {
+     "file": "coast/bank-water-11.png",
+     "label": "-/SW,NW"
+    },
+    {
+     "file": "coast/bank-water-12.png",
+     "label": "-/NE,SW,NW"
+    },
+    {
+     "file": "coast/bank-water-13.png",
+     "label": "-/SE,SW,NW"
+    },
+    {
+     "file": "coast/bank-water-14.png",
+     "label": "-/NE,SE,SW,NW"
+    },
+    {
+     "file": "coast/bank-water-15.png",
+     "label": "N"
+    },
+    {
+     "file": "coast/bank-water-16.png",
+     "label": "N/SE"
+    },
+    {
+     "file": "coast/bank-water-17.png",
+     "label": "N/SW"
+    },
+    {
+     "file": "coast/bank-water-18.png",
+     "label": "N/SE,SW"
+    },
+    {
+     "file": "coast/bank-water-19.png",
+     "label": "E"
+    },
+    {
+     "file": "coast/bank-water-20.png",
+     "label": "E/SW"
+    },
+    {
+     "file": "coast/bank-water-21.png",
+     "label": "E/NW"
+    },
+    {
+     "file": "coast/bank-water-22.png",
+     "label": "E/SW,NW"
+    },
+    {
+     "file": "coast/bank-water-23.png",
+     "label": "NE"
+    },
+    {
+     "file": "coast/bank-water-24.png",
+     "label": "NE/SW"
+    },
+    {
+     "file": "coast/bank-water-25.png",
+     "label": "S"
+    },
+    {
+     "file": "coast/bank-water-26.png",
+     "label": "S/NE"
+    },
+    {
+     "file": "coast/bank-water-27.png",
+     "label": "S/NW"
+    },
+    {
+     "file": "coast/bank-water-28.png",
+     "label": "S/NE,NW"
+    },
+    {
+     "file": "coast/bank-water-29.png",
+     "label": "NS"
+    },
+    {
+     "file": "coast/bank-water-30.png",
+     "label": "ES"
+    },
+    {
+     "file": "coast/bank-water-31.png",
+     "label": "ES/NW"
+    },
+    {
+     "file": "coast/bank-water-32.png",
+     "label": "NES"
+    },
+    {
+     "file": "coast/bank-water-33.png",
+     "label": "W"
+    },
+    {
+     "file": "coast/bank-water-34.png",
+     "label": "W/NE"
+    },
+    {
+     "file": "coast/bank-water-35.png",
+     "label": "W/SE"
+    },
+    {
+     "file": "coast/bank-water-36.png",
+     "label": "W/NE,SE"
+    },
+    {
+     "file": "coast/bank-water-37.png",
+     "label": "NW"
+    },
+    {
+     "file": "coast/bank-water-38.png",
+     "label": "NW/SE"
+    },
+    {
+     "file": "coast/bank-water-39.png",
+     "label": "EW"
+    },
+    {
+     "file": "coast/bank-water-40.png",
+     "label": "NEW"
+    },
+    {
+     "file": "coast/bank-water-41.png",
+     "label": "SW"
+    },
+    {
+     "file": "coast/bank-water-42.png",
+     "label": "SW/NE"
+    },
+    {
+     "file": "coast/bank-water-43.png",
+     "label": "NSW"
+    },
+    {
+     "file": "coast/bank-water-44.png",
+     "label": "ESW"
+    },
+    {
+     "file": "coast/bank-water-45.png",
+     "label": "NESW"
+    }
+   ],
+   "note": "Label: sides with land / land corners."
+  },
+  {
+   "title": "Coast (Grass bank): animated surf, 8 frames",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "coast/bank-water-anim-N.png",
+     "label": "N: 8 frames"
+    },
+    {
+     "file": "coast/bank-water-anim-E.png",
+     "label": "E: 8 frames"
+    },
+    {
+     "file": "coast/bank-water-anim-S.png",
+     "label": "S: 8 frames"
+    },
+    {
+     "file": "coast/bank-water-anim-W.png",
+     "label": "W: 8 frames"
+    },
+    {
+     "file": "coast/bank-water-anim--_NE.png",
+     "label": "-/NE: 8 frames"
+    },
+    {
+     "file": "coast/bank-water-anim--_SE.png",
+     "label": "-/SE: 8 frames"
+    },
+    {
+     "file": "coast/bank-water-anim--_SW.png",
+     "label": "-/SW: 8 frames"
+    },
+    {
+     "file": "coast/bank-water-anim--_NW.png",
+     "label": "-/NW: 8 frames"
+    }
+   ]
+  },
+  {
+   "title": "Transitions: edge masks (white = other terrain), all 46",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "transitions/mask-00.png",
+     "label": "-/NE"
+    },
+    {
+     "file": "transitions/mask-01.png",
+     "label": "-/SE"
+    },
+    {
+     "file": "transitions/mask-02.png",
+     "label": "-/NE,SE"
+    },
+    {
+     "file": "transitions/mask-03.png",
+     "label": "-/SW"
+    },
+    {
+     "file": "transitions/mask-04.png",
+     "label": "-/NE,SW"
+    },
+    {
+     "file": "transitions/mask-05.png",
+     "label": "-/SE,SW"
+    },
+    {
+     "file": "transitions/mask-06.png",
+     "label": "-/NE,SE,SW"
+    },
+    {
+     "file": "transitions/mask-07.png",
+     "label": "-/NW"
+    },
+    {
+     "file": "transitions/mask-08.png",
+     "label": "-/NE,NW"
+    },
+    {
+     "file": "transitions/mask-09.png",
+     "label": "-/SE,NW"
+    },
+    {
+     "file": "transitions/mask-10.png",
+     "label": "-/NE,SE,NW"
+    },
+    {
+     "file": "transitions/mask-11.png",
+     "label": "-/SW,NW"
+    },
+    {
+     "file": "transitions/mask-12.png",
+     "label": "-/NE,SW,NW"
+    },
+    {
+     "file": "transitions/mask-13.png",
+     "label": "-/SE,SW,NW"
+    },
+    {
+     "file": "transitions/mask-14.png",
+     "label": "-/NE,SE,SW,NW"
+    },
+    {
+     "file": "transitions/mask-15.png",
+     "label": "N"
+    },
+    {
+     "file": "transitions/mask-16.png",
+     "label": "N/SE"
+    },
+    {
+     "file": "transitions/mask-17.png",
+     "label": "N/SW"
+    },
+    {
+     "file": "transitions/mask-18.png",
+     "label": "N/SE,SW"
+    },
+    {
+     "file": "transitions/mask-19.png",
+     "label": "E"
+    },
+    {
+     "file": "transitions/mask-20.png",
+     "label": "E/SW"
+    },
+    {
+     "file": "transitions/mask-21.png",
+     "label": "E/NW"
+    },
+    {
+     "file": "transitions/mask-22.png",
+     "label": "E/SW,NW"
+    },
+    {
+     "file": "transitions/mask-23.png",
+     "label": "NE"
+    },
+    {
+     "file": "transitions/mask-24.png",
+     "label": "NE/SW"
+    },
+    {
+     "file": "transitions/mask-25.png",
+     "label": "S"
+    },
+    {
+     "file": "transitions/mask-26.png",
+     "label": "S/NE"
+    },
+    {
+     "file": "transitions/mask-27.png",
+     "label": "S/NW"
+    },
+    {
+     "file": "transitions/mask-28.png",
+     "label": "S/NE,NW"
+    },
+    {
+     "file": "transitions/mask-29.png",
+     "label": "NS"
+    },
+    {
+     "file": "transitions/mask-30.png",
+     "label": "ES"
+    },
+    {
+     "file": "transitions/mask-31.png",
+     "label": "ES/NW"
+    },
+    {
+     "file": "transitions/mask-32.png",
+     "label": "NES"
+    },
+    {
+     "file": "transitions/mask-33.png",
+     "label": "W"
+    },
+    {
+     "file": "transitions/mask-34.png",
+     "label": "W/NE"
+    },
+    {
+     "file": "transitions/mask-35.png",
+     "label": "W/SE"
+    },
+    {
+     "file": "transitions/mask-36.png",
+     "label": "W/NE,SE"
+    },
+    {
+     "file": "transitions/mask-37.png",
+     "label": "NW"
+    },
+    {
+     "file": "transitions/mask-38.png",
+     "label": "NW/SE"
+    },
+    {
+     "file": "transitions/mask-39.png",
+     "label": "EW"
+    },
+    {
+     "file": "transitions/mask-40.png",
+     "label": "NEW"
+    },
+    {
+     "file": "transitions/mask-41.png",
+     "label": "SW"
+    },
+    {
+     "file": "transitions/mask-42.png",
+     "label": "SW/NE"
+    },
+    {
+     "file": "transitions/mask-43.png",
+     "label": "NSW"
+    },
+    {
+     "file": "transitions/mask-44.png",
+     "label": "ESW"
+    },
+    {
+     "file": "transitions/mask-45.png",
+     "label": "NESW"
+    }
+   ],
+   "note": "Same blob ids as the coast. Blend any pair of ground types in-engine with these."
+  },
+  {
+   "title": "Transitions: grass to dirt, all 46",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "transitions/grass-dirt-00.png",
+     "label": "-/NE"
+    },
+    {
+     "file": "transitions/grass-dirt-01.png",
+     "label": "-/SE"
+    },
+    {
+     "file": "transitions/grass-dirt-02.png",
+     "label": "-/NE,SE"
+    },
+    {
+     "file": "transitions/grass-dirt-03.png",
+     "label": "-/SW"
+    },
+    {
+     "file": "transitions/grass-dirt-04.png",
+     "label": "-/NE,SW"
+    },
+    {
+     "file": "transitions/grass-dirt-05.png",
+     "label": "-/SE,SW"
+    },
+    {
+     "file": "transitions/grass-dirt-06.png",
+     "label": "-/NE,SE,SW"
+    },
+    {
+     "file": "transitions/grass-dirt-07.png",
+     "label": "-/NW"
+    },
+    {
+     "file": "transitions/grass-dirt-08.png",
+     "label": "-/NE,NW"
+    },
+    {
+     "file": "transitions/grass-dirt-09.png",
+     "label": "-/SE,NW"
+    },
+    {
+     "file": "transitions/grass-dirt-10.png",
+     "label": "-/NE,SE,NW"
+    },
+    {
+     "file": "transitions/grass-dirt-11.png",
+     "label": "-/SW,NW"
+    },
+    {
+     "file": "transitions/grass-dirt-12.png",
+     "label": "-/NE,SW,NW"
+    },
+    {
+     "file": "transitions/grass-dirt-13.png",
+     "label": "-/SE,SW,NW"
+    },
+    {
+     "file": "transitions/grass-dirt-14.png",
+     "label": "-/NE,SE,SW,NW"
+    },
+    {
+     "file": "transitions/grass-dirt-15.png",
+     "label": "N"
+    },
+    {
+     "file": "transitions/grass-dirt-16.png",
+     "label": "N/SE"
+    },
+    {
+     "file": "transitions/grass-dirt-17.png",
+     "label": "N/SW"
+    },
+    {
+     "file": "transitions/grass-dirt-18.png",
+     "label": "N/SE,SW"
+    },
+    {
+     "file": "transitions/grass-dirt-19.png",
+     "label": "E"
+    },
+    {
+     "file": "transitions/grass-dirt-20.png",
+     "label": "E/SW"
+    },
+    {
+     "file": "transitions/grass-dirt-21.png",
+     "label": "E/NW"
+    },
+    {
+     "file": "transitions/grass-dirt-22.png",
+     "label": "E/SW,NW"
+    },
+    {
+     "file": "transitions/grass-dirt-23.png",
+     "label": "NE"
+    },
+    {
+     "file": "transitions/grass-dirt-24.png",
+     "label": "NE/SW"
+    },
+    {
+     "file": "transitions/grass-dirt-25.png",
+     "label": "S"
+    },
+    {
+     "file": "transitions/grass-dirt-26.png",
+     "label": "S/NE"
+    },
+    {
+     "file": "transitions/grass-dirt-27.png",
+     "label": "S/NW"
+    },
+    {
+     "file": "transitions/grass-dirt-28.png",
+     "label": "S/NE,NW"
+    },
+    {
+     "file": "transitions/grass-dirt-29.png",
+     "label": "NS"
+    },
+    {
+     "file": "transitions/grass-dirt-30.png",
+     "label": "ES"
+    },
+    {
+     "file": "transitions/grass-dirt-31.png",
+     "label": "ES/NW"
+    },
+    {
+     "file": "transitions/grass-dirt-32.png",
+     "label": "NES"
+    },
+    {
+     "file": "transitions/grass-dirt-33.png",
+     "label": "W"
+    },
+    {
+     "file": "transitions/grass-dirt-34.png",
+     "label": "W/NE"
+    },
+    {
+     "file": "transitions/grass-dirt-35.png",
+     "label": "W/SE"
+    },
+    {
+     "file": "transitions/grass-dirt-36.png",
+     "label": "W/NE,SE"
+    },
+    {
+     "file": "transitions/grass-dirt-37.png",
+     "label": "NW"
+    },
+    {
+     "file": "transitions/grass-dirt-38.png",
+     "label": "NW/SE"
+    },
+    {
+     "file": "transitions/grass-dirt-39.png",
+     "label": "EW"
+    },
+    {
+     "file": "transitions/grass-dirt-40.png",
+     "label": "NEW"
+    },
+    {
+     "file": "transitions/grass-dirt-41.png",
+     "label": "SW"
+    },
+    {
+     "file": "transitions/grass-dirt-42.png",
+     "label": "SW/NE"
+    },
+    {
+     "file": "transitions/grass-dirt-43.png",
+     "label": "NSW"
+    },
+    {
+     "file": "transitions/grass-dirt-44.png",
+     "label": "ESW"
+    },
+    {
+     "file": "transitions/grass-dirt-45.png",
+     "label": "NESW"
+    }
+   ]
+  },
+  {
+   "title": "Transitions: grass to sand (edges + corners)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "transitions/grass-sand-N.png",
+     "label": "N"
+    },
+    {
+     "file": "transitions/grass-sand-E.png",
+     "label": "E"
+    },
+    {
+     "file": "transitions/grass-sand-S.png",
+     "label": "S"
+    },
+    {
+     "file": "transitions/grass-sand-W.png",
+     "label": "W"
+    },
+    {
+     "file": "transitions/grass-sand--_NE.png",
+     "label": "-/NE"
+    },
+    {
+     "file": "transitions/grass-sand--_SE.png",
+     "label": "-/SE"
+    },
+    {
+     "file": "transitions/grass-sand--_SW.png",
+     "label": "-/SW"
+    },
+    {
+     "file": "transitions/grass-sand--_NW.png",
+     "label": "-/NW"
+    }
+   ]
+  },
+  {
+   "title": "Transitions: grass to forest floor (edges + corners)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "transitions/grass-forest_floor-N.png",
+     "label": "N"
+    },
+    {
+     "file": "transitions/grass-forest_floor-E.png",
+     "label": "E"
+    },
+    {
+     "file": "transitions/grass-forest_floor-S.png",
+     "label": "S"
+    },
+    {
+     "file": "transitions/grass-forest_floor-W.png",
+     "label": "W"
+    },
+    {
+     "file": "transitions/grass-forest_floor--_NE.png",
+     "label": "-/NE"
+    },
+    {
+     "file": "transitions/grass-forest_floor--_SE.png",
+     "label": "-/SE"
+    },
+    {
+     "file": "transitions/grass-forest_floor--_SW.png",
+     "label": "-/SW"
+    },
+    {
+     "file": "transitions/grass-forest_floor--_NW.png",
+     "label": "-/NW"
+    }
+   ]
+  },
+  {
+   "title": "Transitions: grass to rock (edges + corners)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "transitions/grass-rock-N.png",
+     "label": "N"
+    },
+    {
+     "file": "transitions/grass-rock-E.png",
+     "label": "E"
+    },
+    {
+     "file": "transitions/grass-rock-S.png",
+     "label": "S"
+    },
+    {
+     "file": "transitions/grass-rock-W.png",
+     "label": "W"
+    },
+    {
+     "file": "transitions/grass-rock--_NE.png",
+     "label": "-/NE"
+    },
+    {
+     "file": "transitions/grass-rock--_SE.png",
+     "label": "-/SE"
+    },
+    {
+     "file": "transitions/grass-rock--_SW.png",
+     "label": "-/SW"
+    },
+    {
+     "file": "transitions/grass-rock--_NW.png",
+     "label": "-/NW"
+    }
+   ]
+  },
+  {
+   "title": "Transitions: grass to gravel (edges + corners)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "transitions/grass-gravel-N.png",
+     "label": "N"
+    },
+    {
+     "file": "transitions/grass-gravel-E.png",
+     "label": "E"
+    },
+    {
+     "file": "transitions/grass-gravel-S.png",
+     "label": "S"
+    },
+    {
+     "file": "transitions/grass-gravel-W.png",
+     "label": "W"
+    },
+    {
+     "file": "transitions/grass-gravel--_NE.png",
+     "label": "-/NE"
+    },
+    {
+     "file": "transitions/grass-gravel--_SE.png",
+     "label": "-/SE"
+    },
+    {
+     "file": "transitions/grass-gravel--_SW.png",
+     "label": "-/SW"
+    },
+    {
+     "file": "transitions/grass-gravel--_NW.png",
+     "label": "-/NW"
+    }
+   ]
+  },
+  {
+   "title": "Transitions: grass to dry grass (edges + corners)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "transitions/grass-grass_dry-N.png",
+     "label": "N"
+    },
+    {
+     "file": "transitions/grass-grass_dry-E.png",
+     "label": "E"
+    },
+    {
+     "file": "transitions/grass-grass_dry-S.png",
+     "label": "S"
+    },
+    {
+     "file": "transitions/grass-grass_dry-W.png",
+     "label": "W"
+    },
+    {
+     "file": "transitions/grass-grass_dry--_NE.png",
+     "label": "-/NE"
+    },
+    {
+     "file": "transitions/grass-grass_dry--_SE.png",
+     "label": "-/SE"
+    },
+    {
+     "file": "transitions/grass-grass_dry--_SW.png",
+     "label": "-/SW"
+    },
+    {
+     "file": "transitions/grass-grass_dry--_NW.png",
+     "label": "-/NW"
+    }
+   ]
+  },
+  {
+   "title": "Transitions: grass to snow (edges + corners)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "transitions/grass-snow-N.png",
+     "label": "N"
+    },
+    {
+     "file": "transitions/grass-snow-E.png",
+     "label": "E"
+    },
+    {
+     "file": "transitions/grass-snow-S.png",
+     "label": "S"
+    },
+    {
+     "file": "transitions/grass-snow-W.png",
+     "label": "W"
+    },
+    {
+     "file": "transitions/grass-snow--_NE.png",
+     "label": "-/NE"
+    },
+    {
+     "file": "transitions/grass-snow--_SE.png",
+     "label": "-/SE"
+    },
+    {
+     "file": "transitions/grass-snow--_SW.png",
+     "label": "-/SW"
+    },
+    {
+     "file": "transitions/grass-snow--_NW.png",
+     "label": "-/NW"
+    }
+   ]
+  },
+  {
+   "title": "Map edge border + cliffs",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "edge/edge-land-S.png",
+     "label": "land S"
+    },
+    {
+     "file": "edge/edge-land-E.png",
+     "label": "land E"
+    },
+    {
+     "file": "edge/edge-water-S.png",
+     "label": "water S"
+    },
+    {
+     "file": "edge/edge-water-E.png",
+     "label": "water E"
+    },
+    {
+     "file": "edge/cliff-S.png",
+     "label": "cliff S"
+    },
+    {
+     "file": "edge/cliff-E.png",
+     "label": "cliff E"
+    },
+    {
+     "file": "edge/raised-8.png",
+     "label": "raised 8 px"
+    },
+    {
+     "file": "edge/raised-16.png",
+     "label": "raised 16 px"
+    }
+   ],
+   "note": "Cross-section drawn under border cells (S = down-left side, E = down-right side). Cliffs are optional, for future height support."
+  },
+  {
+   "title": "Preview: tiles composed into small maps",
+   "columns": 2,
+   "scale": 2,
+   "items": [
+    {
+     "file": "preview/coast-beach.png",
+     "label": "Beach coast"
+    },
+    {
+     "file": "preview/coast-bank.png",
+     "label": "Grass bank coast"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,6 @@
+# Achievements are the third tab of the milestones window (city-progress.yaml, CityProgressLogic). This invisible proxy keeps
+# the id CITY_ACHIEVEMENTS_PANEL working: the toolbar button, the hotkey and the autotest toggle it, CityAchievementsLogic
+# opens or closes the milestones window on that tab.
+Container@CITY_ACHIEVEMENTS_PANEL:
+	Logic: CityAchievementsLogic
+	Visible: false

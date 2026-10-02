@@ -304,7 +304,9 @@ namespace OpenRA.Server
 
 			playerDatabase = modData.GetOrCreate<PlayerDatabase>();
 
-			randomSeed = (int)DateTime.Now.ToBinary();
+			// Tests can pin the game seed (OPENRA_RANDOM_SEED) so two fresh runs produce identical simulations.
+			var seedOverride = Environment.GetEnvironmentVariable("OPENRA_RANDOM_SEED");
+			randomSeed = int.TryParse(seedOverride, out var fixedSeed) ? fixedSeed : (int)DateTime.Now.ToBinary();
 
 			if (IsMultiplayer && settings.EnableGeoIP)
 				GeoIP.Initialize();

@@ -1,0 +1,130 @@
+# Shared RCT2-style templates (design/iso/ui/system/ds-*.png). All sizes are logical pixels at UI scale 1: rows are
+# 12-16 high, text uses the Tiny / TinyBold pixel fonts in dark ink; colours come from the window family (CityTheme).
+# Window layout constants (CityPanelWidget): title bar 15, content from Y 21 (49 below the tabs), padding 4.
+
+Background@CITY_TOOLTIP:
+	Logic: CityTooltipLogic
+	Background: tooltip
+	Height: 32
+	Children:
+		Label@TITLE:
+			X: 6
+			Y: 4
+			Height: 13
+			Font: TinyBold
+		Label@BODY:
+			X: 6
+			Font: Tiny
+			VAlign: Top
+
+Background@CITY_FACTOR_TOOLTIP:
+	Logic: CityFactorTooltipLogic
+	Background: tooltip
+	Height: 32
+	Children:
+		Label@TITLE:
+			X: 6
+			Y: 4
+			Height: 13
+			Font: TinyBold
+		Label@NAME:
+			X: 6
+			Height: 13
+			Font: Tiny
+		Label@VALUE:
+			X: 6
+			Height: 13
+			Font: TinyBold
+			Align: Right
+
+# Text button (tabs of pages, modes, actions): RCT raised button, pressed in while highlighted.
+Button@CITY_INFOVIEW_ITEM:
+	Width: 80
+	Height: 14
+	Font: Tiny
+	TooltipContainer: TOOLTIP_CONTAINER
+
+# Label + right-aligned value (budget lines, simple lists); zebra stripe in lists.
+Container@CITY_BUDGET_ROW:
+	Width: 270
+	Height: 13
+	Children:
+		CityRowBackground@BG:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+		CityIcon@ICON:
+			X: 2
+			Width: 16
+			Height: PARENT_HEIGHT
+		Label@NAME:
+			X: 3
+			Width: 170
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		Label@SHARE:
+			Width: 34
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right
+		Label@VALUE:
+			X: 170
+			Width: 100
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right
+
+# Name, slider, value (and an optional second value), CityRows.AddSlider.
+Container@CITY_SLIDER_ROW:
+	Width: 330
+	Height: 16
+	Children:
+		CityRowBackground@BG:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Hover: false
+		CityIcon@ICON:
+			X: 2
+			Width: 16
+			Height: PARENT_HEIGHT
+		Button@NAME:
+			Width: 100
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Left
+			LeftMargin: 3
+			VisualHeight: 0
+			TooltipContainer: TOOLTIP_CONTAINER
+			TooltipTemplate: CITY_TOOLTIP
+		CitySlider@SLIDER:
+			X: 106
+			Y: 2
+			Width: 150
+			Height: 12
+		Label@VALUE:
+			X: 262
+			Width: 30
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right
+		Label@EXTRA:
+			X: 296
+			Width: 34
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right
+
+# Label + bold value (inspectors, details).
+Container@CITY_INFO_ROW:
+	Width: PARENT_WIDTH
+	Height: 13
+	Children:
+		Label@NAME:
+			Width: PARENT_WIDTH * 11 / 20
+			Height: 13
+			Font: Tiny
+		Label@VALUE:
+			X: PARENT_WIDTH * 2 / 5
+			Width: PARENT_WIDTH * 3 / 5
+			Height: 13
+			Font: Tiny
+			Align: Right

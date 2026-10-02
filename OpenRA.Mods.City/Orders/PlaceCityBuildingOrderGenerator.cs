@@ -21,7 +21,8 @@ using OpenRA.Primitives;
 namespace OpenRA.Mods.City
 {
 	/// <summary>
-	/// Placement tool for CityPlaceable actors. Shows a translucent ghost of the actor (sequence "idle", frame 0) with its footprint
+	/// Placement tool for CityPlaceable actors. Shows a translucent ghost of the actor (sequence "idle", frame 0, facing the road it
+	/// will face once built, see IsoFacing) with its footprint
 	/// in green / red. Left click issues <see cref="CityOrders.PlaceBuilding"/> and the tool stays active for repeated placement;
 	/// right click or Escape cancels. The cursor cell is the footprint's centre (top-left for 1x1 and 2x2).
 	/// Cursors: "city-place" / "city-blocked" (fall back to "default" / "generic-blocked").
@@ -148,10 +149,20 @@ namespace OpenRA.Mods.City
 			var check = Check(topLeft);
 			var ok = ProblemKey(check) == null;
 
-			var tiles = check.Tiles.Count > 0 ? check.Tiles : [.. buildingInfo.Tiles(topLeft)];
-			foreach (var t in tiles)
-				if (w.Map.Contains(t))
-					yield return new CityTileMarkerRenderable(t, ok ? CityDragOrderGenerator.ValidColor : CityDragOrderGenerator.InvalidColor);
+			// ART's footprint ghost (footprint-ok / footprint-bad, frame (depth - 1) * 4 + (width - 1)) for footprints up to 4x4,
+			// anchored on the footprint centre; per-cell markers otherwise.
+			var dims = buildingInfo.Dimensions;
+			var footprint = dims.X <= 4 && dims.Y <= 4 ? IsoSpriteCache.For(w).Sequence("overlays", ok ? "footprint-ok" : "footprint-bad") : null;
+			if (footprint != null && footprint.Length >= 16)
+				yield return new SpriteRenderable(footprint.GetSprite((dims.Y - 1) * 4 + dims.X - 1), w.Map.CenterOfCell(topLeft) + buildingInfo.CenterOffset(w),
+					WVec.Zero, 0, null, 1f, 1f, Vector3.One, TintModifiers.IgnoreWorldTint, true);
+			else
+			{
+				var tiles = check.Tiles.Count > 0 ? check.Tiles : [.. buildingInfo.Tiles(topLeft)];
+				foreach (var t in tiles)
+					if (w.Map.Contains(t))
+						yield return new CityTileMarkerRenderable(t, ok ? CityDragOrderGenerator.ValidColor : CityDragOrderGenerator.InvalidColor);
+			}
 
 			var ghost = Ghost(wr, w, topLeft);
 			if (ghost != null)
@@ -172,7 +183,11 @@ namespace OpenRA.Mods.City
 			var seq = sequences.GetSequence(image, "idle");
 			var palette = wr.Palette(rs.Palette ?? "city");
 			var pos = w.Map.CenterOfCell(topLeft) + buildingInfo.CenterOffset(w);
-			return new SpriteRenderable(seq.GetSprite(0), pos, WVec.Zero, 0, palette, seq.Scale, GhostAlpha, Vector3.One, TintModifiers.None, false);
+
+			// Same facing the building will pick from its access road (render-time rule shared with WithIsoSprite).
+			var facing = IsoFacing.ForGhost(roads, topLeft, buildingInfo.Dimensions.X, buildingInfo.Dimensions.Y);
+			var sprite = seq.Facings > 1 ? seq.GetSprite(0, new WAngle(facing * 256)) : seq.GetSprite(0);
+			return new SpriteRenderable(sprite, pos, WVec.Zero, 0, palette, seq.Scale, GhostAlpha, Vector3.One, TintModifiers.None, false);
 		}
 
 		IEnumerable<IRenderable> IOrderGenerator.RenderAnnotations(WorldRenderer wr, World w)
@@ -187,10 +202,12 @@ namespace OpenRA.Mods.City
 				text += " (" + FluentProvider.GetMessage(problem) + ")";
 
 			var font = Game.Renderer.Fonts["Bold"];
+			yield return new CityTileOutlineRenderable(TopLeftFor(hoverCell), buildingInfo.Dimensions.X, buildingInfo.Dimensions.Y,
+				problem != null ? Color.OrangeRed : CityDragOrderGenerator.HoverOutline);
 
-			// Just below the footprint (a fixed UI gap, so the label never covers the preview at any zoom).
-			var below = hoverCell + new CVec(0, buildingInfo.Dimensions.Y);
-			var pos = w.Map.CenterOfCell(w.Map.Clamp(below)) - new WVec(0, 512, 0);
+			// Just below the footprint's front corner (a fixed UI gap, so the label never covers the preview at any zoom).
+			var topLeft = TopLeftFor(hoverCell);
+			var pos = w.Map.CenterOfCell(topLeft) + buildingInfo.CenterOffset(w) + CityIso.FrontCorner(buildingInfo.Dimensions.X, buildingInfo.Dimensions.Y);
 			yield return new CityAnnotationText(font, pos, new int2(0, 4), problem != null ? Color.OrangeRed : Color.White, text);
 		}
 

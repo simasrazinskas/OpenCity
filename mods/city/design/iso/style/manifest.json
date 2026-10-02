@@ -1,0 +1,1170 @@
+{
+ "page": "Direction & mockups",
+ "section": "Style bible",
+ "groups": [
+  {
+   "title": "Palette: 18 ramps x 12 shades",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "palette/palette.png",
+     "label": "full palette"
+    }
+   ],
+   "note": "Every pixel is one of these colours. Ramps hue-shift: cool saturated darks, warm soft lights."
+  },
+  {
+   "title": "Palette: ramps",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "palette/ramp-grey.png",
+     "label": "grey"
+    },
+    {
+     "file": "palette/ramp-stone.png",
+     "label": "stone"
+    },
+    {
+     "file": "palette/ramp-wood.png",
+     "label": "wood"
+    },
+    {
+     "file": "palette/ramp-sand.png",
+     "label": "sand"
+    },
+    {
+     "file": "palette/ramp-brick.png",
+     "label": "brick"
+    },
+    {
+     "file": "palette/ramp-terra.png",
+     "label": "terra"
+    },
+    {
+     "file": "palette/ramp-yellow.png",
+     "label": "yellow"
+    },
+    {
+     "file": "palette/ramp-olive.png",
+     "label": "olive"
+    },
+    {
+     "file": "palette/ramp-grass.png",
+     "label": "grass"
+    },
+    {
+     "file": "palette/ramp-leaf.png",
+     "label": "leaf"
+    },
+    {
+     "file": "palette/ramp-teal.png",
+     "label": "teal"
+    },
+    {
+     "file": "palette/ramp-water.png",
+     "label": "water"
+    },
+    {
+     "file": "palette/ramp-glass.png",
+     "label": "glass"
+    },
+    {
+     "file": "palette/ramp-slate.png",
+     "label": "slate"
+    },
+    {
+     "file": "palette/ramp-purple.png",
+     "label": "purple"
+    },
+    {
+     "file": "palette/ramp-rose.png",
+     "label": "rose"
+    },
+    {
+     "file": "palette/ramp-red.png",
+     "label": "red"
+    },
+    {
+     "file": "palette/ramp-snow.png",
+     "label": "snow"
+    }
+   ]
+  },
+  {
+   "title": "Lighting: one fixed light from the upper left",
+   "columns": 7,
+   "scale": 3,
+   "items": [
+    {
+     "file": "lighting/cube.png",
+     "label": "cube"
+    },
+    {
+     "file": "lighting/cylinder.png",
+     "label": "cylinder"
+    },
+    {
+     "file": "lighting/sphere.png",
+     "label": "sphere"
+    },
+    {
+     "file": "lighting/cone.png",
+     "label": "cone"
+    },
+    {
+     "file": "lighting/pyramid.png",
+     "label": "pyramid"
+    },
+    {
+     "file": "lighting/gable.png",
+     "label": "gable"
+    },
+    {
+     "file": "lighting/hip.png",
+     "label": "hip"
+    },
+    {
+     "file": "lighting/cube-night.png",
+     "label": "cube night"
+    },
+    {
+     "file": "lighting/cylinder-night.png",
+     "label": "cylinder night"
+    },
+    {
+     "file": "lighting/sphere-night.png",
+     "label": "sphere night"
+    },
+    {
+     "file": "lighting/cone-night.png",
+     "label": "cone night"
+    },
+    {
+     "file": "lighting/pyramid-night.png",
+     "label": "pyramid night"
+    },
+    {
+     "file": "lighting/gable-night.png",
+     "label": "gable night"
+    },
+    {
+     "file": "lighting/hip-night.png",
+     "label": "hip night"
+    }
+   ],
+   "note": "Top 0.77, left (+Y) face 0.53, right (+X) face 0.25 of the ramp; curved surfaces smooth. Silhouette rim darkened 2 shades; creases darken pixels just behind nearer parts."
+  },
+  {
+   "title": "Lighting: outline options considered",
+   "columns": 3,
+   "scale": 3,
+   "items": [
+    {
+     "file": "lighting/outline-edge.png",
+     "label": "outline edge"
+    },
+    {
+     "file": "lighting/outline-dark.png",
+     "label": "outline dark"
+    },
+    {
+     "file": "lighting/outline-None.png",
+     "label": "outline None"
+    }
+   ],
+   "note": "Chosen: 'edge' (rim darkened inside the silhouette). 'dark' adds a 1 px outline, 'none' is flat."
+  },
+  {
+   "title": "Scale chart",
+   "columns": 1,
+   "scale": 1,
+   "items": [
+    {
+     "file": "scale/scale-chart.png",
+     "label": "day"
+    },
+    {
+     "file": "scale/scale-chart-night.png",
+     "label": "night"
+    }
+   ],
+   "note": "Cell = 64x32 px (~16 m). Storey = 10 px. Person ~8 px, car ~16 px long, bus ~40 px. Buildings: 1, 2, 3, 5, 10, 20, 40 storeys."
+  },
+  {
+   "title": "Scale chart: 4x2 tile strip at 2x",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "scale/strip-4x2.png",
+     "label": "4x2 strip"
+    }
+   ]
+  },
+  {
+   "title": "Sample renders: day / night / winter",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "samples/house-day.png",
+     "label": "house"
+    },
+    {
+     "file": "samples/shop-day.png",
+     "label": "shop"
+    },
+    {
+     "file": "samples/factory-day.png",
+     "label": "factory"
+    },
+    {
+     "file": "samples/tower-day.png",
+     "label": "tower"
+    },
+    {
+     "file": "samples/road-day.png",
+     "label": "road"
+    },
+    {
+     "file": "samples/tree-day.png",
+     "label": "tree"
+    },
+    {
+     "file": "samples/house-night.png",
+     "label": "house night"
+    },
+    {
+     "file": "samples/shop-night.png",
+     "label": "shop night"
+    },
+    {
+     "file": "samples/factory-night.png",
+     "label": "factory night"
+    },
+    {
+     "file": "samples/tower-night.png",
+     "label": "tower night"
+    },
+    {
+     "file": "samples/road-night.png",
+     "label": "road night"
+    },
+    {
+     "file": "samples/tree-night.png",
+     "label": "tree night"
+    },
+    {
+     "file": "samples/house-winter.png",
+     "label": "house winter"
+    },
+    {
+     "file": "samples/shop-winter.png",
+     "label": "shop winter"
+    },
+    {
+     "file": "samples/factory-winter.png",
+     "label": "factory winter"
+    },
+    {
+     "file": "samples/tower-winter.png",
+     "label": "tower winter"
+    },
+    {
+     "file": "samples/road-winter.png",
+     "label": "road winter"
+    },
+    {
+     "file": "samples/tree-winter.png",
+     "label": "tree winter"
+    }
+   ],
+   "note": "Reference models proving the look; the real sets come from ZONED/CIVIC/NET/LIFE."
+  },
+  {
+   "title": "Sample: 4 facings (front +Y, +X, -Y, -X)",
+   "columns": 2,
+   "scale": 2,
+   "items": [
+    {
+     "file": "samples/shop-facings.png",
+     "label": "shop: 4 facings"
+    },
+    {
+     "file": "samples/factory-facings.png",
+     "label": "factory: 4 facings"
+    }
+   ]
+  },
+  {
+   "title": "Sample: engine export (day frame + '-lit' emissive companion)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "samples/shop-export.png",
+     "label": "shop day frame"
+    },
+    {
+     "file": "samples/shop-export-lit.png",
+     "label": "shop -lit frame"
+    },
+    {
+     "file": "samples/tower-export.png",
+     "label": "tower day frame"
+    },
+    {
+     "file": "samples/tower-export-lit.png",
+     "label": "tower -lit frame"
+    }
+   ],
+   "note": "The game multiplies sprites by the night ambient and draws '-lit' frames unmultiplied."
+  },
+  {
+   "title": "Build-menu thumbnails 64x64 (1x)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "thumbs/house-64.png",
+     "label": "house (tile 64)"
+    },
+    {
+     "file": "thumbs/shop-64.png",
+     "label": "shop (tile 64)"
+    },
+    {
+     "file": "thumbs/factory-64.png",
+     "label": "factory (tile 32)"
+    },
+    {
+     "file": "thumbs/tower-3x3-64.png",
+     "label": "tower-3x3 (tile 8)"
+    }
+   ],
+   "note": "ik.thumbnail(scene, size): own footprint ground, default facing, largest tile width (multiple of 4) that fits, bottom-centred, transparent."
+  },
+  {
+   "title": "Build-menu thumbnails 96x96 (1.5x)",
+   "columns": 4,
+   "scale": 1,
+   "items": [
+    {
+     "file": "thumbs/house-96.png",
+     "label": "house (tile 96)"
+    },
+    {
+     "file": "thumbs/shop-96.png",
+     "label": "shop (tile 96)"
+    },
+    {
+     "file": "thumbs/factory-96.png",
+     "label": "factory (tile 48)"
+    },
+    {
+     "file": "thumbs/tower-3x3-96.png",
+     "label": "tower-3x3 (tile 12)"
+    }
+   ],
+   "note": "ik.thumbnail(scene, size): own footprint ground, default facing, largest tile width (multiple of 4) that fits, bottom-centred, transparent."
+  },
+  {
+   "title": "Build-menu thumbnails: sheet",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "thumbs/thumbs-sheet.png",
+     "label": "64 and 96 px"
+    }
+   ]
+  },
+  {
+   "title": "Reduced-scale projection: tile 64 / 48 / 32 / 16",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "thumbs/factory-tile64.png",
+     "label": "factory 64"
+    },
+    {
+     "file": "thumbs/factory-tile48.png",
+     "label": "factory 48"
+    },
+    {
+     "file": "thumbs/factory-tile32.png",
+     "label": "factory 32"
+    },
+    {
+     "file": "thumbs/factory-tile16.png",
+     "label": "factory 16"
+    },
+    {
+     "file": "thumbs/tower-tile64.png",
+     "label": "tower 64"
+    },
+    {
+     "file": "thumbs/tower-tile48.png",
+     "label": "tower 48"
+    },
+    {
+     "file": "thumbs/tower-tile32.png",
+     "label": "tower 32"
+    },
+    {
+     "file": "thumbs/tower-tile16.png",
+     "label": "tower 16"
+    }
+   ],
+   "note": "render(scene, tile=(w, w/2)) re-projects geometry; window grids are laid out in output pixels, so small scales get fewer, readable windows instead of mush."
+  },
+  {
+   "title": "Materials: Walls (day / night / winter)",
+   "columns": 9,
+   "scale": 2,
+   "items": [
+    {
+     "file": "materials/plain-day.png",
+     "label": "plain"
+    },
+    {
+     "file": "materials/plain-night.png",
+     "label": "plain night"
+    },
+    {
+     "file": "materials/plain-winter.png",
+     "label": "plain winter"
+    },
+    {
+     "file": "materials/plaster-day.png",
+     "label": "plaster"
+    },
+    {
+     "file": "materials/plaster-night.png",
+     "label": "plaster night"
+    },
+    {
+     "file": "materials/plaster-winter.png",
+     "label": "plaster winter"
+    },
+    {
+     "file": "materials/plaster_white-day.png",
+     "label": "plaster_white"
+    },
+    {
+     "file": "materials/plaster_white-night.png",
+     "label": "plaster_white night"
+    },
+    {
+     "file": "materials/plaster_white-winter.png",
+     "label": "plaster_white winter"
+    },
+    {
+     "file": "materials/brick-day.png",
+     "label": "brick"
+    },
+    {
+     "file": "materials/brick-night.png",
+     "label": "brick night"
+    },
+    {
+     "file": "materials/brick-winter.png",
+     "label": "brick winter"
+    },
+    {
+     "file": "materials/brick_yellow-day.png",
+     "label": "brick_yellow"
+    },
+    {
+     "file": "materials/brick_yellow-night.png",
+     "label": "brick_yellow night"
+    },
+    {
+     "file": "materials/brick_yellow-winter.png",
+     "label": "brick_yellow winter"
+    },
+    {
+     "file": "materials/siding-day.png",
+     "label": "siding"
+    },
+    {
+     "file": "materials/siding-night.png",
+     "label": "siding night"
+    },
+    {
+     "file": "materials/siding-winter.png",
+     "label": "siding winter"
+    },
+    {
+     "file": "materials/siding_white-day.png",
+     "label": "siding_white"
+    },
+    {
+     "file": "materials/siding_white-night.png",
+     "label": "siding_white night"
+    },
+    {
+     "file": "materials/siding_white-winter.png",
+     "label": "siding_white winter"
+    },
+    {
+     "file": "materials/wood-day.png",
+     "label": "wood"
+    },
+    {
+     "file": "materials/wood-night.png",
+     "label": "wood night"
+    },
+    {
+     "file": "materials/wood-winter.png",
+     "label": "wood winter"
+    },
+    {
+     "file": "materials/concrete-day.png",
+     "label": "concrete"
+    },
+    {
+     "file": "materials/concrete-night.png",
+     "label": "concrete night"
+    },
+    {
+     "file": "materials/concrete-winter.png",
+     "label": "concrete winter"
+    },
+    {
+     "file": "materials/stone-day.png",
+     "label": "stone"
+    },
+    {
+     "file": "materials/stone-night.png",
+     "label": "stone night"
+    },
+    {
+     "file": "materials/stone-winter.png",
+     "label": "stone winter"
+    },
+    {
+     "file": "materials/metal-day.png",
+     "label": "metal"
+    },
+    {
+     "file": "materials/metal-night.png",
+     "label": "metal night"
+    },
+    {
+     "file": "materials/metal-winter.png",
+     "label": "metal winter"
+    },
+    {
+     "file": "materials/metal_light-day.png",
+     "label": "metal_light"
+    },
+    {
+     "file": "materials/metal_light-night.png",
+     "label": "metal_light night"
+    },
+    {
+     "file": "materials/metal_light-winter.png",
+     "label": "metal_light winter"
+    },
+    {
+     "file": "materials/glass-day.png",
+     "label": "glass"
+    },
+    {
+     "file": "materials/glass-night.png",
+     "label": "glass night"
+    },
+    {
+     "file": "materials/glass-winter.png",
+     "label": "glass winter"
+    },
+    {
+     "file": "materials/glass_dark-day.png",
+     "label": "glass_dark"
+    },
+    {
+     "file": "materials/glass_dark-night.png",
+     "label": "glass_dark night"
+    },
+    {
+     "file": "materials/glass_dark-winter.png",
+     "label": "glass_dark winter"
+    }
+   ],
+   "note": "Each cell shows the lit left face, shaded right face and top."
+  },
+  {
+   "title": "Materials: Windows over walls (night: lit windows) (day / night / winter)",
+   "columns": 9,
+   "scale": 2,
+   "items": [
+    {
+     "file": "materials/windows_brick-day.png",
+     "label": "windows_brick"
+    },
+    {
+     "file": "materials/windows_brick-night.png",
+     "label": "windows_brick night"
+    },
+    {
+     "file": "materials/windows_brick-winter.png",
+     "label": "windows_brick winter"
+    },
+    {
+     "file": "materials/windows_plaster-day.png",
+     "label": "windows_plaster"
+    },
+    {
+     "file": "materials/windows_plaster-night.png",
+     "label": "windows_plaster night"
+    },
+    {
+     "file": "materials/windows_plaster-winter.png",
+     "label": "windows_plaster winter"
+    },
+    {
+     "file": "materials/windows_siding-day.png",
+     "label": "windows_siding"
+    },
+    {
+     "file": "materials/windows_siding-night.png",
+     "label": "windows_siding night"
+    },
+    {
+     "file": "materials/windows_siding-winter.png",
+     "label": "windows_siding winter"
+    },
+    {
+     "file": "materials/windows_concrete-day.png",
+     "label": "windows_concrete"
+    },
+    {
+     "file": "materials/windows_concrete-night.png",
+     "label": "windows_concrete night"
+    },
+    {
+     "file": "materials/windows_concrete-winter.png",
+     "label": "windows_concrete winter"
+    },
+    {
+     "file": "materials/windows_office-day.png",
+     "label": "windows_office"
+    },
+    {
+     "file": "materials/windows_office-night.png",
+     "label": "windows_office night"
+    },
+    {
+     "file": "materials/windows_office-winter.png",
+     "label": "windows_office winter"
+    },
+    {
+     "file": "materials/shopfront-day.png",
+     "label": "shopfront"
+    },
+    {
+     "file": "materials/shopfront-night.png",
+     "label": "shopfront night"
+    },
+    {
+     "file": "materials/shopfront-winter.png",
+     "label": "shopfront winter"
+    },
+    {
+     "file": "materials/shopfront_brick-day.png",
+     "label": "shopfront_brick"
+    },
+    {
+     "file": "materials/shopfront_brick-night.png",
+     "label": "shopfront_brick night"
+    },
+    {
+     "file": "materials/shopfront_brick-winter.png",
+     "label": "shopfront_brick winter"
+    }
+   ],
+   "note": "Each cell shows the lit left face, shaded right face and top."
+  },
+  {
+   "title": "Materials: Roofs (day / night / winter)",
+   "columns": 9,
+   "scale": 2,
+   "items": [
+    {
+     "file": "materials/roof_tiles-day.png",
+     "label": "roof_tiles"
+    },
+    {
+     "file": "materials/roof_tiles-night.png",
+     "label": "roof_tiles night"
+    },
+    {
+     "file": "materials/roof_tiles-winter.png",
+     "label": "roof_tiles winter"
+    },
+    {
+     "file": "materials/roof_tiles_brown-day.png",
+     "label": "roof_tiles_brown"
+    },
+    {
+     "file": "materials/roof_tiles_brown-night.png",
+     "label": "roof_tiles_brown night"
+    },
+    {
+     "file": "materials/roof_tiles_brown-winter.png",
+     "label": "roof_tiles_brown winter"
+    },
+    {
+     "file": "materials/slate-day.png",
+     "label": "slate"
+    },
+    {
+     "file": "materials/slate-night.png",
+     "label": "slate night"
+    },
+    {
+     "file": "materials/slate-winter.png",
+     "label": "slate winter"
+    },
+    {
+     "file": "materials/shingle-day.png",
+     "label": "shingle"
+    },
+    {
+     "file": "materials/shingle-night.png",
+     "label": "shingle night"
+    },
+    {
+     "file": "materials/shingle-winter.png",
+     "label": "shingle winter"
+    },
+    {
+     "file": "materials/roof_metal-day.png",
+     "label": "roof_metal"
+    },
+    {
+     "file": "materials/roof_metal-night.png",
+     "label": "roof_metal night"
+    },
+    {
+     "file": "materials/roof_metal-winter.png",
+     "label": "roof_metal winter"
+    },
+    {
+     "file": "materials/roof_flat-day.png",
+     "label": "roof_flat"
+    },
+    {
+     "file": "materials/roof_flat-night.png",
+     "label": "roof_flat night"
+    },
+    {
+     "file": "materials/roof_flat-winter.png",
+     "label": "roof_flat winter"
+    },
+    {
+     "file": "materials/roof_gravel-day.png",
+     "label": "roof_gravel"
+    },
+    {
+     "file": "materials/roof_gravel-night.png",
+     "label": "roof_gravel night"
+    },
+    {
+     "file": "materials/roof_gravel-winter.png",
+     "label": "roof_gravel winter"
+    },
+    {
+     "file": "materials/roof_green-day.png",
+     "label": "roof_green"
+    },
+    {
+     "file": "materials/roof_green-night.png",
+     "label": "roof_green night"
+    },
+    {
+     "file": "materials/roof_green-winter.png",
+     "label": "roof_green winter"
+    }
+   ],
+   "note": "Each cell shows the lit left face, shaded right face and top."
+  },
+  {
+   "title": "Materials: Ground (day / night / winter)",
+   "columns": 9,
+   "scale": 2,
+   "items": [
+    {
+     "file": "materials/asphalt-day.png",
+     "label": "asphalt"
+    },
+    {
+     "file": "materials/asphalt-night.png",
+     "label": "asphalt night"
+    },
+    {
+     "file": "materials/asphalt-winter.png",
+     "label": "asphalt winter"
+    },
+    {
+     "file": "materials/paving-day.png",
+     "label": "paving"
+    },
+    {
+     "file": "materials/paving-night.png",
+     "label": "paving night"
+    },
+    {
+     "file": "materials/paving-winter.png",
+     "label": "paving winter"
+    },
+    {
+     "file": "materials/concrete_ground-day.png",
+     "label": "concrete_ground"
+    },
+    {
+     "file": "materials/concrete_ground-night.png",
+     "label": "concrete_ground night"
+    },
+    {
+     "file": "materials/concrete_ground-winter.png",
+     "label": "concrete_ground winter"
+    },
+    {
+     "file": "materials/grass-day.png",
+     "label": "grass"
+    },
+    {
+     "file": "materials/grass-night.png",
+     "label": "grass night"
+    },
+    {
+     "file": "materials/grass-winter.png",
+     "label": "grass winter"
+    },
+    {
+     "file": "materials/grass_dry-day.png",
+     "label": "grass_dry"
+    },
+    {
+     "file": "materials/grass_dry-night.png",
+     "label": "grass_dry night"
+    },
+    {
+     "file": "materials/grass_dry-winter.png",
+     "label": "grass_dry winter"
+    },
+    {
+     "file": "materials/meadow-day.png",
+     "label": "meadow"
+    },
+    {
+     "file": "materials/meadow-night.png",
+     "label": "meadow night"
+    },
+    {
+     "file": "materials/meadow-winter.png",
+     "label": "meadow winter"
+    },
+    {
+     "file": "materials/dirt-day.png",
+     "label": "dirt"
+    },
+    {
+     "file": "materials/dirt-night.png",
+     "label": "dirt night"
+    },
+    {
+     "file": "materials/dirt-winter.png",
+     "label": "dirt winter"
+    },
+    {
+     "file": "materials/mud-day.png",
+     "label": "mud"
+    },
+    {
+     "file": "materials/mud-night.png",
+     "label": "mud night"
+    },
+    {
+     "file": "materials/mud-winter.png",
+     "label": "mud winter"
+    },
+    {
+     "file": "materials/sand-day.png",
+     "label": "sand"
+    },
+    {
+     "file": "materials/sand-night.png",
+     "label": "sand night"
+    },
+    {
+     "file": "materials/sand-winter.png",
+     "label": "sand winter"
+    },
+    {
+     "file": "materials/gravel-day.png",
+     "label": "gravel"
+    },
+    {
+     "file": "materials/gravel-night.png",
+     "label": "gravel night"
+    },
+    {
+     "file": "materials/gravel-winter.png",
+     "label": "gravel winter"
+    },
+    {
+     "file": "materials/rock-day.png",
+     "label": "rock"
+    },
+    {
+     "file": "materials/rock-night.png",
+     "label": "rock night"
+    },
+    {
+     "file": "materials/rock-winter.png",
+     "label": "rock winter"
+    },
+    {
+     "file": "materials/forest_floor-day.png",
+     "label": "forest_floor"
+    },
+    {
+     "file": "materials/forest_floor-night.png",
+     "label": "forest_floor night"
+    },
+    {
+     "file": "materials/forest_floor-winter.png",
+     "label": "forest_floor winter"
+    },
+    {
+     "file": "materials/snow-day.png",
+     "label": "snow"
+    },
+    {
+     "file": "materials/snow-night.png",
+     "label": "snow night"
+    },
+    {
+     "file": "materials/snow-winter.png",
+     "label": "snow winter"
+    },
+    {
+     "file": "materials/water-day.png",
+     "label": "water"
+    },
+    {
+     "file": "materials/water-night.png",
+     "label": "water night"
+    },
+    {
+     "file": "materials/water-winter.png",
+     "label": "water winter"
+    }
+   ],
+   "note": "Each cell shows the lit left face, shaded right face and top."
+  },
+  {
+   "title": "Materials: Vegetation (day / night / winter)",
+   "columns": 9,
+   "scale": 2,
+   "items": [
+    {
+     "file": "materials/foliage-day.png",
+     "label": "foliage"
+    },
+    {
+     "file": "materials/foliage-night.png",
+     "label": "foliage night"
+    },
+    {
+     "file": "materials/foliage-winter.png",
+     "label": "foliage winter"
+    },
+    {
+     "file": "materials/foliage_light-day.png",
+     "label": "foliage_light"
+    },
+    {
+     "file": "materials/foliage_light-night.png",
+     "label": "foliage_light night"
+    },
+    {
+     "file": "materials/foliage_light-winter.png",
+     "label": "foliage_light winter"
+    },
+    {
+     "file": "materials/conifer-day.png",
+     "label": "conifer"
+    },
+    {
+     "file": "materials/conifer-night.png",
+     "label": "conifer night"
+    },
+    {
+     "file": "materials/conifer-winter.png",
+     "label": "conifer winter"
+    },
+    {
+     "file": "materials/bark-day.png",
+     "label": "bark"
+    },
+    {
+     "file": "materials/bark-night.png",
+     "label": "bark night"
+    },
+    {
+     "file": "materials/bark-winter.png",
+     "label": "bark winter"
+    },
+    {
+     "file": "materials/bark_birch-day.png",
+     "label": "bark_birch"
+    },
+    {
+     "file": "materials/bark_birch-night.png",
+     "label": "bark_birch night"
+    },
+    {
+     "file": "materials/bark_birch-winter.png",
+     "label": "bark_birch winter"
+    }
+   ],
+   "note": "Each cell shows the lit left face, shaded right face and top."
+  },
+  {
+   "title": "Materials: Details (day / night / winter)",
+   "columns": 9,
+   "scale": 2,
+   "items": [
+    {
+     "file": "materials/awning-day.png",
+     "label": "awning"
+    },
+    {
+     "file": "materials/awning-night.png",
+     "label": "awning night"
+    },
+    {
+     "file": "materials/awning-winter.png",
+     "label": "awning winter"
+    },
+    {
+     "file": "materials/awning_green-day.png",
+     "label": "awning_green"
+    },
+    {
+     "file": "materials/awning_green-night.png",
+     "label": "awning_green night"
+    },
+    {
+     "file": "materials/awning_green-winter.png",
+     "label": "awning_green winter"
+    },
+    {
+     "file": "materials/chimney_bands-day.png",
+     "label": "chimney_bands"
+    },
+    {
+     "file": "materials/chimney_bands-night.png",
+     "label": "chimney_bands night"
+    },
+    {
+     "file": "materials/chimney_bands-winter.png",
+     "label": "chimney_bands winter"
+    },
+    {
+     "file": "materials/door-day.png",
+     "label": "door"
+    },
+    {
+     "file": "materials/door-night.png",
+     "label": "door night"
+    },
+    {
+     "file": "materials/door-winter.png",
+     "label": "door winter"
+    },
+    {
+     "file": "materials/door_glass-day.png",
+     "label": "door_glass"
+    },
+    {
+     "file": "materials/door_glass-night.png",
+     "label": "door_glass night"
+    },
+    {
+     "file": "materials/door_glass-winter.png",
+     "label": "door_glass winter"
+    },
+    {
+     "file": "materials/garage-day.png",
+     "label": "garage"
+    },
+    {
+     "file": "materials/garage-night.png",
+     "label": "garage night"
+    },
+    {
+     "file": "materials/garage-winter.png",
+     "label": "garage winter"
+    },
+    {
+     "file": "materials/marking-day.png",
+     "label": "marking"
+    },
+    {
+     "file": "materials/marking-night.png",
+     "label": "marking night"
+    },
+    {
+     "file": "materials/marking-winter.png",
+     "label": "marking winter"
+    },
+    {
+     "file": "materials/marking_yellow-day.png",
+     "label": "marking_yellow"
+    },
+    {
+     "file": "materials/marking_yellow-night.png",
+     "label": "marking_yellow night"
+    },
+    {
+     "file": "materials/marking_yellow-winter.png",
+     "label": "marking_yellow winter"
+    },
+    {
+     "file": "materials/lamp-day.png",
+     "label": "lamp"
+    },
+    {
+     "file": "materials/lamp-night.png",
+     "label": "lamp night"
+    },
+    {
+     "file": "materials/lamp-winter.png",
+     "label": "lamp winter"
+    },
+    {
+     "file": "materials/neon-day.png",
+     "label": "neon"
+    },
+    {
+     "file": "materials/neon-night.png",
+     "label": "neon night"
+    },
+    {
+     "file": "materials/neon-winter.png",
+     "label": "neon winter"
+    }
+   ],
+   "note": "Each cell shows the lit left face, shaded right face and top."
+  }
+ ]
+}

@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using OpenRA.Graphics;
 using OpenRA.Mods.City.Traits;
 using OpenRA.Mods.Common.Widgets;
-using OpenRA.Primitives;
 using OpenRA.Widgets;
 
 namespace OpenRA.Mods.City.Widgets
@@ -136,46 +135,49 @@ namespace OpenRA.Mods.City.Widgets
 			tooltipContainer.Value.RemoveTooltip();
 		}
 
+		static readonly string[] Ramps = ["green", "blue", "yellow", "purple"];
+
+		/// <summary>
+		/// RCT2 RCI(O) demand (tools/iso_ui_widgets2.rci): a sunken dark trough with a centre line, one bevelled bar per zone
+		/// category growing up (demand) or down (surplus) from it, and the letters underneath.
+		/// </summary>
 		public override void Draw()
 		{
 			var rb = RenderBounds;
 			var model = CityUiContext.For(world).Demand;
 			var manager = CityUi.GetManager(world);
 			var font = Game.Renderer.Fonts[Font];
-			var columnWidth = rb.Width / Categories.Length;
-			var letterWidth = font.Measure("W").X + 4;
-			var barWidth = Math.Max(6, columnWidth - letterWidth - 6);
-			var barArea = new Rectangle(0, rb.Y + 1, barWidth, rb.Height - 2);
-			var mid = barArea.Y + barArea.Height / 2;
-			var half = barArea.Height / 2;
+			var family = CityTheme.FamilyOf(this);
+			var b = CityTheme.BevelLogical;
+			var labelHeight = font.Measure("R").Y + 1;
+			var troughHeight = rb.Height - labelHeight;
+			CityTheme.DrawPanel(CityTheme.Art(family, "trough"), rb.X, rb.Y, rb.Width, troughHeight);
+
+			var mid = rb.Y + troughHeight / 2f;
+			CityTheme.Fill(rb.X + b, mid, rb.Width - 2 * b, b, CityTheme.FamilyShade(family, 4));
+			var half = troughHeight / 2f - 2 * b;
+			const float Gap = 3f;
+			var barWidth = (rb.Width - Gap * (Categories.Length + 1)) / Categories.Length;
 
 			for (var i = 0; i < Categories.Length; i++)
 			{
-				var left = rb.X + i * columnWidth;
-				var x = left + letterWidth;
-				var color = CityUi.CategoryColor(Categories[i]);
-
-				// Letter on the left, track, bar and centre line.
-				var size = font.Measure(Letters[i]);
-				font.DrawTextWithContrast(Letters[i],
-					new System.Numerics.Vector2(left + (letterWidth - 2 - size.X) / 2f, rb.Y + (rb.Height - size.Y) / 2f - 1),
-					color, Color.FromArgb(220, 0, 0, 0), Color.FromArgb(0, 0, 0, 0), 1);
-
-				WidgetUtils.FillRectWithColor(new Rectangle(x, barArea.Y, barWidth, barArea.Height), Color.FromArgb(255, 10, 10, 14));
-
+				var x = rb.X + Gap + i * (barWidth + Gap);
 				var demand = Math.Clamp(model?.GetDemand(Categories[i]) ?? manager?.GetDemand(Categories[i]) ?? 0, -100, 100);
-				var height = Math.Abs(demand) * half / 100;
-				if (demand != 0 && height == 0)
-					height = 1;
+				var height = Math.Abs(demand) * half / 100f;
+				if (demand != 0 && height < b)
+					height = b;
 
-				if (demand > 0)
-					WidgetUtils.FillRectWithColor(new Rectangle(x, mid - height, barWidth, height), color);
-				else if (demand < 0)
-					WidgetUtils.FillRectWithColor(new Rectangle(x, mid, barWidth, height),
-						Color.FromArgb(255, color.R * 3 / 4, color.G * 3 / 4, color.B * 3 / 4));
+				if (height > 0)
+				{
+					var y = demand > 0 ? mid - height : mid + b;
+					var ramp = Ramps[i];
+					CityTheme.Fill(x, y, barWidth, height, CityTheme.Ramp(ramp, 5));
+					CityTheme.Fill(x, y, b, height, CityTheme.Ramp(ramp, 7));
+					CityTheme.Fill(x + barWidth - b, y, b, height, CityTheme.Ramp(ramp, 3));
+				}
 
-				WidgetUtils.FillRectWithColor(new Rectangle(x, mid, barWidth, 1), Color.White);
-				WidgetUtils.DrawFrame(new Rectangle(x - 1, barArea.Y - 1, barWidth + 2, barArea.Height + 2), Color.FromArgb(230, 90, 90, 90));
+				var size = font.Measure(Letters[i]);
+				font.DrawText(Letters[i], new System.Numerics.Vector2(MathF.Round(x + (barWidth - size.X) / 2), rb.Y + troughHeight + 1), CityTheme.Ink);
 			}
 		}
 	}

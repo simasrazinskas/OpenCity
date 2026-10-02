@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Numerics;
 using OpenRA.Graphics;
-using OpenRA.Mods.Common.Widgets;
 using OpenRA.Primitives;
 using OpenRA.Widgets;
 
@@ -28,8 +27,9 @@ namespace OpenRA.Mods.City.Widgets
 	}
 
 	/// <summary>
-	/// A small multi-series line chart: dark plot area, 4 grid lines with value labels, one coloured polyline per series
-	/// (oldest sample left) and a hover read-out of the sample under the pointer. Samples are evenly spaced.
+	/// RCT2-style line chart (tools/iso_ui_widgets2.graph, the park rating graph look): a sunken dark green plot area with
+	/// dotted grid lines and value labels, one pixel polyline per series (oldest sample left) and a tooltip-style read-out
+	/// of the sample under the pointer. Samples are evenly spaced.
 	/// </summary>
 	public class CityGraphWidget : Widget
 	{
@@ -38,10 +38,19 @@ namespace OpenRA.Mods.City.Widgets
 		/// <summary>Label of the sample at a given distance from the newest one (0 = newest), e.g. "3 months ago".</summary>
 		public Func<int, string> GetSampleLabel = _ => "";
 
-		public string Font = "Small";
+		public string Font = "Tiny";
 		public int LeftMargin = 40;
 
+		/// <summary>Draws the value labels left of the plot (set false for small sparkline-style charts).</summary>
+		public bool ShowAxis = true;
+
+		/// <summary>Fills the area under the first series with a translucent shade of its colour (the RCT2 park rating look).</summary>
+		public bool FillFirst;
+
 		readonly List<KeyValuePair<string, Color>> legend = [];
+
+		/// <summary>Distance of the sample under the pointer from the newest one (0 = newest), -1 when the pointer is elsewhere.</summary>
+		public int HoverAgo { get; private set; } = -1;
 
 		public CityGraphWidget() { }
 
@@ -52,6 +61,8 @@ namespace OpenRA.Mods.City.Widgets
 			GetSampleLabel = other.GetSampleLabel;
 			Font = other.Font;
 			LeftMargin = other.LeftMargin;
+			ShowAxis = other.ShowAxis;
+			FillFirst = other.FillFirst;
 		}
 
 		public override CityGraphWidget Clone() { return new CityGraphWidget(this); }
@@ -92,9 +103,11 @@ namespace OpenRA.Mods.City.Widgets
 			var font = Game.Renderer.Fonts[Font];
 			var color = Game.Renderer.RgbaColorRenderer;
 
-			var plot = new Rectangle(rb.X + LeftMargin, rb.Y + 4, rb.Width - LeftMargin - 6, rb.Height - 8);
-			WidgetUtils.FillRectWithColor(plot, Color.FromArgb(255, 12, 8, 8));
-			WidgetUtils.DrawFrame(new Rectangle(plot.X - 1, plot.Y - 1, plot.Width + 2, plot.Height + 2), Color.FromArgb(230, 90, 70, 50));
+			var family = CityTheme.FamilyOf(this);
+			var b = CityTheme.BevelLogical;
+			var frame = new Rectangle(rb.X + LeftMargin, rb.Y + 2, rb.Width - LeftMargin - 2, rb.Height - 4);
+			CityTheme.DrawPanel(CityTheme.Art(family, "graph"), frame);
+			var plot = new Rectangle(frame.X + 2, frame.Y + 3, frame.Width - 4, frame.Height - 5);
 
 			var count = 0;
 			var min = 0;
@@ -119,6 +132,7 @@ namespace OpenRA.Mods.City.Widgets
 				}
 			}
 
+			HoverAgo = -1;
 			if (!any || count == 0)
 				return;
 
@@ -136,10 +150,16 @@ namespace OpenRA.Mods.City.Widgets
 				var y = plot.Bottom - i * plot.Height / 4;
 				var value = min + (long)range * i / 4;
 				var gridY = Math.Min(y, plot.Bottom - 1);
-				color.DrawLine(new Vector2(plot.X, gridY), new Vector2(plot.Right, gridY), 1, Color.FromArgb(i == 0 ? 120 : 50, 255, 230, 190));
+				if (i > 0 && i < 4)
+					for (var gx = (float)plot.X; gx < plot.Right; gx += 3)
+						CityTheme.Fill(gx, gridY, b, b, CityTheme.InkColor("GraphGrid"));
+
+				if (!ShowAxis)
+					continue;
+
 				var text = Compact(value);
 				var size = font.Measure(text);
-				font.DrawTextWithShadow(text, new Vector2(plot.X - size.X - 4, y - size.Y / 2f - (i == 0 ? 2 : 0)), CityUi.Muted, Color.Black, 1);
+				font.DrawText(text, new Vector2(frame.X - size.X - 3, MathF.Round(y - size.Y / 2f - (i == 0 ? 2 : 0))), CityTheme.Ink);
 			}
 
 			var span = Math.Max(1, count - 1);
@@ -161,6 +181,7 @@ namespace OpenRA.Mods.City.Widgets
 				hover = Math.Clamp(hover, 0, span);
 			}
 
+			var first = true;
 			foreach (var s in series)
 			{
 				if (s.Values == null || s.Values.Count == 0)
@@ -168,13 +189,33 @@ namespace OpenRA.Mods.City.Widgets
 
 				var length = s.Values.Count;
 				var previous = Point(0, length, s.Values[0]);
-				if (length == 1)
-					WidgetUtils.FillRectWithColor(new Rectangle((int)previous.X - 1, (int)previous.Y - 1, 3, 3), s.Color);
+				if (FillFirst && first && length > 1)
+				{
+					var shade = Color.FromArgb(70, s.Color.R, s.Color.G, s.Color.B);
+					for (var i = 1; i < length; i++)
+					{
+						var a = Point(i - 1, length, s.Values[i - 1]);
+						var c = Point(i, length, s.Values[i]);
+						var columns = Math.Max(1, (int)Math.Round((c.X - a.X) / Math.Max(1, b)));
+						for (var k = 0; k < columns; k++)
+						{
+							var x = a.X + (c.X - a.X) * k / columns;
+							var top = a.Y + (c.Y - a.Y) * k / columns;
+							CityTheme.Fill(x, top, Math.Max(1, b), plot.Bottom - top, shade);
+						}
+					}
+				}
 
+				first = false;
+				var dot = 2 * b + (b < 1 ? 0 : b);
+				CityTheme.Fill(previous.X - dot / 2, previous.Y - dot / 2, dot, dot, s.Color);
 				for (var i = 1; i < length; i++)
 				{
 					var next = Point(i, length, s.Values[i]);
-					color.DrawLine(previous, next, 2, s.Color);
+					color.DrawLine(previous, next, Math.Max(1, b), s.Color);
+					if (length <= 24)
+						CityTheme.Fill(next.X - dot / 2, next.Y - dot / 2, dot, dot, s.Color);
+
 					previous = next;
 				}
 			}
@@ -182,6 +223,7 @@ namespace OpenRA.Mods.City.Widgets
 			if (hover < 0)
 				return;
 
+			HoverAgo = count - 1 - hover;
 			var hx = plot.X + hover * (plot.Width - 1) / span;
 			color.DrawLine(new Vector2(hx, plot.Y), new Vector2(hx, plot.Bottom), 1, Color.FromArgb(140, 255, 255, 255));
 
@@ -204,21 +246,23 @@ namespace OpenRA.Mods.City.Widgets
 			foreach (var line in legend)
 				width = Math.Max(width, font.Measure(line.Key).X);
 
-			var boxHeight = (legend.Count + (title.Length > 0 ? 1 : 0)) * 14 + 6;
-			var boxX = hx + 8 + width + 8 > plot.Right ? hx - 8 - width - 8 : hx + 8;
-			var box = new Rectangle(boxX, plot.Y + 4, width + 8, boxHeight);
-			WidgetUtils.FillRectWithColor(box, Color.FromArgb(215, 10, 6, 6));
-			var ty = box.Y + 3;
+			var lineHeight = font.Measure("Ag").Y + 2;
+			var boxHeight = (legend.Count + (title.Length > 0 ? 1 : 0)) * lineHeight + 8;
+			var boxX = hx + 8 + width + 10 > plot.Right ? hx - 8 - width - 10 : hx + 8;
+			var box = new Rectangle(boxX, plot.Y + 4, width + 10, boxHeight);
+			CityTheme.DrawPanel("tooltip", box);
+			var ty = box.Y + 4;
 			if (title.Length > 0)
 			{
-				font.DrawTextWithShadow(title, new Vector2(box.X + 4, ty), Color.White, Color.Black, 1);
-				ty += 14;
+				font.DrawText(title, new Vector2(box.X + 4, ty), CityTheme.Ink);
+				ty += lineHeight;
 			}
 
 			foreach (var line in legend)
 			{
-				font.DrawTextWithShadow(line.Key, new Vector2(box.X + 4, ty), line.Value, Color.Black, 1);
-				ty += 14;
+				CityTheme.Fill(box.X + 4, ty + lineHeight / 2f - 2, 4, 3, line.Value);
+				font.DrawText(line.Key, new Vector2(box.X + 10, ty), CityTheme.Ink);
+				ty += lineHeight;
 			}
 		}
 	}

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenRA.Mods.Common.Widgets;
 using OpenRA.Network;
+using OpenRA.Primitives;
 using OpenRA.Widgets;
 
 namespace OpenRA.Mods.City.Widgets.Logic
@@ -35,11 +36,21 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		{
 			this.modData = modData;
 
-			var previewWidget = widget.Get<MapPreviewWidget>("PREVIEW");
+			var panel = (CityPanelWidget)widget;
+			panel.OnClose = () =>
+			{
+				Ui.CloseWindow();
+				onExit();
+			};
+
+			var previewWidget = widget.Get("PREVIEW_BG").Get<MapPreviewWidget>("PREVIEW");
 			previewWidget.Preview = () => selectedMap;
 
-			var titleLabel = widget.Get<LabelWidget>("MAP_TITLE");
-			titleLabel.GetText = () => selectedMap?.Title ?? "";
+			widget.Get<CityHeaderWidget>("MAP_HEADER").GetText = () => selectedMap?.Title ?? "";
+
+			var climateLabel = widget.Get<LabelWidget>("MAP_CLIMATE");
+			climateLabel.GetText = () => selectedMap != null && modData.DefaultTerrainInfo.TryGetValue(selectedMap.TileSet, out var terrain)
+				? FluentProvider.GetMessage(terrain.Name) : "";
 
 			var infoLabel = widget.Get<LabelWidget>("MAP_INFO");
 			infoLabel.GetText = () => selectedMap == null ? "" :
@@ -68,8 +79,14 @@ namespace OpenRA.Mods.City.Widgets.Logic
 					() => selectedMap = preview,
 					() => StartGame(onExit));
 
-				item.Get<LabelWidget>("TITLE").GetText = () => preview.Title;
-				item.Get<LabelWidget>("SIZE").GetText = () =>
+				item.Get<CityRowBackgroundWidget>("BG").IsSelected = item.IsSelected;
+				item.Get<MapPreviewWidget>("ITEM_PREVIEW").Preview = () => preview;
+				var title = item.Get<LabelWidget>("TITLE");
+				title.GetText = () => preview.Title;
+				title.GetColor = () => item.IsSelected() ? Color.White : CityTheme.Ink;
+				var size = item.Get<LabelWidget>("SIZE");
+				size.GetColor = () => item.IsSelected() ? Color.White : CityTheme.Ink;
+				size.GetText = () =>
 					FluentProvider.GetMessage(MapSize, "width", preview.Bounds.Width, "height", preview.Bounds.Height);
 				list.AddChild(item);
 			}

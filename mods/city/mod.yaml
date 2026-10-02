@@ -50,6 +50,8 @@ Sequences:
 	city|sequences/networks.yaml
 	city|sequences/industry.yaml
 	city|sequences/transit.yaml
+	city|sequences/transit-buildings.yaml
+	city|sequences/overlays.yaml
 
 TileSets:
 	city|tilesets/temperate.yaml
@@ -59,8 +61,7 @@ Cursors:
 
 Chrome:
 	city|chrome.yaml
-	city|chrome-city.yaml
-	city|chrome-buildings.yaml
+	city|chrome-menus.yaml
 
 Assemblies: OpenRA.Mods.Common.dll, OpenRA.Mods.City.dll
 
@@ -74,19 +75,19 @@ ChromeLayout:
 	common|chrome/ingame-infoobjectives.yaml
 	common|chrome/ingame-infostats.yaml
 	common|chrome/ingame-info-lobby-options.yaml
-	common|chrome/ingame-menu.yaml
+	city|chrome/ingame-menu.yaml
 	common|chrome/ingame-perf.yaml
 	common|chrome/ingame-debug-hpf.yaml
 	common|chrome/ingame-debuginfo.yaml
 	common|chrome/ingame-infochat.yaml
 	common|chrome/mainmenu-prompts.yaml
-	common|chrome/settings.yaml
+	city|chrome/settings.yaml
 	city|chrome/settings-display.yaml
-	common|chrome/settings-audio.yaml
-	common|chrome/settings-input.yaml
-	common|chrome/settings-hotkeys.yaml
-	common|chrome/settings-gameplay.yaml
-	common|chrome/settings-advanced.yaml
+	city|chrome/settings-audio.yaml
+	city|chrome/settings-input.yaml
+	city|chrome/settings-hotkeys.yaml
+	city|chrome/settings-gameplay.yaml
+	city|chrome/settings-advanced.yaml
 	common|chrome/credits.yaml
 	common|chrome/lobby.yaml
 	common|chrome/lobby-mappreview.yaml
@@ -103,14 +104,14 @@ ChromeLayout:
 	common|chrome/multiplayer-directconnect.yaml
 	common|chrome/connection.yaml
 	common|chrome/replaybrowser.yaml
-	common|chrome/gamesave-browser.yaml
-	common|chrome/load-game-browser.yaml
+	city|chrome/gamesave-browser.yaml
+	city|chrome/load-game-browser.yaml
 	common|chrome/dropdowns.yaml
 	common|chrome/musicplayer.yaml
 	common|chrome/tooltips.yaml
 	common|chrome/assetbrowser.yaml
 	common|chrome/missionbrowser.yaml
-	common|chrome/confirmation-dialogs.yaml
+	city|chrome/confirmation-dialogs.yaml
 	common|chrome/editor.yaml
 	common|chrome/playerprofile.yaml
 	city|chrome/text-notifications.yaml
@@ -119,10 +120,27 @@ ChromeLayout:
 	city|chrome/mainmenu.yaml
 	city|chrome/ingame-player.yaml
 	city|chrome/ingame-observer.yaml
-	city|chrome/city-panels.yaml
-	city|chrome/city-stats.yaml
+	city|chrome/city-common.yaml
 	city|chrome/city-hud.yaml
+	city|chrome/city-build.yaml
+	city|chrome/city-budget.yaml
+	city|chrome/city-infoviews.yaml
+	city|chrome/city-stats.yaml
+	city|chrome/city-info.yaml
+	city|chrome/city-chirper.yaml
+	city|chrome/city-notifications.yaml
+	city|chrome/city-advisor.yaml
+	city|chrome/city-policies.yaml
+	city|chrome/city-citizen.yaml
 	city|chrome/city-progress.yaml
+	city|chrome/city-achievements.yaml
+	city|chrome/city-production.yaml
+	city|chrome/city-districts.yaml
+	city|chrome/city-tiles.yaml
+	city|chrome/city-building.yaml
+	city|chrome/city-vehicle.yaml
+	city|chrome/city-transit.yaml
+	city|chrome/city-newgame.yaml
 
 FluentMessages:
 	common|fluent/common.ftl
@@ -145,6 +163,13 @@ FluentMessages:
 	city|fluent/industry.ftl
 	city|fluent/progression.ftl
 	city|fluent/transit.ftl
+	city|fluent/ui.ftl
+	city|fluent/ui-info.ftl
+	city|fluent/ui-production.ftl
+	city|fluent/ui-people.ftl
+	city|fluent/ui-progress.ftl
+	city|fluent/ui-inspect.ftl
+	city|fluent/ui-menus.ftl
 
 AllowUnusedFluentMessagesInExternalPackages: true
 
@@ -242,9 +267,13 @@ Fonts:
 		PixelMinCapHeight: 7
 
 WorldViewportSizes:
-	ZoomLevels: 0.5, 1, 1.5, 2, 3, 4
+	# Whole zoom levels keep the 2:1 isometric pixel stairs regular (1.5 would alternate 1 and 2 px steps).
+	ZoomLevels: 0.5, 1, 2, 3, 4
 	ZoomAnimationDuration: 140
-	KeepViewInsideMap: true
+	# Default level per window height (camera distance setting): Medium gives 1 below 1440 px and 2 from 1440 px (~2560 wide).
+	CloseWindowHeights: 540, 900
+	MediumWindowHeights: 720, 1400
+	FarWindowHeights: 1080, 2100
 
 # Cursors follow the UI scale by whole-number (nearest) factors so the pixel art stays crisp.
 CursorScaling:
@@ -252,6 +281,8 @@ CursorScaling:
 
 MapGrid:
 	Type: Rectangular
+	# RCT2-style diamond map: the cells stay a rectangular grid, only the drawing is isometric (64x32 tiles).
+	Projection: Isometric
 	# Vehicles share road cells; they keep to their lane via WithLaneOffset, so sub-cells must not shift them.
 	SubCellOffsets: 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0
 

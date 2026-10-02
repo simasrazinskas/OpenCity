@@ -9,19 +9,38 @@
  */
 #endregion
 
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using OpenRA.Mods.Common.Widgets;
 using OpenRA.Mods.Common.Widgets.Logic;
+using OpenRA.Network;
 using OpenRA.Widgets;
 
 namespace OpenRA.Mods.City.Widgets.Logic
 {
-	/// <summary>OpenCity main menu: New City, Load City, Settings, Extras, Quit. Shown over the shellmap.</summary>
+	/// <summary>OpenCity main menu: New City, Continue, Load City, Settings, Extras, Quit. Shown over the shellmap.</summary>
 	public class CityMainMenuLogic : ChromeLogic
 	{
 		enum MenuType { Main, Extras, None }
 
+		[FluentReference("name", "date")]
+		const string ContinueSave = "menu-continue-save";
+
+		[FluentReference]
+		const string ContinueNone = "menu-continue-none";
+
+		[FluentReference("version")]
+		const string VersionText = "menu-version";
+
+		/// <summary>Minimum space around the title stack.</summary>
+		const int Margin = 8;
+
 		readonly Widget rootMenu;
+		readonly ModData modData;
+		string continueSave;
 		MenuType menuType = MenuType.Main;
 
 		void SwitchMenu(MenuType type)
@@ -36,11 +55,30 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		public CityMainMenuLogic(Widget widget, ModData modData)
 		{
 			rootMenu = widget;
+			this.modData = modData;
 
-			// The big title block would shine through the translucent panels, so only show it with the menu.
-			widget.Get("TITLE_BLOCK").IsVisible = () => menuType != MenuType.None;
+			// The title stack is centred on screen; without room for the logo (very large UI scales) only the menu stays.
+			var stack = widget.Get("STACK");
+			var title = stack.Get("TITLE_BLOCK");
+			var menusBox = stack.Get("MENUS");
+			var menuBottom = menusBox.Bounds.Y + menusBox.Bounds.Height;
+			var titleOffset = menusBox.Bounds.Y;
+			stack.IsVisible = () => menuType != MenuType.None;
+			widget.Get<LogicTickerWidget>("LAYOUT_TICKER").OnTick = () =>
+			{
+				var window = Game.Renderer.Resolution;
+				var showTitle = window.Height >= menuBottom + 2 * Margin;
+				title.Visible = showTitle;
+				var height = showTitle ? menuBottom : menusBox.Bounds.Height;
+				menusBox.Bounds.Y = showTitle ? titleOffset : 0;
+				stack.Bounds.Height = height;
+				stack.Bounds.Y = Math.Max(Margin, showTitle ? (window.Height - height) / 6 : (window.Height - height) / 2);
+			};
 
-			var menus = widget.Get("MENUS");
+			var version = modData.Manifest.Metadata.Version;
+			widget.Get<LabelWidget>("VERSION_LABEL").GetText = () => FluentProvider.GetMessage(VersionText, "version", version);
+
+			var menus = menusBox;
 			var mainMenu = menus.Get("MAIN_MENU");
 			mainMenu.IsVisible = () => menuType == MenuType.Main;
 
@@ -48,6 +86,8 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			var newButton = mainMenu.Get<ButtonWidget>("NEW_CITY_BUTTON");
 			newButton.Disabled = !hasMaps;
 			newButton.OnClick = OpenNewCityPanel;
+
+			SetupContinue(mainMenu.Get<CityMenuButtonWidget>("CONTINUE_BUTTON"));
 
 			var loadButton = mainMenu.Get<ButtonWidget>("LOAD_CITY_BUTTON");
 			loadButton.IsDisabled = () => !LoadGameBrowserLogic.IsLoadPanelEnabled(modData.Manifest);
@@ -100,6 +140,58 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 			// The shellmap UI has to go away when a game starts (new game, loaded save or replay).
 			Game.BeforeGameStart += RemoveShellmapUI;
+		}
+
+		/// <summary>"Continue" loads the most recently written save, if there is one.</summary>
+		void SetupContinue(CityMenuButtonWidget button)
+		{
+			var mod = modData.Manifest;
+			var folder = Path.Combine(Platform.SupportDir, "Saves", mod.Id, mod.Metadata.Version);
+			string path = null;
+			string mapUid = null;
+			if (Directory.Exists(folder))
+			{
+				foreach (var candidate in Directory.GetFiles(folder, "*.orasav").OrderByDescending(File.GetLastWriteTime))
+				{
+					try
+					{
+						var save = new GameSave(candidate);
+						if (modData.MapCache[save.GlobalSettings.Map].Status == MapStatus.Available)
+						{
+							path = candidate;
+							mapUid = save.GlobalSettings.Map;
+							break;
+						}
+					}
+					catch (Exception)
+					{
+						// Saves of another version or broken files are skipped.
+					}
+				}
+			}
+
+			if (path == null)
+			{
+				button.GetSub = () => FluentProvider.GetMessage(ContinueNone);
+				button.IsDisabled = () => true;
+				button.IsDefault = () => false;
+				return;
+			}
+
+			var name = Path.GetFileNameWithoutExtension(path);
+			var date = File.GetLastWriteTime(path).ToString("d MMM yyyy, HH:mm", CultureInfo.CurrentCulture);
+			continueSave = path;
+			button.GetSub = () => FluentProvider.GetMessage(ContinueSave, "name", name, "date", date);
+			button.OnClick = () =>
+			{
+				var orders = new List<Order>
+				{
+					Order.FromTargetString("LoadGameSave", Path.GetFileName(continueSave), true),
+					Order.Command($"state {Session.ClientState.Ready}")
+				};
+
+				Game.CreateAndStartLocalServer(mapUid, orders);
+			};
 		}
 
 		void OpenNewCityPanel()

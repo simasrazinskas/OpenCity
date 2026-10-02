@@ -1,0 +1,3468 @@
+{
+ "page": "World elements",
+ "section": "Roads & networks",
+ "groups": [
+  {
+   "title": "Vignettes: 6x6 blocks in context (grey boxes = placeholder buildings)",
+   "columns": 2,
+   "scale": 1,
+   "note": "day and night; night = ground night tint + emissive lamps and light pools",
+   "items": [
+    {
+     "file": "vignettes/downtown.png",
+     "label": "Downtown: avenue x street signals, stop, lamps, bus stop, parking"
+    },
+    {
+     "file": "vignettes/downtown-night.png",
+     "label": "Downtown: avenue x street signals, stop, lamps, bus stop, parking (night)"
+    },
+    {
+     "file": "vignettes/river.png",
+     "label": "River: street bridge with pier, sewage outlet, yield"
+    },
+    {
+     "file": "vignettes/river-night.png",
+     "label": "River: street bridge with pier, sewage outlet, yield (night)"
+    },
+    {
+     "file": "vignettes/roundabout.png",
+     "label": "Roundabout (3x3 ring + island), boulevard arm"
+    },
+    {
+     "file": "vignettes/roundabout-night.png",
+     "label": "Roundabout (3x3 ring + island), boulevard arm (night)"
+    },
+    {
+     "file": "vignettes/corridor.png",
+     "label": "Paired highway, gantry, sound wall, rail crossing, power, transformer"
+    },
+    {
+     "file": "vignettes/corridor-night.png",
+     "label": "Paired highway, gantry, sound wall, rail crossing, power, transformer (night)"
+    },
+    {
+     "file": "vignettes/downtown-winter.png",
+     "label": "downtown (winter: snowy sidewalks and verges, cleared asphalt)"
+    },
+    {
+     "file": "vignettes/river-winter.png",
+     "label": "river (winter: snowy sidewalks and verges, cleared asphalt)"
+    },
+    {
+     "file": "vignettes/tools.png",
+     "label": "Zoning, drag path, bulldoze and footprint overlays in context"
+    }
+   ]
+  },
+  {
+   "title": "Street: all 16 connection masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/street/street-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "roads/street/street-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "roads/street/street-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "roads/street/street-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "roads/street/street-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "roads/street/street-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "roads/street/street-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "roads/street/street-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "roads/street/street-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "roads/street/street-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "roads/street/street-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "roads/street/street-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "roads/street/street-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "roads/street/street-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "roads/street/street-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "roads/street/street-1111.png",
+     "label": "N+E+S+W"
+    }
+   ],
+   "note": "two-way; masks N/E/S/W = upper-right/lower-right/lower-left/upper-left edge"
+  },
+  {
+   "title": "Street: one-way, 16 masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/street/street-ow-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "roads/street/street-ow-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "roads/street/street-ow-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "roads/street/street-ow-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "roads/street/street-ow-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "roads/street/street-ow-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "roads/street/street-ow-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "roads/street/street-ow-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "roads/street/street-ow-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "roads/street/street-ow-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "roads/street/street-ow-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "roads/street/street-ow-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "roads/street/street-ow-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "roads/street/street-ow-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "roads/street/street-ow-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "roads/street/street-ow-1111.png",
+     "label": "N+E+S+W"
+    }
+   ],
+   "note": "direction comes from the arrow overlay"
+  },
+  {
+   "title": "Avenue: all 16 connection masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/avenue/avenue-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "roads/avenue/avenue-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "roads/avenue/avenue-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "roads/avenue/avenue-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "roads/avenue/avenue-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "roads/avenue/avenue-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "roads/avenue/avenue-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "roads/avenue/avenue-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "roads/avenue/avenue-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "roads/avenue/avenue-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "roads/avenue/avenue-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "roads/avenue/avenue-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "roads/avenue/avenue-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "roads/avenue/avenue-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "roads/avenue/avenue-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "roads/avenue/avenue-1111.png",
+     "label": "N+E+S+W"
+    }
+   ],
+   "note": "two-way; masks N/E/S/W = upper-right/lower-right/lower-left/upper-left edge"
+  },
+  {
+   "title": "Avenue: one-way, 16 masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/avenue/avenue-ow-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "roads/avenue/avenue-ow-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "roads/avenue/avenue-ow-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "roads/avenue/avenue-ow-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "roads/avenue/avenue-ow-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "roads/avenue/avenue-ow-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "roads/avenue/avenue-ow-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "roads/avenue/avenue-ow-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "roads/avenue/avenue-ow-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "roads/avenue/avenue-ow-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "roads/avenue/avenue-ow-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "roads/avenue/avenue-ow-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "roads/avenue/avenue-ow-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "roads/avenue/avenue-ow-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "roads/avenue/avenue-ow-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "roads/avenue/avenue-ow-1111.png",
+     "label": "N+E+S+W"
+    }
+   ],
+   "note": "direction comes from the arrow overlay"
+  },
+  {
+   "title": "Boulevard: all 16 connection masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/boulevard/boulevard-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "roads/boulevard/boulevard-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "roads/boulevard/boulevard-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "roads/boulevard/boulevard-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "roads/boulevard/boulevard-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "roads/boulevard/boulevard-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "roads/boulevard/boulevard-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "roads/boulevard/boulevard-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "roads/boulevard/boulevard-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "roads/boulevard/boulevard-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "roads/boulevard/boulevard-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "roads/boulevard/boulevard-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "roads/boulevard/boulevard-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "roads/boulevard/boulevard-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "roads/boulevard/boulevard-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "roads/boulevard/boulevard-1111.png",
+     "label": "N+E+S+W"
+    }
+   ],
+   "note": "two-way; masks N/E/S/W = upper-right/lower-right/lower-left/upper-left edge"
+  },
+  {
+   "title": "Boulevard: one-way, 16 masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/boulevard/boulevard-ow-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "roads/boulevard/boulevard-ow-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "roads/boulevard/boulevard-ow-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "roads/boulevard/boulevard-ow-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "roads/boulevard/boulevard-ow-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "roads/boulevard/boulevard-ow-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "roads/boulevard/boulevard-ow-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "roads/boulevard/boulevard-ow-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "roads/boulevard/boulevard-ow-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "roads/boulevard/boulevard-ow-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "roads/boulevard/boulevard-ow-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "roads/boulevard/boulevard-ow-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "roads/boulevard/boulevard-ow-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "roads/boulevard/boulevard-ow-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "roads/boulevard/boulevard-ow-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "roads/boulevard/boulevard-ow-1111.png",
+     "label": "N+E+S+W"
+    }
+   ],
+   "note": "direction comes from the arrow overlay"
+  },
+  {
+   "title": "Highway: all 16 connection masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/highway/highway-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "roads/highway/highway-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "roads/highway/highway-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "roads/highway/highway-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "roads/highway/highway-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "roads/highway/highway-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "roads/highway/highway-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "roads/highway/highway-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "roads/highway/highway-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "roads/highway/highway-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "roads/highway/highway-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "roads/highway/highway-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "roads/highway/highway-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "roads/highway/highway-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "roads/highway/highway-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "roads/highway/highway-1111.png",
+     "label": "N+E+S+W"
+    }
+   ],
+   "note": "two-way; masks N/E/S/W = upper-right/lower-right/lower-left/upper-left edge"
+  },
+  {
+   "title": "Highway: one-way, 16 masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/highway/highway-ow-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "roads/highway/highway-ow-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "roads/highway/highway-ow-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "roads/highway/highway-ow-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "roads/highway/highway-ow-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "roads/highway/highway-ow-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "roads/highway/highway-ow-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "roads/highway/highway-ow-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "roads/highway/highway-ow-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "roads/highway/highway-ow-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "roads/highway/highway-ow-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "roads/highway/highway-ow-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "roads/highway/highway-ow-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "roads/highway/highway-ow-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "roads/highway/highway-ow-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "roads/highway/highway-ow-1111.png",
+     "label": "N+E+S+W"
+    }
+   ],
+   "note": "direction comes from the arrow overlay"
+  },
+  {
+   "title": "Alley: all 16 connection masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/alley/alley-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "roads/alley/alley-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "roads/alley/alley-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "roads/alley/alley-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "roads/alley/alley-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "roads/alley/alley-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "roads/alley/alley-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "roads/alley/alley-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "roads/alley/alley-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "roads/alley/alley-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "roads/alley/alley-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "roads/alley/alley-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "roads/alley/alley-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "roads/alley/alley-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "roads/alley/alley-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "roads/alley/alley-1111.png",
+     "label": "N+E+S+W"
+    }
+   ],
+   "note": "two-way; masks N/E/S/W = upper-right/lower-right/lower-left/upper-left edge"
+  },
+  {
+   "title": "Alley: one-way, 16 masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/alley/alley-ow-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "roads/alley/alley-ow-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "roads/alley/alley-ow-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "roads/alley/alley-ow-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "roads/alley/alley-ow-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "roads/alley/alley-ow-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "roads/alley/alley-ow-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "roads/alley/alley-ow-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "roads/alley/alley-ow-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "roads/alley/alley-ow-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "roads/alley/alley-ow-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "roads/alley/alley-ow-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "roads/alley/alley-ow-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "roads/alley/alley-ow-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "roads/alley/alley-ow-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "roads/alley/alley-ow-1111.png",
+     "label": "N+E+S+W"
+    }
+   ],
+   "note": "direction comes from the arrow overlay"
+  },
+  {
+   "title": "Gravel road: all 16 connection masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/gravel/gravel-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "roads/gravel/gravel-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "roads/gravel/gravel-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "roads/gravel/gravel-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "roads/gravel/gravel-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "roads/gravel/gravel-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "roads/gravel/gravel-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "roads/gravel/gravel-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "roads/gravel/gravel-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "roads/gravel/gravel-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "roads/gravel/gravel-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "roads/gravel/gravel-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "roads/gravel/gravel-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "roads/gravel/gravel-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "roads/gravel/gravel-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "roads/gravel/gravel-1111.png",
+     "label": "N+E+S+W"
+    }
+   ],
+   "note": "two-way; masks N/E/S/W = upper-right/lower-right/lower-left/upper-left edge"
+  },
+  {
+   "title": "Gravel road: one-way, 16 masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/gravel/gravel-ow-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "roads/gravel/gravel-ow-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "roads/gravel/gravel-ow-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "roads/gravel/gravel-ow-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "roads/gravel/gravel-ow-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "roads/gravel/gravel-ow-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "roads/gravel/gravel-ow-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "roads/gravel/gravel-ow-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "roads/gravel/gravel-ow-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "roads/gravel/gravel-ow-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "roads/gravel/gravel-ow-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "roads/gravel/gravel-ow-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "roads/gravel/gravel-ow-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "roads/gravel/gravel-ow-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "roads/gravel/gravel-ow-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "roads/gravel/gravel-ow-1111.png",
+     "label": "N+E+S+W"
+    }
+   ],
+   "note": "direction comes from the arrow overlay"
+  },
+  {
+   "title": "Paired carriageways: median overlays (sideBlock)",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/median/avenue-median-1000.png",
+     "label": "avenue N"
+    },
+    {
+     "file": "roads/median/avenue-median-0100.png",
+     "label": "avenue E"
+    },
+    {
+     "file": "roads/median/avenue-median-0010.png",
+     "label": "avenue S"
+    },
+    {
+     "file": "roads/median/avenue-median-0001.png",
+     "label": "avenue W"
+    },
+    {
+     "file": "roads/median/avenue-median-1010.png",
+     "label": "avenue N+S"
+    },
+    {
+     "file": "roads/median/avenue-median-0101.png",
+     "label": "avenue E+W"
+    },
+    {
+     "file": "roads/median/boulevard-median-1000.png",
+     "label": "boulevard N"
+    },
+    {
+     "file": "roads/median/boulevard-median-0100.png",
+     "label": "boulevard E"
+    },
+    {
+     "file": "roads/median/boulevard-median-0010.png",
+     "label": "boulevard S"
+    },
+    {
+     "file": "roads/median/boulevard-median-0001.png",
+     "label": "boulevard W"
+    },
+    {
+     "file": "roads/median/boulevard-median-1010.png",
+     "label": "boulevard N+S"
+    },
+    {
+     "file": "roads/median/boulevard-median-0101.png",
+     "label": "boulevard E+W"
+    },
+    {
+     "file": "roads/median/highway-median-1000.png",
+     "label": "highway N"
+    },
+    {
+     "file": "roads/median/highway-median-0100.png",
+     "label": "highway E"
+    },
+    {
+     "file": "roads/median/highway-median-0010.png",
+     "label": "highway S"
+    },
+    {
+     "file": "roads/median/highway-median-0001.png",
+     "label": "highway W"
+    },
+    {
+     "file": "roads/median/highway-median-1010.png",
+     "label": "highway N+S"
+    },
+    {
+     "file": "roads/median/highway-median-0101.png",
+     "label": "highway E+W"
+    }
+   ],
+   "note": "avenue planter, boulevard tree lawn (trees are props), highway jersey barrier"
+  },
+  {
+   "title": "Paired carriageways composed (one-way + median + arrows)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/median/avenue-paired-1010-0100.png",
+     "label": "avenue N-bound"
+    },
+    {
+     "file": "roads/median/avenue-paired-1010-0001.png",
+     "label": "avenue S-bound"
+    },
+    {
+     "file": "roads/median/avenue-paired-0101-0010.png",
+     "label": "avenue E-bound"
+    },
+    {
+     "file": "roads/median/avenue-paired-0101-1000.png",
+     "label": "avenue W-bound"
+    },
+    {
+     "file": "roads/median/boulevard-paired-1010-0100.png",
+     "label": "boulevard N-bound"
+    },
+    {
+     "file": "roads/median/boulevard-paired-1010-0001.png",
+     "label": "boulevard S-bound"
+    },
+    {
+     "file": "roads/median/boulevard-paired-0101-0010.png",
+     "label": "boulevard E-bound"
+    },
+    {
+     "file": "roads/median/boulevard-paired-0101-1000.png",
+     "label": "boulevard W-bound"
+    },
+    {
+     "file": "roads/median/highway-paired-1010-0100.png",
+     "label": "highway N-bound"
+    },
+    {
+     "file": "roads/median/highway-paired-1010-0001.png",
+     "label": "highway S-bound"
+    },
+    {
+     "file": "roads/median/highway-paired-0101-0010.png",
+     "label": "highway E-bound"
+    },
+    {
+     "file": "roads/median/highway-paired-0101-1000.png",
+     "label": "highway W-bound"
+    }
+   ]
+  },
+  {
+   "title": "One-way arrows overlay",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/arrows/arrow-N.png",
+     "label": "to N"
+    },
+    {
+     "file": "roads/arrows/arrow-E.png",
+     "label": "to E"
+    },
+    {
+     "file": "roads/arrows/arrow-S.png",
+     "label": "to S"
+    },
+    {
+     "file": "roads/arrows/arrow-W.png",
+     "label": "to W"
+    }
+   ]
+  },
+  {
+   "title": "Road wear: new, used, worn (manholes, patches, cracks)",
+   "columns": 3,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/wear/street-1010-wear0.png",
+     "label": "street new"
+    },
+    {
+     "file": "roads/wear/street-1010-wear1.png",
+     "label": "street used"
+    },
+    {
+     "file": "roads/wear/street-1010-wear2.png",
+     "label": "street worn"
+    },
+    {
+     "file": "roads/wear/street-1111-wear0.png",
+     "label": "street new"
+    },
+    {
+     "file": "roads/wear/street-1111-wear1.png",
+     "label": "street used"
+    },
+    {
+     "file": "roads/wear/street-1111-wear2.png",
+     "label": "street worn"
+    },
+    {
+     "file": "roads/wear/avenue-0101-wear0.png",
+     "label": "avenue new"
+    },
+    {
+     "file": "roads/wear/avenue-0101-wear1.png",
+     "label": "avenue used"
+    },
+    {
+     "file": "roads/wear/avenue-0101-wear2.png",
+     "label": "avenue worn"
+    }
+   ]
+  },
+  {
+   "title": "Class transitions (first class toward the arrow's start)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/transition/street-avenue-0.png",
+     "label": "street>avenue N-S"
+    },
+    {
+     "file": "roads/transition/street-avenue-1.png",
+     "label": "street>avenue E-W"
+    },
+    {
+     "file": "roads/transition/street-avenue-2.png",
+     "label": "street>avenue S-N"
+    },
+    {
+     "file": "roads/transition/street-avenue-3.png",
+     "label": "street>avenue W-E"
+    },
+    {
+     "file": "roads/transition/avenue-boulevard-0.png",
+     "label": "avenue>boulevard N-S"
+    },
+    {
+     "file": "roads/transition/avenue-boulevard-1.png",
+     "label": "avenue>boulevard E-W"
+    },
+    {
+     "file": "roads/transition/avenue-boulevard-2.png",
+     "label": "avenue>boulevard S-N"
+    },
+    {
+     "file": "roads/transition/avenue-boulevard-3.png",
+     "label": "avenue>boulevard W-E"
+    },
+    {
+     "file": "roads/transition/street-boulevard-0.png",
+     "label": "street>boulevard N-S"
+    },
+    {
+     "file": "roads/transition/street-boulevard-1.png",
+     "label": "street>boulevard E-W"
+    },
+    {
+     "file": "roads/transition/street-boulevard-2.png",
+     "label": "street>boulevard S-N"
+    },
+    {
+     "file": "roads/transition/street-boulevard-3.png",
+     "label": "street>boulevard W-E"
+    },
+    {
+     "file": "roads/transition/alley-street-0.png",
+     "label": "alley>street N-S"
+    },
+    {
+     "file": "roads/transition/alley-street-1.png",
+     "label": "alley>street E-W"
+    },
+    {
+     "file": "roads/transition/alley-street-2.png",
+     "label": "alley>street S-N"
+    },
+    {
+     "file": "roads/transition/alley-street-3.png",
+     "label": "alley>street W-E"
+    },
+    {
+     "file": "roads/transition/gravel-street-0.png",
+     "label": "gravel>street N-S"
+    },
+    {
+     "file": "roads/transition/gravel-street-1.png",
+     "label": "gravel>street E-W"
+    },
+    {
+     "file": "roads/transition/gravel-street-2.png",
+     "label": "gravel>street S-N"
+    },
+    {
+     "file": "roads/transition/gravel-street-3.png",
+     "label": "gravel>street W-E"
+    },
+    {
+     "file": "roads/transition/street-alley-0.png",
+     "label": "street>alley N-S"
+    },
+    {
+     "file": "roads/transition/street-alley-1.png",
+     "label": "street>alley E-W"
+    },
+    {
+     "file": "roads/transition/street-alley-2.png",
+     "label": "street>alley S-N"
+    },
+    {
+     "file": "roads/transition/street-alley-3.png",
+     "label": "street>alley W-E"
+    }
+   ],
+   "note": "kerb tapers at 45 degrees; first class on the N/E/S/W side for rotations 0-3"
+  },
+  {
+   "title": "Junction control road paint",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "junction/paint-signal-street-1111.png",
+     "label": "signal stop lines street N+E+S+W"
+    },
+    {
+     "file": "junction/paint-signal-street-1110.png",
+     "label": "signal stop lines street N+E+S"
+    },
+    {
+     "file": "junction/paint-signal-avenue-1111.png",
+     "label": "signal stop lines avenue N+E+S+W"
+    },
+    {
+     "file": "junction/paint-stop-street-1111.png",
+     "label": "all-way stop street N+E+S+W"
+    },
+    {
+     "file": "junction/paint-stop-street-1110.png",
+     "label": "all-way stop street N+E+S"
+    },
+    {
+     "file": "junction/paint-stop-avenue-1111.png",
+     "label": "all-way stop avenue N+E+S+W"
+    },
+    {
+     "file": "junction/paint-yield-street-1111.png",
+     "label": "yield teeth street N+E+S+W"
+    },
+    {
+     "file": "junction/paint-yield-street-1110.png",
+     "label": "yield teeth street N+E+S"
+    },
+    {
+     "file": "junction/paint-yield-avenue-1111.png",
+     "label": "yield teeth avenue N+E+S+W"
+    },
+    {
+     "file": "junction/paint-mini-street-1111.png",
+     "label": "mini roundabout street N+E+S+W"
+    },
+    {
+     "file": "junction/paint-mini-street-1110.png",
+     "label": "mini roundabout street N+E+S"
+    },
+    {
+     "file": "junction/paint-mini-avenue-1111.png",
+     "label": "mini roundabout avenue N+E+S+W"
+    },
+    {
+     "file": "junction/ramp-N.png",
+     "label": "highway ramp N"
+    },
+    {
+     "file": "junction/ramp-E.png",
+     "label": "highway ramp E"
+    },
+    {
+     "file": "junction/ramp-S.png",
+     "label": "highway ramp S"
+    },
+    {
+     "file": "junction/ramp-W.png",
+     "label": "highway ramp W"
+    }
+   ]
+  },
+  {
+   "title": "Traffic signals: red, amber, green at each junction corner",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "junction/signal-red-SE-ctx.png",
+     "label": "red SE"
+    },
+    {
+     "file": "junction/signal-red-NE-ctx.png",
+     "label": "red NE"
+    },
+    {
+     "file": "junction/signal-red-NW-ctx.png",
+     "label": "red NW"
+    },
+    {
+     "file": "junction/signal-red-SW-ctx.png",
+     "label": "red SW"
+    },
+    {
+     "file": "junction/signal-amber-SE-ctx.png",
+     "label": "amber SE"
+    },
+    {
+     "file": "junction/signal-amber-NE-ctx.png",
+     "label": "amber NE"
+    },
+    {
+     "file": "junction/signal-amber-NW-ctx.png",
+     "label": "amber NW"
+    },
+    {
+     "file": "junction/signal-amber-SW-ctx.png",
+     "label": "amber SW"
+    },
+    {
+     "file": "junction/signal-green-SE-ctx.png",
+     "label": "green SE"
+    },
+    {
+     "file": "junction/signal-green-NE-ctx.png",
+     "label": "green NE"
+    },
+    {
+     "file": "junction/signal-green-NW-ctx.png",
+     "label": "green NW"
+    },
+    {
+     "file": "junction/signal-green-SW-ctx.png",
+     "label": "green SW"
+    }
+   ],
+   "note": "mast arm over the inbound lane; lenses face the approach, backs show on far corners"
+  },
+  {
+   "title": "Traffic signals at night + emissive '-lit' frames",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "junction/signal-red-SE-night.png",
+     "label": "red night"
+    },
+    {
+     "file": "junction/signal-red-SE-lit.png",
+     "label": "red lit frame"
+    },
+    {
+     "file": "junction/signal-amber-SE-night.png",
+     "label": "amber night"
+    },
+    {
+     "file": "junction/signal-amber-SE-lit.png",
+     "label": "amber lit frame"
+    },
+    {
+     "file": "junction/signal-green-SE-night.png",
+     "label": "green night"
+    },
+    {
+     "file": "junction/signal-green-SE-lit.png",
+     "label": "green lit frame"
+    }
+   ],
+   "bg": "dark"
+  },
+  {
+   "title": "Signs: stop, yield, one-way, no entry (4 corners)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "junction/sign-stop-SE-ctx.png",
+     "label": "stop SE"
+    },
+    {
+     "file": "junction/sign-stop-NE-ctx.png",
+     "label": "stop NE"
+    },
+    {
+     "file": "junction/sign-stop-NW-ctx.png",
+     "label": "stop NW"
+    },
+    {
+     "file": "junction/sign-stop-SW-ctx.png",
+     "label": "stop SW"
+    },
+    {
+     "file": "junction/sign-yield-SE-ctx.png",
+     "label": "yield SE"
+    },
+    {
+     "file": "junction/sign-yield-NE-ctx.png",
+     "label": "yield NE"
+    },
+    {
+     "file": "junction/sign-yield-NW-ctx.png",
+     "label": "yield NW"
+    },
+    {
+     "file": "junction/sign-yield-SW-ctx.png",
+     "label": "yield SW"
+    },
+    {
+     "file": "junction/sign-oneway-SE-ctx.png",
+     "label": "oneway SE"
+    },
+    {
+     "file": "junction/sign-oneway-NE-ctx.png",
+     "label": "oneway NE"
+    },
+    {
+     "file": "junction/sign-oneway-NW-ctx.png",
+     "label": "oneway NW"
+    },
+    {
+     "file": "junction/sign-oneway-SW-ctx.png",
+     "label": "oneway SW"
+    },
+    {
+     "file": "junction/sign-noentry-SE-ctx.png",
+     "label": "noentry SE"
+    },
+    {
+     "file": "junction/sign-noentry-NE-ctx.png",
+     "label": "noentry NE"
+    },
+    {
+     "file": "junction/sign-noentry-NW-ctx.png",
+     "label": "noentry NW"
+    },
+    {
+     "file": "junction/sign-noentry-SW-ctx.png",
+     "label": "noentry SW"
+    }
+   ]
+  },
+  {
+   "title": "Roundabout islands (ring cells are one-way street pieces)",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roundabout/island-1x1.png",
+     "label": "island 1x1"
+    },
+    {
+     "file": "roundabout/island-3x3-00.png",
+     "label": "island 3x3 (0,0)"
+    },
+    {
+     "file": "roundabout/island-3x3-10.png",
+     "label": "island 3x3 (1,0)"
+    },
+    {
+     "file": "roundabout/island-3x3-20.png",
+     "label": "island 3x3 (2,0)"
+    },
+    {
+     "file": "roundabout/island-3x3-01.png",
+     "label": "island 3x3 (0,1)"
+    },
+    {
+     "file": "roundabout/island-3x3-11.png",
+     "label": "island 3x3 (1,1)"
+    },
+    {
+     "file": "roundabout/island-3x3-21.png",
+     "label": "island 3x3 (2,1)"
+    },
+    {
+     "file": "roundabout/island-3x3-02.png",
+     "label": "island 3x3 (0,2)"
+    },
+    {
+     "file": "roundabout/island-3x3-12.png",
+     "label": "island 3x3 (1,2)"
+    },
+    {
+     "file": "roundabout/island-3x3-22.png",
+     "label": "island 3x3 (2,2)"
+    }
+   ]
+  },
+  {
+   "title": "Highway outside connection at the map edge",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/edge/highway-edge-N.png",
+     "label": "map edge N"
+    },
+    {
+     "file": "roads/edge/highway-edge-E.png",
+     "label": "map edge E"
+    },
+    {
+     "file": "roads/edge/highway-edge-S.png",
+     "label": "map edge S"
+    },
+    {
+     "file": "roads/edge/highway-edge-W.png",
+     "label": "map edge W"
+    }
+   ],
+   "note": "road fades into the map border; in/out arrows; a sign gantry prop stands on it"
+  },
+  {
+   "title": "Bridge over water: street (deck 8 px, abutment ramps)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "bridges/street-ns-end0.png",
+     "label": "NS ramp up"
+    },
+    {
+     "file": "bridges/street-ns-span.png",
+     "label": "NS span"
+    },
+    {
+     "file": "bridges/street-ns-pier.png",
+     "label": "NS pier"
+    },
+    {
+     "file": "bridges/street-ns-end1.png",
+     "label": "NS ramp down"
+    },
+    {
+     "file": "bridges/street-ew-end0.png",
+     "label": "EW ramp up"
+    },
+    {
+     "file": "bridges/street-ew-span.png",
+     "label": "EW span"
+    },
+    {
+     "file": "bridges/street-ew-pier.png",
+     "label": "EW pier"
+    },
+    {
+     "file": "bridges/street-ew-end1.png",
+     "label": "EW ramp down"
+    }
+   ]
+  },
+  {
+   "title": "Bridge over water: avenue (deck 8 px, abutment ramps)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "bridges/avenue-ns-end0.png",
+     "label": "NS ramp up"
+    },
+    {
+     "file": "bridges/avenue-ns-span.png",
+     "label": "NS span"
+    },
+    {
+     "file": "bridges/avenue-ns-pier.png",
+     "label": "NS pier"
+    },
+    {
+     "file": "bridges/avenue-ns-end1.png",
+     "label": "NS ramp down"
+    },
+    {
+     "file": "bridges/avenue-ew-end0.png",
+     "label": "EW ramp up"
+    },
+    {
+     "file": "bridges/avenue-ew-span.png",
+     "label": "EW span"
+    },
+    {
+     "file": "bridges/avenue-ew-pier.png",
+     "label": "EW pier"
+    },
+    {
+     "file": "bridges/avenue-ew-end1.png",
+     "label": "EW ramp down"
+    }
+   ]
+  },
+  {
+   "title": "Bridge over water: boulevard (deck 8 px, abutment ramps)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "bridges/boulevard-ns-end0.png",
+     "label": "NS ramp up"
+    },
+    {
+     "file": "bridges/boulevard-ns-span.png",
+     "label": "NS span"
+    },
+    {
+     "file": "bridges/boulevard-ns-pier.png",
+     "label": "NS pier"
+    },
+    {
+     "file": "bridges/boulevard-ns-end1.png",
+     "label": "NS ramp down"
+    },
+    {
+     "file": "bridges/boulevard-ew-end0.png",
+     "label": "EW ramp up"
+    },
+    {
+     "file": "bridges/boulevard-ew-span.png",
+     "label": "EW span"
+    },
+    {
+     "file": "bridges/boulevard-ew-pier.png",
+     "label": "EW pier"
+    },
+    {
+     "file": "bridges/boulevard-ew-end1.png",
+     "label": "EW ramp down"
+    }
+   ]
+  },
+  {
+   "title": "Bridge over water: highway (deck 8 px, abutment ramps)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "bridges/highway-ns-end0.png",
+     "label": "NS ramp up"
+    },
+    {
+     "file": "bridges/highway-ns-span.png",
+     "label": "NS span"
+    },
+    {
+     "file": "bridges/highway-ns-pier.png",
+     "label": "NS pier"
+    },
+    {
+     "file": "bridges/highway-ns-end1.png",
+     "label": "NS ramp down"
+    },
+    {
+     "file": "bridges/highway-ew-end0.png",
+     "label": "EW ramp up"
+    },
+    {
+     "file": "bridges/highway-ew-span.png",
+     "label": "EW span"
+    },
+    {
+     "file": "bridges/highway-ew-pier.png",
+     "label": "EW pier"
+    },
+    {
+     "file": "bridges/highway-ew-end1.png",
+     "label": "EW ramp down"
+    }
+   ]
+  },
+  {
+   "title": "Elevated highway concept (deck 24 px, 2-cell ramps)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "bridges/overpass-ns-rampA0.png",
+     "label": "NS ramp 0-12"
+    },
+    {
+     "file": "bridges/overpass-ns-rampB0.png",
+     "label": "NS ramp 12-24"
+    },
+    {
+     "file": "bridges/overpass-ns-span.png",
+     "label": "NS span"
+    },
+    {
+     "file": "bridges/overpass-ns-pier.png",
+     "label": "NS T-pier"
+    },
+    {
+     "file": "bridges/overpass-ew-rampA0.png",
+     "label": "EW ramp 0-12"
+    },
+    {
+     "file": "bridges/overpass-ew-rampB0.png",
+     "label": "EW ramp 12-24"
+    },
+    {
+     "file": "bridges/overpass-ew-span.png",
+     "label": "EW span"
+    },
+    {
+     "file": "bridges/overpass-ew-pier.png",
+     "label": "EW T-pier"
+    }
+   ],
+   "note": "idea for overpasses/interchanges; the engine has no elevation yet"
+  },
+  {
+   "title": "Street lamps (day)",
+   "columns": 7,
+   "scale": 2,
+   "items": [
+    {
+     "file": "furniture/lamp-E-ctx.png",
+     "label": "lamp E side"
+    },
+    {
+     "file": "furniture/lamp-N-ctx.png",
+     "label": "lamp N side"
+    },
+    {
+     "file": "furniture/lamp-W-ctx.png",
+     "label": "lamp W side"
+    },
+    {
+     "file": "furniture/lamp-S-ctx.png",
+     "label": "lamp S side"
+    },
+    {
+     "file": "furniture/lamp-double-ns.png",
+     "label": "median double N-S"
+    },
+    {
+     "file": "furniture/lamp-double-ew.png",
+     "label": "median double E-W"
+    },
+    {
+     "file": "furniture/lamp-heritage.png",
+     "label": "heritage lantern"
+    }
+   ]
+  },
+  {
+   "title": "Street lamps at night: sprite, emissive '-lit' frame, ground light pool",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "furniture/lamp-E-night.png",
+     "label": "night E"
+    },
+    {
+     "file": "furniture/lamp-E-lit.png",
+     "label": "lit frame E"
+    },
+    {
+     "file": "furniture/lightpool-E.png",
+     "label": "light pool E"
+    },
+    {
+     "file": "furniture/lamp-N-night.png",
+     "label": "night N"
+    },
+    {
+     "file": "furniture/lamp-N-lit.png",
+     "label": "lit frame N"
+    },
+    {
+     "file": "furniture/lightpool-N.png",
+     "label": "light pool N"
+    },
+    {
+     "file": "furniture/lamp-W-night.png",
+     "label": "night W"
+    },
+    {
+     "file": "furniture/lamp-W-lit.png",
+     "label": "lit frame W"
+    },
+    {
+     "file": "furniture/lightpool-W.png",
+     "label": "light pool W"
+    },
+    {
+     "file": "furniture/lamp-S-night.png",
+     "label": "night S"
+    },
+    {
+     "file": "furniture/lamp-S-lit.png",
+     "label": "lit frame S"
+    },
+    {
+     "file": "furniture/lightpool-S.png",
+     "label": "light pool S"
+    },
+    {
+     "file": "furniture/lamp-heritage-night.png",
+     "label": "heritage night"
+    }
+   ],
+   "note": "light pools are separate emissive ground frames drawn after the night tint",
+   "bg": "dark"
+  },
+  {
+   "title": "Transit stops: bus shelter, tram platform, taxi stand, metro entrance",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "stops/bus-E-ctx.png",
+     "label": "bus stop E"
+    },
+    {
+     "file": "stops/bus-N-ctx.png",
+     "label": "bus stop N"
+    },
+    {
+     "file": "stops/bus-W-ctx.png",
+     "label": "bus stop W"
+    },
+    {
+     "file": "stops/bus-S-ctx.png",
+     "label": "bus stop S"
+    },
+    {
+     "file": "stops/tram-E-ctx.png",
+     "label": "tram stop E"
+    },
+    {
+     "file": "stops/tram-N-ctx.png",
+     "label": "tram stop N"
+    },
+    {
+     "file": "stops/tram-W-ctx.png",
+     "label": "tram stop W"
+    },
+    {
+     "file": "stops/tram-S-ctx.png",
+     "label": "tram stop S"
+    },
+    {
+     "file": "stops/taxi-E-ctx.png",
+     "label": "taxi stand E"
+    },
+    {
+     "file": "stops/taxi-N-ctx.png",
+     "label": "taxi stand N"
+    },
+    {
+     "file": "stops/taxi-W-ctx.png",
+     "label": "taxi stand W"
+    },
+    {
+     "file": "stops/taxi-S-ctx.png",
+     "label": "taxi stand S"
+    },
+    {
+     "file": "stops/metro-entrance-0-ctx.png",
+     "label": "metro entrance f0"
+    },
+    {
+     "file": "stops/metro-entrance-1-ctx.png",
+     "label": "metro entrance f1"
+    },
+    {
+     "file": "stops/metro-entrance-2-ctx.png",
+     "label": "metro entrance f2"
+    },
+    {
+     "file": "stops/metro-entrance-3-ctx.png",
+     "label": "metro entrance f3"
+    },
+    {
+     "file": "stops/bus-E-night.png",
+     "label": "bus stop night"
+    },
+    {
+     "file": "stops/metro-entrance-night.png",
+     "label": "metro night"
+    }
+   ],
+   "note": "E/N/W/S = sidewalk side of the road cell"
+  },
+  {
+   "title": "Street furniture and road structures",
+   "columns": 7,
+   "scale": 2,
+   "items": [
+    {
+     "file": "furniture/bench.png",
+     "label": "bench"
+    },
+    {
+     "file": "furniture/bin.png",
+     "label": "bin"
+    },
+    {
+     "file": "furniture/hydrant.png",
+     "label": "hydrant"
+    },
+    {
+     "file": "furniture/mailbox.png",
+     "label": "mailbox"
+    },
+    {
+     "file": "furniture/bollards.png",
+     "label": "bollards"
+    },
+    {
+     "file": "furniture/tree.png",
+     "label": "tree"
+    },
+    {
+     "file": "furniture/planter.png",
+     "label": "planter"
+    },
+    {
+     "file": "furniture/sound-barrier-E.png",
+     "label": "sound wall E"
+    },
+    {
+     "file": "furniture/guard-rail-E.png",
+     "label": "guard rail E"
+    },
+    {
+     "file": "furniture/sound-barrier-N.png",
+     "label": "sound wall N"
+    },
+    {
+     "file": "furniture/guard-rail-N.png",
+     "label": "guard rail N"
+    },
+    {
+     "file": "furniture/gantry-ns.png",
+     "label": "highway gantry NS"
+    },
+    {
+     "file": "furniture/gantry-ew.png",
+     "label": "highway gantry EW"
+    }
+   ]
+  },
+  {
+   "title": "Road add-ons on a street (strips: trees, lights, barrier, parking)",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "addons/street-trees.png",
+     "label": "trees"
+    },
+    {
+     "file": "addons/street-lights.png",
+     "label": "lights"
+    },
+    {
+     "file": "addons/street-barrier.png",
+     "label": "sound barrier"
+    },
+    {
+     "file": "addons/street-parking.png",
+     "label": "parking"
+    },
+    {
+     "file": "addons/street-all.png",
+     "label": "trees+lights+parking"
+    },
+    {
+     "file": "addons/boulevard-median.png",
+     "label": "boulevard median trees"
+    },
+    {
+     "file": "addons/boulevard-median-lamps.png",
+     "label": "boulevard median lamps"
+    },
+    {
+     "file": "addons/avenue-trees-lights.png",
+     "label": "avenue trees+lights"
+    }
+   ]
+  },
+  {
+   "title": "Bus lanes (red) and bike lanes (green)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "lanes/bus-street-1010.png",
+     "label": "bus street N+S"
+    },
+    {
+     "file": "lanes/bus-street-1100.png",
+     "label": "bus street N+E"
+    },
+    {
+     "file": "lanes/bus-street-1110.png",
+     "label": "bus street N+E+S"
+    },
+    {
+     "file": "lanes/bus-street-1111.png",
+     "label": "bus street N+E+S+W"
+    },
+    {
+     "file": "lanes/bus-avenue-1010.png",
+     "label": "bus avenue N+S"
+    },
+    {
+     "file": "lanes/bus-avenue-1100.png",
+     "label": "bus avenue N+E"
+    },
+    {
+     "file": "lanes/bus-avenue-1110.png",
+     "label": "bus avenue N+E+S"
+    },
+    {
+     "file": "lanes/bus-avenue-1111.png",
+     "label": "bus avenue N+E+S+W"
+    },
+    {
+     "file": "lanes/bus-boulevard-1010.png",
+     "label": "bus boulevard N+S"
+    },
+    {
+     "file": "lanes/bus-boulevard-1100.png",
+     "label": "bus boulevard N+E"
+    },
+    {
+     "file": "lanes/bus-boulevard-1110.png",
+     "label": "bus boulevard N+E+S"
+    },
+    {
+     "file": "lanes/bus-boulevard-1111.png",
+     "label": "bus boulevard N+E+S+W"
+    },
+    {
+     "file": "lanes/bike-street-1010.png",
+     "label": "bike street N+S"
+    },
+    {
+     "file": "lanes/bike-street-1100.png",
+     "label": "bike street N+E"
+    },
+    {
+     "file": "lanes/bike-street-1110.png",
+     "label": "bike street N+E+S"
+    },
+    {
+     "file": "lanes/bike-street-1111.png",
+     "label": "bike street N+E+S+W"
+    },
+    {
+     "file": "lanes/bike-avenue-1010.png",
+     "label": "bike avenue N+S"
+    },
+    {
+     "file": "lanes/bike-avenue-1100.png",
+     "label": "bike avenue N+E"
+    },
+    {
+     "file": "lanes/bike-avenue-1110.png",
+     "label": "bike avenue N+E+S"
+    },
+    {
+     "file": "lanes/bike-avenue-1111.png",
+     "label": "bike avenue N+E+S+W"
+    }
+   ]
+  },
+  {
+   "title": "Tram track in the road: avenue all 16 masks, street samples",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "lanes/tram-avenue-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "lanes/tram-avenue-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "lanes/tram-avenue-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "lanes/tram-avenue-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "lanes/tram-avenue-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "lanes/tram-avenue-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "lanes/tram-avenue-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "lanes/tram-avenue-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "lanes/tram-avenue-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "lanes/tram-avenue-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "lanes/tram-avenue-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "lanes/tram-avenue-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "lanes/tram-avenue-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "lanes/tram-avenue-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "lanes/tram-avenue-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "lanes/tram-avenue-1111.png",
+     "label": "N+E+S+W"
+    },
+    {
+     "file": "lanes/tram-street-1010.png",
+     "label": "street N+S"
+    },
+    {
+     "file": "lanes/tram-street-0101.png",
+     "label": "street E+W"
+    },
+    {
+     "file": "lanes/tram-street-1100.png",
+     "label": "street N+E"
+    },
+    {
+     "file": "lanes/tram-street-0110.png",
+     "label": "street E+S"
+    },
+    {
+     "file": "lanes/tram-street-0011.png",
+     "label": "street S+W"
+    },
+    {
+     "file": "lanes/tram-street-1001.png",
+     "label": "street N+W"
+    },
+    {
+     "file": "lanes/tram-street-1110.png",
+     "label": "street N+E+S"
+    },
+    {
+     "file": "lanes/tram-street-1111.png",
+     "label": "street N+E+S+W"
+    }
+   ]
+  },
+  {
+   "title": "Rail track: 16 masks (switches at T), road crossings",
+   "columns": 9,
+   "scale": 2,
+   "items": [
+    {
+     "file": "rail/rail-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "rail/rail-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "rail/rail-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "rail/rail-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "rail/rail-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "rail/rail-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "rail/rail-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "rail/rail-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "rail/rail-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "rail/rail-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "rail/rail-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "rail/rail-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "rail/rail-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "rail/rail-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "rail/rail-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "rail/rail-1111.png",
+     "label": "N+E+S+W"
+    },
+    {
+     "file": "rail/crossing-rail-ns.png",
+     "label": "level crossing, rail N-S"
+    },
+    {
+     "file": "rail/crossing-rail-ew.png",
+     "label": "level crossing, rail E-W"
+    }
+   ]
+  },
+  {
+   "title": "Rail props: buffer stops, crossing gates (flashing, 2 frames), signals, catenary",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "rail/buffer-E.png",
+     "label": "buffer stop arm N"
+    },
+    {
+     "file": "rail/buffer-N.png",
+     "label": "buffer stop arm W"
+    },
+    {
+     "file": "rail/buffer-W.png",
+     "label": "buffer stop arm S"
+    },
+    {
+     "file": "rail/buffer-S.png",
+     "label": "buffer stop arm E"
+    },
+    {
+     "file": "rail/crossing-gate-down-0.png",
+     "label": "gate down f0"
+    },
+    {
+     "file": "rail/crossing-gate-down-1.png",
+     "label": "gate down f1"
+    },
+    {
+     "file": "rail/crossing-gate-up-0.png",
+     "label": "gate up f0"
+    },
+    {
+     "file": "rail/crossing-gate-up-1.png",
+     "label": "gate up f1"
+    },
+    {
+     "file": "rail/crossing-gate-down-strip.png",
+     "label": "2 frames"
+    },
+    {
+     "file": "rail/signal-red.png",
+     "label": "signal red"
+    },
+    {
+     "file": "rail/signal-green.png",
+     "label": "signal green"
+    },
+    {
+     "file": "rail/catenary-ns.png",
+     "label": "catenary NS"
+    },
+    {
+     "file": "rail/catenary-ew.png",
+     "label": "catenary EW"
+    }
+   ]
+  },
+  {
+   "title": "Water pipes (underground view): 16 masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "util/pipe-water-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "util/pipe-water-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "util/pipe-water-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "util/pipe-water-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "util/pipe-water-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "util/pipe-water-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "util/pipe-water-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "util/pipe-water-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "util/pipe-water-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "util/pipe-water-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "util/pipe-water-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "util/pipe-water-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "util/pipe-water-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "util/pipe-water-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "util/pipe-water-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "util/pipe-water-1111.png",
+     "label": "N+E+S+W"
+    }
+   ]
+  },
+  {
+   "title": "Sewage pipes (underground view): 16 masks",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "util/pipe-sewage-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "util/pipe-sewage-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "util/pipe-sewage-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "util/pipe-sewage-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "util/pipe-sewage-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "util/pipe-sewage-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "util/pipe-sewage-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "util/pipe-sewage-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "util/pipe-sewage-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "util/pipe-sewage-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "util/pipe-sewage-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "util/pipe-sewage-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "util/pipe-sewage-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "util/pipe-sewage-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "util/pipe-sewage-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "util/pipe-sewage-1111.png",
+     "label": "N+E+S+W"
+    }
+   ]
+  },
+  {
+   "title": "High-voltage pylons: 16 masks (wires meet at edge midpoints)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "util/power-hv-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "util/power-hv-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "util/power-hv-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "util/power-hv-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "util/power-hv-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "util/power-hv-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "util/power-hv-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "util/power-hv-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "util/power-hv-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "util/power-hv-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "util/power-hv-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "util/power-hv-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "util/power-hv-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "util/power-hv-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "util/power-hv-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "util/power-hv-1111.png",
+     "label": "N+E+S+W"
+    }
+   ]
+  },
+  {
+   "title": "Wooden distribution poles: 16 masks (wires meet at edge midpoints)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "util/power-lv-0000.png",
+     "label": "isolated"
+    },
+    {
+     "file": "util/power-lv-1000.png",
+     "label": "N"
+    },
+    {
+     "file": "util/power-lv-0100.png",
+     "label": "E"
+    },
+    {
+     "file": "util/power-lv-1100.png",
+     "label": "N+E"
+    },
+    {
+     "file": "util/power-lv-0010.png",
+     "label": "S"
+    },
+    {
+     "file": "util/power-lv-1010.png",
+     "label": "N+S"
+    },
+    {
+     "file": "util/power-lv-0110.png",
+     "label": "E+S"
+    },
+    {
+     "file": "util/power-lv-1110.png",
+     "label": "N+E+S"
+    },
+    {
+     "file": "util/power-lv-0001.png",
+     "label": "W"
+    },
+    {
+     "file": "util/power-lv-1001.png",
+     "label": "N+W"
+    },
+    {
+     "file": "util/power-lv-0101.png",
+     "label": "E+W"
+    },
+    {
+     "file": "util/power-lv-1101.png",
+     "label": "N+E+W"
+    },
+    {
+     "file": "util/power-lv-0011.png",
+     "label": "S+W"
+    },
+    {
+     "file": "util/power-lv-1011.png",
+     "label": "N+S+W"
+    },
+    {
+     "file": "util/power-lv-0111.png",
+     "label": "E+S+W"
+    },
+    {
+     "file": "util/power-lv-1111.png",
+     "label": "N+E+S+W"
+    }
+   ]
+  },
+  {
+   "title": "Network buildings: transformer 2x2, battery, sewage outlet, treatment plant 2x2 (day / night)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "buildings/transformer.png",
+     "label": "transformer"
+    },
+    {
+     "file": "buildings/transformer-night.png",
+     "label": "transformer night"
+    },
+    {
+     "file": "buildings/battery.png",
+     "label": "battery"
+    },
+    {
+     "file": "buildings/battery-night.png",
+     "label": "battery night"
+    },
+    {
+     "file": "buildings/sewage-outlet.png",
+     "label": "sewage-outlet"
+    },
+    {
+     "file": "buildings/sewage-outlet-night.png",
+     "label": "sewage-outlet night"
+    },
+    {
+     "file": "buildings/treatment-plant.png",
+     "label": "treatment-plant"
+    },
+    {
+     "file": "buildings/treatment-plant-night.png",
+     "label": "treatment-plant night"
+    }
+   ],
+   "bg": "dark"
+  },
+  {
+   "title": "Treatment plant: 4 facings",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "buildings/treatment-plant-f0.png",
+     "label": "facing 0"
+    },
+    {
+     "file": "buildings/treatment-plant-f1.png",
+     "label": "facing 1"
+    },
+    {
+     "file": "buildings/treatment-plant-f2.png",
+     "label": "facing 2"
+    },
+    {
+     "file": "buildings/treatment-plant-f3.png",
+     "label": "facing 3"
+    },
+    {
+     "file": "buildings/treatment-plant-facings-strip.png",
+     "label": "4 facings strip"
+    }
+   ]
+  },
+  {
+   "title": "Parking lot surfaces",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "parking/lot-stalls-N.png",
+     "label": "stalls N half"
+    },
+    {
+     "file": "parking/lot-stalls-E.png",
+     "label": "stalls E half"
+    },
+    {
+     "file": "parking/lot-stalls-S.png",
+     "label": "stalls S half"
+    },
+    {
+     "file": "parking/lot-stalls-W.png",
+     "label": "stalls W half"
+    },
+    {
+     "file": "parking/lot-aisle.png",
+     "label": "aisle"
+    },
+    {
+     "file": "parking/lot-island.png",
+     "label": "planter"
+    },
+    {
+     "file": "parking/lot-stalls-N-edge.png",
+     "label": "stalls N + hedge"
+    },
+    {
+     "file": "parking/lot-stalls-E-edge.png",
+     "label": "stalls E + hedge"
+    },
+    {
+     "file": "parking/lot-stalls-S-edge.png",
+     "label": "stalls S + hedge"
+    },
+    {
+     "file": "parking/lot-stalls-W-edge.png",
+     "label": "stalls W + hedge"
+    }
+   ],
+   "note": "two stall-row cells back to back make a double row"
+  },
+  {
+   "title": "Parking lots with parked cars (occupancy 0-3)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "parking/lot-N-cars0.png",
+     "label": "N 0 cars"
+    },
+    {
+     "file": "parking/lot-N-cars1.png",
+     "label": "N 1 cars"
+    },
+    {
+     "file": "parking/lot-N-cars2.png",
+     "label": "N 2 cars"
+    },
+    {
+     "file": "parking/lot-N-cars3.png",
+     "label": "N 3 cars"
+    },
+    {
+     "file": "parking/lot-E-cars0.png",
+     "label": "E 0 cars"
+    },
+    {
+     "file": "parking/lot-E-cars1.png",
+     "label": "E 1 cars"
+    },
+    {
+     "file": "parking/lot-E-cars2.png",
+     "label": "E 2 cars"
+    },
+    {
+     "file": "parking/lot-E-cars3.png",
+     "label": "E 3 cars"
+    },
+    {
+     "file": "parking/lot-S-cars0.png",
+     "label": "S 0 cars"
+    },
+    {
+     "file": "parking/lot-S-cars1.png",
+     "label": "S 1 cars"
+    },
+    {
+     "file": "parking/lot-S-cars2.png",
+     "label": "S 2 cars"
+    },
+    {
+     "file": "parking/lot-S-cars3.png",
+     "label": "S 3 cars"
+    },
+    {
+     "file": "parking/lot-W-cars0.png",
+     "label": "W 0 cars"
+    },
+    {
+     "file": "parking/lot-W-cars1.png",
+     "label": "W 1 cars"
+    },
+    {
+     "file": "parking/lot-W-cars2.png",
+     "label": "W 2 cars"
+    },
+    {
+     "file": "parking/lot-W-cars3.png",
+     "label": "W 3 cars"
+    }
+   ]
+  },
+  {
+   "title": "Zone tiles: active",
+   "note": "50% dither tint + cell-space pattern + 2q inset cell border; one pattern per zone so they read without colour",
+   "columns": 7,
+   "scale": 2,
+   "items": [
+    {
+     "file": "zones/dezone.png",
+     "label": "Dezone"
+    },
+    {
+     "file": "zones/res-low.png",
+     "label": "Res low"
+    },
+    {
+     "file": "zones/res-medium.png",
+     "label": "Res med"
+    },
+    {
+     "file": "zones/res-high.png",
+     "label": "Res high"
+    },
+    {
+     "file": "zones/res-row.png",
+     "label": "Res row"
+    },
+    {
+     "file": "zones/res-mixed.png",
+     "label": "Res mixed"
+    },
+    {
+     "file": "zones/res-lowrent.png",
+     "label": "Low rent"
+    },
+    {
+     "file": "zones/com-low.png",
+     "label": "Com low"
+    },
+    {
+     "file": "zones/com-high.png",
+     "label": "Com high"
+    },
+    {
+     "file": "zones/industrial.png",
+     "label": "Industrial"
+    },
+    {
+     "file": "zones/warehouse.png",
+     "label": "Warehouse"
+    },
+    {
+     "file": "zones/office.png",
+     "label": "Office"
+    },
+    {
+     "file": "zones/office-high.png",
+     "label": "Office high"
+    },
+    {
+     "file": "zones/invalid.png",
+     "label": "Invalid"
+    }
+   ]
+  },
+  {
+   "title": "Zone tiles: idle",
+   "note": "Border + sparse pattern, 25% dither (zone brush not active)",
+   "columns": 7,
+   "scale": 2,
+   "items": [
+    {
+     "file": "zones/dezone-idle.png",
+     "label": "Dezone"
+    },
+    {
+     "file": "zones/res-low-idle.png",
+     "label": "Res low"
+    },
+    {
+     "file": "zones/res-medium-idle.png",
+     "label": "Res med"
+    },
+    {
+     "file": "zones/res-high-idle.png",
+     "label": "Res high"
+    },
+    {
+     "file": "zones/res-row-idle.png",
+     "label": "Res row"
+    },
+    {
+     "file": "zones/res-mixed-idle.png",
+     "label": "Res mixed"
+    },
+    {
+     "file": "zones/res-lowrent-idle.png",
+     "label": "Low rent"
+    },
+    {
+     "file": "zones/com-low-idle.png",
+     "label": "Com low"
+    },
+    {
+     "file": "zones/com-high-idle.png",
+     "label": "Com high"
+    },
+    {
+     "file": "zones/industrial-idle.png",
+     "label": "Industrial"
+    },
+    {
+     "file": "zones/warehouse-idle.png",
+     "label": "Warehouse"
+    },
+    {
+     "file": "zones/office-idle.png",
+     "label": "Office"
+    },
+    {
+     "file": "zones/office-high-idle.png",
+     "label": "Office high"
+    },
+    {
+     "file": "zones/invalid-idle.png",
+     "label": "Invalid"
+    }
+   ]
+  },
+  {
+   "title": "Tool markers and drag path",
+   "note": "Dither fill, solid outline, bright corner brackets; select = marching ants; path = ghost + direction arrow",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "markers/valid.png",
+     "label": "Valid"
+    },
+    {
+     "file": "markers/invalid.png",
+     "label": "Invalid"
+    },
+    {
+     "file": "markers/neutral.png",
+     "label": "Existing"
+    },
+    {
+     "file": "markers/replace.png",
+     "label": "Replace"
+    },
+    {
+     "file": "markers/remove.png",
+     "label": "Remove"
+    },
+    {
+     "file": "markers/bulldoze.png",
+     "label": "Bulldoze"
+    },
+    {
+     "file": "markers/select-0.png",
+     "label": "Select f1"
+    },
+    {
+     "file": "markers/select-1.png",
+     "label": "Select f2"
+    },
+    {
+     "file": "markers/select-strip.png",
+     "label": "Select 2 frames"
+    },
+    {
+     "file": "markers/grid.png",
+     "label": "Grid tile"
+    },
+    {
+     "file": "markers/path-n.png",
+     "label": "Path N"
+    },
+    {
+     "file": "markers/path-e.png",
+     "label": "Path E"
+    },
+    {
+     "file": "markers/path-s.png",
+     "label": "Path S"
+    },
+    {
+     "file": "markers/path-w.png",
+     "label": "Path W"
+    }
+   ]
+  },
+  {
+   "title": "Building footprint previews",
+   "note": "Multi-cell diamonds ((w+h)*32 x (w+h)*16), dashed outline, faint cell grid",
+   "columns": 2,
+   "scale": 2,
+   "items": [
+    {
+     "file": "markers/footprint-1x1-ok.png",
+     "label": "1x1 valid"
+    },
+    {
+     "file": "markers/footprint-1x1-bad.png",
+     "label": "1x1 invalid"
+    },
+    {
+     "file": "markers/footprint-2x2-ok.png",
+     "label": "2x2 valid"
+    },
+    {
+     "file": "markers/footprint-2x2-bad.png",
+     "label": "2x2 invalid"
+    },
+    {
+     "file": "markers/footprint-3x3-ok.png",
+     "label": "3x3 valid"
+    },
+    {
+     "file": "markers/footprint-3x3-bad.png",
+     "label": "3x3 invalid"
+    }
+   ]
+  },
+  {
+   "title": "Info view: Good ramp (0..100)",
+   "note": "11 level tiles, no outline (neighbours merge); dither density follows the ramp",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "infoviews/good-000.png",
+     "label": "Good 0"
+    },
+    {
+     "file": "infoviews/good-010.png",
+     "label": "Good 10"
+    },
+    {
+     "file": "infoviews/good-020.png",
+     "label": "Good 20"
+    },
+    {
+     "file": "infoviews/good-030.png",
+     "label": "Good 30"
+    },
+    {
+     "file": "infoviews/good-040.png",
+     "label": "Good 40"
+    },
+    {
+     "file": "infoviews/good-050.png",
+     "label": "Good 50"
+    },
+    {
+     "file": "infoviews/good-060.png",
+     "label": "Good 60"
+    },
+    {
+     "file": "infoviews/good-070.png",
+     "label": "Good 70"
+    },
+    {
+     "file": "infoviews/good-080.png",
+     "label": "Good 80"
+    },
+    {
+     "file": "infoviews/good-090.png",
+     "label": "Good 90"
+    },
+    {
+     "file": "infoviews/good-100.png",
+     "label": "Good 100"
+    }
+   ]
+  },
+  {
+   "title": "Info view: Pollution ramp (0..100)",
+   "note": "11 level tiles, no outline (neighbours merge); dither density follows the ramp",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "infoviews/pollution-000.png",
+     "label": "Pollution 0"
+    },
+    {
+     "file": "infoviews/pollution-010.png",
+     "label": "Pollution 10"
+    },
+    {
+     "file": "infoviews/pollution-020.png",
+     "label": "Pollution 20"
+    },
+    {
+     "file": "infoviews/pollution-030.png",
+     "label": "Pollution 30"
+    },
+    {
+     "file": "infoviews/pollution-040.png",
+     "label": "Pollution 40"
+    },
+    {
+     "file": "infoviews/pollution-050.png",
+     "label": "Pollution 50"
+    },
+    {
+     "file": "infoviews/pollution-060.png",
+     "label": "Pollution 60"
+    },
+    {
+     "file": "infoviews/pollution-070.png",
+     "label": "Pollution 70"
+    },
+    {
+     "file": "infoviews/pollution-080.png",
+     "label": "Pollution 80"
+    },
+    {
+     "file": "infoviews/pollution-090.png",
+     "label": "Pollution 90"
+    },
+    {
+     "file": "infoviews/pollution-100.png",
+     "label": "Pollution 100"
+    }
+   ]
+  },
+  {
+   "title": "Info view: Blue ramp (0..100)",
+   "note": "11 level tiles, no outline (neighbours merge); dither density follows the ramp",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "infoviews/blue-000.png",
+     "label": "Blue 0"
+    },
+    {
+     "file": "infoviews/blue-010.png",
+     "label": "Blue 10"
+    },
+    {
+     "file": "infoviews/blue-020.png",
+     "label": "Blue 20"
+    },
+    {
+     "file": "infoviews/blue-030.png",
+     "label": "Blue 30"
+    },
+    {
+     "file": "infoviews/blue-040.png",
+     "label": "Blue 40"
+    },
+    {
+     "file": "infoviews/blue-050.png",
+     "label": "Blue 50"
+    },
+    {
+     "file": "infoviews/blue-060.png",
+     "label": "Blue 60"
+    },
+    {
+     "file": "infoviews/blue-070.png",
+     "label": "Blue 70"
+    },
+    {
+     "file": "infoviews/blue-080.png",
+     "label": "Blue 80"
+    },
+    {
+     "file": "infoviews/blue-090.png",
+     "label": "Blue 90"
+    },
+    {
+     "file": "infoviews/blue-100.png",
+     "label": "Blue 100"
+    }
+   ]
+  },
+  {
+   "title": "Info view: Green ramp (0..100)",
+   "note": "11 level tiles, no outline (neighbours merge); dither density follows the ramp",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "infoviews/green-000.png",
+     "label": "Green 0"
+    },
+    {
+     "file": "infoviews/green-010.png",
+     "label": "Green 10"
+    },
+    {
+     "file": "infoviews/green-020.png",
+     "label": "Green 20"
+    },
+    {
+     "file": "infoviews/green-030.png",
+     "label": "Green 30"
+    },
+    {
+     "file": "infoviews/green-040.png",
+     "label": "Green 40"
+    },
+    {
+     "file": "infoviews/green-050.png",
+     "label": "Green 50"
+    },
+    {
+     "file": "infoviews/green-060.png",
+     "label": "Green 60"
+    },
+    {
+     "file": "infoviews/green-070.png",
+     "label": "Green 70"
+    },
+    {
+     "file": "infoviews/green-080.png",
+     "label": "Green 80"
+    },
+    {
+     "file": "infoviews/green-090.png",
+     "label": "Green 90"
+    },
+    {
+     "file": "infoviews/green-100.png",
+     "label": "Green 100"
+    }
+   ]
+  },
+  {
+   "title": "Info view: category colours",
+   "note": "16 categories, 60% dither",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "infoviews/category-00.png",
+     "label": "Cat 1"
+    },
+    {
+     "file": "infoviews/category-01.png",
+     "label": "Cat 2"
+    },
+    {
+     "file": "infoviews/category-02.png",
+     "label": "Cat 3"
+    },
+    {
+     "file": "infoviews/category-03.png",
+     "label": "Cat 4"
+    },
+    {
+     "file": "infoviews/category-04.png",
+     "label": "Cat 5"
+    },
+    {
+     "file": "infoviews/category-05.png",
+     "label": "Cat 6"
+    },
+    {
+     "file": "infoviews/category-06.png",
+     "label": "Cat 7"
+    },
+    {
+     "file": "infoviews/category-07.png",
+     "label": "Cat 8"
+    },
+    {
+     "file": "infoviews/category-08.png",
+     "label": "Cat 9"
+    },
+    {
+     "file": "infoviews/category-09.png",
+     "label": "Cat 10"
+    },
+    {
+     "file": "infoviews/category-10.png",
+     "label": "Cat 11"
+    },
+    {
+     "file": "infoviews/category-11.png",
+     "label": "Cat 12"
+    },
+    {
+     "file": "infoviews/category-12.png",
+     "label": "Cat 13"
+    },
+    {
+     "file": "infoviews/category-13.png",
+     "label": "Cat 14"
+    },
+    {
+     "file": "infoviews/category-14.png",
+     "label": "Cat 15"
+    },
+    {
+     "file": "infoviews/category-15.png",
+     "label": "Cat 16"
+    }
+   ]
+  },
+  {
+   "title": "Info view: resource richness",
+   "note": "6 hues x 3 richness levels (dither density 30/55/80%)",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "infoviews/resource-yellow-1.png",
+     "label": "Yellow 1"
+    },
+    {
+     "file": "infoviews/resource-yellow-2.png",
+     "label": "Yellow 2"
+    },
+    {
+     "file": "infoviews/resource-yellow-3.png",
+     "label": "Yellow 3"
+    },
+    {
+     "file": "infoviews/resource-green-1.png",
+     "label": "Green 1"
+    },
+    {
+     "file": "infoviews/resource-green-2.png",
+     "label": "Green 2"
+    },
+    {
+     "file": "infoviews/resource-green-3.png",
+     "label": "Green 3"
+    },
+    {
+     "file": "infoviews/resource-blue-1.png",
+     "label": "Blue 1"
+    },
+    {
+     "file": "infoviews/resource-blue-2.png",
+     "label": "Blue 2"
+    },
+    {
+     "file": "infoviews/resource-blue-3.png",
+     "label": "Blue 3"
+    },
+    {
+     "file": "infoviews/resource-coal-1.png",
+     "label": "Coal 1"
+    },
+    {
+     "file": "infoviews/resource-coal-2.png",
+     "label": "Coal 2"
+    },
+    {
+     "file": "infoviews/resource-coal-3.png",
+     "label": "Coal 3"
+    },
+    {
+     "file": "infoviews/resource-stone-1.png",
+     "label": "Stone 1"
+    },
+    {
+     "file": "infoviews/resource-stone-2.png",
+     "label": "Stone 2"
+    },
+    {
+     "file": "infoviews/resource-stone-3.png",
+     "label": "Stone 3"
+    },
+    {
+     "file": "infoviews/resource-cyan-1.png",
+     "label": "Cyan 1"
+    },
+    {
+     "file": "infoviews/resource-cyan-2.png",
+     "label": "Cyan 2"
+    },
+    {
+     "file": "infoviews/resource-cyan-3.png",
+     "label": "Cyan 3"
+    }
+   ]
+  },
+  {
+   "title": "Smooth gradient demo: 6x6 cells",
+   "note": "Corner values shared between cells, bilinear + Bayer dither between ramp steps: no cell seams",
+   "columns": 2,
+   "scale": 1,
+   "items": [
+    {
+     "file": "infoviews/gradient-good-6x6.png",
+     "label": "Good 6x6 field"
+    },
+    {
+     "file": "infoviews/gradient-pollution-6x6.png",
+     "label": "Pollution 6x6 field"
+    }
+   ]
+  },
+  {
+   "title": "Smooth gradient tiles (one corner high)",
+   "note": "Bilinear from 4 diamond corners; adjacent tiles with matching corners join seamlessly",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "infoviews/gradient-good-n.png",
+     "label": "Good N high"
+    },
+    {
+     "file": "infoviews/gradient-good-e.png",
+     "label": "Good E high"
+    },
+    {
+     "file": "infoviews/gradient-good-s.png",
+     "label": "Good S high"
+    },
+    {
+     "file": "infoviews/gradient-good-w.png",
+     "label": "Good W high"
+    },
+    {
+     "file": "infoviews/gradient-pollution-n.png",
+     "label": "Pollution N high"
+    },
+    {
+     "file": "infoviews/gradient-pollution-e.png",
+     "label": "Pollution E high"
+    },
+    {
+     "file": "infoviews/gradient-pollution-s.png",
+     "label": "Pollution S high"
+    },
+    {
+     "file": "infoviews/gradient-pollution-w.png",
+     "label": "Pollution W high"
+    }
+   ]
+  },
+  {
+   "title": "Legend bars",
+   "note": "128x10, 1px dark border",
+   "columns": 2,
+   "scale": 2,
+   "items": [
+    {
+     "file": "infoviews/legend-good.png",
+     "label": "Good"
+    },
+    {
+     "file": "infoviews/legend-pollution.png",
+     "label": "Pollution"
+    },
+    {
+     "file": "infoviews/legend-blue.png",
+     "label": "Blue"
+    },
+    {
+     "file": "infoviews/legend-green.png",
+     "label": "Green"
+    },
+    {
+     "file": "infoviews/legend-category.png",
+     "label": "Category"
+    },
+    {
+     "file": "infoviews/legend-resource.png",
+     "label": "Resource"
+    }
+   ]
+  }
+ ]
+}

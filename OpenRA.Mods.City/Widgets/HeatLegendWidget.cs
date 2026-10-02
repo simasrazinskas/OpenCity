@@ -10,13 +10,12 @@
 #endregion
 
 using System;
-using OpenRA.Mods.Common.Widgets;
 using OpenRA.Primitives;
 using OpenRA.Widgets;
 
 namespace OpenRA.Mods.City.Widgets
 {
-	/// <summary>A red-yellow-green gradient strip used as the info view legend.</summary>
+	/// <summary>The info view legend strip: NET's ramp in its 11 steps (InfoViewRamps, exactly the world colours) in a sunken trough.</summary>
 	public class HeatLegendWidget : Widget
 	{
 		public int Steps = 11;
@@ -39,13 +38,17 @@ namespace OpenRA.Mods.City.Widgets
 		{
 			var rb = RenderBounds;
 			var steps = Steps < 2 ? 2 : Steps;
-			WidgetUtils.FillRectWithColor(rb, Color.FromArgb(255, 20, 16, 14));
+			var family = CityTheme.FamilyOf(this);
+			CityTheme.DrawPanel(CityTheme.Art(family, "trough"), rb);
+			var b = CityTheme.BevelLogical;
+			var inner = rb.Width - 2 * b;
 			for (var i = 0; i < steps; i++)
 			{
-				var x0 = rb.X + i * rb.Width / steps;
-				var x1 = rb.X + (i + 1) * rb.Width / steps;
+				var x0 = rb.X + b + i * inner / steps;
+				var x1 = rb.X + b + (i + 1) * inner / steps;
 				var t = i / (float)(steps - 1);
-				WidgetUtils.FillRectWithColor(new Rectangle(x0, rb.Y, x1 - x0, rb.Height), GetColor != null ? GetColor(t) : CityUi.HeatColor(t));
+				var c = GetColor != null ? GetColor(t) : CityUi.HeatColor(t);
+				CityTheme.Fill(x0, rb.Y + b, x1 - x0, rb.Height - 2 * b, Color.FromArgb(255, c.R, c.G, c.B));
 			}
 		}
 	}

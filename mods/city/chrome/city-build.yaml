@@ -1,0 +1,59 @@
+# RCT2 build window (design/iso/ui/panels/build-menu-health.png). Sized and filled by CityToolbarLogic (.Build.cs):
+# one window per build group (family colours), a tab per category, cards with thumbnails, details of the hovered card.
+CityPanel@CITY_BUILD_PANEL:
+	Placement: TopLeft
+	Family: services
+	Width: 440
+	Height: 260
+	Visible: false
+	Children:
+		CityBuildMenu@CARDS:
+			X: 6
+			Y: 49
+			Width: 420
+			Height: 183
+			TooltipContainer: TOOLTIP_CONTAINER
+		Background@DETAIL_SEPARATOR:
+			X: 6
+			Y: 236
+			Width: 420
+			Height: 2
+			Background: etched-h
+		Label@DETAIL_NAME:
+			X: 6
+			Y: 239
+			Width: 420
+			Height: 12
+			Font: TinyBold
+		Label@DETAIL_TEXT:
+			X: 6
+			Y: 251
+			Width: 420
+			Height: 30
+			Font: Tiny
+			VAlign: Top
+
+# The map (decision 5): ENG's diamond radar in an RCT window; toolbar button and hotkey CityMap.
+CityPanel@CITY_MAP_PANEL:
+	Logic: CityMapLogic
+	Title: label-city-map-title
+	Family: city
+	Placement: BottomRight
+	Width: 268
+	Height: 166
+	Visible: false
+	Children:
+		Background@WELL:
+			X: 4
+			Y: 21
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 25
+			Background: well-dark
+			Children:
+				Radar@RADAR:
+					X: 2
+					Y: 2
+					Width: PARENT_WIDTH - 4
+					Height: PARENT_HEIGHT - 4
+					WorldInteractionController: INTERACTION_CONTROLLER
+					PixelArtScaling: true

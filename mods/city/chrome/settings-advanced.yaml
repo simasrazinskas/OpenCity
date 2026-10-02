@@ -1,0 +1,138 @@
+# Settings: Advanced tab. Network, news, version check and Discord options belong to the OpenRA lobby and are not used
+# by OpenCity: they stay in the hidden UNUSED container so AdvancedSettingsLogic can bind them.
+Container@ADVANCED_PANEL:
+	Logic: AdvancedSettingsLogic
+	Width: PARENT_WIDTH
+	Height: PARENT_HEIGHT
+	Children:
+		Container@UNUSED:
+			Visible: false
+			Children:
+				Container@NAT_DISCOVERY_CONTAINER:
+					Children:
+						Checkbox@NAT_DISCOVERY:
+				Container@FETCH_NEWS_CHECKBOX_CONTAINER:
+					Children:
+						Checkbox@FETCH_NEWS_CHECKBOX:
+				Container@CHECK_VERSION_CHECKBOX_CONTAINER:
+					Children:
+						Checkbox@CHECK_VERSION_CHECKBOX:
+				Container@ENABLE_DISCORD_SERVICE_CONTAINER:
+					Children:
+						Checkbox@ENABLE_DISCORD_SERVICE:
+				Container@SENDSYSINFO_CHECKBOX_CONTAINER:
+					Children:
+						Checkbox@SENDSYSINFO_CHECKBOX:
+				Container@BOTDEBUG_CHECKBOX_CONTAINER:
+					Children:
+						Checkbox@BOTDEBUG_CHECKBOX:
+				Container@CHECKBOTSYNC_CHECKBOX_CONTAINER:
+					Children:
+						Checkbox@CHECKBOTSYNC_CHECKBOX:
+				Container@LUADEBUG_CHECKBOX_CONTAINER:
+					Children:
+						Checkbox@LUADEBUG_CHECKBOX:
+		ScrollPanel@SETTINGS_SCROLLPANEL:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			CollapseHiddenChildren: True
+			Background: none
+			ScrollbarWidth: 10
+			TopBottomSpacing: 2
+			ItemSpacing: 4
+			Children:
+				CityHeader@NETWORK_SECTION_HEADER:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 12
+					Text: label-network-section-header
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@PERFTEXT_CHECKBOX_CONTAINER:
+							X: 0
+							Width: 190
+							Height: 14
+							Children:
+								Checkbox@PERFTEXT_CHECKBOX:
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+									Text: checkbox-perftext-container
+						Container@PERFGRAPH_CHECKBOX_CONTAINER:
+							X: 200
+							Width: 190
+							Height: 14
+							Children:
+								Checkbox@PERFGRAPH_CHECKBOX:
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+									Text: checkbox-perfgraph-container
+				CityHeader@DEBUG_SECTION_HEADER:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 12
+					Text: label-debug-section-header
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 28
+					Children:
+						Container@DEBUG_HIDDEN_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 28
+							Children:
+								Label@A:
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+									Text: label-debug-hidden-container-a
+								Label@B:
+									Y: 14
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+									Text: label-debug-hidden-container-b
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@CHECKUNSYNCED_CHECKBOX_CONTAINER:
+							X: 0
+							Width: 190
+							Height: 14
+							Children:
+								Checkbox@CHECKUNSYNCED_CHECKBOX:
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+									Text: checkbox-checkunsynced-container
+						Container@PERFLOGGING_CHECKBOX_CONTAINER:
+							X: 200
+							Width: 190
+							Height: 14
+							Children:
+								Checkbox@PERFLOGGING_CHECKBOX:
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+									Text: checkbox-perflogging-container
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@REPLAY_COMMANDS_CHECKBOX_CONTAINER:
+							X: 0
+							Width: 190
+							Height: 14
+							Children:
+								Checkbox@REPLAY_COMMANDS_CHECKBOX:
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+									Text: checkbox-replay-commands-container

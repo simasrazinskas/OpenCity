@@ -1,0 +1,227 @@
+# Info views window (CityInfoViewsLogic, design/iso/ui/panels/infoviews-*.png, tools/iso_ui_panels_transit.infoviews_panel):
+# four CityHeader sections of icon + text toggle buttons (built from the InfoViews catalogue), then the legend strip with
+# its low / high labels, the Off button, up to three summary lines and, for the traffic view, the flow / volume switch with the
+# 24 hour flow chart.
+CityPanel@CITY_INFOVIEWS_PANEL:
+	Logic: CityInfoViewsLogic
+	Title: label-infoviews-title
+	Family: info
+	Placement: TopRight
+	Avoid: CITY_INFO_PANEL
+	Width: 404
+	Height: 337
+	Visible: false
+	Children:
+		Container@VIEWS:
+			X: 4
+			Y: 21
+			Width: PARENT_WIDTH - 8
+			Height: 270
+		Container@FOOTER:
+			X: 4
+			Y: 291
+			Width: PARENT_WIDTH - 8
+			Height: 67
+			Children:
+				Background@FOOTER_LINE:
+					Width: PARENT_WIDTH
+					Height: 2
+					Background: etched-h
+				HeatLegend@LEGEND:
+					Y: 5
+					Width: PARENT_WIDTH - 66
+					Height: 11
+				Label@LEGEND_LOW:
+					Y: 18
+					Width: 100
+					Height: 10
+					Font: Tiny
+				Label@LEGEND_DESC:
+					Y: 18
+					Width: PARENT_WIDTH - 66
+					Height: 10
+					Font: Tiny
+					Align: Center
+				Label@LEGEND_HIGH:
+					X: PARENT_WIDTH - 166
+					Y: 18
+					Width: 100
+					Height: 10
+					Font: Tiny
+					Align: Right
+				Button@OFF:
+					X: PARENT_WIDTH - 60
+					Y: 4
+					Width: 60
+					Height: 16
+					Font: Tiny
+					Align: Center
+					LeftMargin: 14
+					TooltipContainer: TOOLTIP_CONTAINER
+					TooltipTemplate: CITY_TOOLTIP
+					Children:
+						CityIcon@ICON:
+							X: 4
+							Width: 12
+							Height: PARENT_HEIGHT
+							Size: 12
+							Icon: ui_eye_off
+				Container@SUMMARY:
+					Y: 31
+					Width: PARENT_WIDTH - 66
+					Height: 36
+				Container@TRAFFIC:
+					Y: 70
+					Width: PARENT_WIDTH
+					Height: 34
+					Visible: false
+					Children:
+						Checkbox@FLOW:
+							Y: 5
+							Width: 56
+							Height: 12
+							Font: Tiny
+							Text: label-traffic-flow
+						Checkbox@VOLUME:
+							X: 60
+							Y: 5
+							Width: 70
+							Height: 12
+							Font: Tiny
+							Text: label-traffic-volume
+						CityGraph@FLOW_CHART:
+							X: 150
+							Width: PARENT_WIDTH - 150
+							Height: 34
+							LeftMargin: 0
+
+# One info view of the grid: RCT raised button with the view's icon, pressed in while the view is active.
+Button@CITY_INFOVIEW_TILE:
+	Width: 96
+	Height: 19
+	Font: Tiny
+	Align: Left
+	LeftMargin: 24
+	TooltipContainer: TOOLTIP_CONTAINER
+	TooltipTemplate: CITY_TOOLTIP
+	Children:
+		CityIcon@ICON:
+			X: 3
+			Width: 16
+			Height: PARENT_HEIGHT
+
+CityHeader@CITY_INFOVIEWS_HEADER:
+	Width: PARENT_WIDTH
+	Height: 12
+
+# Info view legend (design legend-*.png, hud-infoview-1920x1080-1x.png bottom left): shown while an info view is on and the
+# info views window is closed. CityInfoViewLegendLogic: ramp strip, category / resource list, average / highest / lowest.
+CityPanel@CITY_INFOVIEW_LEGEND_PANEL:
+	Logic: CityInfoViewLegendLogic
+	Family: info
+	Placement: BottomLeft
+	Avoid: CITY_ADVISOR_PANEL
+	Width: 200
+	Height: 132
+	Children:
+		Label@DESC:
+			X: 4
+			Y: 21
+			Width: PARENT_WIDTH - 8
+			Height: 12
+			Font: Tiny
+		Container@STRIP:
+			X: 4
+			Y: 35
+			Width: PARENT_WIDTH - 8
+			Height: 40
+			Children:
+				CityIcon@ICON_LOW:
+					Y: 0
+					Width: 16
+					Height: 16
+					Icon: stat_unhappy
+				CityIcon@ICON_HIGH:
+					X: PARENT_WIDTH - 16
+					Y: 0
+					Width: 16
+					Height: 16
+					Icon: stat_happiness
+				HeatLegend@RAMP:
+					Y: 1
+					Width: PARENT_WIDTH
+					Height: 13
+				Container@TICKS:
+					Y: 14
+					Width: PARENT_WIDTH
+					Height: 3
+				Label@LOW:
+					Y: 19
+					Width: 70
+					Height: 10
+					Font: Tiny
+				Label@MID:
+					Y: 19
+					Width: PARENT_WIDTH
+					Height: 10
+					Font: Tiny
+					Align: Center
+				Label@HIGH:
+					Y: 19
+					Width: PARENT_WIDTH
+					Height: 10
+					Font: Tiny
+					Align: Right
+		Container@LIST:
+			X: 4
+			Y: 35
+			Width: PARENT_WIDTH - 8
+			Height: 78
+		Background@LINE:
+			X: 4
+			Y: 80
+			Width: PARENT_WIDTH - 8
+			Height: 2
+			Background: etched-h
+		Container@ROWS:
+			X: 4
+			Y: 86
+			Width: PARENT_WIDTH - 8
+			Height: 48
+			Children:
+				CityBar@METER:
+					X: 66
+					Y: 1
+					Width: PARENT_WIDTH - 98
+					Height: 10
+					Ramp: green
+					Smooth: false
+				Container@LINES:
+					Width: PARENT_WIDTH
+					Height: 36
+
+# One row of the legend list: colour swatch (or icon), name, right-aligned value.
+Container@CITY_LEGEND_ENTRY:
+	Width: 94
+	Height: 13
+	Children:
+		CityIcon@ICON:
+			Width: 16
+			Height: PARENT_HEIGHT
+			Size: 12
+			Visible: false
+		CitySwatch@SWATCH:
+			X: 1
+			Y: 2
+			Width: 11
+			Height: 9
+		Label@NAME:
+			X: 16
+			Width: 76
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		Label@VALUE:
+			Width: 94
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right

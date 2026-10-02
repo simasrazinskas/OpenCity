@@ -31,7 +31,16 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		const string StepLabel = "label-advisor-step";
 
 		[FluentReference]
-		const string TitleAdvisor = "label-advisor-title";
+		const string GotIt = "label-advisor-gotit";
+
+		[FluentReference]
+		const string NextLabel = "button-advisor-next";
+
+		[FluentReference]
+		const string LocateTip = "button-chirper-locate";
+
+		const int WellTop = 38;
+		const int PortraitBottom = 110;
 
 		sealed class AdvisorStep
 		{
@@ -47,7 +56,10 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			public string Text;
 			public string Hint;
 			public Color HintColor;
+			public string HintIcon;
 			public bool Tutorial;
+			public bool Urgent;
+			public int Step;
 			public bool HasCell;
 			public CPos Cell;
 		}
@@ -77,14 +89,19 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		readonly Widget panel;
 		readonly LabelWidget text;
 		readonly LabelWidget hint;
+		readonly Widget hintIcon;
+		readonly Widget well;
 		readonly Widget progressBar;
+		readonly Widget dots;
 		readonly Widget[] buttons;
+		readonly bool[] done = new bool[Steps.Length];
 		readonly List<Item> items = [];
 		readonly StringBuilder signature = new();
 
 		string builtSignature;
 		int index;
 		int stampTick = -1;
+		int doneTick = -1;
 
 		static int ZonedCells(World world)
 		{
@@ -105,22 +122,47 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			this.world = world;
 			ctx = CityUiContext.For(world);
 			panel = widget;
+			((CityPanelWidget)widget).OnClose = () => Dismissed = true;
 
 			var progress = widget.Get<CityBarWidget>("PROGRESS");
 			progressBar = progress;
 			progress.GetPercentage = () => DoneCount() * 100 / Steps.Length;
 			progress.IsVisible = () => Current()?.Tutorial == true;
-			widget.Get<ButtonWidget>("CLOSE").OnClick = () => Dismissed = true;
+
+			dots = widget.Get("DOTS");
+			dots.IsVisible = () => Current()?.Tutorial == true;
+			for (var i = 0; i < Steps.Length; i++)
+			{
+				var step = i;
+				dots.AddChild(new ColorBlockWidget(Game.ModData)
+				{
+					Bounds = new WidgetBounds(0, 0, 4, 4),
+					GetColor = () => IsDone(step) ? CityTheme.Ramp("yellow", 5) : CityTheme.FamilyShade("people", 3)
+				});
+			}
 
 			var previous = widget.Get<ButtonWidget>("PREVIOUS");
+			previous.IsVisible = () => items.Count > 1;
 			previous.IsDisabled = () => index <= 0;
 			previous.OnClick = () => index = Math.Max(0, index - 1);
 
+			widget.Get<ButtonWidget>("DISMISS").OnClick = () => Dismissed = true;
+
 			var next = widget.Get<ButtonWidget>("NEXT");
-			next.IsDisabled = () => index >= items.Count - 1;
-			next.OnClick = () => index = Math.Min(items.Count - 1, index + 1);
+			var nextText = FluentProvider.GetMessage(NextLabel);
+			var gotIt = FluentProvider.GetMessage(GotIt);
+			next.GetText = () => index >= items.Count - 1 ? gotIt : nextText;
+			next.OnClick = () =>
+			{
+				if (index >= items.Count - 1)
+					Dismissed = true;
+				else
+					index++;
+			};
 
 			var locate = widget.Get<ButtonWidget>("LOCATE");
+			var locateTip = FluentProvider.GetMessage(LocateTip);
+			locate.GetTooltipText = () => locateTip;
 			locate.IsVisible = () => Current()?.HasCell == true;
 			locate.OnClick = () =>
 			{
@@ -129,15 +171,27 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			};
 
 			widget.Get<LabelWidget>("TITLE").GetText = () => Current()?.Title ?? "";
-			text = widget.Get<LabelWidget>("TEXT");
+			well = widget.Get("MESSAGE_WELL");
+			text = well.Get<LabelWidget>("TEXT");
 			text.GetText = () => Current()?.Text ?? "";
 			hint = widget.Get<LabelWidget>("HINT");
 			hint.GetText = () => Current()?.Hint ?? "";
-			hint.GetColor = () => Current()?.HintColor ?? CityUi.Good;
-			widget.Get<LabelWidget>("STEP").GetText = () =>
-				items.Count == 0 ? "" : FluentProvider.GetMessage(StepLabel, "current", index + 1, "total", items.Count);
+			hint.GetColor = () => Current()?.HintColor ?? CityTheme.MoneyPositive;
+			var icon = widget.Get<CityIconWidget>("HINT_ICON");
+			hintIcon = icon;
+			icon.GetIcon = () => Current()?.HintIcon;
+			icon.IsVisible = () => !string.IsNullOrEmpty(Current()?.Hint);
 
-			buttons = [previous, next, locate];
+			var stepLabel = widget.Get<LabelWidget>("STEP");
+			stepLabel.IsVisible = () => Current() is { Tutorial: true };
+			stepLabel.GetText = () => Current() is { Tutorial: true } item ? FluentProvider.GetMessage(StepLabel, "current", item.Step, "total", Steps.Length) : "";
+			stepLabel.GetColor = () => CityTheme.Muted("people");
+			var urgent = widget.Get("URGENT");
+			urgent.IsVisible = () => Current()?.Urgent == true;
+			urgent.Get<LabelWidget>("LABEL").GetColor = () => CityTheme.InkLight;
+			widget.Get("NAMEPLATE").Get<LabelWidget>("NAME").GetColor = () => CityTheme.InkLight;
+
+			buttons = [previous, widget.Get("DISMISS"), next, locate];
 
 			widget.IsVisible = () =>
 			{
@@ -149,29 +203,50 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			};
 		}
 
-		/// <summary>The card hugs its text: message, hint, tutorial progress, then the button row.</summary>
+		bool IsDone(int step)
+		{
+			if (doneTick != world.WorldTick)
+			{
+				doneTick = world.WorldTick;
+				for (var i = 0; i < Steps.Length; i++)
+					done[i] = Steps[i].Done(world, ctx);
+			}
+
+			return done[step];
+		}
+
+		/// <summary>The window hugs its text: message, hint, tutorial progress, then the button row (all positions in window pixels).</summary>
 		public override void Tick()
 		{
-			var y = text.Bounds.Y;
-			y += FitHeight(text) + 6;
+			var textHeight = FitHeight(text, 11);
+			var wellHeight = Math.Max(30, textHeight + 8);
+			well.Bounds.Height = wellHeight;
+			var y = WellTop + wellHeight + 4;
 
 			hint.Bounds.Y = y;
-			var hintHeight = FitHeight(hint);
+			hintIcon.Bounds.Y = y;
+			var hintHeight = FitHeight(hint, 16);
 			if (hintHeight > 0)
-				y += hintHeight + 6;
+				y += Math.Max(16, hintHeight) + 4;
 
-			progressBar.Bounds.Y = y + 2;
+			progressBar.Bounds.Y = y;
+			dots.Bounds.Y = y + 10;
+			var count = dots.Children.Count;
+			for (var i = 0; i < count; i++)
+				dots.Children[i].Bounds.X = dots.Bounds.Width * (2 * i + 1) / (2 * count) - 2;
+
 			if (progressBar.IsVisible())
-				y += progressBar.Bounds.Height + 8;
+				y += 18;
 
+			y = Math.Max(y + 4, PortraitBottom + 4);
 			foreach (var button in buttons)
-				button.Bounds.Y = y + 2;
+				button.Bounds.Y = y;
 
-			panel.Bounds.Height = y + 2 + 24 + 10;
+			panel.Bounds.Height = y + 18 + 4;
 		}
 
 		/// <summary>Sizes a word-wrapped label to its text and returns the height (0 when empty).</summary>
-		static int FitHeight(LabelWidget label)
+		static int FitHeight(LabelWidget label, int minimum)
 		{
 			var value = label.GetText();
 			if (string.IsNullOrEmpty(value))
@@ -181,7 +256,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			}
 
 			var font = Game.Renderer.Fonts[label.Font];
-			var height = font.Measure(WidgetUtils.WrapText(value, label.Bounds.Width, font)).Y + 2;
+			var height = Math.Max(minimum, font.Measure(WidgetUtils.WrapText(value, label.Bounds.Width, font)).Y + 1);
 			label.Bounds.Height = height;
 			return height;
 		}
@@ -194,7 +269,8 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 		int DoneCount()
 		{
-			return Steps.Count(s => s.Done(world, ctx));
+			IsDone(0);
+			return done.Count(d => d);
 		}
 
 		/// <summary>Rebuilds the card list (at most once per tick): urgent advisor messages, the next tutorial step, the other hints.</summary>
@@ -212,7 +288,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 			var step = Array.FindIndex(Steps, s => !s.Done(world, ctx));
 			if (step >= 0)
-				items.Add(FromStep(Steps[step].Id));
+				items.Add(FromStep(step));
 
 			foreach (var m in messages)
 				if (m.Severity < ProblemTier.Warning)
@@ -233,16 +309,19 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			index = Math.Clamp(index, 0, Math.Max(0, items.Count - 1));
 		}
 
-		static Item FromStep(string id)
+		static Item FromStep(int step)
 		{
+			var id = Steps[step].Id;
 			return new Item
 			{
 				Id = "tutorial:" + id,
 				Tutorial = true,
+				Step = step + 1,
 				Title = CityUi.Message("tutorial-" + id + "-title"),
 				Text = CityUi.Message("tutorial-" + id + "-text", ""),
 				Hint = CityUi.Message("tutorial-" + id + "-hint", ""),
-				HintColor = CityUi.Good
+				HintColor = CityTheme.MoneyPositive,
+				HintIcon = "ui_info"
 			};
 		}
 
@@ -250,13 +329,16 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		{
 			var text = FluentProvider.TryGetMessage(m.Key, out var message, "arg", m.Arg ?? "") ? message : CityUi.Prettify(m.Key);
 			var hint = FluentProvider.TryGetMessage(m.Key + "-hint", out var h, "arg", m.Arg ?? "") ? h : "";
+			var urgent = m.Severity >= ProblemTier.Warning && m.Severity != ProblemTier.Good;
 			return new Item
 			{
 				Id = m.Id,
-				Title = FluentProvider.GetMessage(TitleAdvisor),
+				Title = CityUi.Prettify(m.Id ?? m.Key),
 				Text = text,
 				Hint = hint,
-				HintColor = m.Severity >= ProblemTier.Warning ? CityUi.Warn : CityUi.Good,
+				HintColor = urgent ? CityTheme.MoneyNegative : CityTheme.MoneyPositive,
+				HintIcon = "tier_" + m.Severity.ToString().ToLowerInvariant(),
+				Urgent = urgent,
 				HasCell = m.HasCell,
 				Cell = m.Cell
 			};

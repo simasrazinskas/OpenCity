@@ -14,7 +14,7 @@ window.__publish = async function (slug) {
       await page.loadAsync?.();
       let pos = null;
       for (const old of page.children.filter(n => n.name === sec.section)) { pos = { x: old.x, y: old.y }; old.remove(); }
-      if (!pos) { let maxY = 0; for (const n of page.children) maxY = Math.max(maxY, n.y + n.height); pos = { x: 0, y: page.children.length ? maxY + 240 : 0 }; }
+      if (!pos) { let maxX = 0; for (const n of page.children) maxX = Math.max(maxX, n.x + n.width); pos = { x: page.children.length ? maxX + 400 : 0, y: 0 }; }
       const body = autoV(sec.section, 40, 64);
       body.fills = [{ type: 'SOLID', color: hex('f4f3ef') }];
       body.cornerRadius = 16;

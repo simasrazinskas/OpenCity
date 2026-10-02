@@ -1,0 +1,138 @@
+# New city window (design/iso/ui/panels/newcity-window.png, tools/iso_ui_menus.newcity_window), city family. The map list
+# with small previews on the left, the selected map's preview and facts on the right. There are no game options yet:
+# the design's name/difficulty/funds/seed/disaster controls are not shown because the game has nothing behind them.
+CityPanel@CITY_NEWGAME_PANEL:
+	Logic: CityNewGameLogic
+	Title: button-city-new
+	BelowAlerts: false
+	Width: 460
+	Height: 280
+	Children:
+		CityHeader@LIST_HEADER:
+			X: 4
+			Y: 21
+			Width: 172
+			Height: 12
+			Text: label-newgame-title
+		ScrollPanel@MAP_LIST:
+			X: 4
+			Y: 35
+			Width: 172
+			Height: PARENT_HEIGHT - 35 - 28
+			ScrollbarWidth: 10
+			Children:
+				ScrollItem@MAP_TEMPLATE:
+					Width: PARENT_WIDTH - 12
+					Height: 32
+					X: 1
+					Background:
+					Visible: false
+					Children:
+						CityRowBackground@BG:
+							Width: PARENT_WIDTH
+							Height: PARENT_HEIGHT
+						Background@PREVIEW_FRAME:
+							X: 3
+							Y: 3
+							Width: 38
+							Height: 26
+							Background: dialog3
+							Children:
+								MapPreview@ITEM_PREVIEW:
+									X: 1
+									Y: 1
+									Width: PARENT_WIDTH - 2
+									Height: PARENT_HEIGHT - 2
+									IgnoreMouseOver: true
+									IgnoreMouseInput: true
+									ShowSpawnPoints: false
+						Label@TITLE:
+							X: 46
+							Y: 5
+							Width: PARENT_WIDTH - 50
+							Height: 11
+							Font: Tiny
+						Label@SIZE:
+							X: 46
+							Y: 17
+							Width: PARENT_WIDTH - 50
+							Height: 11
+							Font: Tiny
+		Label@NO_MAPS:
+			X: 8
+			Y: 40
+			Width: 160
+			Height: 24
+			Font: Tiny
+			Text: label-newgame-no-maps
+			Visible: false
+		CityHeader@MAP_HEADER:
+			X: 184
+			Y: 21
+			Width: PARENT_WIDTH - 188
+			Height: 12
+		Background@PREVIEW_BG:
+			X: 184
+			Y: 35
+			Width: PARENT_WIDTH - 188
+			Height: 170
+			Background: dialog3
+			Children:
+				MapPreview@PREVIEW:
+					X: 2
+					Y: 2
+					Width: PARENT_WIDTH - 4
+					Height: PARENT_HEIGHT - 4
+					IgnoreMouseOver: true
+					IgnoreMouseInput: true
+					ShowSpawnPoints: false
+		Container@INFO:
+			X: 184
+			Y: 209
+			Width: PARENT_WIDTH - 188
+			Height: 40
+			Children:
+				Label@SIZE_NAME:
+					Width: 100
+					Height: 13
+					Font: Tiny
+					Text: label-newgame-info-size
+				Label@MAP_INFO:
+					Width: PARENT_WIDTH
+					Height: 13
+					Font: Tiny
+					Align: Right
+				Label@CLIMATE_NAME:
+					Y: 13
+					Width: 100
+					Height: 13
+					Font: Tiny
+					Text: label-newgame-info-climate
+				Label@MAP_CLIMATE:
+					Y: 13
+					Width: PARENT_WIDTH
+					Height: 13
+					Font: Tiny
+					Align: Right
+		Label@MAP_AUTHOR:
+			X: 6
+			Y: PARENT_HEIGHT - 22
+			Width: 160
+			Height: 16
+			Font: Tiny
+		Button@BACK_BUTTON:
+			X: PARENT_WIDTH - 4 - 72
+			Y: PARENT_HEIGHT - 22
+			Width: 72
+			Height: 16
+			Text: button-back
+			Font: Tiny
+			Key: escape
+		Button@START_BUTTON:
+			X: PARENT_WIDTH - 4 - 72 - 4 - 72
+			Y: PARENT_HEIGHT - 22
+			Width: 72
+			Height: 16
+			Text: button-newgame-start
+			Font: Tiny
+			Background: button-default

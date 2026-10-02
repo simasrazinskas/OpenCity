@@ -55,8 +55,20 @@ namespace OpenRA.Mods.City.Traits
 			return crossingClosedUntil != null && crossingClosedUntil.Contains(cell) && crossingClosedUntil[cell] > world.WorldTick;
 		}
 
+		/// <summary>Spacing of train units along the track in cells (iso loco/coach sprites are ~0.72 cells long).</summary>
+		public const float TrainUnitSpacing = 0.76f;
+
 		/// <summary>Positions of a train's engine and cars (index 0 = engine) for rendering. Cars trail the engine along the track.</summary>
 		public void GetTrainPoses(TransitVehicle v, int now, int units, List<(WPos Pos, WAngle Facing)> into)
+		{
+			GetTrainPoses(v, (float)now, units, into);
+		}
+
+		/// <summary>
+		/// Render-only: train unit poses at a fractional tick. Units follow the track through curves on NET's 0.5-cell arcs (rail centre
+		/// line) and land on whole pixels; facings are quantised by the 8-facing sprites.
+		/// </summary>
+		public void GetTrainPoses(TransitVehicle v, float now, int units, List<(WPos Pos, WAngle Facing)> into)
 		{
 			var cells = v.LegCells;
 			var map = world.Map;
@@ -73,16 +85,12 @@ namespace OpenRA.Mods.City.Traits
 
 			var moving = v.Virtual && (v.State == TransitVehicleState.Leg || v.State == TransitVehicleState.ToDepot);
 			var head = moving
-				? (long)Math.Clamp(now - v.LegStartTick, 0, v.LegTicks) * (cells.Length - 1) * 1024 / Math.Max(1, v.LegTicks)
-				: (cells.Length - 1) * 1024L;
+				? Math.Clamp(now - v.LegStartTick, 0f, v.LegTicks) * (cells.Length - 1) / Math.Max(1, v.LegTicks)
+				: cells.Length - 1;
 			for (var k = 0; k < units; k++)
 			{
-				var t = Math.Max(0, head - k * 1000L);
-				var i = Math.Min(cells.Length - 2, (int)(t / 1024));
-				var frac = (int)(t - i * 1024L);
-				var a = map.CenterOfCell(cells[i]);
-				var b = map.CenterOfCell(cells[i + 1]);
-				into.Add((WPos.Lerp(a, b, frac, 1024), (b - a).Yaw));
+				MoverArt.CellPathPose(map, cells, Math.Max(0f, head - k * TrainUnitSpacing), 0, out var pos, out var facing);
+				into.Add((pos, facing));
 			}
 		}
 

@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using OpenRA.Mods.City.Traits;
 using OpenRA.Mods.Common.Widgets;
@@ -20,26 +21,31 @@ using OpenRA.Widgets;
 namespace OpenRA.Mods.City.Widgets.Logic
 {
 	/// <summary>
-	/// Budget panel with tabs: Budget (last month's income and expenses by category and a trend chart), Taxes (category
-	/// rates plus per-education and per-resource details), Services (budget sliders), Fees and Loan. Tabs whose
-	/// provider is missing are hidden. Every change is an order issued on slider release.
+	/// The RCT2 City Budget window (design/iso/ui/panels/budget-*.png): finance colours, six icon tabs. Overview (this
+	/// month's income and expenses as meters, net result, 12-month cashflow graph), Income (sources with share), Expenses
+	/// (service budget sliders with their upkeep, then the other expenses), Taxes (category rates, per-education or
+	/// per-resource details), Fees and Loans; the footer shows funds and the monthly balance. Tabs whose provider is
+	/// missing are disabled. Every change is an order issued on slider release.
 	/// </summary>
 	public partial class CityBudgetLogic : ChromeLogic
 	{
-		[FluentReference("amount")]
-		const string TotalLabel = "label-budget-total";
-
 		[FluentReference("balance")]
-		const string BalanceLabel = "label-budget-balance";
+		const string BalanceFooter = "label-budget-footer-balance";
+
+		[FluentReference("funds")]
+		const string FundsFooter = "label-budget-footer-funds";
 
 		[FluentReference]
 		const string TabBudget = "label-budget-tab-budget";
 
 		[FluentReference]
-		const string TabTaxes = "label-budget-tab-taxes";
+		const string TabIncome = "label-budget-tab-income";
 
 		[FluentReference]
 		const string TabServices = "label-budget-tab-services";
+
+		[FluentReference]
+		const string TabTaxes = "label-budget-tab-taxes";
 
 		[FluentReference]
 		const string TabFees = "label-budget-tab-fees";
@@ -53,13 +59,15 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		[FluentReference]
 		const string Expenses = "label-budget-trend-expenses";
 
+		[FluentReference]
+		const string OtherExpenses = "label-budget-other-expenses";
+
 		readonly World world;
 		readonly CityManager manager;
 		readonly CityUiContext ctx;
 		readonly ScrollPanelWidget incomeList;
-		readonly ScrollPanelWidget expenseList;
+		readonly ScrollPanelWidget serviceList;
 		readonly Dictionary<string, Widget> pages = [];
-		readonly Dictionary<string, ButtonWidget> tabButtons = [];
 		readonly List<GraphSeries> trend = [];
 
 		// CityManager replaces the last-month dictionaries at each month end, so reference equality detects changes.
@@ -74,34 +82,36 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			manager = CityUi.GetManager(world);
 			ctx = CityUiContext.For(world);
 
-			widget.Get<ButtonWidget>("CLOSE").OnClick = () => widget.Visible = false;
-
-			foreach (var id in new[] { "budget", "taxes", "services", "fees", "loan" })
+			foreach (var id in new[] { "budget", "income", "services", "taxes", "fees", "loan" })
 				pages[id] = widget.Get("PAGE_" + id.ToUpperInvariant());
 
-			BuildTabs(widget.Get("TABS"));
+			var window = (CityPanelWidget)widget;
+			window.SetTabs(new (string Id, string Icon, string Key, Func<bool> Available)[]
+			{
+				("budget", "pnl_budget", TabBudget, () => true),
+				("income", "stat_income", TabIncome, () => manager != null),
+				("services", "stat_expenses", TabServices, () => manager != null),
+				("taxes", "stat_tax", TabTaxes, () => manager != null),
+				("fees", "stat_fee", TabFees, () => ctx.EconomyUi != null || ctx.Get<ServiceSimulation>() != null),
+				("loan", "stat_loan", TabLoan, () => ctx.EconomyUi != null)
+			}.Select(t =>
+			{
+				var text = FluentProvider.GetMessage(t.Key);
+				return new CityWindowTab
+				{
+					Icon = t.Icon,
+					GetTooltip = () => text,
+					IsActive = () => page == t.Id,
+					IsDisabled = () => !t.Available(),
+					OnClick = () => ShowPage(t.Id)
+				};
+			}));
 
-			incomeList = pages["budget"].Get<ScrollPanelWidget>("INCOME_LIST");
-			expenseList = pages["budget"].Get<ScrollPanelWidget>("EXPENSE_LIST");
+			incomeList = pages["income"].Get<ScrollPanelWidget>("INCOME_LIST");
+			serviceList = pages["services"].Get<ScrollPanelWidget>("SERVICE_ROWS");
 
-			var incomeTotal = pages["budget"].Get<LabelWidget>("INCOME_TOTAL");
-			incomeTotal.GetText = () => FluentProvider.GetMessage(TotalLabel, "amount", CityUtils.FormatMoney(manager?.LastMonthIncomeTotal ?? 0));
-			incomeTotal.GetColor = () => CityUi.Good;
-
-			var expenseTotal = pages["budget"].Get<LabelWidget>("EXPENSE_TOTAL");
-			expenseTotal.GetText = () => FluentProvider.GetMessage(TotalLabel, "amount", CityUtils.FormatMoney(manager?.LastMonthExpensesTotal ?? 0));
-			expenseTotal.GetColor = () => CityUi.Bad;
-
-			var balance = pages["budget"].Get<LabelWidget>("BALANCE");
-			balance.GetText = () => manager == null ? "" :
-				FluentProvider.GetMessage(BalanceLabel, "balance", CityUi.SignedMoney(manager.MonthlyBalance));
-			balance.GetColor = () => manager != null && manager.MonthlyBalance < 0 ? CityUi.Bad : CityUi.Good;
-
-			var chart = pages["budget"].Get<CityGraphWidget>("TREND");
-			chart.GetSeries = TrendSeries;
-			chart.IsVisible = () => ctx.Statistics != null;
-			chart.GetSampleLabel = ago => ago <= 0 ? FluentProvider.GetMessage("label-stats-now") : FluentProvider.GetMessage("label-stats-months-ago", "count", ago);
-
+			InitOverview();
+			InitFooter(widget);
 			BuildTaxes();
 			BuildServices();
 			BuildFees();
@@ -111,36 +121,41 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			ShowPage("budget");
 		}
 
-		void BuildTabs(Widget container)
+		void InitOverview()
 		{
-			var tabs = new List<(string Id, string Key, Func<bool> Available)>
-			{
-				("budget", TabBudget, () => true),
-				("taxes", TabTaxes, () => manager != null),
-				("services", TabServices, () => ctx.Services != null),
-				("fees", TabFees, () => ctx.EconomyUi != null || ctx.Get<ServiceSimulation>() != null),
-				("loan", TabLoan, () => ctx.EconomyUi != null)
-			};
+			var overview = pages["budget"];
+			int IncomeTotal() => manager?.LastMonthIncomeTotal ?? 0;
+			int ExpenseTotal() => manager?.LastMonthExpensesTotal ?? 0;
+			int Scale() => Math.Max(1, Math.Max(IncomeTotal(), ExpenseTotal()) * 115 / 100);
 
-			// The tabs share the row evenly.
-			var x = 0;
-			var tabWidth = (container.Bounds.Width - (tabs.Count - 1) * 4) / tabs.Count;
-			foreach (var (id, key, available) in tabs)
-			{
-				var tab = id;
-				var button = Game.LoadWidget(world, "CITY_INFOVIEW_ITEM", container, []) as ButtonWidget;
-				button.Id = "BUDGET_TAB_" + id.ToUpperInvariant();
-				button.Bounds.X = x;
-				button.Bounds.Width = tabWidth;
-				button.Bounds.Height = 28;
-				var text = FluentProvider.GetMessage(key);
-				button.GetText = () => text;
-				button.IsHighlighted = () => page == tab;
-				button.IsVisible = available;
-				button.OnClick = () => ShowPage(tab);
-				tabButtons[id] = button;
-				x += tabWidth + 4;
-			}
+			var incomeTotal = overview.Get<LabelWidget>("INCOME_TOTAL");
+			incomeTotal.GetText = () => "+" + CityUtils.FormatMoney(IncomeTotal());
+			incomeTotal.GetColor = () => CityTheme.MoneyPositive;
+			overview.Get<CityBarWidget>("INCOME_BAR").GetPercentage = () => IncomeTotal() * 100 / Scale();
+
+			var expenseTotal = overview.Get<LabelWidget>("EXPENSE_TOTAL");
+			expenseTotal.GetText = () => "-" + CityUtils.FormatMoney(ExpenseTotal());
+			expenseTotal.GetColor = () => CityTheme.MoneyNegative;
+			overview.Get<CityBarWidget>("EXPENSE_BAR").GetPercentage = () => ExpenseTotal() * 100 / Scale();
+
+			overview.Get<CityIconWidget>("NET_ICON").GetIcon = () => manager != null && manager.MonthlyBalance < 0 ? "stat_balance_down" : "stat_balance_up";
+			var balance = overview.Get<LabelWidget>("BALANCE");
+			balance.GetText = () => manager == null ? "" : CityUi.SignedMoney(manager.MonthlyBalance);
+			balance.GetColor = () => manager != null && manager.MonthlyBalance < 0 ? CityTheme.MoneyNegative : CityTheme.MoneyPositive;
+
+			var chart = overview.Get<CityGraphWidget>("TREND");
+			chart.GetSeries = TrendSeries;
+			chart.IsVisible = () => ctx.Statistics != null;
+			chart.GetSampleLabel = ago => ago <= 0 ? FluentProvider.GetMessage("label-stats-now") : FluentProvider.GetMessage("label-stats-months-ago", "count", ago);
+			overview.Get("TREND_HEADER").IsVisible = chart.IsVisible;
+		}
+
+		void InitFooter(Widget widget)
+		{
+			var funds = widget.Get<LabelWidget>("FUNDS");
+			funds.GetText = () => manager == null ? "" : FluentProvider.GetMessage(FundsFooter, "funds", CityUtils.FormatMoney(manager.Funds));
+			var balance = widget.Get<LabelWidget>("FOOTER_BALANCE");
+			balance.GetText = () => manager == null ? "" : FluentProvider.GetMessage(BalanceFooter, "balance", CityUi.SignedMoney(manager.MonthlyBalance));
 		}
 
 		void ShowPage(string id)
@@ -157,8 +172,8 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			if (stats == null)
 				return trend;
 
-			trend.Add(new GraphSeries { Name = FluentProvider.GetMessage(Income), Color = CityUi.Good, Values = stats.History("income", 12) });
-			trend.Add(new GraphSeries { Name = FluentProvider.GetMessage(Expenses), Color = CityUi.Bad, Values = stats.History("expenses", 12) });
+			trend.Add(new GraphSeries { Name = FluentProvider.GetMessage(Income), Color = CityTheme.Ramp("green", 6), Values = stats.History("income", 12) });
+			trend.Add(new GraphSeries { Name = FluentProvider.GetMessage(Expenses), Color = CityTheme.Ramp("red", 5), Values = stats.History("expenses", 12) });
 			return trend;
 		}
 
@@ -169,36 +184,56 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 		void RefreshLists()
 		{
-			Refresh(incomeList, manager?.LastMonthIncome, ref incomeShown, CityUi.Good);
-			Refresh(expenseList, manager?.LastMonthExpenses, ref expenseShown, CityUi.Bad);
+			RefreshIncome();
+			RefreshExpenses();
 			RefreshTaxDetail();
 		}
 
-		void Refresh(ScrollPanelWidget list, IReadOnlyDictionary<string, int> values, ref object shown, Color valueColor)
+		void RefreshIncome()
 		{
-			if (shown != null && ReferenceEquals(values, shown))
+			var values = manager?.LastMonthIncome;
+			if (incomeShown != null && ReferenceEquals(values, incomeShown))
 				return;
 
-			shown = values;
-			var sorted = values == null ? [] : values.OrderBy(kv => kv.Key, StringComparer.Ordinal).ToList();
-			list.RemoveChildren();
-
-			foreach (var kv in sorted)
+			incomeShown = values;
+			incomeList.RemoveChildren();
+			var total = Math.Max(1, values?.Values.Sum() ?? 0);
+			foreach (var kv in values?.OrderByDescending(kv => kv.Value).ThenBy(kv => kv.Key, StringComparer.Ordinal) ?? Enumerable.Empty<KeyValuePair<string, int>>())
 			{
-				var row = Game.LoadWidget(world, "CITY_BUDGET_ROW", list, []);
-				row.Bounds.Width = list.Bounds.Width - list.ScrollbarWidth - 6;
-				var name = CategoryName(kv.Key);
-				var amount = CityUtils.FormatMoney(kv.Value);
-				var label = row.Get<LabelWidget>("NAME");
-				label.GetText = () => name;
-				label.Bounds.Width = row.Bounds.Width - 100;
-				var value = row.Get<LabelWidget>("VALUE");
-				value.Bounds.X = row.Bounds.Width - 100;
-				value.GetText = () => amount;
-				value.GetColor = () => valueColor;
+				var share = (kv.Value * 100L / total).ToString(CultureInfo.CurrentCulture) + "%";
+				AddLedgerRow(incomeList, kv.Key, "+" + CityUtils.FormatMoney(kv.Value), CityTheme.MoneyPositive, share);
 			}
 
-			list.Layout.AdjustChildren();
+			incomeList.Layout.AdjustChildren();
+			var totalLabel = pages["income"].Get<LabelWidget>("INCOME_TOTAL");
+			var text = "+" + CityUtils.FormatMoney(manager?.LastMonthIncomeTotal ?? 0);
+			totalLabel.GetText = () => text;
+			totalLabel.GetColor = () => CityTheme.MoneyPositive;
+		}
+
+		/// <summary>A ledger line: icon, name, optional share, amount.</summary>
+		Widget AddLedgerRow(ScrollPanelWidget list, string key, string amount, Color color, string share = null)
+		{
+			var row = Game.LoadWidget(world, "CITY_BUDGET_ROW", list, []);
+			var width = list.Bounds.Width - list.ScrollbarWidth - 2;
+			row.Bounds.Width = width;
+			row.Bounds.Height = 15;
+			row.Get<CityIconWidget>("ICON").Icon = CityUi.LedgerIcon(key);
+			var name = key == null ? "" : CategoryName(key);
+			var label = row.Get<LabelWidget>("NAME");
+			label.Bounds.X = 22;
+			label.Bounds.Width = width - 140;
+			label.GetText = () => name;
+			var shareLabel = row.Get<LabelWidget>("SHARE");
+			shareLabel.Bounds.X = width - 116;
+			shareLabel.GetText = () => share ?? "";
+			shareLabel.GetColor = () => CityTheme.Muted("finance");
+			var value = row.Get<LabelWidget>("VALUE");
+			value.Bounds.X = width - 74;
+			value.Bounds.Width = 70;
+			value.GetText = () => amount;
+			value.GetColor = () => color;
+			return row;
 		}
 	}
 }

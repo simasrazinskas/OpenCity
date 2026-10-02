@@ -435,25 +435,25 @@ namespace OpenRA.Mods.Common.Widgets
 
 			if (JumpToTopEdgeKey.IsActivatedBy(e))
 			{
-				worldRenderer.Viewport.Center(new WPos(worldRenderer.Viewport.CenterPosition.X, 0, 0));
+				worldRenderer.Viewport.JumpToMapEdge(ScrollDirection.Up);
 				return true;
 			}
 
 			if (JumpToBottomEdgeKey.IsActivatedBy(e))
 			{
-				worldRenderer.Viewport.Center(new WPos(worldRenderer.Viewport.CenterPosition.X, worldRenderer.World.Map.ProjectedBottomRight.Y, 0));
+				worldRenderer.Viewport.JumpToMapEdge(ScrollDirection.Down);
 				return true;
 			}
 
 			if (JumpToLeftEdgeKey.IsActivatedBy(e))
 			{
-				worldRenderer.Viewport.Center(new WPos(0, worldRenderer.Viewport.CenterPosition.Y, 0));
+				worldRenderer.Viewport.JumpToMapEdge(ScrollDirection.Left);
 				return true;
 			}
 
 			if (JumpToRightEdgeKey.IsActivatedBy(e))
 			{
-				worldRenderer.Viewport.Center(new WPos(worldRenderer.World.Map.ProjectedBottomRight.X, worldRenderer.Viewport.CenterPosition.Y, 0));
+				worldRenderer.Viewport.JumpToMapEdge(ScrollDirection.Right);
 				return true;
 			}
 

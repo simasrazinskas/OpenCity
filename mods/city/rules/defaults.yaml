@@ -1,11 +1,18 @@
 # Shared actor templates. Agents inherit from these in their own rules files.
 
-# Anything rendered in the world.
+# Depth-sorted static props on cells (road furniture, signals, lamps, pylons, masts): see CityPropLayer.
+World:
+	CityPropLayer:
+
+# Anything rendered in the world. WithIsoSprite slices the sprites into 32 px footprint columns (RCT2 depth sorting),
+# faces buildings toward their road, swaps state/season sprites, adds '-lit' frames at night and the ambient tint.
+# It must stay before Selectable/Interactable so its footprint-plus-height mouse bounds win.
 ^CitySprite:
 	BodyOrientation:
 		QuantizedFacings: 1
 	RenderSprites:
 		Palette: city
+	WithIsoSprite:
 
 # Static city structure with a footprint. Set Building.Footprint/Dimensions and HitShape per size.
 ^CityStructure:
@@ -25,6 +32,34 @@
 	AppearsOnRadar:
 	MapEditorData:
 		Categories: City
+
+# Trees: one sprite each (no slicing), variant by cell, seasonal frames, stay visible in the see-through view.
+^Tree:
+	WithIsoSprite:
+		Slice: false
+		AutoFacing: false
+		SeeThrough: false
+		PickVariant: true
+		Seasons: true
+		FacingFrames: 1
+
+# Buildings tied to water turn their water side toward the water (ART: the water side turns with the facing).
+hydro-dam:
+	WithIsoSprite:
+		FaceWater: true
+
+cargoharbor:
+	WithIsoSprite:
+		FaceWater: true
+
+fish-hub:
+	WithIsoSprite:
+		FaceWater: true
+
+# Burnt-building rubble: one variant per cell (idle = variant * 4 + facing), no animation.
+rubble:
+	WithIsoSprite:
+		PickVariant: true
 
 ^1x1Shape:
 	HitShape:

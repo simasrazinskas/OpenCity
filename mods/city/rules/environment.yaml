@@ -3,10 +3,12 @@
 
 World:
 	TintPostProcessEffect:
+		Pass: AfterTerrain
 	CityClimate:
 	CityAtmosphere:
 	CityNightLights:
 	CityWeatherFx:
+	CityAmbientFx:
 	CitySnowOverlay:
 	PollutionLayer:
 	CityStatistics:

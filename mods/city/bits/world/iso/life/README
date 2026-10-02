@@ -1,0 +1,407 @@
+LIFE art exported by tools/iso_export_life.py (do not edit). Sheets are PngSheets: tightly cropped frames,
+Frame[i] = x,y,w,h;ox,oy, anchor = ground centre / emitter / feet as stated. Filenames are relative to
+bits/world (iso/life/...). Ready-to-paste sequences: design/iso/life-sequences.yaml.
+
+FACINGS (vehicles, people with 'facing 8')
+  8 facings clockwise from world north: 0 N (-Y, screen up-right), 1 NE, 2 E (+X, down-right), 3 SE,
+  4 S (+Y, down-left), 5 SW, 6 W (-X, up-left), 7 NW (screen up). Sequence: Facings: -8.
+  Frame = facing * Length + anim. Anchor = ground centre of the vehicle.
+  Cars (+ delivery-van) sheets hold colour sets: frames 0-7 = default (red), then 8 per colour in the order
+  red, blue, white, black, silver, green, yellow, teal, brown, orange, purple, beige (sequence per colour: Start = 8 * (index + 1), Length 1).
+  Lit / beam / siren-lit / beacon-lit sheets use the day canvas and anchor, so draw them at the same position:
+  -lit = lit lamps only (no night tint), -beam = dithered road beam (additive).
+
+VEHICLES (iso/life/vehicles/<file>)
+  [cars]
+  hatchback  = legacy image car-a  (anchor 13,15 in a 26x24 design canvas)
+      idle        hatchback.png  Start 0 Length 1  # colour 0 = default red; sequences per colour below
+      red         hatchback.png  Start 8 Length 1
+      blue        hatchback.png  Start 16 Length 1
+      white       hatchback.png  Start 24 Length 1
+      black       hatchback.png  Start 32 Length 1
+      silver      hatchback.png  Start 40 Length 1
+      green       hatchback.png  Start 48 Length 1
+      yellow      hatchback.png  Start 56 Length 1
+      teal        hatchback.png  Start 64 Length 1
+      brown       hatchback.png  Start 72 Length 1
+      orange      hatchback.png  Start 80 Length 1
+      purple      hatchback.png  Start 88 Length 1
+      beige       hatchback.png  Start 96 Length 1
+      idle-lit    hatchback-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        hatchback-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  sedan  = legacy image car-b  (anchor 14,15 in a 28x24 design canvas)
+      idle        sedan.png  Start 0 Length 1  # colour 0 = default red; sequences per colour below
+      red         sedan.png  Start 8 Length 1
+      blue        sedan.png  Start 16 Length 1
+      white       sedan.png  Start 24 Length 1
+      black       sedan.png  Start 32 Length 1
+      silver      sedan.png  Start 40 Length 1
+      green       sedan.png  Start 48 Length 1
+      yellow      sedan.png  Start 56 Length 1
+      teal        sedan.png  Start 64 Length 1
+      brown       sedan.png  Start 72 Length 1
+      orange      sedan.png  Start 80 Length 1
+      purple      sedan.png  Start 88 Length 1
+      beige       sedan.png  Start 96 Length 1
+      idle-lit    sedan-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        sedan-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  estate  = legacy image car-c  (anchor 14,16 in a 28x26 design canvas)
+      idle        estate.png  Start 0 Length 1  # colour 0 = default red; sequences per colour below
+      red         estate.png  Start 8 Length 1
+      blue        estate.png  Start 16 Length 1
+      white       estate.png  Start 24 Length 1
+      black       estate.png  Start 32 Length 1
+      silver      estate.png  Start 40 Length 1
+      green       estate.png  Start 48 Length 1
+      yellow      estate.png  Start 56 Length 1
+      teal        estate.png  Start 64 Length 1
+      brown       estate.png  Start 72 Length 1
+      orange      estate.png  Start 80 Length 1
+      purple      estate.png  Start 88 Length 1
+      beige       estate.png  Start 96 Length 1
+      idle-lit    estate-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        estate-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  suv  = legacy image car-d  (anchor 14,17 in a 28x26 design canvas)
+      idle        suv.png  Start 0 Length 1  # colour 0 = default red; sequences per colour below
+      red         suv.png  Start 8 Length 1
+      blue        suv.png  Start 16 Length 1
+      white       suv.png  Start 24 Length 1
+      black       suv.png  Start 32 Length 1
+      silver      suv.png  Start 40 Length 1
+      green       suv.png  Start 48 Length 1
+      yellow      suv.png  Start 56 Length 1
+      teal        suv.png  Start 64 Length 1
+      brown       suv.png  Start 72 Length 1
+      orange      suv.png  Start 80 Length 1
+      purple      suv.png  Start 88 Length 1
+      beige       suv.png  Start 96 Length 1
+      idle-lit    suv-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        suv-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  mpv  (anchor 14,17 in a 28x26 design canvas)
+      idle        mpv.png  Start 0 Length 1  # colour 0 = default red; sequences per colour below
+      red         mpv.png  Start 8 Length 1
+      blue        mpv.png  Start 16 Length 1
+      white       mpv.png  Start 24 Length 1
+      black       mpv.png  Start 32 Length 1
+      silver      mpv.png  Start 40 Length 1
+      green       mpv.png  Start 48 Length 1
+      yellow      mpv.png  Start 56 Length 1
+      teal        mpv.png  Start 64 Length 1
+      brown       mpv.png  Start 72 Length 1
+      orange      mpv.png  Start 80 Length 1
+      purple      mpv.png  Start 88 Length 1
+      beige       mpv.png  Start 96 Length 1
+      idle-lit    mpv-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        mpv-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  pickup  (anchor 15,17 in a 30x26 design canvas)
+      idle        pickup.png  Start 0 Length 1  # colour 0 = default red; sequences per colour below
+      red         pickup.png  Start 8 Length 1
+      blue        pickup.png  Start 16 Length 1
+      white       pickup.png  Start 24 Length 1
+      black       pickup.png  Start 32 Length 1
+      silver      pickup.png  Start 40 Length 1
+      green       pickup.png  Start 48 Length 1
+      yellow      pickup.png  Start 56 Length 1
+      teal        pickup.png  Start 64 Length 1
+      brown       pickup.png  Start 72 Length 1
+      orange      pickup.png  Start 80 Length 1
+      purple      pickup.png  Start 88 Length 1
+      beige       pickup.png  Start 96 Length 1
+      idle-lit    pickup-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        pickup-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  sports  (anchor 14,14 in a 28x24 design canvas)
+      idle        sports.png  Start 0 Length 1  # colour 0 = default red; sequences per colour below
+      red         sports.png  Start 8 Length 1
+      blue        sports.png  Start 16 Length 1
+      white       sports.png  Start 24 Length 1
+      black       sports.png  Start 32 Length 1
+      silver      sports.png  Start 40 Length 1
+      green       sports.png  Start 48 Length 1
+      yellow      sports.png  Start 56 Length 1
+      teal        sports.png  Start 64 Length 1
+      brown       sports.png  Start 72 Length 1
+      orange      sports.png  Start 80 Length 1
+      purple      sports.png  Start 88 Length 1
+      beige       sports.png  Start 96 Length 1
+      idle-lit    sports-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        sports-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  [transit]
+  taxi  (anchor 14,16 in a 28x26 design canvas)
+      idle        taxi.png  Start 0 Length 1
+      idle-lit    taxi-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        taxi-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  bus  (anchor 25,29 in a 50x44 design canvas)
+      idle        bus.png  Start 0 Length 1
+      idle-lit    bus-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        bus-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  artic-bus-front  (anchor 20,26 in a 40x38 design canvas)
+      idle        artic-bus-front.png  Start 0 Length 1
+      idle-lit    artic-bus-front-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        artic-bus-front-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  artic-bus-rear  (anchor 19,25 in a 38x36 design canvas)
+      idle        artic-bus-rear.png  Start 0 Length 1
+      idle-lit    artic-bus-rear-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+  [trucks]
+  delivery-van  = legacy image van  (anchor 14,18 in a 28x28 design canvas)
+      idle        delivery-van.png  Start 0 Length 1  # colour 0 = default red; sequences per colour below
+      red         delivery-van.png  Start 8 Length 1
+      blue        delivery-van.png  Start 16 Length 1
+      white       delivery-van.png  Start 24 Length 1
+      black       delivery-van.png  Start 32 Length 1
+      silver      delivery-van.png  Start 40 Length 1
+      green       delivery-van.png  Start 48 Length 1
+      yellow      delivery-van.png  Start 56 Length 1
+      teal        delivery-van.png  Start 64 Length 1
+      brown       delivery-van.png  Start 72 Length 1
+      orange      delivery-van.png  Start 80 Length 1
+      purple      delivery-van.png  Start 88 Length 1
+      beige       delivery-van.png  Start 96 Length 1
+      idle-lit    delivery-van-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        delivery-van-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  box-truck  = legacy image truck  (anchor 17,23 in a 34x34 design canvas)
+      idle        box-truck.png  Start 0 Length 1
+      idle-lit    box-truck-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        box-truck-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  tanker-truck  (anchor 18,21 in a 36x32 design canvas)
+      idle        tanker-truck.png  Start 0 Length 1
+      idle-lit    tanker-truck-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        tanker-truck-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  tipper-truck  (anchor 17,20 in a 34x30 design canvas)
+      idle        tipper-truck.png  Start 0 Length 1
+      idle-lit    tipper-truck-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        tipper-truck-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  timber-truck  (anchor 19,20 in a 38x32 design canvas)
+      idle        timber-truck.png  Start 0 Length 1
+      idle-lit    timber-truck-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        timber-truck-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  semi-tractor  (anchor 12,18 in a 24x26 design canvas)
+      idle        semi-tractor.png  Start 0 Length 1
+      idle-lit    semi-tractor-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        semi-tractor-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  trailer-box  (anchor 20,25 in a 40x38 design canvas)
+      idle        trailer-box.png  Start 0 Length 1
+      idle-lit    trailer-box-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+  trailer-tank  (anchor 20,23 in a 40x36 design canvas)
+      idle        trailer-tank.png  Start 0 Length 1
+      idle-lit    trailer-tank-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+  trailer-container  (anchor 20,24 in a 40x36 design canvas)
+      idle        trailer-container.png  Start 0 Length 1
+      idle-lit    trailer-container-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+  trailer-flat  (anchor 20,16 in a 40x28 design canvas)
+      idle        trailer-flat.png  Start 0 Length 1
+      idle-lit    trailer-flat-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+  farm-tractor  (anchor 13,19 in a 26x28 design canvas)
+      idle        farm-tractor.png  Start 0 Length 1
+      idle-lit    farm-tractor-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        farm-tractor-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  [services]
+  garbage-truck  = legacy image garbage  (anchor 18,22 in a 36x34 design canvas)
+      idle        garbage-truck.png  Start 0 Length 1
+      idle-lit    garbage-truck-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        garbage-truck-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+      beacon      garbage-truck-beacon.png  Start 0 Length 2  # 2 frames per facing
+      beacon-lit  garbage-truck-beacon-lit.png  Start 0 Length 1  # 1 frames per facing
+  fire-engine  = legacy image firetruck  (anchor 21,23 in a 42x36 design canvas)
+      idle        fire-engine.png  Start 0 Length 1
+      idle-lit    fire-engine-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        fire-engine-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+      siren       fire-engine-siren.png  Start 0 Length 2  # 2 frames per facing
+      siren-lit   fire-engine-siren-lit.png  Start 0 Length 2  # 2 frames per facing
+  police  = legacy image policecar  (anchor 14,16 in a 28x26 design canvas)
+      idle        police.png  Start 0 Length 1
+      idle-lit    police-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        police-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+      siren       police-siren.png  Start 0 Length 2  # 2 frames per facing
+      siren-lit   police-siren-lit.png  Start 0 Length 2  # 2 frames per facing
+  ambulance  (anchor 15,21 in a 30x30 design canvas)
+      idle        ambulance.png  Start 0 Length 1
+      idle-lit    ambulance-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        ambulance-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+      siren       ambulance-siren.png  Start 0 Length 2  # 2 frames per facing
+      siren-lit   ambulance-siren-lit.png  Start 0 Length 2  # 2 frames per facing
+  hearse  (anchor 16,17 in a 32x28 design canvas)
+      idle        hearse.png  Start 0 Length 1
+      idle-lit    hearse-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        hearse-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  postal-van  (anchor 14,18 in a 28x28 design canvas)
+      idle        postal-van.png  Start 0 Length 1
+      idle-lit    postal-van-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        postal-van-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  maintenance  (anchor 15,18 in a 30x28 design canvas)
+      idle        maintenance.png  Start 0 Length 1
+      idle-lit    maintenance-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        maintenance-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+      beacon      maintenance-beacon.png  Start 0 Length 2  # 2 frames per facing
+      beacon-lit  maintenance-beacon-lit.png  Start 0 Length 1  # 1 frames per facing
+  snowplough  (anchor 26,25 in a 52x40 design canvas)
+      idle        snowplough.png  Start 0 Length 1
+      idle-lit    snowplough-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        snowplough-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+      beacon      snowplough-beacon.png  Start 0 Length 2  # 2 frames per facing
+      beacon-lit  snowplough-beacon-lit.png  Start 0 Length 1  # 1 frames per facing
+  wreck  (anchor 14,15 in a 28x24 design canvas)
+      idle        wreck.png  Start 0 Length 1
+      idle-lit    wreck-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+  [rail]
+  tram-cab  = legacy image tram  (anchor 18,26 in a 36x38 design canvas)
+      idle        tram-cab.png  Start 0 Length 1
+      idle-lit    tram-cab-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        tram-cab-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  tram-middle  (anchor 16,23 in a 32x34 design canvas)
+      idle        tram-middle.png  Start 0 Length 1
+  tram-rear  (anchor 18,26 in a 36x38 design canvas)
+      idle        tram-rear.png  Start 0 Length 1
+      idle-lit    tram-rear-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        tram-rear-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  train-loco  = legacy image train  (anchor 21,26 in a 42x38 design canvas)
+      idle        train-loco.png  Start 0 Length 1
+      idle-lit    train-loco-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        train-loco-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  train-coach  = legacy image traincar  (anchor 22,26 in a 44x40 design canvas)
+      idle        train-coach.png  Start 0 Length 1
+  wagon-box  (anchor 19,24 in a 38x36 design canvas)
+      idle        wagon-box.png  Start 0 Length 1
+  wagon-tank  (anchor 19,23 in a 38x34 design canvas)
+      idle        wagon-tank.png  Start 0 Length 1
+  wagon-hopper  (anchor 19,23 in a 38x34 design canvas)
+      idle        wagon-hopper.png  Start 0 Length 1
+  wagon-container  (anchor 19,23 in a 38x34 design canvas)
+      idle        wagon-container.png  Start 0 Length 1
+  wagon-logs  (anchor 19,23 in a 38x34 design canvas)
+      idle        wagon-logs.png  Start 0 Length 1
+  metro-cab  (anchor 21,25 in a 42x38 design canvas)
+      idle        metro-cab.png  Start 0 Length 1
+      idle-lit    metro-cab-lit.png  Start 0 Length 1  # lit lamps only (draw above idle at night)
+      beam        metro-cab-beam.png  Start 0 Length 1  # dithered road beam, draw additive
+  metro-car  (anchor 21,25 in a 42x38 design canvas)
+      idle        metro-car.png  Start 0 Length 1
+  [air]
+  heli-medevac  (anchor 23,50 in a 46x64 design canvas)
+      idle        heli-medevac.png  Start 0 Length 4  # 4 rotor frames per facing
+      shadow      heli-medevac-shadow.png  Start 0 Length 1  # ground shadow, draw at ground level
+  heli-fire  (anchor 23,58 in a 46x86 design canvas)
+      idle        heli-fire.png  Start 0 Length 4  # 4 rotor frames per facing
+      shadow      heli-fire-shadow.png  Start 0 Length 1  # ground shadow, draw at ground level
+  cargo-plane  (anchor 50,56 in a 100x84 design canvas)
+      idle        cargo-plane.png  Start 0 Length 3  # 3 propeller frames per facing
+      shadow      cargo-plane-shadow.png  Start 0 Length 1  # ground shadow, draw at ground level
+  [water]
+  motorboat  (anchor 12,12 in a 24x20 design canvas)
+      idle        motorboat.png  Start 0 Length 1
+  ferry  (anchor 33,37 in a 66x56 design canvas)
+      idle        ferry.png  Start 0 Length 1
+  cargo-ship  (anchor 94,86 in a 188x136 design canvas)
+      idle        cargo-ship.png  Start 0 Length 1
+
+PEOPLE (iso/life/people/<file>), anchor = feet (bottom row, canvas centre)
+  Design art has 4 directions (N E S W); facing 8 sequences map NE->N, SE->E, SW->S, NW->W.
+  Birds and benches have no facings.
+  pedestrian
+      idle       pedestrian-idle.png  Start 0 Length 8  # legacy: 4 colours x 2 steps (frame = colour * 2 + step), facing E, no facings
+      walk0      pedestrian.png  Start 0 Length 4  facing 8
+      walk1      pedestrian.png  Start 32 Length 4  facing 8
+      walk2      pedestrian.png  Start 64 Length 4  facing 8
+      walk3      pedestrian.png  Start 96 Length 4  facing 8
+      walk4      pedestrian.png  Start 128 Length 4  facing 8
+      walk5      pedestrian.png  Start 160 Length 4  facing 8
+      walk6      pedestrian.png  Start 192 Length 4  facing 8
+      walk7      pedestrian.png  Start 224 Length 4  facing 8
+      walk8      pedestrian.png  Start 256 Length 4  facing 8
+      walk9      pedestrian.png  Start 288 Length 4  facing 8
+      walk10     pedestrian.png  Start 320 Length 4  facing 8
+      walk11     pedestrian.png  Start 352 Length 4  facing 8
+      walk12     pedestrian.png  Start 384 Length 4  facing 8
+      walk13     pedestrian.png  Start 416 Length 4  facing 8
+      walk14     pedestrian.png  Start 448 Length 4  facing 8
+      walk15     pedestrian.png  Start 480 Length 4  facing 8
+  cyclist
+      idle       cyclist.png  Start 0 Length 4  facing 8  # blue bike
+      bike0      cyclist.png  Start 32 Length 4  facing 8
+      bike2      cyclist.png  Start 64 Length 4  facing 8
+      bike3      cyclist.png  Start 96 Length 4  facing 8
+  jogger
+      idle       jogger.png  Start 0 Length 4  facing 8
+  shopper
+      idle       shopper.png  Start 0 Length 4  facing 8
+  worker
+      walk       worker.png  Start 0 Length 4  facing 8
+      hammer     worker.png  Start 32 Length 2  facing 8  # 2 frames, loop
+  umbrella
+      idle       umbrella.png  Start 0 Length 4  facing 8
+      umbrella1  umbrella.png  Start 32 Length 4  facing 8
+      umbrella2  umbrella.png  Start 64 Length 4  facing 8
+      umbrella3  umbrella.png  Start 96 Length 4  facing 8
+  waiting
+      idle       waiting.png  Start 0 Length 3  facing 8  # 3 frames: stand, sigh, check watch
+  family
+      idle       family.png  Start 0 Length 4  facing 8  # parent and child holding hands
+  dogwalker
+      idle       dogwalker.png  Start 0 Length 4  facing 8
+  dog
+      idle       dog.png  Start 0 Length 4  facing 8
+      blackwhite dog.png  Start 32 Length 4  facing 8
+      golden     dog.png  Start 64 Length 4  facing 8
+  pigeon
+      peck-r     pigeon.png  Start 0 Length 2  # 2 frames, faces screen right
+      peck-l     pigeon.png  Start 2 Length 2
+      fly-r      pigeon.png  Start 4 Length 4  # 4 frames wing flap
+      fly-l      pigeon.png  Start 8 Length 4
+  gull
+      fly-r      gull.png  Start 0 Length 4  # 4 frames, faces screen right
+      fly-l      gull.png  Start 4 Length 4
+  bench
+      x          bench.png  Start 0 Length 1  # empty bench along the X axis
+      sit-x      bench.png  Start 1 Length 2  # one sitter, 2 frames (0 sits, 1 reads)
+      sit2-x     bench.png  Start 3 Length 2  # two sitters, 2 frames
+      y          bench.png  Start 5 Length 1  # empty bench along the Y axis
+      sit-y      bench.png  Start 6 Length 2  # one sitter, 2 frames (0 sits, 1 reads)
+      sit2-y     bench.png  Start 8 Length 2  # two sitters, 2 frames
+
+ICONS AND SERVICE EFFECTS: see sequences/misc.yaml header (iso/life/icons/*.png)
+  problem-tiles.png 8, problem-glyphs.png 24, problem-extras.png 9, fire.png 28 (stage1-4 x 6, heap 4),
+  pile.png 3, heli.png 64 (medevac then fire; facing-major, 4 rotor frames).
+
+FX (iso/life/fx/<name>.png): name, frames, anchor, suggested Tick ms (0 static), blend
+  smoke-house.png     8 frames  anchor bottom    Tick 120 alpha    chimney smoke, 8-frame loop, wind drifts right
+  smoke-industry.png  8 frames  anchor bottom    Tick 120 alpha    dark industrial smoke, 8-frame loop
+  smoke-plume.png     8 frames  anchor bottom    Tick 120 alpha    tall stack plume (dark), 8-frame loop
+  smoke-plume-light.png  8 frames  anchor bottom    Tick 120 alpha    tall stack plume (light), 8-frame loop
+  steam.png           8 frames  anchor bottom    Tick 100 alpha    steam puffs, 8-frame loop
+  cooling-cloud.png   8 frames  anchor bottom    Tick 120 alpha    cooling tower cloud, 8-frame loop
+  fire-stage1.png     6 frames  anchor bottom    Tick 90  alpha    building fire stage 1 (window), anchor = footprint centre
+  fire-stage2.png     6 frames  anchor bottom    Tick 90  alpha    stage 2 (medium)
+  fire-stage3.png     6 frames  anchor bottom    Tick 90  alpha    stage 3 (roof fire)
+  fire-stage4.png     6 frames  anchor bottom    Tick 120 alpha    stage 4 (burnt out, embers)
+  fire-heap.png       4 frames  anchor bottom    Tick 100 alpha    burning garbage heap
+  hose-n.png          4 frames  anchor pixel 2,25 Tick 80  alpha    fire hose jet toward N (screen up-right), anchor = nozzle
+  hose-e.png          4 frames  anchor pixel 2,12 Tick 80  alpha    jet toward E (screen down-right), anchor = nozzle
+  hose-s.png          4 frames  anchor pixel 33,12 Tick 80  alpha    jet toward S (screen down-left), anchor = nozzle
+  hose-w.png          4 frames  anchor pixel 33,25 Tick 80  alpha    jet toward W (screen up-left), anchor = nozzle
+  splash.png          6 frames  anchor pixel 14,19 Tick 80  alpha    water splash ring, plays once, anchor = ring centre
+  heli-drop.png       4 frames  anchor bottom    Tick 100 alpha    helicopter water drop, anchor = impact point
+  dust.png            6 frames  anchor bottom    Tick 100 alpha    construction dust cloud
+  demolition.png      6 frames  anchor bottom    Tick 100 alpha    demolition cloud
+  sparks-short.png    4 frames  anchor centre    Tick 70  alpha    short sparks
+  sparks-weld.png     4 frames  anchor centre    Tick 70  alpha    welding sparks
+  fireworks-red.png   8 frames  anchor bottom    Tick 100 alpha    rocket, burst, falling sparkles; anchor = launch point
+  fireworks-gold.png  8 frames  anchor bottom    Tick 100 alpha    see fireworks-red
+  fireworks-green.png  8 frames  anchor bottom    Tick 100 alpha    see fireworks-red
+  fireworks-blue.png  8 frames  anchor bottom    Tick 100 alpha    see fireworks-red
+  rain.png            6 frames  anchor centre    Tick -   alpha    0-2 rain streaks short/medium/long (slant down-left), 3-5 snowflakes small/medium/large
+  rain-splash.png     4 frames  anchor centre    Tick 70  alpha    ground splash, 4 frames
+  puddles.png         3 frames  anchor centre    Tick -   alpha    ground puddles small/medium/large
+  fog.png             2 frames  anchor centre    Tick -   alpha    64x32 seamless fog tiles
+  cloud-shadow.png    2 frames  anchor centre    Tick -   alpha    ~200x100 blobs, draw at 35-45 % opacity
+  lightning.png       3 frames  anchor bottom    Tick 60  alpha    bolt, anchor = strike point
+  smog.png            3 frames  anchor centre    Tick -   alpha    64x32 smog haze tiles, 3 intensities
+  stain.png           3 frames  anchor centre    Tick -   alpha    64x32 ground stain tiles, 3 levels
+  toxic-sheen.png     4 frames  anchor centre    Tick 150 alpha    64x32 toxic water sheen, 4-frame loop
+  noise-rings.png     4 frames  anchor centre    Tick 150 alpha    concentric iso arcs, 4-frame loop
+  dead-grass.png      2 frames  anchor centre    Tick -   alpha    64x32 dead grass tiles
+  flood-water.png     4 frames  anchor centre    Tick 200 alpha    64x32 flood water, 4-frame ripple loop
+  flood-edges.png     4 frames  anchor centre    Tick -   alpha    half-tile water edges, water side in the name (N = up-right)
+  night-pools.png     5 frames  anchor centre    Tick -   additive ground light pools small/medium/large/cool + bulb, anchor = light source on the ground
+  night-windows.png   8 frames  anchor centre    Tick -   additive window glows: warm then cool; 2x3 and 3x4; L = on a left wall, R = on a right wall
+  night-signs.png     4 frames  anchor centre    Tick -   additive shop sign glows
+  night-headlights.png  4 frames  anchor centre    Tick -   additive 44x28 cones, anchor = headlamp point (world compass N E S W)
+  night-taillights.png  4 frames  anchor centre    Tick -   additive 20x14 glows (world compass N E S W)

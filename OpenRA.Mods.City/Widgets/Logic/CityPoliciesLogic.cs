@@ -9,18 +9,22 @@
  */
 #endregion
 
+using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Text;
 using OpenRA.Mods.City.Traits;
 using OpenRA.Mods.Common.Widgets;
-using OpenRA.Primitives;
 using OpenRA.Widgets;
 
 namespace OpenRA.Mods.City.Widgets.Logic
 {
 	/// <summary>
-	/// Policies panel: city policies and per-district policies (data driven, IProgressionUiSource.Policies). A policy is
-	/// a toggle or a slider; changes are CitySetPolicy orders. Locked policies are shown disabled.
+	/// Policies window (design/iso/ui/panels/policies-*.png): city policies and per-district policies (data driven,
+	/// IProgressionUiSource.Policies), one tab each. A policy is a checkbox, optionally with a slider; changes are CitySetPolicy
+	/// orders. Locked policies are shown dimmed with a lock. Selecting a row shows its description and the monthly total of
+	/// all active policies. The window height follows the number of policies.
 	/// </summary>
 	public class CityPoliciesLogic : ChromeLogic
 	{
@@ -31,44 +35,150 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		const string ScopeDistrict = "label-policies-district";
 
 		[FluentReference]
+		const string TitleCity = "label-policies-window-city";
+
+		[FluentReference]
+		const string TitleDistrict = "label-policies-window-district";
+
+		[FluentReference]
+		const string WholeCity = "label-policies-whole-city";
+
+		[FluentReference]
 		const string NoDistricts = "label-policies-no-districts";
 
 		[FluentReference("amount")]
-		const string Upkeep = "label-policies-upkeep";
+		const string PerMonth = "label-policies-per-month";
+
+		[FluentReference]
+		const string Free = "label-policies-free";
 
 		[FluentReference]
 		const string Locked = "label-policies-locked";
 
+		[FluentReference("active", "total")]
+		const string ActiveCount = "label-policies-active";
+
+		[FluentReference("amount")]
+		const string MonthlyTotal = "label-policies-monthly-total";
+
+		[FluentReference]
+		const string HintText = "label-policies-hint";
+
+		const int RowHeight = 26;
+		const int ChromeHeight = 138;
+		const int MinRows = 3;
+		const int ListExtra = 136;
+
+		static readonly Dictionary<string, string> Icons = new()
+		{
+			["min-fare"] = "tr_bus",
+			["import-services"] = "stat_expenses",
+			["smoking-ban"] = "stat_health",
+			["education-boost"] = "cat_education",
+			["free-transit"] = "tr_metro",
+			["pollution-management"] = "st_air_pollution",
+			["city-promotion"] = "stat_tourist",
+			["high-speed-highways"] = "road_highway",
+			["energy-saving"] = "info_power",
+			["water-saving"] = "cat_water",
+			["recycling"] = "cat_garbage",
+			["speed-bumps"] = "ctl_stop",
+			["parking-fee"] = "addon_parking",
+			["small-business"] = "cat_zoning",
+			["heavy-traffic-ban"] = "tr_truck",
+			["gated-community"] = "stat_home",
+			["industrial-planning"] = "cat_industry",
+			["combustion-ban"] = "st_air_pollution",
+		};
+
 		readonly World world;
 		readonly CityUiContext ctx;
+		readonly Widget panel;
 		readonly ScrollPanelWidget list;
-		readonly LabelWidget districtName;
+		readonly Widget header;
+		readonly Widget detail;
+		readonly LabelWidget scopeLabel;
 		readonly List<PolicyEntry> current = [];
 		readonly StringBuilder signature = new();
 
 		bool districtScope;
 		string builtSignature;
+		string selected;
+		int rowsInList;
 
 		[ObjectCreator.UseCtor]
 		public CityPoliciesLogic(Widget widget, World world)
 		{
 			this.world = world;
 			ctx = CityUiContext.For(world);
-
-			widget.Get<ButtonWidget>("CLOSE").OnClick = () => widget.Visible = false;
+			panel = widget;
 			list = widget.Get<ScrollPanelWidget>("LIST");
-			districtName = widget.Get<LabelWidget>("DISTRICT_NAME");
-			districtName.IsVisible = () => districtScope;
-			districtName.GetText = DistrictLabel;
+			header = widget.Get("HEADER");
 
-			BuildScope(widget.Get("SCOPE"));
+			var window = (CityPanelWidget)widget;
+			var titleCity = FluentProvider.GetMessage(TitleCity);
+			var titleDistrict = FluentProvider.GetMessage(TitleDistrict);
+			window.GetTitle = () => districtScope ? titleDistrict : titleCity;
+			var city = FluentProvider.GetMessage(ScopeCity);
+			var district = FluentProvider.GetMessage(ScopeDistrict);
+			window.SetTabs(
+			[
+				new CityWindowTab { Icon = "pnl_city_info", GetTooltip = () => city, IsActive = () => !districtScope, OnClick = () => SetScope(false) },
+				new CityWindowTab { Icon = "pnl_districts", GetTooltip = () => district, IsActive = () => districtScope, OnClick = () => SetScope(true) }
+			]);
+
+			scopeLabel = header.Get<LabelWidget>("SCOPE_LABEL");
+			var wholeCity = FluentProvider.GetMessage(WholeCity);
+			var districtText = FluentProvider.GetMessage(ScopeDistrict);
+			scopeLabel.GetText = () => districtScope ? districtText : wholeCity;
+
+			var picker = header.Get<DropDownButtonWidget>("DISTRICT");
+			picker.IsVisible = () => districtScope;
+			picker.GetText = DistrictLabel;
+			picker.IsDisabled = () => (ctx.ProgressionUi?.Districts.Count ?? 0) == 0;
+			picker.OnClick = () =>
+			{
+				var districts = ctx.ProgressionUi?.Districts;
+				if (districts == null || districts.Count == 0)
+					return;
+
+				CityDropDown.Show(picker, districts.ToList(), d => string.IsNullOrEmpty(d.Name) ? "#" + d.Id : d.Name,
+					d => d.Id == ctx.SelectedDistrict, d => SelectDistrict(d.Id));
+			};
+
+			var previous = header.Get<ButtonWidget>("PREVIOUS");
+			var next = header.Get<ButtonWidget>("NEXT");
+			previous.IsVisible = next.IsVisible = () => districtScope;
+			previous.IsDisabled = next.IsDisabled = () => (ctx.ProgressionUi?.Districts.Count ?? 0) < 2;
+			previous.OnClick = () => StepDistrict(-1);
+			next.OnClick = () => StepDistrict(1);
+
+			var active = header.Get<LabelWidget>("ACTIVE");
+			active.GetText = () => FluentProvider.GetMessage(ActiveCount, "active", current.Count(p => p.Active), "total", current.Count);
+			active.GetColor = () => CityTheme.Muted("people");
+
+			detail = widget.Get("DETAIL");
+			var name = detail.Get<LabelWidget>("NAME");
+			name.GetText = () => Selected() is { Id: not null } p ? CityUi.Message(p.NameKey) : "";
+			name.GetColor = () => CityTheme.FamilyShade("people", 1);
+			var total = detail.Get<LabelWidget>("TOTAL");
+			total.GetText = () => current.Count == 0 ? "" : FluentProvider.GetMessage(MonthlyTotal, "amount", CityUi.SignedMoney(MonthlyBalance()));
+			total.GetColor = () => MonthlyBalance() >= 0 ? CityTheme.MoneyPositive : CityTheme.MoneyNegative;
+			var description = detail.Get<LabelWidget>("DESCRIPTION");
+			var hint = FluentProvider.GetMessage(HintText);
+			description.GetText = () => Selected() is { Id: not null } p ? CityUi.Message(p.DescKey, "") : hint;
+
+			widget.Get("EMPTY").IsVisible = () => current.Count == 0;
 
 			var panelVisible = widget.IsVisible;
 			widget.IsVisible = () =>
 			{
 				var visible = panelVisible();
 				if (visible)
+				{
 					Refresh();
+					FitWindow();
+				}
 
 				return visible;
 			};
@@ -76,72 +186,70 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 		int DistrictId => districtScope ? ctx.SelectedDistrict : 0;
 
-		string DistrictLabel()
+		void SetScope(bool district)
+		{
+			districtScope = district;
+			selected = null;
+			builtSignature = null;
+		}
+
+		void SelectDistrict(int id)
+		{
+			ctx.SelectedDistrict = id;
+			builtSignature = null;
+		}
+
+		void StepDistrict(int step)
 		{
 			var districts = ctx.ProgressionUi?.Districts;
 			if (districts == null || districts.Count == 0)
-				return FluentProvider.GetMessage(NoDistricts);
+				return;
 
-			foreach (var d in districts)
-				if (d.Id == ctx.SelectedDistrict)
-					return string.IsNullOrEmpty(d.Name) ? "#" + d.Id : d.Name;
+			var index = 0;
+			for (var i = 0; i < districts.Count; i++)
+				if (districts[i].Id == ctx.SelectedDistrict)
+					index = i;
+
+			SelectDistrict(districts[(index + step + districts.Count) % districts.Count].Id);
+		}
+
+		string DistrictLabel()
+		{
+			var districts = ctx.ProgressionUi?.Districts;
+			if (districts != null)
+				foreach (var d in districts)
+					if (d.Id == ctx.SelectedDistrict)
+						return string.IsNullOrEmpty(d.Name) ? "#" + d.Id : d.Name;
 
 			return FluentProvider.GetMessage(NoDistricts);
 		}
 
-		void BuildScope(Widget scope)
+		PolicyEntry Selected()
 		{
-			AddScopeButton(scope, 0, 120, ScopeCity, () => !districtScope, () => districtScope = false);
-			AddScopeButton(scope, 124, 120, ScopeDistrict, () => districtScope, () => districtScope = true);
-			AddArrow(scope, 440, "arrow-left", -1);
-			AddArrow(scope, 480, "arrow-right", 1);
+			return selected == null ? default : Find(selected);
 		}
 
-		void AddScopeButton(Widget scope, int x, int width, string key, System.Func<bool> highlighted, System.Action click)
+		/// <summary>Monthly money of the active policies: income positive, upkeep negative.</summary>
+		int MonthlyBalance()
 		{
-			var button = Game.LoadWidget(world, "CITY_INFOVIEW_ITEM", scope, []) as ButtonWidget;
-			button.Bounds.X = x;
-			button.Bounds.Width = width;
-			button.Bounds.Height = 28;
-			var text = FluentProvider.GetMessage(key);
-			button.GetText = () => text;
-			button.IsHighlighted = highlighted;
-			button.OnClick = () =>
-			{
-				click();
-				builtSignature = null;
-			};
+			var sum = 0;
+			foreach (var p in current)
+				if (p.Active)
+					sum -= p.UpkeepPerMonth;
+
+			return sum;
 		}
 
-		void AddArrow(Widget scope, int x, string icon, int step)
+		void FitWindow()
 		{
-			var button = Game.LoadWidget(world, "CITY_INFOVIEW_ITEM", scope, []) as ButtonWidget;
-			button.Bounds.X = x;
-			button.Bounds.Width = 36;
-			button.Bounds.Height = 28;
-			button.IsVisible = () => districtScope;
-			var image = new ImageWidget
-			{
-				ImageCollection = "city-icons-small",
-				ImageName = icon,
-				Bounds = new WidgetBounds(10, 6, 16, 16)
-			};
+			detail.Bounds.Y = panel.Bounds.Height - 61;
+			var rows = Math.Max(MinRows, current.Count);
+			if (CityPeopleFeed.FitHeight(panel, ChromeHeight + rows * RowHeight, ChromeHeight + MinRows * RowHeight))
+				list.Bounds.Height = panel.Bounds.Height - ListExtra;
+			else if (rowsInList != rows)
+				list.Bounds.Height = panel.Bounds.Height - ListExtra;
 
-			button.AddChild(image);
-			button.OnClick = () =>
-			{
-				var districts = ctx.ProgressionUi?.Districts;
-				if (districts == null || districts.Count == 0)
-					return;
-
-				var index = 0;
-				for (var i = 0; i < districts.Count; i++)
-					if (districts[i].Id == ctx.SelectedDistrict)
-						index = i;
-
-				ctx.SelectedDistrict = districts[(index + step + districts.Count) % districts.Count].Id;
-				builtSignature = null;
-			};
+			rowsInList = rows;
 		}
 
 		void Refresh()
@@ -150,15 +258,16 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			if (source == null)
 				return;
 
-			if (districtScope && ctx.SelectedDistrict == 0 && source.Districts.Count > 0)
+			if (districtScope && source.Districts.Count > 0 && source.Districts.All(d => d.Id != ctx.SelectedDistrict))
 				ctx.SelectedDistrict = source.Districts[0].Id;
 
 			current.Clear();
-			current.AddRange(source.Policies(DistrictId));
+			if (!districtScope || source.Districts.Count > 0)
+				current.AddRange(source.Policies(DistrictId));
 
 			// Rebuild only when the set of policies or the scope changes; values are read live.
 			signature.Clear();
-			signature.Append(districtScope).Append(DistrictId);
+			signature.Append(districtScope).Append(DistrictId).Append(list.Bounds.Width);
 			foreach (var p in current)
 				signature.Append('|').Append(p.Id).Append(p.Unlocked);
 
@@ -167,6 +276,9 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				return;
 
 			builtSignature = text;
+			if (selected == null || current.All(p => p.Id != selected))
+				selected = current.FirstOrDefault(p => p.Unlocked).Id ?? current.FirstOrDefault().Id;
+
 			list.RemoveChildren();
 			foreach (var policy in current)
 				AddRow(policy.Id);
@@ -184,56 +296,98 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			return default;
 		}
 
+		static string CostText(PolicyEntry p)
+		{
+			if (p.UpkeepPerMonth == 0)
+				return FluentProvider.GetMessage(Free);
+
+			return FluentProvider.GetMessage(PerMonth, "amount", CityUi.SignedMoney(-p.UpkeepPerMonth));
+		}
+
 		void AddRow(string id)
 		{
 			var entry = Find(id);
 			var row = Game.LoadWidget(world, "CITY_POLICY_ROW", list, []);
-			row.Bounds.Width = list.Bounds.Width - list.ScrollbarWidth - 6;
+			var width = list.Bounds.Width - list.ScrollbarWidth - 2;
+			row.Bounds.Width = width;
+			row.Bounds.Height = RowHeight;
 
-			var name = CityUi.Message(entry.NameKey);
-			var nameLabel = row.Get<LabelWithTooltipWidget>("NAME");
-			nameLabel.GetText = () => name;
-			nameLabel.GetColor = () => Find(id).Unlocked ? Color.White : CityUi.Muted;
-			var tip = name + "\n" + CityUi.Message(entry.DescKey, "");
-			nameLabel.GetTooltipText = () => tip;
+			var background = row.Get<CityRowBackgroundWidget>("BG");
+			background.Bounds.Width = width;
+			background.IsSelected = () => selected == id;
+			bool Dark() => selected == id;
 
-			var toggle = row.Get<ButtonWidget>("TOGGLE");
-			toggle.IsDisabled = () => !Find(id).Unlocked || world.LocalPlayer == null;
-			toggle.IsHighlighted = () => Find(id).Active;
-			toggle.Get<ImageWidget>("CHECK").IsVisible = () => Find(id).Active;
-			toggle.OnClick = () =>
-			{
-				var policy = Find(id);
-				var slider = policy.SliderMax > 0;
-				var value = policy.Active ? 0 : slider ? System.Math.Max(policy.SliderMin, policy.SliderValue) : 1;
-				world.IssueOrder(UiOrders.Policy(world.LocalPlayer, id, DistrictId, value));
-			};
+			var select = row.Get<ButtonWidget>("SELECT");
+			select.Background = "";
+			select.Bounds.Width = width;
+			select.OnClick = () => selected = id;
 
+			var icon = row.Get<CityIconWidget>("ICON");
+			icon.Icon = Icons.TryGetValue(id, out var name) ? name : "pnl_policies";
+			icon.IsDisabled = () => !Find(id).Unlocked;
+
+			var hasSlider = entry.SliderMax > 0;
 			var slider = row.Get<CitySliderWidget>("SLIDER");
-			slider.IsVisible = () => entry.SliderMax > 0;
+			var value = row.Get<LabelWidget>("VALUE");
+			var cost = row.Get<LabelWidget>("COST");
+			cost.Bounds.X = width - 96;
+			cost.Bounds.Width = 74;
+			var nameWidth = (hasSlider ? slider.Bounds.X : cost.Bounds.X) - 26 - 4;
+
+			var label = row.Get<LabelWidget>("NAME");
+			label.Bounds.Width = nameWidth;
+			var title = CityUi.Message(entry.NameKey);
+			label.GetText = CityUi.Fitted(label, () => title);
+			label.GetColor = () => Dark() ? CityTheme.InkLight : !Find(id).Unlocked ? CityTheme.Muted("people") : CityTheme.Ink;
+
+			var effect = row.Get<LabelWidget>("EFFECT");
+			effect.Bounds.Width = nameWidth;
+			var description = CityUi.Message(entry.DescKey, "");
+			effect.GetText = CityUi.Fitted(effect, () => description);
+			effect.GetColor = () => Dark() ? CityTheme.InkLight : CityTheme.Muted("people");
+
+			slider.IsVisible = () => hasSlider;
 			slider.MinimumValue = entry.SliderMin;
-			slider.MaximumValue = System.Math.Max(entry.SliderMin + 1, entry.SliderMax);
+			slider.MaximumValue = Math.Max(entry.SliderMin + 1, entry.SliderMax);
 			slider.GetValue = () => Find(id).SliderValue;
 			slider.IsDisabled = () => !Find(id).Unlocked || world.LocalPlayer == null;
-			slider.OnCommit = value => world.IssueOrder(UiOrders.Policy(world.LocalPlayer, id, DistrictId, value));
+			slider.OnCommit = v => world.IssueOrder(UiOrders.Policy(world.LocalPlayer, id, DistrictId, v));
+			value.IsVisible = () => hasSlider;
+			value.GetText = () => slider.DisplayValue.ToString(CultureInfo.CurrentCulture);
+			value.GetColor = () => Dark() ? CityTheme.InkLight : CityTheme.Ink;
 
-			// Columns from the right: upkeep, slider value, slider; the name takes the rest.
-			var width = row.Bounds.Width;
-			slider.Bounds.X = width - 292;
-			slider.Bounds.Width = 110;
-			nameLabel.Bounds.Width = slider.Bounds.X - 8 - nameLabel.Bounds.X;
+			var lockedText = FluentProvider.GetMessage(Locked);
+			cost.GetText = () => !Find(id).Unlocked ? lockedText : CostText(Find(id));
+			cost.GetColor = () =>
+			{
+				var p = Find(id);
+				if (!p.Unlocked)
+					return Dark() ? CityTheme.InkLight : CityTheme.Muted("people");
 
-			var value = row.Get<LabelWidget>("VALUE");
-			value.Bounds.X = width - 174;
-			value.Bounds.Width = 50;
-			value.IsVisible = () => entry.SliderMax > 0;
-			value.GetText = () => slider.DisplayValue.ToString(System.Globalization.CultureInfo.CurrentCulture);
+				if (p.UpkeepPerMonth == 0)
+					return Dark() ? CityTheme.InkLight : CityTheme.Muted("people");
 
-			var upkeep = row.Get<LabelWidget>("UPKEEP");
-			upkeep.Bounds.X = width - 116;
-			upkeep.Bounds.Width = 110;
-			upkeep.GetText = () => !Find(id).Unlocked ? FluentProvider.GetMessage(Locked) :
-				Find(id).UpkeepPerMonth > 0 ? FluentProvider.GetMessage(Upkeep, "amount", CityUtils.FormatMoney(Find(id).UpkeepPerMonth)) : "";
+				var good = p.UpkeepPerMonth < 0;
+				return Dark() ? (good ? CityTheme.MoneyPositiveLight : CityTheme.MoneyNegativeLight) : (good ? CityTheme.MoneyPositive : CityTheme.MoneyNegative);
+			};
+
+			var toggle = row.Get<CheckboxWidget>("TOGGLE");
+			toggle.Bounds.X = width - 22;
+			toggle.IsVisible = () => Find(id).Unlocked;
+			toggle.IsChecked = () => Find(id).Active;
+			toggle.IsDisabled = () => world.LocalPlayer == null;
+			toggle.OnClick = () =>
+			{
+				selected = id;
+				var policy = Find(id);
+				var isSlider = policy.SliderMax > 0;
+				var v = policy.Active ? 0 : isSlider ? Math.Max(policy.SliderMin, policy.SliderValue) : 1;
+				world.IssueOrder(UiOrders.Policy(world.LocalPlayer, id, DistrictId, v));
+			};
+
+			var padlock = row.Get<CityIconWidget>("LOCK");
+			padlock.Bounds.X = width - 24;
+			padlock.IsVisible = () => !Find(id).Unlocked;
 		}
 	}
 }

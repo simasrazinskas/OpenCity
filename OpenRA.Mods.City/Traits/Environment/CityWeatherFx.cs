@@ -10,56 +10,63 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Numerics;
 using OpenRA.Graphics;
-using OpenRA.Primitives;
-using OpenRA.Support;
 using OpenRA.Traits;
 
 namespace OpenRA.Mods.City.Traits
 {
 	[TraitLocation(SystemActors.World)]
-	[Desc("Render-only rain and snow particles (and storm lightning) driven by the weather of CityClimate. Uses its own local random numbers.")]
+	[Desc("Render-only weather drawn over the world: rain streaks and splashes, snow flakes, storm lightning, morning fog, drifting cloud",
+		"shadows and smog haze over polluted cells. Every particle is a pure function of its index and a render clock (hash-driven).")]
 	public class CityWeatherFxInfo : TraitInfo
 	{
 		[Desc("Particles at full precipitation intensity (per 1600x900 screen; scaled with the viewport).")]
-		public readonly int MaxRainParticles = 520;
+		public readonly int MaxRainParticles = 420;
 
 		public readonly int MaxSnowParticles = 380;
 
 		[Desc("Rain fall speed in pixels per second.")]
-		public readonly float RainSpeed = 1100f;
+		public readonly float RainSpeed = 520f;
 
 		[Desc("Snow fall speed in pixels per second.")]
-		public readonly float SnowSpeed = 55f;
+		public readonly float SnowSpeed = 38f;
 
 		[Desc("Sideways drift in pixels per second per wind level.")]
-		public readonly float WindDrift = 70f;
+		public readonly float WindDrift = 18f;
 
-		[Desc("Average seconds between lightning flashes during a storm.")]
+		[Desc("Average seconds between lightning strikes during a storm.")]
 		public readonly float LightningSeconds = 6f;
+
+		[Desc("Draw a haze veil over heavily polluted cells. Off by default: the veil hides the buildings beneath it,",
+			"and pollution already reads from dark smoke, ground stains and the pollution info view.")]
+		public readonly bool ShowSmog = false;
+
+		[Desc("Air pollution (0..100) from which smog haze is drawn over a cell (when ShowSmog is on).")]
+		public readonly int SmogThreshold = 60;
+
+		[Desc("Image with the LIFE weather sequences (rain, splash, snow, fog, cloud-shadow, lightning, smog).")]
+		public readonly string Image = "fx";
 
 		public override object Create(ActorInitializer init) { return new CityWeatherFx(init.Self, this); }
 	}
 
 	public class CityWeatherFx : IRenderAboveWorld, IWorldLoaded
 	{
-		struct Particle
-		{
-			public float X, Y, Speed, Phase, Size;
-		}
-
 		const int Capacity = 1600;
+		const int CloudShadows = 10;
 
 		readonly CityWeatherFxInfo info;
 		readonly World world;
-		readonly MersenneTwister random = new(12345);
-		readonly Particle[] particles = new Particle[Capacity];
 		CityAtmosphere atmosphere;
 		CityClimate climate;
+		IPollutionMap pollution;
+		ISpriteSequence rain, splash, snow, fog, cloudShadow, lightning, smog;
+		PaletteReference palette;
 		long lastTime;
-		float lightningTimer;
-		bool seeded;
+		float clock;
+		int lastStrike = -1;
 
 		public CityWeatherFx(Actor self, CityWeatherFxInfo info)
 		{
@@ -71,6 +78,29 @@ namespace OpenRA.Mods.City.Traits
 		{
 			atmosphere = w.WorldActor.TraitOrDefault<CityAtmosphere>();
 			climate = w.WorldActor.TraitOrDefault<CityClimate>();
+			pollution = w.WorldActor.TraitsImplementing<IPollutionMap>().FirstOrDefault();
+			var seqs = w.Map.Sequences;
+			ISpriteSequence Seq(string name) => seqs.HasSequence(info.Image, name) ? seqs.GetSequence(info.Image, name) : null;
+			rain = Seq("rain");
+			splash = Seq("splash");
+			snow = Seq("snow");
+			fog = Seq("fog");
+			cloudShadow = Seq("cloud-shadow");
+			lightning = Seq("lightning");
+			smog = Seq("smog");
+			palette = wr.Palette("city");
+		}
+
+		static float H01(int a, int b)
+		{
+			unchecked
+			{
+				var h = (uint)a * 2654435761u ^ (uint)b * 40503u ^ 0x9E3779B9u;
+				h ^= h >> 15;
+				h *= 2246822519u;
+				h ^= h >> 13;
+				return (h & 0xffffff) / 16777216f;
+			}
 		}
 
 		void IRenderAboveWorld.RenderAboveWorld(Actor self, WorldRenderer wr)
@@ -78,81 +108,180 @@ namespace OpenRA.Mods.City.Traits
 			var now = Game.RunTime;
 			var dt = Math.Min(0.1f, (now - lastTime) / 1000f);
 			lastTime = now;
-			if (atmosphere == null || atmosphere.Precipitation <= 0.01f)
+			if (atmosphere == null)
 				return;
 
+			if (!world.Paused)
+				clock += dt;
+
+			var light = Math.Clamp(1f - atmosphere.Darkness * 0.6f, 0.4f, 1f);
+			DrawCloudShadows(wr);
+			DrawSmog(wr, light);
+			DrawFog(wr, light);
+			if (atmosphere.Precipitation > 0.01f)
+				DrawPrecipitation(wr, light);
+		}
+
+		// Screen-space helper: the sprite's anchor lands on (x, y) like a SpriteRenderable at that screen point.
+		void DrawAt(Sprite s, float x, float y, float alpha, float light)
+		{
+			var loc = new Vector3(x - (int)(s.Size.X / 2), y - (int)(s.Size.Y / 2), y);
+			Game.Renderer.WorldSpriteRenderer.DrawSprite(s, palette, loc, 1f, new Vector3(light * alpha, light * alpha, light * alpha), alpha);
+		}
+
+		void DrawPrecipitation(WorldRenderer wr, float light)
+		{
 			var vp = wr.Viewport;
 			var size = vp.ViewportSize;
 			var topLeft = vp.TopLeft;
 			var snowing = atmosphere.Snowing;
 			var intensity = atmosphere.Precipitation;
-			var max = snowing ? info.MaxSnowParticles : info.MaxRainParticles;
+			var storm = atmosphere.Storm;
 			var area = size.Width * size.Height / (1600f * 900f);
+			var max = snowing ? info.MaxSnowParticles : info.MaxRainParticles;
 			var count = Math.Clamp((int)(max * intensity * Math.Max(0.3f, area)), 0, Capacity);
+			var wind = (climate?.WindSpeed ?? 1) * info.WindDrift * (storm ? 1.6f : 1f);
+			var w = size.Width + 80f;
+			var h = size.Height + 80f;
+			var seq = snowing ? snow : rain;
+			if (seq == null)
+				return;
 
-			if (!seeded)
-			{
-				seeded = true;
-				for (var i = 0; i < Capacity; i++)
-					Respawn(ref particles[i], size.Width, size.Height, true);
-			}
-
-			var wind = (climate?.WindSpeed ?? 1) * info.WindDrift * (atmosphere.Storm ? 1.6f : 1f);
-			var windX = climate != null ? CityClimate.WindVectors[climate.WindDir].X : 1;
-			var drift = wind * (windX != 0 ? windX : 0.25f) * (snowing ? 0.45f : 0.3f);
-			var tint = atmosphere.CurrentTint;
-			var light = Math.Clamp((tint.X + tint.Y + tint.Z) / 3f * 1.35f, 0.4f, 1f);
-			var paused = world.Paused;
-
-			var renderer = Game.Renderer.WorldRgbaColorRenderer;
 			for (var i = 0; i < count; i++)
 			{
-				ref var p = ref particles[i];
-				if (!paused)
-				{
-					var fall = p.Speed * (snowing ? info.SnowSpeed : info.RainSpeed) * (atmosphere.Storm ? 1.2f : 1f);
-					p.Y += fall * dt;
-					p.X += (drift + (snowing ? MathF.Sin(p.Phase + now * 0.0011f) * 22f : 0f)) * dt;
-					if (p.Y > size.Height + 20f || p.X > size.Width + 40f || p.X < -40f)
-						Respawn(ref p, size.Width, size.Height, false);
-				}
+				var speed = 0.75f + H01(i, 1) * 0.5f;
+				var fall = speed * (snowing ? info.SnowSpeed : info.RainSpeed) * (storm ? 1.2f : 1f);
+				var period = h / fall;
+				var u = clock / period + H01(i, 2);
+				var cycle = (int)MathF.Floor(u);
+				var f = u - cycle;
+				var t = f * period;
 
-				var x = topLeft.X + p.X;
-				var y = topLeft.Y + p.Y;
+				// Streaks in the art slant down-left: the wind blows them that way.
+				var x = H01(i, cycle * 2 + 3) * w - 40f - (snowing ? 0.45f : 1f) * wind * t;
 				if (snowing)
+					x += MathF.Sin(H01(i, 4) * 6.28f + clock * 1.1f) * 10f;
+
+				x = ((x + 40f) % w + w) % w - 40f;
+				var y = f * h - 40f;
+				var frame = snowing ? i % 3 : Math.Min(2, (int)((speed - 0.75f) * 6f));
+				DrawAt(seq.GetSprite(frame), topLeft.X + (int)x, topLeft.Y + (int)y, Math.Clamp(intensity + 0.3f, 0f, 1f), light);
+			}
+
+			// Splashes on the ground (rain only): short 4-frame bursts at hashed screen points.
+			if (!snowing && splash != null)
+			{
+				var splashes = count / 3;
+				for (var i = 0; i < splashes; i++)
 				{
-					var a = (byte)(235 * Math.Clamp(intensity + 0.3f, 0f, 1f));
-					var c = Color.FromArgb(a, (byte)(250 * light), (byte)(252 * light), (byte)(255 * light));
-					var s = p.Size;
-					renderer.FillRect(new Vector3(x, y, y), new Vector3(x + s, y + s, y), c);
-				}
-				else
-				{
-					var len = 9f + p.Speed * 7f;
-					var dx = drift * len / info.RainSpeed;
-					var c = Color.FromArgb((byte)(185 * Math.Clamp(intensity + 0.25f, 0f, 1f)), (byte)(175 * light), (byte)(195 * light), (byte)(235 * light));
-					renderer.DrawLine(new Vector3(x, y, y), new Vector3(x - dx, y - len, y), 1f, c);
+					var u = clock * 3f + H01(i, 7);
+					var cycle = (int)MathF.Floor(u);
+					var frame = (int)((u - cycle) * splash.Length);
+					var x = topLeft.X + H01(i, cycle * 3 + 8) * size.Width;
+					var y = topLeft.Y + H01(i, cycle * 3 + 9) * size.Height;
+					DrawAt(splash.GetSprite(frame), (int)x, (int)y, 1f, light);
 				}
 			}
 
-			if (atmosphere.Storm && !paused)
+			if (storm)
+				DrawLightning(wr);
+		}
+
+		void DrawLightning(WorldRenderer wr)
+		{
+			// One strike chance per LightningSeconds slot; the bolt shows for ~0.2 s at a hashed screen point.
+			var slot = (int)(clock / info.LightningSeconds);
+			if (H01(slot, 11) > 0.7f)
+				return;
+
+			var start = slot * info.LightningSeconds + H01(slot, 12) * info.LightningSeconds * 0.8f;
+			var age = clock - start;
+			if (age < 0f || age > 0.24f)
+				return;
+
+			if (lastStrike != slot && !world.Paused)
 			{
-				lightningTimer -= dt;
-				if (lightningTimer <= 0f)
-				{
-					lightningTimer = info.LightningSeconds * (0.4f + random.NextFloat() * 1.2f);
-					atmosphere.Flash(0.7f + random.NextFloat() * 0.3f);
-				}
+				lastStrike = slot;
+				atmosphere.Flash(0.7f + H01(slot, 13) * 0.3f);
+			}
+
+			if (lightning == null)
+				return;
+
+			var vp = wr.Viewport;
+			var x = vp.TopLeft.X + (0.15f + H01(slot, 14) * 0.7f) * vp.ViewportSize.Width;
+			var y = vp.TopLeft.Y + (0.45f + H01(slot, 15) * 0.4f) * vp.ViewportSize.Height;
+			var s = lightning.GetSprite((int)(age / 0.08f));
+			DrawAt(s, (int)x, (int)y - s.Size.Y / 2 + 2, 1f, 1f);
+		}
+
+		// Morning fog (or the test override): dithered fog tiles over every visible cell, denser near dawn.
+		void DrawFog(WorldRenderer wr, float light)
+		{
+			if (fog == null)
+				return;
+
+			var hour = atmosphere.HourF;
+			var morning = Math.Clamp(1f - Math.Abs(hour - 6.5f) / 2.5f, 0f, 1f);
+			var cloud = climate != null ? climate.Cloud / 100f : 0f;
+			var density = atmosphere.TestWeather == 4 ? 1f : morning * Math.Clamp((cloud - 0.45f) * 2.5f, 0f, 1f) * (atmosphere.Storm ? 0f : 1f);
+			if (density <= 0.05f)
+				return;
+
+			// One tile kind for the whole view: the periodic noise only joins seamlessly with itself.
+			var tile = fog.GetSprite(density > 0.8f ? 1 : 0);
+			var alpha = 0.06f + density * 0.14f; // Light enough that buildings stay readable through it.
+			foreach (var c in wr.Viewport.AllVisibleCells.CandidateMapCoords)
+			{
+				var s = wr.ScreenPxPosition(world.Map.CenterOfCell(c.ToCPos(world.Map)));
+				DrawAt(tile, s.X, s.Y, alpha, light);
 			}
 		}
 
-		void Respawn(ref Particle p, int width, int height, bool anywhere)
+		// Soft cloud shadows drifting with the wind across the map (world anchored, so they scroll with the view).
+		void DrawCloudShadows(WorldRenderer wr)
 		{
-			p.X = random.NextFloat() * (width + 80) - 40;
-			p.Y = anywhere ? random.NextFloat() * height : -random.NextFloat() * 30f;
-			p.Speed = 0.75f + random.NextFloat() * 0.5f;
-			p.Phase = random.NextFloat() * 6.28f;
-			p.Size = 1.5f + random.NextFloat() * 1.8f;
+			if (cloudShadow == null || climate == null)
+				return;
+
+			var cloud = climate.Cloud / 100f;
+			if (cloud < 0.2f || atmosphere.Darkness > 0.6f || atmosphere.Precipitation > 0.3f)
+				return;
+
+			var map = world.Map;
+			var wind = CityClimate.WindVectors[climate.WindDir];
+			var speed = 40f + climate.WindSpeed * 25f;
+			var spanX = map.MapSize.Width * 1024f;
+			var spanY = map.MapSize.Height * 1024f;
+			var count = (int)(CloudShadows * Math.Min(1f, cloud * 1.5f));
+			for (var i = 0; i < count; i++)
+			{
+				var x = (H01(i, 21) * spanX + wind.X * speed * clock) % spanX;
+				var y = (H01(i, 22) * spanY + wind.Y * speed * clock) % spanY;
+				x = x < 0 ? x + spanX : x;
+				y = y < 0 ? y + spanY : y;
+				var s = wr.ScreenPxPosition(new WPos((int)x, (int)y, 0));
+				DrawAt(cloudShadow.GetSprite(i & 1), s.X, s.Y, 0.35f * (1f - atmosphere.Darkness), 1f);
+			}
+		}
+
+		// Smog haze over cells with heavy air pollution (3 intensities).
+		void DrawSmog(WorldRenderer wr, float light)
+		{
+			if (!info.ShowSmog || smog == null || pollution == null)
+				return;
+
+			foreach (var c in wr.Viewport.AllVisibleCells.CandidateMapCoords)
+			{
+				var cell = c.ToCPos(world.Map);
+				var air = pollution.GetAir(cell);
+				if (air < info.SmogThreshold)
+					continue;
+
+				var level = Math.Min(2, (air - info.SmogThreshold) * 3 / Math.Max(1, 100 - info.SmogThreshold));
+				var s = wr.ScreenPxPosition(world.Map.CenterOfCell(cell));
+				DrawAt(smog.GetSprite(level), s.X, s.Y, 0.55f, light);
+			}
 		}
 	}
 }

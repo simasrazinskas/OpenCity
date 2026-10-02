@@ -1,0 +1,294 @@
+# Vehicle inspector (design/iso/ui/panels/vehicle-*.png, tools/iso_ui_panels_people.py): transit family, two icon tabs
+# (overview, trip). The icon buttons on the right locate and follow the vehicle. CityVehicleLogic fills it.
+CityPanel@CITY_VEHICLE_PANEL:
+	Logic: CityVehicleLogic
+	Family: transit
+	Placement: TopLeft
+	Width: 260
+	Height: 196
+	Visible: false
+	Children:
+		Button@LOCATE:
+			X: PARENT_WIDTH - 26
+			Y: 49
+			Width: 22
+			Height: 22
+			IgnoreChildMouseOver: true
+			TooltipContainer: TOOLTIP_CONTAINER
+			TooltipTemplate: CITY_TOOLTIP
+			Children:
+				CityIcon@ICON:
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT
+					Icon: ui_locate
+		Button@FOLLOW:
+			X: PARENT_WIDTH - 26
+			Y: 73
+			Width: 22
+			Height: 22
+			IgnoreChildMouseOver: true
+			TooltipContainer: TOOLTIP_CONTAINER
+			TooltipTemplate: CITY_TOOLTIP
+			Children:
+				CityIcon@ICON:
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT
+					Icon: ui_follow
+		Container@PAGE_OVERVIEW:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 34
+			Height: PARENT_HEIGHT - 54
+			Children:
+				Background@VIEW:
+					Width: 96
+					Height: 60
+					Background: well-dark
+					Children:
+						CityIcon@VEHICLE:
+							X: 32
+							Y: 14
+							Width: 32
+							Height: 32
+							Size: 32
+				Label@PURPOSE:
+					X: 102
+					Y: 1
+					Width: PARENT_WIDTH - 102
+					Height: 13
+					Font: TinyBold
+				Background@MODE_CHIP:
+					X: 102
+					Y: 16
+					Width: PARENT_WIDTH - 102
+					Height: 18
+					Background: chip-blue
+					Children:
+						CityIcon@ICON:
+							X: 1
+							Y: 1
+							Width: 16
+							Height: 16
+						Label@NAME:
+							X: 20
+							Width: PARENT_WIDTH - 22
+							Height: PARENT_HEIGHT
+							Font: Tiny
+				Button@DRIVER:
+					X: 102
+					Y: 40
+					Width: PARENT_WIDTH - 102
+					Height: 14
+					Font: Tiny
+				Label@PROGRESS_LABEL:
+					Y: 66
+					Width: 60
+					Height: 12
+					Font: Tiny
+					Text: label-vehicle-progress
+				CityBar@PROGRESS:
+					X: 62
+					Y: 67
+					Width: PARENT_WIDTH - 62 - 34
+					Height: 10
+					Ramp: blue
+				Label@PERCENT:
+					X: PARENT_WIDTH - 32
+					Y: 66
+					Width: 32
+					Height: 12
+					Font: TinyBold
+					Align: Right
+				Label@STATUS_LABEL:
+					Y: 80
+					Width: 60
+					Height: 12
+					Font: Tiny
+					Text: label-vehicle-status
+				Label@STATUS:
+					X: 60
+					Y: 80
+					Width: PARENT_WIDTH - 60
+					Height: 12
+					Font: TinyBold
+					Align: Right
+				Background@FROM_ROW:
+					Y: 96
+					Width: PARENT_WIDTH
+					Height: 20
+					Background: well
+					Children:
+						Label@LABEL:
+							X: 5
+							Width: 30
+							Height: PARENT_HEIGHT
+							Font: Tiny
+							Text: label-vehicle-from-short
+						Label@NAME:
+							X: 35
+							Width: PARENT_WIDTH - 35 - 22
+							Height: PARENT_HEIGHT
+							Font: Tiny
+						Button@LOCATE:
+							X: PARENT_WIDTH - 20
+							Y: 2
+							Width: 16
+							Height: 16
+							IgnoreChildMouseOver: true
+							TooltipContainer: TOOLTIP_CONTAINER
+							TooltipTemplate: CITY_TOOLTIP
+							Children:
+								CityIcon@ICON:
+									Width: PARENT_WIDTH
+									Height: PARENT_HEIGHT
+									Size: 12
+									Icon: ui_locate
+				Background@TO_ROW:
+					Y: 118
+					Width: PARENT_WIDTH
+					Height: 20
+					Background: well
+					Children:
+						Label@LABEL:
+							X: 5
+							Width: 30
+							Height: PARENT_HEIGHT
+							Font: Tiny
+							Text: label-vehicle-to-short
+						Label@NAME:
+							X: 35
+							Width: PARENT_WIDTH - 35 - 22
+							Height: PARENT_HEIGHT
+							Font: Tiny
+						Button@LOCATE:
+							X: PARENT_WIDTH - 20
+							Y: 2
+							Width: 16
+							Height: 16
+							IgnoreChildMouseOver: true
+							TooltipContainer: TOOLTIP_CONTAINER
+							TooltipTemplate: CITY_TOOLTIP
+							Children:
+								CityIcon@ICON:
+									Width: PARENT_WIDTH
+									Height: PARENT_HEIGHT
+									Size: 12
+									Icon: ui_locate
+		Container@PAGE_TRIP:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 34
+			Height: PARENT_HEIGHT - 54
+			Visible: false
+			Children:
+				CityHeader@HEADER:
+					Width: PARENT_WIDTH
+					Height: 12
+					Text: label-vehicle-trip-header
+				Background@STOPS:
+					Y: 14
+					Width: PARENT_WIDTH
+					Height: 54
+					Background: well
+					Children:
+						CityRowBackground@BG_FROM:
+							X: 2
+							Y: 2
+							Width: PARENT_WIDTH - 4
+							Height: 16
+							Hover: false
+							Zebra: false
+						CityRowBackground@BG_NOW:
+							X: 2
+							Y: 18
+							Width: PARENT_WIDTH - 4
+							Height: 16
+							Hover: false
+							Zebra: false
+						CityRowBackground@BG_TO:
+							X: 2
+							Y: 34
+							Width: PARENT_WIDTH - 4
+							Height: 16
+							Hover: false
+							Zebra: false
+						ColorBlock@LINE:
+							X: 10
+							Y: 10
+							Width: 2
+							Height: 32
+						Background@DOT_FROM:
+							X: 8
+							Y: 6
+							Width: 7
+							Height: 7
+							Background: chip-blue
+						Background@DOT_NOW:
+							X: 8
+							Y: 22
+							Width: 7
+							Height: 7
+							Background: chip-yellow
+						Background@DOT_TO:
+							X: 8
+							Y: 38
+							Width: 7
+							Height: 7
+							Background: chip-blue
+						Label@FROM_NAME:
+							X: 22
+							Y: 2
+							Width: PARENT_WIDTH - 22 - 24
+							Height: 16
+							Font: Tiny
+						Label@NOW_NAME:
+							X: 22
+							Y: 18
+							Width: PARENT_WIDTH - 22 - 40
+							Height: 16
+							Font: Tiny
+						Label@NOW_PERCENT:
+							X: PARENT_WIDTH - 40
+							Y: 18
+							Width: 36
+							Height: 16
+							Font: TinyBold
+							Align: Right
+						Label@TO_NAME:
+							X: 22
+							Y: 34
+							Width: PARENT_WIDTH - 22 - 24
+							Height: 16
+							Font: Tiny
+						Button@FROM_LOCATE:
+							X: PARENT_WIDTH - 22
+							Y: 3
+							Width: 16
+							Height: 14
+							IgnoreChildMouseOver: true
+							TooltipContainer: TOOLTIP_CONTAINER
+							TooltipTemplate: CITY_TOOLTIP
+							Children:
+								CityIcon@ICON:
+									Width: PARENT_WIDTH
+									Height: PARENT_HEIGHT
+									Size: 12
+									Icon: ui_locate
+						Button@TO_LOCATE:
+							X: PARENT_WIDTH - 22
+							Y: 35
+							Width: 16
+							Height: 14
+							IgnoreChildMouseOver: true
+							TooltipContainer: TOOLTIP_CONTAINER
+							TooltipTemplate: CITY_TOOLTIP
+							Children:
+								CityIcon@ICON:
+									Width: PARENT_WIDTH
+									Height: PARENT_HEIGHT
+									Size: 12
+									Icon: ui_locate
+				Container@ROWS:
+					Y: 76
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT - 76

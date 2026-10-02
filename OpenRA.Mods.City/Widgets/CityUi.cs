@@ -18,11 +18,15 @@ namespace OpenRA.Mods.City.Widgets
 	/// <summary>Small helpers shared by the OpenCity widgets and chrome logic.</summary>
 	public static class CityUi
 	{
-		public static readonly Color Good = Color.FromArgb(0x5C, 0xD6, 0x7A);
-		public static readonly Color Bad = Color.FromArgb(0xFF, 0x6B, 0x5E);
-		public static readonly Color Warn = Color.FromArgb(0xF2, 0xC9, 0x4C);
-		public static readonly Color Muted = Color.FromArgb(0xB4, 0xC4, 0xD0);
-		public static readonly Color Accent = Color.FromArgb(0xE8, 0xA0, 0x30);
+		// Text colours for the light RCT2 window bodies (uistyle.yaml Ink: MoneyPositive / MoneyNegative, ramp shades).
+		public static readonly Color Good = Color.FromArgb(0x0E, 0x5A, 0x16);
+		public static readonly Color Bad = Color.FromArgb(0xA0, 0x14, 0x10);
+		public static readonly Color Warn = Color.FromArgb(0x8A, 0x42, 0x0A);
+		public static readonly Color Muted = Color.FromArgb(0x5C, 0x3A, 0x1C);
+		public static readonly Color Accent = Color.FromArgb(0xB4, 0x5C, 0x12);
+
+		/// <summary>Muted text over the world (annotations): stays light on the map.</summary>
+		public static readonly Color WorldMuted = Color.FromArgb(0xB4, 0xC4, 0xD0);
 
 		static readonly Color HeatRed = Color.FromArgb(0xE5, 0x4B, 0x3C);
 		static readonly Color HeatYellow = Color.FromArgb(0xF2, 0xD0, 0x4C);
@@ -201,7 +205,7 @@ namespace OpenRA.Mods.City.Widgets
 				case 1: return Good;
 				case 2: return Warn;
 				case 3: return Bad;
-				default: return Color.White;
+				default: return CityTheme.Ink;
 			}
 		}
 
@@ -209,6 +213,50 @@ namespace OpenRA.Mods.City.Widgets
 		public static Color PercentColor(int value)
 		{
 			return value >= 60 ? Good : value >= 35 ? Warn : Bad;
+		}
+
+		/// <summary>RCT2 icon of a budget ledger key (tax-*, fee-*, fares-*, upkeep-*, ...).</summary>
+		public static string LedgerIcon(string key)
+		{
+			if (key == null)
+				return null;
+
+			switch (key)
+			{
+				case "tax-residential": return "zone_res_low";
+				case "tax-commercial": return "zone_com_low";
+				case "tax-industrial": return "zone_ind";
+				case "tax-office": return "zone_off";
+				case "fee-parking": return "addon_parking";
+				case "upkeep-roads": return "cat_roads";
+				case "upkeep-sewage": return "info_sewage";
+				case "upkeep-telecom": return "cat_comms";
+				case "upkeep-post": return "info_post";
+				case "upkeep-services": return "cat_health";
+				case "trade": return "tr_ship";
+				case "recycling": return "res_paper";
+				case "industry": return "cat_industry";
+				case "crime": return "info_crime";
+				case "milestone": return "stat_permit";
+				case "construction": return "tool_upgrade";
+			}
+
+			if (key.StartsWith("fee-", StringComparison.Ordinal))
+				return "info_" + key[4..];
+
+			if (key.StartsWith("fares-", StringComparison.Ordinal))
+				return "tr_" + key[6..];
+
+			if (key.StartsWith("upkeep-", StringComparison.Ordinal))
+				return "cat_" + key[7..];
+
+			if (key.StartsWith("loan", StringComparison.Ordinal) || key.Contains("interest"))
+				return "stat_loan";
+
+			if (key.StartsWith("transit", StringComparison.Ordinal))
+				return "tr_bus";
+
+			return key.Contains("upkeep") || key.Contains("wages") ? "stat_expenses" : "stat_income";
 		}
 
 		public static Color FromArgb(int argb)

@@ -1,0 +1,380 @@
+{
+ "page": "Interface",
+ "section": "HUD & panels",
+ "groups": [
+  {
+   "title": "Main HUD mockups (placeholder world; final scene comes from KIT)",
+   "columns": 2,
+   "scale": 1,
+   "items": [
+    {
+     "file": "screens/hud-1280x720-1x.png",
+     "label": "Main HUD 1280x720, UI 1x (medium toolbar)"
+    },
+    {
+     "file": "screens/hud-1920x1080-1x.png",
+     "label": "Main HUD 1920x1080, UI 1x (wide toolbar)"
+    },
+    {
+     "file": "screens/hud-1920x1080-1.5x.png",
+     "label": "Main HUD 1920x1080, UI 1.5x"
+    },
+    {
+     "file": "screens/hud-1280x720-1.5x.png",
+     "label": "Main HUD 1280x720, UI 1.5x (compact toolbar)"
+    },
+    {
+     "file": "screens/hud-sidebar-1280x720-1x.png",
+     "label": "Alternative: current right-sidebar layout in RCT2 chrome (1280x720, 1x)"
+    },
+    {
+     "file": "screens/hud-infoview-1920x1080-1x.png",
+     "label": "Info view active: land value overlay + info-view panel + legend (1920x1080, 1x)"
+    }
+   ]
+  },
+  {
+   "title": "Build menu and building inspector (RCT2 ride-window tabs)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "panels/build-menu-health.png",
+     "label": "Build menu: Health & Deathcare"
+    },
+    {
+     "file": "panels/inspector-efficiency.png",
+     "label": "Building inspector: efficiency graph"
+    },
+    {
+     "file": "panels/inspector-upkeep.png",
+     "label": "Building inspector: upkeep"
+    },
+    {
+     "file": "panels/inspector-finances.png",
+     "label": "Building inspector: finances"
+    },
+    {
+     "file": "panels/inspector-occupants.png",
+     "label": "Building inspector: occupants"
+    },
+    {
+     "file": "panels/inspector-overview.png",
+     "label": "Building inspector: overview"
+    }
+   ]
+  },
+  {
+   "title": "Same windows redrawn at UI 1.5x",
+   "columns": 4,
+   "scale": 1,
+   "items": [
+    {
+     "file": "panels-1.5x/build-menu-health.png",
+     "label": "Build menu: Health & Deathcare (1.5x)"
+    },
+    {
+     "file": "panels-1.5x/inspector-overview.png",
+     "label": "Building inspector: overview (1.5x)"
+    },
+    {
+     "file": "panels-1.5x/budget-services.png",
+     "label": "Budget: expenses / service budgets (1.5x)"
+    },
+    {
+     "file": "panels-1.5x/statistics-population.png",
+     "label": "Statistics: population (1.5x)"
+    },
+    {
+     "file": "panels-1.5x/citizen-overview.png",
+     "label": "Citizen inspector: overview (1.5x)"
+    },
+    {
+     "file": "panels-1.5x/milestones-devtree.png",
+     "label": "Progression: development tree (1.5x)"
+    },
+    {
+     "file": "panels-1.5x/transit-line-route.png",
+     "label": "Line detail: route (1.5x)"
+    }
+   ]
+  },
+  {
+   "title": "Budget, statistics, production, city info",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "panels/budget-loans.png",
+     "label": "Budget: loans"
+    },
+    {
+     "file": "panels/budget-fees.png",
+     "label": "Budget: fees"
+    },
+    {
+     "file": "panels/budget-taxes.png",
+     "label": "Budget: taxes"
+    },
+    {
+     "file": "panels/budget-services.png",
+     "label": "Budget: expenses / service budgets"
+    },
+    {
+     "file": "panels/budget-income.png",
+     "label": "Budget: income"
+    },
+    {
+     "file": "panels/budget-overview.png",
+     "label": "Budget: overview"
+    },
+    {
+     "file": "panels/statistics-traffic.png",
+     "label": "Statistics: traffic"
+    },
+    {
+     "file": "panels/statistics-environment.png",
+     "label": "Statistics: environment"
+    },
+    {
+     "file": "panels/statistics-utilities.png",
+     "label": "Statistics: utilities"
+    },
+    {
+     "file": "panels/statistics-city.png",
+     "label": "Statistics: city"
+    },
+    {
+     "file": "panels/statistics-economy.png",
+     "label": "Statistics: economy"
+    },
+    {
+     "file": "panels/statistics-population.png",
+     "label": "Statistics: population"
+    },
+    {
+     "file": "panels/production-trade-sorted.png",
+     "label": "Production & trade: sorted by imports"
+    },
+    {
+     "file": "panels/production-trade.png",
+     "label": "Production & trade"
+    },
+    {
+     "file": "panels/city-info.png",
+     "label": "City info dashboard"
+    }
+   ]
+  },
+  {
+   "title": "Citizens, vehicles, chirper, advisor, progression, policies, districts",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "panels/citizen-lifepath.png",
+     "label": "Citizen inspector: life path"
+    },
+    {
+     "file": "panels/citizen-household.png",
+     "label": "Citizen inspector: household"
+    },
+    {
+     "file": "panels/citizen-overview.png",
+     "label": "Citizen inspector: overview"
+    },
+    {
+     "file": "panels/vehicle-route.png",
+     "label": "Vehicle inspector: route"
+    },
+    {
+     "file": "panels/vehicle-overview.png",
+     "label": "Vehicle inspector: overview"
+    },
+    {
+     "file": "panels/chirper-filter-open.png",
+     "label": "Chirper feed: filter dropdown open"
+    },
+    {
+     "file": "panels/chirper-feed.png",
+     "label": "Chirper feed"
+    },
+    {
+     "file": "panels/advisor-urgent.png",
+     "label": "Advisor: urgent message"
+    },
+    {
+     "file": "panels/advisor-tutorial.png",
+     "label": "Advisor: tutorial step"
+    },
+    {
+     "file": "panels/milestones-achievements.png",
+     "label": "Progression: achievements"
+    },
+    {
+     "file": "panels/milestones-devtree.png",
+     "label": "Progression: development tree"
+    },
+    {
+     "file": "panels/milestones-milestones.png",
+     "label": "Progression: milestones"
+    },
+    {
+     "file": "panels/policies-district.png",
+     "label": "Policies: district"
+    },
+    {
+     "file": "panels/policies-city.png",
+     "label": "Policies: city"
+    },
+    {
+     "file": "panels/districts-paint.png",
+     "label": "Districts: painting"
+    },
+    {
+     "file": "panels/districts-rename.png",
+     "label": "Districts: renaming"
+    },
+    {
+     "file": "panels/districts-list.png",
+     "label": "Districts: list"
+    }
+   ]
+  },
+  {
+   "title": "Transit lines, info views + legends, alerts, map tiles, road inspector, tool palettes",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "panels/transit-lines-taxi.png",
+     "label": "Transit lines: taxi"
+    },
+    {
+     "file": "panels/transit-lines-train.png",
+     "label": "Transit lines: train"
+    },
+    {
+     "file": "panels/transit-lines-metro.png",
+     "label": "Transit lines: metro"
+    },
+    {
+     "file": "panels/transit-lines-tram.png",
+     "label": "Transit lines: tram"
+    },
+    {
+     "file": "panels/transit-lines-bus.png",
+     "label": "Transit lines: bus"
+    },
+    {
+     "file": "panels/transit-line-passengers.png",
+     "label": "Line detail: passengers"
+    },
+    {
+     "file": "panels/transit-line-vehicles.png",
+     "label": "Line detail: vehicles"
+    },
+    {
+     "file": "panels/transit-line-route-metro.png",
+     "label": "Line detail: route (metro)"
+    },
+    {
+     "file": "panels/transit-line-route.png",
+     "label": "Line detail: route"
+    },
+    {
+     "file": "panels/infoviews-traffic.png",
+     "label": "Info views panel: traffic"
+    },
+    {
+     "file": "panels/infoviews-landvalue.png",
+     "label": "Info views panel: land value"
+    },
+    {
+     "file": "panels/legend-landvalue.png",
+     "label": "Legend: land value (heat ramp)"
+    },
+    {
+     "file": "panels/legend-pollution.png",
+     "label": "Legend: pollution (heat ramp)"
+    },
+    {
+     "file": "panels/legend-happiness.png",
+     "label": "Legend: happiness (good/bad ramp)"
+    },
+    {
+     "file": "panels/legend-zones.png",
+     "label": "Legend: zones (category)"
+    },
+    {
+     "file": "panels/legend-fire.png",
+     "label": "Legend: fire coverage"
+    },
+    {
+     "file": "panels/legend-resources.png",
+     "label": "Legend: natural resources"
+    },
+    {
+     "file": "panels/notifications-chirps.png",
+     "label": "Notifications centre: chirps"
+    },
+    {
+     "file": "panels/notifications-events.png",
+     "label": "Notifications centre: city events"
+    },
+    {
+     "file": "panels/notifications-problems.png",
+     "label": "Notifications centre: problems"
+    },
+    {
+     "file": "panels/notifications-all.png",
+     "label": "Notifications centre: all"
+    },
+    {
+     "file": "panels/tiles-locked.png",
+     "label": "Map tiles: locked tile"
+    },
+    {
+     "file": "panels/tiles-owned.png",
+     "label": "Map tiles: owned tile"
+    },
+    {
+     "file": "panels/tiles-buy.png",
+     "label": "Map tiles: purchasable tile"
+    },
+    {
+     "file": "panels/road-inspector-traffic.png",
+     "label": "Road inspector: traffic"
+    },
+    {
+     "file": "panels/road-inspector-overview.png",
+     "label": "Road inspector: overview"
+    },
+    {
+     "file": "panels/tool-road-curve.png",
+     "label": "Tool options: road (curve, street)"
+    },
+    {
+     "file": "panels/tool-road.png",
+     "label": "Tool options: road"
+    },
+    {
+     "file": "panels/tool-zoning-fill.png",
+     "label": "Tool options: zoning (commercial, fill)"
+    },
+    {
+     "file": "panels/tool-zoning.png",
+     "label": "Tool options: zoning"
+    },
+    {
+     "file": "panels/tool-terraform-lower.png",
+     "label": "Tool options: terraform (lower)"
+    },
+    {
+     "file": "panels/tool-terraform.png",
+     "label": "Tool options: terraform"
+    }
+   ]
+  }
+ ]
+}

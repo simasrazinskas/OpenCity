@@ -27,11 +27,28 @@ namespace OpenRA.Mods.City.Traits
 			public WPos Pos;
 			public WAngle Facing;
 			public int Progress;
+			public float T;
+			public int Offset;
+			public bool Hidden;
 		}
+
+		// What a vehicle looks like: up to three segments (articulated bus, tram, lorry + trailer), a colour and its total length.
+		struct Look
+		{
+			public MoverModel A, B, C;
+			public int Variant;
+			public float Length;
+		}
+
+		const float QueueGap = 0.06f;
 
 		ISpriteSequence[] sequences = [];
 		ISpriteSequence pedestrianSequence;
 		PaletteReference palette;
+		MoverArt art;
+		CityAtmosphere atmosphere;
+		Vector3 ambient = Vector3.One;
+		float night;
 		long tickStartRunTime;
 		readonly List<IRenderable> frame = [];
 		readonly float[] laneLimit = new float[4];
@@ -40,7 +57,7 @@ namespace OpenRA.Mods.City.Traits
 
 		void LoadRenderAssets(WorldRenderer wr)
 		{
-			// Missing art falls back to the first car sprite.
+			// Legacy top-down art is the fallback when the iso art (v-<model>) is missing.
 			var list = new List<ISpriteSequence>();
 			foreach (var n in spriteNames)
 			{
@@ -54,6 +71,9 @@ namespace OpenRA.Mods.City.Traits
 			if (map.Sequences.HasSequence(Info.PedestrianImage, "idle"))
 				pedestrianSequence = map.Sequences.GetSequence(Info.PedestrianImage, "idle");
 
+			art = new MoverArt(world);
+			atmosphere = world.WorldActor.TraitOrDefault<CityAtmosphere>();
+			LoadPeople();
 			palette = wr.Palette(Info.Palette);
 		}
 
@@ -77,6 +97,8 @@ namespace OpenRA.Mods.City.Traits
 				return SpriteRenderable.None;
 
 			frame.Clear();
+			ambient = MoverArt.Ambient(atmosphere);
+			night = MoverArt.Night(atmosphere);
 			var renderU = RenderU();
 
 			var region = wr.Viewport.AllVisibleCells;
@@ -96,22 +118,18 @@ namespace OpenRA.Mods.City.Traits
 						DrawParked(cell, x, y);
 
 					var l = cell * 4;
-					if (qHead[l] >= 0)
-						DrawLink(l, x, y, 0, renderU);
-
-					if (qHead[l + 1] >= 0)
-						DrawLink(l + 1, x, y, 1, renderU);
-
-					if (qHead[l + 2] >= 0)
-						DrawLink(l + 2, x, y, 2, renderU);
-
-					if (qHead[l + 3] >= 0)
-						DrawLink(l + 3, x, y, 3, renderU);
+					for (var h = 0; h < 4; h++)
+						if (qHead[l + h] >= 0)
+							DrawLink(l + h, x, y, h, renderU);
 				}
 			}
 
+			if (Showcase)
+				DrawShowcase(x0, y0, x1, y1, renderU);
+
 			DrawWrecks(x0, y0, x1, y1);
 			DrawPedestrians(x0, y0, x1, y1, renderU);
+			DrawAmbientWalkers(x0, y0, x1, y1, renderU);
 			return frame;
 		}
 
@@ -123,42 +141,130 @@ namespace OpenRA.Mods.City.Traits
 		void DrawLink(int l, int cx, int cy, int h, int renderU)
 		{
 			LayoutLink(l, cx, cy, h, renderU);
+			var cell = l >> 2;
 			foreach (var p in poses)
 			{
-				var seq = sequences[Math.Min(vTrip[p.Vehicle].Sprite, sequences.Length - 1)];
-				if (seq == null)
+				if (p.Hidden)
 					continue;
 
-				frame.Add(new SpriteRenderable(seq.GetSprite(0, p.Facing), p.Pos, WVec.Zero, 0, palette, seq.Scale * Info.SpriteScale, 1f,
-					Vector3.One, TintModifiers.None, false));
 				drawn.Add(p);
+				var look = LookOf(p.Vehicle);
+				if (look.A == null)
+				{
+					var seq = sequences[Math.Min(vTrip[p.Vehicle].Sprite, sequences.Length - 1)];
+					if (seq != null)
+						frame.Add(new SpriteRenderable(seq.GetSprite(0, p.Facing), p.Pos, WVec.Zero, 0, palette, seq.Scale * Info.SpriteScale, 1f,
+							ambient, TintModifiers.None, false));
+
+					continue;
+				}
+
+				var alert = look.A.Alert != null ? (renderU / U / 3 + p.Vehicle) & 1 : -1;
+				MoverArt.Draw(frame, look.A, p.Pos, p.Facing, look.Variant, alert, night, ambient, palette);
+				if (look.B == null)
+					continue;
+
+				var route = vRoute[p.Vehicle];
+				var r = vStep[p.Vehicle] < route.Length ? route[vStep[p.Vehicle]] : h;
+				var back = look.A.Length * 0.5f + look.B.Length * 0.5f + 0.02f;
+				TrailingPose(p.Vehicle, cell, h, r, p.T, back, p.Offset, out var bp, out var bf);
+				MoverArt.Draw(frame, look.B, bp, bf, look.Variant % look.B.Variants, -1, night, ambient, palette);
+				if (look.C == null)
+					continue;
+
+				back += look.B.Length * 0.5f + look.C.Length * 0.5f + 0.02f;
+				TrailingPose(p.Vehicle, cell, h, r, p.T, back, p.Offset, out var cp, out var cf);
+				MoverArt.Draw(frame, look.C, cp, cf, 0, -1, night, ambient, palette);
 			}
 		}
 
-		// Computes where every vehicle of a link is drawn (queue spacing, lanes, turns). Fills `poses`.
+		Look LookOf(int v)
+		{
+			var t = vTrip[v];
+			var image = t.Sprite < spriteNames.Count ? spriteNames[t.Sprite] : null;
+			var hash = Hash(t.Id, 77);
+			var look = new Look { A = art.ForLegacy(image, hash, out var variant, out var trailer), Variant = variant, B = trailer };
+			if (look.A == null)
+				return look;
+
+			// Maintenance crews drive snowploughs while snow lies on the ground.
+			if (look.A.Name == "maintenance" && atmosphere != null && atmosphere.SnowCover > 0.3f)
+				look.A = art.Get("snowplough") ?? look.A;
+
+			if (look.A.Name == "bus" && ((uint)hash >> 20) % 3 == 0 && art.Get("artic-bus-front") != null)
+			{
+				look.A = art.Get("artic-bus-front");
+				look.B = art.Get("artic-bus-rear");
+			}
+			else if (look.A.Name == "tram-cab")
+			{
+				look.B = art.Get("tram-middle");
+				look.C = look.B != null ? art.Get("tram-rear") : null;
+			}
+
+			look.Length = look.A.Length + (look.B?.Length ?? 0f) + (look.C?.Length ?? 0f);
+			return look;
+		}
+
+		// Computes where every vehicle of a link is drawn (queue spacing, lanes, turns). Fills `poses`. Queued vehicles that do not
+		// physically fit into the cell (cars are ~0.42 cells long) are marked hidden: the queue slots stay abstract in the simulation.
 		void LayoutLink(int l, int cx, int cy, int h, int renderU)
 		{
 			poses.Clear();
 			var cell = l >> 2;
-			var lanes = cellLanes[cell];
+			var simLanes = Math.Max(1, (int)cellLanes[cell]);
+			var profile = ProfileOfCell(cell);
 			var center = map.CenterOfCell(new CPos(cx, cy));
-			var spl = (float)Info.SlotsPerLane;
 			for (var i = 0; i < 4; i++)
-				laneLimit[i] = float.MaxValue;
+				laneLimit[i] = 1f;
 
 			for (var v = qHead[l]; v >= 0; v = vNext[v])
 			{
 				var span = vReadyU[v] - vEnterU[v];
 				var s = span <= 0 ? 1f : Math.Clamp((renderU - vEnterU[v]) / (float)span, 0f, 1f);
-				var lane = vLane[v] % lanes;
+				var lane = Math.Min(3, RenderLane(profile, vLane[v] % simLanes, simLanes, v));
+				var look = art != null ? LookOf(v) : default;
+				var front = look.A != null ? look.A.Length * 0.5f : 0.21f;
+				var length = look.A != null ? look.Length : 0.42f;
+
 				var pos = Math.Min(s, laneLimit[lane]);
-				laneLimit[lane] = pos - Math.Max((int)vSlots[v], 1) / spl;
+				var hidden = pos < s - 0.001f && pos - front < 0f;
+				laneLimit[lane] = pos - length - QueueGap;
 
 				var route = vRoute[v];
 				var r = vStep[v] < route.Length ? route[vStep[v]] : h;
-				PoseOf(center, h, r, Math.Clamp(pos, 0f, 1f), lane, lanes, out var wpos, out var facing);
-				poses.Add(new Pose { Vehicle = v, Pos = wpos, Facing = facing, Progress = RouteProgress(v) });
+				var offset = profile.Lanes[Math.Min(lane, profile.Lanes.Length - 1)];
+				var t = Math.Clamp(pos, 0f, 1f);
+				PathPose(center, h, r, t, EntryOffset(cx, cy, h, r, t, lane, offset), out var wpos, out var facing);
+				poses.Add(new Pose
+				{
+					Vehicle = v,
+					Pos = wpos,
+					Facing = facing,
+					Progress = RouteProgress(v),
+					T = t,
+					Offset = offset,
+					Hidden = hidden,
+				});
 			}
+		}
+
+		// Where the road class (or one-way pairing) changes, vehicles glide from the previous cell's lane to this cell's lane over the
+		// first third of a straight cell instead of jumping sideways at the cell edge.
+		int EntryOffset(int cx, int cy, int h, int r, float t, int lane, int offset)
+		{
+			const float Blend = 0.35f;
+			if (h != r || t >= Blend)
+				return offset;
+
+			var prev = new CPos(cx, cy) - CityUtils.Neighbours4[h];
+			if (!InMap(prev) || roadFlag[Cell(prev)] == 0)
+				return offset;
+
+			var lanes = ProfileOfCell(Cell(prev)).Lanes;
+			var from = lanes[Math.Min(lane, lanes.Length - 1)];
+			var k = t / Blend;
+			return from + (int)((offset - from) * k * k * (3 - 2 * k));
 		}
 
 		int RouteProgress(int v)
@@ -167,42 +273,10 @@ namespace OpenRA.Mods.City.Traits
 			return t.Length > 0 ? Math.Clamp((int)((long)(t.Length - Math.Max(0, vRoute[v].Length - vStep[v])) * 100 / t.Length), 0, 100) : 0;
 		}
 
-		void PoseOf(WPos center, int h, int r, float t, int lane, int lanes, out WPos pos, out WAngle facing)
-		{
-			var din = CityUtils.Neighbours4[h];
-			var dout = CityUtils.Neighbours4[r];
-
-			// Quadratic Bezier from the entry edge midpoint through the cell centre to the exit edge midpoint.
-			float ex = -din.X * 512, ey = -din.Y * 512;
-			float xx = dout.X * 512, xy = dout.Y * 512;
-			var u = 1 - t;
-			var bx = u * u * ex + t * t * xx;
-			var by = u * u * ey + t * t * xy;
-			var tx = u * din.X + t * dout.X;
-			var ty = u * din.Y + t * dout.Y;
-			var len = MathF.Sqrt(tx * tx + ty * ty);
-			if (len < 0.01f)
-			{
-				tx = din.X;
-				ty = din.Y;
-				len = 1;
-			}
-
-			tx /= len;
-			ty /= len;
-
-			// Right-hand traffic: the lane lies to the right of the direction of travel (screen: x right, y down).
-			var offset = lanes == 1 ? Info.LaneOffset : 40 + (lane * 2 + 1) * 220 / lanes;
-			bx += -ty * offset;
-			by += tx * offset;
-
-			pos = new WPos(center.X + (int)bx, center.Y + (int)by, 0);
-			facing = new WVec((int)(tx * 1024), (int)(ty * 1024), 0).Yaw;
-		}
-
-		// Crashed vehicles lie across their lane until they are cleared.
+		// Crashed vehicles lie skewed across their lane until they are cleared.
 		void DrawWrecks(int x0, int y0, int x1, int y1)
 		{
+			var wreck = art?.Get("wreck");
 			foreach (var inc in incidents)
 			{
 				var cell = inc.Link >> 2;
@@ -212,12 +286,16 @@ namespace OpenRA.Mods.City.Traits
 					continue;
 
 				PoseOf(map.CenterOfCell(new CPos(cx, cy)), inc.Link & 3, inc.Link & 3, 0.5f, 0, cellLanes[cell], out var wpos, out var facing);
-				var seq = sequences[Math.Min(inc.Sprite, sequences.Length - 1)];
-				if (seq == null)
+				if (wreck != null)
+				{
+					MoverArt.Draw(frame, wreck, wpos, facing + new WAngle(128), 0, -1, 0f, ambient, palette);
 					continue;
+				}
 
-				frame.Add(new SpriteRenderable(seq.GetSprite(0, facing + new WAngle(60)), wpos, WVec.Zero, 0, palette, seq.Scale * Info.SpriteScale, 1f,
-					new Vector3(0.7f, 0.7f, 0.75f), TintModifiers.None, false));
+				var seq = sequences[Math.Min(inc.Sprite, sequences.Length - 1)];
+				if (seq != null)
+					frame.Add(new SpriteRenderable(seq.GetSprite(0, facing + new WAngle(60)), wpos, WVec.Zero, 0, palette, seq.Scale * Info.SpriteScale, 1f,
+						new Vector3(0.7f, 0.7f, 0.75f) * ambient, TintModifiers.None, false));
 			}
 		}
 	}

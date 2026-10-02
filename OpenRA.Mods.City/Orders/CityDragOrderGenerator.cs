@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using OpenRA.Graphics;
+using OpenRA.Mods.City.Traits;
 using OpenRA.Orders;
 using OpenRA.Primitives;
 
@@ -68,6 +69,12 @@ namespace OpenRA.Mods.City
 		/// <summary>Second corner of the area to preview: the drag position, or the hovered cell when not dragging.</summary>
 		protected CPos PreviewEnd => IsDragging ? DragCurrent : HoverCell;
 
+		/// <summary>
+		/// Hit-test structures first (footprint plus height mouse bounds), then fall back to the ground cell: lets tools that
+		/// act on buildings (bulldoze, inspect) pick the façade under the cursor in the iso view instead of the cell behind it.
+		/// </summary>
+		protected virtual bool PickStructures => false;
+
 		/// <summary>Keep the tool active after a completed drag (default true).</summary>
 		protected virtual bool StayActiveAfterDrag => true;
 
@@ -107,6 +114,9 @@ namespace OpenRA.Mods.City
 
 		IEnumerable<Order> IOrderGenerator.Order(World w, CPos cell, int2 worldPixel, MouseInput mi)
 		{
+			if (PickStructures && !IsDragging)
+				cell = CityIso.ToolCell(w, worldPixel, cell);
+
 			HoverCell = w.Map.Contains(cell) ? cell : w.Map.Clamp(cell);
 
 			if (mi.Button.HasFlag(CancelButton) && mi.Event == MouseInputEvent.Up)
@@ -181,8 +191,15 @@ namespace OpenRA.Mods.City
 		IEnumerable<IRenderable> IOrderGenerator.RenderAnnotations(WorldRenderer wr, World w)
 		{
 			UpdateHover(wr, w);
-			return RenderPreviewAnnotations(wr, w);
+			foreach (var r in RenderPreviewAnnotations(wr, w))
+				yield return r;
+
+			// Crisp outline of the hovered cell over everything (visible behind tall buildings).
+			if (w.Map.Contains(HoverCell))
+				yield return new CityTileOutlineRenderable(HoverCell, 1, 1, HoverOutline);
 		}
+
+		public static readonly Color HoverOutline = Color.FromArgb(230, 255, 255, 255);
 
 		string IOrderGenerator.GetCursor(World w, CPos cell, int2 worldPixel, MouseInput mi) { return GetCursorName(w, cell, worldPixel, mi); }
 
@@ -193,6 +210,9 @@ namespace OpenRA.Mods.City
 		void UpdateHover(WorldRenderer wr, World w)
 		{
 			var cell = wr.Viewport.ViewToWorld(Viewport.LastMousePos);
+			if (PickStructures && !IsDragging)
+				cell = CityIso.ToolCell(w, wr.Viewport.ViewToWorldPx(Viewport.LastMousePos), cell);
+
 			HoverCell = w.Map.Contains(cell) ? cell : w.Map.Clamp(cell);
 			if (IsDragging)
 				DragCurrent = HoverCell;
@@ -215,7 +235,7 @@ namespace OpenRA.Mods.City
 		protected static IRenderable Label(World w, CPos cell, string text, Color color)
 		{
 			var font = Game.Renderer.Fonts["Bold"];
-			var bottomEdge = w.Map.CenterOfCell(cell) + new WVec(0, 512, 0);
+			var bottomEdge = w.Map.CenterOfCell(cell) + CityIso.FrontCorner(1, 1);
 			return new CityAnnotationText(font, bottomEdge, new int2(0, 4), color, text);
 		}
 

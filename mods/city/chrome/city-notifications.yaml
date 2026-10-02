@@ -1,0 +1,128 @@
+# Notification centre (design/iso/ui/panels/notifications-*.png, city family): tabs All / Problems / Events / Chirps, a severity
+# filter, the list of notices (severity stripe, status icon, title, place, age, locate) and the read / clear actions.
+# CityNotificationsLogic fills the list from CITY_NOTIFICATION_ROW.
+Container@CITY_NOTIFICATION_ROW:
+	Width: PARENT_WIDTH
+	Height: 27
+	Children:
+		CityRowBackground@BG:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+		ColorBlock@STRIPE:
+			Width: 4
+			Height: PARENT_HEIGHT
+		ColorBlock@STRIPE_EDGE:
+			X: 4
+			Width: 1
+			Height: PARENT_HEIGHT
+		ColorBlock@UNREAD:
+			X: 5
+			Y: 2
+			Width: 3
+			Height: 3
+		CityIcon@ICON:
+			X: 8
+			Y: 5
+			Width: 16
+			Height: 16
+		Label@TITLE:
+			X: 29
+			Y: 3
+			Width: PARENT_WIDTH - 110
+			Height: 12
+			Font: Tiny
+		Label@PLACE:
+			X: 29
+			Y: 14
+			Width: PARENT_WIDTH - 110
+			Height: 10
+			Font: Tiny
+		Label@AGE:
+			X: PARENT_WIDTH - 78
+			Y: 7
+			Width: 50
+			Height: 12
+			Font: Tiny
+			Align: Right
+		Button@LOCATE:
+			X: PARENT_WIDTH - 24
+			Y: 4
+			Width: 20
+			Height: 18
+			TooltipContainer: TOOLTIP_CONTAINER
+			Children:
+				CityIcon@ICON:
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT
+					Icon: ui_locate
+
+CityPanel@CITY_NOTIFICATIONS_PANEL:
+	Logic: CityNotificationsLogic
+	Title: label-city-notifications-title
+	Family: city
+	Placement: TopRight
+	Width: 390
+	Height: 300
+	Visible: false
+	Children:
+		Container@FILTERS:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 8
+			Height: 14
+			Children:
+				DropDownButton@SEVERITY:
+					Width: 116
+					Height: 14
+					Font: Tiny
+					Align: Left
+					LeftMargin: 4
+				Checkbox@HIDE_RESOLVED:
+					X: 126
+					Y: 1
+					Width: 110
+					Height: 12
+					Font: Tiny
+					Text: label-notif-hide-resolved
+				Label@UNREAD:
+					X: PARENT_WIDTH - 90
+					Width: 90
+					Height: 14
+					Font: Tiny
+					Align: Right
+		ScrollPanel@LIST:
+			X: 4
+			Y: 67
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 67 - 26
+			TopBottomSpacing: 0
+			ItemSpacing: 0
+			ScrollbarWidth: 10
+		Label@EMPTY:
+			X: 12
+			Y: 90
+			Width: PARENT_WIDTH - 24
+			Height: 20
+			Font: Tiny
+			Align: Center
+			Text: label-notif-empty
+		Label@COUNT:
+			X: 4
+			Y: PARENT_HEIGHT - 22
+			Width: 120
+			Height: 16
+			Font: Tiny
+		Button@MARK_READ:
+			X: PARENT_WIDTH - 176
+			Y: PARENT_HEIGHT - 22
+			Width: 84
+			Height: 16
+			Font: Tiny
+			Text: button-notif-mark-read
+		Button@CLEAR_ALL:
+			X: PARENT_WIDTH - 88
+			Y: PARENT_HEIGHT - 22
+			Width: 84
+			Height: 16
+			Font: Tiny
+			Text: button-notif-clear-all

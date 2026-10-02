@@ -11,7 +11,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using OpenRA.Mods.City.Traits;
 using OpenRA.Mods.Common.Traits;
@@ -22,63 +21,16 @@ using OpenRA.Widgets;
 namespace OpenRA.Mods.City.Widgets.Logic
 {
 	/// <summary>
-	/// Info panel shown when exactly one city building is selected: status, level, households and jobs by education,
-	/// company, utilities, rent, land value, happiness (hover for factors), rows added by inspection contributors and
-	/// the lists of residents and workers (click a name to open the citizen panel).
+	/// The RCT2 ride-window style building inspector (design/iso/ui/panels/inspector-*.png), shown when exactly one city
+	/// building is selected. The window takes the colours of the building's family (services, zoning, transit, city) and
+	/// has five icon tabs: Overview (isometric thumbnail in the viewport well, status, meters, problem chips), Occupants
+	/// (residents or workers, click a name for the citizen panel), Finances, Upkeep (service budget, upgrades, districts,
+	/// hub production) and Efficiency (supply meters and the rows of the inspection contributors). The action column on
+	/// the right holds the icon buttons (go to, info view, upgrades, districts, hub areas).
+	/// The partial files hold the page contents (.Pages.cs), the occupants list (.Occupants.cs) and the actions (.Hub.cs).
 	/// </summary>
 	public partial class CityBuildingInfoLogic : ChromeLogic
 	{
-		[FluentReference("zone", "level")]
-		const string ZoneAndLevel = "label-building-zone-level";
-
-		[FluentReference]
-		const string RowStatus = "label-building-status";
-
-		[FluentReference]
-		const string RowResidents = "label-building-residents";
-
-		[FluentReference]
-		const string RowJobs = "label-building-jobs";
-
-		[FluentReference]
-		const string RowPower = "label-building-power";
-
-		[FluentReference]
-		const string RowWater = "label-building-water";
-
-		[FluentReference]
-		const string RowRoad = "label-building-road";
-
-		[FluentReference]
-		const string RowHappiness = "label-building-happiness";
-
-		[FluentReference]
-		const string RowLandValue = "label-building-landvalue";
-
-		[FluentReference]
-		const string RowUpkeep = "label-building-upkeep";
-
-		[FluentReference]
-		const string RowLevel = "label-building-level";
-
-		[FluentReference]
-		const string RowHouseholds = "label-building-households";
-
-		[FluentReference]
-		const string RowStudents = "label-building-students";
-
-		[FluentReference]
-		const string RowBeds = "label-building-beds";
-
-		[FluentReference]
-		const string RowCompany = "label-building-company";
-
-		[FluentReference]
-		const string RowSewage = "label-building-sewage";
-
-		[FluentReference]
-		const string RowRent = "label-building-rent";
-
 		[FluentReference]
 		const string StatusOperational = "label-building-status-operational";
 
@@ -118,53 +70,51 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		[FluentReference("level")]
 		const string LevelOfFive = "label-building-level-of";
 
-		[FluentReference]
-		const string TabResidents = "label-building-tab-residents";
-
-		[FluentReference]
-		const string TabWorkers = "label-building-tab-workers";
-
 		[FluentReference("value")]
 		const string HappinessTitle = "label-building-happiness-title";
 
-		const int ListHeight = 132;
-		const int MinListHeight = 64;
-		const int ExtraRows = 10;
-		const int MaxListed = 60;
+		[FluentReference]
+		const string TabOverview = "label-inspect-tab-overview";
 
-		sealed class Row
-		{
-			public Widget Widget;
-			public Func<bool> Visible;
-			public LabelWidget Name;
-			public LabelWidget Value;
-		}
+		[FluentReference]
+		const string TabOccupants = "label-inspect-tab-occupants";
+
+		[FluentReference]
+		const string TabFinances = "label-inspect-tab-finances";
+
+		[FluentReference]
+		const string TabUpkeep = "label-inspect-tab-upkeep";
+
+		[FluentReference]
+		const string TabEfficiency = "label-inspect-tab-efficiency";
+
+		const int ExtraRows = 10;
+
+		enum Page { Overview, Occupants, Finances, Upkeep, Efficiency }
 
 		readonly World world;
 		readonly CityUiContext ctx;
 		readonly CityManager manager;
-		readonly Widget panel;
-		readonly Widget rowContainer;
-		readonly Widget listTabs;
-		readonly ScrollPanelWidget list;
-		readonly ScrollItemWidget listTemplate;
-		readonly ButtonWidget tabResidents;
-		readonly ButtonWidget tabWorkers;
-		readonly List<Row> rows = [];
-		readonly List<Row> extraRows = [];
+		readonly CityPanelWidget panel;
+		readonly Widget[] pages = new Widget[5];
 		readonly List<InspectionRow> extra = [];
-		readonly LabelWidget title;
-		readonly LabelWidget subtitle;
+		readonly List<Chip> chips = [];
+		readonly LinePool overviewLines;
+		readonly LinePool financeLines;
+		readonly LinePool efficiencyLines;
+		readonly Widget chipContainer;
+		readonly LabelWidget status;
+		readonly CityIconWidget thumb;
+		readonly CityIconWidget fallback;
 
 		Actor actor;
 		CityBuilding building;
 		GrowableBuilding growable;
 		Property property;
+		Page page;
 		int selectionHash = -1;
+		int refreshedTick = -1;
 		string titleText = "";
-		string subtitleText = "";
-		bool showWorkers;
-		string listSignature;
 
 		[ObjectCreator.UseCtor]
 		public CityBuildingInfoLogic(Widget widget, World world)
@@ -172,24 +122,36 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			this.world = world;
 			ctx = CityUiContext.For(world);
 			manager = CityUi.GetManager(world);
-			panel = widget;
+			panel = (CityPanelWidget)widget;
+			panel.GetTitle = () => titleText;
+			panel.OnClose = world.Selection.Clear;
 
-			title = widget.Get<LabelWidget>("TITLE");
-			title.GetText = () => titleText;
-			subtitle = widget.Get<LabelWidget>("SUBTITLE");
-			subtitle.GetText = () => subtitleText;
+			foreach (var p in Enum.GetValues<Page>())
+				pages[(int)p] = widget.Get("PAGE_" + p.ToString().ToUpperInvariant());
 
-			rowContainer = widget.Get("ROWS");
 			actions = widget.Get("ACTIONS");
-			listTabs = widget.Get("LIST_TABS");
-			list = widget.Get<ScrollPanelWidget>("LIST");
-			listTemplate = list.Get<ScrollItemWidget>("LIST_TEMPLATE");
-			list.RemoveChild(listTemplate);
 
-			tabResidents = AddTab(0, TabResidents, () => !showWorkers, () => showWorkers = false);
-			tabWorkers = AddTab(128, TabWorkers, () => showWorkers, () => showWorkers = true);
+			var overview = pages[(int)Page.Overview];
+			thumb = overview.Get<CityIconWidget>("THUMB");
+			fallback = overview.Get<CityIconWidget>("FALLBACK");
+			status = overview.Get<LabelWidget>("STATUS");
+			status.GetText = StatusText;
+			status.GetColor = StatusColor;
+			chipContainer = overview.Get("CHIPS");
+			overview.Get<LabelWidget>("NO_PROBLEMS").IsVisible = () => chips.Count == 0;
 
-			BuildRows();
+			var goTo = overview.Get<ButtonWidget>("GOTO");
+			goTo.OnClick = Locate;
+			var goToText = CityUi.Message("label-inspect-goto") + "\n" + CityUi.Message("label-inspect-goto-desc");
+			goTo.GetTooltipText = () => goToText;
+
+			overviewLines = new LinePool(world, overview.Get("METERS"), 4, 58);
+			financeLines = new LinePool(world, pages[(int)Page.Finances], 13, 100);
+			efficiencyLines = new LinePool(world, pages[(int)Page.Efficiency], 13, 100, HappinessTitleText, MakeHappinessHover);
+			upkeepContent = pages[(int)Page.Upkeep];
+
+			InitOccupants();
+			InitTabs();
 
 			// Visibility doubles as the update hook: it runs every frame, even while the panel is hidden.
 			panel.IsVisible = () =>
@@ -199,179 +161,79 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			};
 		}
 
-		ButtonWidget AddTab(int x, string key, Func<bool> highlighted, Action onClick)
+		void InitTabs()
 		{
-			var button = Game.LoadWidget(world, "CITY_INFOVIEW_ITEM", listTabs, []) as ButtonWidget;
-			button.Bounds.X = x;
-			button.Bounds.Width = 124;
-			button.Bounds.Height = 24;
-			var text = FluentProvider.GetMessage(key);
-			button.GetText = () => text;
-			button.IsHighlighted = highlighted;
-			button.OnClick = () =>
+			CityWindowTab Tab(Page target, string icon, string key, Func<bool> available)
 			{
-				onClick();
-				listSignature = null;
-			};
-
-			return button;
-		}
-
-		void BuildRows()
-		{
-			AddRow(RowStatus, StatusText, StatusColor, () => true);
-			AddRow(RowLevel, () => FluentProvider.GetMessage(LevelOfFive, "level", property.Level), () => Color.White,
-				() => property != null && property.Level > 0 && growable != null);
-
-			AddRow(RowHouseholds, () => FluentProvider.GetMessage(CurrentOfMax, "current", property.Households, "max", property.HouseholdSlots),
-				() => Color.White, () => property != null && property.HouseholdSlots > 0);
-
-			AddRow(RowResidents, ResidentsText, () => Color.White,
-				() => property != null ? property.HouseholdSlots > 0 : building.Info.MaxResidents > 0);
-
-			AddRow(RowJobs, JobsText, () => Color.White,
-				() => property != null ? property.TotalJobSlots > 0 : building.Info.MaxJobs > 0);
-
-			for (var i = 0; i < 5; i++)
-			{
-				var level = (EducationLevel)i;
-				AddRow("", () => FluentProvider.GetMessage(CurrentOfMax, "current", property.JobsFilled[(int)level], "max", property.JobSlots[(int)level]),
-					() => Color.White, () => property != null && property.JobSlots[(int)level] > 0, "   " + CityUi.EducationName(level));
-			}
-
-			AddRow(RowStudents, () => FluentProvider.GetMessage(CurrentOfMax, "current", property.Students, "max", property.StudentSeats),
-				() => Color.White, () => property != null && property.StudentSeats > 0);
-
-			AddRow(RowBeds, () => FluentProvider.GetMessage(CurrentOfMax, "current", property.Patients, "max", property.Beds),
-				() => Color.White, () => property != null && property.Beds > 0);
-
-			AddRow(RowCompany, () => ctx.Economy.DescribeCompany(property.Id) ?? "", () => Color.White,
-				() => property != null && property.CompanyId != 0 && ctx.Economy != null && ctx.Economy.DescribeCompany(property.Id) != null);
-
-			AddRow(RowPower, PowerText, PowerColor, () => true);
-			AddRow(RowWater, WaterText, WaterColor, () => true);
-			AddRow(RowSewage, () => FluentProvider.GetMessage(ctx.Utilities.HasSewage(actor) ? Connected : NoSewage),
-				() => ctx.Utilities.HasSewage(actor) ? CityUi.Good : CityUi.Bad, () => ctx.Utilities != null);
-
-			AddRow(RowRoad, () => FluentProvider.GetMessage(building.HasRoadAccess && (property == null || property.HasRoadAccess) ? Connected : NoRoad),
-				() => building.HasRoadAccess && (property == null || property.HasRoadAccess) ? CityUi.Good : CityUi.Bad, () => true);
-
-			var happiness = AddRow(RowHappiness, () => FluentProvider.GetMessage(Percent, "value", HappinessValue()),
-				() => CityUi.PercentColor(HappinessValue()), () => true);
-
-			// Hovering the happiness row lists the factors the citizen simulation reports for the whole city.
-			var hover = new FactorHoverWidget
-			{
-				TooltipContainer = "TOOLTIP_CONTAINER",
-				Bounds = new WidgetBounds(0, 0, happiness.Widget.Bounds.Width, happiness.Widget.Bounds.Height),
-				GetTitle = () => FluentProvider.GetMessage(HappinessTitle, "value", HappinessValue()),
-				GetFactors = () => ctx.Citizens?.HappinessFactors
-			};
-
-			happiness.Widget.AddChild(hover);
-
-			AddRow(RowLandValue, () => (property?.LandValue ?? building.LandValue).ToString(CultureInfo.CurrentCulture), () => Color.White, () => true);
-			AddRow(RowRent, () => FluentProvider.GetMessage(PerMonth, "amount", CityUtils.FormatMoney(property.RentPerMonth)), () => Color.White,
-				() => property != null && property.RentPerMonth > 0);
-
-			AddRow(RowUpkeep, () => FluentProvider.GetMessage(PerMonth, "amount", CityUtils.FormatMoney(building.Info.Upkeep)),
-				() => Color.White, () => building.Info.Upkeep > 0);
-
-			for (var i = 0; i < ExtraRows; i++)
-			{
-				var index = i;
-				var row = AddRow("", () => index < extra.Count ? extra[index].Value : "",
-					() => index < extra.Count ? CityUi.ToneColor(extra[index].Tone) : Color.White, () => index < extra.Count);
-
-				row.Name.GetText = () => index < extra.Count ? extra[index].Label : "";
-				rows.Remove(row);
-				extraRows.Add(row);
-			}
-		}
-
-		Row AddRow(string labelKey, Func<string> value, Func<Color> color, Func<bool> visible, string rawLabel = null)
-		{
-			var widget = Game.LoadWidget(world, "CITY_INFO_ROW", rowContainer, []);
-			var name = rawLabel ?? (labelKey.Length > 0 ? FluentProvider.GetMessage(labelKey) : "");
-			var nameLabel = widget.Get<LabelWidget>("NAME");
-			nameLabel.GetText = () => name;
-			var valueLabel = widget.Get<LabelWidget>("VALUE");
-			valueLabel.GetText = value;
-			valueLabel.GetColor = color;
-
-			var row = new Row { Widget = widget, Visible = visible, Name = nameLabel, Value = valueLabel };
-			rows.Add(row);
-			return row;
-		}
-
-		int HappinessValue()
-		{
-			if (property != null && ctx.Citizens != null && property.Residents > 0)
-			{
-				long sum = 0;
-				var count = 0;
-				foreach (var id in ctx.Citizens.ResidentsOf(property.Id))
+				var text = FluentProvider.GetMessage(key);
+				return new CityWindowTab
 				{
-					if (ctx.Citizens.TryGetCitizen(id, out var view))
-					{
-						sum += view.Happiness;
-						count++;
-					}
-
-					if (count >= 20)
-						break;
-				}
-
-				if (count > 0)
-					return (int)(sum / count);
+					Icon = icon,
+					GetTooltip = () => text,
+					IsActive = () => page == target,
+					IsDisabled = () => !available(),
+					OnClick = () => ShowPage(target)
+				};
 			}
 
-			return building.Happiness;
+			panel.SetTabs(
+			[
+				Tab(Page.Overview, "ui_eye", TabOverview, () => true),
+				Tab(Page.Occupants, "stat_population", TabOccupants, HasOccupants),
+				Tab(Page.Finances, "stat_money", TabFinances, () => true),
+				Tab(Page.Upkeep, "stat_fee", TabUpkeep, HasUpkeepPage),
+				Tab(Page.Efficiency, "ui_chart_line", TabEfficiency, () => true)
+			]);
+
+			ShowPage(Page.Overview);
 		}
 
-		string ResidentsText()
+		void ShowPage(Page target)
 		{
-			var residents = property?.Residents ?? building.Residents;
-			var capacity = property != null ? property.HouseholdSlots * 3 : building.Info.MaxResidents;
-			return FluentProvider.GetMessage(CurrentOfMax, "current", residents, "max", capacity);
+			page = target;
+			foreach (var p in Enum.GetValues<Page>())
+				pages[(int)p].Visible = p == target;
+
+			refreshedTick = -1;
+			occupantsSignature = null;
 		}
 
-		string JobsText()
+		void Locate()
 		{
-			if (property != null)
-				return FluentProvider.GetMessage(CurrentOfMax, "current", property.TotalJobsFilled, "max", property.TotalJobSlots);
+			if (actor == null)
+				return;
 
-			return FluentProvider.GetMessage(CurrentOfMax, "current", building.Workers, "max", building.Info.MaxJobs);
+			if (ctx.CenterOnWorld != null)
+				ctx.CenterOnWorld(actor.CenterPosition);
+			else
+				ctx.CenterOn?.Invoke(actor.Location);
 		}
 
-		string PowerText()
+		/// <summary>The window family of a building: services (red), zoning (orange), transit (blue), city (brown) for utilities and the rest.</summary>
+		static string FamilyOf(Actor selected)
 		{
-			if (ctx.Utilities != null)
-				return FluentProvider.GetMessage(Percent, "value", ctx.Utilities.PowerPercent(actor));
+			if (selected.TraitOrDefault<GrowableBuilding>() != null)
+				return "zoning";
 
-			return FluentProvider.GetMessage(building.HasPower ? Connected : NoPower);
-		}
+			var category = selected.Info.TraitInfoOrDefault<CityPlaceableInfo>()?.Category;
+			if (category == "transit")
+				return "transit";
 
-		Color PowerColor()
-		{
-			return ctx.Utilities != null ? CityUi.PercentColor(ctx.Utilities.PowerPercent(actor)) : building.HasPower ? CityUi.Good : CityUi.Bad;
-		}
+			if (category == "power" || category == "water")
+				return "city";
 
-		string WaterText()
-		{
-			if (ctx.Utilities != null)
-				return FluentProvider.GetMessage(Percent, "value", ctx.Utilities.WaterPercent(actor));
+			var service = selected.Info.TraitInfoOrDefault<ServiceBuildingInfo>();
+			if (service != null)
+				return service.Kind is ServiceKind.Power or ServiceKind.Water or ServiceKind.Sewage ? "city" : "services";
 
-			return FluentProvider.GetMessage(building.HasWater ? Connected : NoWater);
-		}
-
-		Color WaterColor()
-		{
-			return ctx.Utilities != null ? CityUi.PercentColor(ctx.Utilities.WaterPercent(actor)) : building.HasWater ? CityUi.Good : CityUi.Bad;
+			return "city";
 		}
 
 		string StatusText()
 		{
+			if (building == null)
+				return "";
+
 			if (growable != null && growable.UnderConstruction)
 				return FluentProvider.GetMessage(StatusConstruction);
 
@@ -383,6 +245,9 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 		Color StatusColor()
 		{
+			if (building == null)
+				return CityTheme.Ink;
+
 			if (growable != null && growable.UnderConstruction)
 				return CityUi.Warn;
 
@@ -404,86 +269,39 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			// A growable keeps its property id across rebuilds but not its actor, so look the property up again.
 			property = ctx.Properties?.GetByActor(actor);
 
-			extra.Clear();
-			foreach (var contributor in ctx.Contributors)
-				contributor.Contribute(actor, property, extra);
+			if (page == Page.Occupants && !HasOccupants())
+				ShowPage(Page.Overview);
+			else if (page == Page.Upkeep && !HasUpkeepPage())
+				ShowPage(Page.Overview);
 
-			if (extra.Count > ExtraRows)
-				extra.RemoveRange(ExtraRows, extra.Count - ExtraRows);
-
-			var y = 0;
-			foreach (var row in rows.Concat(extraRows))
+			// Texts change slowly: rebuild the page lines a few times per second.
+			var tick = world.WorldTick / 4;
+			if (tick != refreshedTick)
 			{
-				var visible = row.Visible();
-				row.Widget.Visible = visible;
-				if (!visible)
-					continue;
+				refreshedTick = tick;
+				extra.Clear();
+				foreach (var contributor in ctx.Contributors)
+					contributor.Contribute(actor, property, extra);
 
-				row.Widget.Bounds.Y = y;
-				y += row.Widget.Bounds.Height + 2;
+				if (extra.Count > ExtraRows)
+					extra.RemoveRange(ExtraRows, extra.Count - ExtraRows);
+
+				switch (page)
+				{
+					case Page.Overview:
+						RefreshOverview();
+						break;
+					case Page.Finances:
+						RefreshFinances();
+						break;
+					case Page.Efficiency:
+						RefreshEfficiency();
+						break;
+				}
 			}
 
-			rowContainer.Bounds.Height = y;
-			var bottom = rowContainer.Bounds.Y + y + 8;
-
-			actions.Bounds.Y = bottom;
-			actions.Bounds.Height = actionsHeight;
-			bottom += actionsHeight;
-
-			var hasResidents = property != null && (property.Residents > 0 || property.HouseholdSlots > 0);
-			var hasWorkers = property != null && (property.TotalJobSlots > 0);
-			var listing = ctx.Citizens != null && (hasResidents || hasWorkers);
-			listTabs.Visible = list.Visible = listing;
-			if (listing)
-			{
-				if (showWorkers && !hasWorkers)
-					showWorkers = false;
-				else if (!showWorkers && !hasResidents)
-					showWorkers = true;
-
-				tabResidents.Visible = hasResidents;
-				tabWorkers.Visible = hasWorkers;
-
-				// The resident / worker list gives up height first when the panel would not fit on screen.
-				var room = (panel as CityPanelWidget)?.MaxHeight ?? int.MaxValue;
-				var listHeight = Math.Clamp(room - bottom - 28 - 10, MinListHeight, ListHeight);
-				listTabs.Bounds.Y = bottom;
-				list.Bounds.Y = bottom + 28;
-				list.Bounds.Height = listHeight;
-				bottom += 28 + listHeight + 10;
-				RefreshList();
-			}
-
-			panel.Bounds.Height = bottom;
-		}
-
-		void RefreshList()
-		{
-			var signature = property.Id + ":" + showWorkers + ":" + property.Residents + ":" + property.TotalJobsFilled;
-			if (signature == listSignature)
-				return;
-
-			listSignature = signature;
-			list.RemoveChildren();
-			var ids = showWorkers ? ctx.Citizens.WorkersOf(property.Id) : ctx.Citizens.ResidentsOf(property.Id);
-			var count = 0;
-			foreach (var id in ids)
-			{
-				if (count++ >= MaxListed)
-					break;
-
-				if (!ctx.Citizens.TryGetCitizen(id, out var view))
-					continue;
-
-				var citizenId = id;
-				var item = ScrollItemWidget.Setup(listTemplate, () => ctx.SelectedCitizen == citizenId, () => ctx.SelectedCitizen = citizenId, () => { });
-				var line = view.Name + "  (" + CityUi.AgeName(view.AgeGroup) + ", " + CityUi.EducationName(view.Education) + ")";
-				var nameLabel = item.Get<LabelWidget>("NAME");
-				nameLabel.GetText = CityUi.Fitted(nameLabel, () => line);
-				list.AddChild(item);
-			}
-
-			list.ScrollToTop();
+			if (page == Page.Occupants)
+				RefreshOccupants();
 		}
 
 		void SetActor(Actor selected)
@@ -492,9 +310,14 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			building = null;
 			growable = null;
 			property = null;
-			listSignature = null;
+			occupantsSignature = null;
+			refreshedTick = -1;
 			actions.RemoveChildren();
 			actionsHeight = 0;
+			upkeepContent.RemoveChildren();
+			chips.Clear();
+			chipSignature = null;
+			chipContainer.RemoveChildren();
 
 			if (selected == null || selected.IsDead || !selected.IsInWorld)
 				return;
@@ -506,19 +329,43 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			actor = selected;
 			building = candidate;
 			growable = selected.TraitOrDefault<GrowableBuilding>();
-			BuildActions();
+			SetFamily(FamilyOf(selected));
 
 			var tooltip = selected.Info.TraitInfoOrDefault<TooltipInfo>();
 			titleText = tooltip != null ? FluentProvider.GetMessage(tooltip.Name) : selected.Info.Name;
 
-			if (growable != null)
-				subtitleText = FluentProvider.GetMessage(ZoneAndLevel, "zone", CityUi.ZoneName(growable.Zone), "level", growable.Level);
-			else
+			var hasThumb = CityTheme.Thumbnail(selected.Info.Name) != null;
+			thumb.Icon = selected.Info.Name;
+			thumb.IsVisible = () => hasThumb;
+			fallback.Icon = FallbackIcon(selected);
+			fallback.IsVisible = () => !hasThumb;
+
+			BuildActions();
+			BuildUpkeepPage();
+			ShowPage(Page.Overview);
+		}
+
+		static string FallbackIcon(Actor selected)
+		{
+			var zone = selected.TraitOrDefault<GrowableBuilding>()?.Zone ?? ZoneType.None;
+			switch (zone)
 			{
-				var placeable = selected.Info.TraitInfoOrDefault<CityPlaceableInfo>();
-				var key = placeable != null ? "label-city-category-" + placeable.Category : null;
-				subtitleText = key != null && FluentProvider.TryGetMessage(key, out var category) ? category : "";
+				case ZoneType.ResidentialLow: return "zone_res_low";
+				case ZoneType.ResidentialRow: return "zone_res_row";
+				case ZoneType.ResidentialMedium: return "zone_res_med";
+				case ZoneType.ResidentialHigh: return "zone_res_high";
+				case ZoneType.ResidentialMixed: return "zone_res_mixed";
+				case ZoneType.ResidentialLowRent: return "zone_res_lowrent";
+				case ZoneType.CommercialLow: return "zone_com_low";
+				case ZoneType.CommercialHigh: return "zone_com_high";
+				case ZoneType.Industrial: return "zone_ind";
+				case ZoneType.Warehouse: return "zone_warehouse";
+				case ZoneType.Office: return "zone_off";
+				case ZoneType.OfficeHigh: return "zone_off_high";
 			}
+
+			var category = selected.Info.TraitInfoOrDefault<CityPlaceableInfo>()?.Category;
+			return category != null ? "cat_" + category : "stat_buildings";
 		}
 	}
 }

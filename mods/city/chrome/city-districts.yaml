@@ -1,0 +1,167 @@
+# Districts window (CityDistrictsLogic), design/iso/ui/panels/districts-*.png, tools/iso_ui_panels_people.py.
+# Zoning family: tool buttons, district list (swatch, name or inline rename field, population, policies), the selected
+# district's figures and a hint line that follows the active tool. Column positions are set by the logic.
+Container@CITY_DISTRICT_ROW:
+	Width: PARENT_WIDTH
+	Height: 20
+	Children:
+		CityRowBackground@BG:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+		Button@SELECT:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Background:
+			VisualHeight: 0
+		CitySwatch@SWATCH:
+			Bevel: true
+			X: 6
+			Y: 4
+			Width: 12
+			Height: 12
+		Label@NAME:
+			X: 26
+			Width: 100
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		TextField@RENAME:
+			X: 24
+			Y: 3
+			Width: 130
+			Height: 14
+			Font: Tiny
+			MaxLength: 24
+			Visible: false
+		Label@POPULATION:
+			Width: 60
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right
+		CityIcon@POLICY_ICON:
+			Width: 12
+			Height: PARENT_HEIGHT
+			Size: 12
+			Icon: pnl_policies
+		Label@POLICIES:
+			Width: 20
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right
+
+# A text button with an RCT icon at its left (created by the logic, text set by it).
+Button@CITY_DISTRICT_ACTION:
+	Height: 20
+	Font: Tiny
+	Align: Left
+	LeftMargin: 24
+	TooltipContainer: TOOLTIP_CONTAINER
+	TooltipTemplate: CITY_TOOLTIP
+	Children:
+		CityIcon@ICON:
+			X: 3
+			Width: 16
+			Height: PARENT_HEIGHT
+
+CityPanel@CITY_DISTRICTS_PANEL:
+	Logic: CityDistrictsLogic
+	Title: label-districts-title
+	Family: zoning
+	Placement: TopRight
+	Width: 340
+	Height: 344
+	Visible: false
+	Children:
+		LogicTicker@DISTRICTS_TICKER:
+		Container@ACTIONS:
+			X: 4
+			Y: 21
+			Width: PARENT_WIDTH - 8
+			Height: 20
+		Background@COLUMNS:
+			X: 4
+			Y: 47
+			Width: PARENT_WIDTH - 18
+			Height: 13
+			Background: item-header
+			Children:
+				Label@C_NAME:
+					X: 26
+					Width: 100
+					Height: PARENT_HEIGHT
+					Font: Tiny
+					Text: label-districts-column-name
+				Label@C_POPULATION:
+					Width: 60
+					Height: PARENT_HEIGHT
+					Font: Tiny
+					Align: Right
+					Text: label-districts-column-population
+				Label@C_POLICIES:
+					Width: 40
+					Height: PARENT_HEIGHT
+					Font: Tiny
+					Align: Right
+					Text: label-districts-column-policies
+		ScrollPanel@LIST:
+			X: 4
+			Y: 60
+			Width: PARENT_WIDTH - 8
+			Height: 164
+			TopBottomSpacing: 1
+			ItemSpacing: 0
+			ScrollbarWidth: 10
+		CityHeader@DETAIL_HEADER:
+			X: 4
+			Y: 230
+			Width: PARENT_WIDTH - 8
+			Height: 12
+		Container@DETAILS:
+			X: 4
+			Y: 244
+			Width: PARENT_WIDTH - 8
+			Height: 65
+		Background@HINT_BOX:
+			X: 4
+			Y: PARENT_HEIGHT - 28
+			Width: PARENT_WIDTH - 8
+			Height: 24
+			Background: well
+			Children:
+				CityIcon@HINT_ICON:
+					X: 3
+					Width: 16
+					Height: PARENT_HEIGHT
+					Icon: ui_info
+				Label@HINT:
+					X: 22
+					Width: PARENT_WIDTH - 26
+					Height: PARENT_HEIGHT
+					Font: Tiny
+					WordWrap: true
+
+# One figure of the selected district: icon, name, value.
+Container@CITY_DISTRICT_DETAIL:
+	Width: PARENT_WIDTH
+	Height: 13
+	Children:
+		CityIcon@ICON:
+			Width: 14
+			Height: PARENT_HEIGHT
+			Size: 12
+		Label@NAME:
+			X: 18
+			Width: 100
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		CityBar@BAR:
+			X: 90
+			Y: 1
+			Width: PARENT_WIDTH - 136
+			Height: 10
+			Ramp: green
+			Visible: false
+		Label@VALUE:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Font: TinyBold
+			Align: Right

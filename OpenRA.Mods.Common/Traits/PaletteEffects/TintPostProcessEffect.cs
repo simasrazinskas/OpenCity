@@ -23,6 +23,10 @@ namespace OpenRA.Mods.Common.Traits
 		public readonly float Blue = 1f;
 		public readonly float Ambient = 1f;
 
+		[Desc("Render pass that applies the tint. AfterTerrain tints only the ground layers, so actors can apply",
+			"their own (ambient) tint, e.g. to keep emissive night frames bright.")]
+		public readonly PostProcessPassType Pass = PostProcessPassType.AfterActors;
+
 		public override object Create(ActorInitializer init) { return new TintPostProcessEffect(this); }
 	}
 
@@ -34,7 +38,7 @@ namespace OpenRA.Mods.Common.Traits
 		public float Ambient;
 
 		public TintPostProcessEffect(TintPostProcessEffectInfo info)
-			: base("tint", PostProcessPassType.AfterActors)
+			: base("tint", info.Pass)
 		{
 			Red = info.Red;
 			Green = info.Green;

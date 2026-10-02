@@ -1,0 +1,127 @@
+{
+ "page": "Interface",
+ "section": "Design system",
+ "groups": [
+  {
+   "title": "Colour ramps (8 steps, 0 = dark)",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "system/ds-palette.png",
+     "label": "ds-palette"
+    }
+   ]
+  },
+  {
+   "title": "Window families (one colour per window type)",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "system/ds-families.png",
+     "label": "ds-families"
+    }
+   ]
+  },
+  {
+   "title": "Window anatomy and 9-slice (UI 1x, units = pixels at 1x)",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "system/ds-window-anatomy.png",
+     "label": "ds-window-anatomy"
+    }
+   ]
+  },
+  {
+   "title": "Buttons: text, icon (flat), toolbar; states",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "system/ds-buttons.png",
+     "label": "ds-buttons"
+    }
+   ]
+  },
+  {
+   "title": "Checkbox, radio, slider, dropdown, text input",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "system/ds-forms.png",
+     "label": "ds-forms"
+    }
+   ]
+  },
+  {
+   "title": "Scrollbars and list rows (zebra, hover, selected, header)",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "system/ds-lists.png",
+     "label": "ds-lists"
+    }
+   ]
+  },
+  {
+   "title": "Meters, RCI demand, graph well, chips",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "system/ds-data.png",
+     "label": "ds-data"
+    }
+   ]
+  },
+  {
+   "title": "Typography: OpenCity Pixel faces per role and UI scale",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "system/ds-typography.png",
+     "label": "ds-typography"
+    }
+   ]
+  },
+  {
+   "title": "Same window redrawn at UI 1x / 1.5x / 2x (not upscaled)",
+   "columns": 1,
+   "scale": 1,
+   "items": [
+    {
+     "file": "system/ds-scale.png",
+     "label": "ds-scale"
+    }
+   ]
+  },
+  {
+   "title": "Build-menu cards: thumbnail 64 px (96 at 1.5x), states",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "system/ds-cards.png",
+     "label": "ds-cards"
+    }
+   ]
+  },
+  {
+   "title": "Tooltip, news ticker, group box, separators, headers",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "system/ds-overlays.png",
+     "label": "ds-overlays"
+    }
+   ]
+  }
+ ]
+}

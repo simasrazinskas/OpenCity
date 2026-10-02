@@ -1,0 +1,967 @@
+[
+ {
+  "title": "Bridge over water: street (deck 8 px, abutment ramps)",
+  "columns": 4,
+  "scale": 2,
+  "items": [
+   {
+    "file": "bridges/street-ns-end0.png",
+    "label": "NS ramp up"
+   },
+   {
+    "file": "bridges/street-ns-span.png",
+    "label": "NS span"
+   },
+   {
+    "file": "bridges/street-ns-pier.png",
+    "label": "NS pier"
+   },
+   {
+    "file": "bridges/street-ns-end1.png",
+    "label": "NS ramp down"
+   },
+   {
+    "file": "bridges/street-ew-end0.png",
+    "label": "EW ramp up"
+   },
+   {
+    "file": "bridges/street-ew-span.png",
+    "label": "EW span"
+   },
+   {
+    "file": "bridges/street-ew-pier.png",
+    "label": "EW pier"
+   },
+   {
+    "file": "bridges/street-ew-end1.png",
+    "label": "EW ramp down"
+   }
+  ]
+ },
+ {
+  "title": "Bridge over water: avenue (deck 8 px, abutment ramps)",
+  "columns": 4,
+  "scale": 2,
+  "items": [
+   {
+    "file": "bridges/avenue-ns-end0.png",
+    "label": "NS ramp up"
+   },
+   {
+    "file": "bridges/avenue-ns-span.png",
+    "label": "NS span"
+   },
+   {
+    "file": "bridges/avenue-ns-pier.png",
+    "label": "NS pier"
+   },
+   {
+    "file": "bridges/avenue-ns-end1.png",
+    "label": "NS ramp down"
+   },
+   {
+    "file": "bridges/avenue-ew-end0.png",
+    "label": "EW ramp up"
+   },
+   {
+    "file": "bridges/avenue-ew-span.png",
+    "label": "EW span"
+   },
+   {
+    "file": "bridges/avenue-ew-pier.png",
+    "label": "EW pier"
+   },
+   {
+    "file": "bridges/avenue-ew-end1.png",
+    "label": "EW ramp down"
+   }
+  ]
+ },
+ {
+  "title": "Bridge over water: boulevard (deck 8 px, abutment ramps)",
+  "columns": 4,
+  "scale": 2,
+  "items": [
+   {
+    "file": "bridges/boulevard-ns-end0.png",
+    "label": "NS ramp up"
+   },
+   {
+    "file": "bridges/boulevard-ns-span.png",
+    "label": "NS span"
+   },
+   {
+    "file": "bridges/boulevard-ns-pier.png",
+    "label": "NS pier"
+   },
+   {
+    "file": "bridges/boulevard-ns-end1.png",
+    "label": "NS ramp down"
+   },
+   {
+    "file": "bridges/boulevard-ew-end0.png",
+    "label": "EW ramp up"
+   },
+   {
+    "file": "bridges/boulevard-ew-span.png",
+    "label": "EW span"
+   },
+   {
+    "file": "bridges/boulevard-ew-pier.png",
+    "label": "EW pier"
+   },
+   {
+    "file": "bridges/boulevard-ew-end1.png",
+    "label": "EW ramp down"
+   }
+  ]
+ },
+ {
+  "title": "Bridge over water: highway (deck 8 px, abutment ramps)",
+  "columns": 4,
+  "scale": 2,
+  "items": [
+   {
+    "file": "bridges/highway-ns-end0.png",
+    "label": "NS ramp up"
+   },
+   {
+    "file": "bridges/highway-ns-span.png",
+    "label": "NS span"
+   },
+   {
+    "file": "bridges/highway-ns-pier.png",
+    "label": "NS pier"
+   },
+   {
+    "file": "bridges/highway-ns-end1.png",
+    "label": "NS ramp down"
+   },
+   {
+    "file": "bridges/highway-ew-end0.png",
+    "label": "EW ramp up"
+   },
+   {
+    "file": "bridges/highway-ew-span.png",
+    "label": "EW span"
+   },
+   {
+    "file": "bridges/highway-ew-pier.png",
+    "label": "EW pier"
+   },
+   {
+    "file": "bridges/highway-ew-end1.png",
+    "label": "EW ramp down"
+   }
+  ]
+ },
+ {
+  "title": "Elevated highway concept (deck 24 px, 2-cell ramps)",
+  "columns": 4,
+  "scale": 2,
+  "items": [
+   {
+    "file": "bridges/overpass-ns-rampA0.png",
+    "label": "NS ramp 0-12"
+   },
+   {
+    "file": "bridges/overpass-ns-rampB0.png",
+    "label": "NS ramp 12-24"
+   },
+   {
+    "file": "bridges/overpass-ns-span.png",
+    "label": "NS span"
+   },
+   {
+    "file": "bridges/overpass-ns-pier.png",
+    "label": "NS T-pier"
+   },
+   {
+    "file": "bridges/overpass-ew-rampA0.png",
+    "label": "EW ramp 0-12"
+   },
+   {
+    "file": "bridges/overpass-ew-rampB0.png",
+    "label": "EW ramp 12-24"
+   },
+   {
+    "file": "bridges/overpass-ew-span.png",
+    "label": "EW span"
+   },
+   {
+    "file": "bridges/overpass-ew-pier.png",
+    "label": "EW T-pier"
+   }
+  ],
+  "note": "idea for overpasses/interchanges; the engine has no elevation yet"
+ },
+ {
+  "title": "Traffic signals: red, amber, green at each junction corner",
+  "columns": 4,
+  "scale": 2,
+  "items": [
+   {
+    "file": "junction/signal-red-SE-ctx.png",
+    "label": "red SE"
+   },
+   {
+    "file": "junction/signal-red-NE-ctx.png",
+    "label": "red NE"
+   },
+   {
+    "file": "junction/signal-red-NW-ctx.png",
+    "label": "red NW"
+   },
+   {
+    "file": "junction/signal-red-SW-ctx.png",
+    "label": "red SW"
+   },
+   {
+    "file": "junction/signal-amber-SE-ctx.png",
+    "label": "amber SE"
+   },
+   {
+    "file": "junction/signal-amber-NE-ctx.png",
+    "label": "amber NE"
+   },
+   {
+    "file": "junction/signal-amber-NW-ctx.png",
+    "label": "amber NW"
+   },
+   {
+    "file": "junction/signal-amber-SW-ctx.png",
+    "label": "amber SW"
+   },
+   {
+    "file": "junction/signal-green-SE-ctx.png",
+    "label": "green SE"
+   },
+   {
+    "file": "junction/signal-green-NE-ctx.png",
+    "label": "green NE"
+   },
+   {
+    "file": "junction/signal-green-NW-ctx.png",
+    "label": "green NW"
+   },
+   {
+    "file": "junction/signal-green-SW-ctx.png",
+    "label": "green SW"
+   }
+  ],
+  "note": "mast arm over the inbound lane; lenses face the approach, backs show on far corners"
+ },
+ {
+  "title": "Traffic signals at night + emissive '-lit' frames",
+  "columns": 6,
+  "scale": 2,
+  "items": [
+   {
+    "file": "junction/signal-red-SE-night.png",
+    "label": "red night"
+   },
+   {
+    "file": "junction/signal-red-SE-lit.png",
+    "label": "red lit frame"
+   },
+   {
+    "file": "junction/signal-amber-SE-night.png",
+    "label": "amber night"
+   },
+   {
+    "file": "junction/signal-amber-SE-lit.png",
+    "label": "amber lit frame"
+   },
+   {
+    "file": "junction/signal-green-SE-night.png",
+    "label": "green night"
+   },
+   {
+    "file": "junction/signal-green-SE-lit.png",
+    "label": "green lit frame"
+   }
+  ]
+ },
+ {
+  "title": "Signs: stop, yield, one-way, no entry (4 corners)",
+  "columns": 8,
+  "scale": 2,
+  "items": [
+   {
+    "file": "junction/sign-stop-SE-ctx.png",
+    "label": "stop SE"
+   },
+   {
+    "file": "junction/sign-stop-NE-ctx.png",
+    "label": "stop NE"
+   },
+   {
+    "file": "junction/sign-stop-NW-ctx.png",
+    "label": "stop NW"
+   },
+   {
+    "file": "junction/sign-stop-SW-ctx.png",
+    "label": "stop SW"
+   },
+   {
+    "file": "junction/sign-yield-SE-ctx.png",
+    "label": "yield SE"
+   },
+   {
+    "file": "junction/sign-yield-NE-ctx.png",
+    "label": "yield NE"
+   },
+   {
+    "file": "junction/sign-yield-NW-ctx.png",
+    "label": "yield NW"
+   },
+   {
+    "file": "junction/sign-yield-SW-ctx.png",
+    "label": "yield SW"
+   },
+   {
+    "file": "junction/sign-oneway-SE-ctx.png",
+    "label": "oneway SE"
+   },
+   {
+    "file": "junction/sign-oneway-NE-ctx.png",
+    "label": "oneway NE"
+   },
+   {
+    "file": "junction/sign-oneway-NW-ctx.png",
+    "label": "oneway NW"
+   },
+   {
+    "file": "junction/sign-oneway-SW-ctx.png",
+    "label": "oneway SW"
+   },
+   {
+    "file": "junction/sign-noentry-SE-ctx.png",
+    "label": "noentry SE"
+   },
+   {
+    "file": "junction/sign-noentry-NE-ctx.png",
+    "label": "noentry NE"
+   },
+   {
+    "file": "junction/sign-noentry-NW-ctx.png",
+    "label": "noentry NW"
+   },
+   {
+    "file": "junction/sign-noentry-SW-ctx.png",
+    "label": "noentry SW"
+   }
+  ]
+ },
+ {
+  "title": "Street lamps (day)",
+  "columns": 7,
+  "scale": 2,
+  "items": [
+   {
+    "file": "furniture/lamp-E-ctx.png",
+    "label": "lamp E side"
+   },
+   {
+    "file": "furniture/lamp-N-ctx.png",
+    "label": "lamp N side"
+   },
+   {
+    "file": "furniture/lamp-W-ctx.png",
+    "label": "lamp W side"
+   },
+   {
+    "file": "furniture/lamp-S-ctx.png",
+    "label": "lamp S side"
+   },
+   {
+    "file": "furniture/lamp-double-ns.png",
+    "label": "median double N-S"
+   },
+   {
+    "file": "furniture/lamp-double-ew.png",
+    "label": "median double E-W"
+   },
+   {
+    "file": "furniture/lamp-heritage.png",
+    "label": "heritage lantern"
+   }
+  ]
+ },
+ {
+  "title": "Street lamps at night: sprite, emissive '-lit' frame, ground light pool",
+  "columns": 6,
+  "scale": 2,
+  "items": [
+   {
+    "file": "furniture/lamp-E-night.png",
+    "label": "night E"
+   },
+   {
+    "file": "furniture/lamp-E-lit.png",
+    "label": "lit frame E"
+   },
+   {
+    "file": "furniture/lightpool-E.png",
+    "label": "light pool E"
+   },
+   {
+    "file": "furniture/lamp-N-night.png",
+    "label": "night N"
+   },
+   {
+    "file": "furniture/lamp-N-lit.png",
+    "label": "lit frame N"
+   },
+   {
+    "file": "furniture/lightpool-N.png",
+    "label": "light pool N"
+   },
+   {
+    "file": "furniture/lamp-W-night.png",
+    "label": "night W"
+   },
+   {
+    "file": "furniture/lamp-W-lit.png",
+    "label": "lit frame W"
+   },
+   {
+    "file": "furniture/lightpool-W.png",
+    "label": "light pool W"
+   },
+   {
+    "file": "furniture/lamp-S-night.png",
+    "label": "night S"
+   },
+   {
+    "file": "furniture/lamp-S-lit.png",
+    "label": "lit frame S"
+   },
+   {
+    "file": "furniture/lightpool-S.png",
+    "label": "light pool S"
+   },
+   {
+    "file": "furniture/lamp-heritage-night.png",
+    "label": "heritage night"
+   }
+  ],
+  "note": "light pools are separate emissive ground frames drawn after the night tint"
+ },
+ {
+  "title": "Transit stops: bus shelter, tram platform, taxi stand, metro entrance",
+  "columns": 4,
+  "scale": 2,
+  "items": [
+   {
+    "file": "stops/bus-E-ctx.png",
+    "label": "bus stop E"
+   },
+   {
+    "file": "stops/bus-N-ctx.png",
+    "label": "bus stop N"
+   },
+   {
+    "file": "stops/bus-W-ctx.png",
+    "label": "bus stop W"
+   },
+   {
+    "file": "stops/bus-S-ctx.png",
+    "label": "bus stop S"
+   },
+   {
+    "file": "stops/tram-E-ctx.png",
+    "label": "tram stop E"
+   },
+   {
+    "file": "stops/tram-N-ctx.png",
+    "label": "tram stop N"
+   },
+   {
+    "file": "stops/tram-W-ctx.png",
+    "label": "tram stop W"
+   },
+   {
+    "file": "stops/tram-S-ctx.png",
+    "label": "tram stop S"
+   },
+   {
+    "file": "stops/taxi-E-ctx.png",
+    "label": "taxi stand E"
+   },
+   {
+    "file": "stops/taxi-N-ctx.png",
+    "label": "taxi stand N"
+   },
+   {
+    "file": "stops/taxi-W-ctx.png",
+    "label": "taxi stand W"
+   },
+   {
+    "file": "stops/taxi-S-ctx.png",
+    "label": "taxi stand S"
+   },
+   {
+    "file": "stops/metro-entrance-0-ctx.png",
+    "label": "metro entrance f0"
+   },
+   {
+    "file": "stops/metro-entrance-1-ctx.png",
+    "label": "metro entrance f1"
+   },
+   {
+    "file": "stops/metro-entrance-2-ctx.png",
+    "label": "metro entrance f2"
+   },
+   {
+    "file": "stops/metro-entrance-3-ctx.png",
+    "label": "metro entrance f3"
+   },
+   {
+    "file": "stops/bus-E-night.png",
+    "label": "bus stop night"
+   },
+   {
+    "file": "stops/metro-entrance-night.png",
+    "label": "metro night"
+   }
+  ],
+  "note": "E/N/W/S = sidewalk side of the road cell"
+ },
+ {
+  "title": "Street furniture and road structures",
+  "columns": 7,
+  "scale": 2,
+  "items": [
+   {
+    "file": "furniture/bench.png",
+    "label": "bench"
+   },
+   {
+    "file": "furniture/bin.png",
+    "label": "bin"
+   },
+   {
+    "file": "furniture/hydrant.png",
+    "label": "hydrant"
+   },
+   {
+    "file": "furniture/mailbox.png",
+    "label": "mailbox"
+   },
+   {
+    "file": "furniture/bollards.png",
+    "label": "bollards"
+   },
+   {
+    "file": "furniture/tree.png",
+    "label": "tree"
+   },
+   {
+    "file": "furniture/planter.png",
+    "label": "planter"
+   },
+   {
+    "file": "furniture/sound-barrier-E.png",
+    "label": "sound wall E"
+   },
+   {
+    "file": "furniture/guard-rail-E.png",
+    "label": "guard rail E"
+   },
+   {
+    "file": "furniture/sound-barrier-N.png",
+    "label": "sound wall N"
+   },
+   {
+    "file": "furniture/guard-rail-N.png",
+    "label": "guard rail N"
+   },
+   {
+    "file": "furniture/gantry-ns.png",
+    "label": "highway gantry NS"
+   },
+   {
+    "file": "furniture/gantry-ew.png",
+    "label": "highway gantry EW"
+   }
+  ]
+ },
+ {
+  "title": "Road add-ons on a street (strips: trees, lights, barrier, parking)",
+  "columns": 6,
+  "scale": 2,
+  "items": [
+   {
+    "file": "addons/street-trees.png",
+    "label": "trees"
+   },
+   {
+    "file": "addons/street-lights.png",
+    "label": "lights"
+   },
+   {
+    "file": "addons/street-barrier.png",
+    "label": "sound barrier"
+   },
+   {
+    "file": "addons/street-parking.png",
+    "label": "parking"
+   },
+   {
+    "file": "addons/street-all.png",
+    "label": "trees+lights+parking"
+   },
+   {
+    "file": "addons/boulevard-median.png",
+    "label": "boulevard median trees"
+   },
+   {
+    "file": "addons/boulevard-median-lamps.png",
+    "label": "boulevard median lamps"
+   },
+   {
+    "file": "addons/avenue-trees-lights.png",
+    "label": "avenue trees+lights"
+   }
+  ]
+ },
+ {
+  "title": "Rail props: buffer stops, crossing gates (flashing, 2 frames), signals, catenary",
+  "columns": 8,
+  "scale": 2,
+  "items": [
+   {
+    "file": "rail/buffer-E.png",
+    "label": "buffer stop arm N"
+   },
+   {
+    "file": "rail/buffer-N.png",
+    "label": "buffer stop arm W"
+   },
+   {
+    "file": "rail/buffer-W.png",
+    "label": "buffer stop arm S"
+   },
+   {
+    "file": "rail/buffer-S.png",
+    "label": "buffer stop arm E"
+   },
+   {
+    "file": "rail/crossing-gate-down-0.png",
+    "label": "gate down f0"
+   },
+   {
+    "file": "rail/crossing-gate-down-1.png",
+    "label": "gate down f1"
+   },
+   {
+    "file": "rail/crossing-gate-up-0.png",
+    "label": "gate up f0"
+   },
+   {
+    "file": "rail/crossing-gate-up-1.png",
+    "label": "gate up f1"
+   },
+   {
+    "file": "rail/crossing-gate-down-strip.png",
+    "label": "2 frames"
+   },
+   {
+    "file": "rail/signal-red.png",
+    "label": "signal red"
+   },
+   {
+    "file": "rail/signal-green.png",
+    "label": "signal green"
+   },
+   {
+    "file": "rail/catenary-ns.png",
+    "label": "catenary NS"
+   },
+   {
+    "file": "rail/catenary-ew.png",
+    "label": "catenary EW"
+   }
+  ]
+ },
+ {
+  "title": "High-voltage pylons: 16 masks (wires meet at edge midpoints)",
+  "columns": 8,
+  "scale": 2,
+  "items": [
+   {
+    "file": "util/power-hv-0000.png",
+    "label": "isolated"
+   },
+   {
+    "file": "util/power-hv-1000.png",
+    "label": "N"
+   },
+   {
+    "file": "util/power-hv-0100.png",
+    "label": "E"
+   },
+   {
+    "file": "util/power-hv-1100.png",
+    "label": "N+E"
+   },
+   {
+    "file": "util/power-hv-0010.png",
+    "label": "S"
+   },
+   {
+    "file": "util/power-hv-1010.png",
+    "label": "N+S"
+   },
+   {
+    "file": "util/power-hv-0110.png",
+    "label": "E+S"
+   },
+   {
+    "file": "util/power-hv-1110.png",
+    "label": "N+E+S"
+   },
+   {
+    "file": "util/power-hv-0001.png",
+    "label": "W"
+   },
+   {
+    "file": "util/power-hv-1001.png",
+    "label": "N+W"
+   },
+   {
+    "file": "util/power-hv-0101.png",
+    "label": "E+W"
+   },
+   {
+    "file": "util/power-hv-1101.png",
+    "label": "N+E+W"
+   },
+   {
+    "file": "util/power-hv-0011.png",
+    "label": "S+W"
+   },
+   {
+    "file": "util/power-hv-1011.png",
+    "label": "N+S+W"
+   },
+   {
+    "file": "util/power-hv-0111.png",
+    "label": "E+S+W"
+   },
+   {
+    "file": "util/power-hv-1111.png",
+    "label": "N+E+S+W"
+   }
+  ]
+ },
+ {
+  "title": "Wooden distribution poles: 16 masks (wires meet at edge midpoints)",
+  "columns": 8,
+  "scale": 2,
+  "items": [
+   {
+    "file": "util/power-lv-0000.png",
+    "label": "isolated"
+   },
+   {
+    "file": "util/power-lv-1000.png",
+    "label": "N"
+   },
+   {
+    "file": "util/power-lv-0100.png",
+    "label": "E"
+   },
+   {
+    "file": "util/power-lv-1100.png",
+    "label": "N+E"
+   },
+   {
+    "file": "util/power-lv-0010.png",
+    "label": "S"
+   },
+   {
+    "file": "util/power-lv-1010.png",
+    "label": "N+S"
+   },
+   {
+    "file": "util/power-lv-0110.png",
+    "label": "E+S"
+   },
+   {
+    "file": "util/power-lv-1110.png",
+    "label": "N+E+S"
+   },
+   {
+    "file": "util/power-lv-0001.png",
+    "label": "W"
+   },
+   {
+    "file": "util/power-lv-1001.png",
+    "label": "N+W"
+   },
+   {
+    "file": "util/power-lv-0101.png",
+    "label": "E+W"
+   },
+   {
+    "file": "util/power-lv-1101.png",
+    "label": "N+E+W"
+   },
+   {
+    "file": "util/power-lv-0011.png",
+    "label": "S+W"
+   },
+   {
+    "file": "util/power-lv-1011.png",
+    "label": "N+S+W"
+   },
+   {
+    "file": "util/power-lv-0111.png",
+    "label": "E+S+W"
+   },
+   {
+    "file": "util/power-lv-1111.png",
+    "label": "N+E+S+W"
+   }
+  ]
+ },
+ {
+  "title": "Network buildings: transformer 2x2, battery, sewage outlet, treatment plant 2x2 (day / night)",
+  "columns": 4,
+  "scale": 2,
+  "items": [
+   {
+    "file": "buildings/transformer.png",
+    "label": "transformer"
+   },
+   {
+    "file": "buildings/transformer-night.png",
+    "label": "transformer night"
+   },
+   {
+    "file": "buildings/battery.png",
+    "label": "battery"
+   },
+   {
+    "file": "buildings/battery-night.png",
+    "label": "battery night"
+   },
+   {
+    "file": "buildings/sewage-outlet.png",
+    "label": "sewage-outlet"
+   },
+   {
+    "file": "buildings/sewage-outlet-night.png",
+    "label": "sewage-outlet night"
+   },
+   {
+    "file": "buildings/treatment-plant.png",
+    "label": "treatment-plant"
+   },
+   {
+    "file": "buildings/treatment-plant-night.png",
+    "label": "treatment-plant night"
+   }
+  ]
+ },
+ {
+  "title": "Treatment plant: 4 facings",
+  "columns": 5,
+  "scale": 2,
+  "items": [
+   {
+    "file": "buildings/treatment-plant-f0.png",
+    "label": "facing 0"
+   },
+   {
+    "file": "buildings/treatment-plant-f1.png",
+    "label": "facing 1"
+   },
+   {
+    "file": "buildings/treatment-plant-f2.png",
+    "label": "facing 2"
+   },
+   {
+    "file": "buildings/treatment-plant-f3.png",
+    "label": "facing 3"
+   },
+   {
+    "file": "buildings/treatment-plant-facings-strip.png",
+    "label": "4 facings strip"
+   }
+  ]
+ },
+ {
+  "title": "Parking lots with parked cars (occupancy 0-3)",
+  "columns": 8,
+  "scale": 2,
+  "items": [
+   {
+    "file": "parking/lot-N-cars0.png",
+    "label": "N 0 cars"
+   },
+   {
+    "file": "parking/lot-N-cars1.png",
+    "label": "N 1 cars"
+   },
+   {
+    "file": "parking/lot-N-cars2.png",
+    "label": "N 2 cars"
+   },
+   {
+    "file": "parking/lot-N-cars3.png",
+    "label": "N 3 cars"
+   },
+   {
+    "file": "parking/lot-E-cars0.png",
+    "label": "E 0 cars"
+   },
+   {
+    "file": "parking/lot-E-cars1.png",
+    "label": "E 1 cars"
+   },
+   {
+    "file": "parking/lot-E-cars2.png",
+    "label": "E 2 cars"
+   },
+   {
+    "file": "parking/lot-E-cars3.png",
+    "label": "E 3 cars"
+   },
+   {
+    "file": "parking/lot-S-cars0.png",
+    "label": "S 0 cars"
+   },
+   {
+    "file": "parking/lot-S-cars1.png",
+    "label": "S 1 cars"
+   },
+   {
+    "file": "parking/lot-S-cars2.png",
+    "label": "S 2 cars"
+   },
+   {
+    "file": "parking/lot-S-cars3.png",
+    "label": "S 3 cars"
+   },
+   {
+    "file": "parking/lot-W-cars0.png",
+    "label": "W 0 cars"
+   },
+   {
+    "file": "parking/lot-W-cars1.png",
+    "label": "W 1 cars"
+   },
+   {
+    "file": "parking/lot-W-cars2.png",
+    "label": "W 2 cars"
+   },
+   {
+    "file": "parking/lot-W-cars3.png",
+    "label": "W 3 cars"
+   }
+  ]
+ }
+]

@@ -1,0 +1,298 @@
+# Settings: Input tab, mouse part (design/iso/ui/panels/settings-input.png). The Mouse / Hotkeys buttons on top switch
+# between this panel and HOTKEYS_PANEL (CitySettingsLogic). Unit and support power hints of the control scheme texts are
+# left out: a city has none.
+Container@INPUT_PANEL:
+	Logic: InputSettingsLogic
+	Width: PARENT_WIDTH
+	Height: PARENT_HEIGHT
+	Children:
+		Button@SUBTAB_MOUSE:
+			Width: 64
+			Height: 14
+			Font: Tiny
+			Text: label-settings-mouse
+		Button@SUBTAB_HOTKEYS:
+			X: 66
+			Width: 64
+			Height: 14
+			Font: Tiny
+			Text: button-panel-hotkeys
+		ScrollPanel@SETTINGS_SCROLLPANEL:
+			Y: 18
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT - 18
+			CollapseHiddenChildren: True
+			Background: none
+			ScrollbarWidth: 10
+			TopBottomSpacing: 2
+			ItemSpacing: 4
+			Children:
+				CityHeader@INPUT_SECTION_HEADER:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 12
+					Text: label-input-section-header
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@MOUSE_CONTROL_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 14
+							Children:
+								Label@MOUSE_CONTROL_LABEL:
+									Width: 108
+									Height: 14
+									Font: Tiny
+									Text: label-mouse-control-container
+								DropDownButton@MOUSE_CONTROL_DROPDOWN:
+									X: 110
+									Width: 160
+									Height: 14
+									Font: Tiny
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@ZOOM_MODIFIER_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 14
+							Children:
+								Label@ZOOM_MODIFIER_LABEL:
+									Width: 108
+									Height: 14
+									Font: Tiny
+									Text: label-zoom-modifier-container
+								DropDownButton@ZOOM_MODIFIER:
+									X: 110
+									Width: 160
+									Height: 14
+									Font: Tiny
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 38
+					Children:
+						Container@MOUSE_CONTROL_DESC_CLASSIC:
+							Width: PARENT_WIDTH
+							Height: 36
+							Children:
+								LabelWithHighlight@DESC_ZOOM:
+									Width: PARENT_WIDTH
+									Height: 11
+									Font: Tiny
+									Text: label-mouse-control-desc-classic-zoom
+								LabelWithHighlight@DESC_ZOOM_MODIFIER:
+									Width: PARENT_WIDTH
+									Height: 11
+									Font: Tiny
+									Text: label-mouse-control-desc-classic-zoom-modifier
+								LabelWithHighlight@DESC_SCROLL_RIGHT:
+									Y: 11
+									Width: PARENT_WIDTH
+									Height: 11
+									Font: Tiny
+									Text: label-mouse-control-desc-classic-scroll-right
+								LabelWithHighlight@DESC_SCROLL_MIDDLE:
+									Y: 11
+									Width: PARENT_WIDTH
+									Height: 11
+									Font: Tiny
+									Text: label-mouse-control-desc-classic-scroll-middle
+								Label@DESC_EDGESCROLL:
+									Y: 22
+									Width: PARENT_WIDTH
+									Height: 11
+									Font: Tiny
+									Text: label-mouse-control-desc-classic-edgescroll
+						Container@MOUSE_CONTROL_DESC_OTHERRTS:
+							Width: PARENT_WIDTH
+							Height: 36
+							Children:
+								LabelWithHighlight@DESC_ZOOM:
+									Width: PARENT_WIDTH
+									Height: 11
+									Font: Tiny
+									Text: label-mouse-control-desc-otherrts-zoom
+								LabelWithHighlight@DESC_ZOOM_MODIFIER:
+									Width: PARENT_WIDTH
+									Height: 11
+									Font: Tiny
+									Text: label-mouse-control-desc-otherrts-zoom-modifier
+								LabelWithHighlight@DESC_SCROLL_RIGHT:
+									Y: 11
+									Width: PARENT_WIDTH
+									Height: 11
+									Font: Tiny
+									Text: label-mouse-control-desc-otherrts-scroll-right
+								LabelWithHighlight@DESC_SCROLL_MIDDLE:
+									Y: 11
+									Width: PARENT_WIDTH
+									Height: 11
+									Font: Tiny
+									Text: label-mouse-control-desc-otherrts-scroll-middle
+								Label@DESC_EDGESCROLL:
+									Y: 22
+									Width: PARENT_WIDTH
+									Height: 11
+									Font: Tiny
+									Text: label-mouse-control-desc-otherrts-edgescroll
+						Container@MOUSE_CONTROL_DESC_MODERN:
+							Width: PARENT_WIDTH
+							Height: 36
+							Children:
+								LabelWithHighlight@DESC_ZOOM:
+									Width: PARENT_WIDTH
+									Height: 11
+									Font: Tiny
+									Text: label-mouse-control-desc-modern-zoom
+								LabelWithHighlight@DESC_ZOOM_MODIFIER:
+									Width: PARENT_WIDTH
+									Height: 11
+									Font: Tiny
+									Text: label-mouse-control-desc-modern-zoom-modifier
+								LabelWithHighlight@DESC_SCROLL_RIGHT:
+									Y: 11
+									Width: PARENT_WIDTH
+									Height: 11
+									Font: Tiny
+									Text: label-mouse-control-desc-modern-scroll-right
+								LabelWithHighlight@DESC_SCROLL_MIDDLE:
+									Y: 11
+									Width: PARENT_WIDTH
+									Height: 11
+									Font: Tiny
+									Text: label-mouse-control-desc-modern-scroll-middle
+								Label@DESC_EDGESCROLL:
+									Y: 22
+									Width: PARENT_WIDTH
+									Height: 11
+									Font: Tiny
+									Text: label-mouse-control-desc-modern-edgescroll
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@EDGESCROLL_CHECKBOX_CONTAINER:
+							X: 0
+							Width: 190
+							Height: 14
+							Children:
+								Checkbox@EDGESCROLL_CHECKBOX:
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+									Text: checkbox-edgescroll-container
+						Container@ALTERNATE_SCROLL_CHECKBOX_CONTAINER:
+							X: 200
+							Width: 190
+							Height: 14
+							Children:
+								Checkbox@ALTERNATE_SCROLL_CHECKBOX:
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+									Text: checkbox-alternate-scroll-container
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@LOCKMOUSE_CHECKBOX_CONTAINER:
+							X: 0
+							Width: 190
+							Height: 14
+							Children:
+								Checkbox@LOCKMOUSE_CHECKBOX:
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+									Text: checkbox-lockmouse-container
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@MOUSE_SCROLL_TYPE_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 14
+							Children:
+								Label@MOUSE_SCROLL_TYPE_LABEL:
+									Width: 108
+									Height: 14
+									Font: Tiny
+									Text: label-mouse-scroll-type-container
+								DropDownButton@MOUSE_SCROLL_TYPE_DROPDOWN:
+									X: 110
+									Width: 160
+									Height: 14
+									Font: Tiny
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@SCROLLSPEED_SLIDER_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 14
+							Children:
+								Label@SCROLL_SPEED_LABEL:
+									Width: 108
+									Height: 14
+									Font: Tiny
+									Text: label-scrollspeed-slider-container-scroll-speed
+								Slider@SCROLLSPEED_SLIDER:
+									X: 110
+									Y: 1
+									Width: 220
+									Height: 12
+									Ticks: 7
+									MinimumValue: 10
+									MaximumValue: 50
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@ZOOMSPEED_SLIDER_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 14
+							Children:
+								Label@ZOOM_SPEED_LABEL:
+									Width: 108
+									Height: 14
+									Font: Tiny
+									Text: label-zoomspeed-slider-container-zoom-speed
+								ExponentialSlider@ZOOMSPEED_SLIDER:
+									X: 110
+									Y: 1
+									Width: 220
+									Height: 12
+									Ticks: 7
+									MinimumValue: 0.01
+									MaximumValue: 0.4
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@UI_SCROLLSPEED_SLIDER_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 14
+							Children:
+								Label@UI_SCROLL_SPEED_LABEL:
+									Width: 108
+									Height: 14
+									Font: Tiny
+									Text: label-ui-scrollspeed-slider-container-scroll-speed
+								Slider@UI_SCROLLSPEED_SLIDER:
+									X: 110
+									Y: 1
+									Width: 220
+									Height: 12
+									Ticks: 7
+									MinimumValue: 1
+									MaximumValue: 100

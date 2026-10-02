@@ -126,7 +126,7 @@ namespace OpenRA.Mods.Common.Widgets
 
 		IEnumerable<IRenderable> IEditorBrush.RenderAboveShroud(Actor self, WorldRenderer wr)
 		{
-			return Preview.Render().OrderBy(WorldRenderer.RenderableZPositionComparisonKey);
+			return Preview.Render().OrderBy(wr.ZPositionComparisonKey);
 		}
 
 		IEnumerable<IRenderable> IEditorBrush.RenderAnnotations(Actor self, WorldRenderer wr)

@@ -99,6 +99,9 @@ namespace OpenRA.Graphics
 
 		public void Update(CPos cell, Sprite sprite, PaletteReference palette, float scale = 1f, float alpha = 1f, bool ignoreTint = false)
 		{
+			if (worldRenderer.IsIsometric && UpdateIsometricGround(cell, sprite, palette, scale, alpha, ignoreTint))
+				return;
+
 			var xyz = Vector3.Zero;
 			if (sprite != null)
 			{
@@ -107,6 +110,36 @@ namespace OpenRA.Graphics
 			}
 
 			Update(cell.ToMPos(map.Grid.Type), sprite, palette, xyz, scale, alpha, ignoreTint);
+		}
+
+		/// <summary>
+		/// Isometric projection: cells outside the map bounds stay empty (the backdrop shows there), and square sprites
+		/// (top-down tiles, TileSize.Height pixels per cell) are laid flat onto the ground, i.e. drawn as diamonds.
+		/// Sprites with any other shape (e.g. 64x32 iso tiles) are drawn upright as usual. Returns true if handled.
+		/// </summary>
+		bool UpdateIsometricGround(CPos cell, Sprite sprite, PaletteReference palette, float scale, float alpha, bool ignoreTint)
+		{
+			var uv = cell.ToMPos(map.Grid.Type);
+			if (restrictToBounds && sprite != null && !map.Bounds.Contains(uv.U, uv.V))
+			{
+				Update(uv, null, palette, Vector3.Zero, 1f, alpha, ignoreTint);
+				return true;
+			}
+
+			if (sprite == null || sprite.Size.X != sprite.Size.Y || sprite.Size.X <= 0)
+				return false;
+
+			// World units per top-down sprite pixel, and the sprite's centre (including its offset) on the ground.
+			var unit = (float)map.Grid.TileScale / worldRenderer.TileSize.Height;
+			var center = map.CenterOfCell(cell);
+			var cx = center.X + unit * sprite.Offset.X;
+			var cy = center.Y + unit * sprite.Offset.Y;
+			var h = unit * scale * sprite.Size.X / 2;
+
+			Vector3 Corner(float x, float y) => worldRenderer.Screen3DPosition(new WPos((int)MathF.Round(x), (int)MathF.Round(y), 0));
+			UpdateQuad(uv, sprite, palette, Corner(cx - h, cy - h), Corner(cx + h, cy - h), Corner(cx + h, cy + h), Corner(cx - h, cy + h),
+				alpha, ignoreTint);
+			return true;
 		}
 
 		void UpdateTint(MPos uv)
@@ -196,6 +229,29 @@ namespace OpenRA.Graphics
 
 			var offset = vertexRowStride * uv.V + 4 * uv.U;
 			Util.FastCreateQuad(vertices, pos, sprite, samplers, palette?.TextureIndex ?? 0, offset, scale * sprite.Size, alpha * Vector3.One, alpha);
+			FinishUpdate(uv, palette, offset, ignoreTint);
+		}
+
+		/// <summary>Like <see cref="Update(MPos, Sprite, PaletteReference, in Vector3, float, float, bool)"/>, but maps the sprite onto an arbitrary quad (corners clockwise from the sprite's top-left).</summary>
+		public void UpdateQuad(MPos uv, Sprite sprite, PaletteReference palette, in Vector3 a, in Vector3 b, in Vector3 c, in Vector3 d, float alpha, bool ignoreTint)
+		{
+			if (sprite.BlendMode != BlendMode)
+				throw new InvalidDataException("Attempted to add sprite with a different blend mode");
+
+			var samplers = new int2(GetOrAddSheetIndex(sprite.Sheet), GetOrAddSheetIndex((sprite as SpriteWithSecondaryData)?.SecondarySheet));
+			if (sprite.Channel == TextureChannel.RGBA && !(palette?.HasColorShift ?? false))
+				palette = null;
+
+			if (!map.Tiles.Contains(uv))
+				return;
+
+			var offset = vertexRowStride * uv.V + 4 * uv.U;
+			Util.FastCreateQuad(vertices, a, b, c, d, sprite, samplers, palette?.TextureIndex ?? 0, alpha * Vector3.One, alpha, offset);
+			FinishUpdate(uv, palette, offset, ignoreTint);
+		}
+
+		void FinishUpdate(MPos uv, PaletteReference palette, int offset, bool ignoreTint)
+		{
 			palettes[uv.V * map.MapSize.Width + uv.U] = palette;
 
 			if (worldRenderer.TerrainLighting != null)

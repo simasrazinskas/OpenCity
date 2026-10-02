@@ -1,0 +1,2912 @@
+[
+ {
+  "page": "World elements",
+  "section": "Vehicles",
+  "groups": [
+   {
+    "title": "Overview: a street with everything LIFE draws (day and night)",
+    "columns": 1,
+    "scale": 2,
+    "note": "NET street + lamps, KIT grass, isokit stand-in houses; traffic in NET lanes, people on sidewalks",
+    "items": [
+     {
+      "file": "overview/street-day.png",
+      "label": "day"
+     },
+     {
+      "file": "overview/street-night.png",
+      "label": "night"
+     }
+    ]
+   },
+   {
+    "title": "Multi-segment vehicles assembled (E, S, NE)",
+    "columns": 1,
+    "scale": 2,
+    "note": "segments are separate sprites spaced by length + coupler gap",
+    "items": [
+     {
+      "file": "vehicles/composites/consist-tram.png",
+      "label": "tram (88 units)"
+     },
+     {
+      "file": "vehicles/composites/consist-train.png",
+      "label": "train (129 units)"
+     },
+     {
+      "file": "vehicles/composites/consist-freight.png",
+      "label": "freight (245 units)"
+     },
+     {
+      "file": "vehicles/composites/consist-metro.png",
+      "label": "metro (120 units)"
+     },
+     {
+      "file": "vehicles/composites/consist-artic-bus.png",
+      "label": "artic-bus (65 units)"
+     },
+     {
+      "file": "vehicles/composites/consist-semi.png",
+      "label": "semi (24 units)"
+     }
+    ]
+   },
+   {
+    "title": "In context: 2-lane street, right-hand traffic",
+    "columns": 1,
+    "scale": 2,
+    "note": "NET street tiles; lane centre 10 q (1/64 cell) right of the centreline (NET contract)",
+    "items": [
+     {
+      "file": "vehicles/composites/lane-fit.png",
+      "label": "lane-fit"
+     }
+    ]
+   },
+   {
+    "title": "In context: 2-lane street, right-hand traffic at night",
+    "columns": 1,
+    "scale": 2,
+    "note": "NET street tiles; lane centre 10 q (1/64 cell) right of the centreline (NET contract)",
+    "items": [
+     {
+      "file": "vehicles/composites/street-night.png",
+      "label": "street-night"
+     }
+    ]
+   },
+   {
+    "title": "Size line-up (S)",
+    "columns": 1,
+    "scale": 2,
+    "items": [
+     {
+      "file": "vehicles/composites/lineup.png",
+      "label": "sports / sedan / suv / delivery-van / garbage-truck / fire-engine / bus / tram-cab / heli-medevac"
+     }
+    ]
+   },
+   {
+    "title": "Private cars: sedan in 8 directions",
+    "columns": 8,
+    "scale": 2,
+    "note": "World compass, clockwise: N (screen up-right), NE, E (down-right), SE, S (down-left), SW, W (up-left), NW. Anchor = ground centre, see anchors.json",
+    "items": [
+     {
+      "file": "vehicles/cars/sedan/sedan-N.png",
+      "label": "N"
+     },
+     {
+      "file": "vehicles/cars/sedan/sedan-NE.png",
+      "label": "NE"
+     },
+     {
+      "file": "vehicles/cars/sedan/sedan-E.png",
+      "label": "E"
+     },
+     {
+      "file": "vehicles/cars/sedan/sedan-SE.png",
+      "label": "SE"
+     },
+     {
+      "file": "vehicles/cars/sedan/sedan-S.png",
+      "label": "S"
+     },
+     {
+      "file": "vehicles/cars/sedan/sedan-SW.png",
+      "label": "SW"
+     },
+     {
+      "file": "vehicles/cars/sedan/sedan-W.png",
+      "label": "W"
+     },
+     {
+      "file": "vehicles/cars/sedan/sedan-NW.png",
+      "label": "NW"
+     }
+    ]
+   },
+   {
+    "title": "Private cars: body colours (S shown, 8 dirs each on disk)",
+    "columns": 1,
+    "scale": 2,
+    "note": "red / blue / white / black / silver / green / yellow / teal / brown / orange / purple / beige",
+    "items": [
+     {
+      "file": "vehicles/cars/hatchback/hatchback-colours-S.png",
+      "label": "hatchback 12 colours"
+     },
+     {
+      "file": "vehicles/cars/sedan/sedan-colours-S.png",
+      "label": "sedan 12 colours"
+     },
+     {
+      "file": "vehicles/cars/estate/estate-colours-S.png",
+      "label": "estate 12 colours"
+     },
+     {
+      "file": "vehicles/cars/suv/suv-colours-S.png",
+      "label": "suv 12 colours"
+     },
+     {
+      "file": "vehicles/cars/mpv/mpv-colours-S.png",
+      "label": "mpv 12 colours"
+     },
+     {
+      "file": "vehicles/cars/pickup/pickup-colours-S.png",
+      "label": "pickup 12 colours"
+     },
+     {
+      "file": "vehicles/cars/sports/sports-colours-S.png",
+      "label": "sports 12 colours"
+     }
+    ]
+   },
+   {
+    "title": "Private cars: all models, 8 directions",
+    "columns": 1,
+    "scale": 2,
+    "note": "strip order N, NE, E, SE, S, SW, W, NW (world compass); no gaps, slice by frame width",
+    "items": [
+     {
+      "file": "vehicles/cars/hatchback/hatchback-8dirs.png",
+      "label": "hatchback 8 dirs"
+     },
+     {
+      "file": "vehicles/cars/sedan/sedan-8dirs.png",
+      "label": "sedan 8 dirs"
+     },
+     {
+      "file": "vehicles/cars/estate/estate-8dirs.png",
+      "label": "estate 8 dirs"
+     },
+     {
+      "file": "vehicles/cars/suv/suv-8dirs.png",
+      "label": "suv 8 dirs"
+     },
+     {
+      "file": "vehicles/cars/mpv/mpv-8dirs.png",
+      "label": "mpv 8 dirs"
+     },
+     {
+      "file": "vehicles/cars/pickup/pickup-8dirs.png",
+      "label": "pickup 8 dirs"
+     },
+     {
+      "file": "vehicles/cars/sports/sports-8dirs.png",
+      "label": "sports 8 dirs"
+     }
+    ]
+   },
+   {
+    "title": "Private cars: night lights (lit lamps, road beams)",
+    "columns": 2,
+    "scale": 2,
+    "note": "lit = emissive companion frames (no night multiply); beam = dithered road light, additive",
+    "items": [
+     {
+      "file": "vehicles/cars/hatchback/hatchback-lit-8dirs.png",
+      "label": "hatchback lit"
+     },
+     {
+      "file": "vehicles/cars/hatchback/hatchback-beam-8dirs.png",
+      "label": "hatchback beam"
+     },
+     {
+      "file": "vehicles/cars/sedan/sedan-lit-8dirs.png",
+      "label": "sedan lit"
+     },
+     {
+      "file": "vehicles/cars/sedan/sedan-beam-8dirs.png",
+      "label": "sedan beam"
+     },
+     {
+      "file": "vehicles/cars/estate/estate-lit-8dirs.png",
+      "label": "estate lit"
+     },
+     {
+      "file": "vehicles/cars/estate/estate-beam-8dirs.png",
+      "label": "estate beam"
+     },
+     {
+      "file": "vehicles/cars/suv/suv-lit-8dirs.png",
+      "label": "suv lit"
+     },
+     {
+      "file": "vehicles/cars/suv/suv-beam-8dirs.png",
+      "label": "suv beam"
+     },
+     {
+      "file": "vehicles/cars/mpv/mpv-lit-8dirs.png",
+      "label": "mpv lit"
+     },
+     {
+      "file": "vehicles/cars/mpv/mpv-beam-8dirs.png",
+      "label": "mpv beam"
+     },
+     {
+      "file": "vehicles/cars/pickup/pickup-lit-8dirs.png",
+      "label": "pickup lit"
+     },
+     {
+      "file": "vehicles/cars/pickup/pickup-beam-8dirs.png",
+      "label": "pickup beam"
+     },
+     {
+      "file": "vehicles/cars/sports/sports-lit-8dirs.png",
+      "label": "sports lit"
+     },
+     {
+      "file": "vehicles/cars/sports/sports-beam-8dirs.png",
+      "label": "sports beam"
+     }
+    ]
+   },
+   {
+    "title": "Taxi & buses: bus in 8 directions",
+    "columns": 8,
+    "scale": 2,
+    "note": "World compass, clockwise: N (screen up-right), NE, E (down-right), SE, S (down-left), SW, W (up-left), NW. Anchor = ground centre, see anchors.json",
+    "items": [
+     {
+      "file": "vehicles/transit/bus/bus-N.png",
+      "label": "N"
+     },
+     {
+      "file": "vehicles/transit/bus/bus-NE.png",
+      "label": "NE"
+     },
+     {
+      "file": "vehicles/transit/bus/bus-E.png",
+      "label": "E"
+     },
+     {
+      "file": "vehicles/transit/bus/bus-SE.png",
+      "label": "SE"
+     },
+     {
+      "file": "vehicles/transit/bus/bus-S.png",
+      "label": "S"
+     },
+     {
+      "file": "vehicles/transit/bus/bus-SW.png",
+      "label": "SW"
+     },
+     {
+      "file": "vehicles/transit/bus/bus-W.png",
+      "label": "W"
+     },
+     {
+      "file": "vehicles/transit/bus/bus-NW.png",
+      "label": "NW"
+     }
+    ]
+   },
+   {
+    "title": "Taxi & buses: all models, 8 directions",
+    "columns": 1,
+    "scale": 2,
+    "note": "strip order N, NE, E, SE, S, SW, W, NW (world compass); no gaps, slice by frame width",
+    "items": [
+     {
+      "file": "vehicles/transit/taxi/taxi-8dirs.png",
+      "label": "taxi 8 dirs"
+     },
+     {
+      "file": "vehicles/transit/bus/bus-8dirs.png",
+      "label": "bus 8 dirs"
+     },
+     {
+      "file": "vehicles/transit/artic-bus-front/artic-bus-front-8dirs.png",
+      "label": "artic-bus-front 8 dirs"
+     },
+     {
+      "file": "vehicles/transit/artic-bus-rear/artic-bus-rear-8dirs.png",
+      "label": "artic-bus-rear 8 dirs"
+     }
+    ]
+   },
+   {
+    "title": "Taxi & buses: night lights (lit lamps, road beams)",
+    "columns": 2,
+    "scale": 2,
+    "note": "lit = emissive companion frames (no night multiply); beam = dithered road light, additive",
+    "items": [
+     {
+      "file": "vehicles/transit/taxi/taxi-lit-8dirs.png",
+      "label": "taxi lit"
+     },
+     {
+      "file": "vehicles/transit/taxi/taxi-beam-8dirs.png",
+      "label": "taxi beam"
+     },
+     {
+      "file": "vehicles/transit/bus/bus-lit-8dirs.png",
+      "label": "bus lit"
+     },
+     {
+      "file": "vehicles/transit/bus/bus-beam-8dirs.png",
+      "label": "bus beam"
+     },
+     {
+      "file": "vehicles/transit/artic-bus-front/artic-bus-front-lit-8dirs.png",
+      "label": "artic-bus-front lit"
+     },
+     {
+      "file": "vehicles/transit/artic-bus-front/artic-bus-front-beam-8dirs.png",
+      "label": "artic-bus-front beam"
+     },
+     {
+      "file": "vehicles/transit/artic-bus-rear/artic-bus-rear-lit-8dirs.png",
+      "label": "artic-bus-rear lit"
+     }
+    ]
+   },
+   {
+    "title": "Trucks: all models, 8 directions",
+    "columns": 1,
+    "scale": 2,
+    "note": "strip order N, NE, E, SE, S, SW, W, NW (world compass); no gaps, slice by frame width",
+    "items": [
+     {
+      "file": "vehicles/trucks/delivery-van/delivery-van-8dirs.png",
+      "label": "delivery-van 8 dirs"
+     },
+     {
+      "file": "vehicles/trucks/box-truck/box-truck-8dirs.png",
+      "label": "box-truck 8 dirs"
+     },
+     {
+      "file": "vehicles/trucks/tanker-truck/tanker-truck-8dirs.png",
+      "label": "tanker-truck 8 dirs"
+     },
+     {
+      "file": "vehicles/trucks/tipper-truck/tipper-truck-8dirs.png",
+      "label": "tipper-truck 8 dirs"
+     },
+     {
+      "file": "vehicles/trucks/timber-truck/timber-truck-8dirs.png",
+      "label": "timber-truck 8 dirs"
+     },
+     {
+      "file": "vehicles/trucks/semi-tractor/semi-tractor-8dirs.png",
+      "label": "semi-tractor 8 dirs"
+     },
+     {
+      "file": "vehicles/trucks/trailer-box/trailer-box-8dirs.png",
+      "label": "trailer-box 8 dirs"
+     },
+     {
+      "file": "vehicles/trucks/trailer-tank/trailer-tank-8dirs.png",
+      "label": "trailer-tank 8 dirs"
+     },
+     {
+      "file": "vehicles/trucks/trailer-container/trailer-container-8dirs.png",
+      "label": "trailer-container 8 dirs"
+     },
+     {
+      "file": "vehicles/trucks/trailer-flat/trailer-flat-8dirs.png",
+      "label": "trailer-flat 8 dirs"
+     },
+     {
+      "file": "vehicles/trucks/farm-tractor/farm-tractor-8dirs.png",
+      "label": "farm-tractor 8 dirs"
+     }
+    ]
+   },
+   {
+    "title": "Trucks: night lights (lit lamps, road beams)",
+    "columns": 2,
+    "scale": 2,
+    "note": "lit = emissive companion frames (no night multiply); beam = dithered road light, additive",
+    "items": [
+     {
+      "file": "vehicles/trucks/delivery-van/delivery-van-lit-8dirs.png",
+      "label": "delivery-van lit"
+     },
+     {
+      "file": "vehicles/trucks/delivery-van/delivery-van-beam-8dirs.png",
+      "label": "delivery-van beam"
+     },
+     {
+      "file": "vehicles/trucks/box-truck/box-truck-lit-8dirs.png",
+      "label": "box-truck lit"
+     },
+     {
+      "file": "vehicles/trucks/box-truck/box-truck-beam-8dirs.png",
+      "label": "box-truck beam"
+     },
+     {
+      "file": "vehicles/trucks/tanker-truck/tanker-truck-lit-8dirs.png",
+      "label": "tanker-truck lit"
+     },
+     {
+      "file": "vehicles/trucks/tanker-truck/tanker-truck-beam-8dirs.png",
+      "label": "tanker-truck beam"
+     },
+     {
+      "file": "vehicles/trucks/tipper-truck/tipper-truck-lit-8dirs.png",
+      "label": "tipper-truck lit"
+     },
+     {
+      "file": "vehicles/trucks/tipper-truck/tipper-truck-beam-8dirs.png",
+      "label": "tipper-truck beam"
+     },
+     {
+      "file": "vehicles/trucks/timber-truck/timber-truck-lit-8dirs.png",
+      "label": "timber-truck lit"
+     },
+     {
+      "file": "vehicles/trucks/timber-truck/timber-truck-beam-8dirs.png",
+      "label": "timber-truck beam"
+     },
+     {
+      "file": "vehicles/trucks/semi-tractor/semi-tractor-lit-8dirs.png",
+      "label": "semi-tractor lit"
+     },
+     {
+      "file": "vehicles/trucks/semi-tractor/semi-tractor-beam-8dirs.png",
+      "label": "semi-tractor beam"
+     },
+     {
+      "file": "vehicles/trucks/trailer-box/trailer-box-lit-8dirs.png",
+      "label": "trailer-box lit"
+     },
+     {
+      "file": "vehicles/trucks/trailer-tank/trailer-tank-lit-8dirs.png",
+      "label": "trailer-tank lit"
+     },
+     {
+      "file": "vehicles/trucks/trailer-container/trailer-container-lit-8dirs.png",
+      "label": "trailer-container lit"
+     },
+     {
+      "file": "vehicles/trucks/trailer-flat/trailer-flat-lit-8dirs.png",
+      "label": "trailer-flat lit"
+     },
+     {
+      "file": "vehicles/trucks/farm-tractor/farm-tractor-lit-8dirs.png",
+      "label": "farm-tractor lit"
+     },
+     {
+      "file": "vehicles/trucks/farm-tractor/farm-tractor-beam-8dirs.png",
+      "label": "farm-tractor beam"
+     }
+    ]
+   },
+   {
+    "title": "Service vehicles: all models, 8 directions",
+    "columns": 1,
+    "scale": 2,
+    "note": "strip order N, NE, E, SE, S, SW, W, NW (world compass); no gaps, slice by frame width",
+    "items": [
+     {
+      "file": "vehicles/services/garbage-truck/garbage-truck-8dirs.png",
+      "label": "garbage-truck 8 dirs"
+     },
+     {
+      "file": "vehicles/services/fire-engine/fire-engine-8dirs.png",
+      "label": "fire-engine 8 dirs"
+     },
+     {
+      "file": "vehicles/services/police/police-8dirs.png",
+      "label": "police 8 dirs"
+     },
+     {
+      "file": "vehicles/services/ambulance/ambulance-8dirs.png",
+      "label": "ambulance 8 dirs"
+     },
+     {
+      "file": "vehicles/services/hearse/hearse-8dirs.png",
+      "label": "hearse 8 dirs"
+     },
+     {
+      "file": "vehicles/services/postal-van/postal-van-8dirs.png",
+      "label": "postal-van 8 dirs"
+     },
+     {
+      "file": "vehicles/services/maintenance/maintenance-8dirs.png",
+      "label": "maintenance 8 dirs"
+     },
+     {
+      "file": "vehicles/services/snowplough/snowplough-8dirs.png",
+      "label": "snowplough 8 dirs"
+     },
+     {
+      "file": "vehicles/services/wreck/wreck-8dirs.png",
+      "label": "wreck 8 dirs"
+     }
+    ]
+   },
+   {
+    "title": "garbage-truck: amber beacon",
+    "columns": 2,
+    "scale": 2,
+    "items": [
+     {
+      "file": "vehicles/services/garbage-truck/beacon/garbage-truck-beacon-S.png",
+      "label": "S 2 frames"
+     }
+    ]
+   },
+   {
+    "title": "fire-engine: siren light bar",
+    "columns": 8,
+    "scale": 2,
+    "note": "2 frames per direction, alternate every ~8 ticks; -siren-lit-* companions hold the lit lamps only",
+    "items": [
+     {
+      "file": "vehicles/services/fire-engine/siren/fire-engine-siren-N.png",
+      "label": "N 2 frames"
+     },
+     {
+      "file": "vehicles/services/fire-engine/siren/fire-engine-siren-NE.png",
+      "label": "NE 2 frames"
+     },
+     {
+      "file": "vehicles/services/fire-engine/siren/fire-engine-siren-E.png",
+      "label": "E 2 frames"
+     },
+     {
+      "file": "vehicles/services/fire-engine/siren/fire-engine-siren-SE.png",
+      "label": "SE 2 frames"
+     },
+     {
+      "file": "vehicles/services/fire-engine/siren/fire-engine-siren-S.png",
+      "label": "S 2 frames"
+     },
+     {
+      "file": "vehicles/services/fire-engine/siren/fire-engine-siren-SW.png",
+      "label": "SW 2 frames"
+     },
+     {
+      "file": "vehicles/services/fire-engine/siren/fire-engine-siren-W.png",
+      "label": "W 2 frames"
+     },
+     {
+      "file": "vehicles/services/fire-engine/siren/fire-engine-siren-NW.png",
+      "label": "NW 2 frames"
+     }
+    ]
+   },
+   {
+    "title": "police: siren light bar",
+    "columns": 8,
+    "scale": 2,
+    "note": "2 frames per direction, alternate every ~8 ticks; -siren-lit-* companions hold the lit lamps only",
+    "items": [
+     {
+      "file": "vehicles/services/police/siren/police-siren-N.png",
+      "label": "N 2 frames"
+     },
+     {
+      "file": "vehicles/services/police/siren/police-siren-NE.png",
+      "label": "NE 2 frames"
+     },
+     {
+      "file": "vehicles/services/police/siren/police-siren-E.png",
+      "label": "E 2 frames"
+     },
+     {
+      "file": "vehicles/services/police/siren/police-siren-SE.png",
+      "label": "SE 2 frames"
+     },
+     {
+      "file": "vehicles/services/police/siren/police-siren-S.png",
+      "label": "S 2 frames"
+     },
+     {
+      "file": "vehicles/services/police/siren/police-siren-SW.png",
+      "label": "SW 2 frames"
+     },
+     {
+      "file": "vehicles/services/police/siren/police-siren-W.png",
+      "label": "W 2 frames"
+     },
+     {
+      "file": "vehicles/services/police/siren/police-siren-NW.png",
+      "label": "NW 2 frames"
+     }
+    ]
+   },
+   {
+    "title": "ambulance: siren light bar",
+    "columns": 8,
+    "scale": 2,
+    "note": "2 frames per direction, alternate every ~8 ticks; -siren-lit-* companions hold the lit lamps only",
+    "items": [
+     {
+      "file": "vehicles/services/ambulance/siren/ambulance-siren-N.png",
+      "label": "N 2 frames"
+     },
+     {
+      "file": "vehicles/services/ambulance/siren/ambulance-siren-NE.png",
+      "label": "NE 2 frames"
+     },
+     {
+      "file": "vehicles/services/ambulance/siren/ambulance-siren-E.png",
+      "label": "E 2 frames"
+     },
+     {
+      "file": "vehicles/services/ambulance/siren/ambulance-siren-SE.png",
+      "label": "SE 2 frames"
+     },
+     {
+      "file": "vehicles/services/ambulance/siren/ambulance-siren-S.png",
+      "label": "S 2 frames"
+     },
+     {
+      "file": "vehicles/services/ambulance/siren/ambulance-siren-SW.png",
+      "label": "SW 2 frames"
+     },
+     {
+      "file": "vehicles/services/ambulance/siren/ambulance-siren-W.png",
+      "label": "W 2 frames"
+     },
+     {
+      "file": "vehicles/services/ambulance/siren/ambulance-siren-NW.png",
+      "label": "NW 2 frames"
+     }
+    ]
+   },
+   {
+    "title": "maintenance: amber beacon",
+    "columns": 2,
+    "scale": 2,
+    "items": [
+     {
+      "file": "vehicles/services/maintenance/beacon/maintenance-beacon-S.png",
+      "label": "S 2 frames"
+     }
+    ]
+   },
+   {
+    "title": "snowplough: amber beacon",
+    "columns": 2,
+    "scale": 2,
+    "items": [
+     {
+      "file": "vehicles/services/snowplough/beacon/snowplough-beacon-S.png",
+      "label": "S 2 frames"
+     }
+    ]
+   },
+   {
+    "title": "Service vehicles: night lights (lit lamps, road beams)",
+    "columns": 2,
+    "scale": 2,
+    "note": "lit = emissive companion frames (no night multiply); beam = dithered road light, additive",
+    "items": [
+     {
+      "file": "vehicles/services/garbage-truck/garbage-truck-lit-8dirs.png",
+      "label": "garbage-truck lit"
+     },
+     {
+      "file": "vehicles/services/garbage-truck/garbage-truck-beam-8dirs.png",
+      "label": "garbage-truck beam"
+     },
+     {
+      "file": "vehicles/services/fire-engine/fire-engine-lit-8dirs.png",
+      "label": "fire-engine lit"
+     },
+     {
+      "file": "vehicles/services/fire-engine/fire-engine-beam-8dirs.png",
+      "label": "fire-engine beam"
+     },
+     {
+      "file": "vehicles/services/police/police-lit-8dirs.png",
+      "label": "police lit"
+     },
+     {
+      "file": "vehicles/services/police/police-beam-8dirs.png",
+      "label": "police beam"
+     },
+     {
+      "file": "vehicles/services/ambulance/ambulance-lit-8dirs.png",
+      "label": "ambulance lit"
+     },
+     {
+      "file": "vehicles/services/ambulance/ambulance-beam-8dirs.png",
+      "label": "ambulance beam"
+     },
+     {
+      "file": "vehicles/services/hearse/hearse-lit-8dirs.png",
+      "label": "hearse lit"
+     },
+     {
+      "file": "vehicles/services/hearse/hearse-beam-8dirs.png",
+      "label": "hearse beam"
+     },
+     {
+      "file": "vehicles/services/postal-van/postal-van-lit-8dirs.png",
+      "label": "postal-van lit"
+     },
+     {
+      "file": "vehicles/services/postal-van/postal-van-beam-8dirs.png",
+      "label": "postal-van beam"
+     },
+     {
+      "file": "vehicles/services/maintenance/maintenance-lit-8dirs.png",
+      "label": "maintenance lit"
+     },
+     {
+      "file": "vehicles/services/maintenance/maintenance-beam-8dirs.png",
+      "label": "maintenance beam"
+     },
+     {
+      "file": "vehicles/services/snowplough/snowplough-lit-8dirs.png",
+      "label": "snowplough lit"
+     },
+     {
+      "file": "vehicles/services/snowplough/snowplough-beam-8dirs.png",
+      "label": "snowplough beam"
+     },
+     {
+      "file": "vehicles/services/wreck/wreck-lit-8dirs.png",
+      "label": "wreck lit"
+     }
+    ]
+   },
+   {
+    "title": "Trams, trains & metro: train-loco in 8 directions",
+    "columns": 8,
+    "scale": 2,
+    "note": "World compass, clockwise: N (screen up-right), NE, E (down-right), SE, S (down-left), SW, W (up-left), NW. Anchor = ground centre, see anchors.json",
+    "items": [
+     {
+      "file": "vehicles/rail/train-loco/train-loco-N.png",
+      "label": "N"
+     },
+     {
+      "file": "vehicles/rail/train-loco/train-loco-NE.png",
+      "label": "NE"
+     },
+     {
+      "file": "vehicles/rail/train-loco/train-loco-E.png",
+      "label": "E"
+     },
+     {
+      "file": "vehicles/rail/train-loco/train-loco-SE.png",
+      "label": "SE"
+     },
+     {
+      "file": "vehicles/rail/train-loco/train-loco-S.png",
+      "label": "S"
+     },
+     {
+      "file": "vehicles/rail/train-loco/train-loco-SW.png",
+      "label": "SW"
+     },
+     {
+      "file": "vehicles/rail/train-loco/train-loco-W.png",
+      "label": "W"
+     },
+     {
+      "file": "vehicles/rail/train-loco/train-loco-NW.png",
+      "label": "NW"
+     }
+    ]
+   },
+   {
+    "title": "Trams, trains & metro: all models, 8 directions",
+    "columns": 1,
+    "scale": 2,
+    "note": "strip order N, NE, E, SE, S, SW, W, NW (world compass); no gaps, slice by frame width",
+    "items": [
+     {
+      "file": "vehicles/rail/tram-cab/tram-cab-8dirs.png",
+      "label": "tram-cab 8 dirs"
+     },
+     {
+      "file": "vehicles/rail/tram-middle/tram-middle-8dirs.png",
+      "label": "tram-middle 8 dirs"
+     },
+     {
+      "file": "vehicles/rail/tram-rear/tram-rear-8dirs.png",
+      "label": "tram-rear 8 dirs"
+     },
+     {
+      "file": "vehicles/rail/train-loco/train-loco-8dirs.png",
+      "label": "train-loco 8 dirs"
+     },
+     {
+      "file": "vehicles/rail/train-coach/train-coach-8dirs.png",
+      "label": "train-coach 8 dirs"
+     },
+     {
+      "file": "vehicles/rail/wagon-box/wagon-box-8dirs.png",
+      "label": "wagon-box 8 dirs"
+     },
+     {
+      "file": "vehicles/rail/wagon-tank/wagon-tank-8dirs.png",
+      "label": "wagon-tank 8 dirs"
+     },
+     {
+      "file": "vehicles/rail/wagon-hopper/wagon-hopper-8dirs.png",
+      "label": "wagon-hopper 8 dirs"
+     },
+     {
+      "file": "vehicles/rail/wagon-container/wagon-container-8dirs.png",
+      "label": "wagon-container 8 dirs"
+     },
+     {
+      "file": "vehicles/rail/wagon-logs/wagon-logs-8dirs.png",
+      "label": "wagon-logs 8 dirs"
+     },
+     {
+      "file": "vehicles/rail/metro-cab/metro-cab-8dirs.png",
+      "label": "metro-cab 8 dirs"
+     },
+     {
+      "file": "vehicles/rail/metro-car/metro-car-8dirs.png",
+      "label": "metro-car 8 dirs"
+     }
+    ]
+   },
+   {
+    "title": "Trams, trains & metro: night lights (lit lamps, road beams)",
+    "columns": 2,
+    "scale": 2,
+    "note": "lit = emissive companion frames (no night multiply); beam = dithered road light, additive",
+    "items": [
+     {
+      "file": "vehicles/rail/tram-cab/tram-cab-lit-8dirs.png",
+      "label": "tram-cab lit"
+     },
+     {
+      "file": "vehicles/rail/tram-cab/tram-cab-beam-8dirs.png",
+      "label": "tram-cab beam"
+     },
+     {
+      "file": "vehicles/rail/tram-rear/tram-rear-lit-8dirs.png",
+      "label": "tram-rear lit"
+     },
+     {
+      "file": "vehicles/rail/tram-rear/tram-rear-beam-8dirs.png",
+      "label": "tram-rear beam"
+     },
+     {
+      "file": "vehicles/rail/train-loco/train-loco-lit-8dirs.png",
+      "label": "train-loco lit"
+     },
+     {
+      "file": "vehicles/rail/train-loco/train-loco-beam-8dirs.png",
+      "label": "train-loco beam"
+     },
+     {
+      "file": "vehicles/rail/metro-cab/metro-cab-lit-8dirs.png",
+      "label": "metro-cab lit"
+     },
+     {
+      "file": "vehicles/rail/metro-cab/metro-cab-beam-8dirs.png",
+      "label": "metro-cab beam"
+     }
+    ]
+   },
+   {
+    "title": "Aircraft: heli-medevac in 8 directions",
+    "columns": 8,
+    "scale": 2,
+    "note": "World compass, clockwise: N (screen up-right), NE, E (down-right), SE, S (down-left), SW, W (up-left), NW. Anchor = ground centre, see anchors.json",
+    "items": [
+     {
+      "file": "vehicles/air/heli-medevac/heli-medevac-N.png",
+      "label": "N"
+     },
+     {
+      "file": "vehicles/air/heli-medevac/heli-medevac-NE.png",
+      "label": "NE"
+     },
+     {
+      "file": "vehicles/air/heli-medevac/heli-medevac-E.png",
+      "label": "E"
+     },
+     {
+      "file": "vehicles/air/heli-medevac/heli-medevac-SE.png",
+      "label": "SE"
+     },
+     {
+      "file": "vehicles/air/heli-medevac/heli-medevac-S.png",
+      "label": "S"
+     },
+     {
+      "file": "vehicles/air/heli-medevac/heli-medevac-SW.png",
+      "label": "SW"
+     },
+     {
+      "file": "vehicles/air/heli-medevac/heli-medevac-W.png",
+      "label": "W"
+     },
+     {
+      "file": "vehicles/air/heli-medevac/heli-medevac-NW.png",
+      "label": "NW"
+     }
+    ]
+   },
+   {
+    "title": "Aircraft: all models, 8 directions",
+    "columns": 1,
+    "scale": 2,
+    "note": "strip order N, NE, E, SE, S, SW, W, NW (world compass); no gaps, slice by frame width",
+    "items": [
+     {
+      "file": "vehicles/air/heli-medevac/heli-medevac-8dirs.png",
+      "label": "heli-medevac 8 dirs"
+     },
+     {
+      "file": "vehicles/air/heli-fire/heli-fire-8dirs.png",
+      "label": "heli-fire 8 dirs"
+     },
+     {
+      "file": "vehicles/air/cargo-plane/cargo-plane-8dirs.png",
+      "label": "cargo-plane 8 dirs"
+     }
+    ]
+   },
+   {
+    "title": "heli-medevac: rotor animation",
+    "columns": 4,
+    "scale": 2,
+    "items": [
+     {
+      "file": "vehicles/air/heli-medevac/rotor/heli-medevac-rotor-N.png",
+      "label": "N 4 frames"
+     },
+     {
+      "file": "vehicles/air/heli-medevac/rotor/heli-medevac-rotor-NE.png",
+      "label": "NE 4 frames"
+     },
+     {
+      "file": "vehicles/air/heli-medevac/rotor/heli-medevac-rotor-E.png",
+      "label": "E 4 frames"
+     },
+     {
+      "file": "vehicles/air/heli-medevac/rotor/heli-medevac-rotor-SE.png",
+      "label": "SE 4 frames"
+     },
+     {
+      "file": "vehicles/air/heli-medevac/rotor/heli-medevac-rotor-S.png",
+      "label": "S 4 frames"
+     },
+     {
+      "file": "vehicles/air/heli-medevac/rotor/heli-medevac-rotor-SW.png",
+      "label": "SW 4 frames"
+     },
+     {
+      "file": "vehicles/air/heli-medevac/rotor/heli-medevac-rotor-W.png",
+      "label": "W 4 frames"
+     },
+     {
+      "file": "vehicles/air/heli-medevac/rotor/heli-medevac-rotor-NW.png",
+      "label": "NW 4 frames"
+     }
+    ]
+   },
+   {
+    "title": "heli-medevac: ground shadow (drawn 26 px below the flying body)",
+    "columns": 1,
+    "scale": 2,
+    "items": [
+     {
+      "file": "vehicles/air/heli-medevac/heli-medevac-shadow-8dirs.png",
+      "label": "8 dirs"
+     }
+    ]
+   },
+   {
+    "title": "heli-fire: rotor animation",
+    "columns": 4,
+    "scale": 2,
+    "items": [
+     {
+      "file": "vehicles/air/heli-fire/rotor/heli-fire-rotor-N.png",
+      "label": "N 4 frames"
+     },
+     {
+      "file": "vehicles/air/heli-fire/rotor/heli-fire-rotor-NE.png",
+      "label": "NE 4 frames"
+     },
+     {
+      "file": "vehicles/air/heli-fire/rotor/heli-fire-rotor-E.png",
+      "label": "E 4 frames"
+     },
+     {
+      "file": "vehicles/air/heli-fire/rotor/heli-fire-rotor-SE.png",
+      "label": "SE 4 frames"
+     },
+     {
+      "file": "vehicles/air/heli-fire/rotor/heli-fire-rotor-S.png",
+      "label": "S 4 frames"
+     },
+     {
+      "file": "vehicles/air/heli-fire/rotor/heli-fire-rotor-SW.png",
+      "label": "SW 4 frames"
+     },
+     {
+      "file": "vehicles/air/heli-fire/rotor/heli-fire-rotor-W.png",
+      "label": "W 4 frames"
+     },
+     {
+      "file": "vehicles/air/heli-fire/rotor/heli-fire-rotor-NW.png",
+      "label": "NW 4 frames"
+     }
+    ]
+   },
+   {
+    "title": "heli-fire: ground shadow (drawn 34 px below the flying body)",
+    "columns": 1,
+    "scale": 2,
+    "items": [
+     {
+      "file": "vehicles/air/heli-fire/heli-fire-shadow-8dirs.png",
+      "label": "8 dirs"
+     }
+    ]
+   },
+   {
+    "title": "cargo-plane: prop animation",
+    "columns": 4,
+    "scale": 2,
+    "items": [
+     {
+      "file": "vehicles/air/cargo-plane/prop/cargo-plane-prop-N.png",
+      "label": "N 3 frames"
+     },
+     {
+      "file": "vehicles/air/cargo-plane/prop/cargo-plane-prop-NE.png",
+      "label": "NE 3 frames"
+     },
+     {
+      "file": "vehicles/air/cargo-plane/prop/cargo-plane-prop-E.png",
+      "label": "E 3 frames"
+     },
+     {
+      "file": "vehicles/air/cargo-plane/prop/cargo-plane-prop-SE.png",
+      "label": "SE 3 frames"
+     },
+     {
+      "file": "vehicles/air/cargo-plane/prop/cargo-plane-prop-S.png",
+      "label": "S 3 frames"
+     },
+     {
+      "file": "vehicles/air/cargo-plane/prop/cargo-plane-prop-SW.png",
+      "label": "SW 3 frames"
+     },
+     {
+      "file": "vehicles/air/cargo-plane/prop/cargo-plane-prop-W.png",
+      "label": "W 3 frames"
+     },
+     {
+      "file": "vehicles/air/cargo-plane/prop/cargo-plane-prop-NW.png",
+      "label": "NW 3 frames"
+     }
+    ]
+   },
+   {
+    "title": "cargo-plane: ground shadow (drawn 40 px below the flying body)",
+    "columns": 1,
+    "scale": 2,
+    "items": [
+     {
+      "file": "vehicles/air/cargo-plane/cargo-plane-shadow-8dirs.png",
+      "label": "8 dirs"
+     }
+    ]
+   },
+   {
+    "title": "Boats & ships: cargo-ship in 8 directions",
+    "columns": 8,
+    "scale": 2,
+    "note": "World compass, clockwise: N (screen up-right), NE, E (down-right), SE, S (down-left), SW, W (up-left), NW. Anchor = ground centre, see anchors.json",
+    "items": [
+     {
+      "file": "vehicles/water/cargo-ship/cargo-ship-N.png",
+      "label": "N"
+     },
+     {
+      "file": "vehicles/water/cargo-ship/cargo-ship-NE.png",
+      "label": "NE"
+     },
+     {
+      "file": "vehicles/water/cargo-ship/cargo-ship-E.png",
+      "label": "E"
+     },
+     {
+      "file": "vehicles/water/cargo-ship/cargo-ship-SE.png",
+      "label": "SE"
+     },
+     {
+      "file": "vehicles/water/cargo-ship/cargo-ship-S.png",
+      "label": "S"
+     },
+     {
+      "file": "vehicles/water/cargo-ship/cargo-ship-SW.png",
+      "label": "SW"
+     },
+     {
+      "file": "vehicles/water/cargo-ship/cargo-ship-W.png",
+      "label": "W"
+     },
+     {
+      "file": "vehicles/water/cargo-ship/cargo-ship-NW.png",
+      "label": "NW"
+     }
+    ]
+   },
+   {
+    "title": "Boats & ships: all models, 8 directions",
+    "columns": 1,
+    "scale": 2,
+    "note": "strip order N, NE, E, SE, S, SW, W, NW (world compass); no gaps, slice by frame width",
+    "items": [
+     {
+      "file": "vehicles/water/motorboat/motorboat-8dirs.png",
+      "label": "motorboat 8 dirs"
+     },
+     {
+      "file": "vehicles/water/ferry/ferry-8dirs.png",
+      "label": "ferry 8 dirs"
+     },
+     {
+      "file": "vehicles/water/cargo-ship/cargo-ship-8dirs.png",
+      "label": "cargo-ship 8 dirs"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "page": "World elements",
+  "section": "People",
+  "groups": [
+   {
+    "title": "Walk cycles",
+    "note": "adult 7 px, child 5 px, elder 7 px with cane; order N, E, S, W; 4 frames each",
+    "columns": 4,
+    "scale": 3,
+    "items": [
+     {
+      "file": "people/walk/adult_N_strip.png",
+      "label": "adult N 4f"
+     },
+     {
+      "file": "people/walk/adult_E_strip.png",
+      "label": "adult E 4f"
+     },
+     {
+      "file": "people/walk/adult_S_strip.png",
+      "label": "adult S 4f"
+     },
+     {
+      "file": "people/walk/adult_W_strip.png",
+      "label": "adult W 4f"
+     },
+     {
+      "file": "people/walk/adult_N_0.png",
+      "label": "adult N f0"
+     },
+     {
+      "file": "people/walk/adult_N_1.png",
+      "label": "adult N f1"
+     },
+     {
+      "file": "people/walk/adult_N_2.png",
+      "label": "adult N f2"
+     },
+     {
+      "file": "people/walk/adult_N_3.png",
+      "label": "adult N f3"
+     },
+     {
+      "file": "people/walk/adult_E_0.png",
+      "label": "adult E f0"
+     },
+     {
+      "file": "people/walk/adult_E_1.png",
+      "label": "adult E f1"
+     },
+     {
+      "file": "people/walk/adult_E_2.png",
+      "label": "adult E f2"
+     },
+     {
+      "file": "people/walk/adult_E_3.png",
+      "label": "adult E f3"
+     },
+     {
+      "file": "people/walk/adult_S_0.png",
+      "label": "adult S f0"
+     },
+     {
+      "file": "people/walk/adult_S_1.png",
+      "label": "adult S f1"
+     },
+     {
+      "file": "people/walk/adult_S_2.png",
+      "label": "adult S f2"
+     },
+     {
+      "file": "people/walk/adult_S_3.png",
+      "label": "adult S f3"
+     },
+     {
+      "file": "people/walk/adult_W_0.png",
+      "label": "adult W f0"
+     },
+     {
+      "file": "people/walk/adult_W_1.png",
+      "label": "adult W f1"
+     },
+     {
+      "file": "people/walk/adult_W_2.png",
+      "label": "adult W f2"
+     },
+     {
+      "file": "people/walk/adult_W_3.png",
+      "label": "adult W f3"
+     },
+     {
+      "file": "people/walk/child_N_strip.png",
+      "label": "child N 4f"
+     },
+     {
+      "file": "people/walk/child_E_strip.png",
+      "label": "child E 4f"
+     },
+     {
+      "file": "people/walk/child_S_strip.png",
+      "label": "child S 4f"
+     },
+     {
+      "file": "people/walk/child_W_strip.png",
+      "label": "child W 4f"
+     },
+     {
+      "file": "people/walk/elder_N_strip.png",
+      "label": "elder N 4f"
+     },
+     {
+      "file": "people/walk/elder_E_strip.png",
+      "label": "elder E 4f"
+     },
+     {
+      "file": "people/walk/elder_S_strip.png",
+      "label": "elder S 4f"
+     },
+     {
+      "file": "people/walk/elder_W_strip.png",
+      "label": "elder W 4f"
+     }
+    ]
+   },
+   {
+    "title": "Variety",
+    "note": "8 shirt colours, 4 trouser colours, 5 skin tones, 6 hair colours, caps, long hair, children and elders mixed in",
+    "columns": 4,
+    "scale": 3,
+    "items": [
+     {
+      "file": "people/variety/crowd_E_32.png",
+      "label": "32 walkers E"
+     },
+     {
+      "file": "people/variety/crowd_N_32.png",
+      "label": "32 walkers N (backs)"
+     },
+     {
+      "file": "people/variety/single_0.png",
+      "label": "single 1"
+     },
+     {
+      "file": "people/variety/single_1.png",
+      "label": "single 2"
+     },
+     {
+      "file": "people/variety/single_2.png",
+      "label": "single 3"
+     },
+     {
+      "file": "people/variety/single_3.png",
+      "label": "single 4"
+     },
+     {
+      "file": "people/variety/single_4.png",
+      "label": "single 5"
+     },
+     {
+      "file": "people/variety/single_5.png",
+      "label": "single 6"
+     }
+    ]
+   },
+   {
+    "title": "Activities",
+    "note": "bench (both axes), sitters, waiting, cycling, jogging, rain, construction, shopping, family, dog walking",
+    "columns": 4,
+    "scale": 3,
+    "items": [
+     {
+      "file": "people/bench/bench_x.png",
+      "label": "bench along X"
+     },
+     {
+      "file": "people/bench/sit_x_0.png",
+      "label": "sitter x f0"
+     },
+     {
+      "file": "people/bench/sit_x_1.png",
+      "label": "sitter x f1"
+     },
+     {
+      "file": "people/bench/sit_x_strip.png",
+      "label": "sitter x 2f"
+     },
+     {
+      "file": "people/bench/sit2_x_strip.png",
+      "label": "two sitters x 2f"
+     },
+     {
+      "file": "people/bench/bench_y.png",
+      "label": "bench along Y"
+     },
+     {
+      "file": "people/bench/sit_y_0.png",
+      "label": "sitter y f0"
+     },
+     {
+      "file": "people/bench/sit_y_1.png",
+      "label": "sitter y f1"
+     },
+     {
+      "file": "people/bench/sit_y_strip.png",
+      "label": "sitter y 2f"
+     },
+     {
+      "file": "people/bench/sit2_y_strip.png",
+      "label": "two sitters y 2f"
+     },
+     {
+      "file": "people/wait/wait_N_strip.png",
+      "label": "waiting N 3f"
+     },
+     {
+      "file": "people/wait/wait_E_strip.png",
+      "label": "waiting E 3f"
+     },
+     {
+      "file": "people/wait/wait_S_strip.png",
+      "label": "waiting S 3f"
+     },
+     {
+      "file": "people/wait/wait_W_strip.png",
+      "label": "waiting W 3f"
+     },
+     {
+      "file": "people/cycle/cycle_N_strip.png",
+      "label": "cyclist N 4f"
+     },
+     {
+      "file": "people/cycle/cycle_E_strip.png",
+      "label": "cyclist E 4f"
+     },
+     {
+      "file": "people/cycle/cycle_S_strip.png",
+      "label": "cyclist S 4f"
+     },
+     {
+      "file": "people/cycle/cycle_W_strip.png",
+      "label": "cyclist W 4f"
+     },
+     {
+      "file": "people/jog/jog_N_strip.png",
+      "label": "jogger N 4f"
+     },
+     {
+      "file": "people/jog/jog_E_strip.png",
+      "label": "jogger E 4f"
+     },
+     {
+      "file": "people/jog/jog_S_strip.png",
+      "label": "jogger S 4f"
+     },
+     {
+      "file": "people/jog/jog_W_strip.png",
+      "label": "jogger W 4f"
+     },
+     {
+      "file": "people/rain/umbrella0_N_strip.png",
+      "label": "umbrella 1 N 4f"
+     },
+     {
+      "file": "people/rain/umbrella0_E_strip.png",
+      "label": "umbrella 1 E 4f"
+     },
+     {
+      "file": "people/rain/umbrella0_S_strip.png",
+      "label": "umbrella 1 S 4f"
+     },
+     {
+      "file": "people/rain/umbrella0_W_strip.png",
+      "label": "umbrella 1 W 4f"
+     },
+     {
+      "file": "people/rain/umbrella1_N_strip.png",
+      "label": "umbrella 2 N 4f"
+     },
+     {
+      "file": "people/rain/umbrella1_E_strip.png",
+      "label": "umbrella 2 E 4f"
+     },
+     {
+      "file": "people/rain/umbrella1_S_strip.png",
+      "label": "umbrella 2 S 4f"
+     },
+     {
+      "file": "people/rain/umbrella1_W_strip.png",
+      "label": "umbrella 2 W 4f"
+     },
+     {
+      "file": "people/rain/umbrella2_N_strip.png",
+      "label": "umbrella 3 N 4f"
+     },
+     {
+      "file": "people/rain/umbrella2_E_strip.png",
+      "label": "umbrella 3 E 4f"
+     },
+     {
+      "file": "people/rain/umbrella2_S_strip.png",
+      "label": "umbrella 3 S 4f"
+     },
+     {
+      "file": "people/rain/umbrella2_W_strip.png",
+      "label": "umbrella 3 W 4f"
+     },
+     {
+      "file": "people/rain/umbrella3_N_strip.png",
+      "label": "umbrella 4 N 4f"
+     },
+     {
+      "file": "people/rain/umbrella3_E_strip.png",
+      "label": "umbrella 4 E 4f"
+     },
+     {
+      "file": "people/rain/umbrella3_S_strip.png",
+      "label": "umbrella 4 S 4f"
+     },
+     {
+      "file": "people/rain/umbrella3_W_strip.png",
+      "label": "umbrella 4 W 4f"
+     },
+     {
+      "file": "people/worker/walk_N_strip.png",
+      "label": "worker N 4f"
+     },
+     {
+      "file": "people/worker/walk_E_strip.png",
+      "label": "worker E 4f"
+     },
+     {
+      "file": "people/worker/walk_S_strip.png",
+      "label": "worker S 4f"
+     },
+     {
+      "file": "people/worker/walk_W_strip.png",
+      "label": "worker W 4f"
+     },
+     {
+      "file": "people/worker/hammer_N_strip.png",
+      "label": "hammering N 2f"
+     },
+     {
+      "file": "people/worker/hammer_E_strip.png",
+      "label": "hammering E 2f"
+     },
+     {
+      "file": "people/worker/hammer_S_strip.png",
+      "label": "hammering S 2f"
+     },
+     {
+      "file": "people/worker/hammer_W_strip.png",
+      "label": "hammering W 2f"
+     },
+     {
+      "file": "people/shopper/shopper_N_strip.png",
+      "label": "shopper N 4f"
+     },
+     {
+      "file": "people/shopper/shopper_E_strip.png",
+      "label": "shopper E 4f"
+     },
+     {
+      "file": "people/shopper/shopper_S_strip.png",
+      "label": "shopper S 4f"
+     },
+     {
+      "file": "people/shopper/shopper_W_strip.png",
+      "label": "shopper W 4f"
+     },
+     {
+      "file": "people/family/parent_child_N_strip.png",
+      "label": "parent+child N 4f"
+     },
+     {
+      "file": "people/family/parent_child_E_strip.png",
+      "label": "parent+child E 4f"
+     },
+     {
+      "file": "people/family/parent_child_S_strip.png",
+      "label": "parent+child S 4f"
+     },
+     {
+      "file": "people/family/parent_child_W_strip.png",
+      "label": "parent+child W 4f"
+     },
+     {
+      "file": "people/dogwalk/dogwalker_N_strip.png",
+      "label": "dog walker N 4f"
+     },
+     {
+      "file": "people/dogwalk/dogwalker_E_strip.png",
+      "label": "dog walker E 4f"
+     },
+     {
+      "file": "people/dogwalk/dogwalker_S_strip.png",
+      "label": "dog walker S 4f"
+     },
+     {
+      "file": "people/dogwalk/dogwalker_W_strip.png",
+      "label": "dog walker W 4f"
+     }
+    ]
+   },
+   {
+    "title": "Animals",
+    "note": "dog in 3 coats (4 dirs x 4 frames), pigeons, seagull; birds face screen-right (mirror for left)",
+    "columns": 4,
+    "scale": 3,
+    "items": [
+     {
+      "file": "people/animals/dog_brown_N_strip.png",
+      "label": "dog brown N 4f"
+     },
+     {
+      "file": "people/animals/dog_brown_E_strip.png",
+      "label": "dog brown E 4f"
+     },
+     {
+      "file": "people/animals/dog_brown_S_strip.png",
+      "label": "dog brown S 4f"
+     },
+     {
+      "file": "people/animals/dog_brown_W_strip.png",
+      "label": "dog brown W 4f"
+     },
+     {
+      "file": "people/animals/dog_blackwhite_N_strip.png",
+      "label": "dog blackwhite N 4f"
+     },
+     {
+      "file": "people/animals/dog_blackwhite_E_strip.png",
+      "label": "dog blackwhite E 4f"
+     },
+     {
+      "file": "people/animals/dog_blackwhite_S_strip.png",
+      "label": "dog blackwhite S 4f"
+     },
+     {
+      "file": "people/animals/dog_blackwhite_W_strip.png",
+      "label": "dog blackwhite W 4f"
+     },
+     {
+      "file": "people/animals/dog_golden_N_strip.png",
+      "label": "dog golden N 4f"
+     },
+     {
+      "file": "people/animals/dog_golden_E_strip.png",
+      "label": "dog golden E 4f"
+     },
+     {
+      "file": "people/animals/dog_golden_S_strip.png",
+      "label": "dog golden S 4f"
+     },
+     {
+      "file": "people/animals/dog_golden_W_strip.png",
+      "label": "dog golden W 4f"
+     },
+     {
+      "file": "people/animals/pigeon_peck_strip.png",
+      "label": "pigeon peck 2f"
+     },
+     {
+      "file": "people/animals/pigeon_fly_strip.png",
+      "label": "pigeon fly 4f"
+     },
+     {
+      "file": "people/animals/gull_fly_strip.png",
+      "label": "seagull fly 4f"
+     }
+    ]
+   },
+   {
+    "title": "In context",
+    "note": "peeps on asphalt, pavement and grass at 1x (shown at 2x)",
+    "columns": 1,
+    "scale": 2,
+    "items": [
+     {
+      "file": "people/context/street.png",
+      "label": "street: walkers, bench, cyclists"
+     },
+     {
+      "file": "people/context/park.png",
+      "label": "park: dog, jogger, pigeons"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "page": "World elements",
+  "section": "Effects & weather",
+  "groups": [
+   {
+    "title": "Smoke & steam",
+    "columns": 3,
+    "scale": 2,
+    "items": [
+     {
+      "file": "fx/smoke/house_strip.png",
+      "label": "house smoke, 8 frames"
+     },
+     {
+      "file": "fx/smoke/industry_strip.png",
+      "label": "industry smoke, 8 frames"
+     },
+     {
+      "file": "fx/smoke/stack_plume_strip.png",
+      "label": "stack plume, 8 frames"
+     },
+     {
+      "file": "fx/smoke/stack_plume_light_strip.png",
+      "label": "stack plume, light, 8 frames"
+     },
+     {
+      "file": "fx/smoke/steam_strip.png",
+      "label": "steam, 8 frames"
+     },
+     {
+      "file": "fx/smoke/cooling_cloud_strip.png",
+      "label": "cooling tower, 8 frames"
+     }
+    ],
+    "note": "8-frame loops, emitter = bottom centre, wind drifts right. House ~14x36, stack plume 44x60."
+   },
+   {
+    "title": "Building fire: 4 stages + garbage heap",
+    "columns": 2,
+    "scale": 2,
+    "items": [
+     {
+      "file": "fx/fire/stage1_strip.png",
+      "label": "stage 1: window, 6 frames"
+     },
+     {
+      "file": "fx/fire/stage2_strip.png",
+      "label": "stage 2: medium, 6 frames"
+     },
+     {
+      "file": "fx/fire/stage3_strip.png",
+      "label": "stage 3: roof, 6 frames"
+     },
+     {
+      "file": "fx/fire/stage4_strip.png",
+      "label": "stage 4: burnt out, 6 frames"
+     },
+     {
+      "file": "fx/fire/garbage_strip.png",
+      "label": "garbage fire, 4 frames"
+     }
+    ],
+    "note": "1-cell overlay, anchor = footprint centre. Window flame at (cx-14, h-17), roof fire at (cx, h-30)."
+   },
+   {
+    "title": "Water: hose, splash, helicopter drop",
+    "columns": 2,
+    "scale": 2,
+    "items": [
+     {
+      "file": "fx/water/hose_n_strip.png",
+      "label": "hose N, 4 frames"
+     },
+     {
+      "file": "fx/water/hose_e_strip.png",
+      "label": "hose E, 4 frames"
+     },
+     {
+      "file": "fx/water/hose_s_strip.png",
+      "label": "hose S, 4 frames"
+     },
+     {
+      "file": "fx/water/hose_w_strip.png",
+      "label": "hose W, 4 frames"
+     },
+     {
+      "file": "fx/water/splash_strip.png",
+      "label": "splash, 6 frames"
+     },
+     {
+      "file": "fx/water/heli_drop_strip.png",
+      "label": "heli water drop, 4 frames"
+     }
+    ],
+    "note": "Directions in world compass: N = screen up-right, E = down-right, S = down-left, W = up-left. Hose nozzle: left canvas edge for N/E, right edge for S/W."
+   },
+   {
+    "title": "Construction dust, demolition, sparks",
+    "columns": 2,
+    "scale": 2,
+    "items": [
+     {
+      "file": "fx/construction/dust_strip.png",
+      "label": "construction dust, 6 frames"
+     },
+     {
+      "file": "fx/construction/demolition_strip.png",
+      "label": "demolition burst, 6 frames"
+     },
+     {
+      "file": "fx/construction/sparks_weld_strip.png",
+      "label": "weld sparks, 4 frames"
+     },
+     {
+      "file": "fx/construction/sparks_short_strip.png",
+      "label": "power short, 4 frames"
+     }
+    ]
+   },
+   {
+    "title": "Fireworks (milestones)",
+    "columns": 2,
+    "scale": 2,
+    "items": [
+     {
+      "file": "fx/fireworks/red_strip.png",
+      "label": "red burst, 8 frames"
+     },
+     {
+      "file": "fx/fireworks/gold_strip.png",
+      "label": "gold burst, 8 frames"
+     },
+     {
+      "file": "fx/fireworks/green_strip.png",
+      "label": "green burst, 8 frames"
+     },
+     {
+      "file": "fx/fireworks/blue_strip.png",
+      "label": "blue burst, 8 frames"
+     }
+    ],
+    "note": "32x40, anchor = launch point; burst centre at (16, 13)."
+   },
+   {
+    "title": "Night: light pools",
+    "columns": 5,
+    "scale": 2,
+    "items": [
+     {
+      "file": "fx/night/pool_s.png",
+      "label": "pool S"
+     },
+     {
+      "file": "fx/night/pool_m.png",
+      "label": "pool M"
+     },
+     {
+      "file": "fx/night/pool_l.png",
+      "label": "pool L"
+     },
+     {
+      "file": "fx/night/pool_cool_m.png",
+      "label": "cool pool M"
+     },
+     {
+      "file": "fx/night/bulb.png",
+      "label": "lamp bulb"
+     }
+    ],
+    "note": "ADDITIVE blend in game: black = no light. Anchor = canvas centre (source on the ground)."
+   },
+   {
+    "title": "Night: window glows (warm / cool, 2x3 and 3x4, left and right walls)",
+    "columns": 8,
+    "scale": 3,
+    "items": [
+     {
+      "file": "fx/night/window_warm_2x3_L.png",
+      "label": "warm 2x3 L"
+     },
+     {
+      "file": "fx/night/window_warm_2x3_R.png",
+      "label": "warm 2x3 R"
+     },
+     {
+      "file": "fx/night/window_warm_3x4_L.png",
+      "label": "warm 3x4 L"
+     },
+     {
+      "file": "fx/night/window_warm_3x4_R.png",
+      "label": "warm 3x4 R"
+     },
+     {
+      "file": "fx/night/window_cool_2x3_L.png",
+      "label": "cool 2x3 L"
+     },
+     {
+      "file": "fx/night/window_cool_2x3_R.png",
+      "label": "cool 2x3 R"
+     },
+     {
+      "file": "fx/night/window_cool_3x4_L.png",
+      "label": "cool 3x4 L"
+     },
+     {
+      "file": "fx/night/window_cool_3x4_R.png",
+      "label": "cool 3x4 R"
+     }
+    ],
+    "note": "Core is the lit window (sheared 1 px per 2 columns), halo 1-2 px. Additive."
+   },
+   {
+    "title": "Night: shop sign glows",
+    "columns": 4,
+    "scale": 3,
+    "items": [
+     {
+      "file": "fx/night/sign_red.png",
+      "label": "sign red"
+     },
+     {
+      "file": "fx/night/sign_blue.png",
+      "label": "sign blue"
+     },
+     {
+      "file": "fx/night/sign_amber.png",
+      "label": "sign amber"
+     },
+     {
+      "file": "fx/night/sign_green.png",
+      "label": "sign green"
+     }
+    ],
+    "note": "9x3 px sign on a left wall. Additive."
+   },
+   {
+    "title": "Night: vehicle head- and tail-lights",
+    "columns": 4,
+    "scale": 2,
+    "items": [
+     {
+      "file": "fx/night/headlight_n.png",
+      "label": "head N"
+     },
+     {
+      "file": "fx/night/headlight_e.png",
+      "label": "head E"
+     },
+     {
+      "file": "fx/night/headlight_s.png",
+      "label": "head S"
+     },
+     {
+      "file": "fx/night/headlight_w.png",
+      "label": "head W"
+     },
+     {
+      "file": "fx/night/taillight_n.png",
+      "label": "tail N"
+     },
+     {
+      "file": "fx/night/taillight_e.png",
+      "label": "tail E"
+     },
+     {
+      "file": "fx/night/taillight_s.png",
+      "label": "tail S"
+     },
+     {
+      "file": "fx/night/taillight_w.png",
+      "label": "tail W"
+     }
+    ],
+    "note": "Directions in world compass: N = screen up-right. Headlight cones 44x28, origin at canvas centre = headlamp point; tail glow 20x14. Additive."
+   },
+   {
+    "title": "Weather: rain and snow",
+    "columns": 8,
+    "scale": 3,
+    "items": [
+     {
+      "file": "fx/weather/rain_s.png",
+      "label": "rain S"
+     },
+     {
+      "file": "fx/weather/rain_m.png",
+      "label": "rain M"
+     },
+     {
+      "file": "fx/weather/rain_l.png",
+      "label": "rain L"
+     },
+     {
+      "file": "fx/weather/rain_splash_strip.png",
+      "label": "rain splash, 4 frames"
+     },
+     {
+      "file": "fx/weather/snow_s.png",
+      "label": "flake S"
+     },
+     {
+      "file": "fx/weather/snow_m.png",
+      "label": "flake M"
+     },
+     {
+      "file": "fx/weather/snow_l.png",
+      "label": "flake L"
+     }
+    ],
+    "note": "Streaks slant down-left; splash 4 frames on ground."
+   },
+   {
+    "title": "Weather: puddles and fog",
+    "columns": 5,
+    "scale": 2,
+    "items": [
+     {
+      "file": "fx/weather/puddle_s.png",
+      "label": "puddle S"
+     },
+     {
+      "file": "fx/weather/puddle_m.png",
+      "label": "puddle M"
+     },
+     {
+      "file": "fx/weather/puddle_l.png",
+      "label": "puddle L"
+     },
+     {
+      "file": "fx/weather/fog_light.png",
+      "label": "fog light"
+     },
+     {
+      "file": "fx/weather/fog_dense.png",
+      "label": "fog dense"
+     }
+    ],
+    "note": "Fog tiles are periodic noise: neighbouring tiles join seamlessly."
+   },
+   {
+    "title": "Weather: cloud shadows",
+    "columns": 2,
+    "scale": 1,
+    "items": [
+     {
+      "file": "fx/weather/cloud_shadow_0.png",
+      "label": "cloud shadow 1"
+     },
+     {
+      "file": "fx/weather/cloud_shadow_1.png",
+      "label": "cloud shadow 2"
+     }
+    ],
+    "note": "~200x100 soft dithered blobs. Draw at ~35-45% opacity in game (alpha is 0/255 in the file)."
+   },
+   {
+    "title": "Weather: lightning",
+    "columns": 1,
+    "scale": 2,
+    "items": [
+     {
+      "file": "fx/weather/lightning_strip.png",
+      "label": "lightning, 3 frames"
+     }
+    ],
+    "note": "Anchor = strike point (bottom)."
+   },
+   {
+    "title": "Pollution: smog haze (3 intensities)",
+    "columns": 3,
+    "scale": 2,
+    "items": [
+     {
+      "file": "fx/pollution/smog_1.png",
+      "label": "smog 1"
+     },
+     {
+      "file": "fx/pollution/smog_2.png",
+      "label": "smog 2"
+     },
+     {
+      "file": "fx/pollution/smog_3.png",
+      "label": "smog 3"
+     }
+    ],
+    "note": "64x32 diamond overlays, ordered dither."
+   },
+   {
+    "title": "Pollution: ground stains (3 levels)",
+    "columns": 3,
+    "scale": 2,
+    "items": [
+     {
+      "file": "fx/pollution/stain_1.png",
+      "label": "stain 1"
+     },
+     {
+      "file": "fx/pollution/stain_2.png",
+      "label": "stain 2"
+     },
+     {
+      "file": "fx/pollution/stain_3.png",
+      "label": "stain 3"
+     }
+    ]
+   },
+   {
+    "title": "Pollution: toxic water, noise, dead grass",
+    "columns": 2,
+    "scale": 2,
+    "items": [
+     {
+      "file": "fx/pollution/toxic_sheen_strip.png",
+      "label": "toxic sheen, 4 frames"
+     },
+     {
+      "file": "fx/pollution/noise_rings_strip.png",
+      "label": "noise rings, 4 frames"
+     },
+     {
+      "file": "fx/pollution/dead_grass_1.png",
+      "label": "dead grass 1"
+     },
+     {
+      "file": "fx/pollution/dead_grass_2.png",
+      "label": "dead grass 2"
+     }
+    ],
+    "note": "Noise rings: concentric iso arcs, 4-frame loop, anchor = centre."
+   },
+   {
+    "title": "Flood",
+    "columns": 3,
+    "scale": 2,
+    "items": [
+     {
+      "file": "fx/flood/water_strip.png",
+      "label": "flood water, 4 frames"
+     },
+     {
+      "file": "fx/flood/edge_n.png",
+      "label": "edge N"
+     },
+     {
+      "file": "fx/flood/edge_e.png",
+      "label": "edge E"
+     },
+     {
+      "file": "fx/flood/edge_s.png",
+      "label": "edge S"
+     },
+     {
+      "file": "fx/flood/edge_w.png",
+      "label": "edge W"
+     }
+    ],
+    "note": "Directions in world compass: N = screen up-right. Water 4-frame ripple loop; edge pieces cover half of a tile (water side in the name)."
+   },
+   {
+    "title": "Composites (scale 1)",
+    "columns": 2,
+    "scale": 1,
+    "items": [
+     {
+      "file": "fx/composites/night.png",
+      "label": "night: lamps, windows, headlights"
+     },
+     {
+      "file": "fx/composites/fog.png",
+      "label": "fog 3x3"
+     },
+     {
+      "file": "fx/composites/smog.png",
+      "label": "smog 3 levels"
+     },
+     {
+      "file": "fx/composites/flood.png",
+      "label": "flood 3x3"
+     },
+     {
+      "file": "fx/composites/fire_stages.png",
+      "label": "fire stages 1-4"
+     },
+     {
+      "file": "fx/composites/rain.png",
+      "label": "rain, puddles"
+     }
+    ],
+    "note": "Stand-in boxes for context only. Night uses additive glow; fire stages sit on 28-px walls."
+   }
+  ]
+ },
+ {
+  "page": "World elements",
+  "section": "World markers & cursors",
+  "groups": [
+   {
+    "title": "Status icons: the 24 CityProblem kinds",
+    "note": "Thought bubble 22x27 px; glyph 8x8 + outline; 1 px rim colour = default severity",
+    "columns": 8,
+    "scale": 3,
+    "items": [
+     {
+      "file": "markers/status/nopower.png",
+      "label": "No power"
+     },
+     {
+      "file": "markers/status/nowater.png",
+      "label": "No water"
+     },
+     {
+      "file": "markers/status/nosewage.png",
+      "label": "No sewage"
+     },
+     {
+      "file": "markers/status/dirtywater.png",
+      "label": "Dirty water"
+     },
+     {
+      "file": "markers/status/noroad.png",
+      "label": "No road"
+     },
+     {
+      "file": "markers/status/abandoned.png",
+      "label": "Abandoned"
+     },
+     {
+      "file": "markers/status/unhappy.png",
+      "label": "Unhappy"
+     },
+     {
+      "file": "markers/status/noworkers.png",
+      "label": "No workers"
+     },
+     {
+      "file": "markers/status/nocustomers.png",
+      "label": "No customers"
+     },
+     {
+      "file": "markers/status/nogoods.png",
+      "label": "No goods"
+     },
+     {
+      "file": "markers/status/garbage.png",
+      "label": "Garbage"
+     },
+     {
+      "file": "markers/status/fire.png",
+      "label": "Fire"
+     },
+     {
+      "file": "markers/status/crime.png",
+      "label": "Crime"
+     },
+     {
+      "file": "markers/status/sick.png",
+      "label": "Sick"
+     },
+     {
+      "file": "markers/status/ambulance.png",
+      "label": "Ambulance"
+     },
+     {
+      "file": "markers/status/highrent.png",
+      "label": "High rent"
+     },
+     {
+      "file": "markers/status/traffic.png",
+      "label": "Traffic jam"
+     },
+     {
+      "file": "markers/status/airpollution.png",
+      "label": "Air pollution"
+     },
+     {
+      "file": "markers/status/groundpollution.png",
+      "label": "Ground poll."
+     },
+     {
+      "file": "markers/status/noise.png",
+      "label": "Noise"
+     },
+     {
+      "file": "markers/status/leveledup.png",
+      "label": "Levelled up"
+     },
+     {
+      "file": "markers/status/collapsed.png",
+      "label": "Collapsed"
+     },
+     {
+      "file": "markers/status/noservice.png",
+      "label": "No service"
+     },
+     {
+      "file": "markers/status/flooded.png",
+      "label": "Flooded"
+     }
+    ]
+   },
+   {
+    "title": "Status icons: extra kinds",
+    "columns": 9,
+    "scale": 3,
+    "items": [
+     {
+      "file": "markers/status/noeducation.png",
+      "label": "No education"
+     },
+     {
+      "file": "markers/status/nohealthcare.png",
+      "label": "No health"
+     },
+     {
+      "file": "markers/status/nopolice.png",
+      "label": "No police"
+     },
+     {
+      "file": "markers/status/nofirecover.png",
+      "label": "No fire cover"
+     },
+     {
+      "file": "markers/status/nopowerbuild.png",
+      "label": "No power (build)"
+     },
+     {
+      "file": "markers/status/lowlandvalue.png",
+      "label": "Low land value"
+     },
+     {
+      "file": "markers/status/homeless.png",
+      "label": "Homeless"
+     },
+     {
+      "file": "markers/status/deadbody.png",
+      "label": "Awaiting hearse"
+     },
+     {
+      "file": "markers/status/nofuel.png",
+      "label": "No fuel"
+     }
+    ]
+   },
+   {
+    "title": "Status icons: bob animation",
+    "note": "Alternate frames every ~500 ms",
+    "columns": 1,
+    "scale": 3,
+    "items": [
+     {
+      "file": "markers/status/nopower-bob.png",
+      "label": "Bob, 2 frames (1 px)"
+     }
+    ]
+   },
+   {
+    "title": "Severity tiers (rim + tint): no power, fire, unhappy",
+    "note": "info blue, problem yellow, warning orange, major red, error dark red, fatal black, good green",
+    "columns": 7,
+    "scale": 3,
+    "items": [
+     {
+      "file": "markers/tiers/nopower-info.png",
+      "label": "Info"
+     },
+     {
+      "file": "markers/tiers/nopower-problem.png",
+      "label": "Problem"
+     },
+     {
+      "file": "markers/tiers/nopower-warning.png",
+      "label": "Warning"
+     },
+     {
+      "file": "markers/tiers/nopower-major.png",
+      "label": "Major"
+     },
+     {
+      "file": "markers/tiers/nopower-error.png",
+      "label": "Error"
+     },
+     {
+      "file": "markers/tiers/nopower-fatal.png",
+      "label": "Fatal"
+     },
+     {
+      "file": "markers/tiers/nopower-good.png",
+      "label": "Good"
+     },
+     {
+      "file": "markers/tiers/fire-info.png",
+      "label": "Info"
+     },
+     {
+      "file": "markers/tiers/fire-problem.png",
+      "label": "Problem"
+     },
+     {
+      "file": "markers/tiers/fire-warning.png",
+      "label": "Warning"
+     },
+     {
+      "file": "markers/tiers/fire-major.png",
+      "label": "Major"
+     },
+     {
+      "file": "markers/tiers/fire-error.png",
+      "label": "Error"
+     },
+     {
+      "file": "markers/tiers/fire-fatal.png",
+      "label": "Fatal"
+     },
+     {
+      "file": "markers/tiers/fire-good.png",
+      "label": "Good"
+     },
+     {
+      "file": "markers/tiers/unhappy-info.png",
+      "label": "Info"
+     },
+     {
+      "file": "markers/tiers/unhappy-problem.png",
+      "label": "Problem"
+     },
+     {
+      "file": "markers/tiers/unhappy-warning.png",
+      "label": "Warning"
+     },
+     {
+      "file": "markers/tiers/unhappy-major.png",
+      "label": "Major"
+     },
+     {
+      "file": "markers/tiers/unhappy-error.png",
+      "label": "Error"
+     },
+     {
+      "file": "markers/tiers/unhappy-fatal.png",
+      "label": "Fatal"
+     },
+     {
+      "file": "markers/tiers/unhappy-good.png",
+      "label": "Good"
+     }
+    ]
+   },
+   {
+    "title": "Hover brackets (thin white)",
+    "columns": 5,
+    "scale": 2,
+    "items": [
+     {
+      "file": "markers/select/hover-1x1.png",
+      "label": "Hover 1x1"
+     },
+     {
+      "file": "markers/select/hover-2x2.png",
+      "label": "Hover 2x2"
+     },
+     {
+      "file": "markers/select/hover-3x3.png",
+      "label": "Hover 3x3"
+     },
+     {
+      "file": "markers/select/hover-1x2.png",
+      "label": "Hover 1x2"
+     },
+     {
+      "file": "markers/select/hover-2x1.png",
+      "label": "Hover 2x1"
+     }
+    ]
+   },
+   {
+    "title": "Selected brackets (thick yellow)",
+    "columns": 5,
+    "scale": 2,
+    "items": [
+     {
+      "file": "markers/select/selected-1x1.png",
+      "label": "Selected 1x1"
+     },
+     {
+      "file": "markers/select/selected-2x2.png",
+      "label": "Selected 2x2"
+     },
+     {
+      "file": "markers/select/selected-3x3.png",
+      "label": "Selected 3x3"
+     },
+     {
+      "file": "markers/select/selected-1x2.png",
+      "label": "Selected 1x2"
+     },
+     {
+      "file": "markers/select/selected-2x1.png",
+      "label": "Selected 2x1"
+     }
+    ]
+   },
+   {
+    "title": "Selected animation (arms pulse, colour cycles)",
+    "columns": 1,
+    "scale": 2,
+    "items": [
+     {
+      "file": "markers/select/selected-1x1-strip.png",
+      "label": "1x1 pulse, 4 frames"
+     },
+     {
+      "file": "markers/select/selected-2x2-strip.png",
+      "label": "2x2 pulse, 4 frames"
+     }
+    ]
+   },
+   {
+    "title": "Vehicle and citizen markers",
+    "columns": 4,
+    "scale": 3,
+    "items": [
+     {
+      "file": "markers/select/vehicle-ring.png",
+      "label": "Vehicle ring"
+     },
+     {
+      "file": "markers/select/vehicle-ring-thin.png",
+      "label": "Hover ring"
+     },
+     {
+      "file": "markers/select/citizen-ring.png",
+      "label": "Citizen ring"
+     },
+     {
+      "file": "markers/select/follow-chevron-strip.png",
+      "label": "Follow chevron, 4 frames"
+     }
+    ]
+   },
+   {
+    "title": "Footprint fills (ordered dither, ground shows through)",
+    "columns": 4,
+    "scale": 2,
+    "items": [
+     {
+      "file": "markers/ghost/fp-1x1-valid.png",
+      "label": "1x1 valid"
+     },
+     {
+      "file": "markers/ghost/fp-1x1-invalid.png",
+      "label": "1x1 invalid"
+     },
+     {
+      "file": "markers/ghost/fp-2x2-valid.png",
+      "label": "2x2 valid"
+     },
+     {
+      "file": "markers/ghost/fp-2x2-invalid.png",
+      "label": "2x2 invalid"
+     },
+     {
+      "file": "markers/ghost/fp-3x3-valid.png",
+      "label": "3x3 valid"
+     },
+     {
+      "file": "markers/ghost/fp-3x3-invalid.png",
+      "label": "3x3 invalid"
+     },
+     {
+      "file": "markers/ghost/bulldoze-fp-1x1.png",
+      "label": "Bulldoze 1x1"
+     },
+     {
+      "file": "markers/ghost/bulldoze-fp-2x2.png",
+      "label": "Bulldoze 2x2"
+     }
+    ]
+   },
+   {
+    "title": "Ghost building tint (demo house)",
+    "note": "Checker/Bayer drop-out, solid dithered outline",
+    "columns": 4,
+    "scale": 2,
+    "items": [
+     {
+      "file": "markers/ghost/house-normal.png",
+      "label": "Normal"
+     },
+     {
+      "file": "markers/ghost/house-valid.png",
+      "label": "Valid ghost"
+     },
+     {
+      "file": "markers/ghost/house-invalid.png",
+      "label": "Invalid ghost"
+     },
+     {
+      "file": "markers/ghost/house-bulldoze.png",
+      "label": "Bulldoze"
+     }
+    ]
+   },
+   {
+    "title": "Route line tiles (shown: bus)",
+    "note": "World compass: N = -Y (screen up-right), E = +X (down-right), S = +Y (down-left), W = -X (up-left). Lines run along cell axes between edge midpoints",
+    "columns": 5,
+    "scale": 2,
+    "items": [
+     {
+      "file": "markers/routes/bus-ew.png",
+      "label": "Straight E-W"
+     },
+     {
+      "file": "markers/routes/bus-ns.png",
+      "label": "Straight N-S"
+     },
+     {
+      "file": "markers/routes/bus-c-wn.png",
+      "label": "Corner W-N"
+     },
+     {
+      "file": "markers/routes/bus-c-ne.png",
+      "label": "Corner N-E"
+     },
+     {
+      "file": "markers/routes/bus-c-es.png",
+      "label": "Corner E-S"
+     },
+     {
+      "file": "markers/routes/bus-c-sw.png",
+      "label": "Corner S-W"
+     },
+     {
+      "file": "markers/routes/bus-cap-w.png",
+      "label": "End cap W"
+     },
+     {
+      "file": "markers/routes/bus-cap-e.png",
+      "label": "End cap E"
+     },
+     {
+      "file": "markers/routes/bus-cap-n.png",
+      "label": "End cap N"
+     },
+     {
+      "file": "markers/routes/bus-cap-s.png",
+      "label": "End cap S"
+     }
+    ]
+   },
+   {
+    "title": "Line colours",
+    "columns": 6,
+    "scale": 2,
+    "items": [
+     {
+      "file": "markers/routes/bus-ew.png",
+      "label": "Bus"
+     },
+     {
+      "file": "markers/routes/tram-ew.png",
+      "label": "Tram"
+     },
+     {
+      "file": "markers/routes/train-ew.png",
+      "label": "Train"
+     },
+     {
+      "file": "markers/routes/metro-ew.png",
+      "label": "Metro"
+     },
+     {
+      "file": "markers/routes/taxi-ew.png",
+      "label": "Taxi"
+     },
+     {
+      "file": "markers/routes/cargo-ew.png",
+      "label": "Cargo"
+     }
+    ]
+   },
+   {
+    "title": "Stop pins and waypoint flags",
+    "columns": 11,
+    "scale": 3,
+    "items": [
+     {
+      "file": "markers/routes/pin-bus.png",
+      "label": "Stop Bus"
+     },
+     {
+      "file": "markers/routes/pin-tram.png",
+      "label": "Stop Tram"
+     },
+     {
+      "file": "markers/routes/pin-train.png",
+      "label": "Stop Train"
+     },
+     {
+      "file": "markers/routes/pin-metro.png",
+      "label": "Stop Metro"
+     },
+     {
+      "file": "markers/routes/pin-taxi.png",
+      "label": "Stop Taxi"
+     },
+     {
+      "file": "markers/routes/pin-cargo.png",
+      "label": "Stop Cargo"
+     },
+     {
+      "file": "markers/routes/flag-bus.png",
+      "label": "Flag Bus"
+     },
+     {
+      "file": "markers/routes/flag-tram.png",
+      "label": "Flag Tram"
+     },
+     {
+      "file": "markers/routes/flag-train.png",
+      "label": "Flag Train"
+     },
+     {
+      "file": "markers/routes/flag-metro.png",
+      "label": "Flag Metro"
+     },
+     {
+      "file": "markers/routes/flag-waypoint.png",
+      "label": "Waypoint"
+     }
+    ]
+   },
+   {
+    "title": "Direction chevron (shown: tram; world compass)",
+    "columns": 4,
+    "scale": 2,
+    "items": [
+     {
+      "file": "markers/routes/chevron-e.png",
+      "label": "Heading E"
+     },
+     {
+      "file": "markers/routes/chevron-w.png",
+      "label": "Heading W"
+     },
+     {
+      "file": "markers/routes/chevron-s.png",
+      "label": "Heading S"
+     },
+     {
+      "file": "markers/routes/chevron-n.png",
+      "label": "Heading N"
+     }
+    ]
+   },
+   {
+    "title": "Vehicle-follow path dots",
+    "columns": 1,
+    "scale": 2,
+    "items": [
+     {
+      "file": "markers/routes/follow-dots-ew.png",
+      "label": "Follow path ew, 4 frames"
+     },
+     {
+      "file": "markers/routes/follow-dots-ns.png",
+      "label": "Follow path ns, 4 frames"
+     },
+     {
+      "file": "markers/routes/follow-dots-corner-sw.png",
+      "label": "Follow path corner-sw, 4 frames"
+     }
+    ]
+   },
+   {
+    "title": "Cursors: pointer and tools",
+    "note": "32x32, hotspots in cursors/hotspots.json",
+    "columns": 8,
+    "scale": 3,
+    "items": [
+     {
+      "file": "cursors/default.png",
+      "label": "Pointer"
+     },
+     {
+      "file": "cursors/hand.png",
+      "label": "Hand"
+     },
+     {
+      "file": "cursors/grab.png",
+      "label": "Grab"
+     },
+     {
+      "file": "cursors/build.png",
+      "label": "Build"
+     },
+     {
+      "file": "cursors/road.png",
+      "label": "Road"
+     },
+     {
+      "file": "cursors/zone.png",
+      "label": "Zone brush"
+     },
+     {
+      "file": "cursors/bulldoze.png",
+      "label": "Bulldoze"
+     },
+     {
+      "file": "cursors/inspect.png",
+      "label": "Inspect"
+     },
+     {
+      "file": "cursors/move.png",
+      "label": "Move"
+     },
+     {
+      "file": "cursors/place.png",
+      "label": "Place"
+     },
+     {
+      "file": "cursors/pipe.png",
+      "label": "Pipe / water"
+     },
+     {
+      "file": "cursors/power.png",
+      "label": "Power line"
+     },
+     {
+      "file": "cursors/transit.png",
+      "label": "Transit line"
+     },
+     {
+      "file": "cursors/blocked.png",
+      "label": "Blocked"
+     },
+     {
+      "file": "cursors/build-blocked.png",
+      "label": "Build blocked"
+     },
+     {
+      "file": "cursors/road-blocked.png",
+      "label": "Road blocked"
+     },
+     {
+      "file": "cursors/zone-blocked.png",
+      "label": "Zone blocked"
+     },
+     {
+      "file": "cursors/place-blocked.png",
+      "label": "Place blocked"
+     },
+     {
+      "file": "cursors/bulldoze-blocked.png",
+      "label": "Bulldoze blocked"
+     }
+    ]
+   },
+   {
+    "title": "Cursors: scroll arrows",
+    "note": "Scroll arrows use SCREEN directions (UI), not the world compass",
+    "columns": 8,
+    "scale": 3,
+    "items": [
+     {
+      "file": "cursors/scroll-n.png",
+      "label": "Scroll N"
+     },
+     {
+      "file": "cursors/scroll-ne.png",
+      "label": "Scroll NE"
+     },
+     {
+      "file": "cursors/scroll-e.png",
+      "label": "Scroll E"
+     },
+     {
+      "file": "cursors/scroll-se.png",
+      "label": "Scroll SE"
+     },
+     {
+      "file": "cursors/scroll-s.png",
+      "label": "Scroll S"
+     },
+     {
+      "file": "cursors/scroll-sw.png",
+      "label": "Scroll SW"
+     },
+     {
+      "file": "cursors/scroll-w.png",
+      "label": "Scroll W"
+     },
+     {
+      "file": "cursors/scroll-nw.png",
+      "label": "Scroll NW"
+     },
+     {
+      "file": "cursors/scroll-n-blocked.png",
+      "label": "N blocked"
+     },
+     {
+      "file": "cursors/scroll-ne-blocked.png",
+      "label": "NE blocked"
+     },
+     {
+      "file": "cursors/scroll-e-blocked.png",
+      "label": "E blocked"
+     },
+     {
+      "file": "cursors/scroll-se-blocked.png",
+      "label": "SE blocked"
+     },
+     {
+      "file": "cursors/scroll-s-blocked.png",
+      "label": "S blocked"
+     },
+     {
+      "file": "cursors/scroll-sw-blocked.png",
+      "label": "SW blocked"
+     },
+     {
+      "file": "cursors/scroll-w-blocked.png",
+      "label": "W blocked"
+     },
+     {
+      "file": "cursors/scroll-nw-blocked.png",
+      "label": "NW blocked"
+     }
+    ]
+   },
+   {
+    "title": "Markers in context",
+    "note": "4x3 patch: status bubbles, selected building, valid/invalid ghosts, bus route with stop pins",
+    "columns": 1,
+    "scale": 1,
+    "items": [
+     {
+      "file": "markers/context.png",
+      "label": "World markers in context"
+     }
+    ]
+   }
+  ]
+ }
+]

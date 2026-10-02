@@ -1,311 +1,325 @@
+# Settings: Display tab (design/iso/ui/panels/settings-display.png). Widget ids and types are what DisplaySettingsLogic
+# gets; rows are a 108 px label column and the control (RCT rows 14 high). Settings that do nothing in a city builder
+# (status bars, target lines, relationship colours) stay in the hidden UNUSED container so the common logic can bind them.
 Container@DISPLAY_PANEL:
 	Logic: DisplaySettingsLogic
 	Width: PARENT_WIDTH
 	Height: PARENT_HEIGHT
 	Children:
+		Container@UNUSED:
+			Visible: false
+			Children:
+				Container@STATUS_BAR_DROPDOWN_CONTAINER:
+					Children:
+						DropDownButton@STATUS_BAR_DROPDOWN:
+				Container@TARGET_LINES_DROPDOWN_CONTAINER:
+					Children:
+						DropDownButton@TARGET_LINES_DROPDOWN:
+				Container@PLAYER_STANCE_COLORS_CHECKBOX_CONTAINER:
+					Children:
+						Checkbox@PLAYER_STANCE_COLORS_CHECKBOX:
 		ScrollPanel@SETTINGS_SCROLLPANEL:
 			Width: PARENT_WIDTH
 			Height: PARENT_HEIGHT
 			CollapseHiddenChildren: True
-			TopBottomSpacing: 5
-			ItemSpacing: 10
+			Background: none
+			ScrollbarWidth: 10
+			TopBottomSpacing: 2
+			ItemSpacing: 3
 			Children:
-				Background@DISPLAY_SECTION_HEADER:
-					X: 5
-					Width: PARENT_WIDTH - 24 - 10
-					Height: 13
-					Background: separator
-					ClickThrough: True
+				CityHeader@VIDEO_SECTION_HEADER:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 12
+					Text: label-video-section-header
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
 					Children:
-						Label@LABEL:
+						Label@VIDEO_MODE:
+							Width: 108
+							Height: 14
+							Font: Tiny
+							Text: label-video-mode-dropdown-container
+						DropDownButton@MODE_DROPDOWN:
+							X: 110
+							Width: 160
+							Height: 14
+							Font: Tiny
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@DISPLAY_SELECTION_CONTAINER:
 							Width: PARENT_WIDTH
-							Height: PARENT_HEIGHT
-							Font: TinyBold
-							Align: Center
-							Text: label-display-section-header
+							Height: 14
+							Children:
+								Label@DISPLAY_SELECTION_LABEL:
+									Width: 108
+									Height: 14
+									Font: Tiny
+									Text: label-display-selection-container
+								DropDownButton@DISPLAY_SELECTION_DROPDOWN:
+									X: 110
+									Width: 160
+									Height: 14
+									Font: Tiny
+						Container@WINDOW_RESOLUTION_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 14
+							Children:
+								Label@WINDOW_SIZE:
+									Width: 108
+									Height: 14
+									Font: Tiny
+									Text: label-window-resolution-container-size
+								Label@RESOLUTION_PRESET_LABEL:
+									Visible: false
+									Text: label-resolution-preset
+								TextField@WINDOW_WIDTH:
+									X: 110
+									Width: 36
+									Height: 14
+									Font: Tiny
+									MaxLength: 5
+									Type: Integer
+								Label@X:
+									X: 146
+									Width: 12
+									Height: 14
+									Font: TinyBold
+									Align: Center
+									Text: label-window-resolution-container-x
+								TextField@WINDOW_HEIGHT:
+									X: 158
+									Width: 36
+									Height: 14
+									Font: Tiny
+									MaxLength: 5
+									Type: Integer
+								DropDownButton@RESOLUTION_PRESET_DROPDOWN:
+									X: 200
+									Width: 100
+									Height: 14
+									Font: Tiny
 				Container@ROW:
-					Width: PARENT_WIDTH - 24
-					Height: 50
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
 					Children:
-						Container@BATTLEFIELD_CAMERA_DROPDOWN_CONTAINER:
-							X: 10
-							Width: PARENT_WIDTH / 2 - 20
+						Label@GL_PROFILE:
+							Width: 108
+							Height: 14
+							Font: Tiny
+							Text: label-gl-profile-dropdown-container
+						Container@GL_PROFILE_DROPDOWN_CONTAINER:
+							X: 110
+							Width: 160
+							Height: 14
 							Children:
-								Label@BATTLEFIELD_CAMERA:
+								DropDownButton@GL_PROFILE_DROPDOWN:
 									Width: PARENT_WIDTH
-									Height: 20
-									Text: label-battlefield-camera-dropdown
-								DropDownButton@BATTLEFIELD_CAMERA_DROPDOWN:
-									Y: 25
-									Width: PARENT_WIDTH
-									Height: 25
-									Font: Regular
-						Container@TARGET_LINES_DROPDOWN_CONTAINER:
-							X: PARENT_WIDTH / 2 + 10
-							Width: PARENT_WIDTH / 2 - 20
-							Children:
-								Label@TARGET_LINES:
-									Width: PARENT_WIDTH
-									Height: 20
-									Text: label-target-lines-dropdown-container
-								DropDownButton@TARGET_LINES_DROPDOWN:
-									Y: 25
-									Width: PARENT_WIDTH
-									Height: 25
-									Font: Regular
+									Height: 14
+									Font: Tiny
 				Container@ROW:
-					Width: PARENT_WIDTH - 24
-					Height: 50
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@VSYNC_CHECKBOX_CONTAINER:
+							Width: 150
+							Height: 14
+							Children:
+								Checkbox@VSYNC_CHECKBOX:
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+									Text: checkbox-vsync-container
+						Container@FRAME_LIMIT_GAMESPEED_CHECKBOX_CONTAINER:
+							X: 160
+							Width: 220
+							Height: 14
+							Children:
+								Checkbox@FRAME_LIMIT_GAMESPEED_CHECKBOX:
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+									Text: checkbox-frame-limit-gamespeed-container
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@FRAME_LIMIT_CHECKBOX_CONTAINER:
+							Width: 170
+							Height: 14
+							Children:
+								Checkbox@FRAME_LIMIT_CHECKBOX:
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+						Container@FRAME_LIMIT_SLIDER_CONTAINER:
+							X: 180
+							Width: 160
+							Height: 14
+							Children:
+								Slider@FRAME_LIMIT_SLIDER:
+									Y: 1
+									Width: PARENT_WIDTH
+									Height: 12
+									MinimumValue: 50
+									MaximumValue: 240
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 12
+					Children:
+						Container@RESTART_REQUIRED_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 12
+							Children:
+								Label@VIDEO_RESTART_REQUIRED_DESC:
+									Width: PARENT_WIDTH
+									Height: 12
+									Font: Tiny
+									Text: label-restart-required-container-video-desc
+				CityHeader@UI_SCALE_SECTION_HEADER:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 12
+					Text: label-settings-ui-scale-header
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 30
 					Children:
 						Container@UI_SCALE_SLIDER_CONTAINER:
-							X: 10
-							Width: PARENT_WIDTH / 2 - 20
+							Width: PARENT_WIDTH
+							Height: 30
 							Children:
 								LabelForInput@UI_SCALE:
-									Width: PARENT_WIDTH
-									Height: 20
+									Width: 108
+									Height: 14
+									Font: Tiny
 									Text: label-ui-scale-dropdown
 									For: UI_SCALE_SLIDER
-								Label@UI_SCALE_VALUE:
-									Width: PARENT_WIDTH
-									Height: 20
-									Align: Right
 								Slider@UI_SCALE_SLIDER:
-									Y: 27
-									Width: PARENT_WIDTH
-									Height: 20
-						Container@STATUS_BAR_DROPDOWN_CONTAINER:
-							X: PARENT_WIDTH / 2 + 10
-							Width: PARENT_WIDTH / 2 - 20
-							Children:
-								Label@STATUS_BARS:
-									Width: PARENT_WIDTH
-									Height: 20
-									Text: label-status-bar-dropdown-container-bars
-								DropDownButton@STATUS_BAR_DROPDOWN:
-									Y: 25
-									Width: PARENT_WIDTH
-									Height: 25
-									Font: Regular
+									X: 110
+									Y: 1
+									Width: 240
+									Height: 12
+								CityTickLabels@UI_SCALE_TICKS:
+									X: 110
+									Y: 14
+									Width: 240
+									Height: 14
+									For: UI_SCALE_SLIDER
+								Label@UI_SCALE_VALUE:
+									X: 356
+									Width: 40
+									Height: 14
+									Font: TinyBold
+									Align: Right
 				Container@ROW:
-					Width: PARENT_WIDTH - 24
-					Height: 20
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 46
+					Children:
+						Label@UI_SCALE_PREVIEW_LABEL:
+							Width: 108
+							Height: 14
+							Font: Tiny
+							Text: label-settings-ui-scale-preview
+						CityScalePreview@UI_SCALE_PREVIEW:
+							X: 110
+							Width: 120
+							Height: 44
+							For: UI_SCALE_SLIDER
+							Text: label-settings-ui-scale-sample
+						Label@UI_SCALE_NOTE:
+							X: 238
+							Y: 2
+							Width: 150
+							Height: 44
+							Font: Tiny
+							WordWrap: True
+							VAlign: Top
+							Text: label-settings-ui-scale-note
+				CityHeader@DISPLAY_SECTION_HEADER:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 12
+					Text: label-display-section-header
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Label@BATTLEFIELD_CAMERA:
+							Width: 108
+							Height: 14
+							Font: Tiny
+							Text: label-battlefield-camera-dropdown
+						Container@BATTLEFIELD_CAMERA_DROPDOWN_CONTAINER:
+							X: 110
+							Width: 160
+							Height: 14
+							Children:
+								DropDownButton@BATTLEFIELD_CAMERA_DROPDOWN:
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
 					Children:
 						Container@CURSORDOUBLE_CHECKBOX_CONTAINER:
-							X: 10
-							Width: PARENT_WIDTH / 2 - 20
+							Width: 190
+							Height: 14
 							Children:
 								Checkbox@CURSORDOUBLE_CHECKBOX:
 									Width: PARENT_WIDTH
-									Height: 20
-									Font: Regular
+									Height: 14
+									Font: Tiny
 									Text: checkbox-cursordouble-container
-						Container@PLAYER_STANCE_COLORS_CHECKBOX_CONTAINER:
-							X: PARENT_WIDTH / 2 + 10
-							Width: PARENT_WIDTH / 2 - 20
+						Container@PAUSE_SHELLMAP_CHECKBOX_CONTAINER:
+							X: 200
+							Width: 190
+							Height: 14
 							Children:
-								Checkbox@PLAYER_STANCE_COLORS_CHECKBOX:
+								Checkbox@PAUSE_SHELLMAP_CHECKBOX:
 									Width: PARENT_WIDTH
-									Height: 20
-									Font: Regular
-									Text: checkbox-player-stance-colors-container.label
-									TooltipText: checkbox-player-stance-colors-container.tooltip
-									TooltipContainer: SETTINGS_TOOLTIP_CONTAINER
+									Height: 14
+									Font: Tiny
+									Text: checkbox-pause-shellmap-container
 				Container@ROW:
-					Width: PARENT_WIDTH - 24
-					Height: 20
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
 					Children:
 						Container@UI_FEEDBACK_CHECKBOX_CONTAINER:
-							X: 10
-							Width: PARENT_WIDTH / 2 - 10
+							Width: 190
+							Height: 14
 							Children:
 								Checkbox@UI_FEEDBACK_CHECKBOX:
 									Width: PARENT_WIDTH
-									Height: 20
-									Font: Regular
+									Height: 14
+									Font: Tiny
 									Text: checkbox-ui-feedback-container.label
 									TooltipText: checkbox-ui-feedback-container.tooltip
 									TooltipContainer: SETTINGS_TOOLTIP_CONTAINER
 						Container@TRANSIENTS_CHECKBOX_CONTAINER:
-							X: PARENT_WIDTH / 2 + 10
-							Width: PARENT_WIDTH / 2 - 20
+							X: 200
+							Width: 190
+							Height: 14
 							Children:
 								Checkbox@TRANSIENTS_CHECKBOX:
 									Width: PARENT_WIDTH
-									Height: 20
-									Font: Regular
+									Height: 14
+									Font: Tiny
 									Text: checkbox-transients-container.label
 									TooltipText: checkbox-transients-container.tooltip
 									TooltipContainer: SETTINGS_TOOLTIP_CONTAINER
-				Container@ROW:
-					Width: PARENT_WIDTH - 24
-					Height: 20
-					Children:
-						Container@PAUSE_SHELLMAP_CHECKBOX_CONTAINER:
-							X: 10
-							Width: PARENT_WIDTH / 2 - 10
-							Children:
-								Checkbox@PAUSE_SHELLMAP_CHECKBOX:
-									Width: PARENT_WIDTH
-									Height: 20
-									Font: Regular
-									Text: checkbox-pause-shellmap-container
-				Container@SPACER:
-				Background@VIDEO_SECTION_HEADER:
-					X: 5
-					Width: PARENT_WIDTH - 24 - 10
-					Height: 13
-					Background: separator
-					ClickThrough: True
-					Children:
-						Label@LABEL:
-							Width: PARENT_WIDTH
-							Height: PARENT_HEIGHT
-							Font: TinyBold
-							Align: Center
-							Text: label-video-section-header
-				Container@ROW:
-					Width: PARENT_WIDTH - 24
-					Height: 50
-					Children:
-						Container@VIDEO_MODE_DROPDOWN_CONTAINER:
-							X: 10
-							Width: PARENT_WIDTH / 2 - 20
-							Children:
-								Label@VIDEO_MODE:
-									Width: PARENT_WIDTH
-									Height: 20
-									Text: label-video-mode-dropdown-container
-								DropDownButton@MODE_DROPDOWN:
-									Y: 25
-									Width: PARENT_WIDTH
-									Height: 25
-									Font: Regular
-									Text: dropdownbutton-video-mode-dropdown-container
-						Container@WINDOW_RESOLUTION_CONTAINER:
-							X: PARENT_WIDTH / 2 + 10
-							Width: PARENT_WIDTH / 2 - 20
-							Children:
-								Label@WINDOW_SIZE:
-									Width: 135
-									Height: 20
-									Text: label-window-resolution-container-size
-								Label@RESOLUTION_PRESET_LABEL:
-									X: 135
-									Width: PARENT_WIDTH - 135
-									Height: 20
-									Text: label-resolution-preset
-								TextField@WINDOW_WIDTH:
-									Y: 25
-									Width: 55
-									Height: 25
-									MaxLength: 5
-									Type: Integer
-								Label@X:
-									X: 55
-									Y: 25
-									Text: label-window-resolution-container-x
-									Font: Bold
-									Height: 25
-									Width: 15
-									Align: Center
-								TextField@WINDOW_HEIGHT:
-									X: 70
-									Y: 25
-									Width: 55
-									Height: 25
-									MaxLength: 5
-									Type: Integer
-								DropDownButton@RESOLUTION_PRESET_DROPDOWN:
-									X: 135
-									Y: 25
-									Width: PARENT_WIDTH - 135
-									Height: 25
-									Font: Regular
-						Container@DISPLAY_SELECTION_CONTAINER:
-							X: PARENT_WIDTH / 2 + 10
-							Width: PARENT_WIDTH / 2 - 20
-							Children:
-								Label@DISPLAY_SELECTION_LABEL:
-									Width: PARENT_WIDTH
-									Height: 20
-									Text: label-display-selection-container
-								DropDownButton@DISPLAY_SELECTION_DROPDOWN:
-									Y: 25
-									Width: PARENT_WIDTH
-									Height: 25
-									Font: Regular
-									Text: dropdownbutton-display-selection-container-dropdown
-				Container@ROW:
-					Width: PARENT_WIDTH - 24
-					Height: 50
-					Children:
-						Container@FRAME_LIMIT_CHECKBOX_CONTAINER:
-							X: 10
-							Width: PARENT_WIDTH / 2 - 20
-							Children:
-								Checkbox@FRAME_LIMIT_CHECKBOX:
-									Width: PARENT_WIDTH
-									Height: 20
-									Font: Regular
-						Container@FRAME_LIMIT_SLIDER_CONTAINER:
-							Width: PARENT_WIDTH / 2 - 20
-							Children:
-								Slider@FRAME_LIMIT_SLIDER:
-									X: 20
-									Y: 25
-									Width: PARENT_WIDTH - 20
-									Height: 20
-									Ticks: 20
-									MinimumValue: 50
-									MaximumValue: 240
-						Container@VSYNC_CHECKBOX_CONTAINER:
-							X: PARENT_WIDTH / 2 + 10
-							Width: PARENT_WIDTH / 2 - 20
-							Children:
-								Checkbox@VSYNC_CHECKBOX:
-									Width: PARENT_WIDTH
-									Height: 20
-									Font: Regular
-									Text: checkbox-vsync-container
-						Container@FRAME_LIMIT_GAMESPEED_CHECKBOX_CONTAINER:
-							X: PARENT_WIDTH / 2 + 10
-							Y: 25
-							Width: PARENT_WIDTH / 2 - 20
-							Children:
-								Checkbox@FRAME_LIMIT_GAMESPEED_CHECKBOX:
-									Width: PARENT_WIDTH
-									Height: 20
-									Font: Regular
-									Text: checkbox-frame-limit-gamespeed-container
-				Container@ROW:
-					Width: PARENT_WIDTH - 24
-					Height: 50
-					Children:
-						Container@GL_PROFILE_DROPDOWN_CONTAINER:
-							X: 10
-							Width: PARENT_WIDTH / 2 - 20
-							Children:
-								Label@GL_PROFILE:
-									Width: PARENT_WIDTH
-									Height: 20
-									Text: label-gl-profile-dropdown-container
-								DropDownButton@GL_PROFILE_DROPDOWN:
-									Y: 25
-									Width: PARENT_WIDTH
-									Height: 25
-									Font: Regular
-				Container@ROW:
-					Width: PARENT_WIDTH - 24
-					Height: 30
-					Children:
-						Container@RESTART_REQUIRED_CONTAINER:
-							X: 10
-							Width: PARENT_WIDTH - 20
-							Children:
-								Label@VIDEO_RESTART_REQUIRED_DESC:
-									Width: PARENT_WIDTH
-									Height: 20
-									Font: Tiny
-									Text: label-restart-required-container-video-desc
-									Align: Center

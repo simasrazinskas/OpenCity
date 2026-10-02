@@ -89,18 +89,20 @@ namespace OpenRA.Mods.City.Traits
 				for (var tx = 0; tx < g; tx++)
 				{
 					var r = pr.GetTileRect(tx, ty);
+
+					// Four corners: under the iso projection a tile is a diamond, so a 2-point rectangle would be wrong.
 					var tl = Corner(wr, r.Left, r.Top);
+					var tr = Corner(wr, r.Right, r.Top);
 					var br = Corner(wr, r.Right, r.Bottom);
+					var bl = Corner(wr, r.Left, r.Bottom);
 					var owned = pr.IsTileOwned(tx, ty);
 					if (!owned)
-						renderer.FillRect(tl, br, info.LockedColor);
+						renderer.FillRect(tl, tr, br, bl, info.LockedColor);
 
 					// Border on edges where ownership changes (each shared edge is drawn once, by the owned side).
 					if (!owned)
 						continue;
 
-					var tr = Corner(wr, r.Right, r.Top);
-					var bl = Corner(wr, r.Left, r.Bottom);
 					if (tx == 0 || !pr.IsTileOwned(tx - 1, ty))
 						renderer.DrawLine(tl, bl, info.BorderWidth, info.BorderColor);
 

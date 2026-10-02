@@ -1,0 +1,3516 @@
+{
+ "page": "World elements",
+ "section": "Services, utilities, industry & transit",
+ "groups": [
+  {
+   "title": "Power: Wind turbine (1x1)",
+   "columns": 12,
+   "scale": 2,
+   "items": [
+    {
+     "file": "power/windturbine-day.png",
+     "label": "day"
+    },
+    {
+     "file": "power/windturbine-night.png",
+     "label": "night"
+    },
+    {
+     "file": "power/windturbine-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "power/windturbine-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "power/windturbine-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "power/windturbine-anim1.png",
+     "label": "anim 1/4"
+    },
+    {
+     "file": "power/windturbine-anim2.png",
+     "label": "anim 2/4"
+    },
+    {
+     "file": "power/windturbine-anim3.png",
+     "label": "anim 3/4"
+    },
+    {
+     "file": "power/windturbine-anim4.png",
+     "label": "anim 4/4"
+    },
+    {
+     "file": "power/windturbine-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "power/windturbine-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "power/windturbine-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Rotor turns (4 frames); stopped when inactive."
+  },
+  {
+   "title": "Power: Coal power plant (2x2)",
+   "columns": 12,
+   "scale": 2,
+   "items": [
+    {
+     "file": "power/powerplant-coal-day.png",
+     "label": "day"
+    },
+    {
+     "file": "power/powerplant-coal-night.png",
+     "label": "night"
+    },
+    {
+     "file": "power/powerplant-coal-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "power/powerplant-coal-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "power/powerplant-coal-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "power/powerplant-coal-anim1.png",
+     "label": "anim 1/4"
+    },
+    {
+     "file": "power/powerplant-coal-anim2.png",
+     "label": "anim 2/4"
+    },
+    {
+     "file": "power/powerplant-coal-anim3.png",
+     "label": "anim 3/4"
+    },
+    {
+     "file": "power/powerplant-coal-anim4.png",
+     "label": "anim 4/4"
+    },
+    {
+     "file": "power/powerplant-coal-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "power/powerplant-coal-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "power/powerplant-coal-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Chimney smoke 4 frames; no smoke when inactive."
+  },
+  {
+   "title": "Power: Solar power plant (2x2)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "power/solarplant-day.png",
+     "label": "day"
+    },
+    {
+     "file": "power/solarplant-night.png",
+     "label": "night"
+    },
+    {
+     "file": "power/solarplant-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "power/solarplant-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "power/solarplant-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "power/solarplant-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "power/solarplant-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "power/solarplant-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Panel rows tilt toward the light."
+  },
+  {
+   "title": "Power: Gas power plant (3x3)",
+   "columns": 12,
+   "scale": 2,
+   "items": [
+    {
+     "file": "power/powerplant-gas-day.png",
+     "label": "day"
+    },
+    {
+     "file": "power/powerplant-gas-night.png",
+     "label": "night"
+    },
+    {
+     "file": "power/powerplant-gas-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "power/powerplant-gas-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "power/powerplant-gas-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "power/powerplant-gas-anim1.png",
+     "label": "anim 1/4"
+    },
+    {
+     "file": "power/powerplant-gas-anim2.png",
+     "label": "anim 2/4"
+    },
+    {
+     "file": "power/powerplant-gas-anim3.png",
+     "label": "anim 3/4"
+    },
+    {
+     "file": "power/powerplant-gas-anim4.png",
+     "label": "anim 4/4"
+    },
+    {
+     "file": "power/powerplant-gas-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "power/powerplant-gas-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "power/powerplant-gas-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Hot exhaust 4 frames."
+  },
+  {
+   "title": "Power: Hydroelectric dam (3x3)",
+   "columns": 12,
+   "scale": 2,
+   "items": [
+    {
+     "file": "power/hydro-dam-day.png",
+     "label": "day"
+    },
+    {
+     "file": "power/hydro-dam-night.png",
+     "label": "night"
+    },
+    {
+     "file": "power/hydro-dam-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "power/hydro-dam-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "power/hydro-dam-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "power/hydro-dam-anim1.png",
+     "label": "anim 1/4"
+    },
+    {
+     "file": "power/hydro-dam-anim2.png",
+     "label": "anim 2/4"
+    },
+    {
+     "file": "power/hydro-dam-anim3.png",
+     "label": "anim 3/4"
+    },
+    {
+     "file": "power/hydro-dam-anim4.png",
+     "label": "anim 4/4"
+    },
+    {
+     "file": "power/hydro-dam-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "power/hydro-dam-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "power/hydro-dam-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Raised reservoir behind the wall, spillway foam animates. Implementation: needs a river; art includes its own water."
+  },
+  {
+   "title": "Power: Nuclear power plant (3x3)",
+   "columns": 12,
+   "scale": 2,
+   "items": [
+    {
+     "file": "power/powerplant-nuclear-day.png",
+     "label": "day"
+    },
+    {
+     "file": "power/powerplant-nuclear-night.png",
+     "label": "night"
+    },
+    {
+     "file": "power/powerplant-nuclear-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "power/powerplant-nuclear-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "power/powerplant-nuclear-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "power/powerplant-nuclear-anim1.png",
+     "label": "anim 1/4"
+    },
+    {
+     "file": "power/powerplant-nuclear-anim2.png",
+     "label": "anim 2/4"
+    },
+    {
+     "file": "power/powerplant-nuclear-anim3.png",
+     "label": "anim 3/4"
+    },
+    {
+     "file": "power/powerplant-nuclear-anim4.png",
+     "label": "anim 4/4"
+    },
+    {
+     "file": "power/powerplant-nuclear-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "power/powerplant-nuclear-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "power/powerplant-nuclear-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Two cooling towers with steam (4 frames); reactor dome."
+  },
+  {
+   "title": "Water: Water tower (1x1)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "water/watertower-day.png",
+     "label": "day"
+    },
+    {
+     "file": "water/watertower-night.png",
+     "label": "night"
+    },
+    {
+     "file": "water/watertower-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "water/watertower-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "water/watertower-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "water/watertower-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "water/watertower-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "water/watertower-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Tank on legs; red aircraft-warning beacon lit at night."
+  },
+  {
+   "title": "Water: Water pump (1x1)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "water/waterpump-day.png",
+     "label": "day"
+    },
+    {
+     "file": "water/waterpump-night.png",
+     "label": "night"
+    },
+    {
+     "file": "water/waterpump-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "water/waterpump-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "water/waterpump-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "water/waterpump-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "water/waterpump-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "water/waterpump-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Pump house with an intake pipe running into a small intake pond."
+  },
+  {
+   "title": "Water: Pumping station (2x2)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "water/waterpump-large-day.png",
+     "label": "day"
+    },
+    {
+     "file": "water/waterpump-large-night.png",
+     "label": "night"
+    },
+    {
+     "file": "water/waterpump-large-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "water/waterpump-large-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "water/waterpump-large-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "water/waterpump-large-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "water/waterpump-large-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "water/waterpump-large-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Pump hall, two open settling basins, intake pipes and a chemical store."
+  },
+  {
+   "title": "Police: Police box (1x1)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "police/policebox-day.png",
+     "label": "day"
+    },
+    {
+     "file": "police/policebox-night.png",
+     "label": "night"
+    },
+    {
+     "file": "police/policebox-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "police/policebox-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "police/policebox-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "police/policebox-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "police/policebox-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "police/policebox-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "police/policebox-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "police/policebox-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "police/policebox-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Small blue kiosk with a blue lamp, white POLICE band."
+  },
+  {
+   "title": "Police: Police station (2x2)",
+   "columns": 18,
+   "scale": 2,
+   "items": [
+    {
+     "file": "police/police-day.png",
+     "label": "day"
+    },
+    {
+     "file": "police/police-night.png",
+     "label": "night"
+    },
+    {
+     "file": "police/police-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "police/police-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "police/police-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "police/police-anim1.png",
+     "label": "anim 1/4"
+    },
+    {
+     "file": "police/police-anim2.png",
+     "label": "anim 2/4"
+    },
+    {
+     "file": "police/police-anim3.png",
+     "label": "anim 3/4"
+    },
+    {
+     "file": "police/police-anim4.png",
+     "label": "anim 4/4"
+    },
+    {
+     "file": "police/police-up-garage.png",
+     "label": "+ police garage"
+    },
+    {
+     "file": "police/police-up-cells.png",
+     "label": "+ cell block"
+    },
+    {
+     "file": "police/police-up-all.png",
+     "label": "all upgrades"
+    },
+    {
+     "file": "police/police-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "police/police-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "police/police-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "police/police-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "police/police-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "police/police-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Flag waves (4 frames). Garage and cell block are drawn inside the same 2x2."
+  },
+  {
+   "title": "Police: Police headquarters (3x3)",
+   "columns": 14,
+   "scale": 2,
+   "items": [
+    {
+     "file": "police/police-hq-day.png",
+     "label": "day"
+    },
+    {
+     "file": "police/police-hq-night.png",
+     "label": "night"
+    },
+    {
+     "file": "police/police-hq-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "police/police-hq-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "police/police-hq-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "police/police-hq-up-garage.png",
+     "label": "+ police garage"
+    },
+    {
+     "file": "police/police-hq-up-cells.png",
+     "label": "+ cell block"
+    },
+    {
+     "file": "police/police-hq-up-all.png",
+     "label": "all upgrades"
+    },
+    {
+     "file": "police/police-hq-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "police/police-hq-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "police/police-hq-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "police/police-hq-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "police/police-hq-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "police/police-hq-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Tall glass tower over a podium, roof helipad (no helicopter: LIFE), car park."
+  },
+  {
+   "title": "Police: Prison (3x3)",
+   "columns": 9,
+   "scale": 2,
+   "items": [
+    {
+     "file": "police/prison-day.png",
+     "label": "day"
+    },
+    {
+     "file": "police/prison-night.png",
+     "label": "night"
+    },
+    {
+     "file": "police/prison-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "police/prison-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "police/prison-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "police/prison-up-cells.png",
+     "label": "+ cell block"
+    },
+    {
+     "file": "police/prison-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "police/prison-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "police/prison-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Perimeter wall, four watchtowers, gatehouse, two cell blocks, exercise yard; third cell block as upgrade."
+  },
+  {
+   "title": "Fire: Firehouse (1x1)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fire/firehouse-day.png",
+     "label": "day"
+    },
+    {
+     "file": "fire/firehouse-night.png",
+     "label": "night"
+    },
+    {
+     "file": "fire/firehouse-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "fire/firehouse-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "fire/firehouse-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "fire/firehouse-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "fire/firehouse-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "fire/firehouse-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "fire/firehouse-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "fire/firehouse-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "fire/firehouse-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "One open red bay with the engine inside, hose tower, FIRE sign on the roof."
+  },
+  {
+   "title": "Fire: Fire station (2x2)",
+   "columns": 12,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fire/firestation-day.png",
+     "label": "day"
+    },
+    {
+     "file": "fire/firestation-night.png",
+     "label": "night"
+    },
+    {
+     "file": "fire/firestation-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "fire/firestation-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "fire/firestation-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "fire/firestation-up-bay.png",
+     "label": "+ engine bay"
+    },
+    {
+     "file": "fire/firestation-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "fire/firestation-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "fire/firestation-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "fire/firestation-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "fire/firestation-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "fire/firestation-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Three open red bays with engines, drill tower at the back; the engine bay upgrade adds a fourth."
+  },
+  {
+   "title": "Fire: Fire helipad (2x2)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fire/fire-helipad-day.png",
+     "label": "day"
+    },
+    {
+     "file": "fire/fire-helipad-night.png",
+     "label": "night"
+    },
+    {
+     "file": "fire/fire-helipad-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "fire/fire-helipad-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "fire/fire-helipad-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "fire/fire-helipad-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "fire/fire-helipad-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "fire/fire-helipad-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Pad and hangar only: the helicopter is LIFE's."
+  },
+  {
+   "title": "Fire: Fire watch tower (1x1)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fire/firewatch-day.png",
+     "label": "day"
+    },
+    {
+     "file": "fire/firewatch-night.png",
+     "label": "night"
+    },
+    {
+     "file": "fire/firewatch-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "fire/firewatch-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "fire/firewatch-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "fire/firewatch-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "fire/firewatch-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "fire/firewatch-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Timber lookout tower with a glazed cab among pines."
+  },
+  {
+   "title": "Health: Clinic (2x2)",
+   "columns": 14,
+   "scale": 2,
+   "items": [
+    {
+     "file": "health/clinic-day.png",
+     "label": "day"
+    },
+    {
+     "file": "health/clinic-night.png",
+     "label": "night"
+    },
+    {
+     "file": "health/clinic-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "health/clinic-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "health/clinic-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "health/clinic-up-depot.png",
+     "label": "+ ambulance depot"
+    },
+    {
+     "file": "health/clinic-up-wing.png",
+     "label": "+ beds wing"
+    },
+    {
+     "file": "health/clinic-up-all.png",
+     "label": "all upgrades"
+    },
+    {
+     "file": "health/clinic-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "health/clinic-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "health/clinic-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "health/clinic-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "health/clinic-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "health/clinic-burnt.png",
+     "label": "burnt"
+    }
+   ]
+  },
+  {
+   "title": "Health: Hospital (3x3)",
+   "columns": 14,
+   "scale": 2,
+   "items": [
+    {
+     "file": "health/hospital-day.png",
+     "label": "day"
+    },
+    {
+     "file": "health/hospital-night.png",
+     "label": "night"
+    },
+    {
+     "file": "health/hospital-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "health/hospital-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "health/hospital-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "health/hospital-up-trauma.png",
+     "label": "+ trauma centre"
+    },
+    {
+     "file": "health/hospital-up-depot.png",
+     "label": "+ ambulance depot"
+    },
+    {
+     "file": "health/hospital-up-all.png",
+     "label": "all upgrades"
+    },
+    {
+     "file": "health/hospital-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "health/hospital-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "health/hospital-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "health/hospital-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "health/hospital-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "health/hospital-burnt.png",
+     "label": "burnt"
+    }
+   ]
+  },
+  {
+   "title": "Health: Medevac helipad (2x2)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "health/medevac-helipad-day.png",
+     "label": "day"
+    },
+    {
+     "file": "health/medevac-helipad-night.png",
+     "label": "night"
+    },
+    {
+     "file": "health/medevac-helipad-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "health/medevac-helipad-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "health/medevac-helipad-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "health/medevac-helipad-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "health/medevac-helipad-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "health/medevac-helipad-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Pad only: the helicopter is LIFE's."
+  },
+  {
+   "title": "Education: School (2x2)",
+   "columns": 14,
+   "scale": 2,
+   "items": [
+    {
+     "file": "education/school-day.png",
+     "label": "day"
+    },
+    {
+     "file": "education/school-night.png",
+     "label": "night"
+    },
+    {
+     "file": "education/school-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "education/school-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "education/school-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "education/school-up-wing.png",
+     "label": "+ seats wing"
+    },
+    {
+     "file": "education/school-up-library.png",
+     "label": "+ library"
+    },
+    {
+     "file": "education/school-up-all.png",
+     "label": "all upgrades"
+    },
+    {
+     "file": "education/school-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "education/school-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "education/school-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "education/school-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "education/school-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "education/school-burnt.png",
+     "label": "burnt"
+    }
+   ]
+  },
+  {
+   "title": "Education: High school (3x3)",
+   "columns": 14,
+   "scale": 2,
+   "items": [
+    {
+     "file": "education/highschool-day.png",
+     "label": "day"
+    },
+    {
+     "file": "education/highschool-night.png",
+     "label": "night"
+    },
+    {
+     "file": "education/highschool-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "education/highschool-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "education/highschool-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "education/highschool-up-wing.png",
+     "label": "+ seats wing"
+    },
+    {
+     "file": "education/highschool-up-library.png",
+     "label": "+ library"
+    },
+    {
+     "file": "education/highschool-up-all.png",
+     "label": "all upgrades"
+    },
+    {
+     "file": "education/highschool-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "education/highschool-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "education/highschool-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "education/highschool-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "education/highschool-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "education/highschool-burnt.png",
+     "label": "burnt"
+    }
+   ]
+  },
+  {
+   "title": "Education: College (3x3)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "education/college-day.png",
+     "label": "day"
+    },
+    {
+     "file": "education/college-night.png",
+     "label": "night"
+    },
+    {
+     "file": "education/college-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "education/college-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "education/college-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "education/college-up-wing.png",
+     "label": "+ seats wing"
+    },
+    {
+     "file": "education/college-up-library.png",
+     "label": "+ library"
+    },
+    {
+     "file": "education/college-up-all.png",
+     "label": "all upgrades"
+    },
+    {
+     "file": "education/college-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "education/college-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "education/college-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Campus blocks around a quad; the gate faces the viewer."
+  },
+  {
+   "title": "Education: University (3x3)",
+   "columns": 14,
+   "scale": 2,
+   "items": [
+    {
+     "file": "education/university-day.png",
+     "label": "day"
+    },
+    {
+     "file": "education/university-night.png",
+     "label": "night"
+    },
+    {
+     "file": "education/university-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "education/university-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "education/university-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "education/university-up-wing.png",
+     "label": "+ seats wing"
+    },
+    {
+     "file": "education/university-up-library.png",
+     "label": "+ library"
+    },
+    {
+     "file": "education/university-up-all.png",
+     "label": "all upgrades"
+    },
+    {
+     "file": "education/university-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "education/university-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "education/university-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "education/university-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "education/university-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "education/university-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Domed great hall with portico, clock tower, lawns; the landmark of the education set."
+  },
+  {
+   "title": "Parks & plazas: Small park (1x1)",
+   "columns": 7,
+   "scale": 2,
+   "items": [
+    {
+     "file": "parks/park-small-day.png",
+     "label": "day"
+    },
+    {
+     "file": "parks/park-small-night.png",
+     "label": "night"
+    },
+    {
+     "file": "parks/park-small-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "parks/park-small-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "parks/park-small-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "parks/park-small-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "parks/park-small-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Curved footpaths, benches, flower beds, lamp."
+  },
+  {
+   "title": "Parks & plazas: Plaza (1x1)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "parks/plaza-day.png",
+     "label": "day"
+    },
+    {
+     "file": "parks/plaza-night.png",
+     "label": "night"
+    },
+    {
+     "file": "parks/plaza-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "parks/plaza-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "parks/plaza-anim1.png",
+     "label": "anim 1/4"
+    },
+    {
+     "file": "parks/plaza-anim2.png",
+     "label": "anim 2/4"
+    },
+    {
+     "file": "parks/plaza-anim3.png",
+     "label": "anim 3/4"
+    },
+    {
+     "file": "parks/plaza-anim4.png",
+     "label": "anim 4/4"
+    },
+    {
+     "file": "parks/plaza-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "parks/plaza-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "parks/plaza-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Animated fountain (4 frames)."
+  },
+  {
+   "title": "Parks & plazas: Large park (2x2)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "parks/park-large-day.png",
+     "label": "day"
+    },
+    {
+     "file": "parks/park-large-night.png",
+     "label": "night"
+    },
+    {
+     "file": "parks/park-large-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "parks/park-large-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "parks/park-large-anim1.png",
+     "label": "anim 1/4"
+    },
+    {
+     "file": "parks/park-large-anim2.png",
+     "label": "anim 2/4"
+    },
+    {
+     "file": "parks/park-large-anim3.png",
+     "label": "anim 3/4"
+    },
+    {
+     "file": "parks/park-large-anim4.png",
+     "label": "anim 4/4"
+    },
+    {
+     "file": "parks/park-large-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "parks/park-large-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "parks/park-large-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Playground, pond with fountain and ducks, gazebo (4 frames)."
+  },
+  {
+   "title": "Parks & plazas: Sports field (2x2)",
+   "columns": 7,
+   "scale": 2,
+   "items": [
+    {
+     "file": "parks/sportsfield-day.png",
+     "label": "day"
+    },
+    {
+     "file": "parks/sportsfield-night.png",
+     "label": "night"
+    },
+    {
+     "file": "parks/sportsfield-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "parks/sportsfield-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "parks/sportsfield-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "parks/sportsfield-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "parks/sportsfield-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Floodlights glow at night; stands along the back."
+  },
+  {
+   "title": "Garbage: Landfill (3x3)",
+   "columns": 16,
+   "scale": 2,
+   "items": [
+    {
+     "file": "garbage/landfill-day.png",
+     "label": "day"
+    },
+    {
+     "file": "garbage/landfill-night.png",
+     "label": "night"
+    },
+    {
+     "file": "garbage/landfill-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "garbage/landfill-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "garbage/landfill-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "garbage/landfill-fill0.png",
+     "label": "fill 0%"
+    },
+    {
+     "file": "garbage/landfill-fill25.png",
+     "label": "fill 25%"
+    },
+    {
+     "file": "garbage/landfill-fill50.png",
+     "label": "fill 50%"
+    },
+    {
+     "file": "garbage/landfill-fill75.png",
+     "label": "fill 75%"
+    },
+    {
+     "file": "garbage/landfill-fill100.png",
+     "label": "fill 100%"
+    },
+    {
+     "file": "garbage/landfill-up-depot.png",
+     "label": "+ truck depot"
+    },
+    {
+     "file": "garbage/landfill-up-recycling.png",
+     "label": "+ recycling unit"
+    },
+    {
+     "file": "garbage/landfill-up-all.png",
+     "label": "all upgrades"
+    },
+    {
+     "file": "garbage/landfill-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "garbage/landfill-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "garbage/landfill-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Lined pit; the heap grows with the fill level 0..100%."
+  },
+  {
+   "title": "Garbage: Incinerator (3x3)",
+   "columns": 15,
+   "scale": 2,
+   "items": [
+    {
+     "file": "garbage/incinerator-day.png",
+     "label": "day"
+    },
+    {
+     "file": "garbage/incinerator-night.png",
+     "label": "night"
+    },
+    {
+     "file": "garbage/incinerator-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "garbage/incinerator-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "garbage/incinerator-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "garbage/incinerator-anim1.png",
+     "label": "anim 1/4"
+    },
+    {
+     "file": "garbage/incinerator-anim2.png",
+     "label": "anim 2/4"
+    },
+    {
+     "file": "garbage/incinerator-anim3.png",
+     "label": "anim 3/4"
+    },
+    {
+     "file": "garbage/incinerator-anim4.png",
+     "label": "anim 4/4"
+    },
+    {
+     "file": "garbage/incinerator-up-furnace.png",
+     "label": "+ extra furnace"
+    },
+    {
+     "file": "garbage/incinerator-up-filter.png",
+     "label": "+ exhaust filter"
+    },
+    {
+     "file": "garbage/incinerator-up-all.png",
+     "label": "all upgrades"
+    },
+    {
+     "file": "garbage/incinerator-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "garbage/incinerator-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "garbage/incinerator-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Stack smoke 4 frames: dark and heavy, whiter and thinner with the exhaust filter."
+  },
+  {
+   "title": "Garbage: Recycling centre (3x3)",
+   "columns": 9,
+   "scale": 2,
+   "items": [
+    {
+     "file": "garbage/recycling-day.png",
+     "label": "day"
+    },
+    {
+     "file": "garbage/recycling-night.png",
+     "label": "night"
+    },
+    {
+     "file": "garbage/recycling-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "garbage/recycling-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "garbage/recycling-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "garbage/recycling-up-depot.png",
+     "label": "+ truck depot"
+    },
+    {
+     "file": "garbage/recycling-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "garbage/recycling-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "garbage/recycling-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Sorting hall with conveyors, colourful bales and containers."
+  },
+  {
+   "title": "Deathcare: Cemetery (3x3)",
+   "columns": 14,
+   "scale": 2,
+   "items": [
+    {
+     "file": "deathcare/cemetery-day.png",
+     "label": "day"
+    },
+    {
+     "file": "deathcare/cemetery-night.png",
+     "label": "night"
+    },
+    {
+     "file": "deathcare/cemetery-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "deathcare/cemetery-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "deathcare/cemetery-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "deathcare/cemetery-fill0.png",
+     "label": "fill 0%"
+    },
+    {
+     "file": "deathcare/cemetery-fill25.png",
+     "label": "fill 25%"
+    },
+    {
+     "file": "deathcare/cemetery-fill50.png",
+     "label": "fill 50%"
+    },
+    {
+     "file": "deathcare/cemetery-fill75.png",
+     "label": "fill 75%"
+    },
+    {
+     "file": "deathcare/cemetery-fill100.png",
+     "label": "fill 100%"
+    },
+    {
+     "file": "deathcare/cemetery-up-columbarium.png",
+     "label": "+ columbarium"
+    },
+    {
+     "file": "deathcare/cemetery-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "deathcare/cemetery-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "deathcare/cemetery-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Gravestone rows fill with the fill level 0..100%."
+  },
+  {
+   "title": "Deathcare: Crematorium (2x2)",
+   "columns": 16,
+   "scale": 2,
+   "items": [
+    {
+     "file": "deathcare/crematorium-day.png",
+     "label": "day"
+    },
+    {
+     "file": "deathcare/crematorium-night.png",
+     "label": "night"
+    },
+    {
+     "file": "deathcare/crematorium-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "deathcare/crematorium-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "deathcare/crematorium-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "deathcare/crematorium-anim1.png",
+     "label": "anim 1/4"
+    },
+    {
+     "file": "deathcare/crematorium-anim2.png",
+     "label": "anim 2/4"
+    },
+    {
+     "file": "deathcare/crematorium-anim3.png",
+     "label": "anim 3/4"
+    },
+    {
+     "file": "deathcare/crematorium-anim4.png",
+     "label": "anim 4/4"
+    },
+    {
+     "file": "deathcare/crematorium-up-garage.png",
+     "label": "+ hearse garage"
+    },
+    {
+     "file": "deathcare/crematorium-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "deathcare/crematorium-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "deathcare/crematorium-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "deathcare/crematorium-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "deathcare/crematorium-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "deathcare/crematorium-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Slim chimney wisp (4 frames), hearse at the door."
+  },
+  {
+   "title": "Communications & post: Post office (2x2)",
+   "columns": 12,
+   "scale": 2,
+   "items": [
+    {
+     "file": "comms/postoffice-day.png",
+     "label": "day"
+    },
+    {
+     "file": "comms/postoffice-night.png",
+     "label": "night"
+    },
+    {
+     "file": "comms/postoffice-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "comms/postoffice-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "comms/postoffice-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "comms/postoffice-up-fleet.png",
+     "label": "+ van depot"
+    },
+    {
+     "file": "comms/postoffice-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "comms/postoffice-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "comms/postoffice-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "comms/postoffice-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "comms/postoffice-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "comms/postoffice-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Yellow/red post vans; the van depot upgrade adds a garage with a second row of vans."
+  },
+  {
+   "title": "Communications & post: Sorting centre (3x3)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "comms/sortingcenter-day.png",
+     "label": "day"
+    },
+    {
+     "file": "comms/sortingcenter-night.png",
+     "label": "night"
+    },
+    {
+     "file": "comms/sortingcenter-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "comms/sortingcenter-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "comms/sortingcenter-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "comms/sortingcenter-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "comms/sortingcenter-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "comms/sortingcenter-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Big shed with loading docks and parcel trucks; purple signage."
+  },
+  {
+   "title": "Communications & post: Telecom mast (1x1)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "comms/telecom-mast-day.png",
+     "label": "day"
+    },
+    {
+     "file": "comms/telecom-mast-night.png",
+     "label": "night"
+    },
+    {
+     "file": "comms/telecom-mast-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "comms/telecom-mast-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "comms/telecom-mast-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "comms/telecom-mast-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "comms/telecom-mast-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "comms/telecom-mast-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Red/white lattice mast with dishes and antenna panels; red beacon lit at night."
+  },
+  {
+   "title": "Communications & post: Telecom tower (2x2)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "comms/telecom-tower-day.png",
+     "label": "day"
+    },
+    {
+     "file": "comms/telecom-tower-night.png",
+     "label": "night"
+    },
+    {
+     "file": "comms/telecom-tower-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "comms/telecom-tower-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "comms/telecom-tower-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "comms/telecom-tower-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "comms/telecom-tower-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "comms/telecom-tower-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Concrete broadcast tower with an observation pod and a lit spire."
+  },
+  {
+   "title": "Administration: City hall (3x3)",
+   "columns": 15,
+   "scale": 2,
+   "items": [
+    {
+     "file": "admin/cityhall-day.png",
+     "label": "day"
+    },
+    {
+     "file": "admin/cityhall-night.png",
+     "label": "night"
+    },
+    {
+     "file": "admin/cityhall-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "admin/cityhall-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "admin/cityhall-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "admin/cityhall-anim1.png",
+     "label": "anim 1/4"
+    },
+    {
+     "file": "admin/cityhall-anim2.png",
+     "label": "anim 2/4"
+    },
+    {
+     "file": "admin/cityhall-anim3.png",
+     "label": "anim 3/4"
+    },
+    {
+     "file": "admin/cityhall-anim4.png",
+     "label": "anim 4/4"
+    },
+    {
+     "file": "admin/cityhall-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "admin/cityhall-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "admin/cityhall-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "admin/cityhall-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "admin/cityhall-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "admin/cityhall-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Classical hall: portico, pediment, gold dome, flag (4 frames), fountain forecourt."
+  },
+  {
+   "title": "Administration: Welfare office (2x2)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "admin/welfare-day.png",
+     "label": "day"
+    },
+    {
+     "file": "admin/welfare-night.png",
+     "label": "night"
+    },
+    {
+     "file": "admin/welfare-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "admin/welfare-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "admin/welfare-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "admin/welfare-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "admin/welfare-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "admin/welfare-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "admin/welfare-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "admin/welfare-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "admin/welfare-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Civic office with a deep canopy, benches and a queue."
+  },
+  {
+   "title": "Industry hubs: Farm hub (3x3)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "industry/farm-hub-day.png",
+     "label": "day"
+    },
+    {
+     "file": "industry/farm-hub-night.png",
+     "label": "night"
+    },
+    {
+     "file": "industry/farm-hub-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "industry/farm-hub-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "industry/farm-hub-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "industry/farm-hub-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "industry/farm-hub-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "industry/farm-hub-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "industry/farm-hub-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "industry/farm-hub-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "industry/farm-hub-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Barn, silos, farmhouse, tractor. Extractor field tiles are the areas/ set."
+  },
+  {
+   "title": "Industry hubs: Forestry hub (2x2)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "industry/forestry-hub-day.png",
+     "label": "day"
+    },
+    {
+     "file": "industry/forestry-hub-night.png",
+     "label": "night"
+    },
+    {
+     "file": "industry/forestry-hub-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "industry/forestry-hub-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "industry/forestry-hub-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "industry/forestry-hub-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "industry/forestry-hub-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "industry/forestry-hub-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "industry/forestry-hub-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "industry/forestry-hub-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "industry/forestry-hub-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Sawmill shed, log piles, log truck and loader, conifers."
+  },
+  {
+   "title": "Industry hubs: Quarry hub (3x3)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "industry/quarry-hub-day.png",
+     "label": "day"
+    },
+    {
+     "file": "industry/quarry-hub-night.png",
+     "label": "night"
+    },
+    {
+     "file": "industry/quarry-hub-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "industry/quarry-hub-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "industry/quarry-hub-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "industry/quarry-hub-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "industry/quarry-hub-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "industry/quarry-hub-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "industry/quarry-hub-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "industry/quarry-hub-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "industry/quarry-hub-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Crusher tower with inclined conveyor, gravel heaps, dump truck, stepped rock face at the back."
+  },
+  {
+   "title": "Industry hubs: Mine hub (3x3)",
+   "columns": 15,
+   "scale": 2,
+   "items": [
+    {
+     "file": "industry/mine-hub-day.png",
+     "label": "day"
+    },
+    {
+     "file": "industry/mine-hub-night.png",
+     "label": "night"
+    },
+    {
+     "file": "industry/mine-hub-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "industry/mine-hub-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "industry/mine-hub-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "industry/mine-hub-anim1.png",
+     "label": "anim 1/4"
+    },
+    {
+     "file": "industry/mine-hub-anim2.png",
+     "label": "anim 2/4"
+    },
+    {
+     "file": "industry/mine-hub-anim3.png",
+     "label": "anim 3/4"
+    },
+    {
+     "file": "industry/mine-hub-anim4.png",
+     "label": "anim 4/4"
+    },
+    {
+     "file": "industry/mine-hub-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "industry/mine-hub-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "industry/mine-hub-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "industry/mine-hub-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "industry/mine-hub-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "industry/mine-hub-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Headframe with turning winding wheel (4 frames), winding house, spoil heap, ore wagons on a track."
+  },
+  {
+   "title": "Industry hubs: Oil hub (2x2)",
+   "columns": 15,
+   "scale": 2,
+   "items": [
+    {
+     "file": "industry/oil-hub-day.png",
+     "label": "day"
+    },
+    {
+     "file": "industry/oil-hub-night.png",
+     "label": "night"
+    },
+    {
+     "file": "industry/oil-hub-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "industry/oil-hub-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "industry/oil-hub-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "industry/oil-hub-anim1.png",
+     "label": "anim 1/4"
+    },
+    {
+     "file": "industry/oil-hub-anim2.png",
+     "label": "anim 2/4"
+    },
+    {
+     "file": "industry/oil-hub-anim3.png",
+     "label": "anim 3/4"
+    },
+    {
+     "file": "industry/oil-hub-anim4.png",
+     "label": "anim 4/4"
+    },
+    {
+     "file": "industry/oil-hub-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "industry/oil-hub-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "industry/oil-hub-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "industry/oil-hub-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "industry/oil-hub-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "industry/oil-hub-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Storage tanks, small refinery column, gas flare flame (4 frames)."
+  },
+  {
+   "title": "Industry hubs: Fish hub (2x2)",
+   "columns": 15,
+   "scale": 2,
+   "items": [
+    {
+     "file": "industry/fish-hub-day.png",
+     "label": "day"
+    },
+    {
+     "file": "industry/fish-hub-night.png",
+     "label": "night"
+    },
+    {
+     "file": "industry/fish-hub-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "industry/fish-hub-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "industry/fish-hub-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "industry/fish-hub-anim1.png",
+     "label": "anim 1/4"
+    },
+    {
+     "file": "industry/fish-hub-anim2.png",
+     "label": "anim 2/4"
+    },
+    {
+     "file": "industry/fish-hub-anim3.png",
+     "label": "anim 3/4"
+    },
+    {
+     "file": "industry/fish-hub-anim4.png",
+     "label": "anim 4/4"
+    },
+    {
+     "file": "industry/fish-hub-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "industry/fish-hub-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "industry/fish-hub-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "industry/fish-hub-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "industry/fish-hub-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "industry/fish-hub-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Half the footprint is water (right side): quay, pier with crates, fish hall with ice sign, nets drying. No boats here (LIFE owns them). Water ripples over 4 frames."
+  },
+  {
+   "title": "Industry hubs: Oil derrick (pumpjack) (1x1)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "industry/oil-derrick-day.png",
+     "label": "day"
+    },
+    {
+     "file": "industry/oil-derrick-night.png",
+     "label": "night"
+    },
+    {
+     "file": "industry/oil-derrick-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "industry/oil-derrick-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "industry/oil-derrick-anim1.png",
+     "label": "anim 1/4"
+    },
+    {
+     "file": "industry/oil-derrick-anim2.png",
+     "label": "anim 2/4"
+    },
+    {
+     "file": "industry/oil-derrick-anim3.png",
+     "label": "anim 3/4"
+    },
+    {
+     "file": "industry/oil-derrick-anim4.png",
+     "label": "anim 4/4"
+    }
+   ],
+   "note": "Placed by the oil hub inside its area. Walking beam rocks over 4 frames."
+  },
+  {
+   "title": "Extractor areas: Grain field (1x1)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "areas/area-grain-day.png",
+     "label": "day"
+    },
+    {
+     "file": "areas/area-grain-v1.png",
+     "label": "ploughed"
+    },
+    {
+     "file": "areas/area-grain-v2.png",
+     "label": "sprouting"
+    },
+    {
+     "file": "areas/area-grain-v3.png",
+     "label": "growing"
+    },
+    {
+     "file": "areas/area-grain-v4.png",
+     "label": "stubble"
+    },
+    {
+     "file": "areas/area-grain-night.png",
+     "label": "night"
+    },
+    {
+     "file": "areas/area-grain-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "areas/area-grain-winter.png",
+     "label": "winter"
+    }
+   ],
+   "note": "Variant 0 / day = ripe wheat; stages: ploughed, sprouting, growing, stubble. Winter = fallow, snowy."
+  },
+  {
+   "title": "Extractor areas: Vegetable field (1x1)",
+   "columns": 7,
+   "scale": 2,
+   "items": [
+    {
+     "file": "areas/area-vegetables-day.png",
+     "label": "day"
+    },
+    {
+     "file": "areas/area-vegetables-v1.png",
+     "label": "ploughed"
+    },
+    {
+     "file": "areas/area-vegetables-v2.png",
+     "label": "sprouting"
+    },
+    {
+     "file": "areas/area-vegetables-v3.png",
+     "label": "growing"
+    },
+    {
+     "file": "areas/area-vegetables-night.png",
+     "label": "night"
+    },
+    {
+     "file": "areas/area-vegetables-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "areas/area-vegetables-winter.png",
+     "label": "winter"
+    }
+   ],
+   "note": "Variant 0 / day = ready to harvest (cabbage, lettuce, red cabbage rows); ploughed, sprouting, growing. Winter = bare beds."
+  },
+  {
+   "title": "Extractor areas: Cotton field (1x1)",
+   "columns": 7,
+   "scale": 2,
+   "items": [
+    {
+     "file": "areas/area-cotton-day.png",
+     "label": "day"
+    },
+    {
+     "file": "areas/area-cotton-v1.png",
+     "label": "ploughed"
+    },
+    {
+     "file": "areas/area-cotton-v2.png",
+     "label": "sprouting"
+    },
+    {
+     "file": "areas/area-cotton-v3.png",
+     "label": "growing"
+    },
+    {
+     "file": "areas/area-cotton-night.png",
+     "label": "night"
+    },
+    {
+     "file": "areas/area-cotton-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "areas/area-cotton-winter.png",
+     "label": "winter"
+    }
+   ],
+   "note": "Variant 0 / day = open white bolls; ploughed, sprouting, growing (pink-white flowers). Winter = bare red soil."
+  },
+  {
+   "title": "Extractor areas: Orchard (1x1)",
+   "columns": 7,
+   "scale": 2,
+   "items": [
+    {
+     "file": "areas/area-orchard-day.png",
+     "label": "day"
+    },
+    {
+     "file": "areas/area-orchard-v1.png",
+     "label": "saplings"
+    },
+    {
+     "file": "areas/area-orchard-v2.png",
+     "label": "young"
+    },
+    {
+     "file": "areas/area-orchard-v3.png",
+     "label": "mature"
+    },
+    {
+     "file": "areas/area-orchard-night.png",
+     "label": "night"
+    },
+    {
+     "file": "areas/area-orchard-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "areas/area-orchard-winter.png",
+     "label": "winter"
+    }
+   ],
+   "note": "Variant 0 / day = fruiting trees (red apples); saplings, young, mature (no fruit). Winter = bare trees."
+  },
+  {
+   "title": "Extractor areas: Livestock pasture (1x1)",
+   "columns": 7,
+   "scale": 2,
+   "items": [
+    {
+     "file": "areas/area-livestock-day.png",
+     "label": "day"
+    },
+    {
+     "file": "areas/area-livestock-v1.png",
+     "label": "sheep, left fence"
+    },
+    {
+     "file": "areas/area-livestock-v2.png",
+     "label": "calves, corner fence"
+    },
+    {
+     "file": "areas/area-livestock-v3.png",
+     "label": "sheep, open pasture"
+    },
+    {
+     "file": "areas/area-livestock-night.png",
+     "label": "night"
+    },
+    {
+     "file": "areas/area-livestock-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "areas/area-livestock-winter.png",
+     "label": "winter"
+    }
+   ],
+   "note": "Variant 0 / day = cows with back fence and a trough; sheep, calves in a corner, open pasture. Fences only on the tile edges that border another pasture."
+  },
+  {
+   "title": "Extractor areas: Forestry plantation (1x1)",
+   "columns": 7,
+   "scale": 2,
+   "items": [
+    {
+     "file": "areas/area-forestry-day.png",
+     "label": "day"
+    },
+    {
+     "file": "areas/area-forestry-v1.png",
+     "label": "saplings"
+    },
+    {
+     "file": "areas/area-forestry-v2.png",
+     "label": "young"
+    },
+    {
+     "file": "areas/area-forestry-v3.png",
+     "label": "felled, log stack"
+    },
+    {
+     "file": "areas/area-forestry-night.png",
+     "label": "night"
+    },
+    {
+     "file": "areas/area-forestry-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "areas/area-forestry-winter.png",
+     "label": "winter"
+    }
+   ],
+   "note": "Variant 0 / day = mature conifers; saplings (planted rows), young, felled (stumps + log stack). Trees are never cut by the tile edge."
+  },
+  {
+   "title": "Extractor areas: Quarry pit (1x1)",
+   "columns": 7,
+   "scale": 2,
+   "items": [
+    {
+     "file": "areas/area-quarry-day.png",
+     "label": "day"
+    },
+    {
+     "file": "areas/area-quarry-v1.png",
+     "label": "pit depth 2"
+    },
+    {
+     "file": "areas/area-quarry-v2.png",
+     "label": "pit depth 3"
+    },
+    {
+     "file": "areas/area-quarry-v3.png",
+     "label": "pit depth 4"
+    },
+    {
+     "file": "areas/area-quarry-night.png",
+     "label": "night"
+    },
+    {
+     "file": "areas/area-quarry-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "areas/area-quarry-winter.png",
+     "label": "winter"
+    }
+   ],
+   "note": "Variant 0 / day = shallow bench; deeper pit tiles get higher terraces, darker rock, rubble and a puddle. Terraces run along x so neighbours join."
+  },
+  {
+   "title": "Extractor areas: Mine spoil and track (1x1)",
+   "columns": 7,
+   "scale": 2,
+   "items": [
+    {
+     "file": "areas/area-mine-day.png",
+     "label": "day"
+    },
+    {
+     "file": "areas/area-mine-v1.png",
+     "label": "rails + ore tub"
+    },
+    {
+     "file": "areas/area-mine-v2.png",
+     "label": "spoil heaps"
+    },
+    {
+     "file": "areas/area-mine-v3.png",
+     "label": "ore pile + 2 tubs"
+    },
+    {
+     "file": "areas/area-mine-night.png",
+     "label": "night"
+    },
+    {
+     "file": "areas/area-mine-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "areas/area-mine-winter.png",
+     "label": "winter"
+    }
+   ],
+   "note": "Variant 0 / day = gravel with empty track; track + loaded tub, spoil heaps, ore pile with two tubs."
+  },
+  {
+   "title": "Extractor areas: Oil pad (1x1)",
+   "columns": 7,
+   "scale": 2,
+   "items": [
+    {
+     "file": "areas/area-oil-day.png",
+     "label": "day"
+    },
+    {
+     "file": "areas/area-oil-v1.png",
+     "label": "pipes + valves"
+    },
+    {
+     "file": "areas/area-oil-v2.png",
+     "label": "barrels + drums"
+    },
+    {
+     "file": "areas/area-oil-v3.png",
+     "label": "pump skid"
+    },
+    {
+     "file": "areas/area-oil-night.png",
+     "label": "night"
+    },
+    {
+     "file": "areas/area-oil-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "areas/area-oil-winter.png",
+     "label": "winter"
+    }
+   ],
+   "note": "Variant 0 / day = gravel pad with two pipes; pipes and valve manifold, barrels, pump skid. Pipes run along x, supports repeat every 0.25 so tiles join."
+  },
+  {
+   "title": "Extractor areas: Fishing water (1x1)",
+   "columns": 7,
+   "scale": 2,
+   "items": [
+    {
+     "file": "areas/area-fish-day.png",
+     "label": "day"
+    },
+    {
+     "file": "areas/area-fish-v1.png",
+     "label": "floating net cage"
+    },
+    {
+     "file": "areas/area-fish-v2.png",
+     "label": "net curtain"
+    },
+    {
+     "file": "areas/area-fish-v3.png",
+     "label": "marker buoy"
+    },
+    {
+     "file": "areas/area-fish-night.png",
+     "label": "night"
+    },
+    {
+     "file": "areas/area-fish-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "areas/area-fish-winter.png",
+     "label": "winter"
+    }
+   ],
+   "note": "Variant 0 / day = buoy line; floating net cage, net curtain, marker buoy. The sea animates (8-frame water shader). No boats here (LIFE)."
+  },
+  {
+   "title": "Transit: Bus depot (3x2)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "transit/busdepot-day.png",
+     "label": "day"
+    },
+    {
+     "file": "transit/busdepot-night.png",
+     "label": "night"
+    },
+    {
+     "file": "transit/busdepot-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "transit/busdepot-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "transit/busdepot-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "transit/busdepot-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "transit/busdepot-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "transit/busdepot-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "transit/busdepot-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "transit/busdepot-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "transit/busdepot-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Garage hall at the back, forecourt with buses, fuel pumps and wash bay on the right."
+  },
+  {
+   "title": "Transit: Taxi depot (2x2)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "transit/taxidepot-day.png",
+     "label": "day"
+    },
+    {
+     "file": "transit/taxidepot-night.png",
+     "label": "night"
+    },
+    {
+     "file": "transit/taxidepot-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "transit/taxidepot-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "transit/taxidepot-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "transit/taxidepot-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "transit/taxidepot-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "transit/taxidepot-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "transit/taxidepot-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "transit/taxidepot-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "transit/taxidepot-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Dispatch office with a roof sign, workshop, yellow taxis in marked bays."
+  },
+  {
+   "title": "Transit: Metro station (1x2)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "transit/metrostation-day.png",
+     "label": "day"
+    },
+    {
+     "file": "transit/metrostation-night.png",
+     "label": "night"
+    },
+    {
+     "file": "transit/metrostation-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "transit/metrostation-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "transit/metrostation-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "transit/metrostation-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "transit/metrostation-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "transit/metrostation-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "transit/metrostation-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "transit/metrostation-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "transit/metrostation-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Entrance pavilion with a stairwell down to the platforms and the big M roundel on a pole."
+  },
+  {
+   "title": "Transit: Tram depot (3x2)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "transit/tramdepot-day.png",
+     "label": "day"
+    },
+    {
+     "file": "transit/tramdepot-night.png",
+     "label": "night"
+    },
+    {
+     "file": "transit/tramdepot-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "transit/tramdepot-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "transit/tramdepot-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "transit/tramdepot-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "transit/tramdepot-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "transit/tramdepot-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "transit/tramdepot-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "transit/tramdepot-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "transit/tramdepot-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Brick hall; three tracks run out of its doors across a gravel yard. Parked trams are simple boxes."
+  },
+  {
+   "title": "Transit: Train station (2x4)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "transit/trainstation-day.png",
+     "label": "day"
+    },
+    {
+     "file": "transit/trainstation-night.png",
+     "label": "night"
+    },
+    {
+     "file": "transit/trainstation-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "transit/trainstation-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "transit/trainstation-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "transit/trainstation-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "transit/trainstation-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "transit/trainstation-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "transit/trainstation-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "transit/trainstation-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "transit/trainstation-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Terminus: station hall with a clock tower at the front, island platform with a long canopy, a track each side. Trains are LIFE's."
+  },
+  {
+   "title": "Transit: Rail yard (3x2)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "transit/railyard-day.png",
+     "label": "day"
+    },
+    {
+     "file": "transit/railyard-night.png",
+     "label": "night"
+    },
+    {
+     "file": "transit/railyard-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "transit/railyard-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "transit/railyard-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "transit/railyard-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "transit/railyard-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "transit/railyard-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "transit/railyard-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "transit/railyard-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "transit/railyard-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Four sidings with parked wagons, buffer stops, signals and a signal box."
+  },
+  {
+   "title": "Transit: Cargo harbor (3x3)",
+   "columns": 12,
+   "scale": 2,
+   "items": [
+    {
+     "file": "transit/cargoharbor-day.png",
+     "label": "day"
+    },
+    {
+     "file": "transit/cargoharbor-night.png",
+     "label": "night"
+    },
+    {
+     "file": "transit/cargoharbor-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "transit/cargoharbor-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "transit/cargoharbor-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "transit/cargoharbor-anim1.png",
+     "label": "anim 1/4"
+    },
+    {
+     "file": "transit/cargoharbor-anim2.png",
+     "label": "anim 2/4"
+    },
+    {
+     "file": "transit/cargoharbor-anim3.png",
+     "label": "anim 3/4"
+    },
+    {
+     "file": "transit/cargoharbor-anim4.png",
+     "label": "anim 4/4"
+    },
+    {
+     "file": "transit/cargoharbor-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "transit/cargoharbor-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "transit/cargoharbor-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Quay on the right with an empty ship berth (ship is LIFE's); two gantry cranes whose trolleys move over 4 frames, container stacks, straddle carrier."
+  },
+  {
+   "title": "Transit: Cargo airport (3x3)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "transit/cargoairport-day.png",
+     "label": "day"
+    },
+    {
+     "file": "transit/cargoairport-night.png",
+     "label": "night"
+    },
+    {
+     "file": "transit/cargoairport-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "transit/cargoairport-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "transit/cargoairport-inactive.png",
+     "label": "no power"
+    },
+    {
+     "file": "transit/cargoairport-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "transit/cargoairport-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "transit/cargoairport-facing3.png",
+     "label": "front -X"
+    },
+    {
+     "file": "transit/cargoairport-build1.png",
+     "label": "construction 1"
+    },
+    {
+     "file": "transit/cargoairport-build2.png",
+     "label": "construction 2"
+    },
+    {
+     "file": "transit/cargoairport-burnt.png",
+     "label": "burnt"
+    }
+   ],
+   "note": "Runway segment with edge lights, arched hangar, control tower and cargo apron. Aircraft are LIFE's."
+  },
+  {
+   "title": "Outside connections: Highway entry (highway-w / -e / -n / -s) (1x1)",
+   "columns": 7,
+   "scale": 2,
+   "items": [
+    {
+     "file": "roads/highway-entry-day.png",
+     "label": "day"
+    },
+    {
+     "file": "roads/highway-entry-night.png",
+     "label": "night"
+    },
+    {
+     "file": "roads/highway-entry-lit.png",
+     "label": "lit layer"
+    },
+    {
+     "file": "roads/highway-entry-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "roads/highway-entry-facing1.png",
+     "label": "front +X"
+    },
+    {
+     "file": "roads/highway-entry-facing2.png",
+     "label": "front -Y"
+    },
+    {
+     "file": "roads/highway-entry-facing3.png",
+     "label": "front -X"
+    }
+   ],
+   "note": "One model for the 4 actors highway-w/e/n/s: they use the 4 facings (the road runs along the facing's y axis, the sign faces the incoming traffic)."
+  },
+  {
+   "title": "Shared: rubble (1x1, one per footprint cell)",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "misc/rubble-1.png",
+     "label": "rubble 1"
+    },
+    {
+     "file": "misc/rubble-1-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "misc/rubble-2.png",
+     "label": "rubble 2"
+    },
+    {
+     "file": "misc/rubble-2-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "misc/rubble-3.png",
+     "label": "rubble 3"
+    },
+    {
+     "file": "misc/rubble-3-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "misc/rubble-4.png",
+     "label": "rubble 4"
+    },
+    {
+     "file": "misc/rubble-4-winter.png",
+     "label": "winter"
+    }
+   ]
+  },
+  {
+   "title": "Animation and facing strips (engine-ready, anchor-aligned frames)",
+   "columns": 4,
+   "scale": 1,
+   "items": [
+    {
+     "file": "power/windturbine-anim-strip.png",
+     "label": "Wind turbine: 4 frames"
+    },
+    {
+     "file": "power/powerplant-coal-anim-strip.png",
+     "label": "Coal power plant: 4 frames"
+    },
+    {
+     "file": "power/powerplant-gas-anim-strip.png",
+     "label": "Gas power plant: 4 frames"
+    },
+    {
+     "file": "power/hydro-dam-anim-strip.png",
+     "label": "Hydroelectric dam: 4 frames"
+    },
+    {
+     "file": "power/powerplant-nuclear-anim-strip.png",
+     "label": "Nuclear power plant: 4 frames"
+    },
+    {
+     "file": "police/policebox-facings-strip.png",
+     "label": "Police box: 4 facings"
+    },
+    {
+     "file": "police/police-anim-strip.png",
+     "label": "Police station: 4 frames"
+    },
+    {
+     "file": "police/police-facings-strip.png",
+     "label": "Police station: 4 facings"
+    },
+    {
+     "file": "police/police-hq-facings-strip.png",
+     "label": "Police headquarters: 4 facings"
+    },
+    {
+     "file": "fire/firehouse-facings-strip.png",
+     "label": "Firehouse: 4 facings"
+    },
+    {
+     "file": "fire/firestation-facings-strip.png",
+     "label": "Fire station: 4 facings"
+    },
+    {
+     "file": "health/clinic-facings-strip.png",
+     "label": "Clinic: 4 facings"
+    },
+    {
+     "file": "health/hospital-facings-strip.png",
+     "label": "Hospital: 4 facings"
+    },
+    {
+     "file": "education/school-facings-strip.png",
+     "label": "School: 4 facings"
+    },
+    {
+     "file": "education/highschool-facings-strip.png",
+     "label": "High school: 4 facings"
+    },
+    {
+     "file": "education/university-facings-strip.png",
+     "label": "University: 4 facings"
+    },
+    {
+     "file": "parks/plaza-anim-strip.png",
+     "label": "Plaza: 4 frames"
+    },
+    {
+     "file": "parks/park-large-anim-strip.png",
+     "label": "Large park: 4 frames"
+    },
+    {
+     "file": "garbage/incinerator-anim-strip.png",
+     "label": "Incinerator: 4 frames"
+    },
+    {
+     "file": "deathcare/crematorium-anim-strip.png",
+     "label": "Crematorium: 4 frames"
+    },
+    {
+     "file": "deathcare/crematorium-facings-strip.png",
+     "label": "Crematorium: 4 facings"
+    },
+    {
+     "file": "comms/postoffice-facings-strip.png",
+     "label": "Post office: 4 facings"
+    },
+    {
+     "file": "admin/cityhall-anim-strip.png",
+     "label": "City hall: 4 frames"
+    },
+    {
+     "file": "admin/cityhall-facings-strip.png",
+     "label": "City hall: 4 facings"
+    },
+    {
+     "file": "admin/welfare-facings-strip.png",
+     "label": "Welfare office: 4 facings"
+    },
+    {
+     "file": "industry/farm-hub-facings-strip.png",
+     "label": "Farm hub: 4 facings"
+    },
+    {
+     "file": "industry/forestry-hub-facings-strip.png",
+     "label": "Forestry hub: 4 facings"
+    },
+    {
+     "file": "industry/quarry-hub-facings-strip.png",
+     "label": "Quarry hub: 4 facings"
+    },
+    {
+     "file": "industry/mine-hub-anim-strip.png",
+     "label": "Mine hub: 4 frames"
+    },
+    {
+     "file": "industry/mine-hub-facings-strip.png",
+     "label": "Mine hub: 4 facings"
+    },
+    {
+     "file": "industry/oil-hub-anim-strip.png",
+     "label": "Oil hub: 4 frames"
+    },
+    {
+     "file": "industry/oil-hub-facings-strip.png",
+     "label": "Oil hub: 4 facings"
+    },
+    {
+     "file": "industry/fish-hub-anim-strip.png",
+     "label": "Fish hub: 4 frames"
+    },
+    {
+     "file": "industry/fish-hub-facings-strip.png",
+     "label": "Fish hub: 4 facings"
+    },
+    {
+     "file": "industry/oil-derrick-anim-strip.png",
+     "label": "Oil derrick (pumpjack): 4 frames"
+    },
+    {
+     "file": "transit/busdepot-facings-strip.png",
+     "label": "Bus depot: 4 facings"
+    },
+    {
+     "file": "transit/taxidepot-facings-strip.png",
+     "label": "Taxi depot: 4 facings"
+    },
+    {
+     "file": "transit/metrostation-facings-strip.png",
+     "label": "Metro station: 4 facings"
+    },
+    {
+     "file": "transit/tramdepot-facings-strip.png",
+     "label": "Tram depot: 4 facings"
+    },
+    {
+     "file": "transit/trainstation-facings-strip.png",
+     "label": "Train station: 4 facings"
+    },
+    {
+     "file": "transit/railyard-facings-strip.png",
+     "label": "Rail yard: 4 facings"
+    },
+    {
+     "file": "transit/cargoharbor-anim-strip.png",
+     "label": "Cargo harbor: 4 frames"
+    },
+    {
+     "file": "transit/cargoairport-facings-strip.png",
+     "label": "Cargo airport: 4 facings"
+    },
+    {
+     "file": "roads/highway-entry-facings-strip.png",
+     "label": "Highway entry (highway-w / -e / -n / -s): 4 facings"
+    }
+   ]
+  }
+ ]
+}

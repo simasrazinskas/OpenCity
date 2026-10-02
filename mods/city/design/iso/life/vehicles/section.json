@@ -1,0 +1,1160 @@
+{
+ "page": "World elements",
+ "section": "Vehicles",
+ "groups": [
+  {
+   "title": "Multi-segment vehicles assembled (E, S, NE)",
+   "columns": 1,
+   "scale": 2,
+   "note": "segments are separate sprites spaced by length + coupler gap",
+   "items": [
+    {
+     "file": "vehicles/composites/consist-tram.png",
+     "label": "tram (88 units)"
+    },
+    {
+     "file": "vehicles/composites/consist-train.png",
+     "label": "train (129 units)"
+    },
+    {
+     "file": "vehicles/composites/consist-freight.png",
+     "label": "freight (245 units)"
+    },
+    {
+     "file": "vehicles/composites/consist-metro.png",
+     "label": "metro (120 units)"
+    },
+    {
+     "file": "vehicles/composites/consist-artic-bus.png",
+     "label": "artic-bus (65 units)"
+    },
+    {
+     "file": "vehicles/composites/consist-semi.png",
+     "label": "semi (24 units)"
+    }
+   ]
+  },
+  {
+   "title": "In context: 2-lane street, right-hand traffic",
+   "columns": 1,
+   "scale": 2,
+   "note": "NET street tiles; lane centre 10 q (1/64 cell) right of the centreline (NET contract)",
+   "items": [
+    {
+     "file": "vehicles/composites/lane-fit.png",
+     "label": "lane-fit"
+    }
+   ]
+  },
+  {
+   "title": "In context: 2-lane street, right-hand traffic at night",
+   "columns": 1,
+   "scale": 2,
+   "note": "NET street tiles; lane centre 10 q (1/64 cell) right of the centreline (NET contract)",
+   "items": [
+    {
+     "file": "vehicles/composites/street-night.png",
+     "label": "street-night"
+    }
+   ]
+  },
+  {
+   "title": "Size line-up (S)",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "vehicles/composites/lineup.png",
+     "label": "sports / sedan / suv / delivery-van / garbage-truck / fire-engine / bus / tram-cab / heli-medevac"
+    }
+   ]
+  },
+  {
+   "title": "Private cars: sedan in 8 directions",
+   "columns": 8,
+   "scale": 2,
+   "note": "World compass, clockwise: N (screen up-right), NE, E (down-right), SE, S (down-left), SW, W (up-left), NW. Anchor = ground centre, see anchors.json",
+   "items": [
+    {
+     "file": "vehicles/cars/sedan/sedan-N.png",
+     "label": "N"
+    },
+    {
+     "file": "vehicles/cars/sedan/sedan-NE.png",
+     "label": "NE"
+    },
+    {
+     "file": "vehicles/cars/sedan/sedan-E.png",
+     "label": "E"
+    },
+    {
+     "file": "vehicles/cars/sedan/sedan-SE.png",
+     "label": "SE"
+    },
+    {
+     "file": "vehicles/cars/sedan/sedan-S.png",
+     "label": "S"
+    },
+    {
+     "file": "vehicles/cars/sedan/sedan-SW.png",
+     "label": "SW"
+    },
+    {
+     "file": "vehicles/cars/sedan/sedan-W.png",
+     "label": "W"
+    },
+    {
+     "file": "vehicles/cars/sedan/sedan-NW.png",
+     "label": "NW"
+    }
+   ]
+  },
+  {
+   "title": "Private cars: body colours (S shown, 8 dirs each on disk)",
+   "columns": 1,
+   "scale": 2,
+   "note": "red / blue / white / black / silver / green / yellow / teal / brown / orange / purple / beige",
+   "items": [
+    {
+     "file": "vehicles/cars/hatchback/hatchback-colours-S.png",
+     "label": "hatchback 12 colours"
+    },
+    {
+     "file": "vehicles/cars/sedan/sedan-colours-S.png",
+     "label": "sedan 12 colours"
+    },
+    {
+     "file": "vehicles/cars/estate/estate-colours-S.png",
+     "label": "estate 12 colours"
+    },
+    {
+     "file": "vehicles/cars/suv/suv-colours-S.png",
+     "label": "suv 12 colours"
+    },
+    {
+     "file": "vehicles/cars/mpv/mpv-colours-S.png",
+     "label": "mpv 12 colours"
+    },
+    {
+     "file": "vehicles/cars/pickup/pickup-colours-S.png",
+     "label": "pickup 12 colours"
+    },
+    {
+     "file": "vehicles/cars/sports/sports-colours-S.png",
+     "label": "sports 12 colours"
+    }
+   ]
+  },
+  {
+   "title": "Private cars: all models, 8 directions",
+   "columns": 1,
+   "scale": 2,
+   "note": "strip order N, NE, E, SE, S, SW, W, NW (world compass); no gaps, slice by frame width",
+   "items": [
+    {
+     "file": "vehicles/cars/hatchback/hatchback-8dirs.png",
+     "label": "hatchback 8 dirs"
+    },
+    {
+     "file": "vehicles/cars/sedan/sedan-8dirs.png",
+     "label": "sedan 8 dirs"
+    },
+    {
+     "file": "vehicles/cars/estate/estate-8dirs.png",
+     "label": "estate 8 dirs"
+    },
+    {
+     "file": "vehicles/cars/suv/suv-8dirs.png",
+     "label": "suv 8 dirs"
+    },
+    {
+     "file": "vehicles/cars/mpv/mpv-8dirs.png",
+     "label": "mpv 8 dirs"
+    },
+    {
+     "file": "vehicles/cars/pickup/pickup-8dirs.png",
+     "label": "pickup 8 dirs"
+    },
+    {
+     "file": "vehicles/cars/sports/sports-8dirs.png",
+     "label": "sports 8 dirs"
+    }
+   ]
+  },
+  {
+   "title": "Private cars: night lights (lit lamps, road beams)",
+   "columns": 2,
+   "scale": 2,
+   "note": "lit = emissive companion frames (no night multiply); beam = dithered road light, additive",
+   "items": [
+    {
+     "file": "vehicles/cars/hatchback/hatchback-lit-8dirs.png",
+     "label": "hatchback lit"
+    },
+    {
+     "file": "vehicles/cars/hatchback/hatchback-beam-8dirs.png",
+     "label": "hatchback beam"
+    },
+    {
+     "file": "vehicles/cars/sedan/sedan-lit-8dirs.png",
+     "label": "sedan lit"
+    },
+    {
+     "file": "vehicles/cars/sedan/sedan-beam-8dirs.png",
+     "label": "sedan beam"
+    },
+    {
+     "file": "vehicles/cars/estate/estate-lit-8dirs.png",
+     "label": "estate lit"
+    },
+    {
+     "file": "vehicles/cars/estate/estate-beam-8dirs.png",
+     "label": "estate beam"
+    },
+    {
+     "file": "vehicles/cars/suv/suv-lit-8dirs.png",
+     "label": "suv lit"
+    },
+    {
+     "file": "vehicles/cars/suv/suv-beam-8dirs.png",
+     "label": "suv beam"
+    },
+    {
+     "file": "vehicles/cars/mpv/mpv-lit-8dirs.png",
+     "label": "mpv lit"
+    },
+    {
+     "file": "vehicles/cars/mpv/mpv-beam-8dirs.png",
+     "label": "mpv beam"
+    },
+    {
+     "file": "vehicles/cars/pickup/pickup-lit-8dirs.png",
+     "label": "pickup lit"
+    },
+    {
+     "file": "vehicles/cars/pickup/pickup-beam-8dirs.png",
+     "label": "pickup beam"
+    },
+    {
+     "file": "vehicles/cars/sports/sports-lit-8dirs.png",
+     "label": "sports lit"
+    },
+    {
+     "file": "vehicles/cars/sports/sports-beam-8dirs.png",
+     "label": "sports beam"
+    }
+   ]
+  },
+  {
+   "title": "Taxi & buses: bus in 8 directions",
+   "columns": 8,
+   "scale": 2,
+   "note": "World compass, clockwise: N (screen up-right), NE, E (down-right), SE, S (down-left), SW, W (up-left), NW. Anchor = ground centre, see anchors.json",
+   "items": [
+    {
+     "file": "vehicles/transit/bus/bus-N.png",
+     "label": "N"
+    },
+    {
+     "file": "vehicles/transit/bus/bus-NE.png",
+     "label": "NE"
+    },
+    {
+     "file": "vehicles/transit/bus/bus-E.png",
+     "label": "E"
+    },
+    {
+     "file": "vehicles/transit/bus/bus-SE.png",
+     "label": "SE"
+    },
+    {
+     "file": "vehicles/transit/bus/bus-S.png",
+     "label": "S"
+    },
+    {
+     "file": "vehicles/transit/bus/bus-SW.png",
+     "label": "SW"
+    },
+    {
+     "file": "vehicles/transit/bus/bus-W.png",
+     "label": "W"
+    },
+    {
+     "file": "vehicles/transit/bus/bus-NW.png",
+     "label": "NW"
+    }
+   ]
+  },
+  {
+   "title": "Taxi & buses: all models, 8 directions",
+   "columns": 1,
+   "scale": 2,
+   "note": "strip order N, NE, E, SE, S, SW, W, NW (world compass); no gaps, slice by frame width",
+   "items": [
+    {
+     "file": "vehicles/transit/taxi/taxi-8dirs.png",
+     "label": "taxi 8 dirs"
+    },
+    {
+     "file": "vehicles/transit/bus/bus-8dirs.png",
+     "label": "bus 8 dirs"
+    },
+    {
+     "file": "vehicles/transit/artic-bus-front/artic-bus-front-8dirs.png",
+     "label": "artic-bus-front 8 dirs"
+    },
+    {
+     "file": "vehicles/transit/artic-bus-rear/artic-bus-rear-8dirs.png",
+     "label": "artic-bus-rear 8 dirs"
+    }
+   ]
+  },
+  {
+   "title": "Taxi & buses: night lights (lit lamps, road beams)",
+   "columns": 2,
+   "scale": 2,
+   "note": "lit = emissive companion frames (no night multiply); beam = dithered road light, additive",
+   "items": [
+    {
+     "file": "vehicles/transit/taxi/taxi-lit-8dirs.png",
+     "label": "taxi lit"
+    },
+    {
+     "file": "vehicles/transit/taxi/taxi-beam-8dirs.png",
+     "label": "taxi beam"
+    },
+    {
+     "file": "vehicles/transit/bus/bus-lit-8dirs.png",
+     "label": "bus lit"
+    },
+    {
+     "file": "vehicles/transit/bus/bus-beam-8dirs.png",
+     "label": "bus beam"
+    },
+    {
+     "file": "vehicles/transit/artic-bus-front/artic-bus-front-lit-8dirs.png",
+     "label": "artic-bus-front lit"
+    },
+    {
+     "file": "vehicles/transit/artic-bus-front/artic-bus-front-beam-8dirs.png",
+     "label": "artic-bus-front beam"
+    },
+    {
+     "file": "vehicles/transit/artic-bus-rear/artic-bus-rear-lit-8dirs.png",
+     "label": "artic-bus-rear lit"
+    }
+   ]
+  },
+  {
+   "title": "Trucks: all models, 8 directions",
+   "columns": 1,
+   "scale": 2,
+   "note": "strip order N, NE, E, SE, S, SW, W, NW (world compass); no gaps, slice by frame width",
+   "items": [
+    {
+     "file": "vehicles/trucks/delivery-van/delivery-van-8dirs.png",
+     "label": "delivery-van 8 dirs"
+    },
+    {
+     "file": "vehicles/trucks/box-truck/box-truck-8dirs.png",
+     "label": "box-truck 8 dirs"
+    },
+    {
+     "file": "vehicles/trucks/tanker-truck/tanker-truck-8dirs.png",
+     "label": "tanker-truck 8 dirs"
+    },
+    {
+     "file": "vehicles/trucks/tipper-truck/tipper-truck-8dirs.png",
+     "label": "tipper-truck 8 dirs"
+    },
+    {
+     "file": "vehicles/trucks/timber-truck/timber-truck-8dirs.png",
+     "label": "timber-truck 8 dirs"
+    },
+    {
+     "file": "vehicles/trucks/semi-tractor/semi-tractor-8dirs.png",
+     "label": "semi-tractor 8 dirs"
+    },
+    {
+     "file": "vehicles/trucks/trailer-box/trailer-box-8dirs.png",
+     "label": "trailer-box 8 dirs"
+    },
+    {
+     "file": "vehicles/trucks/trailer-tank/trailer-tank-8dirs.png",
+     "label": "trailer-tank 8 dirs"
+    },
+    {
+     "file": "vehicles/trucks/trailer-container/trailer-container-8dirs.png",
+     "label": "trailer-container 8 dirs"
+    },
+    {
+     "file": "vehicles/trucks/trailer-flat/trailer-flat-8dirs.png",
+     "label": "trailer-flat 8 dirs"
+    },
+    {
+     "file": "vehicles/trucks/farm-tractor/farm-tractor-8dirs.png",
+     "label": "farm-tractor 8 dirs"
+    }
+   ]
+  },
+  {
+   "title": "Trucks: night lights (lit lamps, road beams)",
+   "columns": 2,
+   "scale": 2,
+   "note": "lit = emissive companion frames (no night multiply); beam = dithered road light, additive",
+   "items": [
+    {
+     "file": "vehicles/trucks/delivery-van/delivery-van-lit-8dirs.png",
+     "label": "delivery-van lit"
+    },
+    {
+     "file": "vehicles/trucks/delivery-van/delivery-van-beam-8dirs.png",
+     "label": "delivery-van beam"
+    },
+    {
+     "file": "vehicles/trucks/box-truck/box-truck-lit-8dirs.png",
+     "label": "box-truck lit"
+    },
+    {
+     "file": "vehicles/trucks/box-truck/box-truck-beam-8dirs.png",
+     "label": "box-truck beam"
+    },
+    {
+     "file": "vehicles/trucks/tanker-truck/tanker-truck-lit-8dirs.png",
+     "label": "tanker-truck lit"
+    },
+    {
+     "file": "vehicles/trucks/tanker-truck/tanker-truck-beam-8dirs.png",
+     "label": "tanker-truck beam"
+    },
+    {
+     "file": "vehicles/trucks/tipper-truck/tipper-truck-lit-8dirs.png",
+     "label": "tipper-truck lit"
+    },
+    {
+     "file": "vehicles/trucks/tipper-truck/tipper-truck-beam-8dirs.png",
+     "label": "tipper-truck beam"
+    },
+    {
+     "file": "vehicles/trucks/timber-truck/timber-truck-lit-8dirs.png",
+     "label": "timber-truck lit"
+    },
+    {
+     "file": "vehicles/trucks/timber-truck/timber-truck-beam-8dirs.png",
+     "label": "timber-truck beam"
+    },
+    {
+     "file": "vehicles/trucks/semi-tractor/semi-tractor-lit-8dirs.png",
+     "label": "semi-tractor lit"
+    },
+    {
+     "file": "vehicles/trucks/semi-tractor/semi-tractor-beam-8dirs.png",
+     "label": "semi-tractor beam"
+    },
+    {
+     "file": "vehicles/trucks/trailer-box/trailer-box-lit-8dirs.png",
+     "label": "trailer-box lit"
+    },
+    {
+     "file": "vehicles/trucks/trailer-tank/trailer-tank-lit-8dirs.png",
+     "label": "trailer-tank lit"
+    },
+    {
+     "file": "vehicles/trucks/trailer-container/trailer-container-lit-8dirs.png",
+     "label": "trailer-container lit"
+    },
+    {
+     "file": "vehicles/trucks/trailer-flat/trailer-flat-lit-8dirs.png",
+     "label": "trailer-flat lit"
+    },
+    {
+     "file": "vehicles/trucks/farm-tractor/farm-tractor-lit-8dirs.png",
+     "label": "farm-tractor lit"
+    },
+    {
+     "file": "vehicles/trucks/farm-tractor/farm-tractor-beam-8dirs.png",
+     "label": "farm-tractor beam"
+    }
+   ]
+  },
+  {
+   "title": "Service vehicles: all models, 8 directions",
+   "columns": 1,
+   "scale": 2,
+   "note": "strip order N, NE, E, SE, S, SW, W, NW (world compass); no gaps, slice by frame width",
+   "items": [
+    {
+     "file": "vehicles/services/garbage-truck/garbage-truck-8dirs.png",
+     "label": "garbage-truck 8 dirs"
+    },
+    {
+     "file": "vehicles/services/fire-engine/fire-engine-8dirs.png",
+     "label": "fire-engine 8 dirs"
+    },
+    {
+     "file": "vehicles/services/police/police-8dirs.png",
+     "label": "police 8 dirs"
+    },
+    {
+     "file": "vehicles/services/ambulance/ambulance-8dirs.png",
+     "label": "ambulance 8 dirs"
+    },
+    {
+     "file": "vehicles/services/hearse/hearse-8dirs.png",
+     "label": "hearse 8 dirs"
+    },
+    {
+     "file": "vehicles/services/postal-van/postal-van-8dirs.png",
+     "label": "postal-van 8 dirs"
+    },
+    {
+     "file": "vehicles/services/maintenance/maintenance-8dirs.png",
+     "label": "maintenance 8 dirs"
+    },
+    {
+     "file": "vehicles/services/snowplough/snowplough-8dirs.png",
+     "label": "snowplough 8 dirs"
+    },
+    {
+     "file": "vehicles/services/wreck/wreck-8dirs.png",
+     "label": "wreck 8 dirs"
+    }
+   ]
+  },
+  {
+   "title": "garbage-truck: amber beacon",
+   "columns": 2,
+   "scale": 2,
+   "items": [
+    {
+     "file": "vehicles/services/garbage-truck/beacon/garbage-truck-beacon-S.png",
+     "label": "S 2 frames"
+    }
+   ]
+  },
+  {
+   "title": "fire-engine: siren light bar",
+   "columns": 8,
+   "scale": 2,
+   "note": "2 frames per direction, alternate every ~8 ticks; -siren-lit-* companions hold the lit lamps only",
+   "items": [
+    {
+     "file": "vehicles/services/fire-engine/siren/fire-engine-siren-N.png",
+     "label": "N 2 frames"
+    },
+    {
+     "file": "vehicles/services/fire-engine/siren/fire-engine-siren-NE.png",
+     "label": "NE 2 frames"
+    },
+    {
+     "file": "vehicles/services/fire-engine/siren/fire-engine-siren-E.png",
+     "label": "E 2 frames"
+    },
+    {
+     "file": "vehicles/services/fire-engine/siren/fire-engine-siren-SE.png",
+     "label": "SE 2 frames"
+    },
+    {
+     "file": "vehicles/services/fire-engine/siren/fire-engine-siren-S.png",
+     "label": "S 2 frames"
+    },
+    {
+     "file": "vehicles/services/fire-engine/siren/fire-engine-siren-SW.png",
+     "label": "SW 2 frames"
+    },
+    {
+     "file": "vehicles/services/fire-engine/siren/fire-engine-siren-W.png",
+     "label": "W 2 frames"
+    },
+    {
+     "file": "vehicles/services/fire-engine/siren/fire-engine-siren-NW.png",
+     "label": "NW 2 frames"
+    }
+   ]
+  },
+  {
+   "title": "police: siren light bar",
+   "columns": 8,
+   "scale": 2,
+   "note": "2 frames per direction, alternate every ~8 ticks; -siren-lit-* companions hold the lit lamps only",
+   "items": [
+    {
+     "file": "vehicles/services/police/siren/police-siren-N.png",
+     "label": "N 2 frames"
+    },
+    {
+     "file": "vehicles/services/police/siren/police-siren-NE.png",
+     "label": "NE 2 frames"
+    },
+    {
+     "file": "vehicles/services/police/siren/police-siren-E.png",
+     "label": "E 2 frames"
+    },
+    {
+     "file": "vehicles/services/police/siren/police-siren-SE.png",
+     "label": "SE 2 frames"
+    },
+    {
+     "file": "vehicles/services/police/siren/police-siren-S.png",
+     "label": "S 2 frames"
+    },
+    {
+     "file": "vehicles/services/police/siren/police-siren-SW.png",
+     "label": "SW 2 frames"
+    },
+    {
+     "file": "vehicles/services/police/siren/police-siren-W.png",
+     "label": "W 2 frames"
+    },
+    {
+     "file": "vehicles/services/police/siren/police-siren-NW.png",
+     "label": "NW 2 frames"
+    }
+   ]
+  },
+  {
+   "title": "ambulance: siren light bar",
+   "columns": 8,
+   "scale": 2,
+   "note": "2 frames per direction, alternate every ~8 ticks; -siren-lit-* companions hold the lit lamps only",
+   "items": [
+    {
+     "file": "vehicles/services/ambulance/siren/ambulance-siren-N.png",
+     "label": "N 2 frames"
+    },
+    {
+     "file": "vehicles/services/ambulance/siren/ambulance-siren-NE.png",
+     "label": "NE 2 frames"
+    },
+    {
+     "file": "vehicles/services/ambulance/siren/ambulance-siren-E.png",
+     "label": "E 2 frames"
+    },
+    {
+     "file": "vehicles/services/ambulance/siren/ambulance-siren-SE.png",
+     "label": "SE 2 frames"
+    },
+    {
+     "file": "vehicles/services/ambulance/siren/ambulance-siren-S.png",
+     "label": "S 2 frames"
+    },
+    {
+     "file": "vehicles/services/ambulance/siren/ambulance-siren-SW.png",
+     "label": "SW 2 frames"
+    },
+    {
+     "file": "vehicles/services/ambulance/siren/ambulance-siren-W.png",
+     "label": "W 2 frames"
+    },
+    {
+     "file": "vehicles/services/ambulance/siren/ambulance-siren-NW.png",
+     "label": "NW 2 frames"
+    }
+   ]
+  },
+  {
+   "title": "maintenance: amber beacon",
+   "columns": 2,
+   "scale": 2,
+   "items": [
+    {
+     "file": "vehicles/services/maintenance/beacon/maintenance-beacon-S.png",
+     "label": "S 2 frames"
+    }
+   ]
+  },
+  {
+   "title": "snowplough: amber beacon",
+   "columns": 2,
+   "scale": 2,
+   "items": [
+    {
+     "file": "vehicles/services/snowplough/beacon/snowplough-beacon-S.png",
+     "label": "S 2 frames"
+    }
+   ]
+  },
+  {
+   "title": "Service vehicles: night lights (lit lamps, road beams)",
+   "columns": 2,
+   "scale": 2,
+   "note": "lit = emissive companion frames (no night multiply); beam = dithered road light, additive",
+   "items": [
+    {
+     "file": "vehicles/services/garbage-truck/garbage-truck-lit-8dirs.png",
+     "label": "garbage-truck lit"
+    },
+    {
+     "file": "vehicles/services/garbage-truck/garbage-truck-beam-8dirs.png",
+     "label": "garbage-truck beam"
+    },
+    {
+     "file": "vehicles/services/fire-engine/fire-engine-lit-8dirs.png",
+     "label": "fire-engine lit"
+    },
+    {
+     "file": "vehicles/services/fire-engine/fire-engine-beam-8dirs.png",
+     "label": "fire-engine beam"
+    },
+    {
+     "file": "vehicles/services/police/police-lit-8dirs.png",
+     "label": "police lit"
+    },
+    {
+     "file": "vehicles/services/police/police-beam-8dirs.png",
+     "label": "police beam"
+    },
+    {
+     "file": "vehicles/services/ambulance/ambulance-lit-8dirs.png",
+     "label": "ambulance lit"
+    },
+    {
+     "file": "vehicles/services/ambulance/ambulance-beam-8dirs.png",
+     "label": "ambulance beam"
+    },
+    {
+     "file": "vehicles/services/hearse/hearse-lit-8dirs.png",
+     "label": "hearse lit"
+    },
+    {
+     "file": "vehicles/services/hearse/hearse-beam-8dirs.png",
+     "label": "hearse beam"
+    },
+    {
+     "file": "vehicles/services/postal-van/postal-van-lit-8dirs.png",
+     "label": "postal-van lit"
+    },
+    {
+     "file": "vehicles/services/postal-van/postal-van-beam-8dirs.png",
+     "label": "postal-van beam"
+    },
+    {
+     "file": "vehicles/services/maintenance/maintenance-lit-8dirs.png",
+     "label": "maintenance lit"
+    },
+    {
+     "file": "vehicles/services/maintenance/maintenance-beam-8dirs.png",
+     "label": "maintenance beam"
+    },
+    {
+     "file": "vehicles/services/snowplough/snowplough-lit-8dirs.png",
+     "label": "snowplough lit"
+    },
+    {
+     "file": "vehicles/services/snowplough/snowplough-beam-8dirs.png",
+     "label": "snowplough beam"
+    },
+    {
+     "file": "vehicles/services/wreck/wreck-lit-8dirs.png",
+     "label": "wreck lit"
+    }
+   ]
+  },
+  {
+   "title": "Trams, trains & metro: train-loco in 8 directions",
+   "columns": 8,
+   "scale": 2,
+   "note": "World compass, clockwise: N (screen up-right), NE, E (down-right), SE, S (down-left), SW, W (up-left), NW. Anchor = ground centre, see anchors.json",
+   "items": [
+    {
+     "file": "vehicles/rail/train-loco/train-loco-N.png",
+     "label": "N"
+    },
+    {
+     "file": "vehicles/rail/train-loco/train-loco-NE.png",
+     "label": "NE"
+    },
+    {
+     "file": "vehicles/rail/train-loco/train-loco-E.png",
+     "label": "E"
+    },
+    {
+     "file": "vehicles/rail/train-loco/train-loco-SE.png",
+     "label": "SE"
+    },
+    {
+     "file": "vehicles/rail/train-loco/train-loco-S.png",
+     "label": "S"
+    },
+    {
+     "file": "vehicles/rail/train-loco/train-loco-SW.png",
+     "label": "SW"
+    },
+    {
+     "file": "vehicles/rail/train-loco/train-loco-W.png",
+     "label": "W"
+    },
+    {
+     "file": "vehicles/rail/train-loco/train-loco-NW.png",
+     "label": "NW"
+    }
+   ]
+  },
+  {
+   "title": "Trams, trains & metro: all models, 8 directions",
+   "columns": 1,
+   "scale": 2,
+   "note": "strip order N, NE, E, SE, S, SW, W, NW (world compass); no gaps, slice by frame width",
+   "items": [
+    {
+     "file": "vehicles/rail/tram-cab/tram-cab-8dirs.png",
+     "label": "tram-cab 8 dirs"
+    },
+    {
+     "file": "vehicles/rail/tram-middle/tram-middle-8dirs.png",
+     "label": "tram-middle 8 dirs"
+    },
+    {
+     "file": "vehicles/rail/tram-rear/tram-rear-8dirs.png",
+     "label": "tram-rear 8 dirs"
+    },
+    {
+     "file": "vehicles/rail/train-loco/train-loco-8dirs.png",
+     "label": "train-loco 8 dirs"
+    },
+    {
+     "file": "vehicles/rail/train-coach/train-coach-8dirs.png",
+     "label": "train-coach 8 dirs"
+    },
+    {
+     "file": "vehicles/rail/wagon-box/wagon-box-8dirs.png",
+     "label": "wagon-box 8 dirs"
+    },
+    {
+     "file": "vehicles/rail/wagon-tank/wagon-tank-8dirs.png",
+     "label": "wagon-tank 8 dirs"
+    },
+    {
+     "file": "vehicles/rail/wagon-hopper/wagon-hopper-8dirs.png",
+     "label": "wagon-hopper 8 dirs"
+    },
+    {
+     "file": "vehicles/rail/wagon-container/wagon-container-8dirs.png",
+     "label": "wagon-container 8 dirs"
+    },
+    {
+     "file": "vehicles/rail/wagon-logs/wagon-logs-8dirs.png",
+     "label": "wagon-logs 8 dirs"
+    },
+    {
+     "file": "vehicles/rail/metro-cab/metro-cab-8dirs.png",
+     "label": "metro-cab 8 dirs"
+    },
+    {
+     "file": "vehicles/rail/metro-car/metro-car-8dirs.png",
+     "label": "metro-car 8 dirs"
+    }
+   ]
+  },
+  {
+   "title": "Trams, trains & metro: night lights (lit lamps, road beams)",
+   "columns": 2,
+   "scale": 2,
+   "note": "lit = emissive companion frames (no night multiply); beam = dithered road light, additive",
+   "items": [
+    {
+     "file": "vehicles/rail/tram-cab/tram-cab-lit-8dirs.png",
+     "label": "tram-cab lit"
+    },
+    {
+     "file": "vehicles/rail/tram-cab/tram-cab-beam-8dirs.png",
+     "label": "tram-cab beam"
+    },
+    {
+     "file": "vehicles/rail/tram-rear/tram-rear-lit-8dirs.png",
+     "label": "tram-rear lit"
+    },
+    {
+     "file": "vehicles/rail/tram-rear/tram-rear-beam-8dirs.png",
+     "label": "tram-rear beam"
+    },
+    {
+     "file": "vehicles/rail/train-loco/train-loco-lit-8dirs.png",
+     "label": "train-loco lit"
+    },
+    {
+     "file": "vehicles/rail/train-loco/train-loco-beam-8dirs.png",
+     "label": "train-loco beam"
+    },
+    {
+     "file": "vehicles/rail/metro-cab/metro-cab-lit-8dirs.png",
+     "label": "metro-cab lit"
+    },
+    {
+     "file": "vehicles/rail/metro-cab/metro-cab-beam-8dirs.png",
+     "label": "metro-cab beam"
+    }
+   ]
+  },
+  {
+   "title": "Aircraft: heli-medevac in 8 directions",
+   "columns": 8,
+   "scale": 2,
+   "note": "World compass, clockwise: N (screen up-right), NE, E (down-right), SE, S (down-left), SW, W (up-left), NW. Anchor = ground centre, see anchors.json",
+   "items": [
+    {
+     "file": "vehicles/air/heli-medevac/heli-medevac-N.png",
+     "label": "N"
+    },
+    {
+     "file": "vehicles/air/heli-medevac/heli-medevac-NE.png",
+     "label": "NE"
+    },
+    {
+     "file": "vehicles/air/heli-medevac/heli-medevac-E.png",
+     "label": "E"
+    },
+    {
+     "file": "vehicles/air/heli-medevac/heli-medevac-SE.png",
+     "label": "SE"
+    },
+    {
+     "file": "vehicles/air/heli-medevac/heli-medevac-S.png",
+     "label": "S"
+    },
+    {
+     "file": "vehicles/air/heli-medevac/heli-medevac-SW.png",
+     "label": "SW"
+    },
+    {
+     "file": "vehicles/air/heli-medevac/heli-medevac-W.png",
+     "label": "W"
+    },
+    {
+     "file": "vehicles/air/heli-medevac/heli-medevac-NW.png",
+     "label": "NW"
+    }
+   ]
+  },
+  {
+   "title": "Aircraft: all models, 8 directions",
+   "columns": 1,
+   "scale": 2,
+   "note": "strip order N, NE, E, SE, S, SW, W, NW (world compass); no gaps, slice by frame width",
+   "items": [
+    {
+     "file": "vehicles/air/heli-medevac/heli-medevac-8dirs.png",
+     "label": "heli-medevac 8 dirs"
+    },
+    {
+     "file": "vehicles/air/heli-fire/heli-fire-8dirs.png",
+     "label": "heli-fire 8 dirs"
+    },
+    {
+     "file": "vehicles/air/cargo-plane/cargo-plane-8dirs.png",
+     "label": "cargo-plane 8 dirs"
+    }
+   ]
+  },
+  {
+   "title": "heli-medevac: rotor animation",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "vehicles/air/heli-medevac/rotor/heli-medevac-rotor-N.png",
+     "label": "N 4 frames"
+    },
+    {
+     "file": "vehicles/air/heli-medevac/rotor/heli-medevac-rotor-NE.png",
+     "label": "NE 4 frames"
+    },
+    {
+     "file": "vehicles/air/heli-medevac/rotor/heli-medevac-rotor-E.png",
+     "label": "E 4 frames"
+    },
+    {
+     "file": "vehicles/air/heli-medevac/rotor/heli-medevac-rotor-SE.png",
+     "label": "SE 4 frames"
+    },
+    {
+     "file": "vehicles/air/heli-medevac/rotor/heli-medevac-rotor-S.png",
+     "label": "S 4 frames"
+    },
+    {
+     "file": "vehicles/air/heli-medevac/rotor/heli-medevac-rotor-SW.png",
+     "label": "SW 4 frames"
+    },
+    {
+     "file": "vehicles/air/heli-medevac/rotor/heli-medevac-rotor-W.png",
+     "label": "W 4 frames"
+    },
+    {
+     "file": "vehicles/air/heli-medevac/rotor/heli-medevac-rotor-NW.png",
+     "label": "NW 4 frames"
+    }
+   ]
+  },
+  {
+   "title": "heli-medevac: ground shadow (drawn 26 px below the flying body)",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "vehicles/air/heli-medevac/heli-medevac-shadow-8dirs.png",
+     "label": "8 dirs"
+    }
+   ]
+  },
+  {
+   "title": "heli-fire: rotor animation",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "vehicles/air/heli-fire/rotor/heli-fire-rotor-N.png",
+     "label": "N 4 frames"
+    },
+    {
+     "file": "vehicles/air/heli-fire/rotor/heli-fire-rotor-NE.png",
+     "label": "NE 4 frames"
+    },
+    {
+     "file": "vehicles/air/heli-fire/rotor/heli-fire-rotor-E.png",
+     "label": "E 4 frames"
+    },
+    {
+     "file": "vehicles/air/heli-fire/rotor/heli-fire-rotor-SE.png",
+     "label": "SE 4 frames"
+    },
+    {
+     "file": "vehicles/air/heli-fire/rotor/heli-fire-rotor-S.png",
+     "label": "S 4 frames"
+    },
+    {
+     "file": "vehicles/air/heli-fire/rotor/heli-fire-rotor-SW.png",
+     "label": "SW 4 frames"
+    },
+    {
+     "file": "vehicles/air/heli-fire/rotor/heli-fire-rotor-W.png",
+     "label": "W 4 frames"
+    },
+    {
+     "file": "vehicles/air/heli-fire/rotor/heli-fire-rotor-NW.png",
+     "label": "NW 4 frames"
+    }
+   ]
+  },
+  {
+   "title": "heli-fire: ground shadow (drawn 34 px below the flying body)",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "vehicles/air/heli-fire/heli-fire-shadow-8dirs.png",
+     "label": "8 dirs"
+    }
+   ]
+  },
+  {
+   "title": "cargo-plane: prop animation",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "vehicles/air/cargo-plane/prop/cargo-plane-prop-N.png",
+     "label": "N 3 frames"
+    },
+    {
+     "file": "vehicles/air/cargo-plane/prop/cargo-plane-prop-NE.png",
+     "label": "NE 3 frames"
+    },
+    {
+     "file": "vehicles/air/cargo-plane/prop/cargo-plane-prop-E.png",
+     "label": "E 3 frames"
+    },
+    {
+     "file": "vehicles/air/cargo-plane/prop/cargo-plane-prop-SE.png",
+     "label": "SE 3 frames"
+    },
+    {
+     "file": "vehicles/air/cargo-plane/prop/cargo-plane-prop-S.png",
+     "label": "S 3 frames"
+    },
+    {
+     "file": "vehicles/air/cargo-plane/prop/cargo-plane-prop-SW.png",
+     "label": "SW 3 frames"
+    },
+    {
+     "file": "vehicles/air/cargo-plane/prop/cargo-plane-prop-W.png",
+     "label": "W 3 frames"
+    },
+    {
+     "file": "vehicles/air/cargo-plane/prop/cargo-plane-prop-NW.png",
+     "label": "NW 3 frames"
+    }
+   ]
+  },
+  {
+   "title": "cargo-plane: ground shadow (drawn 40 px below the flying body)",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "vehicles/air/cargo-plane/cargo-plane-shadow-8dirs.png",
+     "label": "8 dirs"
+    }
+   ]
+  },
+  {
+   "title": "Boats & ships: cargo-ship in 8 directions",
+   "columns": 8,
+   "scale": 2,
+   "note": "World compass, clockwise: N (screen up-right), NE, E (down-right), SE, S (down-left), SW, W (up-left), NW. Anchor = ground centre, see anchors.json",
+   "items": [
+    {
+     "file": "vehicles/water/cargo-ship/cargo-ship-N.png",
+     "label": "N"
+    },
+    {
+     "file": "vehicles/water/cargo-ship/cargo-ship-NE.png",
+     "label": "NE"
+    },
+    {
+     "file": "vehicles/water/cargo-ship/cargo-ship-E.png",
+     "label": "E"
+    },
+    {
+     "file": "vehicles/water/cargo-ship/cargo-ship-SE.png",
+     "label": "SE"
+    },
+    {
+     "file": "vehicles/water/cargo-ship/cargo-ship-S.png",
+     "label": "S"
+    },
+    {
+     "file": "vehicles/water/cargo-ship/cargo-ship-SW.png",
+     "label": "SW"
+    },
+    {
+     "file": "vehicles/water/cargo-ship/cargo-ship-W.png",
+     "label": "W"
+    },
+    {
+     "file": "vehicles/water/cargo-ship/cargo-ship-NW.png",
+     "label": "NW"
+    }
+   ]
+  },
+  {
+   "title": "Boats & ships: all models, 8 directions",
+   "columns": 1,
+   "scale": 2,
+   "note": "strip order N, NE, E, SE, S, SW, W, NW (world compass); no gaps, slice by frame width",
+   "items": [
+    {
+     "file": "vehicles/water/motorboat/motorboat-8dirs.png",
+     "label": "motorboat 8 dirs"
+    },
+    {
+     "file": "vehicles/water/ferry/ferry-8dirs.png",
+     "label": "ferry 8 dirs"
+    },
+    {
+     "file": "vehicles/water/cargo-ship/cargo-ship-8dirs.png",
+     "label": "cargo-ship 8 dirs"
+    }
+   ]
+  }
+ ]
+}

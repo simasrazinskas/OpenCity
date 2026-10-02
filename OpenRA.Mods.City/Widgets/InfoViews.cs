@@ -64,8 +64,6 @@ namespace OpenRA.Mods.City.Widgets
 
 	public static class InfoViews
 	{
-		const int HeatAlpha = 180;
-
 		public static readonly string[] Groups = ["services", "networks", "environment", "city"];
 
 		static readonly Color[] CategoryColors =
@@ -122,7 +120,7 @@ namespace OpenRA.Mods.City.Widgets
 			Def(CityInfoView.Noise, "noise", "environment", InfoRamp.Pollution, c => c.Pollution != null),
 			Def(CityInfoView.Groundwater, "groundwater", "environment", InfoRamp.Pollution, c => c.Pollution != null),
 			Def(CityInfoView.NaturalResources, "resources", "environment", InfoRamp.Resource, c => Source(c, CityInfoView.NaturalResources)),
-			Def(CityInfoView.LandValue, "landvalue", "environment", InfoRamp.Blue, c => c.Coverage || c.Properties != null),
+			Def(CityInfoView.LandValue, "landvalue", "environment", InfoRamp.Good, c => c.Coverage || c.Properties != null),
 
 			// City
 			Def(CityInfoView.Happiness, "happiness", "city", InfoRamp.Good, _ => true),
@@ -156,46 +154,10 @@ namespace OpenRA.Mods.City.Widgets
 			return CategoryColors[(index % CategoryColors.Length + CategoryColors.Length) % CategoryColors.Length];
 		}
 
-		static Color Lerp(Color a, Color b, float t)
-		{
-			t = t < 0 ? 0 : t > 1 ? 1 : t;
-			return Color.FromArgb(
-				(int)(a.A + (b.A - a.A) * t), (int)(a.R + (b.R - a.R) * t), (int)(a.G + (b.G - a.G) * t), (int)(a.B + (b.B - a.B) * t));
-		}
-
-		/// <summary>Colour of a 0..100 value (or a category index for InfoRamp.Category) on a ramp.</summary>
-		static readonly Color[] ResourceHues =
-		[
-			Color.FromArgb(235, 205, 60), Color.FromArgb(60, 185, 75), Color.FromArgb(70, 130, 235),
-			Color.FromArgb(70, 70, 90), Color.FromArgb(170, 160, 150), Color.FromArgb(60, 200, 210)
-		];
-
+		/// <summary>Colour of a 0..100 value (or a category index for InfoRamp.Category) on a ramp: NET's iso ramps.</summary>
 		public static Color RampColor(InfoRamp ramp, int value)
 		{
-			if (ramp == InfoRamp.Resource)
-			{
-				var hue = ResourceHues[Math.Clamp(value / 16, 0, ResourceHues.Length - 1)];
-				return Color.FromArgb(70 + Math.Clamp(value % 16, 0, 10) * 14, hue);
-			}
-
-			var t = Math.Clamp(value, 0, 100) / 100f;
-			switch (ramp)
-			{
-				case InfoRamp.Good:
-					return Color.FromArgb(HeatAlpha, CityUi.HeatColor(t));
-				case InfoRamp.Bad:
-					return Color.FromArgb(HeatAlpha, CityUi.HeatColor(1 - t));
-				case InfoRamp.Pollution:
-					return t < 0.5f
-						? Lerp(Color.FromArgb(40, 150, 220, 130), Color.FromArgb(170, 240, 170, 40), t * 2)
-						: Lerp(Color.FromArgb(170, 240, 170, 40), Color.FromArgb(225, 105, 45, 20), (t - 0.5f) * 2);
-				case InfoRamp.Blue:
-					return Lerp(Color.FromArgb(70, 205, 230, 255), Color.FromArgb(205, 40, 85, 215), t);
-				case InfoRamp.Green:
-					return Lerp(Color.FromArgb(150, 25, 35, 25), Color.FromArgb(210, 70, 215, 95), t);
-				default:
-					return Color.FromArgb(175, CategoryColor(value));
-			}
+			return InfoViewRamps.ColorOf(ramp, value);
 		}
 
 		/// <summary>Short "label: value" lines under the legend (up to 3) with city-wide numbers of a view.</summary>

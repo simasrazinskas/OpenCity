@@ -23,7 +23,7 @@ def main():
         sbase = base
         if isinstance(sec, str):  # list of sub-manifest paths
             sub = os.path.join(base, sec); sbase = os.path.dirname(sub); sec = json.load(open(sub))
-        psec = {'page': sec['page'], 'section': sec['section'], 'note': sec.get('note', ''), 'groups': []}
+        psec = {'page': sec.get('page', man.get('page', 'World elements') if isinstance(man, dict) else 'World elements'), 'section': sec['section'], 'note': sec.get('note', ''), 'groups': []}
         for gi, g in enumerate(sec['groups']):
             scale = int(g.get('scale', 2)); pg = {'title': g.get('title', ''), 'note': g.get('note', ''), 'columns': int(g.get('columns', 8)), 'bg': g.get('bg', ''), 'items': []}
             for ii, it in enumerate(g['items']):

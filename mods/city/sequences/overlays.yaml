@@ -1,0 +1,350 @@
+# Ground overlays, network props, markers, info-view ramps, network buildings and transit stops (iso).
+# Masks: bit 1 = N (-Y, up-right edge), 2 = E (+X, down-right), 4 = S (+Y, down-left), 8 = W (-X, up-left).
+# All cell overlays are 64x32 diamonds anchored on the cell centre; props and buildings on the ground centre of
+# their footprint; sequence offsets are 0. Translucency is an ordered (Bayer 4x4) dither because alpha is 0/255.
+#
+# utilnet (TerrainSpriteLayer, one frame per cell, frame = neighbour mask)
+#   powerline 16: ground footing of a high-voltage line (concrete pad + dashed corridor markers along the arms)
+#   pipe-water 16, pipe-sewage 16: underground x-ray trench (shown in the water/sewage/power info views)
+# utilprops (tall sprites, anchored on the cell centre; UtilityOverlay.GetProps lists them for BLD)
+#   hv 16: lattice pylon + sagging wires toward the arms, frame = neighbour mask (64x112 canvas, anchor 32,96)
+#   lv 16: wooden distribution pole + wires, frame = neighbour mask
+# zon-overlays (ZoneOverlay: frame = (int) ZoneType)
+#   0 dezone, 1 ResidentialLow, 2 ResidentialHigh, 3 CommercialLow, 4 CommercialHigh, 5 Industrial, 6 Office,
+#   7 ResidentialRow, 8 ResidentialMedium, 9 ResidentialMixed, 10 ResidentialLowRent, 11 OfficeHigh, 12 Warehouse,
+#   13 invalid (red X). 14 frames in each sequence:
+#   zone = active look (zone brush selected), dim = zoned cell that can never take a lot (grey wash + hatch)
+#   zone-idle, dim-idle: 224 frames each, frame = ZoneType * 16 + edge mask: sparse dot lattice in the zone colour plus a thin
+#   dashed outline on every edge whose neighbour cell has another zone (mask bit 1 N, 2 E, 4 S, 8 W; off-map counts as other)
+# tram-track
+#   track 16: rails + paved inlay as a transparent overlay on the road, frame = neighbour mask
+# rail
+#   rail 18: 0-15 neighbour mask, 16 level crossing with E-W rail (road N-S), 17 level crossing with N-S rail
+# trackprops (cell-centre props; static helper TrackProps in TrackOverlay.cs)
+#   catenary 2 (0 N-S track, 1 E-W track), buffer 4 (frame = the OPEN arm N,E,S,W: the buffer stands on the opposite end),
+#   gate-up 4 / gate-down 4 (frame = lamp phase 0/1, +2 when the rail runs E-W; barriers stand at the road edges),
+#   signal-red 1, signal-green 1, plus -lit companions (gate-up-lit 4, gate-down-lit 4, signal-red-lit 1, signal-green-lit 1)
+# extractor-area (ExtractorAreaRenderer, 1x1 ground tiles, 4 frames per sequence)
+#   farm-grain, farm-vegetables, farm-cotton (crops): frame = growth stage 0 ploughed, 1 sprouting, 2 growing, 3 ripe
+#   farm-livestock, quarry, mine, oil, fish, forestry: frame = variant 0..3 (chosen by cell hash)
+#   <name>-winter: the same 4 frames in the snow season (crops: fallow field)
+# overlays (info views, markers, tool ghosts)
+#   ramp-good, ramp-pollution, ramp-blue, ramp-green, ramp-bad, heat (= ramp-good): 11 frames, frame = level step 0..10
+#   category 16: frame = category index (districts, road classes)
+#   resource 66: frame = kind * 11 + step (kind 0..5 yellow, green, blue, coal, stone, cyan; step 0..10)
+#   valid, invalid, neutral, replace, remove, bulldoze, grid: 1 frame, cell tile
+#   select 2 (marching ants, alternate at ~4 fps), path 4 (drag path arrow toward N, E, S, W)
+#   footprint-ok, footprint-bad: 16 frames, frame = (depth - 1) * 4 + (width - 1) for a width (X) x depth (Y) footprint of 1..4
+#   cells; sprite is (w+d)*32 x (w+d)*16 anchored on the footprint centre.
+# transit-stop (TransitRender, 1x1 props at the kerb, side = index into CityUtils.Neighbours4: 0 N, 1 E, 2 S, 3 W)
+#   idle 16: 0-3 bus stop sides N,E,S,W, 4-7 taxi stand N,E,S,W, 8-11 tram stop N,E,S,W, 12-15 metro entrance (isokit facings 0-3)
+#   idle-lit 16: emissive companion (same layout)
+# transformer 2x2, battery 1x1, sewage-outlet 1x1, treatment-plant 2x2 (network buildings)
+#   idle 4 (anim * 4 + facing; facing 0 front +Y, 1 +X, 2 -Y, 3 -X), idle-lit 4, winter 4
+# Info-view ramps (frame = level step, 0..10 = value 0,10..100). RGB per step (exact tile colour, no palette quantizing;
+# the dither keeps this fraction of pixels; UI legends must use exactly these colours):
+#   ramp-good      E54B3C E8663F EA8042 ED9B46 EFB549 F2D04C CECF4F AACD52 87CC54 63CA57 3FC95A
+#                  density 0.62 0.62 0.62 0.62 0.62 0.62 0.62 0.62 0.62 0.62 0.62
+#   ramp-pollution 96DC82 A8D270 BAC85E CCBE4C DEB43A F0AA28 D59124 BA7820 9F5F1C 844618 692D14
+#                  density 0.06 0.13 0.19 0.26 0.32 0.39 0.46 0.52 0.59 0.65 0.72
+#   ramp-blue      CDE6FF BCD8FB ACC9F7 9CBAF3 8BACEF 7A9EEB 6A8FE7 5A80E3 4972DF 3964DB 2855D7
+#                  density 0.40 0.43 0.46 0.49 0.52 0.55 0.58 0.61 0.64 0.67 0.70
+#   ramp-green     192319 1E3520 224727 26592E 2B6B35 307D3C 348F43 38A14A 3DB351 42C558 46D75F
+#                  density 0.30 0.34 0.38 0.42 0.46 0.50 0.54 0.58 0.62 0.66 0.70
+#   ramp-bad       = ramp-good reversed (frame 0 = green 3FC95A ... 10 = red E54B3C)
+#   category (16, 60% dither): E54B3C 3FA9F5 7ED957 F2C94C B07CE8 FF8C3A 4FD6C6 E86BB4 9AC93C 5A6FE0 D69E6B 6BC99B C95A7B 8FA8B8 E0E05A 5AA08A
+#   resource hues (kind 0..5): Yellow=EBCD3C Green=3CB94B Blue=4682EB Coal=46465A Stone=AAA096 Cyan=3CC8D2
+#   resource density by step 0..10: 0.30 0.35 0.40 0.45 0.50 0.55 0.60 0.65 0.70 0.75 0.80
+# Generated by tools/iso_export.py - do not edit by hand.
+
+utilnet:
+	powerline:
+		Filename: iso/overlays/utilnet-line.png
+		Length: 16
+	pipe-water:
+		Filename: iso/overlays/utilnet-water.png
+		Length: 16
+	pipe-sewage:
+		Filename: iso/overlays/utilnet-sewage.png
+		Length: 16
+
+utilprops:
+	hv:
+		Filename: iso/overlays/utilprops.png
+		Start: 0
+		Length: 16
+	lv:
+		Filename: iso/overlays/utilprops.png
+		Start: 16
+		Length: 16
+
+zon-overlays:
+	zone:
+		Filename: iso/overlays/zones.png
+		Start: 0
+		Length: 14
+	dim:
+		Filename: iso/overlays/zones.png
+		Start: 14
+		Length: 14
+	zone-idle:
+		Filename: iso/overlays/zones-idle.png
+		Start: 0
+		Length: 224
+	dim-idle:
+		Filename: iso/overlays/zones-idle.png
+		Start: 224
+		Length: 224
+
+tram-track:
+	track:
+		Filename: iso/overlays/tram-track.png
+		Length: 16
+
+rail:
+	rail:
+		Filename: iso/overlays/rail.png
+		Length: 18
+
+trackprops:
+	catenary:
+		Filename: iso/overlays/trackprops.png
+		Start: 0
+		Length: 2
+	buffer:
+		Filename: iso/overlays/trackprops.png
+		Start: 2
+		Length: 4
+	gate-up:
+		Filename: iso/overlays/trackprops.png
+		Start: 6
+		Length: 4
+	gate-up-lit:
+		Filename: iso/overlays/trackprops.png
+		Start: 10
+		Length: 4
+	gate-down:
+		Filename: iso/overlays/trackprops.png
+		Start: 14
+		Length: 4
+	gate-down-lit:
+		Filename: iso/overlays/trackprops.png
+		Start: 18
+		Length: 4
+	signal-red:
+		Filename: iso/overlays/trackprops.png
+		Start: 22
+		Length: 1
+	signal-green:
+		Filename: iso/overlays/trackprops.png
+		Start: 23
+		Length: 1
+	signal-red-lit:
+		Filename: iso/overlays/trackprops.png
+		Start: 24
+		Length: 1
+	signal-green-lit:
+		Filename: iso/overlays/trackprops.png
+		Start: 25
+		Length: 1
+
+extractor-area:
+	farm-grain:
+		Filename: iso/overlays/areas.png
+		Start: 0
+		Length: 4
+	farm-grain-winter:
+		Filename: iso/overlays/areas.png
+		Start: 4
+		Length: 4
+	farm-vegetables:
+		Filename: iso/overlays/areas.png
+		Start: 8
+		Length: 4
+	farm-vegetables-winter:
+		Filename: iso/overlays/areas.png
+		Start: 12
+		Length: 4
+	farm-livestock:
+		Filename: iso/overlays/areas.png
+		Start: 16
+		Length: 4
+	farm-livestock-winter:
+		Filename: iso/overlays/areas.png
+		Start: 20
+		Length: 4
+	farm-cotton:
+		Filename: iso/overlays/areas.png
+		Start: 24
+		Length: 4
+	farm-cotton-winter:
+		Filename: iso/overlays/areas.png
+		Start: 28
+		Length: 4
+	quarry:
+		Filename: iso/overlays/areas.png
+		Start: 32
+		Length: 4
+	quarry-winter:
+		Filename: iso/overlays/areas.png
+		Start: 36
+		Length: 4
+	mine:
+		Filename: iso/overlays/areas.png
+		Start: 40
+		Length: 4
+	mine-winter:
+		Filename: iso/overlays/areas.png
+		Start: 44
+		Length: 4
+	oil:
+		Filename: iso/overlays/areas.png
+		Start: 48
+		Length: 4
+	oil-winter:
+		Filename: iso/overlays/areas.png
+		Start: 52
+		Length: 4
+	fish:
+		Filename: iso/overlays/areas.png
+		Start: 56
+		Length: 4
+	fish-winter:
+		Filename: iso/overlays/areas.png
+		Start: 60
+		Length: 4
+	forestry:
+		Filename: iso/overlays/areas.png
+		Start: 64
+		Length: 4
+	forestry-winter:
+		Filename: iso/overlays/areas.png
+		Start: 68
+		Length: 4
+
+overlays:
+	ramp-good:
+		Filename: iso/overlays/overlays.png
+		Start: 0
+		Length: 11
+	ramp-pollution:
+		Filename: iso/overlays/overlays.png
+		Start: 11
+		Length: 11
+	ramp-blue:
+		Filename: iso/overlays/overlays.png
+		Start: 22
+		Length: 11
+	ramp-green:
+		Filename: iso/overlays/overlays.png
+		Start: 33
+		Length: 11
+	ramp-bad:
+		Filename: iso/overlays/overlays.png
+		Start: 44
+		Length: 11
+	category:
+		Filename: iso/overlays/overlays.png
+		Start: 55
+		Length: 16
+	resource:
+		Filename: iso/overlays/overlays.png
+		Start: 71
+		Length: 66
+	heat:
+		Filename: iso/overlays/overlays.png
+		Start: 137
+		Length: 11
+	valid:
+		Filename: iso/overlays/overlays.png
+		Start: 148
+		Length: 1
+	invalid:
+		Filename: iso/overlays/overlays.png
+		Start: 149
+		Length: 1
+	neutral:
+		Filename: iso/overlays/overlays.png
+		Start: 150
+		Length: 1
+	replace:
+		Filename: iso/overlays/overlays.png
+		Start: 151
+		Length: 1
+	remove:
+		Filename: iso/overlays/overlays.png
+		Start: 152
+		Length: 1
+	bulldoze:
+		Filename: iso/overlays/overlays.png
+		Start: 153
+		Length: 1
+	select:
+		Filename: iso/overlays/overlays.png
+		Start: 154
+		Length: 2
+	path:
+		Filename: iso/overlays/overlays.png
+		Start: 156
+		Length: 4
+	grid:
+		Filename: iso/overlays/overlays.png
+		Start: 160
+		Length: 1
+	footprint-ok:
+		Filename: iso/overlays/overlays.png
+		Start: 161
+		Length: 16
+	footprint-bad:
+		Filename: iso/overlays/overlays.png
+		Start: 177
+		Length: 16
+
+transit-stop:
+	idle:
+		Filename: iso/overlays/stops.png
+		Length: 16
+	idle-lit:
+		Filename: iso/overlays/stops-lit.png
+		Length: 16
+
+transformer:
+	idle:
+		Filename: iso/overlays/transformer-idle.png
+		Length: 4
+	idle-lit:
+		Filename: iso/overlays/transformer-idle-lit.png
+		Length: 4
+	winter:
+		Filename: iso/overlays/transformer-winter.png
+		Length: 4
+
+battery:
+	idle:
+		Filename: iso/overlays/battery-idle.png
+		Length: 4
+	idle-lit:
+		Filename: iso/overlays/battery-idle-lit.png
+		Length: 4
+	winter:
+		Filename: iso/overlays/battery-winter.png
+		Length: 4
+
+sewage-outlet:
+	idle:
+		Filename: iso/overlays/sewage-outlet-idle.png
+		Length: 4
+	winter:
+		Filename: iso/overlays/sewage-outlet-winter.png
+		Length: 4
+
+treatment-plant:
+	idle:
+		Filename: iso/overlays/treatment-plant-idle.png
+		Length: 4
+	idle-lit:
+		Filename: iso/overlays/treatment-plant-idle-lit.png
+		Length: 4
+	winter:
+		Filename: iso/overlays/treatment-plant-winter.png
+		Length: 4

@@ -1,0 +1,752 @@
+{
+ "page": "World elements",
+ "section": "World markers & cursors",
+ "groups": [
+  {
+   "title": "Status icons: the 24 CityProblem kinds",
+   "note": "Thought bubble 22x27 px; glyph 8x8 + outline; 1 px rim colour = default severity",
+   "columns": 8,
+   "scale": 3,
+   "items": [
+    {
+     "file": "markers/status/nopower.png",
+     "label": "No power"
+    },
+    {
+     "file": "markers/status/nowater.png",
+     "label": "No water"
+    },
+    {
+     "file": "markers/status/nosewage.png",
+     "label": "No sewage"
+    },
+    {
+     "file": "markers/status/dirtywater.png",
+     "label": "Dirty water"
+    },
+    {
+     "file": "markers/status/noroad.png",
+     "label": "No road"
+    },
+    {
+     "file": "markers/status/abandoned.png",
+     "label": "Abandoned"
+    },
+    {
+     "file": "markers/status/unhappy.png",
+     "label": "Unhappy"
+    },
+    {
+     "file": "markers/status/noworkers.png",
+     "label": "No workers"
+    },
+    {
+     "file": "markers/status/nocustomers.png",
+     "label": "No customers"
+    },
+    {
+     "file": "markers/status/nogoods.png",
+     "label": "No goods"
+    },
+    {
+     "file": "markers/status/garbage.png",
+     "label": "Garbage"
+    },
+    {
+     "file": "markers/status/fire.png",
+     "label": "Fire"
+    },
+    {
+     "file": "markers/status/crime.png",
+     "label": "Crime"
+    },
+    {
+     "file": "markers/status/sick.png",
+     "label": "Sick"
+    },
+    {
+     "file": "markers/status/ambulance.png",
+     "label": "Ambulance"
+    },
+    {
+     "file": "markers/status/highrent.png",
+     "label": "High rent"
+    },
+    {
+     "file": "markers/status/traffic.png",
+     "label": "Traffic jam"
+    },
+    {
+     "file": "markers/status/airpollution.png",
+     "label": "Air pollution"
+    },
+    {
+     "file": "markers/status/groundpollution.png",
+     "label": "Ground poll."
+    },
+    {
+     "file": "markers/status/noise.png",
+     "label": "Noise"
+    },
+    {
+     "file": "markers/status/leveledup.png",
+     "label": "Levelled up"
+    },
+    {
+     "file": "markers/status/collapsed.png",
+     "label": "Collapsed"
+    },
+    {
+     "file": "markers/status/noservice.png",
+     "label": "No service"
+    },
+    {
+     "file": "markers/status/flooded.png",
+     "label": "Flooded"
+    }
+   ]
+  },
+  {
+   "title": "Status icons: extra kinds",
+   "columns": 9,
+   "scale": 3,
+   "items": [
+    {
+     "file": "markers/status/noeducation.png",
+     "label": "No education"
+    },
+    {
+     "file": "markers/status/nohealthcare.png",
+     "label": "No health"
+    },
+    {
+     "file": "markers/status/nopolice.png",
+     "label": "No police"
+    },
+    {
+     "file": "markers/status/nofirecover.png",
+     "label": "No fire cover"
+    },
+    {
+     "file": "markers/status/nopowerbuild.png",
+     "label": "No power (build)"
+    },
+    {
+     "file": "markers/status/lowlandvalue.png",
+     "label": "Low land value"
+    },
+    {
+     "file": "markers/status/homeless.png",
+     "label": "Homeless"
+    },
+    {
+     "file": "markers/status/deadbody.png",
+     "label": "Awaiting hearse"
+    },
+    {
+     "file": "markers/status/nofuel.png",
+     "label": "No fuel"
+    }
+   ]
+  },
+  {
+   "title": "Status icons: bob animation",
+   "note": "Alternate frames every ~500 ms",
+   "columns": 1,
+   "scale": 3,
+   "items": [
+    {
+     "file": "markers/status/nopower-bob.png",
+     "label": "Bob, 2 frames (1 px)"
+    }
+   ]
+  },
+  {
+   "title": "Severity tiers (rim + tint): no power, fire, unhappy",
+   "note": "info blue, problem yellow, warning orange, major red, error dark red, fatal black, good green",
+   "columns": 7,
+   "scale": 3,
+   "items": [
+    {
+     "file": "markers/tiers/nopower-info.png",
+     "label": "Info"
+    },
+    {
+     "file": "markers/tiers/nopower-problem.png",
+     "label": "Problem"
+    },
+    {
+     "file": "markers/tiers/nopower-warning.png",
+     "label": "Warning"
+    },
+    {
+     "file": "markers/tiers/nopower-major.png",
+     "label": "Major"
+    },
+    {
+     "file": "markers/tiers/nopower-error.png",
+     "label": "Error"
+    },
+    {
+     "file": "markers/tiers/nopower-fatal.png",
+     "label": "Fatal"
+    },
+    {
+     "file": "markers/tiers/nopower-good.png",
+     "label": "Good"
+    },
+    {
+     "file": "markers/tiers/fire-info.png",
+     "label": "Info"
+    },
+    {
+     "file": "markers/tiers/fire-problem.png",
+     "label": "Problem"
+    },
+    {
+     "file": "markers/tiers/fire-warning.png",
+     "label": "Warning"
+    },
+    {
+     "file": "markers/tiers/fire-major.png",
+     "label": "Major"
+    },
+    {
+     "file": "markers/tiers/fire-error.png",
+     "label": "Error"
+    },
+    {
+     "file": "markers/tiers/fire-fatal.png",
+     "label": "Fatal"
+    },
+    {
+     "file": "markers/tiers/fire-good.png",
+     "label": "Good"
+    },
+    {
+     "file": "markers/tiers/unhappy-info.png",
+     "label": "Info"
+    },
+    {
+     "file": "markers/tiers/unhappy-problem.png",
+     "label": "Problem"
+    },
+    {
+     "file": "markers/tiers/unhappy-warning.png",
+     "label": "Warning"
+    },
+    {
+     "file": "markers/tiers/unhappy-major.png",
+     "label": "Major"
+    },
+    {
+     "file": "markers/tiers/unhappy-error.png",
+     "label": "Error"
+    },
+    {
+     "file": "markers/tiers/unhappy-fatal.png",
+     "label": "Fatal"
+    },
+    {
+     "file": "markers/tiers/unhappy-good.png",
+     "label": "Good"
+    }
+   ]
+  },
+  {
+   "title": "Hover brackets (thin white)",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "markers/select/hover-1x1.png",
+     "label": "Hover 1x1"
+    },
+    {
+     "file": "markers/select/hover-2x2.png",
+     "label": "Hover 2x2"
+    },
+    {
+     "file": "markers/select/hover-3x3.png",
+     "label": "Hover 3x3"
+    },
+    {
+     "file": "markers/select/hover-1x2.png",
+     "label": "Hover 1x2"
+    },
+    {
+     "file": "markers/select/hover-2x1.png",
+     "label": "Hover 2x1"
+    }
+   ]
+  },
+  {
+   "title": "Selected brackets (thick yellow)",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "markers/select/selected-1x1.png",
+     "label": "Selected 1x1"
+    },
+    {
+     "file": "markers/select/selected-2x2.png",
+     "label": "Selected 2x2"
+    },
+    {
+     "file": "markers/select/selected-3x3.png",
+     "label": "Selected 3x3"
+    },
+    {
+     "file": "markers/select/selected-1x2.png",
+     "label": "Selected 1x2"
+    },
+    {
+     "file": "markers/select/selected-2x1.png",
+     "label": "Selected 2x1"
+    }
+   ]
+  },
+  {
+   "title": "Selected animation (arms pulse, colour cycles)",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "markers/select/selected-1x1-strip.png",
+     "label": "1x1 pulse, 4 frames"
+    },
+    {
+     "file": "markers/select/selected-2x2-strip.png",
+     "label": "2x2 pulse, 4 frames"
+    }
+   ]
+  },
+  {
+   "title": "Vehicle and citizen markers",
+   "columns": 4,
+   "scale": 3,
+   "items": [
+    {
+     "file": "markers/select/vehicle-ring.png",
+     "label": "Vehicle ring"
+    },
+    {
+     "file": "markers/select/vehicle-ring-thin.png",
+     "label": "Hover ring"
+    },
+    {
+     "file": "markers/select/citizen-ring.png",
+     "label": "Citizen ring"
+    },
+    {
+     "file": "markers/select/follow-chevron-strip.png",
+     "label": "Follow chevron, 4 frames"
+    }
+   ]
+  },
+  {
+   "title": "Footprint fills (ordered dither, ground shows through)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "markers/ghost/fp-1x1-valid.png",
+     "label": "1x1 valid"
+    },
+    {
+     "file": "markers/ghost/fp-1x1-invalid.png",
+     "label": "1x1 invalid"
+    },
+    {
+     "file": "markers/ghost/fp-2x2-valid.png",
+     "label": "2x2 valid"
+    },
+    {
+     "file": "markers/ghost/fp-2x2-invalid.png",
+     "label": "2x2 invalid"
+    },
+    {
+     "file": "markers/ghost/fp-3x3-valid.png",
+     "label": "3x3 valid"
+    },
+    {
+     "file": "markers/ghost/fp-3x3-invalid.png",
+     "label": "3x3 invalid"
+    },
+    {
+     "file": "markers/ghost/bulldoze-fp-1x1.png",
+     "label": "Bulldoze 1x1"
+    },
+    {
+     "file": "markers/ghost/bulldoze-fp-2x2.png",
+     "label": "Bulldoze 2x2"
+    }
+   ]
+  },
+  {
+   "title": "Ghost building tint (demo house)",
+   "note": "Checker/Bayer drop-out, solid dithered outline",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "markers/ghost/house-normal.png",
+     "label": "Normal"
+    },
+    {
+     "file": "markers/ghost/house-valid.png",
+     "label": "Valid ghost"
+    },
+    {
+     "file": "markers/ghost/house-invalid.png",
+     "label": "Invalid ghost"
+    },
+    {
+     "file": "markers/ghost/house-bulldoze.png",
+     "label": "Bulldoze"
+    }
+   ]
+  },
+  {
+   "title": "Route line tiles (shown: bus)",
+   "note": "World compass: N = -Y (screen up-right), E = +X (down-right), S = +Y (down-left), W = -X (up-left). Lines run along cell axes between edge midpoints",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "markers/routes/bus-ew.png",
+     "label": "Straight E-W"
+    },
+    {
+     "file": "markers/routes/bus-ns.png",
+     "label": "Straight N-S"
+    },
+    {
+     "file": "markers/routes/bus-c-wn.png",
+     "label": "Corner W-N"
+    },
+    {
+     "file": "markers/routes/bus-c-ne.png",
+     "label": "Corner N-E"
+    },
+    {
+     "file": "markers/routes/bus-c-es.png",
+     "label": "Corner E-S"
+    },
+    {
+     "file": "markers/routes/bus-c-sw.png",
+     "label": "Corner S-W"
+    },
+    {
+     "file": "markers/routes/bus-cap-w.png",
+     "label": "End cap W"
+    },
+    {
+     "file": "markers/routes/bus-cap-e.png",
+     "label": "End cap E"
+    },
+    {
+     "file": "markers/routes/bus-cap-n.png",
+     "label": "End cap N"
+    },
+    {
+     "file": "markers/routes/bus-cap-s.png",
+     "label": "End cap S"
+    }
+   ]
+  },
+  {
+   "title": "Line colours",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "markers/routes/bus-ew.png",
+     "label": "Bus"
+    },
+    {
+     "file": "markers/routes/tram-ew.png",
+     "label": "Tram"
+    },
+    {
+     "file": "markers/routes/train-ew.png",
+     "label": "Train"
+    },
+    {
+     "file": "markers/routes/metro-ew.png",
+     "label": "Metro"
+    },
+    {
+     "file": "markers/routes/taxi-ew.png",
+     "label": "Taxi"
+    },
+    {
+     "file": "markers/routes/cargo-ew.png",
+     "label": "Cargo"
+    }
+   ]
+  },
+  {
+   "title": "Stop pins and waypoint flags",
+   "columns": 11,
+   "scale": 3,
+   "items": [
+    {
+     "file": "markers/routes/pin-bus.png",
+     "label": "Stop Bus"
+    },
+    {
+     "file": "markers/routes/pin-tram.png",
+     "label": "Stop Tram"
+    },
+    {
+     "file": "markers/routes/pin-train.png",
+     "label": "Stop Train"
+    },
+    {
+     "file": "markers/routes/pin-metro.png",
+     "label": "Stop Metro"
+    },
+    {
+     "file": "markers/routes/pin-taxi.png",
+     "label": "Stop Taxi"
+    },
+    {
+     "file": "markers/routes/pin-cargo.png",
+     "label": "Stop Cargo"
+    },
+    {
+     "file": "markers/routes/flag-bus.png",
+     "label": "Flag Bus"
+    },
+    {
+     "file": "markers/routes/flag-tram.png",
+     "label": "Flag Tram"
+    },
+    {
+     "file": "markers/routes/flag-train.png",
+     "label": "Flag Train"
+    },
+    {
+     "file": "markers/routes/flag-metro.png",
+     "label": "Flag Metro"
+    },
+    {
+     "file": "markers/routes/flag-waypoint.png",
+     "label": "Waypoint"
+    }
+   ]
+  },
+  {
+   "title": "Direction chevron (shown: tram; world compass)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "markers/routes/chevron-e.png",
+     "label": "Heading E"
+    },
+    {
+     "file": "markers/routes/chevron-w.png",
+     "label": "Heading W"
+    },
+    {
+     "file": "markers/routes/chevron-s.png",
+     "label": "Heading S"
+    },
+    {
+     "file": "markers/routes/chevron-n.png",
+     "label": "Heading N"
+    }
+   ]
+  },
+  {
+   "title": "Vehicle-follow path dots",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "markers/routes/follow-dots-ew.png",
+     "label": "Follow path ew, 4 frames"
+    },
+    {
+     "file": "markers/routes/follow-dots-ns.png",
+     "label": "Follow path ns, 4 frames"
+    },
+    {
+     "file": "markers/routes/follow-dots-corner-sw.png",
+     "label": "Follow path corner-sw, 4 frames"
+    }
+   ]
+  },
+  {
+   "title": "Cursors: pointer and tools",
+   "note": "32x32, hotspots in cursors/hotspots.json",
+   "columns": 8,
+   "scale": 3,
+   "items": [
+    {
+     "file": "cursors/default.png",
+     "label": "Pointer"
+    },
+    {
+     "file": "cursors/hand.png",
+     "label": "Hand"
+    },
+    {
+     "file": "cursors/grab.png",
+     "label": "Grab"
+    },
+    {
+     "file": "cursors/build.png",
+     "label": "Build"
+    },
+    {
+     "file": "cursors/road.png",
+     "label": "Road"
+    },
+    {
+     "file": "cursors/zone.png",
+     "label": "Zone brush"
+    },
+    {
+     "file": "cursors/bulldoze.png",
+     "label": "Bulldoze"
+    },
+    {
+     "file": "cursors/inspect.png",
+     "label": "Inspect"
+    },
+    {
+     "file": "cursors/move.png",
+     "label": "Move"
+    },
+    {
+     "file": "cursors/place.png",
+     "label": "Place"
+    },
+    {
+     "file": "cursors/pipe.png",
+     "label": "Pipe / water"
+    },
+    {
+     "file": "cursors/power.png",
+     "label": "Power line"
+    },
+    {
+     "file": "cursors/transit.png",
+     "label": "Transit line"
+    },
+    {
+     "file": "cursors/blocked.png",
+     "label": "Blocked"
+    },
+    {
+     "file": "cursors/build-blocked.png",
+     "label": "Build blocked"
+    },
+    {
+     "file": "cursors/road-blocked.png",
+     "label": "Road blocked"
+    },
+    {
+     "file": "cursors/zone-blocked.png",
+     "label": "Zone blocked"
+    },
+    {
+     "file": "cursors/place-blocked.png",
+     "label": "Place blocked"
+    },
+    {
+     "file": "cursors/bulldoze-blocked.png",
+     "label": "Bulldoze blocked"
+    }
+   ]
+  },
+  {
+   "title": "Cursors: scroll arrows",
+   "note": "Scroll arrows use SCREEN directions (UI), not the world compass",
+   "columns": 8,
+   "scale": 3,
+   "items": [
+    {
+     "file": "cursors/scroll-n.png",
+     "label": "Scroll N"
+    },
+    {
+     "file": "cursors/scroll-ne.png",
+     "label": "Scroll NE"
+    },
+    {
+     "file": "cursors/scroll-e.png",
+     "label": "Scroll E"
+    },
+    {
+     "file": "cursors/scroll-se.png",
+     "label": "Scroll SE"
+    },
+    {
+     "file": "cursors/scroll-s.png",
+     "label": "Scroll S"
+    },
+    {
+     "file": "cursors/scroll-sw.png",
+     "label": "Scroll SW"
+    },
+    {
+     "file": "cursors/scroll-w.png",
+     "label": "Scroll W"
+    },
+    {
+     "file": "cursors/scroll-nw.png",
+     "label": "Scroll NW"
+    },
+    {
+     "file": "cursors/scroll-n-blocked.png",
+     "label": "N blocked"
+    },
+    {
+     "file": "cursors/scroll-ne-blocked.png",
+     "label": "NE blocked"
+    },
+    {
+     "file": "cursors/scroll-e-blocked.png",
+     "label": "E blocked"
+    },
+    {
+     "file": "cursors/scroll-se-blocked.png",
+     "label": "SE blocked"
+    },
+    {
+     "file": "cursors/scroll-s-blocked.png",
+     "label": "S blocked"
+    },
+    {
+     "file": "cursors/scroll-sw-blocked.png",
+     "label": "SW blocked"
+    },
+    {
+     "file": "cursors/scroll-w-blocked.png",
+     "label": "W blocked"
+    },
+    {
+     "file": "cursors/scroll-nw-blocked.png",
+     "label": "NW blocked"
+    }
+   ]
+  },
+  {
+   "title": "Markers in context",
+   "note": "4x3 patch: status bubbles, selected building, valid/invalid ghosts, bus route with stop pins",
+   "columns": 1,
+   "scale": 1,
+   "items": [
+    {
+     "file": "markers/context.png",
+     "label": "World markers in context"
+    }
+   ]
+  }
+ ]
+}

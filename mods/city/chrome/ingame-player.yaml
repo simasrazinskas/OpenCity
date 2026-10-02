@@ -1,327 +1,213 @@
-# OpenCity in-game HUD: Dune 2000 style right sidebar, bottom-left command bar. Panels live in city-panels.yaml.
+# OpenCity in-game HUD, RCT2 style (design/iso/ui/screens/hud-*.png): top toolbar with three groups of icon buttons
+# (game / speed / camera | build categories | panels), bottom status bar (money and population | news ticker and alerts |
+# date, weather and demand) and floating windows (city-*.yaml). The toolbar is built and laid out by CityToolbarLogic
+# (.Hud.cs: wide / medium / compact tiers by logical width, overflow into "More"), the status bar by CityStatusBarLogic.
 Container@PLAYER_WIDGETS:
-	Logic: LoadIngameChatLogic, CityHudLogic, CityTopBarLogic, CityToolbarLogic
+	Logic: LoadIngameChatLogic, CityHudLogic, CityStatusBarLogic, CityToolbarLogic
 	Children:
 		Container@CHAT_ROOT:
 		VehiclePicker@VEHICLE_PICKER:
-			Width: WINDOW_WIDTH - 226
+			Width: WINDOW_WIDTH
 			Height: WINDOW_HEIGHT
 		LogicTicker@SIDEBAR_TICKER:
 		LogicTicker@CITY_TICKER:
-		Image@COMMAND_BAR_BACKGROUND:
-			X: 0
-			Y: WINDOW_HEIGHT - HEIGHT
-			Width: 451
-			Height: 43
-			ImageCollection: commandbar
-			ImageName: background
-			ClickThrough: false
-		Container@CITY_COMMANDS:
-			X: 24
-			Y: WINDOW_HEIGHT - HEIGHT - 9
-			Width: 140
-			Height: 41
+		Container@CITY_TOOLBAR:
+			Width: WINDOW_WIDTH
+			Height: 32
 			Children:
-				Button@SPEED_PAUSE:
-					X: 0
-					Width: 34
-					Height: 41
-					VisualHeight: 0
-					Background: command-button
-					Key: CityPause
-					DisableKeySound: true
-					TooltipText: button-city-speed-pause-tooltip
-					TooltipContainer: TOOLTIP_CONTAINER
-					Children:
-						Image@ICON:
-							X: 1
-							Y: 4
-							ImageCollection: city-icons
-							ImageName: pause
-				Button@SPEED_1:
-					X: 35
-					Width: 34
-					Height: 41
-					VisualHeight: 0
-					Background: command-button
-					Key: CitySpeed1
-					DisableKeySound: true
-					TooltipText: button-city-speed-1-tooltip
-					TooltipContainer: TOOLTIP_CONTAINER
-					Children:
-						Image@ICON:
-							X: 1
-							Y: 4
-							ImageCollection: city-icons
-							ImageName: play
-				Button@SPEED_2:
-					X: 70
-					Width: 34
-					Height: 41
-					VisualHeight: 0
-					Background: command-button
-					Key: CitySpeed2
-					DisableKeySound: true
-					TooltipText: button-city-speed-2-tooltip
-					TooltipContainer: TOOLTIP_CONTAINER
-					Children:
-						Image@ICON:
-							X: 1
-							Y: 4
-							ImageCollection: city-icons
-							ImageName: fast
-				Button@SPEED_3:
-					X: 105
-					Width: 34
-					Height: 41
-					VisualHeight: 0
-					Background: command-button
-					Key: CitySpeed3
-					DisableKeySound: true
-					TooltipText: button-city-speed-3-tooltip
-					TooltipContainer: TOOLTIP_CONTAINER
-					Children:
-						Image@ICON:
-							X: 1
-							Y: 4
-							ImageCollection: city-icons
-							ImageName: faster
-		Image@SIDEBAR_BACKGROUND_TOP:
-			X: WINDOW_WIDTH - 226
-			Y: 0
-			Width: 226
-			Height: 295
-			ImageCollection: sidebar
-			ImageName: background-top
-			ClickThrough: false
-			Children:
-				Container@TOP_BUTTONS:
+				Container@MENU_BUTTONS:
 					Logic: MenuButtonsChromeLogic
-					X: 16
-					Y: 238
 					Children:
-						Button@ORDER_BULLDOZE:
-							X: 14
-							Y: 0
-							Width: 34
-							Height: 35
-							Background:
-							VisualHeight: 0
-							Key: CityToolBulldoze
-							TooltipText: button-city-tool-bulldoze
-							TooltipContainer: TOOLTIP_CONTAINER
-							Children:
-								Image@ICON:
-									ImageCollection: order-icons
-									ImageName: repair
-						Button@ORDER_INFOVIEWS:
-							X: 54
-							Y: 0
-							Width: 34
-							Height: 35
-							Background:
-							VisualHeight: 0
-							Key: CityInfoViews
-							TooltipText: button-city-tool-infoviews
-							TooltipContainer: TOOLTIP_CONTAINER
-							Children:
-								Image@ICON:
-									ImageCollection: order-icons
-									ImageName: beacon
-						Button@ORDER_BUDGET:
-							X: 94
-							Y: 0
-							Width: 34
-							Height: 35
-							Background:
-							VisualHeight: 0
-							Key: CityBudget
-							TooltipText: button-city-tool-budget
-							TooltipContainer: TOOLTIP_CONTAINER
-							Children:
-								Image@ICON:
-									ImageCollection: order-icons
-									ImageName: sell
 						MenuButton@OPTIONS_BUTTON:
 							Key: escape
-							X: 144
-							Y: 1
-							Width: 40
-							Height: 38
-							Background:
+							Width: 30
+							Height: 27
+							Background: iconbutton
+							VisualHeight: 0
 							TooltipText: button-city-menu-tooltip
 							TooltipContainer: TOOLTIP_CONTAINER
 							DisableWorldSounds: true
-							VisualHeight: 0
 							Children:
-								Image@ICON:
-									ImageCollection: order-icons
-									ImageName: options
-				Container@RADAR:
+								CityIcon@ICON:
+									Width: PARENT_WIDTH
+									Height: PARENT_HEIGHT
+									Icon: pnl_game_menu
+									Size: 24
+		Container@CITY_STATUSBAR:
+			Y: WINDOW_HEIGHT - HEIGHT
+			Width: WINDOW_WIDTH
+			Height: 38
+			Children:
+				Background@LEFT:
+					Background: city-statusbar
+					Height: PARENT_HEIGHT
 					Children:
-						Radar@RADAR_MINIMAP:
-							WorldInteractionController: INTERACTION_CONTROLLER
-							PixelArtScaling: true
-							X: 12
-							Y: 34
-							Width: 202
-							Height: 202
-						Container@MINIMAP_OVERLAY:
-							X: 12
-							Y: 34
+						CityIcon@MONEY_ICON:
+							X: 5
+							Y: 3
+							Width: 16
+							Height: 16
+							Icon: stat_money
+						LabelWithTooltip@CASH:
+							X: 25
+							Y: 3
+							Width: 100
+							Height: 16
+							Font: TinyBold
+							TooltipContainer: TOOLTIP_CONTAINER
+							TooltipTemplate: CITY_TOOLTIP
+						CityIcon@BALANCE_ICON:
+							X: 5
+							Y: 19
+							Width: 16
+							Height: 16
+						Label@BALANCE:
+							X: 25
+							Y: 19
+							Width: 100
+							Height: 16
+							Font: Tiny
+						Background@DIVIDER:
+							X: 126
+							Y: 4
+							Width: 2
+							Height: PARENT_HEIGHT - 8
+							Background: city-etched-v
+						CityIcon@POPULATION_ICON:
+							X: 132
+							Y: 3
+							Width: 16
+							Height: 16
+							Icon: stat_population
+						LabelWithTooltip@POPULATION:
+							X: 152
+							Y: 3
+							Width: 92
+							Height: 16
+							Font: TinyBold
+							TooltipContainer: TOOLTIP_CONTAINER
+							TooltipTemplate: CITY_TOOLTIP
+						Label@POPULATION_TREND:
+							X: 200
+							Y: 3
+							Width: 12
+							Height: 16
+							Font: Tiny
+						CityIcon@HAPPINESS_ICON:
+							X: 132
+							Y: 19
+							Width: 16
+							Height: 16
+							Icon: stat_happiness
+						CityBar@HAPPINESS:
+							X: 152
+							Y: 23
+							Width: 92
+							Height: 8
+						FactorHover@HAPPINESS_HOVER:
+							X: 132
+							Y: 19
+							Width: 112
+							Height: 16
+							TooltipContainer: TOOLTIP_CONTAINER
+				Background@CENTER:
+					Background: city-statusbar
+					Height: PARENT_HEIGHT
+					Children:
+						Button@TICKER:
+							X: 4
+							Y: 4
+							Width: PARENT_WIDTH - 8
+							Height: 15
+							Background: city-well-dark
+							VisualHeight: 0
+							TooltipContainer: TOOLTIP_CONTAINER
 							Children:
-								Image@TOPLEFT:
-									ImageCollection: minimap-overlay
-									ImageName: top-left
-								Image@TOP:
-									X: 30
-									ImageCollection: minimap-overlay
-									ImageName: top
-								Image@TOPRIGHT:
-									X: 195
-									ImageCollection: minimap-overlay
-									ImageName: top-right
-								Image@LEFT:
-									Y: 94
-									ImageCollection: minimap-overlay
-									ImageName: left
-								Image@RIGHT:
-									X: 197
-									Y: 94
-									ImageCollection: minimap-overlay
-									ImageName: right
-								Image@BOTTOMLEFT:
-									Y: 195
-									ImageCollection: minimap-overlay
-									ImageName: bottom-left
-								Image@BOTTOMRIGHT:
-									X: 195
-									Y: 195
-									ImageCollection: minimap-overlay
-									ImageName: bottom-right
-				LabelWithTooltip@CASH:
-					X: 29
-					Y: 4
-					Width: 96
-					Height: 22
-					Font: Bold
-					TooltipContainer: TOOLTIP_CONTAINER
-					TooltipTemplate: CITY_TOOLTIP
-				Label@BALANCE:
-					X: 124
-					Y: 4
-					Width: 88
-					Height: 22
-					Align: Right
-					Font: Bold
-		Label@DATE:
-			X: 317
-			Y: WINDOW_HEIGHT - 38
-			Width: 116
-			Height: 23
-			Align: Center
-			Font: Bold
-			Shadow: true
-		Container@CITY_PRODUCTION:
-			X: WINDOW_WIDTH - 226
-			Y: 279
-			Width: 226
-			Height: 288
-			Children:
-				CityPalette@CITY_PALETTE:
-					Width: 226
-					Height: 288
-					TooltipContainer: TOOLTIP_CONTAINER
-				Container@CITY_TABS:
-					X: 6
-					Y: 2
-					Width: 25
-					Height: 279
-		Container@CITY_STATUS:
-			X: WINDOW_WIDTH - 226
-			Y: 567
-			Width: 226
-			Height: 144
-			Children:
-				Image@ROW1:
-					Width: 226
-					Height: 48
-					ClickThrough: false
-					ImageCollection: sidebar
-					ImageName: background-plainrow
-				Image@ROW2:
-					Y: 48
-					Width: 226
-					Height: 48
-					ClickThrough: false
-					ImageCollection: sidebar
-					ImageName: background-plainrow
-				Image@ROW3:
-					Y: 96
-					Width: 226
-					Height: 48
-					ClickThrough: false
-					ImageCollection: sidebar
-					ImageName: background-plainrow
-				CityStat@MILESTONE_STAT:
-					X: 40
-					Y: 4
-					Width: 176
-					Height: 20
-					Icon: milestone
-					TooltipContainer: TOOLTIP_CONTAINER
-				CityStat@HAPPINESS_STAT:
-					X: 40
-					Y: 28
-					Width: 176
-					Height: 20
-					Icon: happiness
-				CityStat@POWER_STAT:
-					X: 40
-					Y: 52
-					Width: 176
-					Height: 20
-					Icon: electricity
-					TooltipContainer: TOOLTIP_CONTAINER
-				CityStat@WATER_STAT:
-					X: 40
-					Y: 76
-					Width: 176
-					Height: 20
-					Icon: water
-					TooltipContainer: TOOLTIP_CONTAINER
-				DemandBars@DEMAND_BARS:
-					X: 40
-					Y: 100
-					Width: 176
-					Height: 42
-					Font: Bold
-					TooltipContainer: TOOLTIP_CONTAINER
-		Container@CITY_ORDERS:
-			X: WINDOW_WIDTH - 226
-			Y: 711
-			Width: 226
-			Height: 96
-			Children:
-				Image@ORDER_ROW1:
-					Width: 226
-					Height: 48
-					ClickThrough: false
-					ImageCollection: sidebar
-					ImageName: background-plainrow
-				Image@ORDER_ROW2:
-					Y: 48
-					Width: 226
-					Height: 48
-					ClickThrough: false
-					ImageCollection: sidebar
-					ImageName: background-plainrow
-		Image@SIDEBAR_CAP:
-			X: WINDOW_WIDTH - 226
-			Y: WINDOW_HEIGHT - 28
-			Width: 226
-			Height: 28
-			ClickThrough: false
-			ImageCollection: sidebar
-			ImageName: background-bottom
+								CityIcon@ICON:
+									X: 3
+									Width: 16
+									Height: PARENT_HEIGHT
+									Icon: pnl_chirper
+								Label@TEXT:
+									X: 22
+									Width: PARENT_WIDTH - 26
+									Height: PARENT_HEIGHT
+									Font: Tiny
+									TextColor: FFF4D6
+						Container@ALERTS:
+							Logic: CityAlertsLogic
+							X: 4
+							Y: 20
+							Width: PARENT_WIDTH - 8
+							Height: 16
+				Background@RIGHT:
+					Background: city-statusbar
+					Height: PARENT_HEIGHT
+					Children:
+						CityIcon@DATE_ICON:
+							X: 6
+							Y: 3
+							Width: 16
+							Height: 16
+							Icon: time_calendar
+						Label@DATE:
+							X: 26
+							Y: 3
+							Width: 110
+							Height: 16
+							Font: TinyBold
+						CityIcon@TIME_ICON:
+							X: 6
+							Y: 19
+							Width: 16
+							Height: 16
+							Icon: time_clock
+						Label@TIME:
+							X: 26
+							Y: 19
+							Width: 40
+							Height: 16
+							Font: Tiny
+						CityIcon@WEATHER_ICON:
+							X: 66
+							Y: 19
+							Width: 16
+							Height: 16
+						LabelWithTooltip@WEATHER:
+							X: 86
+							Y: 19
+							Width: 60
+							Height: 16
+							Font: Tiny
+							TooltipContainer: TOOLTIP_CONTAINER
+							TooltipTemplate: CITY_TOOLTIP
+						Label@DEMAND_LABEL:
+							X: PARENT_WIDTH - 98
+							Y: 2
+							Width: 54
+							Height: 10
+							Font: Tiny
+							Align: Right
+							Text: label-city-statusbar-demand
+						DemandBars@DEMAND_BARS:
+							X: PARENT_WIDTH - 49
+							Y: 3
+							Width: 43
+							Height: 33
+							Font: Tiny
+							TooltipContainer: TOOLTIP_CONTAINER
 		LogicKeyListener@CITY_KEYS:
+
+Button@CITY_TOOL_BUTTON:
+	Width: 30
+	Height: 27
+	Background: iconbutton
+	VisualHeight: 0
+	DisableKeySound: true
+	TooltipContainer: TOOLTIP_CONTAINER
+	TooltipTemplate: CITY_TOOLTIP
+	Children:
+		CityIcon@ICON:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Size: 24

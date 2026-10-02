@@ -298,6 +298,20 @@ namespace OpenRA.Mods.City.Traits
 
 		public bool IsBurning(int propertyId) { return (Data(propertyId)?.FireDamage ?? 0) > 0; }
 
+		/// <summary>Render only: how full a storing provider is (landfill garbage, cemetery bodies), 0..100, or -1.</summary>
+		public int GetFillPercent(int propertyId)
+		{
+			var s = Data(propertyId)?.Service;
+			return s == null || s.Capacity <= 0 ? -1 : Math.Clamp(s.Stored * 100 / s.Capacity, 0, 100);
+		}
+
+		/// <summary>Fire damage (0..100) and fire engines working on a burning property, for the fire effects (read only).</summary>
+		public (int Damage, int EnginesOnSite) GetFireState(int propertyId)
+		{
+			var d = Data(propertyId);
+			return d == null ? (0, 0) : (d.FireDamage, d.EnginesOnSite);
+		}
+
 		public int GetSickWaiting(int propertyId) { return Data(propertyId)?.SickWaiting ?? 0; }
 
 		public int GetBodiesWaiting(int propertyId) { return Data(propertyId)?.Bodies ?? 0; }

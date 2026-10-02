@@ -1,0 +1,1026 @@
+{
+"addons/avenue-trees-lights.png": [
+32,
+80
+],
+"addons/boulevard-median-lamps.png": [
+32,
+80
+],
+"addons/boulevard-median-trees-ns.png": [
+32,
+80
+],
+"addons/boulevard-median.png": [
+32,
+80
+],
+"addons/street-all.png": [
+32,
+80
+],
+"addons/street-barrier.png": [
+32,
+80
+],
+"addons/street-lights.png": [
+32,
+80
+],
+"addons/street-parking.png": [
+32,
+80
+],
+"addons/street-trees.png": [
+32,
+80
+],
+"bridges/avenue-ew-end0.png": [
+32,
+64
+],
+"bridges/avenue-ew-end1.png": [
+32,
+64
+],
+"bridges/avenue-ew-pier.png": [
+32,
+64
+],
+"bridges/avenue-ew-span.png": [
+32,
+64
+],
+"bridges/avenue-ns-end0.png": [
+32,
+64
+],
+"bridges/avenue-ns-end1.png": [
+32,
+64
+],
+"bridges/avenue-ns-pier.png": [
+32,
+64
+],
+"bridges/avenue-ns-span.png": [
+32,
+64
+],
+"bridges/boulevard-ew-end0.png": [
+32,
+64
+],
+"bridges/boulevard-ew-end1.png": [
+32,
+64
+],
+"bridges/boulevard-ew-pier.png": [
+32,
+64
+],
+"bridges/boulevard-ew-span.png": [
+32,
+64
+],
+"bridges/boulevard-ns-end0.png": [
+32,
+64
+],
+"bridges/boulevard-ns-end1.png": [
+32,
+64
+],
+"bridges/boulevard-ns-pier.png": [
+32,
+64
+],
+"bridges/boulevard-ns-span.png": [
+32,
+64
+],
+"bridges/highway-ew-end0.png": [
+32,
+64
+],
+"bridges/highway-ew-end1.png": [
+32,
+64
+],
+"bridges/highway-ew-pier.png": [
+32,
+64
+],
+"bridges/highway-ew-span.png": [
+32,
+64
+],
+"bridges/highway-ns-end0.png": [
+32,
+64
+],
+"bridges/highway-ns-end1.png": [
+32,
+64
+],
+"bridges/highway-ns-pier.png": [
+32,
+64
+],
+"bridges/highway-ns-span.png": [
+32,
+64
+],
+"bridges/overpass-ew-pier.png": [
+32,
+64
+],
+"bridges/overpass-ew-rampA0.png": [
+32,
+64
+],
+"bridges/overpass-ew-rampB0.png": [
+32,
+64
+],
+"bridges/overpass-ew-span.png": [
+32,
+64
+],
+"bridges/overpass-ns-pier.png": [
+32,
+64
+],
+"bridges/overpass-ns-rampA0.png": [
+32,
+64
+],
+"bridges/overpass-ns-rampB0.png": [
+32,
+64
+],
+"bridges/overpass-ns-span.png": [
+32,
+64
+],
+"bridges/street-ew-end0.png": [
+32,
+64
+],
+"bridges/street-ew-end1.png": [
+32,
+64
+],
+"bridges/street-ew-pier.png": [
+32,
+64
+],
+"bridges/street-ew-span.png": [
+32,
+64
+],
+"bridges/street-ns-end0.png": [
+32,
+64
+],
+"bridges/street-ns-end1.png": [
+32,
+64
+],
+"bridges/street-ns-pier.png": [
+32,
+64
+],
+"bridges/street-ns-span.png": [
+32,
+64
+],
+"buildings/battery-night.png": [
+32,
+80
+],
+"buildings/battery.png": [
+32,
+80
+],
+"buildings/sewage-outlet-night.png": [
+32,
+80
+],
+"buildings/sewage-outlet.png": [
+32,
+80
+],
+"buildings/transformer-night.png": [
+64,
+112
+],
+"buildings/transformer.png": [
+64,
+112
+],
+"buildings/treatment-plant-f0.png": [
+64,
+112
+],
+"buildings/treatment-plant-f1.png": [
+64,
+112
+],
+"buildings/treatment-plant-f2.png": [
+64,
+112
+],
+"buildings/treatment-plant-f3.png": [
+64,
+112
+],
+"buildings/treatment-plant-facings-strip.png": [
+64,
+112
+],
+"buildings/treatment-plant-night.png": [
+64,
+112
+],
+"buildings/treatment-plant.png": [
+64,
+112
+],
+"furniture/bench.png": [
+32,
+80
+],
+"furniture/bin.png": [
+32,
+80
+],
+"furniture/bollards.png": [
+32,
+80
+],
+"furniture/gantry-ew.png": [
+32,
+80
+],
+"furniture/gantry-ns.png": [
+32,
+80
+],
+"furniture/guard-rail-E.png": [
+32,
+80
+],
+"furniture/guard-rail-N.png": [
+32,
+80
+],
+"furniture/hydrant.png": [
+32,
+80
+],
+"furniture/lamp-E-ctx.png": [
+32,
+80
+],
+"furniture/lamp-E-lit.png": [
+32,
+80
+],
+"furniture/lamp-E-night.png": [
+32,
+80
+],
+"furniture/lamp-E.png": [
+32,
+80
+],
+"furniture/lamp-N-ctx.png": [
+32,
+80
+],
+"furniture/lamp-N-lit.png": [
+32,
+80
+],
+"furniture/lamp-N-night.png": [
+32,
+80
+],
+"furniture/lamp-N.png": [
+32,
+80
+],
+"furniture/lamp-S-ctx.png": [
+32,
+80
+],
+"furniture/lamp-S-lit.png": [
+32,
+80
+],
+"furniture/lamp-S-night.png": [
+32,
+80
+],
+"furniture/lamp-S.png": [
+32,
+80
+],
+"furniture/lamp-W-ctx.png": [
+32,
+80
+],
+"furniture/lamp-W-lit.png": [
+32,
+80
+],
+"furniture/lamp-W-night.png": [
+32,
+80
+],
+"furniture/lamp-W.png": [
+32,
+80
+],
+"furniture/lamp-double-ew.png": [
+32,
+80
+],
+"furniture/lamp-double-ns.png": [
+32,
+80
+],
+"furniture/lamp-heritage-night.png": [
+32,
+80
+],
+"furniture/lamp-heritage.png": [
+32,
+80
+],
+"furniture/lightpool-E.png": [
+32,
+16
+],
+"furniture/lightpool-N.png": [
+32,
+16
+],
+"furniture/lightpool-S.png": [
+32,
+16
+],
+"furniture/lightpool-W.png": [
+32,
+16
+],
+"furniture/mailbox.png": [
+32,
+80
+],
+"furniture/planter.png": [
+32,
+80
+],
+"furniture/sound-barrier-E.png": [
+32,
+80
+],
+"furniture/sound-barrier-N.png": [
+32,
+80
+],
+"furniture/tree.png": [
+32,
+80
+],
+"junction/sign-noentry-NE-ctx.png": [
+32,
+80
+],
+"junction/sign-noentry-NE.png": [
+32,
+80
+],
+"junction/sign-noentry-NW-ctx.png": [
+32,
+80
+],
+"junction/sign-noentry-NW.png": [
+32,
+80
+],
+"junction/sign-noentry-SE-ctx.png": [
+32,
+80
+],
+"junction/sign-noentry-SE.png": [
+32,
+80
+],
+"junction/sign-noentry-SW-ctx.png": [
+32,
+80
+],
+"junction/sign-noentry-SW.png": [
+32,
+80
+],
+"junction/sign-oneway-NE-ctx.png": [
+32,
+80
+],
+"junction/sign-oneway-NE.png": [
+32,
+80
+],
+"junction/sign-oneway-NW-ctx.png": [
+32,
+80
+],
+"junction/sign-oneway-NW.png": [
+32,
+80
+],
+"junction/sign-oneway-SE-ctx.png": [
+32,
+80
+],
+"junction/sign-oneway-SE.png": [
+32,
+80
+],
+"junction/sign-oneway-SW-ctx.png": [
+32,
+80
+],
+"junction/sign-oneway-SW.png": [
+32,
+80
+],
+"junction/sign-stop-NE-ctx.png": [
+32,
+80
+],
+"junction/sign-stop-NE.png": [
+32,
+80
+],
+"junction/sign-stop-NW-ctx.png": [
+32,
+80
+],
+"junction/sign-stop-NW.png": [
+32,
+80
+],
+"junction/sign-stop-SE-ctx.png": [
+32,
+80
+],
+"junction/sign-stop-SE.png": [
+32,
+80
+],
+"junction/sign-stop-SW-ctx.png": [
+32,
+80
+],
+"junction/sign-stop-SW.png": [
+32,
+80
+],
+"junction/sign-yield-NE-ctx.png": [
+32,
+80
+],
+"junction/sign-yield-NE.png": [
+32,
+80
+],
+"junction/sign-yield-NW-ctx.png": [
+32,
+80
+],
+"junction/sign-yield-NW.png": [
+32,
+80
+],
+"junction/sign-yield-SE-ctx.png": [
+32,
+80
+],
+"junction/sign-yield-SE.png": [
+32,
+80
+],
+"junction/sign-yield-SW-ctx.png": [
+32,
+80
+],
+"junction/sign-yield-SW.png": [
+32,
+80
+],
+"junction/signal-amber-NE-ctx.png": [
+32,
+80
+],
+"junction/signal-amber-NE.png": [
+32,
+80
+],
+"junction/signal-amber-NW-ctx.png": [
+32,
+80
+],
+"junction/signal-amber-NW.png": [
+32,
+80
+],
+"junction/signal-amber-SE-ctx.png": [
+32,
+80
+],
+"junction/signal-amber-SE-lit.png": [
+32,
+80
+],
+"junction/signal-amber-SE-night.png": [
+32,
+80
+],
+"junction/signal-amber-SE.png": [
+32,
+80
+],
+"junction/signal-amber-SW-ctx.png": [
+32,
+80
+],
+"junction/signal-amber-SW.png": [
+32,
+80
+],
+"junction/signal-green-NE-ctx.png": [
+32,
+80
+],
+"junction/signal-green-NE.png": [
+32,
+80
+],
+"junction/signal-green-NW-ctx.png": [
+32,
+80
+],
+"junction/signal-green-NW.png": [
+32,
+80
+],
+"junction/signal-green-SE-ctx.png": [
+32,
+80
+],
+"junction/signal-green-SE-lit.png": [
+32,
+80
+],
+"junction/signal-green-SE-night.png": [
+32,
+80
+],
+"junction/signal-green-SE.png": [
+32,
+80
+],
+"junction/signal-green-SW-ctx.png": [
+32,
+80
+],
+"junction/signal-green-SW.png": [
+32,
+80
+],
+"junction/signal-red-NE-ctx.png": [
+32,
+80
+],
+"junction/signal-red-NE.png": [
+32,
+80
+],
+"junction/signal-red-NW-ctx.png": [
+32,
+80
+],
+"junction/signal-red-NW.png": [
+32,
+80
+],
+"junction/signal-red-SE-ctx.png": [
+32,
+80
+],
+"junction/signal-red-SE-lit.png": [
+32,
+80
+],
+"junction/signal-red-SE-night.png": [
+32,
+80
+],
+"junction/signal-red-SE.png": [
+32,
+80
+],
+"junction/signal-red-SW-ctx.png": [
+32,
+80
+],
+"junction/signal-red-SW.png": [
+32,
+80
+],
+"parking/lot-E-cars0.png": [
+32,
+80
+],
+"parking/lot-E-cars1.png": [
+32,
+80
+],
+"parking/lot-E-cars2.png": [
+32,
+80
+],
+"parking/lot-E-cars3.png": [
+32,
+80
+],
+"parking/lot-N-cars0.png": [
+32,
+80
+],
+"parking/lot-N-cars1.png": [
+32,
+80
+],
+"parking/lot-N-cars2.png": [
+32,
+80
+],
+"parking/lot-N-cars3.png": [
+32,
+80
+],
+"parking/lot-S-cars0.png": [
+32,
+80
+],
+"parking/lot-S-cars1.png": [
+32,
+80
+],
+"parking/lot-S-cars2.png": [
+32,
+80
+],
+"parking/lot-S-cars3.png": [
+32,
+80
+],
+"parking/lot-W-cars0.png": [
+32,
+80
+],
+"parking/lot-W-cars1.png": [
+32,
+80
+],
+"parking/lot-W-cars2.png": [
+32,
+80
+],
+"parking/lot-W-cars3.png": [
+32,
+80
+],
+"rail/buffer-E.png": [
+32,
+80
+],
+"rail/buffer-N.png": [
+32,
+80
+],
+"rail/buffer-S.png": [
+32,
+80
+],
+"rail/buffer-W.png": [
+32,
+80
+],
+"rail/catenary-ew.png": [
+32,
+80
+],
+"rail/catenary-ns.png": [
+32,
+80
+],
+"rail/crossing-gate-down-0.png": [
+32,
+80
+],
+"rail/crossing-gate-down-1.png": [
+32,
+80
+],
+"rail/crossing-gate-down-strip.png": [
+32,
+80
+],
+"rail/crossing-gate-up-0.png": [
+32,
+80
+],
+"rail/crossing-gate-up-1.png": [
+32,
+80
+],
+"rail/signal-green.png": [
+32,
+80
+],
+"rail/signal-red.png": [
+32,
+80
+],
+"stops/bus-E-ctx.png": [
+32,
+80
+],
+"stops/bus-E-night.png": [
+32,
+80
+],
+"stops/bus-E.png": [
+32,
+80
+],
+"stops/bus-N-ctx.png": [
+32,
+80
+],
+"stops/bus-N.png": [
+32,
+80
+],
+"stops/bus-S-ctx.png": [
+32,
+80
+],
+"stops/bus-S.png": [
+32,
+80
+],
+"stops/bus-W-ctx.png": [
+32,
+80
+],
+"stops/bus-W.png": [
+32,
+80
+],
+"stops/metro-entrance-0-ctx.png": [
+32,
+80
+],
+"stops/metro-entrance-0.png": [
+32,
+80
+],
+"stops/metro-entrance-1-ctx.png": [
+32,
+80
+],
+"stops/metro-entrance-1.png": [
+32,
+80
+],
+"stops/metro-entrance-2-ctx.png": [
+32,
+80
+],
+"stops/metro-entrance-2.png": [
+32,
+80
+],
+"stops/metro-entrance-3-ctx.png": [
+32,
+80
+],
+"stops/metro-entrance-3.png": [
+32,
+80
+],
+"stops/metro-entrance-night.png": [
+32,
+80
+],
+"stops/taxi-E-ctx.png": [
+32,
+80
+],
+"stops/taxi-E.png": [
+32,
+80
+],
+"stops/taxi-N-ctx.png": [
+32,
+80
+],
+"stops/taxi-N.png": [
+32,
+80
+],
+"stops/taxi-S-ctx.png": [
+32,
+80
+],
+"stops/taxi-S.png": [
+32,
+80
+],
+"stops/taxi-W-ctx.png": [
+32,
+80
+],
+"stops/taxi-W.png": [
+32,
+80
+],
+"stops/tram-E-ctx.png": [
+32,
+80
+],
+"stops/tram-E.png": [
+32,
+80
+],
+"stops/tram-N-ctx.png": [
+32,
+80
+],
+"stops/tram-N.png": [
+32,
+80
+],
+"stops/tram-S-ctx.png": [
+32,
+80
+],
+"stops/tram-S.png": [
+32,
+80
+],
+"stops/tram-W-ctx.png": [
+32,
+80
+],
+"stops/tram-W.png": [
+32,
+80
+],
+"util/power-hv-0000.png": [
+32,
+96
+],
+"util/power-hv-0001.png": [
+32,
+96
+],
+"util/power-hv-0010.png": [
+32,
+96
+],
+"util/power-hv-0011.png": [
+32,
+96
+],
+"util/power-hv-0100.png": [
+32,
+96
+],
+"util/power-hv-0101.png": [
+32,
+96
+],
+"util/power-hv-0110.png": [
+32,
+96
+],
+"util/power-hv-0111.png": [
+32,
+96
+],
+"util/power-hv-1000.png": [
+32,
+96
+],
+"util/power-hv-1001.png": [
+32,
+96
+],
+"util/power-hv-1010.png": [
+32,
+96
+],
+"util/power-hv-1011.png": [
+32,
+96
+],
+"util/power-hv-1100.png": [
+32,
+96
+],
+"util/power-hv-1101.png": [
+32,
+96
+],
+"util/power-hv-1110.png": [
+32,
+96
+],
+"util/power-hv-1111.png": [
+32,
+96
+],
+"util/power-lv-0000.png": [
+32,
+96
+],
+"util/power-lv-0001.png": [
+32,
+96
+],
+"util/power-lv-0010.png": [
+32,
+96
+],
+"util/power-lv-0011.png": [
+32,
+96
+],
+"util/power-lv-0100.png": [
+32,
+96
+],
+"util/power-lv-0101.png": [
+32,
+96
+],
+"util/power-lv-0110.png": [
+32,
+96
+],
+"util/power-lv-0111.png": [
+32,
+96
+],
+"util/power-lv-1000.png": [
+32,
+96
+],
+"util/power-lv-1001.png": [
+32,
+96
+],
+"util/power-lv-1010.png": [
+32,
+96
+],
+"util/power-lv-1011.png": [
+32,
+96
+],
+"util/power-lv-1100.png": [
+32,
+96
+],
+"util/power-lv-1101.png": [
+32,
+96
+],
+"util/power-lv-1110.png": [
+32,
+96
+],
+"util/power-lv-1111.png": [
+32,
+96
+]
+}

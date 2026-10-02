@@ -7,7 +7,7 @@ genui - regenerates the OpenCity UI art that is still produced offline.
 The chrome itself (panels, buttons, icons, glyphs, sidebar, logo, load screen) is drawn at runtime at the exact
 device scale by OpenRA.Mods.City/UIArt (CityChromeGenerator); colours are in mods/city/uistyle.yaml. This script:
   bits/chrome/cityicons.vec                vector ops of the icon/glyph recipes (uiexport.py: uicityicons*.py, uibaseglyphs.py)
-  bits/chrome/buildicons-extra.png + yaml  1x build icons of transit/signature placeables (uibuildicons.py; upscaled at runtime)
+  (the RCT2 icon and build-thumbnail atlases bits/chrome/iso/ come from iso_ui_export.py)
   icon.png, icon-2x.png, icon-3x.png       window icons (uilogo.py)
   bits/cursors/cursors.png + cursors.yaml
 
@@ -30,8 +30,6 @@ if __name__ == '__main__':
     from genextra import build_mod_icons, build_cursors
     import uiexport
     uiexport.main()
-    import uibuildicons
-    uibuildicons.build(MOD)
     build_mod_icons(SCALES, MOD)
     build_cursors(MOD)
     print('genui: done (scales %s)' % SCALES)

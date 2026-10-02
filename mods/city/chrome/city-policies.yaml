@@ -1,0 +1,159 @@
+# Policies window (design/iso/ui/panels/policies-city.png, policies-district.png): people family, tabs City / District.
+# A header (scope text or district picker, active count), the list of policies (checkbox, icon, name and effect, slider, upkeep)
+# and a description strip with the monthly total. CityPoliciesLogic builds the rows from CITY_POLICY_ROW and sizes the window
+# to the number of policies (design: 138 + 26 per policy).
+Container@CITY_POLICY_ROW:
+	Width: PARENT_WIDTH
+	Height: 26
+	Children:
+		CityRowBackground@BG:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+		Button@SELECT:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			VisualHeight: 0
+		CityIcon@ICON:
+			X: 4
+			Y: 5
+			Width: 16
+			Height: 16
+		Label@NAME:
+			X: 26
+			Y: 3
+			Width: 180
+			Height: 12
+			Font: Tiny
+		Label@EFFECT:
+			X: 26
+			Y: 14
+			Width: 180
+			Height: 10
+			Font: Tiny
+		CitySlider@SLIDER:
+			X: 212
+			Y: 7
+			Width: 70
+			Height: 12
+		Label@VALUE:
+			X: 284
+			Width: 28
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		Label@COST:
+			X: 314
+			Width: 80
+			Height: PARENT_HEIGHT
+			Font: TinyBold
+			Align: Right
+		Checkbox@TOGGLE:
+			X: 400
+			Y: 8
+			Width: 10
+			Height: 10
+		CityIcon@LOCK:
+			X: 398
+			Y: 5
+			Width: 16
+			Height: 16
+			Icon: ui_lock
+
+CityPanel@CITY_POLICIES_PANEL:
+	Logic: CityPoliciesLogic
+	Family: people
+	Placement: Center
+	Avoid: CITY_ADVISOR_PANEL
+	Width: 430
+	Height: 346
+	Visible: false
+	Children:
+		Container@HEADER:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 8
+			Height: 16
+			Children:
+				Label@SCOPE_LABEL:
+					Width: 160
+					Height: 16
+					Font: Tiny
+				Button@PREVIOUS:
+					X: 46
+					Y: 1
+					Width: 14
+					Height: 14
+					Children:
+						CityIcon@ICON:
+							Width: PARENT_WIDTH
+							Height: PARENT_HEIGHT
+							Size: 12
+							Icon: ui_left
+				DropDownButton@DISTRICT:
+					X: 62
+					Y: 1
+					Width: 130
+					Height: 14
+					Font: Tiny
+					Align: Left
+					LeftMargin: 4
+				Button@NEXT:
+					X: 194
+					Y: 1
+					Width: 14
+					Height: 14
+					Children:
+						CityIcon@ICON:
+							Width: PARENT_WIDTH
+							Height: PARENT_HEIGHT
+							Size: 12
+							Icon: ui_right
+				Label@ACTIVE:
+					X: PARENT_WIDTH - 110
+					Width: 110
+					Height: 16
+					Font: Tiny
+					Align: Right
+		ScrollPanel@LIST:
+			X: 4
+			Y: 69
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 136
+			TopBottomSpacing: 0
+			ItemSpacing: 0
+			ScrollbarWidth: 10
+		Background@DETAIL:
+			X: 4
+			Y: PARENT_HEIGHT - 61
+			Width: PARENT_WIDTH - 8
+			Height: 57
+			Background: well
+			Children:
+				Label@NAME:
+					X: 5
+					Y: 4
+					Width: PARENT_WIDTH - 180
+					Height: 12
+					Font: TinyBold
+				Label@TOTAL:
+					X: PARENT_WIDTH - 175
+					Y: 4
+					Width: 170
+					Height: 12
+					Font: Tiny
+					Align: Right
+				Label@DESCRIPTION:
+					X: 5
+					Y: 17
+					Width: PARENT_WIDTH - 10
+					Height: 36
+					Font: Tiny
+					WordWrap: true
+					VAlign: Top
+		Label@EMPTY:
+			X: 12
+			Y: 90
+			Width: PARENT_WIDTH - 24
+			Height: 20
+			Font: Tiny
+			Align: Center
+			Text: label-policies-none

@@ -1,0 +1,468 @@
+# Transit windows (CityTransitLogic, CityTransitLogic.Line.cs). RCT2 style: design/iso/ui/panels/transit-lines-*.png and
+# transit-line-*.png, tools/iso_ui_panels_transit.py, shared templates in city-common.yaml. Transit family (blue).
+
+# A line of the list (or a taxi stand): coloured number chip, name, stops, vehicles, usage meter, monthly profit.
+Container@CITY_TRANSIT_LINE_ROW:
+	Width: PARENT_WIDTH
+	Height: 17
+	Children:
+		CityRowBackground@BG:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+		ColorBlock@SWATCH:
+			X: 3
+			Y: 3
+			Width: 26
+			Height: 11
+		Label@NUMBER:
+			X: 3
+			Y: 3
+			Width: 26
+			Height: 11
+			Font: TinyBold
+			Align: Center
+		Label@NAME:
+			X: 34
+			Width: 120
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		Label@STOPS:
+			Width: 34
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right
+		Label@VEHICLES:
+			Width: 30
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right
+		CityBar@USAGE:
+			Y: 4
+			Width: 46
+			Height: 9
+			Smooth: true
+		Label@PROFIT:
+			Width: 62
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right
+		Button@SELECT:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Background:
+			VisualHeight: 0
+
+# A vehicle of the line window: name, next stop, load and state.
+Container@CITY_TRANSIT_VEHICLE_ROW:
+	Width: PARENT_WIDTH
+	Height: 14
+	Children:
+		CityRowBackground@BG:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+		Label@NAME:
+			X: 3
+			Width: 70
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		Label@NEXT:
+			X: 74
+			Width: 120
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		Label@LOAD:
+			Width: 56
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right
+		Label@STATE:
+			Width: 66
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		Button@SELECT:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Background:
+			VisualHeight: 0
+
+# Small - / + button of the vehicle count.
+Button@CITY_TRANSIT_STEPPER:
+	Width: 16
+	Height: 16
+	VisualHeight: 0
+	DisableKeySound: true
+	Children:
+		CityIcon@ICON:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Size: 12
+
+CityPanel@CITY_TRANSIT_PANEL:
+	Logic: CityTransitLogic
+	Family: transit
+	Placement: Center
+	Avoid: CITY_ADVISOR_PANEL
+	Width: 380
+	Height: 272
+	Visible: false
+	Children:
+		Background@COLUMNS:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 8
+			Height: 12
+			Background: item-header
+			Children:
+				Label@C_LINE:
+					Width: 30
+					Height: 12
+					Font: Tiny
+					Align: Center
+				Label@C_NAME:
+					Width: 100
+					Height: 12
+					Font: Tiny
+				Label@C_STOPS:
+					Width: 34
+					Height: 12
+					Font: Tiny
+					Align: Right
+				Label@C_VEHICLES:
+					Width: 30
+					Height: 12
+					Font: Tiny
+					Align: Right
+				Label@C_USAGE:
+					Width: 46
+					Height: 12
+					Font: Tiny
+				Label@C_PROFIT:
+					Width: 62
+					Height: 12
+					Font: Tiny
+					Align: Right
+		ScrollPanel@LIST:
+			X: 4
+			Y: 61
+			Width: PARENT_WIDTH - 8
+			Height: 138
+			TopBottomSpacing: 1
+			ItemSpacing: 0
+			ScrollbarWidth: 10
+		Label@EMPTY:
+			X: 8
+			Y: 90
+			Width: PARENT_WIDTH - 16
+			Height: 28
+			Font: Tiny
+			Align: Center
+			VAlign: Top
+		Container@FOOTER:
+			X: 4
+			Y: 205
+			Width: PARENT_WIDTH - 8
+			Height: 16
+			Children:
+				CityIcon@LINES_ICON:
+					Width: 16
+					Height: 16
+					Icon: tr_line
+				Label@LINES:
+					X: 20
+					Width: 100
+					Height: 16
+					Font: Tiny
+				CityIcon@VEHICLES_ICON:
+					X: 124
+					Width: 16
+					Height: 16
+					Icon: stat_vehicles
+				Label@VEHICLES:
+					X: 144
+					Width: 100
+					Height: 16
+					Font: Tiny
+				CityIcon@PASSENGERS_ICON:
+					X: 248
+					Width: 16
+					Height: 16
+					Icon: stat_citizen
+				Label@PASSENGERS:
+					X: 268
+					Width: 96
+					Height: 16
+					Font: Tiny
+		Background@FOOTER_LINE:
+			X: 4
+			Y: 224
+			Width: PARENT_WIDTH - 8
+			Height: 2
+			Background: etched-h
+		Label@INCOME_LABEL:
+			X: 4
+			Y: 230
+			Width: 40
+			Height: 12
+			Font: Tiny
+		Label@INCOME:
+			X: 44
+			Y: 230
+			Width: 70
+			Height: 12
+			Font: TinyBold
+		Label@UPKEEP_LABEL:
+			X: 120
+			Y: 230
+			Width: 44
+			Height: 12
+			Font: Tiny
+		Label@UPKEEP:
+			X: 164
+			Y: 230
+			Width: 70
+			Height: 12
+			Font: TinyBold
+		Checkbox@SHOW_ON_MAP:
+			X: 4
+			Y: PARENT_HEIGHT - 21
+			Width: 130
+			Height: 14
+			Font: Tiny
+		Button@EDIT:
+			X: PARENT_WIDTH - 164
+			Y: PARENT_HEIGHT - 24
+			Width: 78
+			Height: 16
+			Font: Tiny
+		Button@DELETE:
+			X: PARENT_WIDTH - 82
+			Y: PARENT_HEIGHT - 24
+			Width: 78
+			Height: 16
+			Font: Tiny
+
+# The window of one line: route, vehicles, passengers (tabs).
+CityPanel@CITY_TRANSIT_LINE_PANEL:
+	Family: transit
+	Placement: Center
+	LeftOf: CITY_TRANSIT_PANEL
+	Width: 380
+	Height: 300
+	Visible: false
+	Children:
+		Container@PAGE_ROUTE:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 53
+			Children:
+				Label@NAME_LABEL:
+					Y: 2
+					Width: 36
+					Height: 14
+					Font: Tiny
+				TextField@NAME:
+					X: 38
+					Width: PARENT_WIDTH - 38 - 42
+					Height: 18
+					Font: Tiny
+					MaxLength: 24
+				ColorBlock@CHIP:
+					X: PARENT_WIDTH - 36
+					Y: 1
+					Width: 34
+					Height: 16
+				Label@CHIP_TEXT:
+					X: PARENT_WIDTH - 36
+					Y: 1
+					Width: 34
+					Height: 16
+					Font: TinyBold
+					Align: Center
+				Label@COLOUR_LABEL:
+					Y: 23
+					Width: 36
+					Height: 14
+					Font: Tiny
+				Container@SWATCHES:
+					X: 38
+					Y: 21
+					Width: PARENT_WIDTH - 38
+					Height: 18
+				CityHeader@ROUTE_HEADER:
+					Y: 42
+					Width: PARENT_WIDTH
+					Height: 12
+				Background@STRIP_WELL:
+					Y: 56
+					Width: PARENT_WIDTH
+					Height: 78
+					Background: well
+					Children:
+						CityRouteStrip@STRIP:
+							X: 2
+							Y: 2
+							Width: PARENT_WIDTH - 4
+							Height: PARENT_HEIGHT - 4
+				Label@VEHICLES_LABEL:
+					Y: 144
+					Width: 56
+					Height: 14
+					Font: Tiny
+				Label@VEHICLES_COUNT:
+					X: 76
+					Y: 144
+					Width: 22
+					Height: 14
+					Font: TinyBold
+					Align: Center
+				Label@DEPOT_SLOTS:
+					X: 124
+					Y: 144
+					Width: 130
+					Height: 14
+					Font: Tiny
+				Label@CYCLE:
+					X: PARENT_WIDTH - 130
+					Y: 144
+					Width: 130
+					Height: 14
+					Font: Tiny
+					Align: Right
+				Container@TICKET:
+					Y: 164
+					Width: PARENT_WIDTH
+					Height: 16
+				Background@STATS_LINE:
+					Y: 186
+					Width: PARENT_WIDTH
+					Height: 2
+					Background: etched-h
+				Label@PASSENGERS_LABEL:
+					Y: 192
+					Width: 120
+					Height: 10
+					Font: Tiny
+				Label@PASSENGERS:
+					Y: 202
+					Width: 120
+					Height: 14
+					Font: TinyBold
+				Label@INCOME_LABEL:
+					X: 124
+					Y: 192
+					Width: 120
+					Height: 10
+					Font: Tiny
+				Label@INCOME:
+					X: 124
+					Y: 202
+					Width: 120
+					Height: 14
+					Font: TinyBold
+				Label@UPKEEP_LABEL:
+					X: 248
+					Y: 192
+					Width: 120
+					Height: 10
+					Font: Tiny
+				Label@UPKEEP:
+					X: 248
+					Y: 202
+					Width: 120
+					Height: 14
+					Font: TinyBold
+				Button@LOCATE:
+					X: PARENT_WIDTH - 164
+					Y: PARENT_HEIGHT - 20
+					Width: 78
+					Height: 16
+					Font: Tiny
+				Button@DELETE:
+					X: PARENT_WIDTH - 82
+					Y: PARENT_HEIGHT - 20
+					Width: 78
+					Height: 16
+					Font: Tiny
+		Container@PAGE_VEHICLES:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 53
+			Visible: false
+			Children:
+				Label@VEHICLES_LABEL:
+					Y: 1
+					Width: 56
+					Height: 14
+					Font: Tiny
+				Label@VEHICLES_COUNT:
+					X: 76
+					Y: 1
+					Width: 22
+					Height: 14
+					Font: TinyBold
+					Align: Center
+				Label@AVERAGE_LOAD:
+					X: PARENT_WIDTH - 160
+					Y: 1
+					Width: 160
+					Height: 14
+					Font: Tiny
+					Align: Right
+				Background@COLUMNS:
+					Y: 22
+					Width: PARENT_WIDTH
+					Height: 12
+					Background: item-header
+					Children:
+						Label@C_NAME:
+							X: 3
+							Width: 70
+							Height: 12
+							Font: Tiny
+						Label@C_NEXT:
+							X: 74
+							Width: 120
+							Height: 12
+							Font: Tiny
+						Label@C_LOAD:
+							Width: 56
+							Height: 12
+							Font: Tiny
+							Align: Right
+						Label@C_STATE:
+							Width: 66
+							Height: 12
+							Font: Tiny
+				ScrollPanel@LIST:
+					Y: 34
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT - 34 - 26
+					TopBottomSpacing: 1
+					ItemSpacing: 0
+					ScrollbarWidth: 10
+				Label@EMPTY:
+					Y: 60
+					Width: PARENT_WIDTH
+					Height: 14
+					Font: Tiny
+					Align: Center
+				Button@LOCATE:
+					X: PARENT_WIDTH - 176
+					Y: PARENT_HEIGHT - 20
+					Width: 72
+					Height: 16
+					Font: Tiny
+				Button@FOLLOW:
+					X: PARENT_WIDTH - 100
+					Y: PARENT_HEIGHT - 20
+					Width: 100
+					Height: 16
+					Font: Tiny
+		Container@PAGE_PASSENGERS:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 53
+			Visible: false

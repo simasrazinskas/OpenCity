@@ -12,7 +12,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using OpenRA.Graphics;
 using OpenRA.Mods.City.Traits;
 using OpenRA.Mods.Common.Traits;
 using OpenRA.Primitives;
@@ -100,8 +99,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 					new ToolItem
 					{
 						Id = "road",
-						Collection = "city-icons",
-						Icon = "road",
+						Icon = "road_street",
 						Name = FluentProvider.GetMessage(CategoryRoad),
 						Description = FluentProvider.GetMessage(RoadDescription, "cost", CityUtils.FormatMoney(10)),
 						Cost = CityUtils.FormatMoney(10),
@@ -114,12 +112,11 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			foreach (var type in types)
 			{
 				var data = type;
-				var icon = ChromeProvider.TryGetImage("city-icons", "road-" + type.Name) != null ? "road-" + type.Name : "road";
+				var icon = "road_" + type.Name;
 				var name = FluentProvider.TryGetMessage(type.Info.DisplayName ?? "", out var display) ? display : CityUi.Message("label-road-type-" + type.Name);
 				items.Add(new ToolItem
 				{
 					Id = "roadtype:" + type.Name,
-					Collection = "city-icons",
 					Icon = icon,
 					Name = name,
 					Description = FluentProvider.GetMessage(RoadTypeDescription,
@@ -138,17 +135,17 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			}
 
 			items.Add(RoadModeItem("draw", () => !toolState.Road.OneWay && !toolState.Road.Replace && !toolState.Road.Paired,
-				() => toolState.Road = new RoadToolOptions { TypeId = toolState.Road.TypeId }, "road-draw"));
+				() => toolState.Road = new RoadToolOptions { TypeId = toolState.Road.TypeId }, "mode_straight"));
 
-			items.Add(RoadModeItem("oneway", () => toolState.Road.OneWay, () => toolState.Road.OneWay = !toolState.Road.OneWay, "road-oneway", "tool:oneway"));
-			items.Add(RoadModeItem("replace", () => toolState.Road.Replace, () => toolState.Road.Replace = !toolState.Road.Replace, "road-replace"));
-			items.Add(RoadModeItem("paired", () => toolState.Road.Paired, () => toolState.Road.Paired = !toolState.Road.Paired, "road-boulevard"));
+			items.Add(RoadModeItem("oneway", () => toolState.Road.OneWay, () => toolState.Road.OneWay = !toolState.Road.OneWay, "mode_oneway", "tool:oneway"));
+			items.Add(RoadModeItem("replace", () => toolState.Road.Replace, () => toolState.Road.Replace = !toolState.Road.Replace, "mode_replace"));
+			items.Add(RoadModeItem("paired", () => toolState.Road.Paired, () => toolState.Road.Paired = !toolState.Road.Paired, "mode_paired"));
 
-			items.Add(RoadModeItem("bridge", () => toolState.Road.Bridge, () => toolState.Road.Bridge = !toolState.Road.Bridge, "road-bridge"));
+			items.Add(RoadModeItem("bridge", () => toolState.Road.Bridge, () => toolState.Road.Bridge = !toolState.Road.Bridge, "mode_bridge"));
 
-			items.Add(PrefabItem("roundabout", NetworkOrders.PrefabRoundabout, "road-roundabout", "tool:roundabout"));
-			items.Add(PrefabItem("roundabout-large", NetworkOrders.PrefabRoundaboutLarge, "road-roundabout", "tool:roundabout"));
-			items.Add(PrefabItem("ramp", NetworkOrders.PrefabRamp, "road-interchange", "tool:highway"));
+			items.Add(PrefabItem("roundabout", NetworkOrders.PrefabRoundabout, "prefab_roundabout", "tool:roundabout"));
+			items.Add(PrefabItem("roundabout-large", NetworkOrders.PrefabRoundaboutLarge, "prefab_roundabout_large", "tool:roundabout"));
+			items.Add(PrefabItem("ramp", NetworkOrders.PrefabRamp, "prefab_ramp", "tool:highway"));
 
 			items.Add(ControlItem("control-yield", JunctionControl.Yield));
 			items.Add(ControlItem("control-stop", JunctionControl.Stop));
@@ -168,12 +165,12 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		{
 			switch (flag)
 			{
-				case RoadAddons.Trees: return "parks";
-				case RoadAddons.Barrier: return "police";
-				case RoadAddons.Lights: return "power";
-				case RoadAddons.Parking: return "bus-stop";
-				case RoadAddons.BusLane: return "bus";
-				default: return "road-oneway";
+				case RoadAddons.Trees: return "addon_trees";
+				case RoadAddons.Barrier: return "addon_barrier";
+				case RoadAddons.Lights: return "addon_lights";
+				case RoadAddons.Parking: return "addon_parking";
+				case RoadAddons.BusLane: return "addon_buslane";
+				default: return "addon_bikelane";
 			}
 		}
 
@@ -185,7 +182,6 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			return new ToolItem
 			{
 				Id = "addon:" + addon.Name,
-				Collection = "city-icons",
 				Icon = AddonIcon(flag),
 				Name = name,
 				Description = FluentProvider.GetMessage(CostAndUpkeep, "cost", CityUtils.FormatMoney(addon.Info.Cost) + "/cell",
@@ -207,8 +203,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			return new ToolItem
 			{
 				Id = "addon-remove",
-				Collection = "city-icons",
-				Icon = "area-clear",
+				Icon = "addon_remove",
 				Name = CityUi.Message("label-road-mode-addon-remove"),
 				Description = CityUi.Message("label-road-mode-addon-remove-desc", ""),
 				IsActive = () => toolState.AddonRemove,
@@ -253,7 +248,6 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			return new ToolItem
 			{
 				Id = "roadmode:" + mode,
-				Collection = "city-icons",
 				Icon = icon,
 				Name = CityUi.Message("label-road-mode-" + mode),
 				Description = CityUi.Message("label-road-mode-" + mode + "-desc", ""),
@@ -273,7 +267,6 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			return new ToolItem
 			{
 				Id = "prefab:" + id,
-				Collection = "city-icons",
 				Icon = icon,
 				Name = CityUi.Message("label-road-mode-" + id),
 				Description = CityUi.Message("label-road-mode-" + id + "-desc", ""),
@@ -288,8 +281,13 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			return new ToolItem
 			{
 				Id = "road-" + id,
-				Collection = "city-icons",
-				Icon = "road-signal",
+				Icon = value switch
+				{
+					JunctionControl.Yield => "ctl_yield",
+					JunctionControl.Stop => "ctl_stop",
+					JunctionControl.Signal => "ctl_signal",
+					_ => "ctl_default",
+				},
 				Name = CityUi.Message("label-road-mode-" + id),
 				Description = CityUi.Message("label-road-mode-" + id + "-desc", ""),
 				Create = () => new RoadControlOrderGenerator(world, value)
@@ -304,8 +302,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				return new ToolItem
 				{
 					Id = "zone:" + zone,
-					Collection = "city-icons",
-					Icon = ChromeProvider.TryGetImage("city-icons", icon) != null ? icon : "zoning",
+					Icon = icon,
 					Name = CityUi.Message("label-zone-" + suffix),
 					Description = CityUi.Message("label-zone-" + suffix + "-desc", ""),
 					IsDisabled = () => ctx.Progression != null && zone != ZoneType.None && !ctx.Progression.IsUnlocked("zone:" + zone),
@@ -317,30 +314,30 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 			var items = new List<ToolItem>
 			{
-				Zone(ZoneType.ResidentialLow, "zone-res-low", "res-low"),
-				Zone(ZoneType.ResidentialHigh, "zone-res-high", "res-high"),
-				Zone(ZoneType.CommercialLow, "zone-com-low", "com-low"),
-				Zone(ZoneType.CommercialHigh, "zone-com-high", "com-high"),
-				Zone(ZoneType.Industrial, "zone-ind", "ind"),
-				Zone(ZoneType.Office, "zone-off", "off")
+				Zone(ZoneType.ResidentialLow, "zone_res_low", "res-low"),
+				Zone(ZoneType.ResidentialHigh, "zone_res_high", "res-high"),
+				Zone(ZoneType.CommercialLow, "zone_com_low", "com-low"),
+				Zone(ZoneType.CommercialHigh, "zone_com_high", "com-high"),
+				Zone(ZoneType.Industrial, "zone_ind", "ind"),
+				Zone(ZoneType.Office, "zone_off", "off")
 			};
 
 			// The additional zone types are offered once the zoning WP ships buildings for them.
 			var extra = new (ZoneType Zone, string Icon, string Suffix)[]
 			{
-				(ZoneType.ResidentialRow, "zone-res-row", "res-row"),
-				(ZoneType.ResidentialMedium, "zone-res-med", "res-med"),
-				(ZoneType.ResidentialMixed, "zone-res-mixed", "res-mixed"),
-				(ZoneType.ResidentialLowRent, "zone-res-lowrent", "res-lowrent"),
-				(ZoneType.OfficeHigh, "zone-off-high", "off-high"),
-				(ZoneType.Warehouse, "zone-warehouse", "warehouse")
+				(ZoneType.ResidentialRow, "zone_res_row", "res-row"),
+				(ZoneType.ResidentialMedium, "zone_res_med", "res-med"),
+				(ZoneType.ResidentialMixed, "zone_res_mixed", "res-mixed"),
+				(ZoneType.ResidentialLowRent, "zone_res_lowrent", "res-lowrent"),
+				(ZoneType.OfficeHigh, "zone_off_high", "off-high"),
+				(ZoneType.Warehouse, "zone_warehouse", "warehouse")
 			};
 
 			foreach (var (zone, icon, suffix) in extra)
 				if (HasGrowables(zone))
 					items.Add(Zone(zone, icon, suffix));
 
-			items.Add(Zone(ZoneType.None, "dezone", "dezone"));
+			items.Add(Zone(ZoneType.None, "tool_dezone", "dezone"));
 			return items;
 		}
 
@@ -357,12 +354,12 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			if (!UtilityToolsAvailable)
 				return items;
 
-			items.Add(LineItem("powerline", "power-line", 0, false));
-			items.Add(LineItem("pipe-water", "pipe", 1, false));
-			items.Add(LineItem("pipe-sewage", "sewage", 2, false));
-			items.Add(LineItem("pipe-both", "networks", 3, false));
-			items.Add(LineItem("powerline-remove", "area-clear", 0, true));
-			items.Add(LineItem("pipe-remove", "area-clear", 3, true));
+			items.Add(LineItem("powerline", "net_powerline", 0, false));
+			items.Add(LineItem("pipe-water", "net_pipe_water", 1, false));
+			items.Add(LineItem("pipe-sewage", "net_pipe_sewage", 2, false));
+			items.Add(LineItem("pipe-both", "net_pipe_both", 3, false));
+			items.Add(LineItem("powerline-remove", "net_remove", 0, true));
+			items.Add(LineItem("pipe-remove", "net_remove", 3, true));
 			return items;
 		}
 
@@ -371,7 +368,6 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			return new ToolItem
 			{
 				Id = id,
-				Collection = "city-icons",
 				Icon = icon,
 				Name = CityUi.Message("label-tool-" + id),
 				Description = CityUi.Message("label-tool-" + id + "-desc", ""),
@@ -395,8 +391,8 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			if (!placeables.ContainsKey("industry"))
 				return items;
 
-			items.Add(HubAreaItem("area-paint", "area-paint", true));
-			items.Add(HubAreaItem("area-clear", "area-clear", false));
+			items.Add(HubAreaItem("area-paint", "tool_area_paint", true));
+			items.Add(HubAreaItem("area-clear", "tool_area_clear", false));
 			return items;
 		}
 
@@ -405,7 +401,6 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			return new ToolItem
 			{
 				Id = id,
-				Collection = "city-icons",
 				Icon = icon,
 				Name = CityUi.Message("label-tool-" + id),
 				Description = CityUi.Message("label-tool-" + id + "-desc", ""),
@@ -434,25 +429,24 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			if (!TransitToolsAvailable)
 				return items;
 
-			items.Add(StopItem("busstop", "bus-stop", TransitMode.Bus));
-			items.Add(StopItem("taxistand", "taxi", TransitMode.Taxi));
-			items.Add(StopItem("tramstop", "tram", TransitMode.Tram));
+			items.Add(StopItem("busstop", "tr_bus_stop", TransitMode.Bus));
+			items.Add(StopItem("taxistand", "tr_taxi_stand", TransitMode.Taxi));
+			items.Add(StopItem("tramstop", "tr_tram_stop", TransitMode.Tram));
 
-			items.Add(TrackItem("tramtrack", "tram", "tram", false));
-			items.Add(TrackItem("tramtrack-remove", "area-clear", "tram", true));
-			items.Add(TrackItem("rail", "train", "rail", false));
-			items.Add(TrackItem("rail-remove", "area-clear", "rail", true));
+			items.Add(TrackItem("tramtrack", "tr_tramtrack", "tram", false));
+			items.Add(TrackItem("tramtrack-remove", "net_remove", "tram", true));
+			items.Add(TrackItem("rail", "tr_rail", "rail", false));
+			items.Add(TrackItem("rail-remove", "net_remove", "rail", true));
 
-			items.Add(LineToolItem("busline", "line", TransitMode.Bus));
-			items.Add(LineToolItem("tramline", "tram", TransitMode.Tram));
-			items.Add(LineToolItem("metroline", "metro", TransitMode.Metro));
-			items.Add(LineToolItem("trainline", "train", TransitMode.Train));
+			items.Add(LineToolItem("busline", "tr_bus", TransitMode.Bus));
+			items.Add(LineToolItem("tramline", "tr_tram", TransitMode.Tram));
+			items.Add(LineToolItem("metroline", "tr_metro", TransitMode.Metro));
+			items.Add(LineToolItem("trainline", "tr_train", TransitMode.Train));
 
 			items.Add(new ToolItem
 			{
 				Id = "stop-remove",
-				Collection = "city-icons",
-				Icon = "area-clear",
+				Icon = "tr_stop_remove",
 				Name = CityUi.Message("label-tool-stop-remove"),
 				Description = CityUi.Message("label-tool-stop-remove-desc", ""),
 				Create = () => new UiClickToolGenerator(world,
@@ -470,7 +464,6 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			return new ToolItem
 			{
 				Id = id,
-				Collection = "city-icons",
 				Icon = icon,
 				Name = CityUi.Message("label-tool-" + id),
 				Description = CityUi.Message("label-tool-" + id + "-desc", ""),
@@ -487,7 +480,6 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			return new ToolItem
 			{
 				Id = id,
-				Collection = "city-icons",
 				Icon = icon,
 				Name = CityUi.Message("label-tool-" + id),
 				Description = CityUi.Message("label-tool-" + id + "-desc", "") + TrackCost(kind),
@@ -514,7 +506,6 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			return new ToolItem
 			{
 				Id = id,
-				Collection = "city-icons",
 				Icon = icon,
 				Name = CityUi.Message("label-tool-" + id),
 				Description = CityUi.Message("label-tool-" + id + "-desc", "") + StopCost(),
@@ -554,13 +545,10 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				description += "\n" + FluentProvider.GetMessage(RequiresPopulation, "population", placeable.UnlockPopulation.ToString("N0", CultureInfo.CurrentCulture));
 
 			var actorName = actor.Name;
-			var collection = ChromeProvider.TryGetImage("city-buildicons", actorName) != null ? "city-buildicons" :
-				ChromeProvider.TryGetImage("city-buildicons-extra", actorName) != null ? "city-buildicons-extra" : null;
 			return new ToolItem
 			{
 				Id = "build:" + actorName,
-				Collection = collection ?? "city-icons",
-				Icon = collection != null ? actorName : "services",
+				Icon = CategoryIcon(placeable.Category),
 				Name = name,
 				Description = description,
 				Cost = CityUtils.FormatMoney(placeable.Cost),

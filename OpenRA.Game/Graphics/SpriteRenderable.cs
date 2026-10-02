@@ -19,21 +19,16 @@ namespace OpenRA.Graphics
 	{
 		public static readonly IEnumerable<IRenderable> None = [];
 
-		readonly Sprite sprite;
-		readonly WPos pos;
-		readonly float scale;
-		readonly WAngle rotation = WAngle.Zero;
-
 		public SpriteRenderable(Sprite sprite, WPos pos, WVec offset, int zOffset, PaletteReference palette, float scale, float alpha,
 			Vector3 tint, TintModifiers tintModifiers, bool isDecoration, WAngle rotation)
 		{
-			this.sprite = sprite;
-			this.pos = pos;
+			Sprite = sprite;
+			Anchor = pos;
 			Offset = offset;
 			ZOffset = zOffset;
 			Palette = palette;
-			this.scale = scale;
-			this.rotation = rotation;
+			Scale = scale;
+			Rotation = rotation;
 			Tint = tint;
 			IsDecoration = isDecoration;
 			TintModifiers = tintModifiers;
@@ -50,7 +45,14 @@ namespace OpenRA.Graphics
 			Vector3 tint, TintModifiers tintModifiers, bool isDecoration)
 			: this(sprite, pos, offset, zOffset, palette, scale, alpha, tint, tintModifiers, isDecoration, WAngle.Zero) { }
 
-		public WPos Pos => pos + Offset;
+		public WPos Pos => Anchor + Offset;
+
+		/// <summary>The sprite, anchor position, scale and rotation (for traits that re-slice the sprite, e.g. iso strip sorting).</summary>
+		public Sprite Sprite { get; }
+		public WPos Anchor { get; }
+		public float Scale { get; }
+		public WAngle Rotation { get; } = WAngle.Zero;
+
 		public WVec Offset { get; }
 		public PaletteReference Palette { get; }
 		public int ZOffset { get; }
@@ -62,38 +64,38 @@ namespace OpenRA.Graphics
 
 		public IPalettedRenderable WithPalette(PaletteReference newPalette)
 		{
-			return new SpriteRenderable(sprite, pos, Offset, ZOffset, newPalette, scale, Alpha, Tint, TintModifiers, IsDecoration, rotation);
+			return new SpriteRenderable(Sprite, Anchor, Offset, ZOffset, newPalette, Scale, Alpha, Tint, TintModifiers, IsDecoration, Rotation);
 		}
 
 		public IRenderable WithZOffset(int newOffset)
 		{
-			return new SpriteRenderable(sprite, pos, Offset, newOffset, Palette, scale, Alpha, Tint, TintModifiers, IsDecoration, rotation);
+			return new SpriteRenderable(Sprite, Anchor, Offset, newOffset, Palette, Scale, Alpha, Tint, TintModifiers, IsDecoration, Rotation);
 		}
 
 		public IRenderable OffsetBy(in WVec vec)
 		{
-			return new SpriteRenderable(sprite, pos + vec, Offset, ZOffset, Palette, scale, Alpha, Tint, TintModifiers, IsDecoration, rotation);
+			return new SpriteRenderable(Sprite, Anchor + vec, Offset, ZOffset, Palette, Scale, Alpha, Tint, TintModifiers, IsDecoration, Rotation);
 		}
 
 		public IRenderable AsDecoration()
 		{
-			return new SpriteRenderable(sprite, pos, Offset, ZOffset, Palette, scale, Alpha, Tint, TintModifiers, true, rotation);
+			return new SpriteRenderable(Sprite, Anchor, Offset, ZOffset, Palette, Scale, Alpha, Tint, TintModifiers, true, Rotation);
 		}
 
 		public IModifyableRenderable WithAlpha(float newAlpha)
 		{
-			return new SpriteRenderable(sprite, pos, Offset, ZOffset, Palette, scale, newAlpha, Tint, TintModifiers, IsDecoration, rotation);
+			return new SpriteRenderable(Sprite, Anchor, Offset, ZOffset, Palette, Scale, newAlpha, Tint, TintModifiers, IsDecoration, Rotation);
 		}
 
 		public IModifyableRenderable WithTint(in Vector3 newTint, TintModifiers newTintModifiers)
 		{
-			return new SpriteRenderable(sprite, pos, Offset, ZOffset, Palette, scale, Alpha, newTint, newTintModifiers, IsDecoration, rotation);
+			return new SpriteRenderable(Sprite, Anchor, Offset, ZOffset, Palette, Scale, Alpha, newTint, newTintModifiers, IsDecoration, Rotation);
 		}
 
 		Vector3 ScreenPosition(WorldRenderer wr)
 		{
-			var s = 0.5f * scale * sprite.Size;
-			return wr.Screen3DPxPosition(pos) + wr.ScreenPxOffset(Offset).ToVector3() - new Vector3((int)s.X, (int)s.Y, s.Z);
+			var s = 0.5f * Scale * Sprite.Size;
+			return wr.Screen3DPxPosition(Anchor) + wr.ScreenPxOffset(Offset).ToVector3() - new Vector3((int)s.X, (int)s.Y, s.Z);
 		}
 
 		public IFinalizedRenderable PrepareRender(WorldRenderer wr) { return this; }
@@ -102,31 +104,31 @@ namespace OpenRA.Graphics
 			var wsr = Game.Renderer.WorldSpriteRenderer;
 			var t = Alpha * Tint;
 			if (wr.TerrainLighting != null && (TintModifiers & TintModifiers.IgnoreWorldTint) == 0)
-				t *= wr.TerrainLighting.TintAt(pos);
+				t *= wr.TerrainLighting.TintAt(Anchor);
 
 			// Shader interprets negative alpha as a flag to use the tint colour directly instead of multiplying the sprite colour
 			var a = Alpha;
 			if ((TintModifiers & TintModifiers.ReplaceColor) != 0)
 				a *= -1;
 
-			wsr.DrawSprite(sprite, Palette, ScreenPosition(wr), scale, t, a, rotation.RendererRadians());
+			wsr.DrawSprite(Sprite, Palette, ScreenPosition(wr), Scale, t, a, Rotation.RendererRadians());
 		}
 
 		public void RenderDebugGeometry(WorldRenderer wr)
 		{
-			var pos = ScreenPosition(wr) + sprite.Offset;
+			var pos = ScreenPosition(wr) + Sprite.Offset;
 			var tl = wr.Viewport.WorldToViewPx(pos).ToVector3();
-			var br = wr.Viewport.WorldToViewPx(pos + sprite.Size).ToVector3();
-			if (rotation == WAngle.Zero)
+			var br = wr.Viewport.WorldToViewPx(pos + Sprite.Size).ToVector3();
+			if (Rotation == WAngle.Zero)
 				Game.Renderer.RgbaColorRenderer.DrawRect(tl, br, 1, Color.Red);
 			else
-				Game.Renderer.RgbaColorRenderer.DrawPolygon(Util.RotateQuad(tl, br - tl, rotation.RendererRadians()), 1, Color.Red);
+				Game.Renderer.RgbaColorRenderer.DrawPolygon(Util.RotateQuad(tl, br - tl, Rotation.RendererRadians()), 1, Color.Red);
 		}
 
 		public Rectangle ScreenBounds(WorldRenderer wr)
 		{
-			var screenOffset = ScreenPosition(wr) + sprite.Offset;
-			return Util.BoundingRectangle(screenOffset, sprite.Size, rotation.RendererRadians());
+			var screenOffset = ScreenPosition(wr) + Sprite.Offset;
+			return Util.BoundingRectangle(screenOffset, Sprite.Size, Rotation.RendererRadians());
 		}
 	}
 }

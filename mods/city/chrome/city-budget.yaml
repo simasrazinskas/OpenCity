@@ -1,0 +1,338 @@
+# City Budget window (design/iso/ui/panels/budget-*.png, tools/iso_ui_panels_finance.py): finance family, six tabs
+# (overview, income, expenses and service budgets, taxes, fees, loans) and a footer with funds and balance.
+# CityBudgetLogic sets the tabs; pages are switched by visibility.
+CityPanel@CITY_BUDGET_PANEL:
+	Logic: CityBudgetLogic
+	Title: label-budget-window-title
+	Family: finance
+	Placement: TopLeft
+	Avoid: CITY_BUILD_PANEL
+	Width: 340
+	Height: 300
+	Visible: false
+	Children:
+		LogicTicker@BUDGET_TICKER:
+		Container@PAGE_BUDGET:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 49 - 22
+			Children:
+				CityHeader@HEADER:
+					Width: PARENT_WIDTH
+					Height: 12
+					Text: label-budget-this-month
+				CityIcon@INCOME_ICON:
+					Y: 14
+					Width: 16
+					Height: 14
+					Icon: stat_income
+				Label@INCOME_LABEL:
+					X: 20
+					Y: 14
+					Width: 56
+					Height: 14
+					Font: Tiny
+					Text: label-budget-trend-income
+				CityBar@INCOME_BAR:
+					X: 78
+					Y: 16
+					Width: PARENT_WIDTH - 148
+					Height: 10
+					Ramp: green
+				Label@INCOME_TOTAL:
+					X: PARENT_WIDTH - 68
+					Y: 14
+					Width: 68
+					Height: 14
+					Font: TinyBold
+					Align: Right
+				CityIcon@EXPENSE_ICON:
+					Y: 29
+					Width: 16
+					Height: 14
+					Icon: stat_expenses
+				Label@EXPENSE_LABEL:
+					X: 20
+					Y: 29
+					Width: 56
+					Height: 14
+					Font: Tiny
+					Text: label-budget-trend-expenses
+				CityBar@EXPENSE_BAR:
+					X: 78
+					Y: 31
+					Width: PARENT_WIDTH - 148
+					Height: 10
+					Ramp: red
+				Label@EXPENSE_TOTAL:
+					X: PARENT_WIDTH - 68
+					Y: 29
+					Width: 68
+					Height: 14
+					Font: TinyBold
+					Align: Right
+				Background@NET_LINE:
+					Y: 45
+					Width: PARENT_WIDTH
+					Height: 2
+					Background: etched-h
+				CityIcon@NET_ICON:
+					Y: 49
+					Width: 16
+					Height: 14
+				Label@NET_LABEL:
+					X: 20
+					Y: 49
+					Width: 120
+					Height: 14
+					Font: Tiny
+					Text: label-budget-net
+				Label@BALANCE:
+					X: PARENT_WIDTH - 120
+					Y: 49
+					Width: 120
+					Height: 14
+					Font: TinyBold
+					Align: Right
+				CityHeader@TREND_HEADER:
+					Y: 67
+					Width: PARENT_WIDTH
+					Height: 12
+					Text: label-budget-cashflow
+				CityGraph@TREND:
+					Y: 81
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT - 81
+					LeftMargin: 30
+		Container@PAGE_INCOME:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 49 - 22
+			Visible: false
+			Children:
+				CityHeader@HEADER:
+					Width: PARENT_WIDTH
+					Height: 12
+					Text: label-budget-income-header
+				Background@COLUMNS:
+					Y: 14
+					Width: PARENT_WIDTH
+					Height: 12
+					Background: item-header
+					Children:
+						Label@SOURCE:
+							X: 22
+							Width: 120
+							Height: 12
+							Font: Tiny
+							Text: label-budget-column-source
+						Label@SHARE:
+							X: PARENT_WIDTH - 118
+							Width: 40
+							Height: 12
+							Font: Tiny
+							Align: Right
+							Text: label-budget-column-share
+						Label@AMOUNT:
+							X: PARENT_WIDTH - 74
+							Width: 60
+							Height: 12
+							Font: Tiny
+							Align: Right
+							Text: label-budget-column-month
+				ScrollPanel@INCOME_LIST:
+					Y: 26
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT - 42
+					TopBottomSpacing: 1
+					ItemSpacing: 0
+					ScrollbarWidth: 10
+				Label@INCOME_TOTAL:
+					Y: PARENT_HEIGHT - 14
+					Width: PARENT_WIDTH - 2
+					Height: 14
+					Font: TinyBold
+					Align: Right
+				Label@INCOME_TOTAL_LABEL:
+					Y: PARENT_HEIGHT - 14
+					Width: 120
+					Height: 14
+					Font: Tiny
+					Text: label-budget-total-income
+		Container@PAGE_SERVICES:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 49 - 22
+			Visible: false
+			Children:
+				CityHeader@HEADER:
+					Width: PARENT_WIDTH
+					Height: 12
+					Text: label-budget-service-budgets
+				ScrollPanel@SERVICE_ROWS:
+					Y: 14
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT - 30
+					TopBottomSpacing: 1
+					ItemSpacing: 0
+					ScrollbarWidth: 10
+				Label@EXPENSE_TOTAL:
+					Y: PARENT_HEIGHT - 14
+					Width: PARENT_WIDTH - 2
+					Height: 14
+					Font: TinyBold
+					Align: Right
+				Label@EXPENSE_TOTAL_LABEL:
+					Y: PARENT_HEIGHT - 14
+					Width: 140
+					Height: 14
+					Font: Tiny
+					Text: label-budget-total-expenses
+		Container@PAGE_TAXES:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 49 - 22
+			Visible: false
+			Children:
+				CityHeader@TAX_HEADER:
+					Width: PARENT_WIDTH
+					Height: 12
+					Text: label-budget-taxes
+				Container@TAX_ROWS:
+					Y: 14
+					Width: PARENT_WIDTH
+					Height: 76
+				CityHeader@TAX_DETAIL_HEADER:
+					Y: 92
+					Width: PARENT_WIDTH
+					Height: 12
+				ScrollPanel@TAX_DETAIL:
+					Y: 106
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT - 106
+					TopBottomSpacing: 1
+					ItemSpacing: 0
+					ScrollbarWidth: 10
+		Container@PAGE_FEES:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 49 - 22
+			Visible: false
+			Children:
+				CityHeader@FEES_HEADER:
+					Width: PARENT_WIDTH
+					Height: 12
+					Text: label-budget-fees
+				Background@FEE_WELL:
+					Y: 14
+					Width: PARENT_WIDTH
+					Height: 112
+					Background: well
+					Children:
+						Container@FEE_ROWS:
+							X: 1
+							Y: 1
+							Width: PARENT_WIDTH - 2
+							Height: PARENT_HEIGHT - 2
+				CityIcon@INFO_ICON:
+					Y: 132
+					Width: 16
+					Height: 14
+					Icon: ui_info
+				Label@FEES_HINT:
+					X: 20
+					Y: 132
+					Width: PARENT_WIDTH - 20
+					Height: 24
+					Font: Tiny
+					VAlign: Top
+					WordWrap: true
+					Text: label-budget-fees-hint
+		Container@PAGE_LOAN:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 49 - 22
+			Visible: false
+			Children:
+				CityHeader@LOAN_HEADER:
+					Width: PARENT_WIDTH
+					Height: 12
+					Text: label-budget-loan
+				Label@LOAN_INFO:
+					Y: 16
+					Width: PARENT_WIDTH
+					Height: 26
+					Font: Tiny
+					VAlign: Top
+				Label@CREDIT_LABEL:
+					Y: 46
+					Width: 60
+					Height: 14
+					Font: Tiny
+					Text: label-budget-credit-used
+				CityBar@CREDIT_BAR:
+					X: 62
+					Y: 48
+					Width: PARENT_WIDTH - 170
+					Height: 10
+					Ramp: blue
+				Label@CREDIT_VALUE:
+					X: PARENT_WIDTH - 104
+					Y: 46
+					Width: 104
+					Height: 14
+					Font: TinyBold
+					Align: Right
+				CityHeader@BORROW_HEADER:
+					Y: 66
+					Width: PARENT_WIDTH
+					Height: 12
+					Text: label-budget-loan-take
+				Container@LOAN_ROWS:
+					Y: 82
+					Width: PARENT_WIDTH
+					Height: 20
+				Label@LOAN_PREVIEW:
+					Y: 104
+					Width: PARENT_WIDTH
+					Height: 14
+					Font: Tiny
+				CityIcon@INFO_ICON:
+					Y: 124
+					Width: 16
+					Height: 14
+					Icon: ui_info
+				Label@LOAN_NOTE:
+					X: 20
+					Y: 124
+					Width: PARENT_WIDTH - 20
+					Height: 26
+					Font: Tiny
+					VAlign: Top
+					WordWrap: true
+					Text: label-budget-loan-note
+		Background@FOOTER_LINE:
+			X: 4
+			Y: PARENT_HEIGHT - 20
+			Width: PARENT_WIDTH - 8
+			Height: 2
+			Background: etched-h
+		Label@FUNDS:
+			X: 6
+			Y: PARENT_HEIGHT - 17
+			Width: 150
+			Height: 12
+			Font: Tiny
+		Label@FOOTER_BALANCE:
+			X: PARENT_WIDTH - 186
+			Y: PARENT_HEIGHT - 17
+			Width: 176
+			Height: 12
+			Font: Tiny
+			Align: Right

@@ -465,7 +465,16 @@ namespace OpenRA.Traits
 		bool SpatiallyPartitionable { get; }
 	}
 
-	public enum PostProcessPassType { AfterShroud, AfterWorld, AfterActors, AfterAnnotations }
+	public enum PostProcessPassType { AfterShroud, AfterWorld, AfterActors, AfterAnnotations, AfterTerrain }
+
+	/// <summary>
+	/// Draws the backdrop behind the map (e.g. the void around an isometric diamond map). Called once per frame in
+	/// world-pixel space before the terrain, without the map scissor, so it can cover the whole viewport.
+	/// </summary>
+	public interface IRenderBackdrop
+	{
+		void RenderBackdrop(WorldRenderer wr);
+	}
 
 	[RequireExplicitImplementation]
 	public interface IRenderPostProcessPass

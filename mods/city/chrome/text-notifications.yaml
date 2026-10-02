@@ -42,21 +42,23 @@ Container@SYSTEM_LINE_TEMPLATE:
 			Shadow: True
 			TextColor: FFFF00
 
-# OpenCity: transient messages float over the busy world view, so each line gets a dark backdrop.
+# OpenCity: transient messages float over the busy world view, so each line sits on an RCT2 tooltip plate
+# (CityTextBackdrop) with dark ink text.
 Container@TRANSIENT_LINE_TEMPLATE:
 	Width: PARENT_WIDTH
-	Height: 18
+	Height: 20
 	Children:
 		Label@TIME:
 			X: 5
 			Width: 37
-			Height: 18
-			Shadow: True
+			Height: 20
+			Font: Regular
+			TextColor: 140E08
 		CityTextBackdrop@BACKDROP:
 			Target: TEXT
 		Label@TEXT:
 			X: 5
-			Height: 18
+			Height: 20
+			Font: Regular
 			WordWrap: True
-			Shadow: True
-			TextColor: E8F4F4
+			TextColor: 140E08

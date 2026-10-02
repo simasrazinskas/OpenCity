@@ -114,12 +114,7 @@ label-infoview-happiness = Happiness
 label-infoview-happiness-desc = Happiness of buildings
 
 ## Budget
-label-budget-title = Budget
 button-budget-close = Close
-label-budget-income = Income (last month)
-label-budget-expenses = Expenses (last month)
-label-budget-total = Total: { $amount }
-label-budget-balance = Monthly balance: { $balance }
 label-budget-taxes = Tax rates
 label-budget-tax-residential = Residential
 label-budget-tax-commercial = Commercial
@@ -252,19 +247,12 @@ label-building-happiness-title = Happiness { $value }% (city factors)
 
 ## Citizen panel
 label-citizen-age-line = { $age }, { $years } years
-label-citizen-education = Education
-label-citizen-job = Job
 label-citizen-school = School
-label-citizen-home = Home
-label-citizen-activity = Doing
 label-citizen-happiness = Happiness
 label-citizen-health = Health
-label-citizen-cash = Household cash
 label-citizen-unemployed = Unemployed
 label-citizen-retired = Retired
 label-citizen-homeless = Homeless
-button-citizen-home = Home
-button-citizen-work = Work
 
 label-education-uneducated = Uneducated
 label-education-poorly = Poorly educated
@@ -297,13 +285,9 @@ label-kind-transit = Transit
 label-kind-signature = Signature building
 
 ## Statistics
-label-stats-title = City statistics
 label-stats-now = Now
 label-stats-months-ago = { $count } months ago
 label-stats-empty = No statistics recorded yet.
-button-stats-scale-year = 1 year
-button-stats-scale-five = 5 years
-button-stats-scale-all = All time
 label-stats-category-population = Population
 label-stats-category-economy = Economy
 label-stats-category-city = City
@@ -348,7 +332,6 @@ label-stats-transit-passengers = Transit passengers
 label-chirper-title = Chirper
 label-chirper-empty = Nothing to chirp about yet.
 label-chirper-cityhall = City Hall
-label-chirper-author-likes = { $name }   { $likes } likes
 button-chirper-locate = Show on the map
 
 ## Budget (tabs, services, fees, loan)
@@ -361,8 +344,6 @@ label-budget-trend-income = Income
 label-budget-trend-expenses = Expenses
 label-budget-tax-details = Details: { $name }
 label-budget-tax-details-none = No details available.
-label-budget-services = Service budgets
-label-budget-services-hint = A higher budget raises capacity and upkeep. 100% is the default.
 label-budget-service-value = { $budget }%  (eff. { $eff }%)
 label-budget-fees = Fees
 label-budget-fees-hint = Fees are a percentage of the default price. Higher fees earn more but lower happiness and efficiency.
@@ -481,28 +462,19 @@ label-production-produced = Produced
 label-production-consumed = Consumed
 label-production-imported = Imported
 label-production-exported = Exported
-label-production-stock = Stock
-label-production-balance = Surplus / deficit
-label-production-chart = { $name }: last two years
 
 ## Policies
-label-policies-title = Policies
 label-policies-city = City
 label-policies-district = District
 label-policies-no-districts = No districts yet
-label-policies-upkeep = { $amount }/month
 label-policies-locked = Locked
 label-policies-hint = Hover a policy for its effects. Policies cost upkeep every month.
 
 ## Milestones and development tree
-label-progress-title = Milestones and development
-label-progress-milestone = { $name }: { $xp } / { $next } XP
-label-progress-milestone-max = { $name }: { $xp } XP
 label-progress-points = Development points: { $points }
 label-progress-permits = Map tile permits: { $permits }
 label-progress-milestones = Milestones
 label-progress-tree = Development tree
-label-progress-node-cost = { $cost } points
 label-progress-node-owned = Owned
 label-progress-node-requires = Requires: { $names }
 label-progress-node-points = Not enough development points
@@ -510,9 +482,7 @@ label-progress-hint = Hover a node for details. Buying a node unlocks buildings,
 
 ## Districts
 label-districts-title = Districts
-label-districts-hint = New, Paint and Erase work by dragging rectangles on the map.
 button-districts-new = New
-button-districts-paint = Paint
 button-districts-erase = Erase
 button-districts-delete = Delete
 label-districts-population = Population
@@ -550,10 +520,7 @@ label-road-mode-paired = Paired
 label-road-mode-paired-desc = Build both directions as two separate carriageways
 
 ## Statistics overview
-label-stats-category-overview = Overview
-label-overview-age = Age groups
 label-overview-education = Education
-label-overview-city = Employment and housing
 label-overview-workers = Workers
 label-overview-unemployed = Unemployed
 label-overview-students = Students
@@ -648,7 +615,6 @@ label-tool-metroline-desc = Click the metro stations in order, Enter or the firs
 label-alert-chip = { $name } x{ $count }
 button-city-tool-achievements = Achievements
 button-city-tool-advisor = Advisor
-button-advisor-close = Close the advisor
 button-advisor-previous = Previous
 button-advisor-next = Next
 label-advisor-step = Step { $current } of { $total }
@@ -683,23 +649,9 @@ tutorial-grow-hint = Open the milestones panel (J) to see what comes next.
 label-achievements-title = Achievements
 label-achievements-summary = { $count } of { $total } unlocked
 label-achievements-streak = ({ $streak } of { $months } months)
-label-achievements-xp = { $xp } XP
-label-tiles-title = Buy map tiles
-label-tiles-count = { $owned } of { $total } owned
-label-tiles-row-tiles = Tiles
-label-tiles-row-permits = Permits
-label-tiles-row-status = This tile
-label-tiles-row-price = Price
-label-tiles-row-upkeep = Upkeep change
-label-tiles-row-land = Buildable land
-label-tiles-row-resources = Resources
-label-tiles-status-buyable = Can be bought
-label-tiles-land = { $buildable } of { $total } cells
-label-tiles-no-resources = None
 label-tiles-no-funds = Not enough money
 label-tiles-invalid = Outside the map
 label-tiles-legend-owned = Owned
-label-tiles-legend-buyable = Can buy
 label-tiles-legend-locked = Locked
 label-road-mode-bridge = Bridge
 label-road-mode-bridge-desc = Span short stretches of water with a bridge (costs three times as much)
@@ -709,7 +661,6 @@ label-alert-wildfire = Wildfire
 label-service-condition = Condition
 label-service-districts = Serves districts
 label-service-districts-all = All
-label-advisor-title = Advisor
 label-hub-clearcut = Clear-cut the forest
 label-city-cost-per-stop = Cost: { $cost } per stop
 label-tool-tramstop = Tram stop
@@ -733,9 +684,6 @@ label-alert-accident = Accident
 ## Vehicle card
 label-vehicle-purpose = Trip
 label-vehicle-mode = Mode
-label-vehicle-from = From
-label-vehicle-to = To
-label-vehicle-driver = Driver
 label-vehicle-status = Status
 label-vehicle-crashed = Crashed, waiting for help
 label-vehicle-driving = Driving

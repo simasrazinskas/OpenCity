@@ -1,0 +1,6 @@
+# Art of the menus and loading screens (area MENUS), drawn at runtime by CityChromeGenerator at the device scale.
+menu-logos:
+	Inherits: ^CityChrome
+	Images:
+		# The pixel wordmark, as large a whole multiple of the 59x11 art pixel mask as fits (CityChromeGenerator.Logo.cs).
+		logo: art logo 420 120

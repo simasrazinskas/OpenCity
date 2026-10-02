@@ -46,22 +46,22 @@ namespace OpenRA.Mods.City.Traits
 		[Desc("Sprite image of the overlay sequences (arrows, control, median).")]
 		public readonly string Image = "roadnet";
 
-		[Desc("Overlay sequence with 4 frames (N, E, S, W) drawn on one-way cells.")]
+		[Desc("Overlay sequence with 4 frames (N, E, S, W) drawn on one-way cells; \"<name>-<type sequence>\" overrides it per road type.")]
 		public readonly string ArrowSequence = "arrows";
 
-		[Desc("Overlay sequence for junction control, ramps and islands (frames: 0 stop, 1 signal, 2 roundabout, 3 ramp, 4 island).")]
+		[Desc("Overlay sequence for highway ramps and roundabout islands (frames: 0-3 ramp towards N, E, S, W; 4 island 1x1; 5-13 island 3x3).")]
 		public readonly string ControlSequence = "control";
 
-		[Desc("Overlay sequence with 16 frames indexed by the side-block mask (median strips).")]
+		[Desc("Prefix of the median overlay sequences \"<name>-<type sequence>\", 16 frames indexed by the side-block mask.")]
 		public readonly string MedianSequence = "median";
 
-		[Desc("Overlay sequence for lane paint (bus and bike lanes): 48 frames, (lane combo - 1) * 16 + arm mask.")]
+		[Desc("Prefix of the lane paint overlay sequences \"<name>-<type sequence>\" (bus and bike lanes): 96 frames, see networks.yaml.")]
 		public readonly string LaneSequence = "lanes";
 
-		[Desc("Overlay sequence for roadside add-ons (trees, barrier, lights, parking): 240 frames, (combo - 1) * 16 + free-side mask.")]
+		[Desc("Prefix of the add-on ground overlay sequences \"<name>-<type sequence>\" (parking bays): 240 frames, (combo - 1) * 16 + free-side mask.")]
 		public readonly string StripSequence = "strips";
 
-		[Desc("Sequence with the bridge deck: 4 frames (N-S two-way, E-W two-way, N-S one-way, E-W one-way).")]
+		[Desc("Prefix of the bridge deck sequences \"<name>-<type sequence>\": 16 frames, see networks.yaml.")]
 		public readonly string BridgeSequence = "bridge";
 
 		[Desc("Terrain types a bridge may span.")]

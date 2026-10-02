@@ -1,0 +1,61 @@
+# Game (pause) menu (design/iso/ui/panels/pause-window.png, tools/iso_ui_menus.pause_window): a dimmed world, the PAUSED
+# banner and an RCT2 window with the city header and big icon buttons. CityIngameMenuLogic (IngameMenuLogic) creates the
+# entries from BUTTON_TEMPLATE, lays them out and sizes the window.
+Container@INGAME_MENU:
+	Width: WINDOW_WIDTH
+	Height: WINDOW_HEIGHT
+	Logic: CityIngameMenuLogic
+		Buttons: RESUME, SAVE_GAME, LOAD_GAME, SETTINGS, ABORT_MISSION
+		ButtonStride: 0, 32
+	Children:
+		ColorBlock@DIM:
+			Width: WINDOW_WIDTH
+			Height: WINDOW_HEIGHT
+			Color: 0A080690
+		Label@PAUSED_LABEL:
+			Y: 48
+			Width: WINDOW_WIDTH
+			Height: 30
+			Font: BigBold
+			Align: Center
+			TextColor: FFE46A
+			Contrast: true
+			ContrastColorDark: 2A1204
+		CityPanel@MENU_BUTTONS:
+			Title: menu-pause-title
+			BelowAlerts: false
+			Grip: false
+			Width: 214
+			Height: 200
+			Children:
+				Label@HEADER_NAME:
+					X: 6
+					Y: 22
+					Width: PARENT_WIDTH - 12
+					Height: 14
+					Font: TinyBold
+				Label@HEADER_INFO:
+					X: 6
+					Y: 35
+					Width: PARENT_WIDTH - 12
+					Height: 12
+					Font: Tiny
+				Background@HEADER_LINE:
+					X: 4
+					Y: 49
+					Width: PARENT_WIDTH - 8
+					Height: 2
+					Background: etched-h
+				CityMenuButton@BUTTON_TEMPLATE:
+					Width: 100
+					Height: 28
+					Font: Regular
+					IconSize: 16
+				CityMenuButton@QUIT_BUTTON:
+					Width: 100
+					Height: 28
+					Font: Regular
+					IconSize: 16
+					Text: menu-pause-quit
+					Icon: ui_cross
+					WellRamp: red

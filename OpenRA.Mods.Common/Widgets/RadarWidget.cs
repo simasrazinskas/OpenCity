@@ -68,6 +68,11 @@ namespace OpenRA.Mods.Common.Widgets
 		int2 previewOrigin = int2.Zero;
 		Rectangle mapRect = Rectangle.Empty;
 
+		// Isometric projection (MapGrid Projection: Isometric): the map is drawn as a diamond, like the world view.
+		// Cell (u, v) relative to the bounds is at mapRect.Location + previewScale * (u - v + boundsHeight, (u + v) / 2).
+		readonly bool diamond;
+		Size diamondCells;
+
 		Sheet radarSheet;
 		byte[] radarData;
 
@@ -94,6 +99,8 @@ namespace OpenRA.Mods.Common.Widgets
 			previewHeight = world.Map.MapSize.Height;
 			if (isRectangularIsometric)
 				previewWidth = 2 * previewWidth - 1;
+
+			diamond = worldRenderer.IsIsometric;
 		}
 
 		void CellTerrainColorChanged(MPos uv)
@@ -228,9 +235,22 @@ namespace OpenRA.Mods.Common.Widgets
 
 			var b = Rectangle.FromLTRB(left, top, right, bottom);
 			var rb = RenderBounds;
-			previewScale = Math.Min(rb.Width * 1f / b.Width, rb.Height * 1f / b.Height);
-			previewOrigin = new int2((int)((rb.Width - previewScale * b.Width) / 2), (int)((rb.Height - previewScale * b.Height) / 2));
-			mapRect = new Rectangle(previewOrigin.X, previewOrigin.Y, (int)(previewScale * b.Width), (int)(previewScale * b.Height));
+			if (diamond)
+			{
+				// The diamond spans (w + h) half cells across and (w + h) / 2 down.
+				diamondCells = map.Bounds.Size;
+				var span = diamondCells.Width + diamondCells.Height;
+				previewScale = Math.Min(rb.Width * 1f / span, rb.Height * 2f / span);
+				var size = new Size((int)(previewScale * span), (int)(previewScale * span / 2));
+				previewOrigin = new int2((rb.Width - size.Width) / 2, (rb.Height - size.Height) / 2);
+				mapRect = new Rectangle(previewOrigin.X, previewOrigin.Y, size.Width, size.Height);
+			}
+			else
+			{
+				previewScale = Math.Min(rb.Width * 1f / b.Width, rb.Height * 1f / b.Height);
+				previewOrigin = new int2((int)((rb.Width - previewScale * b.Width) / 2), (int)((rb.Height - previewScale * b.Height) / 2));
+				mapRect = new Rectangle(previewOrigin.X, previewOrigin.Y, (int)(previewScale * b.Width), (int)(previewScale * b.Height));
+			}
 
 			terrainSprite = new Sprite(radarSheet, b, TextureChannel.RGBA);
 			shroudSprite = new Sprite(radarSheet, new Rectangle(b.Location + new Size(previewWidth, 0), b.Size), TextureChannel.RGBA);
@@ -378,6 +398,12 @@ namespace OpenRA.Mods.Common.Widgets
 
 			radarSheet.CommitBufferedData();
 
+			if (diamond)
+			{
+				DrawDiamond();
+				return;
+			}
+
 			var o = new Vector2(mapRect.Location.X, mapRect.Location.Y + world.Map.Bounds.Height * previewScale * (1 - radarMinimapHeight) / 2);
 			var s = new Vector2(mapRect.Size.Width, mapRect.Size.Height * radarMinimapHeight);
 
@@ -413,6 +439,54 @@ namespace OpenRA.Mods.Common.Widgets
 				Game.Renderer.RgbaColorRenderer.DrawRect(tl.ToVector3(), br.ToVector3(), 1, Color.White);
 				Game.Renderer.DisableScissor();
 			}
+		}
+
+		void DrawDiamond()
+		{
+			// The open/close animation squashes the diamond vertically around its middle.
+			var cy = mapRect.Y + mapRect.Height / 2f;
+			Vector3 P(float u, float v)
+			{
+				var p = DiamondPixel(u, v);
+				return new Vector3(p.X, cy + (p.Y - cy) * radarMinimapHeight, 0);
+			}
+
+			var (w, h) = (diamondCells.Width, diamondCells.Height);
+			var (a, b, c, d) = (P(0, 0), P(w, 0), P(w, h), P(0, h));
+			var rgba = Game.Renderer.RgbaSpriteRenderer;
+			Game.Renderer.EnableAntialiasingFilter();
+			rgba.DrawSprite(terrainSprite, a, b, c, d, Vector3.One, 1f);
+			rgba.DrawSprite(actorSprite, a, b, c, d, Vector3.One, 1f);
+			if (shroud != null)
+				rgba.DrawSprite(shroudSprite, a, b, c, d, Vector3.One, 1f);
+			Game.Renderer.DisableAntialiasingFilter();
+
+			if (!hasRadar)
+				return;
+
+			// The view is a rotated rectangle on the ground: draw its true four-corner shape.
+			var vp = worldRenderer.Viewport;
+			var tl = vp.TopLeft;
+			var br = vp.BottomRight;
+			var corners = new[] { tl, new int2(br.X, tl.Y), br, new int2(tl.X, br.Y) };
+			var points = new Vector2[4];
+			for (var i = 0; i < 4; i++)
+			{
+				var g = worldRenderer.GroundPosition(corners[i].ToVector2());
+				var ts = world.Map.Grid.TileScale;
+				points[i] = DiamondPixel(g.X / ts - world.Map.Bounds.Left, g.Y / ts - world.Map.Bounds.Top);
+			}
+
+			Game.Renderer.EnableScissor(mapRect);
+			DrawRadarPings();
+			Game.Renderer.RgbaColorRenderer.DrawPolygon(points, 1, Color.White);
+			Game.Renderer.DisableScissor();
+		}
+
+		/// <summary>Diamond mode: the minimap pixel of a (fractional) cell position relative to the map bounds.</summary>
+		Vector2 DiamondPixel(float u, float v)
+		{
+			return new Vector2(mapRect.X + previewScale * (u - v + diamondCells.Height), mapRect.Y + previewScale * (u + v) / 2);
 		}
 
 		void DrawRadarPings()
@@ -523,6 +597,9 @@ namespace OpenRA.Mods.Common.Widgets
 		int2 CellToMinimapPixel(CPos p)
 		{
 			var uv = p.ToMPos(world.Map);
+			if (diamond)
+				return int2.FromVector(DiamondPixel(uv.U + 0.5f - world.Map.Bounds.Left, uv.V + 0.5f - world.Map.Bounds.Top));
+
 			var dx = (int)(previewScale * cellWidth * (uv.U - world.Map.Bounds.Left));
 			var dy = (int)(previewScale * (uv.V - world.Map.Bounds.Top));
 
@@ -535,6 +612,15 @@ namespace OpenRA.Mods.Common.Widgets
 
 		Vector2 MinimapPixelToWorldCoords(int2 pixel)
 		{
+			if (diamond)
+			{
+				// Inverse of DiamondPixel: u - v from the column, u + v from the row (in cells, relative to the bounds).
+				var diff = (pixel.X - mapRect.X) / previewScale - diamondCells.Height;
+				var sum = 2 * (pixel.Y - mapRect.Y) / previewScale;
+				var ts = world.Map.Grid.TileScale;
+				return new Vector2(ts * ((sum + diff) / 2 + world.Map.Bounds.Left), ts * ((sum - diff) / 2 + world.Map.Bounds.Top));
+			}
+
 			var u = (pixel.X - mapRect.X) / (previewScale * cellWidth) + world.Map.Bounds.Left;
 			var v = (pixel.Y - mapRect.Y) / previewScale + world.Map.Bounds.Top;
 

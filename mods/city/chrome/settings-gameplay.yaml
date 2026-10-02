@@ -1,0 +1,139 @@
+# Settings: Gameplay tab (design/iso/ui/panels/settings-gameplay.png): player name and colour, autosave. The OpenRA forum
+# profile has no use here and stays in the hidden UNUSED container so GameplaySettingsLogic can bind it.
+Container@GAMEPLAY_PANEL:
+	Logic: GameplaySettingsLogic
+	Width: PARENT_WIDTH
+	Height: PARENT_HEIGHT
+	Children:
+		Container@UNUSED:
+			Visible: false
+			Children:
+				TextField@USERNAME:
+				PasswordField@PASSWORD:
+				Label@PROFILE_STATUS:
+				Label@CHECKING_FINGERPRINT:
+				Label@CONNECTION_ERROR:
+				Button@FORUM_BUTTON:
+				Button@RETRY_BUTTON:
+				Button@LINK_BUTTON:
+		ScrollPanel@SETTINGS_SCROLLPANEL:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			CollapseHiddenChildren: True
+			Background: none
+			ScrollbarWidth: 10
+			TopBottomSpacing: 2
+			ItemSpacing: 4
+			Children:
+				CityHeader@PROFILE_SECTION_HEADER:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 12
+					Text: label-profile-section-header
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@PLAYER_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 14
+							Children:
+								LabelForInput@PLAYER:
+									Width: 108
+									Height: 14
+									Font: Tiny
+									Text: label-player-container
+									For: PLAYERNAME
+								TextField@PLAYERNAME:
+									X: 110
+									Width: 160
+									Height: 14
+									Font: Tiny
+									MaxLength: 16
+									Text: Name
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@PLAYERCOLOR_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 14
+							Children:
+								LabelForInput@COLOR:
+									Width: 108
+									Height: 14
+									Font: Tiny
+									Text: label-playercolor-container-color
+									For: PLAYERCOLOR
+								DropDownButton@PLAYERCOLOR:
+									X: 110
+									Width: 48
+									Height: 14
+									IgnoreChildMouseOver: true
+									PanelAlign: Right
+									Children:
+										ColorBlock@COLORBLOCK:
+											X: 4
+											Y: 3
+											Width: PARENT_WIDTH - 22
+											Height: PARENT_HEIGHT - 6
+				CityHeader@GAMEPLAY_SECTION_HEADER:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 12
+					Text: label-gameplay-section-header
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@AUTO_SAVE_INTERVAL_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 14
+							Children:
+								Label@AUTO_SAVE_INTERVAL_DROP_DOWN_LABEL:
+									Width: 108
+									Height: 14
+									Font: Tiny
+									Text: label-auto-save-interval
+								DropDownButton@AUTO_SAVE_INTERVAL_DROP_DOWN:
+									X: 110
+									Width: 160
+									Height: 14
+									Font: Tiny
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@AUTO_SAVE_NO_CONTAINER:
+							Width: PARENT_WIDTH
+							Height: 14
+							Children:
+								Label@AUTO_SAVE_FILE_NUMBER_DROP_DOWN_LABEL:
+									Width: 108
+									Height: 14
+									Font: Tiny
+									Text: label-auto-save-max-file-number
+								DropDownButton@AUTO_SAVE_FILE_NUMBER_DROP_DOWN:
+									X: 110
+									Width: 160
+									Height: 14
+									Font: Tiny
+				Container@ROW:
+					X: 2
+					Width: PARENT_WIDTH - 16
+					Height: 14
+					Children:
+						Container@HIDE_REPLAY_CHAT_CHECKBOX_CONTAINER:
+							X: 0
+							Width: 190
+							Height: 14
+							Children:
+								Checkbox@HIDE_REPLAY_CHAT_CHECKBOX:
+									Width: PARENT_WIDTH
+									Height: 14
+									Font: Tiny
+									Text: checkbox-hide-replay-chat-container

@@ -16,13 +16,17 @@ using OpenRA.Widgets;
 
 namespace OpenRA.Mods.City.Widgets
 {
-	/// <summary>A "name, slider, value" row (template CITY_SLIDER_ROW) created from code.</summary>
+	/// <summary>A "[icon] name, slider, value [, extra]" row (template CITY_SLIDER_ROW) created from code.</summary>
 	public sealed class SliderRow
 	{
 		public Widget Row;
+		public CityIconWidget Icon;
 		public ButtonWidget Name;
 		public CitySliderWidget Slider;
 		public LabelWidget Value;
+
+		/// <summary>Optional second value column (e.g. the money a rate brings in), hidden unless given text.</summary>
+		public LabelWidget Extra;
 	}
 
 	public static class CityRows
@@ -33,18 +37,32 @@ namespace OpenRA.Mods.City.Widgets
 		/// </summary>
 		public static SliderRow AddSlider(World world, Widget container, int y, string name, Color nameColor, int min, int max, int step,
 			Func<int> get, Action<int> commit, Func<int, string> format = null, Func<bool> disabled = null,
-			int width = 560, int nameWidth = 150, int valueWidth = 114)
+			int width = 330, int nameWidth = 100, int valueWidth = 30, string icon = null, Func<string> extra = null, int extraWidth = 50)
 		{
 			var row = Game.LoadWidget(world, "CITY_SLIDER_ROW", container, []);
 			row.Bounds.Y = y;
 			row.Bounds.Width = width;
 
+			var iconWidget = row.Get<CityIconWidget>("ICON");
+			iconWidget.Icon = icon;
+			iconWidget.IsVisible = () => icon != null;
+			var nameX = icon != null ? 20 : 0;
+
 			var nameButton = row.Get<ButtonWidget>("NAME");
-			nameButton.Bounds.Width = nameWidth;
+			nameButton.Bounds.X = nameX;
+			nameButton.Bounds.Width = nameWidth - nameX;
 			nameButton.GetText = () => name;
-			nameButton.GetColor = () => nameColor;
+			nameButton.GetColor = () => nameColor == Color.White ? CityTheme.Ink : nameColor;
 			nameButton.Background = "";
 			nameButton.VisualHeight = 0;
+
+			var extraLabel = row.Get<LabelWidget>("EXTRA");
+			var extraW = extra != null ? extraWidth : 0;
+			extraLabel.IsVisible = () => extra != null;
+			extraLabel.Bounds.Width = extraWidth;
+			extraLabel.Bounds.X = width - extraWidth - 2;
+			if (extra != null)
+				extraLabel.GetText = extra;
 
 			var slider = row.Get<CitySliderWidget>("SLIDER");
 			slider.MinimumValue = min;
@@ -56,15 +74,15 @@ namespace OpenRA.Mods.City.Widgets
 
 			var value = row.Get<LabelWidget>("VALUE");
 			value.Bounds.Width = valueWidth;
-			value.Bounds.X = width - valueWidth;
+			value.Bounds.X = width - valueWidth - extraW - (extra != null ? 6 : 2);
 			value.GetText = () => format != null ? format(slider.DisplayValue) :
 				FluentProvider.GetMessage("label-city-percent", "value", slider.DisplayValue);
 
 			// The slider takes the space between the name and the value.
-			slider.Bounds.X = nameWidth + 8;
-			slider.Bounds.Width = Math.Max(60, width - nameWidth - valueWidth - 16);
+			slider.Bounds.X = nameWidth + 4;
+			slider.Bounds.Width = Math.Max(40, value.Bounds.X - nameWidth - 10);
 
-			return new SliderRow { Row = row, Name = nameButton, Slider = slider, Value = value };
+			return new SliderRow { Row = row, Icon = iconWidget, Name = nameButton, Slider = slider, Value = value, Extra = extraLabel };
 		}
 	}
 }

@@ -232,6 +232,24 @@ namespace OpenRA.Mods.City.Traits
 			return true;
 		}
 
+		/// <summary>
+		/// Render only: light shown to the approach of junction arm <paramref name="arm"/> (0 N, 1 E, 2 S, 3 W) of a signal
+		/// cell: 0 red, 1 amber, 2 green. Reads the same phase the simulation uses; never changes state.
+		/// </summary>
+		public int SignalLight(CPos c, int arm)
+		{
+			if (sigShift == null || c.X < 0 || c.Y < 0 || c.X >= width || c.Y >= height)
+				return 0;
+
+			var cycle = Math.Max(8, Info.SignalCycleTicks);
+			var half = cycle / 2;
+			var phase = SignalPhase(Cell(c), cycle);
+			if ((arm & 1) == 0)
+				return phase < half - 2 ? 2 : phase < half ? 1 : 0;
+
+			return phase >= half && phase < cycle - 2 ? 2 : phase >= cycle - 2 ? 1 : 0;
+		}
+
 		int SignalPhase(int cell, int cycle)
 		{
 			var p = (tick + (Hash(cell, 7) & 0xffff) % cycle + sigShift[cell]) % cycle;

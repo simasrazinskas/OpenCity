@@ -110,7 +110,31 @@ CityAdvisor: L
 	Types: World
 	Contexts: player
 
+CitySeeThrough: H
+	Description: hotkey-description-cityseethrough
+	Types: World
+	Contexts: player
+
+CityMap: M
+	Description: hotkey-description-citymap
+	Types: World
+	Contexts: player
+
+CityNotifications: N
+	Description: hotkey-description-citynotifications
+	Types: World
+	Contexts: player
+
+CityInfo: C
+	Description: hotkey-description-cityinfo
+	Types: World
+	Contexts: player
+
 # Free keys that clash with the city hotkeys above (RTS leftovers from the common hotkey set).
+CycleBase: H Alt
+ToggleMute: M Alt
+CycleHarvesters: N Alt
+Repair: C Alt
 ToLastEvent: END
 Sell: Z Alt
 PlaceBeacon: B Alt

@@ -26,9 +26,9 @@ namespace OpenRA.Mods.City.UIArt
 	///   Style: palette file (uistyle.yaml), Icons: vector icon file (cityicons.vec)
 	///   Panel: Button|Compact|Dialog|Raised|Well|Track|Tooltip|Toolbar|Item|Header|Bar|Frame, State: Normal|Hover|...
 	///   IconSet: name + IconSize: n             every icon of a vector icon set
-	///   OrderTiles: w, h                        all sidebar order tiles (+ -disabled / -active)
 	///   Image: file.png + Regions               a 1x raster atlas, upscaled by a whole factor (nearest neighbour)
-	///   Images: name: glyph|icon|tile|art|empty ...   individual images.
+	///   Images: name: glyph|icon|art|empty|alias ...   individual images.
+	///   Rct: true + IconAtlas + ThumbAtlas      the RCT2 widget kit for every window family (CityChromeGenerator.Rct.cs).
 	/// </summary>
 	public sealed partial class CityChromeGenerator : IChromeGenerator
 	{
@@ -70,12 +70,24 @@ namespace OpenRA.Mods.City.UIArt
 
 			Setup(context.FileSystem, context.Scale, Value(first, "Style") ?? "city|uistyle.yaml", Value(first, "Icons") ?? "cityicons.vec");
 
+			// The RCT2 widget kit (all window families) first, so that collections may alias it
+			foreach (var (_, yaml) in context.Collections)
+			{
+				if (Value(yaml, "Rct") != "true")
+					continue;
+
+				iconAtlas = Value(yaml, "IconAtlas");
+				thumbAtlas = Value(yaml, "ThumbAtlas");
+				GenerateRct();
+				break;
+			}
+
 			// Panels first, so that images and aliases can refer to them
 			foreach (var (name, yaml) in context.Collections)
 			{
 				var panel = Value(yaml, "Panel");
 				if (panel != null)
-					GeneratePanel(name, panel, Value(yaml, "State") ?? "Normal", yaml);
+					GeneratePanel(name, panel);
 			}
 
 			// Aliases are resolved last, so they may refer to images of any collection
@@ -85,10 +97,6 @@ namespace OpenRA.Mods.City.UIArt
 				var iconSet = Value(yaml, "IconSet");
 				if (iconSet != null)
 					GenerateIconSet(name, iconSet, Int(Value(yaml, "IconSize") ?? "32"));
-
-				var tiles = Value(yaml, "OrderTiles");
-				if (tiles != null)
-					GenerateOrderTiles(name, Ints(tiles));
 
 				var image = Value(yaml, "Image");
 				if (image != null)
@@ -164,14 +172,6 @@ namespace OpenRA.Mods.City.UIArt
 					break;
 				}
 
-				case "tile":
-				{
-					var w = t.Length > 4 ? Int(t[3]) : 34;
-					var h = t.Length > 4 ? Int(t[4]) : 35;
-					ctx.AddImage(collection, image, OrderTile(t[1], t.Length > 2 ? t[2] : "normal", w, h).ToBitmap());
-					break;
-				}
-
 				case "alias":
 				{
 					var parts = t[1].Split('/');
@@ -192,9 +192,6 @@ namespace OpenRA.Mods.City.UIArt
 		VectorIcons.Icon Glyph(string name)
 		{
 			if (icons.Set("glyphs").TryGetValue(name, out var g))
-				return g;
-
-			if (icons.Set("city").TryGetValue(name, out g))
 				return g;
 
 			throw new InvalidDataException($"No vector glyph named `{name}`.");

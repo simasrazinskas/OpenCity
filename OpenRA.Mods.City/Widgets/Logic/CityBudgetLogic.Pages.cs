@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenRA.Mods.City.Traits;
 using OpenRA.Mods.Common.Widgets;
 using OpenRA.Primitives;
@@ -37,12 +38,12 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		const int MinTax = -10;
 		const int MaxTax = 30;
 
-		static readonly (ZoneCategory Category, string Key, int Rgb)[] TaxCategories =
+		static readonly (ZoneCategory Category, string Key, string Icon)[] TaxCategories =
 		[
-			(ZoneCategory.Residential, "residential", 0x7ED957),
-			(ZoneCategory.Commercial, "commercial", 0x5AB4F0),
-			(ZoneCategory.Industrial, "industrial", 0xF2C94C),
-			(ZoneCategory.Office, "office", 0xB07CE8)
+			(ZoneCategory.Residential, "residential", "zone_res_low"),
+			(ZoneCategory.Commercial, "commercial", "zone_com_low"),
+			(ZoneCategory.Industrial, "industrial", "zone_ind"),
+			(ZoneCategory.Office, "office", "zone_off")
 		];
 
 		static readonly ServiceKind[] ServiceKinds =
@@ -52,9 +53,10 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		];
 
 		ScrollPanelWidget taxDetail;
-		LabelWidget taxDetailHeader;
+		CityHeaderWidget taxDetailHeader;
 		ZoneCategory detailCategory = ZoneCategory.Residential;
 		ZoneCategory detailBuilt = ZoneCategory.None;
+		int serviceRowCount;
 
 		void Issue(Order order)
 		{
@@ -68,17 +70,17 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			var taxPage = pages["taxes"];
 			var rows = taxPage.Get("TAX_ROWS");
 			taxDetail = taxPage.Get<ScrollPanelWidget>("TAX_DETAIL");
-			taxDetailHeader = taxPage.Get<LabelWidget>("TAX_DETAIL_HEADER");
+			taxDetailHeader = taxPage.Get<CityHeaderWidget>("TAX_DETAIL_HEADER");
 
 			// With the economy provider the rates go down to -10 (subsidised) and use the detailed order.
 			var detailed = ctx.EconomyUi != null;
 			var y = 0;
-			foreach (var (category, key, rgb) in TaxCategories)
+			foreach (var (category, key, icon) in TaxCategories)
 			{
 				var cat = category;
-				var color = CityUi.FromArgb(rgb);
 				var name = FluentProvider.GetMessage("label-budget-tax-" + key);
-				var row = CityRows.AddSlider(world, rows, y, name, color, detailed ? MinTax : 0, MaxTax, 1,
+				var incomeKey = "tax-" + key;
+				var row = CityRows.AddSlider(world, rows, y, name, Color.White, detailed ? MinTax : 0, MaxTax, 1,
 					() => manager?.GetTaxRate(cat) ?? 0,
 					value =>
 					{
@@ -87,13 +89,15 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 						Issue(detailed ? UiOrders.CategoryTax(world.LocalPlayer, cat, value) : CityOrders.SetTaxOrder(world.LocalPlayer, cat, value));
 					},
-					null, () => manager == null);
+					null, () => manager == null, rows.Bounds.Width, 92, 28, icon,
+					() => "+" + CityUtils.FormatMoney(manager?.LastMonthIncome?.GetValueOrDefault(incomeKey) ?? 0), 56);
 
-				row.Slider.FillColor = color;
-				row.Value.GetColor = () => row.Slider.DisplayValue > 12 ? CityUi.Warn : Color.White;
+				row.Row.Bounds.Height = 19;
+				row.Extra.GetColor = () => CityTheme.MoneyPositive;
+				row.Value.GetColor = () => row.Slider.DisplayValue > 12 ? CityTheme.MoneyNegative : CityTheme.Ink;
 				row.Name.OnClick = () => detailCategory = cat;
-				row.Name.IsHighlighted = () => detailed && detailCategory == cat;
-				y += 30;
+				row.Name.GetColor = () => detailed && detailCategory == cat ? CityTheme.FamilyShade("finance", 1) : CityTheme.Ink;
+				y += 19;
 			}
 
 			taxDetailHeader.IsVisible = () => detailed;
@@ -108,11 +112,12 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			detailBuilt = detailCategory;
 			taxDetail.RemoveChildren();
 			var catName = FluentProvider.GetMessage("label-budget-tax-" + TaxCategories[Array.FindIndex(TaxCategories, t => t.Category == detailCategory)].Key);
-			taxDetailHeader.GetText = () => FluentProvider.GetMessage(DetailHeader, "name", catName);
+			var headerText = FluentProvider.GetMessage(DetailHeader, "name", catName);
+			taxDetailHeader.GetText = () => headerText;
 
 			var source = ctx.EconomyUi;
 			var y = 0;
-			var width = taxDetail.Bounds.Width - taxDetail.ScrollbarWidth - 8;
+			var width = taxDetail.Bounds.Width - taxDetail.ScrollbarWidth - 2;
 			if (detailCategory == ZoneCategory.Residential)
 			{
 				for (var i = 0; i < 5; i++)
@@ -144,31 +149,75 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		void AddDetailRow(string name, Func<int> get, Func<int, Order> order, ref int y, int width)
 		{
 			var row = CityRows.AddSlider(world, taxDetail, y, name, Color.White, MinTax, MaxTax, 1, get,
-				value => Issue(world.LocalPlayer != null ? order(value) : null), null, null, width, 150, 80);
+				value => Issue(world.LocalPlayer != null ? order(value) : null), null, null, width, 110, 28);
 
-			row.Slider.FillColor = CityUi.Accent;
-			y += 28;
+			row.Row.Bounds.Height = 15;
+			y += 15;
 		}
 
-		// ---- Services ----
+		// ---- Expenses: service budgets, then the other expenses ----
+		static string ServiceKey(ServiceKind kind) { return kind.ToString().ToLowerInvariant(); }
+
 		void BuildServices()
 		{
-			var services = pages["services"].Get("SERVICE_ROWS");
+			serviceRowCount = 0;
 			if (ctx.Services == null)
 				return;
 
-			for (var i = 0; i < ServiceKinds.Length; i++)
+			var width = serviceList.Bounds.Width - serviceList.ScrollbarWidth - 2;
+			foreach (var kind in ServiceKinds)
 			{
-				var kind = ServiceKinds[i];
-				var name = CityUi.Message("label-service-" + kind.ToString().ToLowerInvariant(), kind.ToString());
-				var row = CityRows.AddSlider(world, services, i * 27, name, Color.White, 50, 150, 5,
-					() => ctx.Services.GetBudget(kind),
-					value => Issue(world.LocalPlayer != null ? UiOrders.ServiceBudget(world.LocalPlayer, kind, value) : null),
-					value => FluentProvider.GetMessage(ServiceValue, "budget", value, "eff", Efficiency(value)),
-					null, 560, 150, 150);
+				var k = kind;
+				var name = CityUi.Message("label-service-" + ServiceKey(kind), kind.ToString());
+				var upkeepKey = "upkeep-" + ServiceKey(kind);
+				var row = CityRows.AddSlider(world, serviceList, 0, name, Color.White, 50, 150, 5,
+					() => ctx.Services.GetBudget(k),
+					value => Issue(world.LocalPlayer != null ? UiOrders.ServiceBudget(world.LocalPlayer, k, value) : null),
+					value => FluentProvider.GetMessage("label-city-percent", "value", value),
+					null, width, 86, 30, CityUi.LedgerIcon(upkeepKey),
+					() => "-" + CityUtils.FormatMoney(manager?.LastMonthExpenses?.GetValueOrDefault(upkeepKey) ?? 0), 50);
 
-				row.Slider.FillColor = CityUi.Accent;
+				row.Extra.GetColor = () => CityTheme.MoneyNegative;
+				row.Name.GetTooltipText = () => FluentProvider.GetMessage(ServiceValue, "budget", row.Slider.DisplayValue, "eff", Efficiency(row.Slider.DisplayValue));
+				serviceRowCount++;
 			}
+
+			serviceList.Layout.AdjustChildren();
+		}
+
+		void RefreshExpenses()
+		{
+			var values = manager?.LastMonthExpenses;
+			if (expenseShown != null && ReferenceEquals(values, expenseShown))
+				return;
+
+			expenseShown = values;
+
+			// Keep the slider rows (one may be dragged right now), rebuild what follows them.
+			while (serviceList.Children.Count > serviceRowCount)
+				serviceList.RemoveChild(serviceList.Children[^1]);
+
+			var other = values?.Where(kv => !IsServiceUpkeep(kv.Key)).OrderByDescending(kv => kv.Value).ToList() ?? [];
+			if (other.Count > 0)
+			{
+				var header = AddLedgerRow(serviceList, null, "", CityTheme.Ink);
+				var text = FluentProvider.GetMessage(OtherExpenses);
+				var headerLabel = header.Get<LabelWidget>("NAME");
+				headerLabel.GetText = () => text;
+				foreach (var kv in other)
+					AddLedgerRow(serviceList, kv.Key, "-" + CityUtils.FormatMoney(kv.Value), CityTheme.MoneyNegative);
+			}
+
+			serviceList.Layout.AdjustChildren();
+			var total = pages["services"].Get<LabelWidget>("EXPENSE_TOTAL");
+			var totalText = "-" + CityUtils.FormatMoney(manager?.LastMonthExpensesTotal ?? 0);
+			total.GetText = () => totalText;
+			total.GetColor = () => CityTheme.MoneyNegative;
+		}
+
+		bool IsServiceUpkeep(string key)
+		{
+			return ctx.Services != null && ServiceKinds.Any(k => key == "upkeep-" + ServiceKey(k));
 		}
 
 		/// <summary>Effect of a budget percentage on a service (design 07 section 3.8): 50 gives 25, 100 gives 100, 150 gives 125.</summary>
@@ -205,12 +254,22 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				var read = get;
 				var make = order;
 				var name = CityUi.Message("label-budget-fee-" + key);
+				var incomeKey = "fee-" + key;
 				var row = CityRows.AddSlider(world, fees, y, name, Color.White, 50, 200, 5, read,
-					value => Issue(world.LocalPlayer != null ? make(value) : null));
+					value => Issue(world.LocalPlayer != null ? make(value) : null), null, null, fees.Bounds.Width, 76, 30,
+					CityUi.LedgerIcon(incomeKey), () => "+" + CityUtils.FormatMoney(manager?.LastMonthIncome?.GetValueOrDefault(incomeKey) ?? 0), 50);
 
-				row.Value.GetColor = () => row.Slider.DisplayValue > 120 ? CityUi.Warn : row.Slider.DisplayValue < 80 ? CityUi.Good : Color.White;
-				y += 34;
+				row.Row.Bounds.Height = 18;
+				row.Extra.GetColor = () => CityTheme.MoneyPositive;
+				row.Value.GetColor = () => row.Slider.DisplayValue > 120 ? CityTheme.MoneyNegative : row.Slider.DisplayValue < 80 ? CityTheme.MoneyPositive : CityTheme.Ink;
+				y += 18;
 			}
+
+			var well = pages["fees"].Get("FEE_WELL");
+			well.Bounds.Height = Math.Max(20, y + 2);
+			var hintY = well.Bounds.Y + well.Bounds.Height + 6;
+			pages["fees"].Get("INFO_ICON").Bounds.Y = hintY;
+			pages["fees"].Get("FEES_HINT").Bounds.Y = hintY;
 		}
 
 		// ---- Loan ----
@@ -222,12 +281,10 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				return;
 
 			var name = FluentProvider.GetMessage("label-budget-loan-slider");
-			var slider = CityRows.AddSlider(world, rows, 10, name, Color.White, 0, Math.Max(1000, ctx.EconomyUi.LoanLimit), 1000,
+			var slider = CityRows.AddSlider(world, rows, 2, name, Color.White, 0, Math.Max(1000, ctx.EconomyUi.LoanLimit), 1000,
 				() => ctx.EconomyUi.LoanPrincipal,
 				value => Issue(world.LocalPlayer != null ? UiOrders.Loan(world.LocalPlayer, value) : null),
-				value => CityUtils.FormatMoney(value));
-
-			slider.Slider.FillColor = CityUi.Warn;
+				value => CityUtils.FormatMoney(value), null, rows.Bounds.Width, 60, 70);
 
 			var info = loanPage.Get<LabelWidget>("LOAN_INFO");
 			info.GetText = () =>
@@ -240,10 +297,15 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				"rate", (ctx.EconomyUi.LoanInterestTenthsPercent / 10f).ToString("0.#", System.Globalization.CultureInfo.CurrentCulture));
 			};
 
+			loanPage.Get<CityBarWidget>("CREDIT_BAR").GetPercentage = () =>
+				(int)(ctx.EconomyUi.LoanPrincipal * 100L / Math.Max(1, ctx.EconomyUi.LoanLimit));
+			loanPage.Get<LabelWidget>("CREDIT_VALUE").GetText = () =>
+				CityUtils.FormatMoney(ctx.EconomyUi.LoanPrincipal) + " / " + CityUtils.FormatMoney(ctx.EconomyUi.LoanLimit);
+
 			var preview = loanPage.Get<LabelWidget>("LOAN_PREVIEW");
 			preview.GetText = () => FluentProvider.GetMessage(LoanPreview,
 				"amount", CityUtils.FormatMoney((long)slider.Slider.DisplayValue * ctx.EconomyUi.LoanInterestTenthsPercent / 1000));
-			preview.GetColor = () => CityUi.Warn;
+			preview.GetColor = () => CityTheme.MoneyNegative;
 		}
 	}
 }

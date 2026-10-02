@@ -107,9 +107,25 @@ namespace OpenRA
 		}
 	}
 
+	/// <summary>How world positions are projected onto the screen (cells and world coordinates are not affected).</summary>
+	public enum MapProjection
+	{
+		/// <summary>The classic OpenRA projection: world X is screen x, world (Y - Z) is screen y.</summary>
+		TopDown,
+
+		/// <summary>
+		/// 2:1 dimetric projection of a Rectangular grid (RCT2 style): world +X runs screen down-right, +Y down-left.
+		/// Each cell is drawn as a TileSize diamond (e.g. 64x32). Only valid with MapGridType.Rectangular.
+		/// </summary>
+		Isometric
+	}
+
 	public class MapGrid : IGlobalModData
 	{
 		public readonly MapGridType Type = MapGridType.Rectangular;
+
+		[Desc("World to screen projection. Isometric draws the Rectangular cell grid as a diamond map (render-only).")]
+		public readonly MapProjection Projection = MapProjection.TopDown;
 		public readonly byte MaximumTerrainHeight = 0;
 		public readonly SubCell DefaultSubCell = (SubCell)byte.MaxValue;
 
@@ -138,6 +154,8 @@ namespace OpenRA
 			FieldLoader.Load(this, yaml);
 
 			TileScale = Type == MapGridType.RectangularIsometric ? 1448 : 1024;
+			if (Projection == MapProjection.Isometric && Type != MapGridType.Rectangular)
+				throw new InvalidDataException("MapGrid Projection: Isometric requires Type: Rectangular.");
 
 			// The default subcell index defaults to the middle entry
 			var defaultSubCellIndex = (byte)DefaultSubCell;

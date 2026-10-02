@@ -45,6 +45,9 @@ namespace OpenRA.Mods.City.Traits
 		string probe;
 		CityInfoView shotView;
 		(int U, int V) shotCenter = (14, 0);
+
+		// edge=Up|Down|Left|Right[+...]: after centering, jump the view to these map edges (map-edge hotkeys) before the shot
+		readonly List<ScrollDirection> shotEdges = [];
 		readonly HashSet<int> shotTicks = [];
 		readonly List<string> shotUi = [];
 		readonly HashSet<string> audited = [];
@@ -94,6 +97,10 @@ namespace OpenRA.Mods.City.Traits
 					case "scenario": scenario = parts[1].Trim(); break;
 					case "zoom": shotZoom = float.Parse(parts[1], CultureInfo.InvariantCulture); break;
 					case "probe": probe = parts[1].Trim(); break;
+					case "edge":
+						foreach (var e in parts[1].Split('+', StringSplitOptions.RemoveEmptyEntries))
+							shotEdges.Add(Enum.Parse<ScrollDirection>(e.Trim(), true));
+						break;
 					case "center":
 						var uv = parts[1].Split(',');
 						shotCenter = (int.Parse(uv[0], CultureInfo.InvariantCulture), int.Parse(uv[1], CultureInfo.InvariantCulture));
@@ -116,12 +123,28 @@ namespace OpenRA.Mods.City.Traits
 					case "ui": uiClicks.AddRange(parts[1].Split(',', StringSplitOptions.RemoveEmptyEntries)); break;
 					case "fonts": logFonts = parts[1].Trim() == "1"; break;
 					case "uiscale": liveUIScale = float.Parse(parts[1], CultureInfo.InvariantCulture); break;
+					case "movers": TrafficSim.Showcase = parts[1].Trim() == "demo"; break;
+					case "weather":
+						var atmosphere = w.WorldActor.TraitOrDefault<CityAtmosphere>();
+						if (atmosphere != null)
+							atmosphere.TestWeather = Array.IndexOf(["none", "rain", "snow", "storm", "fog"], parts[1].Trim());
+
+						break;
+					case "seethrough": CityView.SeeThrough = parts[1].Trim() == "1"; break;
+					case "isoslice": CityView.Slicing = parts[1].Trim() != "0"; break;
+					case "hour": w.WorldActor.TraitOrDefault<CityAtmosphere>()?.ForceTime(float.Parse(parts[1], CultureInfo.InvariantCulture), null); break;
+					case "month": w.WorldActor.TraitOrDefault<CityAtmosphere>()?.ForceTime(null, float.Parse(parts[1], CultureInfo.InvariantCulture)); break;
 					case "shots":
 						foreach (var s in parts[1].Split(',', StringSplitOptions.RemoveEmptyEntries))
 							shotTicks.Add(int.Parse(s, CultureInfo.InvariantCulture));
 						break;
 				}
 			}
+
+			// Info view from the start, so the ground fill, building tints and lighting have settled by the first shot.
+			var startView = InfoViewLayer.Get(w);
+			if (shotView != CityInfoView.None && startView != null)
+				startView.Mode = shotView;
 
 			var connection = w.ActorsWithTrait<OutsideConnection>().FirstOrDefault();
 			if (connection.Actor != null)
@@ -287,6 +310,15 @@ namespace OpenRA.Mods.City.Traits
 					viewport.SetZoom(shotZoom);
 
 				viewport.Center(w.Map.CenterOfCell(At(shotCenter.U, shotCenter.V)));
+				if (shotEdges.Count > 0)
+				{
+					foreach (var e in shotEdges)
+						viewport.JumpToMapEdge(e);
+
+					var edgeCell = w.Map.CellContaining(viewport.CenterPosition);
+					Report(w, $"view at map edge {string.Join("+", shotEdges)}: center={edgeCell} blocked={viewport.GetBlockedDirections()}");
+				}
+
 				var ui = shotIndex < shotUi.Count ? shotUi[shotIndex] : null;
 				shotIndex++;
 				Game.RunAfterTick(() => Sync.RunUnsynced(w, () => ApplyUi(w, ui)));
@@ -351,6 +383,8 @@ namespace OpenRA.Mods.City.Traits
 				}
 				else if (action.StartsWith("click:", StringComparison.Ordinal))
 					ClickButton(w, action["click:".Length..]);
+				else if (action.StartsWith("tab:", StringComparison.Ordinal))
+					Widgets.CityUiTour.ClickTab(action["tab:".Length..], m => Report(w, m));
 				else if (action.StartsWith("hover:", StringComparison.Ordinal))
 				{
 					// Moves the pointer onto a widget (its centre, or "ID@x/y" for an offset inside it) so its tooltip shows.
@@ -378,6 +412,9 @@ namespace OpenRA.Mods.City.Traits
 					var handled = Ui.HandleKeyPress(new KeyInput { Event = KeyInputEvent.Down, Key = hotkey.Key, Modifiers = hotkey.Modifiers });
 					Ui.HandleKeyPress(new KeyInput { Event = KeyInputEvent.Up, Key = hotkey.Key, Modifiers = hotkey.Modifiers });
 					Report(w, $"ui key {name} ({hotkey}): {(handled ? "handled" : "not handled")}");
+				}
+				else if (Widgets.CityMenuAutoTest.TryApply(action, m => Report(w, m), w))
+				{
 				}
 				else if (action == "close")
 				{
@@ -428,11 +465,7 @@ namespace OpenRA.Mods.City.Traits
 			Report(w, $"audit [{ui ?? "none"}] {issues.Count} issues ({fresh} new) at {Game.Renderer.Resolution.Width}x{Game.Renderer.Resolution.Height}");
 		}
 
-		static readonly string[] PanelIds =
-		[
-			"CITY_BUDGET_PANEL", "CITY_INFOVIEWS_PANEL", "CITY_STATS_PANEL", "CITY_CHIRPER_PANEL", "CITY_PRODUCTION_PANEL",
-			"CITY_POLICIES_PANEL", "CITY_PROGRESS_PANEL", "CITY_DISTRICTS_PANEL", "CITY_TRANSIT_PANEL", "CITY_ACHIEVEMENTS_PANEL"
-		];
+		static string[] PanelIds => Widgets.Logic.CityToolbarLogic.PanelIds;
 
 		static void ClickButton(World w, string id)
 		{
@@ -471,7 +504,9 @@ namespace OpenRA.Mods.City.Traits
 			w.OrderGenerator = probe == "bulldoze" ? new BulldozeOrderGenerator(w) : new PlaceCityBuildingOrderGenerator(w, probe);
 			var target = w.Map.CenterOfCell(At(18, 3));
 			Viewport.LastMousePos = worldRenderer.Viewport.WorldToViewPx(worldRenderer.ScreenPxPosition(target));
-			Report(w, $"probe '{probe}' at {At(18, 3)} zoom={worldRenderer.Viewport.Zoom:0.00} mouse={Viewport.LastMousePos}");
+			var picked = worldRenderer.Viewport.ViewToWorld(Viewport.LastMousePos);
+			Report(w, $"probe '{probe}' at {At(18, 3)} zoom={worldRenderer.Viewport.Zoom:0.00} mouse={Viewport.LastMousePos} picked={picked}" +
+				(picked == At(18, 3) ? " pick=OK" : " pick=WRONG"));
 		}
 
 		// Scenario layout assumes the outside connection road runs east (Direction 1,0); (u, v) = (east, south) offsets from its end.
@@ -519,6 +554,9 @@ namespace OpenRA.Mods.City.Traits
 
 			if (scenario == "full")
 				ScheduleFullScenario();
+
+			if (scenario == "isoshow")
+				ScheduleIsoShow();
 
 			if (scenario == "automayor")
 			{
@@ -654,15 +692,18 @@ namespace OpenRA.Mods.City.Traits
 
 		long lastLogRunTime = -1;
 		int lastLogTick;
+		int lastLogFrame;
 
 		void LogStats(World w)
 		{
 			// Real-time simulation speed since the previous log line (not part of the deterministic output).
 			var runTime = Game.RunTime;
 			var tps = lastLogRunTime >= 0 && runTime > lastLogRunTime ? (w.WorldTick - lastLogTick) * 1000L / (runTime - lastLogRunTime) : 0;
+			var fps = lastLogRunTime >= 0 && runTime > lastLogRunTime ? (Game.RenderFrame - lastLogFrame) * 1000L / (runTime - lastLogRunTime) : 0;
 			lastLogRunTime = runTime;
 			lastLogTick = w.WorldTick;
-			Console.WriteLine($"[autotest-perf t={w.WorldTick}] ticks/s={tps}");
+			lastLogFrame = Game.RenderFrame;
+			Console.WriteLine($"[autotest-perf t={w.WorldTick}] ticks/s={tps} fps={fps} zoom={worldRenderer?.Viewport.Zoom:0.##}");
 
 			// Replays have no local player: report the first playable player's city.
 			var p = w.LocalPlayer ?? w.Players.FirstOrDefault(pl => pl.Playable);

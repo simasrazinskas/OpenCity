@@ -50,6 +50,17 @@ namespace OpenRA.Graphics
 		readonly Rectangle mapBounds;
 		readonly Size tileSize;
 
+		// Isometric projection: the ground rectangle (world units) that the point under the view center is kept inside.
+		readonly bool isometric;
+		readonly Vector2 isoGroundMin;
+		readonly Vector2 isoGroundMax;
+
+		/// <summary>Isometric projection: how far (world px) sprites may rise above the top of the map diamond before the scissor clips them.</summary>
+		public const int IsometricScissorTopMargin = 1024;
+
+		/// <summary>Isometric projection: how many cells inside the map bounds the ground point under the view center is kept.</summary>
+		public const int IsometricViewInset = 2;
+
 		// Viewport geometry (world-px)
 		public Vector2 CenterLocation { get; private set; }
 
@@ -248,6 +259,20 @@ namespace OpenRA.Graphics
 		public ScrollDirection GetBlockedDirections()
 		{
 			var ret = ScrollDirection.None;
+			if (isometric)
+			{
+				// A direction is blocked when the clamp keeps less than half of a small step in that direction.
+				const float Step = 4f;
+				foreach (var (dir, flag) in IsoScrollDirections)
+				{
+					var moved = Vector2.Dot(ClampCenter(CenterLocation + Step * dir) - CenterLocation, dir);
+					if (moved < Step / 2)
+						ret |= flag;
+				}
+
+				return ret;
+			}
+
 			var (min, max) = CenterRange();
 			if (CenterLocation.Y <= min.Y)
 				ret |= ScrollDirection.Up;
@@ -260,6 +285,14 @@ namespace OpenRA.Graphics
 
 			return ret;
 		}
+
+		static readonly (Vector2 Dir, ScrollDirection Flag)[] IsoScrollDirections =
+		[
+			(new Vector2(0, -1), ScrollDirection.Up),
+			(new Vector2(-1, 0), ScrollDirection.Left),
+			(new Vector2(0, 1), ScrollDirection.Down),
+			(new Vector2(1, 0), ScrollDirection.Right),
+		];
 
 		public Viewport(WorldRenderer wr, Map map)
 		{
@@ -280,6 +313,29 @@ namespace OpenRA.Graphics
 
 				mapBounds = new Rectangle(0, 0, width, height);
 				CenterLocation = new int2(width / 2, height / 2).ToVector2();
+			}
+			else if (wr.IsIsometric)
+			{
+				// The map bounds are a diamond on screen: use the bounding box of its four corners.
+				isometric = true;
+				var b = map.Bounds;
+				var ts = map.Grid.TileScale;
+				var corners = new[]
+				{
+					wr.ScreenPxPosition(new WPos(b.Left * ts, b.Top * ts, 0)),
+					wr.ScreenPxPosition(new WPos(b.Right * ts, b.Top * ts, 0)),
+					wr.ScreenPxPosition(new WPos(b.Right * ts, b.Bottom * ts, 0)),
+					wr.ScreenPxPosition(new WPos(b.Left * ts, b.Bottom * ts, 0)),
+				};
+
+				mapBounds = Rectangle.FromLTRB(corners.Min(c => c.X), corners.Min(c => c.Y), corners.Max(c => c.X), corners.Max(c => c.Y));
+
+				// Keep the ground point under the view center a few cells inside the bounds (never past their middle).
+				var insetX = Math.Min(IsometricViewInset * ts, b.Width * ts / 2);
+				var insetY = Math.Min(IsometricViewInset * ts, b.Height * ts / 2);
+				isoGroundMin = new Vector2(b.Left * ts + insetX, b.Top * ts + insetY);
+				isoGroundMax = new Vector2(b.Right * ts - insetX, b.Bottom * ts - insetY);
+				CenterLocation = wr.ScreenPosition((isoGroundMin + isoGroundMax) / 2);
 			}
 			else
 			{
@@ -427,8 +483,58 @@ namespace OpenRA.Graphics
 
 		Vector2 ClampCenter(Vector2 center)
 		{
+			if (isometric)
+			{
+				// Keep the ground point under the view center inside the (inset) map bounds: the view slides along the
+				// diamond's edges and stops at its corners. Positions that are already inside are returned unchanged.
+				var ground = worldRenderer.GroundPosition(center);
+				var clamped = Vector2.Clamp(ground, isoGroundMin, isoGroundMax);
+				return clamped == ground ? center : worldRenderer.ScreenPosition(clamped);
+			}
+
 			var (min, max) = CenterRange();
 			return Vector2.Clamp(center, min, max);
+		}
+
+		/// <summary>
+		/// Moves the view to the map edge in the given screen direction. Under the isometric projection this keeps the
+		/// screen column (up/down) or row (left/right) and stops at the diamond's edge.
+		/// </summary>
+		public void JumpToMapEdge(ScrollDirection direction)
+		{
+			var map = worldRenderer.World.Map;
+			if (!isometric)
+			{
+				var center = CenterPosition;
+				if (direction == ScrollDirection.Up)
+					Center(new WPos(center.X, 0, 0));
+				else if (direction == ScrollDirection.Down)
+					Center(new WPos(center.X, map.ProjectedBottomRight.Y, 0));
+				else if (direction == ScrollDirection.Left)
+					Center(new WPos(0, center.Y, 0));
+				else if (direction == ScrollDirection.Right)
+					Center(new WPos(map.ProjectedBottomRight.X, center.Y, 0));
+
+				return;
+			}
+
+			// d = x - y is the screen column and s = x + y the screen row of a ground point.
+			var g = worldRenderer.GroundPosition(CenterLocation);
+			var (min, max) = (isoGroundMin, isoGroundMax);
+			var d = Math.Clamp(g.X - g.Y, min.X - max.Y, max.X - min.Y);
+			var s = Math.Clamp(g.X + g.Y, min.X + min.Y, max.X + max.Y);
+			if (direction == ScrollDirection.Up)
+				s = Math.Max(2 * min.X - d, 2 * min.Y + d);
+			else if (direction == ScrollDirection.Down)
+				s = Math.Min(2 * max.X - d, 2 * max.Y + d);
+			else if (direction == ScrollDirection.Left)
+				d = Math.Max(2 * min.X - s, s - 2 * max.Y);
+			else if (direction == ScrollDirection.Right)
+				d = Math.Min(2 * max.X - s, s - 2 * min.Y);
+
+			CenterLocation = ClampCenter(worldRenderer.ScreenPosition(new Vector2((s + d) / 2, (s - d) / 2)));
+			cellsDirty = true;
+			allCellsDirty = true;
 		}
 
 		public CPos ViewToWorld(int2 view)
@@ -546,6 +652,19 @@ namespace OpenRA.Graphics
 		// Rectangle (in viewport coords) that contains things to be drawn
 		public Rectangle GetScissorBounds(bool insideBounds)
 		{
+			if (isometric)
+			{
+				// The map is a diamond: clip to its bounding box (the void around it is drawn by an IRenderBackdrop), with
+				// extra room above for tall sprites on the back rows. Cells outside the bounds are not drawn by the terrain.
+				var r = insideBounds
+					? Rectangle.FromLTRB(mapBounds.Left - tileSize.Width / 2, mapBounds.Top - IsometricScissorTopMargin,
+						mapBounds.Right + tileSize.Width / 2, mapBounds.Bottom + tileSize.Height / 2)
+					: new Rectangle(TopLeft.X, TopLeft.Y, ViewportSize.Width, ViewportSize.Height);
+				var view = new Rectangle(TopLeft.X, TopLeft.Y, ViewportSize.Width, ViewportSize.Height);
+				r = Rectangle.Intersect(r, view);
+				return new Rectangle(r.X - TopLeft.X, r.Y - TopLeft.Y, Math.Max(0, r.Width), Math.Max(0, r.Height));
+			}
+
 			// Visible rectangle in world coordinates (expanded to the corners of the cells)
 			var bounds = insideBounds ? VisibleCellsInsideBounds : AllVisibleCells;
 			var map = worldRenderer.World.Map;
@@ -564,6 +683,8 @@ namespace OpenRA.Graphics
 		ProjectedCellRegion CalculateVisibleCells(bool insideBounds)
 		{
 			var map = worldRenderer.World.Map;
+			if (isometric)
+				return CalculateIsometricVisibleCells(map, insideBounds);
 
 			// Calculate the projected cell position at the corners of the visible area
 			var tl = (PPos)map.CellContaining(worldRenderer.ProjectedPosition(TopLeft)).ToMPos(map);
@@ -585,6 +706,41 @@ namespace OpenRA.Graphics
 			}
 
 			return new ProjectedCellRegion(map, tl, br);
+		}
+
+		/// <summary>Cell bounding box of the rotated view: all four view corners, plus margins for half-visible edge cells.</summary>
+		ProjectedCellRegion CalculateIsometricVisibleCells(Map map, bool insideBounds)
+		{
+			var tl = TopLeft;
+			var br = BottomRight;
+			Span<Vector2> corners =
+			[
+				worldRenderer.GroundPosition(tl.ToVector2()),
+				worldRenderer.GroundPosition(new Vector2(br.X, tl.Y)),
+				worldRenderer.GroundPosition(br.ToVector2()),
+				worldRenderer.GroundPosition(new Vector2(tl.X, br.Y)),
+			];
+
+			var min = corners[0];
+			var max = corners[0];
+			foreach (var c in corners)
+			{
+				min = Vector2.Min(min, c);
+				max = Vector2.Max(max, c);
+			}
+
+			// Cell-based renderers draw a little beyond their cell (e.g. props, vehicles): extend the bottom rows that
+			// rise into the view, and one cell on each side for half-visible edge cells.
+			var ts = (float)map.Grid.TileScale;
+			var ctl = new PPos((int)MathF.Floor(min.X / ts) - 1, (int)MathF.Floor(min.Y / ts) - 1);
+			var cbr = new PPos((int)MathF.Floor(max.X / ts) + 2, (int)MathF.Floor(max.Y / ts) + 2);
+			if (insideBounds)
+			{
+				ctl = map.Clamp(ctl);
+				cbr = map.Clamp(cbr);
+			}
+
+			return new ProjectedCellRegion(map, ctl, cbr);
 		}
 
 		public ProjectedCellRegion VisibleCellsInsideBounds

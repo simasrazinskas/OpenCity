@@ -1,0 +1,8442 @@
+{
+ "page": "World elements",
+ "section": "Zoned buildings",
+ "groups": [
+  {
+   "title": "Vignettes: suburban street, downtown block, industrial strip",
+   "columns": 1,
+   "scale": 1,
+   "items": [
+    {
+     "file": "vignettes/suburban-street.png",
+     "label": "Suburban street (res-low, res-row, corner shops)"
+    },
+    {
+     "file": "vignettes/downtown-block.png",
+     "label": "Downtown block (towers, offices, mixed use, dept store)"
+    },
+    {
+     "file": "vignettes/industrial-strip.png",
+     "label": "Industrial strip (factories, warehouses)"
+    }
+   ],
+   "note": "built from the ZONED sprites on NET street tiles"
+  },
+  {
+   "title": "Residential low density 1x1: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-low/1x1/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-low/1x1/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-low/1x1/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-low/1x1/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-low/1x1/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-low/1x1/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-low/1x1/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-low/1x1/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-low/1x1/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-low/1x1/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-low/1x1/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-low/1x1/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-low/1x1/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-low/1x1/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-low/1x1/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-low/1x1/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-low/1x1/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-low/1x1/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-low/1x1/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-low/1x1/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential low density 2x1: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-low/2x1/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-low/2x1/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-low/2x1/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-low/2x1/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-low/2x1/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-low/2x1/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-low/2x1/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-low/2x1/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-low/2x1/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-low/2x1/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-low/2x1/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-low/2x1/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-low/2x1/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-low/2x1/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-low/2x1/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-low/2x1/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-low/2x1/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-low/2x1/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-low/2x1/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-low/2x1/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential low density 1x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-low/1x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-low/1x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-low/1x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-low/1x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-low/1x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-low/1x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-low/1x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-low/1x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-low/1x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-low/1x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-low/1x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-low/1x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-low/1x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-low/1x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-low/1x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-low/1x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-low/1x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-low/1x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-low/1x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-low/1x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential low density 2x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-low/2x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-low/2x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-low/2x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-low/2x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-low/2x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-low/2x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-low/2x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-low/2x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-low/2x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-low/2x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-low/2x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-low/2x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-low/2x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-low/2x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-low/2x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-low/2x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-low/2x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-low/2x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-low/2x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-low/2x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential low density: construction and decay (every footprint, level 3)",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-low/1x1/st-c1.png",
+     "label": "1x1 Build 1: foundation"
+    },
+    {
+     "file": "res-low/1x1/st-c2.png",
+     "label": "1x1 Build 2: frame+crane"
+    },
+    {
+     "file": "res-low/1x1/st-c3.png",
+     "label": "1x1 Build 3: nearly done"
+    },
+    {
+     "file": "res-low/1x1/st-abandoned.png",
+     "label": "1x1 Abandoned"
+    },
+    {
+     "file": "res-low/1x1/st-burnt.png",
+     "label": "1x1 Burnt"
+    },
+    {
+     "file": "res-low/1x1/st-collapsed.png",
+     "label": "1x1 Collapsed"
+    },
+    {
+     "file": "res-low/2x1/st-c1.png",
+     "label": "2x1 Build 1: foundation"
+    },
+    {
+     "file": "res-low/2x1/st-c2.png",
+     "label": "2x1 Build 2: frame+crane"
+    },
+    {
+     "file": "res-low/2x1/st-c3.png",
+     "label": "2x1 Build 3: nearly done"
+    },
+    {
+     "file": "res-low/2x1/st-abandoned.png",
+     "label": "2x1 Abandoned"
+    },
+    {
+     "file": "res-low/2x1/st-burnt.png",
+     "label": "2x1 Burnt"
+    },
+    {
+     "file": "res-low/2x1/st-collapsed.png",
+     "label": "2x1 Collapsed"
+    },
+    {
+     "file": "res-low/1x2/st-c1.png",
+     "label": "1x2 Build 1: foundation"
+    },
+    {
+     "file": "res-low/1x2/st-c2.png",
+     "label": "1x2 Build 2: frame+crane"
+    },
+    {
+     "file": "res-low/1x2/st-c3.png",
+     "label": "1x2 Build 3: nearly done"
+    },
+    {
+     "file": "res-low/1x2/st-abandoned.png",
+     "label": "1x2 Abandoned"
+    },
+    {
+     "file": "res-low/1x2/st-burnt.png",
+     "label": "1x2 Burnt"
+    },
+    {
+     "file": "res-low/1x2/st-collapsed.png",
+     "label": "1x2 Collapsed"
+    },
+    {
+     "file": "res-low/2x2/st-c1.png",
+     "label": "2x2 Build 1: foundation"
+    },
+    {
+     "file": "res-low/2x2/st-c2.png",
+     "label": "2x2 Build 2: frame+crane"
+    },
+    {
+     "file": "res-low/2x2/st-c3.png",
+     "label": "2x2 Build 3: nearly done"
+    },
+    {
+     "file": "res-low/2x2/st-abandoned.png",
+     "label": "2x2 Abandoned"
+    },
+    {
+     "file": "res-low/2x2/st-burnt.png",
+     "label": "2x2 Burnt"
+    },
+    {
+     "file": "res-low/2x2/st-collapsed.png",
+     "label": "2x2 Collapsed"
+    }
+   ],
+   "note": "per row one footprint: foundation, frame + crane, nearly done, abandoned, burnt, collapsed"
+  },
+  {
+   "title": "Residential low density 1x1: night, lit mask, winter",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-low/1x1/L1-v0-night.png",
+     "label": "L1 NA night"
+    },
+    {
+     "file": "res-low/1x1/L2-v0-night.png",
+     "label": "L2 NA night"
+    },
+    {
+     "file": "res-low/1x1/L3-v0-night.png",
+     "label": "L3 NA night"
+    },
+    {
+     "file": "res-low/1x1/L4-v0-night.png",
+     "label": "L4 NA night"
+    },
+    {
+     "file": "res-low/1x1/L5-v0-night.png",
+     "label": "L5 NA night"
+    },
+    {
+     "file": "res-low/1x1/L1-v2-night.png",
+     "label": "L1 EU night"
+    },
+    {
+     "file": "res-low/1x1/L2-v2-night.png",
+     "label": "L2 EU night"
+    },
+    {
+     "file": "res-low/1x1/L3-v2-night.png",
+     "label": "L3 EU night"
+    },
+    {
+     "file": "res-low/1x1/L4-v2-night.png",
+     "label": "L4 EU night"
+    },
+    {
+     "file": "res-low/1x1/L5-v2-night.png",
+     "label": "L5 EU night"
+    },
+    {
+     "file": "res-low/1x1/L1-v0-lit.png",
+     "label": "L1 lit mask"
+    },
+    {
+     "file": "res-low/1x1/L2-v0-lit.png",
+     "label": "L2 lit mask"
+    },
+    {
+     "file": "res-low/1x1/L3-v0-lit.png",
+     "label": "L3 lit mask"
+    },
+    {
+     "file": "res-low/1x1/L4-v0-lit.png",
+     "label": "L4 lit mask"
+    },
+    {
+     "file": "res-low/1x1/L5-v0-lit.png",
+     "label": "L5 lit mask"
+    },
+    {
+     "file": "res-low/1x1/L1-v0-winter.png",
+     "label": "L1 NA winter"
+    },
+    {
+     "file": "res-low/1x1/L2-v0-winter.png",
+     "label": "L2 NA winter"
+    },
+    {
+     "file": "res-low/1x1/L3-v0-winter.png",
+     "label": "L3 NA winter"
+    },
+    {
+     "file": "res-low/1x1/L4-v0-winter.png",
+     "label": "L4 NA winter"
+    },
+    {
+     "file": "res-low/1x1/L5-v0-winter.png",
+     "label": "L5 NA winter"
+    },
+    {
+     "file": "res-low/1x1/L1-v2-winter.png",
+     "label": "L1 EU winter"
+    },
+    {
+     "file": "res-low/1x1/L2-v2-winter.png",
+     "label": "L2 EU winter"
+    },
+    {
+     "file": "res-low/1x1/L3-v2-winter.png",
+     "label": "L3 EU winter"
+    },
+    {
+     "file": "res-low/1x1/L4-v2-winter.png",
+     "label": "L4 EU winter"
+    },
+    {
+     "file": "res-low/1x1/L5-v2-winter.png",
+     "label": "L5 EU winter"
+    }
+   ],
+   "note": "rows: night NA, night EU, emissive -lit frames (engine), winter NA, winter EU"
+  },
+  {
+   "title": "Residential low density 1x1: 4 facings (level 3)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-low/1x1/L3-v0-f0.png",
+     "label": "NA +Y"
+    },
+    {
+     "file": "res-low/1x1/L3-v0-f1.png",
+     "label": "NA +X"
+    },
+    {
+     "file": "res-low/1x1/L3-v0-f2.png",
+     "label": "NA -Y"
+    },
+    {
+     "file": "res-low/1x1/L3-v0-f3.png",
+     "label": "NA -X"
+    },
+    {
+     "file": "res-low/1x1/L3-v2-f0.png",
+     "label": "EU +Y"
+    },
+    {
+     "file": "res-low/1x1/L3-v2-f1.png",
+     "label": "EU +X"
+    },
+    {
+     "file": "res-low/1x1/L3-v2-f2.png",
+     "label": "EU -Y"
+    },
+    {
+     "file": "res-low/1x1/L3-v2-f3.png",
+     "label": "EU -X"
+    }
+   ],
+   "note": "front toward +Y (default), +X, -Y, -X; non-square lots only use the two facings that fit"
+  },
+  {
+   "title": "Residential row houses 2x1: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-row/2x1/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-row/2x1/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-row/2x1/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-row/2x1/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-row/2x1/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-row/2x1/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-row/2x1/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-row/2x1/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-row/2x1/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-row/2x1/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-row/2x1/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-row/2x1/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-row/2x1/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-row/2x1/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-row/2x1/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-row/2x1/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-row/2x1/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-row/2x1/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-row/2x1/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-row/2x1/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential row houses 3x1: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-row/3x1/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-row/3x1/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-row/3x1/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-row/3x1/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-row/3x1/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-row/3x1/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-row/3x1/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-row/3x1/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-row/3x1/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-row/3x1/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-row/3x1/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-row/3x1/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-row/3x1/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-row/3x1/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-row/3x1/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-row/3x1/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-row/3x1/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-row/3x1/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-row/3x1/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-row/3x1/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential row houses 1x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-row/1x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-row/1x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-row/1x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-row/1x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-row/1x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-row/1x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-row/1x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-row/1x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-row/1x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-row/1x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-row/1x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-row/1x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-row/1x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-row/1x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-row/1x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-row/1x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-row/1x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-row/1x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-row/1x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-row/1x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential row houses 1x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-row/1x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-row/1x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-row/1x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-row/1x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-row/1x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-row/1x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-row/1x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-row/1x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-row/1x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-row/1x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-row/1x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-row/1x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-row/1x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-row/1x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-row/1x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-row/1x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-row/1x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-row/1x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-row/1x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-row/1x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential row houses 2x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-row/2x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-row/2x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-row/2x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-row/2x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-row/2x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-row/2x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-row/2x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-row/2x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-row/2x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-row/2x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-row/2x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-row/2x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-row/2x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-row/2x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-row/2x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-row/2x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-row/2x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-row/2x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-row/2x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-row/2x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential row houses: construction and decay (every footprint, level 3)",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-row/2x1/st-c1.png",
+     "label": "2x1 Build 1: foundation"
+    },
+    {
+     "file": "res-row/2x1/st-c2.png",
+     "label": "2x1 Build 2: frame+crane"
+    },
+    {
+     "file": "res-row/2x1/st-c3.png",
+     "label": "2x1 Build 3: nearly done"
+    },
+    {
+     "file": "res-row/2x1/st-abandoned.png",
+     "label": "2x1 Abandoned"
+    },
+    {
+     "file": "res-row/2x1/st-burnt.png",
+     "label": "2x1 Burnt"
+    },
+    {
+     "file": "res-row/2x1/st-collapsed.png",
+     "label": "2x1 Collapsed"
+    },
+    {
+     "file": "res-row/3x1/st-c1.png",
+     "label": "3x1 Build 1: foundation"
+    },
+    {
+     "file": "res-row/3x1/st-c2.png",
+     "label": "3x1 Build 2: frame+crane"
+    },
+    {
+     "file": "res-row/3x1/st-c3.png",
+     "label": "3x1 Build 3: nearly done"
+    },
+    {
+     "file": "res-row/3x1/st-abandoned.png",
+     "label": "3x1 Abandoned"
+    },
+    {
+     "file": "res-row/3x1/st-burnt.png",
+     "label": "3x1 Burnt"
+    },
+    {
+     "file": "res-row/3x1/st-collapsed.png",
+     "label": "3x1 Collapsed"
+    },
+    {
+     "file": "res-row/1x2/st-c1.png",
+     "label": "1x2 Build 1: foundation"
+    },
+    {
+     "file": "res-row/1x2/st-c2.png",
+     "label": "1x2 Build 2: frame+crane"
+    },
+    {
+     "file": "res-row/1x2/st-c3.png",
+     "label": "1x2 Build 3: nearly done"
+    },
+    {
+     "file": "res-row/1x2/st-abandoned.png",
+     "label": "1x2 Abandoned"
+    },
+    {
+     "file": "res-row/1x2/st-burnt.png",
+     "label": "1x2 Burnt"
+    },
+    {
+     "file": "res-row/1x2/st-collapsed.png",
+     "label": "1x2 Collapsed"
+    },
+    {
+     "file": "res-row/1x3/st-c1.png",
+     "label": "1x3 Build 1: foundation"
+    },
+    {
+     "file": "res-row/1x3/st-c2.png",
+     "label": "1x3 Build 2: frame+crane"
+    },
+    {
+     "file": "res-row/1x3/st-c3.png",
+     "label": "1x3 Build 3: nearly done"
+    },
+    {
+     "file": "res-row/1x3/st-abandoned.png",
+     "label": "1x3 Abandoned"
+    },
+    {
+     "file": "res-row/1x3/st-burnt.png",
+     "label": "1x3 Burnt"
+    },
+    {
+     "file": "res-row/1x3/st-collapsed.png",
+     "label": "1x3 Collapsed"
+    },
+    {
+     "file": "res-row/2x2/st-c1.png",
+     "label": "2x2 Build 1: foundation"
+    },
+    {
+     "file": "res-row/2x2/st-c2.png",
+     "label": "2x2 Build 2: frame+crane"
+    },
+    {
+     "file": "res-row/2x2/st-c3.png",
+     "label": "2x2 Build 3: nearly done"
+    },
+    {
+     "file": "res-row/2x2/st-abandoned.png",
+     "label": "2x2 Abandoned"
+    },
+    {
+     "file": "res-row/2x2/st-burnt.png",
+     "label": "2x2 Burnt"
+    },
+    {
+     "file": "res-row/2x2/st-collapsed.png",
+     "label": "2x2 Collapsed"
+    }
+   ],
+   "note": "per row one footprint: foundation, frame + crane, nearly done, abandoned, burnt, collapsed"
+  },
+  {
+   "title": "Residential row houses 2x2: night, lit mask, winter",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-row/2x2/L1-v0-night.png",
+     "label": "L1 NA night"
+    },
+    {
+     "file": "res-row/2x2/L2-v0-night.png",
+     "label": "L2 NA night"
+    },
+    {
+     "file": "res-row/2x2/L3-v0-night.png",
+     "label": "L3 NA night"
+    },
+    {
+     "file": "res-row/2x2/L4-v0-night.png",
+     "label": "L4 NA night"
+    },
+    {
+     "file": "res-row/2x2/L5-v0-night.png",
+     "label": "L5 NA night"
+    },
+    {
+     "file": "res-row/2x2/L1-v2-night.png",
+     "label": "L1 EU night"
+    },
+    {
+     "file": "res-row/2x2/L2-v2-night.png",
+     "label": "L2 EU night"
+    },
+    {
+     "file": "res-row/2x2/L3-v2-night.png",
+     "label": "L3 EU night"
+    },
+    {
+     "file": "res-row/2x2/L4-v2-night.png",
+     "label": "L4 EU night"
+    },
+    {
+     "file": "res-row/2x2/L5-v2-night.png",
+     "label": "L5 EU night"
+    },
+    {
+     "file": "res-row/2x2/L1-v0-lit.png",
+     "label": "L1 lit mask"
+    },
+    {
+     "file": "res-row/2x2/L2-v0-lit.png",
+     "label": "L2 lit mask"
+    },
+    {
+     "file": "res-row/2x2/L3-v0-lit.png",
+     "label": "L3 lit mask"
+    },
+    {
+     "file": "res-row/2x2/L4-v0-lit.png",
+     "label": "L4 lit mask"
+    },
+    {
+     "file": "res-row/2x2/L5-v0-lit.png",
+     "label": "L5 lit mask"
+    },
+    {
+     "file": "res-row/2x2/L1-v0-winter.png",
+     "label": "L1 NA winter"
+    },
+    {
+     "file": "res-row/2x2/L2-v0-winter.png",
+     "label": "L2 NA winter"
+    },
+    {
+     "file": "res-row/2x2/L3-v0-winter.png",
+     "label": "L3 NA winter"
+    },
+    {
+     "file": "res-row/2x2/L4-v0-winter.png",
+     "label": "L4 NA winter"
+    },
+    {
+     "file": "res-row/2x2/L5-v0-winter.png",
+     "label": "L5 NA winter"
+    },
+    {
+     "file": "res-row/2x2/L1-v2-winter.png",
+     "label": "L1 EU winter"
+    },
+    {
+     "file": "res-row/2x2/L2-v2-winter.png",
+     "label": "L2 EU winter"
+    },
+    {
+     "file": "res-row/2x2/L3-v2-winter.png",
+     "label": "L3 EU winter"
+    },
+    {
+     "file": "res-row/2x2/L4-v2-winter.png",
+     "label": "L4 EU winter"
+    },
+    {
+     "file": "res-row/2x2/L5-v2-winter.png",
+     "label": "L5 EU winter"
+    }
+   ],
+   "note": "rows: night NA, night EU, emissive -lit frames (engine), winter NA, winter EU"
+  },
+  {
+   "title": "Residential row houses 2x2: 4 facings (level 3)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-row/2x2/L3-v0-f0.png",
+     "label": "NA +Y"
+    },
+    {
+     "file": "res-row/2x2/L3-v0-f1.png",
+     "label": "NA +X"
+    },
+    {
+     "file": "res-row/2x2/L3-v0-f2.png",
+     "label": "NA -Y"
+    },
+    {
+     "file": "res-row/2x2/L3-v0-f3.png",
+     "label": "NA -X"
+    },
+    {
+     "file": "res-row/2x2/L3-v2-f0.png",
+     "label": "EU +Y"
+    },
+    {
+     "file": "res-row/2x2/L3-v2-f1.png",
+     "label": "EU +X"
+    },
+    {
+     "file": "res-row/2x2/L3-v2-f2.png",
+     "label": "EU -Y"
+    },
+    {
+     "file": "res-row/2x2/L3-v2-f3.png",
+     "label": "EU -X"
+    }
+   ],
+   "note": "front toward +Y (default), +X, -Y, -X; non-square lots only use the two facings that fit"
+  },
+  {
+   "title": "Residential medium density 2x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-med/2x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-med/2x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-med/2x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-med/2x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-med/2x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-med/2x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-med/2x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-med/2x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-med/2x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-med/2x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-med/2x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-med/2x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-med/2x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-med/2x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-med/2x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-med/2x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-med/2x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-med/2x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-med/2x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-med/2x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential medium density 3x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-med/3x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-med/3x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-med/3x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-med/3x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-med/3x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-med/3x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-med/3x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-med/3x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-med/3x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-med/3x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-med/3x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-med/3x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-med/3x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-med/3x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-med/3x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-med/3x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-med/3x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-med/3x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-med/3x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-med/3x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential medium density 2x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-med/2x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-med/2x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-med/2x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-med/2x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-med/2x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-med/2x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-med/2x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-med/2x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-med/2x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-med/2x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-med/2x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-med/2x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-med/2x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-med/2x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-med/2x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-med/2x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-med/2x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-med/2x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-med/2x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-med/2x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential medium density 3x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-med/3x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-med/3x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-med/3x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-med/3x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-med/3x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-med/3x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-med/3x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-med/3x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-med/3x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-med/3x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-med/3x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-med/3x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-med/3x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-med/3x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-med/3x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-med/3x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-med/3x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-med/3x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-med/3x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-med/3x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential medium density: construction and decay (every footprint, level 3)",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-med/2x2/st-c1.png",
+     "label": "2x2 Build 1: foundation"
+    },
+    {
+     "file": "res-med/2x2/st-c2.png",
+     "label": "2x2 Build 2: frame+crane"
+    },
+    {
+     "file": "res-med/2x2/st-c3.png",
+     "label": "2x2 Build 3: nearly done"
+    },
+    {
+     "file": "res-med/2x2/st-abandoned.png",
+     "label": "2x2 Abandoned"
+    },
+    {
+     "file": "res-med/2x2/st-burnt.png",
+     "label": "2x2 Burnt"
+    },
+    {
+     "file": "res-med/2x2/st-collapsed.png",
+     "label": "2x2 Collapsed"
+    },
+    {
+     "file": "res-med/3x2/st-c1.png",
+     "label": "3x2 Build 1: foundation"
+    },
+    {
+     "file": "res-med/3x2/st-c2.png",
+     "label": "3x2 Build 2: frame+crane"
+    },
+    {
+     "file": "res-med/3x2/st-c3.png",
+     "label": "3x2 Build 3: nearly done"
+    },
+    {
+     "file": "res-med/3x2/st-abandoned.png",
+     "label": "3x2 Abandoned"
+    },
+    {
+     "file": "res-med/3x2/st-burnt.png",
+     "label": "3x2 Burnt"
+    },
+    {
+     "file": "res-med/3x2/st-collapsed.png",
+     "label": "3x2 Collapsed"
+    },
+    {
+     "file": "res-med/2x3/st-c1.png",
+     "label": "2x3 Build 1: foundation"
+    },
+    {
+     "file": "res-med/2x3/st-c2.png",
+     "label": "2x3 Build 2: frame+crane"
+    },
+    {
+     "file": "res-med/2x3/st-c3.png",
+     "label": "2x3 Build 3: nearly done"
+    },
+    {
+     "file": "res-med/2x3/st-abandoned.png",
+     "label": "2x3 Abandoned"
+    },
+    {
+     "file": "res-med/2x3/st-burnt.png",
+     "label": "2x3 Burnt"
+    },
+    {
+     "file": "res-med/2x3/st-collapsed.png",
+     "label": "2x3 Collapsed"
+    },
+    {
+     "file": "res-med/3x3/st-c1.png",
+     "label": "3x3 Build 1: foundation"
+    },
+    {
+     "file": "res-med/3x3/st-c2.png",
+     "label": "3x3 Build 2: frame+crane"
+    },
+    {
+     "file": "res-med/3x3/st-c3.png",
+     "label": "3x3 Build 3: nearly done"
+    },
+    {
+     "file": "res-med/3x3/st-abandoned.png",
+     "label": "3x3 Abandoned"
+    },
+    {
+     "file": "res-med/3x3/st-burnt.png",
+     "label": "3x3 Burnt"
+    },
+    {
+     "file": "res-med/3x3/st-collapsed.png",
+     "label": "3x3 Collapsed"
+    }
+   ],
+   "note": "per row one footprint: foundation, frame + crane, nearly done, abandoned, burnt, collapsed"
+  },
+  {
+   "title": "Residential medium density 2x2: night, lit mask, winter",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-med/2x2/L1-v0-night.png",
+     "label": "L1 NA night"
+    },
+    {
+     "file": "res-med/2x2/L2-v0-night.png",
+     "label": "L2 NA night"
+    },
+    {
+     "file": "res-med/2x2/L3-v0-night.png",
+     "label": "L3 NA night"
+    },
+    {
+     "file": "res-med/2x2/L4-v0-night.png",
+     "label": "L4 NA night"
+    },
+    {
+     "file": "res-med/2x2/L5-v0-night.png",
+     "label": "L5 NA night"
+    },
+    {
+     "file": "res-med/2x2/L1-v2-night.png",
+     "label": "L1 EU night"
+    },
+    {
+     "file": "res-med/2x2/L2-v2-night.png",
+     "label": "L2 EU night"
+    },
+    {
+     "file": "res-med/2x2/L3-v2-night.png",
+     "label": "L3 EU night"
+    },
+    {
+     "file": "res-med/2x2/L4-v2-night.png",
+     "label": "L4 EU night"
+    },
+    {
+     "file": "res-med/2x2/L5-v2-night.png",
+     "label": "L5 EU night"
+    },
+    {
+     "file": "res-med/2x2/L1-v0-lit.png",
+     "label": "L1 lit mask"
+    },
+    {
+     "file": "res-med/2x2/L2-v0-lit.png",
+     "label": "L2 lit mask"
+    },
+    {
+     "file": "res-med/2x2/L3-v0-lit.png",
+     "label": "L3 lit mask"
+    },
+    {
+     "file": "res-med/2x2/L4-v0-lit.png",
+     "label": "L4 lit mask"
+    },
+    {
+     "file": "res-med/2x2/L5-v0-lit.png",
+     "label": "L5 lit mask"
+    },
+    {
+     "file": "res-med/2x2/L1-v0-winter.png",
+     "label": "L1 NA winter"
+    },
+    {
+     "file": "res-med/2x2/L2-v0-winter.png",
+     "label": "L2 NA winter"
+    },
+    {
+     "file": "res-med/2x2/L3-v0-winter.png",
+     "label": "L3 NA winter"
+    },
+    {
+     "file": "res-med/2x2/L4-v0-winter.png",
+     "label": "L4 NA winter"
+    },
+    {
+     "file": "res-med/2x2/L5-v0-winter.png",
+     "label": "L5 NA winter"
+    },
+    {
+     "file": "res-med/2x2/L1-v2-winter.png",
+     "label": "L1 EU winter"
+    },
+    {
+     "file": "res-med/2x2/L2-v2-winter.png",
+     "label": "L2 EU winter"
+    },
+    {
+     "file": "res-med/2x2/L3-v2-winter.png",
+     "label": "L3 EU winter"
+    },
+    {
+     "file": "res-med/2x2/L4-v2-winter.png",
+     "label": "L4 EU winter"
+    },
+    {
+     "file": "res-med/2x2/L5-v2-winter.png",
+     "label": "L5 EU winter"
+    }
+   ],
+   "note": "rows: night NA, night EU, emissive -lit frames (engine), winter NA, winter EU"
+  },
+  {
+   "title": "Residential medium density 2x2: 4 facings (level 3)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-med/2x2/L3-v0-f0.png",
+     "label": "NA +Y"
+    },
+    {
+     "file": "res-med/2x2/L3-v0-f1.png",
+     "label": "NA +X"
+    },
+    {
+     "file": "res-med/2x2/L3-v0-f2.png",
+     "label": "NA -Y"
+    },
+    {
+     "file": "res-med/2x2/L3-v0-f3.png",
+     "label": "NA -X"
+    },
+    {
+     "file": "res-med/2x2/L3-v2-f0.png",
+     "label": "EU +Y"
+    },
+    {
+     "file": "res-med/2x2/L3-v2-f1.png",
+     "label": "EU +X"
+    },
+    {
+     "file": "res-med/2x2/L3-v2-f2.png",
+     "label": "EU -Y"
+    },
+    {
+     "file": "res-med/2x2/L3-v2-f3.png",
+     "label": "EU -X"
+    }
+   ],
+   "note": "front toward +Y (default), +X, -Y, -X; non-square lots only use the two facings that fit"
+  },
+  {
+   "title": "Residential high density 2x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-high/2x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-high/2x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-high/2x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-high/2x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-high/2x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-high/2x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-high/2x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-high/2x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-high/2x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-high/2x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-high/2x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-high/2x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-high/2x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-high/2x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-high/2x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-high/2x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-high/2x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-high/2x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-high/2x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-high/2x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential high density 3x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-high/3x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-high/3x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-high/3x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-high/3x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-high/3x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-high/3x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-high/3x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-high/3x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-high/3x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-high/3x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-high/3x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-high/3x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-high/3x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-high/3x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-high/3x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-high/3x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-high/3x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-high/3x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-high/3x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-high/3x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential high density 2x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-high/2x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-high/2x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-high/2x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-high/2x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-high/2x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-high/2x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-high/2x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-high/2x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-high/2x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-high/2x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-high/2x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-high/2x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-high/2x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-high/2x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-high/2x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-high/2x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-high/2x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-high/2x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-high/2x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-high/2x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential high density 3x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-high/3x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-high/3x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-high/3x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-high/3x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-high/3x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-high/3x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-high/3x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-high/3x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-high/3x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-high/3x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-high/3x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-high/3x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-high/3x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-high/3x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-high/3x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-high/3x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-high/3x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-high/3x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-high/3x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-high/3x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential high density: construction and decay (every footprint, level 3)",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-high/2x2/st-c1.png",
+     "label": "2x2 Build 1: foundation"
+    },
+    {
+     "file": "res-high/2x2/st-c2.png",
+     "label": "2x2 Build 2: frame+crane"
+    },
+    {
+     "file": "res-high/2x2/st-c3.png",
+     "label": "2x2 Build 3: nearly done"
+    },
+    {
+     "file": "res-high/2x2/st-abandoned.png",
+     "label": "2x2 Abandoned"
+    },
+    {
+     "file": "res-high/2x2/st-burnt.png",
+     "label": "2x2 Burnt"
+    },
+    {
+     "file": "res-high/2x2/st-collapsed.png",
+     "label": "2x2 Collapsed"
+    },
+    {
+     "file": "res-high/3x2/st-c1.png",
+     "label": "3x2 Build 1: foundation"
+    },
+    {
+     "file": "res-high/3x2/st-c2.png",
+     "label": "3x2 Build 2: frame+crane"
+    },
+    {
+     "file": "res-high/3x2/st-c3.png",
+     "label": "3x2 Build 3: nearly done"
+    },
+    {
+     "file": "res-high/3x2/st-abandoned.png",
+     "label": "3x2 Abandoned"
+    },
+    {
+     "file": "res-high/3x2/st-burnt.png",
+     "label": "3x2 Burnt"
+    },
+    {
+     "file": "res-high/3x2/st-collapsed.png",
+     "label": "3x2 Collapsed"
+    },
+    {
+     "file": "res-high/2x3/st-c1.png",
+     "label": "2x3 Build 1: foundation"
+    },
+    {
+     "file": "res-high/2x3/st-c2.png",
+     "label": "2x3 Build 2: frame+crane"
+    },
+    {
+     "file": "res-high/2x3/st-c3.png",
+     "label": "2x3 Build 3: nearly done"
+    },
+    {
+     "file": "res-high/2x3/st-abandoned.png",
+     "label": "2x3 Abandoned"
+    },
+    {
+     "file": "res-high/2x3/st-burnt.png",
+     "label": "2x3 Burnt"
+    },
+    {
+     "file": "res-high/2x3/st-collapsed.png",
+     "label": "2x3 Collapsed"
+    },
+    {
+     "file": "res-high/3x3/st-c1.png",
+     "label": "3x3 Build 1: foundation"
+    },
+    {
+     "file": "res-high/3x3/st-c2.png",
+     "label": "3x3 Build 2: frame+crane"
+    },
+    {
+     "file": "res-high/3x3/st-c3.png",
+     "label": "3x3 Build 3: nearly done"
+    },
+    {
+     "file": "res-high/3x3/st-abandoned.png",
+     "label": "3x3 Abandoned"
+    },
+    {
+     "file": "res-high/3x3/st-burnt.png",
+     "label": "3x3 Burnt"
+    },
+    {
+     "file": "res-high/3x3/st-collapsed.png",
+     "label": "3x3 Collapsed"
+    }
+   ],
+   "note": "per row one footprint: foundation, frame + crane, nearly done, abandoned, burnt, collapsed"
+  },
+  {
+   "title": "Residential high density 2x2: night, lit mask, winter",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-high/2x2/L1-v0-night.png",
+     "label": "L1 NA night"
+    },
+    {
+     "file": "res-high/2x2/L2-v0-night.png",
+     "label": "L2 NA night"
+    },
+    {
+     "file": "res-high/2x2/L3-v0-night.png",
+     "label": "L3 NA night"
+    },
+    {
+     "file": "res-high/2x2/L4-v0-night.png",
+     "label": "L4 NA night"
+    },
+    {
+     "file": "res-high/2x2/L5-v0-night.png",
+     "label": "L5 NA night"
+    },
+    {
+     "file": "res-high/2x2/L1-v2-night.png",
+     "label": "L1 EU night"
+    },
+    {
+     "file": "res-high/2x2/L2-v2-night.png",
+     "label": "L2 EU night"
+    },
+    {
+     "file": "res-high/2x2/L3-v2-night.png",
+     "label": "L3 EU night"
+    },
+    {
+     "file": "res-high/2x2/L4-v2-night.png",
+     "label": "L4 EU night"
+    },
+    {
+     "file": "res-high/2x2/L5-v2-night.png",
+     "label": "L5 EU night"
+    },
+    {
+     "file": "res-high/2x2/L1-v0-lit.png",
+     "label": "L1 lit mask"
+    },
+    {
+     "file": "res-high/2x2/L2-v0-lit.png",
+     "label": "L2 lit mask"
+    },
+    {
+     "file": "res-high/2x2/L3-v0-lit.png",
+     "label": "L3 lit mask"
+    },
+    {
+     "file": "res-high/2x2/L4-v0-lit.png",
+     "label": "L4 lit mask"
+    },
+    {
+     "file": "res-high/2x2/L5-v0-lit.png",
+     "label": "L5 lit mask"
+    },
+    {
+     "file": "res-high/2x2/L1-v0-winter.png",
+     "label": "L1 NA winter"
+    },
+    {
+     "file": "res-high/2x2/L2-v0-winter.png",
+     "label": "L2 NA winter"
+    },
+    {
+     "file": "res-high/2x2/L3-v0-winter.png",
+     "label": "L3 NA winter"
+    },
+    {
+     "file": "res-high/2x2/L4-v0-winter.png",
+     "label": "L4 NA winter"
+    },
+    {
+     "file": "res-high/2x2/L5-v0-winter.png",
+     "label": "L5 NA winter"
+    },
+    {
+     "file": "res-high/2x2/L1-v2-winter.png",
+     "label": "L1 EU winter"
+    },
+    {
+     "file": "res-high/2x2/L2-v2-winter.png",
+     "label": "L2 EU winter"
+    },
+    {
+     "file": "res-high/2x2/L3-v2-winter.png",
+     "label": "L3 EU winter"
+    },
+    {
+     "file": "res-high/2x2/L4-v2-winter.png",
+     "label": "L4 EU winter"
+    },
+    {
+     "file": "res-high/2x2/L5-v2-winter.png",
+     "label": "L5 EU winter"
+    }
+   ],
+   "note": "rows: night NA, night EU, emissive -lit frames (engine), winter NA, winter EU"
+  },
+  {
+   "title": "Residential high density 2x2: 4 facings (level 3)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-high/2x2/L3-v0-f0.png",
+     "label": "NA +Y"
+    },
+    {
+     "file": "res-high/2x2/L3-v0-f1.png",
+     "label": "NA +X"
+    },
+    {
+     "file": "res-high/2x2/L3-v0-f2.png",
+     "label": "NA -Y"
+    },
+    {
+     "file": "res-high/2x2/L3-v0-f3.png",
+     "label": "NA -X"
+    },
+    {
+     "file": "res-high/2x2/L3-v2-f0.png",
+     "label": "EU +Y"
+    },
+    {
+     "file": "res-high/2x2/L3-v2-f1.png",
+     "label": "EU +X"
+    },
+    {
+     "file": "res-high/2x2/L3-v2-f2.png",
+     "label": "EU -Y"
+    },
+    {
+     "file": "res-high/2x2/L3-v2-f3.png",
+     "label": "EU -X"
+    }
+   ],
+   "note": "front toward +Y (default), +X, -Y, -X; non-square lots only use the two facings that fit"
+  },
+  {
+   "title": "Residential low rent 2x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-lowrent/2x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-lowrent/2x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-lowrent/2x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-lowrent/2x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-lowrent/2x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-lowrent/2x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-lowrent/2x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-lowrent/2x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-lowrent/2x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-lowrent/2x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-lowrent/2x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-lowrent/2x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-lowrent/2x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-lowrent/2x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-lowrent/2x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-lowrent/2x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-lowrent/2x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-lowrent/2x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-lowrent/2x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-lowrent/2x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential low rent 3x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-lowrent/3x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-lowrent/3x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-lowrent/3x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-lowrent/3x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-lowrent/3x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-lowrent/3x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-lowrent/3x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-lowrent/3x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-lowrent/3x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-lowrent/3x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-lowrent/3x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-lowrent/3x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-lowrent/3x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-lowrent/3x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-lowrent/3x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-lowrent/3x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-lowrent/3x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-lowrent/3x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-lowrent/3x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-lowrent/3x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential low rent 2x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-lowrent/2x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-lowrent/2x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-lowrent/2x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-lowrent/2x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-lowrent/2x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-lowrent/2x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-lowrent/2x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-lowrent/2x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-lowrent/2x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-lowrent/2x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-lowrent/2x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-lowrent/2x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-lowrent/2x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-lowrent/2x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-lowrent/2x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-lowrent/2x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-lowrent/2x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-lowrent/2x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-lowrent/2x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-lowrent/2x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential low rent: construction and decay (every footprint, level 3)",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-lowrent/2x2/st-c1.png",
+     "label": "2x2 Build 1: foundation"
+    },
+    {
+     "file": "res-lowrent/2x2/st-c2.png",
+     "label": "2x2 Build 2: frame+crane"
+    },
+    {
+     "file": "res-lowrent/2x2/st-c3.png",
+     "label": "2x2 Build 3: nearly done"
+    },
+    {
+     "file": "res-lowrent/2x2/st-abandoned.png",
+     "label": "2x2 Abandoned"
+    },
+    {
+     "file": "res-lowrent/2x2/st-burnt.png",
+     "label": "2x2 Burnt"
+    },
+    {
+     "file": "res-lowrent/2x2/st-collapsed.png",
+     "label": "2x2 Collapsed"
+    },
+    {
+     "file": "res-lowrent/3x2/st-c1.png",
+     "label": "3x2 Build 1: foundation"
+    },
+    {
+     "file": "res-lowrent/3x2/st-c2.png",
+     "label": "3x2 Build 2: frame+crane"
+    },
+    {
+     "file": "res-lowrent/3x2/st-c3.png",
+     "label": "3x2 Build 3: nearly done"
+    },
+    {
+     "file": "res-lowrent/3x2/st-abandoned.png",
+     "label": "3x2 Abandoned"
+    },
+    {
+     "file": "res-lowrent/3x2/st-burnt.png",
+     "label": "3x2 Burnt"
+    },
+    {
+     "file": "res-lowrent/3x2/st-collapsed.png",
+     "label": "3x2 Collapsed"
+    },
+    {
+     "file": "res-lowrent/2x3/st-c1.png",
+     "label": "2x3 Build 1: foundation"
+    },
+    {
+     "file": "res-lowrent/2x3/st-c2.png",
+     "label": "2x3 Build 2: frame+crane"
+    },
+    {
+     "file": "res-lowrent/2x3/st-c3.png",
+     "label": "2x3 Build 3: nearly done"
+    },
+    {
+     "file": "res-lowrent/2x3/st-abandoned.png",
+     "label": "2x3 Abandoned"
+    },
+    {
+     "file": "res-lowrent/2x3/st-burnt.png",
+     "label": "2x3 Burnt"
+    },
+    {
+     "file": "res-lowrent/2x3/st-collapsed.png",
+     "label": "2x3 Collapsed"
+    }
+   ],
+   "note": "per row one footprint: foundation, frame + crane, nearly done, abandoned, burnt, collapsed"
+  },
+  {
+   "title": "Residential low rent 2x2: night, lit mask, winter",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-lowrent/2x2/L1-v0-night.png",
+     "label": "L1 NA night"
+    },
+    {
+     "file": "res-lowrent/2x2/L2-v0-night.png",
+     "label": "L2 NA night"
+    },
+    {
+     "file": "res-lowrent/2x2/L3-v0-night.png",
+     "label": "L3 NA night"
+    },
+    {
+     "file": "res-lowrent/2x2/L4-v0-night.png",
+     "label": "L4 NA night"
+    },
+    {
+     "file": "res-lowrent/2x2/L5-v0-night.png",
+     "label": "L5 NA night"
+    },
+    {
+     "file": "res-lowrent/2x2/L1-v2-night.png",
+     "label": "L1 EU night"
+    },
+    {
+     "file": "res-lowrent/2x2/L2-v2-night.png",
+     "label": "L2 EU night"
+    },
+    {
+     "file": "res-lowrent/2x2/L3-v2-night.png",
+     "label": "L3 EU night"
+    },
+    {
+     "file": "res-lowrent/2x2/L4-v2-night.png",
+     "label": "L4 EU night"
+    },
+    {
+     "file": "res-lowrent/2x2/L5-v2-night.png",
+     "label": "L5 EU night"
+    },
+    {
+     "file": "res-lowrent/2x2/L1-v0-lit.png",
+     "label": "L1 lit mask"
+    },
+    {
+     "file": "res-lowrent/2x2/L2-v0-lit.png",
+     "label": "L2 lit mask"
+    },
+    {
+     "file": "res-lowrent/2x2/L3-v0-lit.png",
+     "label": "L3 lit mask"
+    },
+    {
+     "file": "res-lowrent/2x2/L4-v0-lit.png",
+     "label": "L4 lit mask"
+    },
+    {
+     "file": "res-lowrent/2x2/L5-v0-lit.png",
+     "label": "L5 lit mask"
+    },
+    {
+     "file": "res-lowrent/2x2/L1-v0-winter.png",
+     "label": "L1 NA winter"
+    },
+    {
+     "file": "res-lowrent/2x2/L2-v0-winter.png",
+     "label": "L2 NA winter"
+    },
+    {
+     "file": "res-lowrent/2x2/L3-v0-winter.png",
+     "label": "L3 NA winter"
+    },
+    {
+     "file": "res-lowrent/2x2/L4-v0-winter.png",
+     "label": "L4 NA winter"
+    },
+    {
+     "file": "res-lowrent/2x2/L5-v0-winter.png",
+     "label": "L5 NA winter"
+    },
+    {
+     "file": "res-lowrent/2x2/L1-v2-winter.png",
+     "label": "L1 EU winter"
+    },
+    {
+     "file": "res-lowrent/2x2/L2-v2-winter.png",
+     "label": "L2 EU winter"
+    },
+    {
+     "file": "res-lowrent/2x2/L3-v2-winter.png",
+     "label": "L3 EU winter"
+    },
+    {
+     "file": "res-lowrent/2x2/L4-v2-winter.png",
+     "label": "L4 EU winter"
+    },
+    {
+     "file": "res-lowrent/2x2/L5-v2-winter.png",
+     "label": "L5 EU winter"
+    }
+   ],
+   "note": "rows: night NA, night EU, emissive -lit frames (engine), winter NA, winter EU"
+  },
+  {
+   "title": "Residential low rent 2x2: 4 facings (level 3)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-lowrent/2x2/L3-v0-f0.png",
+     "label": "NA +Y"
+    },
+    {
+     "file": "res-lowrent/2x2/L3-v0-f1.png",
+     "label": "NA +X"
+    },
+    {
+     "file": "res-lowrent/2x2/L3-v0-f2.png",
+     "label": "NA -Y"
+    },
+    {
+     "file": "res-lowrent/2x2/L3-v0-f3.png",
+     "label": "NA -X"
+    },
+    {
+     "file": "res-lowrent/2x2/L3-v2-f0.png",
+     "label": "EU +Y"
+    },
+    {
+     "file": "res-lowrent/2x2/L3-v2-f1.png",
+     "label": "EU +X"
+    },
+    {
+     "file": "res-lowrent/2x2/L3-v2-f2.png",
+     "label": "EU -Y"
+    },
+    {
+     "file": "res-lowrent/2x2/L3-v2-f3.png",
+     "label": "EU -X"
+    }
+   ],
+   "note": "front toward +Y (default), +X, -Y, -X; non-square lots only use the two facings that fit"
+  },
+  {
+   "title": "Residential mixed use 2x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-mixed/2x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-mixed/2x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-mixed/2x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-mixed/2x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-mixed/2x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-mixed/2x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-mixed/2x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-mixed/2x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-mixed/2x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-mixed/2x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-mixed/2x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-mixed/2x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-mixed/2x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-mixed/2x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-mixed/2x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-mixed/2x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-mixed/2x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-mixed/2x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-mixed/2x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-mixed/2x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential mixed use 3x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-mixed/3x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-mixed/3x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-mixed/3x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-mixed/3x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-mixed/3x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-mixed/3x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-mixed/3x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-mixed/3x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-mixed/3x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-mixed/3x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-mixed/3x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-mixed/3x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-mixed/3x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-mixed/3x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-mixed/3x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-mixed/3x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-mixed/3x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-mixed/3x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-mixed/3x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-mixed/3x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential mixed use 2x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-mixed/2x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "res-mixed/2x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "res-mixed/2x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "res-mixed/2x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "res-mixed/2x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "res-mixed/2x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "res-mixed/2x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "res-mixed/2x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "res-mixed/2x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "res-mixed/2x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "res-mixed/2x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "res-mixed/2x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "res-mixed/2x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "res-mixed/2x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "res-mixed/2x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "res-mixed/2x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "res-mixed/2x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "res-mixed/2x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "res-mixed/2x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "res-mixed/2x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Residential mixed use: construction and decay (every footprint, level 3)",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-mixed/2x2/st-c1.png",
+     "label": "2x2 Build 1: foundation"
+    },
+    {
+     "file": "res-mixed/2x2/st-c2.png",
+     "label": "2x2 Build 2: frame+crane"
+    },
+    {
+     "file": "res-mixed/2x2/st-c3.png",
+     "label": "2x2 Build 3: nearly done"
+    },
+    {
+     "file": "res-mixed/2x2/st-abandoned.png",
+     "label": "2x2 Abandoned"
+    },
+    {
+     "file": "res-mixed/2x2/st-burnt.png",
+     "label": "2x2 Burnt"
+    },
+    {
+     "file": "res-mixed/2x2/st-collapsed.png",
+     "label": "2x2 Collapsed"
+    },
+    {
+     "file": "res-mixed/3x2/st-c1.png",
+     "label": "3x2 Build 1: foundation"
+    },
+    {
+     "file": "res-mixed/3x2/st-c2.png",
+     "label": "3x2 Build 2: frame+crane"
+    },
+    {
+     "file": "res-mixed/3x2/st-c3.png",
+     "label": "3x2 Build 3: nearly done"
+    },
+    {
+     "file": "res-mixed/3x2/st-abandoned.png",
+     "label": "3x2 Abandoned"
+    },
+    {
+     "file": "res-mixed/3x2/st-burnt.png",
+     "label": "3x2 Burnt"
+    },
+    {
+     "file": "res-mixed/3x2/st-collapsed.png",
+     "label": "3x2 Collapsed"
+    },
+    {
+     "file": "res-mixed/2x3/st-c1.png",
+     "label": "2x3 Build 1: foundation"
+    },
+    {
+     "file": "res-mixed/2x3/st-c2.png",
+     "label": "2x3 Build 2: frame+crane"
+    },
+    {
+     "file": "res-mixed/2x3/st-c3.png",
+     "label": "2x3 Build 3: nearly done"
+    },
+    {
+     "file": "res-mixed/2x3/st-abandoned.png",
+     "label": "2x3 Abandoned"
+    },
+    {
+     "file": "res-mixed/2x3/st-burnt.png",
+     "label": "2x3 Burnt"
+    },
+    {
+     "file": "res-mixed/2x3/st-collapsed.png",
+     "label": "2x3 Collapsed"
+    }
+   ],
+   "note": "per row one footprint: foundation, frame + crane, nearly done, abandoned, burnt, collapsed"
+  },
+  {
+   "title": "Residential mixed use 2x2: night, lit mask, winter",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-mixed/2x2/L1-v0-night.png",
+     "label": "L1 NA night"
+    },
+    {
+     "file": "res-mixed/2x2/L2-v0-night.png",
+     "label": "L2 NA night"
+    },
+    {
+     "file": "res-mixed/2x2/L3-v0-night.png",
+     "label": "L3 NA night"
+    },
+    {
+     "file": "res-mixed/2x2/L4-v0-night.png",
+     "label": "L4 NA night"
+    },
+    {
+     "file": "res-mixed/2x2/L5-v0-night.png",
+     "label": "L5 NA night"
+    },
+    {
+     "file": "res-mixed/2x2/L1-v2-night.png",
+     "label": "L1 EU night"
+    },
+    {
+     "file": "res-mixed/2x2/L2-v2-night.png",
+     "label": "L2 EU night"
+    },
+    {
+     "file": "res-mixed/2x2/L3-v2-night.png",
+     "label": "L3 EU night"
+    },
+    {
+     "file": "res-mixed/2x2/L4-v2-night.png",
+     "label": "L4 EU night"
+    },
+    {
+     "file": "res-mixed/2x2/L5-v2-night.png",
+     "label": "L5 EU night"
+    },
+    {
+     "file": "res-mixed/2x2/L1-v0-lit.png",
+     "label": "L1 lit mask"
+    },
+    {
+     "file": "res-mixed/2x2/L2-v0-lit.png",
+     "label": "L2 lit mask"
+    },
+    {
+     "file": "res-mixed/2x2/L3-v0-lit.png",
+     "label": "L3 lit mask"
+    },
+    {
+     "file": "res-mixed/2x2/L4-v0-lit.png",
+     "label": "L4 lit mask"
+    },
+    {
+     "file": "res-mixed/2x2/L5-v0-lit.png",
+     "label": "L5 lit mask"
+    },
+    {
+     "file": "res-mixed/2x2/L1-v0-winter.png",
+     "label": "L1 NA winter"
+    },
+    {
+     "file": "res-mixed/2x2/L2-v0-winter.png",
+     "label": "L2 NA winter"
+    },
+    {
+     "file": "res-mixed/2x2/L3-v0-winter.png",
+     "label": "L3 NA winter"
+    },
+    {
+     "file": "res-mixed/2x2/L4-v0-winter.png",
+     "label": "L4 NA winter"
+    },
+    {
+     "file": "res-mixed/2x2/L5-v0-winter.png",
+     "label": "L5 NA winter"
+    },
+    {
+     "file": "res-mixed/2x2/L1-v2-winter.png",
+     "label": "L1 EU winter"
+    },
+    {
+     "file": "res-mixed/2x2/L2-v2-winter.png",
+     "label": "L2 EU winter"
+    },
+    {
+     "file": "res-mixed/2x2/L3-v2-winter.png",
+     "label": "L3 EU winter"
+    },
+    {
+     "file": "res-mixed/2x2/L4-v2-winter.png",
+     "label": "L4 EU winter"
+    },
+    {
+     "file": "res-mixed/2x2/L5-v2-winter.png",
+     "label": "L5 EU winter"
+    }
+   ],
+   "note": "rows: night NA, night EU, emissive -lit frames (engine), winter NA, winter EU"
+  },
+  {
+   "title": "Residential mixed use 2x2: 4 facings (level 3)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "res-mixed/2x2/L3-v0-f0.png",
+     "label": "NA +Y"
+    },
+    {
+     "file": "res-mixed/2x2/L3-v0-f1.png",
+     "label": "NA +X"
+    },
+    {
+     "file": "res-mixed/2x2/L3-v0-f2.png",
+     "label": "NA -Y"
+    },
+    {
+     "file": "res-mixed/2x2/L3-v0-f3.png",
+     "label": "NA -X"
+    },
+    {
+     "file": "res-mixed/2x2/L3-v2-f0.png",
+     "label": "EU +Y"
+    },
+    {
+     "file": "res-mixed/2x2/L3-v2-f1.png",
+     "label": "EU +X"
+    },
+    {
+     "file": "res-mixed/2x2/L3-v2-f2.png",
+     "label": "EU -Y"
+    },
+    {
+     "file": "res-mixed/2x2/L3-v2-f3.png",
+     "label": "EU -X"
+    }
+   ],
+   "note": "front toward +Y (default), +X, -Y, -X; non-square lots only use the two facings that fit"
+  },
+  {
+   "title": "Commercial low density 1x1: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "com-low/1x1/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "com-low/1x1/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "com-low/1x1/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "com-low/1x1/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "com-low/1x1/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "com-low/1x1/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "com-low/1x1/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "com-low/1x1/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "com-low/1x1/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "com-low/1x1/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "com-low/1x1/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "com-low/1x1/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "com-low/1x1/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "com-low/1x1/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "com-low/1x1/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "com-low/1x1/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "com-low/1x1/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "com-low/1x1/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "com-low/1x1/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "com-low/1x1/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Commercial low density 2x1: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "com-low/2x1/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "com-low/2x1/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "com-low/2x1/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "com-low/2x1/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "com-low/2x1/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "com-low/2x1/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "com-low/2x1/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "com-low/2x1/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "com-low/2x1/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "com-low/2x1/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "com-low/2x1/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "com-low/2x1/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "com-low/2x1/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "com-low/2x1/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "com-low/2x1/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "com-low/2x1/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "com-low/2x1/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "com-low/2x1/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "com-low/2x1/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "com-low/2x1/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Commercial low density 1x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "com-low/1x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "com-low/1x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "com-low/1x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "com-low/1x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "com-low/1x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "com-low/1x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "com-low/1x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "com-low/1x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "com-low/1x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "com-low/1x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "com-low/1x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "com-low/1x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "com-low/1x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "com-low/1x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "com-low/1x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "com-low/1x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "com-low/1x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "com-low/1x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "com-low/1x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "com-low/1x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Commercial low density 2x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "com-low/2x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "com-low/2x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "com-low/2x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "com-low/2x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "com-low/2x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "com-low/2x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "com-low/2x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "com-low/2x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "com-low/2x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "com-low/2x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "com-low/2x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "com-low/2x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "com-low/2x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "com-low/2x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "com-low/2x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "com-low/2x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "com-low/2x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "com-low/2x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "com-low/2x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "com-low/2x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Commercial low density: construction and decay (every footprint, level 3)",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "com-low/1x1/st-c1.png",
+     "label": "1x1 Build 1: foundation"
+    },
+    {
+     "file": "com-low/1x1/st-c2.png",
+     "label": "1x1 Build 2: frame+crane"
+    },
+    {
+     "file": "com-low/1x1/st-c3.png",
+     "label": "1x1 Build 3: nearly done"
+    },
+    {
+     "file": "com-low/1x1/st-abandoned.png",
+     "label": "1x1 Abandoned"
+    },
+    {
+     "file": "com-low/1x1/st-burnt.png",
+     "label": "1x1 Burnt"
+    },
+    {
+     "file": "com-low/1x1/st-collapsed.png",
+     "label": "1x1 Collapsed"
+    },
+    {
+     "file": "com-low/2x1/st-c1.png",
+     "label": "2x1 Build 1: foundation"
+    },
+    {
+     "file": "com-low/2x1/st-c2.png",
+     "label": "2x1 Build 2: frame+crane"
+    },
+    {
+     "file": "com-low/2x1/st-c3.png",
+     "label": "2x1 Build 3: nearly done"
+    },
+    {
+     "file": "com-low/2x1/st-abandoned.png",
+     "label": "2x1 Abandoned"
+    },
+    {
+     "file": "com-low/2x1/st-burnt.png",
+     "label": "2x1 Burnt"
+    },
+    {
+     "file": "com-low/2x1/st-collapsed.png",
+     "label": "2x1 Collapsed"
+    },
+    {
+     "file": "com-low/1x2/st-c1.png",
+     "label": "1x2 Build 1: foundation"
+    },
+    {
+     "file": "com-low/1x2/st-c2.png",
+     "label": "1x2 Build 2: frame+crane"
+    },
+    {
+     "file": "com-low/1x2/st-c3.png",
+     "label": "1x2 Build 3: nearly done"
+    },
+    {
+     "file": "com-low/1x2/st-abandoned.png",
+     "label": "1x2 Abandoned"
+    },
+    {
+     "file": "com-low/1x2/st-burnt.png",
+     "label": "1x2 Burnt"
+    },
+    {
+     "file": "com-low/1x2/st-collapsed.png",
+     "label": "1x2 Collapsed"
+    },
+    {
+     "file": "com-low/2x2/st-c1.png",
+     "label": "2x2 Build 1: foundation"
+    },
+    {
+     "file": "com-low/2x2/st-c2.png",
+     "label": "2x2 Build 2: frame+crane"
+    },
+    {
+     "file": "com-low/2x2/st-c3.png",
+     "label": "2x2 Build 3: nearly done"
+    },
+    {
+     "file": "com-low/2x2/st-abandoned.png",
+     "label": "2x2 Abandoned"
+    },
+    {
+     "file": "com-low/2x2/st-burnt.png",
+     "label": "2x2 Burnt"
+    },
+    {
+     "file": "com-low/2x2/st-collapsed.png",
+     "label": "2x2 Collapsed"
+    }
+   ],
+   "note": "per row one footprint: foundation, frame + crane, nearly done, abandoned, burnt, collapsed"
+  },
+  {
+   "title": "Commercial low density 1x1: night, lit mask, winter",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "com-low/1x1/L1-v0-night.png",
+     "label": "L1 NA night"
+    },
+    {
+     "file": "com-low/1x1/L2-v0-night.png",
+     "label": "L2 NA night"
+    },
+    {
+     "file": "com-low/1x1/L3-v0-night.png",
+     "label": "L3 NA night"
+    },
+    {
+     "file": "com-low/1x1/L4-v0-night.png",
+     "label": "L4 NA night"
+    },
+    {
+     "file": "com-low/1x1/L5-v0-night.png",
+     "label": "L5 NA night"
+    },
+    {
+     "file": "com-low/1x1/L1-v2-night.png",
+     "label": "L1 EU night"
+    },
+    {
+     "file": "com-low/1x1/L2-v2-night.png",
+     "label": "L2 EU night"
+    },
+    {
+     "file": "com-low/1x1/L3-v2-night.png",
+     "label": "L3 EU night"
+    },
+    {
+     "file": "com-low/1x1/L4-v2-night.png",
+     "label": "L4 EU night"
+    },
+    {
+     "file": "com-low/1x1/L5-v2-night.png",
+     "label": "L5 EU night"
+    },
+    {
+     "file": "com-low/1x1/L1-v0-lit.png",
+     "label": "L1 lit mask"
+    },
+    {
+     "file": "com-low/1x1/L2-v0-lit.png",
+     "label": "L2 lit mask"
+    },
+    {
+     "file": "com-low/1x1/L3-v0-lit.png",
+     "label": "L3 lit mask"
+    },
+    {
+     "file": "com-low/1x1/L4-v0-lit.png",
+     "label": "L4 lit mask"
+    },
+    {
+     "file": "com-low/1x1/L5-v0-lit.png",
+     "label": "L5 lit mask"
+    },
+    {
+     "file": "com-low/1x1/L1-v0-winter.png",
+     "label": "L1 NA winter"
+    },
+    {
+     "file": "com-low/1x1/L2-v0-winter.png",
+     "label": "L2 NA winter"
+    },
+    {
+     "file": "com-low/1x1/L3-v0-winter.png",
+     "label": "L3 NA winter"
+    },
+    {
+     "file": "com-low/1x1/L4-v0-winter.png",
+     "label": "L4 NA winter"
+    },
+    {
+     "file": "com-low/1x1/L5-v0-winter.png",
+     "label": "L5 NA winter"
+    },
+    {
+     "file": "com-low/1x1/L1-v2-winter.png",
+     "label": "L1 EU winter"
+    },
+    {
+     "file": "com-low/1x1/L2-v2-winter.png",
+     "label": "L2 EU winter"
+    },
+    {
+     "file": "com-low/1x1/L3-v2-winter.png",
+     "label": "L3 EU winter"
+    },
+    {
+     "file": "com-low/1x1/L4-v2-winter.png",
+     "label": "L4 EU winter"
+    },
+    {
+     "file": "com-low/1x1/L5-v2-winter.png",
+     "label": "L5 EU winter"
+    }
+   ],
+   "note": "rows: night NA, night EU, emissive -lit frames (engine), winter NA, winter EU"
+  },
+  {
+   "title": "Commercial low density 1x1: 4 facings (level 3)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "com-low/1x1/L3-v0-f0.png",
+     "label": "NA +Y"
+    },
+    {
+     "file": "com-low/1x1/L3-v0-f1.png",
+     "label": "NA +X"
+    },
+    {
+     "file": "com-low/1x1/L3-v0-f2.png",
+     "label": "NA -Y"
+    },
+    {
+     "file": "com-low/1x1/L3-v0-f3.png",
+     "label": "NA -X"
+    },
+    {
+     "file": "com-low/1x1/L3-v2-f0.png",
+     "label": "EU +Y"
+    },
+    {
+     "file": "com-low/1x1/L3-v2-f1.png",
+     "label": "EU +X"
+    },
+    {
+     "file": "com-low/1x1/L3-v2-f2.png",
+     "label": "EU -Y"
+    },
+    {
+     "file": "com-low/1x1/L3-v2-f3.png",
+     "label": "EU -X"
+    }
+   ],
+   "note": "front toward +Y (default), +X, -Y, -X; non-square lots only use the two facings that fit"
+  },
+  {
+   "title": "Commercial high density 2x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "com-high/2x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "com-high/2x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "com-high/2x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "com-high/2x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "com-high/2x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "com-high/2x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "com-high/2x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "com-high/2x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "com-high/2x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "com-high/2x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "com-high/2x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "com-high/2x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "com-high/2x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "com-high/2x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "com-high/2x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "com-high/2x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "com-high/2x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "com-high/2x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "com-high/2x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "com-high/2x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Commercial high density 3x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "com-high/3x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "com-high/3x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "com-high/3x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "com-high/3x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "com-high/3x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "com-high/3x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "com-high/3x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "com-high/3x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "com-high/3x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "com-high/3x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "com-high/3x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "com-high/3x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "com-high/3x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "com-high/3x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "com-high/3x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "com-high/3x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "com-high/3x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "com-high/3x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "com-high/3x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "com-high/3x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Commercial high density 2x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "com-high/2x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "com-high/2x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "com-high/2x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "com-high/2x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "com-high/2x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "com-high/2x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "com-high/2x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "com-high/2x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "com-high/2x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "com-high/2x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "com-high/2x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "com-high/2x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "com-high/2x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "com-high/2x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "com-high/2x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "com-high/2x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "com-high/2x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "com-high/2x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "com-high/2x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "com-high/2x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Commercial high density 3x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "com-high/3x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "com-high/3x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "com-high/3x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "com-high/3x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "com-high/3x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "com-high/3x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "com-high/3x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "com-high/3x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "com-high/3x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "com-high/3x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "com-high/3x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "com-high/3x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "com-high/3x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "com-high/3x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "com-high/3x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "com-high/3x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "com-high/3x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "com-high/3x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "com-high/3x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "com-high/3x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Commercial high density 4x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "com-high/4x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "com-high/4x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "com-high/4x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "com-high/4x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "com-high/4x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "com-high/4x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "com-high/4x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "com-high/4x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "com-high/4x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "com-high/4x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "com-high/4x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "com-high/4x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "com-high/4x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "com-high/4x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "com-high/4x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "com-high/4x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "com-high/4x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "com-high/4x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "com-high/4x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "com-high/4x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Commercial high density 3x4: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "com-high/3x4/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "com-high/3x4/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "com-high/3x4/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "com-high/3x4/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "com-high/3x4/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "com-high/3x4/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "com-high/3x4/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "com-high/3x4/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "com-high/3x4/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "com-high/3x4/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "com-high/3x4/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "com-high/3x4/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "com-high/3x4/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "com-high/3x4/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "com-high/3x4/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "com-high/3x4/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "com-high/3x4/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "com-high/3x4/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "com-high/3x4/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "com-high/3x4/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Commercial high density: construction and decay (every footprint, level 3)",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "com-high/2x2/st-c1.png",
+     "label": "2x2 Build 1: foundation"
+    },
+    {
+     "file": "com-high/2x2/st-c2.png",
+     "label": "2x2 Build 2: frame+crane"
+    },
+    {
+     "file": "com-high/2x2/st-c3.png",
+     "label": "2x2 Build 3: nearly done"
+    },
+    {
+     "file": "com-high/2x2/st-abandoned.png",
+     "label": "2x2 Abandoned"
+    },
+    {
+     "file": "com-high/2x2/st-burnt.png",
+     "label": "2x2 Burnt"
+    },
+    {
+     "file": "com-high/2x2/st-collapsed.png",
+     "label": "2x2 Collapsed"
+    },
+    {
+     "file": "com-high/3x2/st-c1.png",
+     "label": "3x2 Build 1: foundation"
+    },
+    {
+     "file": "com-high/3x2/st-c2.png",
+     "label": "3x2 Build 2: frame+crane"
+    },
+    {
+     "file": "com-high/3x2/st-c3.png",
+     "label": "3x2 Build 3: nearly done"
+    },
+    {
+     "file": "com-high/3x2/st-abandoned.png",
+     "label": "3x2 Abandoned"
+    },
+    {
+     "file": "com-high/3x2/st-burnt.png",
+     "label": "3x2 Burnt"
+    },
+    {
+     "file": "com-high/3x2/st-collapsed.png",
+     "label": "3x2 Collapsed"
+    },
+    {
+     "file": "com-high/2x3/st-c1.png",
+     "label": "2x3 Build 1: foundation"
+    },
+    {
+     "file": "com-high/2x3/st-c2.png",
+     "label": "2x3 Build 2: frame+crane"
+    },
+    {
+     "file": "com-high/2x3/st-c3.png",
+     "label": "2x3 Build 3: nearly done"
+    },
+    {
+     "file": "com-high/2x3/st-abandoned.png",
+     "label": "2x3 Abandoned"
+    },
+    {
+     "file": "com-high/2x3/st-burnt.png",
+     "label": "2x3 Burnt"
+    },
+    {
+     "file": "com-high/2x3/st-collapsed.png",
+     "label": "2x3 Collapsed"
+    },
+    {
+     "file": "com-high/3x3/st-c1.png",
+     "label": "3x3 Build 1: foundation"
+    },
+    {
+     "file": "com-high/3x3/st-c2.png",
+     "label": "3x3 Build 2: frame+crane"
+    },
+    {
+     "file": "com-high/3x3/st-c3.png",
+     "label": "3x3 Build 3: nearly done"
+    },
+    {
+     "file": "com-high/3x3/st-abandoned.png",
+     "label": "3x3 Abandoned"
+    },
+    {
+     "file": "com-high/3x3/st-burnt.png",
+     "label": "3x3 Burnt"
+    },
+    {
+     "file": "com-high/3x3/st-collapsed.png",
+     "label": "3x3 Collapsed"
+    },
+    {
+     "file": "com-high/4x3/st-c1.png",
+     "label": "4x3 Build 1: foundation"
+    },
+    {
+     "file": "com-high/4x3/st-c2.png",
+     "label": "4x3 Build 2: frame+crane"
+    },
+    {
+     "file": "com-high/4x3/st-c3.png",
+     "label": "4x3 Build 3: nearly done"
+    },
+    {
+     "file": "com-high/4x3/st-abandoned.png",
+     "label": "4x3 Abandoned"
+    },
+    {
+     "file": "com-high/4x3/st-burnt.png",
+     "label": "4x3 Burnt"
+    },
+    {
+     "file": "com-high/4x3/st-collapsed.png",
+     "label": "4x3 Collapsed"
+    },
+    {
+     "file": "com-high/3x4/st-c1.png",
+     "label": "3x4 Build 1: foundation"
+    },
+    {
+     "file": "com-high/3x4/st-c2.png",
+     "label": "3x4 Build 2: frame+crane"
+    },
+    {
+     "file": "com-high/3x4/st-c3.png",
+     "label": "3x4 Build 3: nearly done"
+    },
+    {
+     "file": "com-high/3x4/st-abandoned.png",
+     "label": "3x4 Abandoned"
+    },
+    {
+     "file": "com-high/3x4/st-burnt.png",
+     "label": "3x4 Burnt"
+    },
+    {
+     "file": "com-high/3x4/st-collapsed.png",
+     "label": "3x4 Collapsed"
+    }
+   ],
+   "note": "per row one footprint: foundation, frame + crane, nearly done, abandoned, burnt, collapsed"
+  },
+  {
+   "title": "Commercial high density 2x2: night, lit mask, winter",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "com-high/2x2/L1-v0-night.png",
+     "label": "L1 NA night"
+    },
+    {
+     "file": "com-high/2x2/L2-v0-night.png",
+     "label": "L2 NA night"
+    },
+    {
+     "file": "com-high/2x2/L3-v0-night.png",
+     "label": "L3 NA night"
+    },
+    {
+     "file": "com-high/2x2/L4-v0-night.png",
+     "label": "L4 NA night"
+    },
+    {
+     "file": "com-high/2x2/L5-v0-night.png",
+     "label": "L5 NA night"
+    },
+    {
+     "file": "com-high/2x2/L1-v2-night.png",
+     "label": "L1 EU night"
+    },
+    {
+     "file": "com-high/2x2/L2-v2-night.png",
+     "label": "L2 EU night"
+    },
+    {
+     "file": "com-high/2x2/L3-v2-night.png",
+     "label": "L3 EU night"
+    },
+    {
+     "file": "com-high/2x2/L4-v2-night.png",
+     "label": "L4 EU night"
+    },
+    {
+     "file": "com-high/2x2/L5-v2-night.png",
+     "label": "L5 EU night"
+    },
+    {
+     "file": "com-high/2x2/L1-v0-lit.png",
+     "label": "L1 lit mask"
+    },
+    {
+     "file": "com-high/2x2/L2-v0-lit.png",
+     "label": "L2 lit mask"
+    },
+    {
+     "file": "com-high/2x2/L3-v0-lit.png",
+     "label": "L3 lit mask"
+    },
+    {
+     "file": "com-high/2x2/L4-v0-lit.png",
+     "label": "L4 lit mask"
+    },
+    {
+     "file": "com-high/2x2/L5-v0-lit.png",
+     "label": "L5 lit mask"
+    },
+    {
+     "file": "com-high/2x2/L1-v0-winter.png",
+     "label": "L1 NA winter"
+    },
+    {
+     "file": "com-high/2x2/L2-v0-winter.png",
+     "label": "L2 NA winter"
+    },
+    {
+     "file": "com-high/2x2/L3-v0-winter.png",
+     "label": "L3 NA winter"
+    },
+    {
+     "file": "com-high/2x2/L4-v0-winter.png",
+     "label": "L4 NA winter"
+    },
+    {
+     "file": "com-high/2x2/L5-v0-winter.png",
+     "label": "L5 NA winter"
+    },
+    {
+     "file": "com-high/2x2/L1-v2-winter.png",
+     "label": "L1 EU winter"
+    },
+    {
+     "file": "com-high/2x2/L2-v2-winter.png",
+     "label": "L2 EU winter"
+    },
+    {
+     "file": "com-high/2x2/L3-v2-winter.png",
+     "label": "L3 EU winter"
+    },
+    {
+     "file": "com-high/2x2/L4-v2-winter.png",
+     "label": "L4 EU winter"
+    },
+    {
+     "file": "com-high/2x2/L5-v2-winter.png",
+     "label": "L5 EU winter"
+    }
+   ],
+   "note": "rows: night NA, night EU, emissive -lit frames (engine), winter NA, winter EU"
+  },
+  {
+   "title": "Commercial high density 2x2: 4 facings (level 3)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "com-high/2x2/L3-v0-f0.png",
+     "label": "NA +Y"
+    },
+    {
+     "file": "com-high/2x2/L3-v0-f1.png",
+     "label": "NA +X"
+    },
+    {
+     "file": "com-high/2x2/L3-v0-f2.png",
+     "label": "NA -Y"
+    },
+    {
+     "file": "com-high/2x2/L3-v0-f3.png",
+     "label": "NA -X"
+    },
+    {
+     "file": "com-high/2x2/L3-v2-f0.png",
+     "label": "EU +Y"
+    },
+    {
+     "file": "com-high/2x2/L3-v2-f1.png",
+     "label": "EU +X"
+    },
+    {
+     "file": "com-high/2x2/L3-v2-f2.png",
+     "label": "EU -Y"
+    },
+    {
+     "file": "com-high/2x2/L3-v2-f3.png",
+     "label": "EU -X"
+    }
+   ],
+   "note": "front toward +Y (default), +X, -Y, -X; non-square lots only use the two facings that fit"
+  },
+  {
+   "title": "Office low density 1x1: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off/1x1/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "off/1x1/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "off/1x1/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "off/1x1/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "off/1x1/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "off/1x1/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "off/1x1/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "off/1x1/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "off/1x1/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "off/1x1/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "off/1x1/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "off/1x1/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "off/1x1/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "off/1x1/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "off/1x1/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "off/1x1/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "off/1x1/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "off/1x1/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "off/1x1/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "off/1x1/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Office low density 2x1: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off/2x1/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "off/2x1/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "off/2x1/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "off/2x1/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "off/2x1/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "off/2x1/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "off/2x1/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "off/2x1/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "off/2x1/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "off/2x1/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "off/2x1/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "off/2x1/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "off/2x1/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "off/2x1/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "off/2x1/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "off/2x1/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "off/2x1/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "off/2x1/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "off/2x1/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "off/2x1/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Office low density 1x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off/1x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "off/1x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "off/1x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "off/1x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "off/1x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "off/1x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "off/1x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "off/1x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "off/1x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "off/1x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "off/1x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "off/1x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "off/1x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "off/1x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "off/1x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "off/1x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "off/1x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "off/1x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "off/1x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "off/1x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Office low density 2x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off/2x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "off/2x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "off/2x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "off/2x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "off/2x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "off/2x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "off/2x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "off/2x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "off/2x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "off/2x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "off/2x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "off/2x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "off/2x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "off/2x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "off/2x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "off/2x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "off/2x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "off/2x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "off/2x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "off/2x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Office low density 2x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off/2x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "off/2x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "off/2x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "off/2x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "off/2x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "off/2x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "off/2x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "off/2x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "off/2x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "off/2x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "off/2x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "off/2x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "off/2x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "off/2x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "off/2x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "off/2x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "off/2x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "off/2x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "off/2x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "off/2x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Office low density 3x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off/3x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "off/3x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "off/3x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "off/3x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "off/3x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "off/3x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "off/3x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "off/3x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "off/3x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "off/3x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "off/3x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "off/3x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "off/3x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "off/3x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "off/3x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "off/3x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "off/3x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "off/3x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "off/3x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "off/3x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Office low density 3x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off/3x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "off/3x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "off/3x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "off/3x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "off/3x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "off/3x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "off/3x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "off/3x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "off/3x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "off/3x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "off/3x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "off/3x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "off/3x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "off/3x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "off/3x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "off/3x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "off/3x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "off/3x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "off/3x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "off/3x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Office low density: construction and decay (every footprint, level 3)",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off/1x1/st-c1.png",
+     "label": "1x1 Build 1: foundation"
+    },
+    {
+     "file": "off/1x1/st-c2.png",
+     "label": "1x1 Build 2: frame+crane"
+    },
+    {
+     "file": "off/1x1/st-c3.png",
+     "label": "1x1 Build 3: nearly done"
+    },
+    {
+     "file": "off/1x1/st-abandoned.png",
+     "label": "1x1 Abandoned"
+    },
+    {
+     "file": "off/1x1/st-burnt.png",
+     "label": "1x1 Burnt"
+    },
+    {
+     "file": "off/1x1/st-collapsed.png",
+     "label": "1x1 Collapsed"
+    },
+    {
+     "file": "off/2x1/st-c1.png",
+     "label": "2x1 Build 1: foundation"
+    },
+    {
+     "file": "off/2x1/st-c2.png",
+     "label": "2x1 Build 2: frame+crane"
+    },
+    {
+     "file": "off/2x1/st-c3.png",
+     "label": "2x1 Build 3: nearly done"
+    },
+    {
+     "file": "off/2x1/st-abandoned.png",
+     "label": "2x1 Abandoned"
+    },
+    {
+     "file": "off/2x1/st-burnt.png",
+     "label": "2x1 Burnt"
+    },
+    {
+     "file": "off/2x1/st-collapsed.png",
+     "label": "2x1 Collapsed"
+    },
+    {
+     "file": "off/1x2/st-c1.png",
+     "label": "1x2 Build 1: foundation"
+    },
+    {
+     "file": "off/1x2/st-c2.png",
+     "label": "1x2 Build 2: frame+crane"
+    },
+    {
+     "file": "off/1x2/st-c3.png",
+     "label": "1x2 Build 3: nearly done"
+    },
+    {
+     "file": "off/1x2/st-abandoned.png",
+     "label": "1x2 Abandoned"
+    },
+    {
+     "file": "off/1x2/st-burnt.png",
+     "label": "1x2 Burnt"
+    },
+    {
+     "file": "off/1x2/st-collapsed.png",
+     "label": "1x2 Collapsed"
+    },
+    {
+     "file": "off/2x2/st-c1.png",
+     "label": "2x2 Build 1: foundation"
+    },
+    {
+     "file": "off/2x2/st-c2.png",
+     "label": "2x2 Build 2: frame+crane"
+    },
+    {
+     "file": "off/2x2/st-c3.png",
+     "label": "2x2 Build 3: nearly done"
+    },
+    {
+     "file": "off/2x2/st-abandoned.png",
+     "label": "2x2 Abandoned"
+    },
+    {
+     "file": "off/2x2/st-burnt.png",
+     "label": "2x2 Burnt"
+    },
+    {
+     "file": "off/2x2/st-collapsed.png",
+     "label": "2x2 Collapsed"
+    },
+    {
+     "file": "off/2x3/st-c1.png",
+     "label": "2x3 Build 1: foundation"
+    },
+    {
+     "file": "off/2x3/st-c2.png",
+     "label": "2x3 Build 2: frame+crane"
+    },
+    {
+     "file": "off/2x3/st-c3.png",
+     "label": "2x3 Build 3: nearly done"
+    },
+    {
+     "file": "off/2x3/st-abandoned.png",
+     "label": "2x3 Abandoned"
+    },
+    {
+     "file": "off/2x3/st-burnt.png",
+     "label": "2x3 Burnt"
+    },
+    {
+     "file": "off/2x3/st-collapsed.png",
+     "label": "2x3 Collapsed"
+    },
+    {
+     "file": "off/3x2/st-c1.png",
+     "label": "3x2 Build 1: foundation"
+    },
+    {
+     "file": "off/3x2/st-c2.png",
+     "label": "3x2 Build 2: frame+crane"
+    },
+    {
+     "file": "off/3x2/st-c3.png",
+     "label": "3x2 Build 3: nearly done"
+    },
+    {
+     "file": "off/3x2/st-abandoned.png",
+     "label": "3x2 Abandoned"
+    },
+    {
+     "file": "off/3x2/st-burnt.png",
+     "label": "3x2 Burnt"
+    },
+    {
+     "file": "off/3x2/st-collapsed.png",
+     "label": "3x2 Collapsed"
+    },
+    {
+     "file": "off/3x3/st-c1.png",
+     "label": "3x3 Build 1: foundation"
+    },
+    {
+     "file": "off/3x3/st-c2.png",
+     "label": "3x3 Build 2: frame+crane"
+    },
+    {
+     "file": "off/3x3/st-c3.png",
+     "label": "3x3 Build 3: nearly done"
+    },
+    {
+     "file": "off/3x3/st-abandoned.png",
+     "label": "3x3 Abandoned"
+    },
+    {
+     "file": "off/3x3/st-burnt.png",
+     "label": "3x3 Burnt"
+    },
+    {
+     "file": "off/3x3/st-collapsed.png",
+     "label": "3x3 Collapsed"
+    }
+   ],
+   "note": "per row one footprint: foundation, frame + crane, nearly done, abandoned, burnt, collapsed"
+  },
+  {
+   "title": "Office low density 2x2: night, lit mask, winter",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off/2x2/L1-v0-night.png",
+     "label": "L1 NA night"
+    },
+    {
+     "file": "off/2x2/L2-v0-night.png",
+     "label": "L2 NA night"
+    },
+    {
+     "file": "off/2x2/L3-v0-night.png",
+     "label": "L3 NA night"
+    },
+    {
+     "file": "off/2x2/L4-v0-night.png",
+     "label": "L4 NA night"
+    },
+    {
+     "file": "off/2x2/L5-v0-night.png",
+     "label": "L5 NA night"
+    },
+    {
+     "file": "off/2x2/L1-v2-night.png",
+     "label": "L1 EU night"
+    },
+    {
+     "file": "off/2x2/L2-v2-night.png",
+     "label": "L2 EU night"
+    },
+    {
+     "file": "off/2x2/L3-v2-night.png",
+     "label": "L3 EU night"
+    },
+    {
+     "file": "off/2x2/L4-v2-night.png",
+     "label": "L4 EU night"
+    },
+    {
+     "file": "off/2x2/L5-v2-night.png",
+     "label": "L5 EU night"
+    },
+    {
+     "file": "off/2x2/L1-v0-lit.png",
+     "label": "L1 lit mask"
+    },
+    {
+     "file": "off/2x2/L2-v0-lit.png",
+     "label": "L2 lit mask"
+    },
+    {
+     "file": "off/2x2/L3-v0-lit.png",
+     "label": "L3 lit mask"
+    },
+    {
+     "file": "off/2x2/L4-v0-lit.png",
+     "label": "L4 lit mask"
+    },
+    {
+     "file": "off/2x2/L5-v0-lit.png",
+     "label": "L5 lit mask"
+    },
+    {
+     "file": "off/2x2/L1-v0-winter.png",
+     "label": "L1 NA winter"
+    },
+    {
+     "file": "off/2x2/L2-v0-winter.png",
+     "label": "L2 NA winter"
+    },
+    {
+     "file": "off/2x2/L3-v0-winter.png",
+     "label": "L3 NA winter"
+    },
+    {
+     "file": "off/2x2/L4-v0-winter.png",
+     "label": "L4 NA winter"
+    },
+    {
+     "file": "off/2x2/L5-v0-winter.png",
+     "label": "L5 NA winter"
+    },
+    {
+     "file": "off/2x2/L1-v2-winter.png",
+     "label": "L1 EU winter"
+    },
+    {
+     "file": "off/2x2/L2-v2-winter.png",
+     "label": "L2 EU winter"
+    },
+    {
+     "file": "off/2x2/L3-v2-winter.png",
+     "label": "L3 EU winter"
+    },
+    {
+     "file": "off/2x2/L4-v2-winter.png",
+     "label": "L4 EU winter"
+    },
+    {
+     "file": "off/2x2/L5-v2-winter.png",
+     "label": "L5 EU winter"
+    }
+   ],
+   "note": "rows: night NA, night EU, emissive -lit frames (engine), winter NA, winter EU"
+  },
+  {
+   "title": "Office low density 2x2: 4 facings (level 3)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off/2x2/L3-v0-f0.png",
+     "label": "NA +Y"
+    },
+    {
+     "file": "off/2x2/L3-v0-f1.png",
+     "label": "NA +X"
+    },
+    {
+     "file": "off/2x2/L3-v0-f2.png",
+     "label": "NA -Y"
+    },
+    {
+     "file": "off/2x2/L3-v0-f3.png",
+     "label": "NA -X"
+    },
+    {
+     "file": "off/2x2/L3-v2-f0.png",
+     "label": "EU +Y"
+    },
+    {
+     "file": "off/2x2/L3-v2-f1.png",
+     "label": "EU +X"
+    },
+    {
+     "file": "off/2x2/L3-v2-f2.png",
+     "label": "EU -Y"
+    },
+    {
+     "file": "off/2x2/L3-v2-f3.png",
+     "label": "EU -X"
+    }
+   ],
+   "note": "front toward +Y (default), +X, -Y, -X; non-square lots only use the two facings that fit"
+  },
+  {
+   "title": "Office high density 2x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off-high/2x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "off-high/2x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "off-high/2x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "off-high/2x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "off-high/2x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "off-high/2x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "off-high/2x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "off-high/2x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "off-high/2x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "off-high/2x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "off-high/2x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "off-high/2x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "off-high/2x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "off-high/2x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "off-high/2x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "off-high/2x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "off-high/2x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "off-high/2x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "off-high/2x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "off-high/2x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Office high density 3x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off-high/3x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "off-high/3x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "off-high/3x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "off-high/3x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "off-high/3x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "off-high/3x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "off-high/3x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "off-high/3x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "off-high/3x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "off-high/3x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "off-high/3x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "off-high/3x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "off-high/3x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "off-high/3x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "off-high/3x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "off-high/3x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "off-high/3x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "off-high/3x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "off-high/3x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "off-high/3x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Office high density 2x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off-high/2x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "off-high/2x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "off-high/2x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "off-high/2x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "off-high/2x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "off-high/2x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "off-high/2x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "off-high/2x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "off-high/2x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "off-high/2x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "off-high/2x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "off-high/2x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "off-high/2x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "off-high/2x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "off-high/2x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "off-high/2x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "off-high/2x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "off-high/2x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "off-high/2x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "off-high/2x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Office high density 3x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off-high/3x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "off-high/3x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "off-high/3x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "off-high/3x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "off-high/3x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "off-high/3x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "off-high/3x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "off-high/3x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "off-high/3x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "off-high/3x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "off-high/3x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "off-high/3x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "off-high/3x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "off-high/3x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "off-high/3x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "off-high/3x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "off-high/3x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "off-high/3x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "off-high/3x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "off-high/3x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Office high density: construction and decay (every footprint, level 3)",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off-high/2x2/st-c1.png",
+     "label": "2x2 Build 1: foundation"
+    },
+    {
+     "file": "off-high/2x2/st-c2.png",
+     "label": "2x2 Build 2: frame+crane"
+    },
+    {
+     "file": "off-high/2x2/st-c3.png",
+     "label": "2x2 Build 3: nearly done"
+    },
+    {
+     "file": "off-high/2x2/st-abandoned.png",
+     "label": "2x2 Abandoned"
+    },
+    {
+     "file": "off-high/2x2/st-burnt.png",
+     "label": "2x2 Burnt"
+    },
+    {
+     "file": "off-high/2x2/st-collapsed.png",
+     "label": "2x2 Collapsed"
+    },
+    {
+     "file": "off-high/3x2/st-c1.png",
+     "label": "3x2 Build 1: foundation"
+    },
+    {
+     "file": "off-high/3x2/st-c2.png",
+     "label": "3x2 Build 2: frame+crane"
+    },
+    {
+     "file": "off-high/3x2/st-c3.png",
+     "label": "3x2 Build 3: nearly done"
+    },
+    {
+     "file": "off-high/3x2/st-abandoned.png",
+     "label": "3x2 Abandoned"
+    },
+    {
+     "file": "off-high/3x2/st-burnt.png",
+     "label": "3x2 Burnt"
+    },
+    {
+     "file": "off-high/3x2/st-collapsed.png",
+     "label": "3x2 Collapsed"
+    },
+    {
+     "file": "off-high/2x3/st-c1.png",
+     "label": "2x3 Build 1: foundation"
+    },
+    {
+     "file": "off-high/2x3/st-c2.png",
+     "label": "2x3 Build 2: frame+crane"
+    },
+    {
+     "file": "off-high/2x3/st-c3.png",
+     "label": "2x3 Build 3: nearly done"
+    },
+    {
+     "file": "off-high/2x3/st-abandoned.png",
+     "label": "2x3 Abandoned"
+    },
+    {
+     "file": "off-high/2x3/st-burnt.png",
+     "label": "2x3 Burnt"
+    },
+    {
+     "file": "off-high/2x3/st-collapsed.png",
+     "label": "2x3 Collapsed"
+    },
+    {
+     "file": "off-high/3x3/st-c1.png",
+     "label": "3x3 Build 1: foundation"
+    },
+    {
+     "file": "off-high/3x3/st-c2.png",
+     "label": "3x3 Build 2: frame+crane"
+    },
+    {
+     "file": "off-high/3x3/st-c3.png",
+     "label": "3x3 Build 3: nearly done"
+    },
+    {
+     "file": "off-high/3x3/st-abandoned.png",
+     "label": "3x3 Abandoned"
+    },
+    {
+     "file": "off-high/3x3/st-burnt.png",
+     "label": "3x3 Burnt"
+    },
+    {
+     "file": "off-high/3x3/st-collapsed.png",
+     "label": "3x3 Collapsed"
+    }
+   ],
+   "note": "per row one footprint: foundation, frame + crane, nearly done, abandoned, burnt, collapsed"
+  },
+  {
+   "title": "Office high density 2x2: night, lit mask, winter",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off-high/2x2/L1-v0-night.png",
+     "label": "L1 NA night"
+    },
+    {
+     "file": "off-high/2x2/L2-v0-night.png",
+     "label": "L2 NA night"
+    },
+    {
+     "file": "off-high/2x2/L3-v0-night.png",
+     "label": "L3 NA night"
+    },
+    {
+     "file": "off-high/2x2/L4-v0-night.png",
+     "label": "L4 NA night"
+    },
+    {
+     "file": "off-high/2x2/L5-v0-night.png",
+     "label": "L5 NA night"
+    },
+    {
+     "file": "off-high/2x2/L1-v2-night.png",
+     "label": "L1 EU night"
+    },
+    {
+     "file": "off-high/2x2/L2-v2-night.png",
+     "label": "L2 EU night"
+    },
+    {
+     "file": "off-high/2x2/L3-v2-night.png",
+     "label": "L3 EU night"
+    },
+    {
+     "file": "off-high/2x2/L4-v2-night.png",
+     "label": "L4 EU night"
+    },
+    {
+     "file": "off-high/2x2/L5-v2-night.png",
+     "label": "L5 EU night"
+    },
+    {
+     "file": "off-high/2x2/L1-v0-lit.png",
+     "label": "L1 lit mask"
+    },
+    {
+     "file": "off-high/2x2/L2-v0-lit.png",
+     "label": "L2 lit mask"
+    },
+    {
+     "file": "off-high/2x2/L3-v0-lit.png",
+     "label": "L3 lit mask"
+    },
+    {
+     "file": "off-high/2x2/L4-v0-lit.png",
+     "label": "L4 lit mask"
+    },
+    {
+     "file": "off-high/2x2/L5-v0-lit.png",
+     "label": "L5 lit mask"
+    },
+    {
+     "file": "off-high/2x2/L1-v0-winter.png",
+     "label": "L1 NA winter"
+    },
+    {
+     "file": "off-high/2x2/L2-v0-winter.png",
+     "label": "L2 NA winter"
+    },
+    {
+     "file": "off-high/2x2/L3-v0-winter.png",
+     "label": "L3 NA winter"
+    },
+    {
+     "file": "off-high/2x2/L4-v0-winter.png",
+     "label": "L4 NA winter"
+    },
+    {
+     "file": "off-high/2x2/L5-v0-winter.png",
+     "label": "L5 NA winter"
+    },
+    {
+     "file": "off-high/2x2/L1-v2-winter.png",
+     "label": "L1 EU winter"
+    },
+    {
+     "file": "off-high/2x2/L2-v2-winter.png",
+     "label": "L2 EU winter"
+    },
+    {
+     "file": "off-high/2x2/L3-v2-winter.png",
+     "label": "L3 EU winter"
+    },
+    {
+     "file": "off-high/2x2/L4-v2-winter.png",
+     "label": "L4 EU winter"
+    },
+    {
+     "file": "off-high/2x2/L5-v2-winter.png",
+     "label": "L5 EU winter"
+    }
+   ],
+   "note": "rows: night NA, night EU, emissive -lit frames (engine), winter NA, winter EU"
+  },
+  {
+   "title": "Office high density 2x2: 4 facings (level 3)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "off-high/2x2/L3-v0-f0.png",
+     "label": "NA +Y"
+    },
+    {
+     "file": "off-high/2x2/L3-v0-f1.png",
+     "label": "NA +X"
+    },
+    {
+     "file": "off-high/2x2/L3-v0-f2.png",
+     "label": "NA -Y"
+    },
+    {
+     "file": "off-high/2x2/L3-v0-f3.png",
+     "label": "NA -X"
+    },
+    {
+     "file": "off-high/2x2/L3-v2-f0.png",
+     "label": "EU +Y"
+    },
+    {
+     "file": "off-high/2x2/L3-v2-f1.png",
+     "label": "EU +X"
+    },
+    {
+     "file": "off-high/2x2/L3-v2-f2.png",
+     "label": "EU -Y"
+    },
+    {
+     "file": "off-high/2x2/L3-v2-f3.png",
+     "label": "EU -X"
+    }
+   ],
+   "note": "front toward +Y (default), +X, -Y, -X; non-square lots only use the two facings that fit"
+  },
+  {
+   "title": "Industrial 1x1: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "ind/1x1/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "ind/1x1/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "ind/1x1/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "ind/1x1/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "ind/1x1/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "ind/1x1/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "ind/1x1/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "ind/1x1/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "ind/1x1/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "ind/1x1/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "ind/1x1/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "ind/1x1/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "ind/1x1/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "ind/1x1/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "ind/1x1/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "ind/1x1/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "ind/1x1/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "ind/1x1/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "ind/1x1/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "ind/1x1/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Industrial 2x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "ind/2x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "ind/2x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "ind/2x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "ind/2x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "ind/2x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "ind/2x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "ind/2x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "ind/2x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "ind/2x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "ind/2x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "ind/2x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "ind/2x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "ind/2x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "ind/2x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "ind/2x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "ind/2x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "ind/2x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "ind/2x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "ind/2x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "ind/2x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Industrial 3x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "ind/3x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "ind/3x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "ind/3x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "ind/3x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "ind/3x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "ind/3x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "ind/3x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "ind/3x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "ind/3x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "ind/3x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "ind/3x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "ind/3x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "ind/3x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "ind/3x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "ind/3x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "ind/3x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "ind/3x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "ind/3x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "ind/3x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "ind/3x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Industrial 2x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "ind/2x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "ind/2x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "ind/2x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "ind/2x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "ind/2x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "ind/2x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "ind/2x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "ind/2x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "ind/2x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "ind/2x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "ind/2x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "ind/2x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "ind/2x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "ind/2x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "ind/2x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "ind/2x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "ind/2x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "ind/2x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "ind/2x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "ind/2x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Industrial 3x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "ind/3x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "ind/3x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "ind/3x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "ind/3x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "ind/3x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "ind/3x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "ind/3x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "ind/3x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "ind/3x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "ind/3x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "ind/3x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "ind/3x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "ind/3x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "ind/3x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "ind/3x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "ind/3x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "ind/3x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "ind/3x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "ind/3x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "ind/3x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Industrial 4x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "ind/4x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "ind/4x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "ind/4x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "ind/4x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "ind/4x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "ind/4x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "ind/4x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "ind/4x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "ind/4x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "ind/4x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "ind/4x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "ind/4x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "ind/4x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "ind/4x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "ind/4x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "ind/4x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "ind/4x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "ind/4x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "ind/4x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "ind/4x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Industrial 3x4: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "ind/3x4/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "ind/3x4/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "ind/3x4/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "ind/3x4/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "ind/3x4/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "ind/3x4/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "ind/3x4/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "ind/3x4/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "ind/3x4/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "ind/3x4/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "ind/3x4/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "ind/3x4/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "ind/3x4/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "ind/3x4/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "ind/3x4/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "ind/3x4/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "ind/3x4/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "ind/3x4/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "ind/3x4/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "ind/3x4/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Industrial: construction and decay (every footprint, level 3)",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "ind/1x1/st-c1.png",
+     "label": "1x1 Build 1: foundation"
+    },
+    {
+     "file": "ind/1x1/st-c2.png",
+     "label": "1x1 Build 2: frame+crane"
+    },
+    {
+     "file": "ind/1x1/st-c3.png",
+     "label": "1x1 Build 3: nearly done"
+    },
+    {
+     "file": "ind/1x1/st-abandoned.png",
+     "label": "1x1 Abandoned"
+    },
+    {
+     "file": "ind/1x1/st-burnt.png",
+     "label": "1x1 Burnt"
+    },
+    {
+     "file": "ind/1x1/st-collapsed.png",
+     "label": "1x1 Collapsed"
+    },
+    {
+     "file": "ind/2x2/st-c1.png",
+     "label": "2x2 Build 1: foundation"
+    },
+    {
+     "file": "ind/2x2/st-c2.png",
+     "label": "2x2 Build 2: frame+crane"
+    },
+    {
+     "file": "ind/2x2/st-c3.png",
+     "label": "2x2 Build 3: nearly done"
+    },
+    {
+     "file": "ind/2x2/st-abandoned.png",
+     "label": "2x2 Abandoned"
+    },
+    {
+     "file": "ind/2x2/st-burnt.png",
+     "label": "2x2 Burnt"
+    },
+    {
+     "file": "ind/2x2/st-collapsed.png",
+     "label": "2x2 Collapsed"
+    },
+    {
+     "file": "ind/3x2/st-c1.png",
+     "label": "3x2 Build 1: foundation"
+    },
+    {
+     "file": "ind/3x2/st-c2.png",
+     "label": "3x2 Build 2: frame+crane"
+    },
+    {
+     "file": "ind/3x2/st-c3.png",
+     "label": "3x2 Build 3: nearly done"
+    },
+    {
+     "file": "ind/3x2/st-abandoned.png",
+     "label": "3x2 Abandoned"
+    },
+    {
+     "file": "ind/3x2/st-burnt.png",
+     "label": "3x2 Burnt"
+    },
+    {
+     "file": "ind/3x2/st-collapsed.png",
+     "label": "3x2 Collapsed"
+    },
+    {
+     "file": "ind/2x3/st-c1.png",
+     "label": "2x3 Build 1: foundation"
+    },
+    {
+     "file": "ind/2x3/st-c2.png",
+     "label": "2x3 Build 2: frame+crane"
+    },
+    {
+     "file": "ind/2x3/st-c3.png",
+     "label": "2x3 Build 3: nearly done"
+    },
+    {
+     "file": "ind/2x3/st-abandoned.png",
+     "label": "2x3 Abandoned"
+    },
+    {
+     "file": "ind/2x3/st-burnt.png",
+     "label": "2x3 Burnt"
+    },
+    {
+     "file": "ind/2x3/st-collapsed.png",
+     "label": "2x3 Collapsed"
+    },
+    {
+     "file": "ind/3x3/st-c1.png",
+     "label": "3x3 Build 1: foundation"
+    },
+    {
+     "file": "ind/3x3/st-c2.png",
+     "label": "3x3 Build 2: frame+crane"
+    },
+    {
+     "file": "ind/3x3/st-c3.png",
+     "label": "3x3 Build 3: nearly done"
+    },
+    {
+     "file": "ind/3x3/st-abandoned.png",
+     "label": "3x3 Abandoned"
+    },
+    {
+     "file": "ind/3x3/st-burnt.png",
+     "label": "3x3 Burnt"
+    },
+    {
+     "file": "ind/3x3/st-collapsed.png",
+     "label": "3x3 Collapsed"
+    },
+    {
+     "file": "ind/4x3/st-c1.png",
+     "label": "4x3 Build 1: foundation"
+    },
+    {
+     "file": "ind/4x3/st-c2.png",
+     "label": "4x3 Build 2: frame+crane"
+    },
+    {
+     "file": "ind/4x3/st-c3.png",
+     "label": "4x3 Build 3: nearly done"
+    },
+    {
+     "file": "ind/4x3/st-abandoned.png",
+     "label": "4x3 Abandoned"
+    },
+    {
+     "file": "ind/4x3/st-burnt.png",
+     "label": "4x3 Burnt"
+    },
+    {
+     "file": "ind/4x3/st-collapsed.png",
+     "label": "4x3 Collapsed"
+    },
+    {
+     "file": "ind/3x4/st-c1.png",
+     "label": "3x4 Build 1: foundation"
+    },
+    {
+     "file": "ind/3x4/st-c2.png",
+     "label": "3x4 Build 2: frame+crane"
+    },
+    {
+     "file": "ind/3x4/st-c3.png",
+     "label": "3x4 Build 3: nearly done"
+    },
+    {
+     "file": "ind/3x4/st-abandoned.png",
+     "label": "3x4 Abandoned"
+    },
+    {
+     "file": "ind/3x4/st-burnt.png",
+     "label": "3x4 Burnt"
+    },
+    {
+     "file": "ind/3x4/st-collapsed.png",
+     "label": "3x4 Collapsed"
+    }
+   ],
+   "note": "per row one footprint: foundation, frame + crane, nearly done, abandoned, burnt, collapsed"
+  },
+  {
+   "title": "Industrial 2x2: night, lit mask, winter",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "ind/2x2/L1-v0-night.png",
+     "label": "L1 NA night"
+    },
+    {
+     "file": "ind/2x2/L2-v0-night.png",
+     "label": "L2 NA night"
+    },
+    {
+     "file": "ind/2x2/L3-v0-night.png",
+     "label": "L3 NA night"
+    },
+    {
+     "file": "ind/2x2/L4-v0-night.png",
+     "label": "L4 NA night"
+    },
+    {
+     "file": "ind/2x2/L5-v0-night.png",
+     "label": "L5 NA night"
+    },
+    {
+     "file": "ind/2x2/L1-v2-night.png",
+     "label": "L1 EU night"
+    },
+    {
+     "file": "ind/2x2/L2-v2-night.png",
+     "label": "L2 EU night"
+    },
+    {
+     "file": "ind/2x2/L3-v2-night.png",
+     "label": "L3 EU night"
+    },
+    {
+     "file": "ind/2x2/L4-v2-night.png",
+     "label": "L4 EU night"
+    },
+    {
+     "file": "ind/2x2/L5-v2-night.png",
+     "label": "L5 EU night"
+    },
+    {
+     "file": "ind/2x2/L1-v0-lit.png",
+     "label": "L1 lit mask"
+    },
+    {
+     "file": "ind/2x2/L2-v0-lit.png",
+     "label": "L2 lit mask"
+    },
+    {
+     "file": "ind/2x2/L3-v0-lit.png",
+     "label": "L3 lit mask"
+    },
+    {
+     "file": "ind/2x2/L4-v0-lit.png",
+     "label": "L4 lit mask"
+    },
+    {
+     "file": "ind/2x2/L5-v0-lit.png",
+     "label": "L5 lit mask"
+    },
+    {
+     "file": "ind/2x2/L1-v0-winter.png",
+     "label": "L1 NA winter"
+    },
+    {
+     "file": "ind/2x2/L2-v0-winter.png",
+     "label": "L2 NA winter"
+    },
+    {
+     "file": "ind/2x2/L3-v0-winter.png",
+     "label": "L3 NA winter"
+    },
+    {
+     "file": "ind/2x2/L4-v0-winter.png",
+     "label": "L4 NA winter"
+    },
+    {
+     "file": "ind/2x2/L5-v0-winter.png",
+     "label": "L5 NA winter"
+    },
+    {
+     "file": "ind/2x2/L1-v2-winter.png",
+     "label": "L1 EU winter"
+    },
+    {
+     "file": "ind/2x2/L2-v2-winter.png",
+     "label": "L2 EU winter"
+    },
+    {
+     "file": "ind/2x2/L3-v2-winter.png",
+     "label": "L3 EU winter"
+    },
+    {
+     "file": "ind/2x2/L4-v2-winter.png",
+     "label": "L4 EU winter"
+    },
+    {
+     "file": "ind/2x2/L5-v2-winter.png",
+     "label": "L5 EU winter"
+    }
+   ],
+   "note": "rows: night NA, night EU, emissive -lit frames (engine), winter NA, winter EU"
+  },
+  {
+   "title": "Industrial 2x2: 4 facings (level 3)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "ind/2x2/L3-v0-f0.png",
+     "label": "NA +Y"
+    },
+    {
+     "file": "ind/2x2/L3-v0-f1.png",
+     "label": "NA +X"
+    },
+    {
+     "file": "ind/2x2/L3-v0-f2.png",
+     "label": "NA -Y"
+    },
+    {
+     "file": "ind/2x2/L3-v0-f3.png",
+     "label": "NA -X"
+    },
+    {
+     "file": "ind/2x2/L3-v2-f0.png",
+     "label": "EU +Y"
+    },
+    {
+     "file": "ind/2x2/L3-v2-f1.png",
+     "label": "EU +X"
+    },
+    {
+     "file": "ind/2x2/L3-v2-f2.png",
+     "label": "EU -Y"
+    },
+    {
+     "file": "ind/2x2/L3-v2-f3.png",
+     "label": "EU -X"
+    }
+   ],
+   "note": "front toward +Y (default), +X, -Y, -X; non-square lots only use the two facings that fit"
+  },
+  {
+   "title": "Warehouses 3x2: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "warehouse/3x2/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "warehouse/3x2/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "warehouse/3x2/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "warehouse/3x2/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "warehouse/3x2/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "warehouse/3x2/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "warehouse/3x2/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "warehouse/3x2/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "warehouse/3x2/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "warehouse/3x2/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "warehouse/3x2/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "warehouse/3x2/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "warehouse/3x2/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "warehouse/3x2/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "warehouse/3x2/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "warehouse/3x2/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "warehouse/3x2/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "warehouse/3x2/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "warehouse/3x2/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "warehouse/3x2/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Warehouses 2x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "warehouse/2x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "warehouse/2x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "warehouse/2x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "warehouse/2x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "warehouse/2x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "warehouse/2x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "warehouse/2x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "warehouse/2x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "warehouse/2x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "warehouse/2x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "warehouse/2x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "warehouse/2x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "warehouse/2x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "warehouse/2x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "warehouse/2x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "warehouse/2x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "warehouse/2x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "warehouse/2x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "warehouse/2x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "warehouse/2x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Warehouses 3x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "warehouse/3x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "warehouse/3x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "warehouse/3x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "warehouse/3x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "warehouse/3x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "warehouse/3x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "warehouse/3x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "warehouse/3x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "warehouse/3x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "warehouse/3x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "warehouse/3x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "warehouse/3x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "warehouse/3x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "warehouse/3x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "warehouse/3x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "warehouse/3x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "warehouse/3x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "warehouse/3x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "warehouse/3x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "warehouse/3x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Warehouses 4x3: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "warehouse/4x3/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "warehouse/4x3/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "warehouse/4x3/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "warehouse/4x3/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "warehouse/4x3/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "warehouse/4x3/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "warehouse/4x3/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "warehouse/4x3/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "warehouse/4x3/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "warehouse/4x3/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "warehouse/4x3/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "warehouse/4x3/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "warehouse/4x3/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "warehouse/4x3/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "warehouse/4x3/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "warehouse/4x3/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "warehouse/4x3/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "warehouse/4x3/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "warehouse/4x3/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "warehouse/4x3/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Warehouses 3x4: levels 1-5",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "warehouse/3x4/L1-v0.png",
+     "label": "L1 NA a"
+    },
+    {
+     "file": "warehouse/3x4/L2-v0.png",
+     "label": "L2 NA a"
+    },
+    {
+     "file": "warehouse/3x4/L3-v0.png",
+     "label": "L3 NA a"
+    },
+    {
+     "file": "warehouse/3x4/L4-v0.png",
+     "label": "L4 NA a"
+    },
+    {
+     "file": "warehouse/3x4/L5-v0.png",
+     "label": "L5 NA a"
+    },
+    {
+     "file": "warehouse/3x4/L1-v1.png",
+     "label": "L1 NA b"
+    },
+    {
+     "file": "warehouse/3x4/L2-v1.png",
+     "label": "L2 NA b"
+    },
+    {
+     "file": "warehouse/3x4/L3-v1.png",
+     "label": "L3 NA b"
+    },
+    {
+     "file": "warehouse/3x4/L4-v1.png",
+     "label": "L4 NA b"
+    },
+    {
+     "file": "warehouse/3x4/L5-v1.png",
+     "label": "L5 NA b"
+    },
+    {
+     "file": "warehouse/3x4/L1-v2.png",
+     "label": "L1 EU a"
+    },
+    {
+     "file": "warehouse/3x4/L2-v2.png",
+     "label": "L2 EU a"
+    },
+    {
+     "file": "warehouse/3x4/L3-v2.png",
+     "label": "L3 EU a"
+    },
+    {
+     "file": "warehouse/3x4/L4-v2.png",
+     "label": "L4 EU a"
+    },
+    {
+     "file": "warehouse/3x4/L5-v2.png",
+     "label": "L5 EU a"
+    },
+    {
+     "file": "warehouse/3x4/L1-v3.png",
+     "label": "L1 EU b"
+    },
+    {
+     "file": "warehouse/3x4/L2-v3.png",
+     "label": "L2 EU b"
+    },
+    {
+     "file": "warehouse/3x4/L3-v3.png",
+     "label": "L3 EU b"
+    },
+    {
+     "file": "warehouse/3x4/L4-v3.png",
+     "label": "L4 EU b"
+    },
+    {
+     "file": "warehouse/3x4/L5-v3.png",
+     "label": "L5 EU b"
+    }
+   ],
+   "note": "rows: NA a, NA b, EU a, EU b; columns: level 1 to 5; front faces down-left (+Y)"
+  },
+  {
+   "title": "Warehouses: construction and decay (every footprint, level 3)",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "warehouse/3x2/st-c1.png",
+     "label": "3x2 Build 1: foundation"
+    },
+    {
+     "file": "warehouse/3x2/st-c2.png",
+     "label": "3x2 Build 2: frame+crane"
+    },
+    {
+     "file": "warehouse/3x2/st-c3.png",
+     "label": "3x2 Build 3: nearly done"
+    },
+    {
+     "file": "warehouse/3x2/st-abandoned.png",
+     "label": "3x2 Abandoned"
+    },
+    {
+     "file": "warehouse/3x2/st-burnt.png",
+     "label": "3x2 Burnt"
+    },
+    {
+     "file": "warehouse/3x2/st-collapsed.png",
+     "label": "3x2 Collapsed"
+    },
+    {
+     "file": "warehouse/2x3/st-c1.png",
+     "label": "2x3 Build 1: foundation"
+    },
+    {
+     "file": "warehouse/2x3/st-c2.png",
+     "label": "2x3 Build 2: frame+crane"
+    },
+    {
+     "file": "warehouse/2x3/st-c3.png",
+     "label": "2x3 Build 3: nearly done"
+    },
+    {
+     "file": "warehouse/2x3/st-abandoned.png",
+     "label": "2x3 Abandoned"
+    },
+    {
+     "file": "warehouse/2x3/st-burnt.png",
+     "label": "2x3 Burnt"
+    },
+    {
+     "file": "warehouse/2x3/st-collapsed.png",
+     "label": "2x3 Collapsed"
+    },
+    {
+     "file": "warehouse/3x3/st-c1.png",
+     "label": "3x3 Build 1: foundation"
+    },
+    {
+     "file": "warehouse/3x3/st-c2.png",
+     "label": "3x3 Build 2: frame+crane"
+    },
+    {
+     "file": "warehouse/3x3/st-c3.png",
+     "label": "3x3 Build 3: nearly done"
+    },
+    {
+     "file": "warehouse/3x3/st-abandoned.png",
+     "label": "3x3 Abandoned"
+    },
+    {
+     "file": "warehouse/3x3/st-burnt.png",
+     "label": "3x3 Burnt"
+    },
+    {
+     "file": "warehouse/3x3/st-collapsed.png",
+     "label": "3x3 Collapsed"
+    },
+    {
+     "file": "warehouse/4x3/st-c1.png",
+     "label": "4x3 Build 1: foundation"
+    },
+    {
+     "file": "warehouse/4x3/st-c2.png",
+     "label": "4x3 Build 2: frame+crane"
+    },
+    {
+     "file": "warehouse/4x3/st-c3.png",
+     "label": "4x3 Build 3: nearly done"
+    },
+    {
+     "file": "warehouse/4x3/st-abandoned.png",
+     "label": "4x3 Abandoned"
+    },
+    {
+     "file": "warehouse/4x3/st-burnt.png",
+     "label": "4x3 Burnt"
+    },
+    {
+     "file": "warehouse/4x3/st-collapsed.png",
+     "label": "4x3 Collapsed"
+    },
+    {
+     "file": "warehouse/3x4/st-c1.png",
+     "label": "3x4 Build 1: foundation"
+    },
+    {
+     "file": "warehouse/3x4/st-c2.png",
+     "label": "3x4 Build 2: frame+crane"
+    },
+    {
+     "file": "warehouse/3x4/st-c3.png",
+     "label": "3x4 Build 3: nearly done"
+    },
+    {
+     "file": "warehouse/3x4/st-abandoned.png",
+     "label": "3x4 Abandoned"
+    },
+    {
+     "file": "warehouse/3x4/st-burnt.png",
+     "label": "3x4 Burnt"
+    },
+    {
+     "file": "warehouse/3x4/st-collapsed.png",
+     "label": "3x4 Collapsed"
+    }
+   ],
+   "note": "per row one footprint: foundation, frame + crane, nearly done, abandoned, burnt, collapsed"
+  },
+  {
+   "title": "Warehouses 3x3: night, lit mask, winter",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "warehouse/3x3/L1-v0-night.png",
+     "label": "L1 NA night"
+    },
+    {
+     "file": "warehouse/3x3/L2-v0-night.png",
+     "label": "L2 NA night"
+    },
+    {
+     "file": "warehouse/3x3/L3-v0-night.png",
+     "label": "L3 NA night"
+    },
+    {
+     "file": "warehouse/3x3/L4-v0-night.png",
+     "label": "L4 NA night"
+    },
+    {
+     "file": "warehouse/3x3/L5-v0-night.png",
+     "label": "L5 NA night"
+    },
+    {
+     "file": "warehouse/3x3/L1-v2-night.png",
+     "label": "L1 EU night"
+    },
+    {
+     "file": "warehouse/3x3/L2-v2-night.png",
+     "label": "L2 EU night"
+    },
+    {
+     "file": "warehouse/3x3/L3-v2-night.png",
+     "label": "L3 EU night"
+    },
+    {
+     "file": "warehouse/3x3/L4-v2-night.png",
+     "label": "L4 EU night"
+    },
+    {
+     "file": "warehouse/3x3/L5-v2-night.png",
+     "label": "L5 EU night"
+    },
+    {
+     "file": "warehouse/3x3/L1-v0-lit.png",
+     "label": "L1 lit mask"
+    },
+    {
+     "file": "warehouse/3x3/L2-v0-lit.png",
+     "label": "L2 lit mask"
+    },
+    {
+     "file": "warehouse/3x3/L3-v0-lit.png",
+     "label": "L3 lit mask"
+    },
+    {
+     "file": "warehouse/3x3/L4-v0-lit.png",
+     "label": "L4 lit mask"
+    },
+    {
+     "file": "warehouse/3x3/L5-v0-lit.png",
+     "label": "L5 lit mask"
+    },
+    {
+     "file": "warehouse/3x3/L1-v0-winter.png",
+     "label": "L1 NA winter"
+    },
+    {
+     "file": "warehouse/3x3/L2-v0-winter.png",
+     "label": "L2 NA winter"
+    },
+    {
+     "file": "warehouse/3x3/L3-v0-winter.png",
+     "label": "L3 NA winter"
+    },
+    {
+     "file": "warehouse/3x3/L4-v0-winter.png",
+     "label": "L4 NA winter"
+    },
+    {
+     "file": "warehouse/3x3/L5-v0-winter.png",
+     "label": "L5 NA winter"
+    },
+    {
+     "file": "warehouse/3x3/L1-v2-winter.png",
+     "label": "L1 EU winter"
+    },
+    {
+     "file": "warehouse/3x3/L2-v2-winter.png",
+     "label": "L2 EU winter"
+    },
+    {
+     "file": "warehouse/3x3/L3-v2-winter.png",
+     "label": "L3 EU winter"
+    },
+    {
+     "file": "warehouse/3x3/L4-v2-winter.png",
+     "label": "L4 EU winter"
+    },
+    {
+     "file": "warehouse/3x3/L5-v2-winter.png",
+     "label": "L5 EU winter"
+    }
+   ],
+   "note": "rows: night NA, night EU, emissive -lit frames (engine), winter NA, winter EU"
+  },
+  {
+   "title": "Warehouses 3x3: 4 facings (level 3)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "warehouse/3x3/L3-v0-f0.png",
+     "label": "NA +Y"
+    },
+    {
+     "file": "warehouse/3x3/L3-v0-f1.png",
+     "label": "NA +X"
+    },
+    {
+     "file": "warehouse/3x3/L3-v0-f2.png",
+     "label": "NA -Y"
+    },
+    {
+     "file": "warehouse/3x3/L3-v0-f3.png",
+     "label": "NA -X"
+    },
+    {
+     "file": "warehouse/3x3/L3-v2-f0.png",
+     "label": "EU +Y"
+    },
+    {
+     "file": "warehouse/3x3/L3-v2-f1.png",
+     "label": "EU +X"
+    },
+    {
+     "file": "warehouse/3x3/L3-v2-f2.png",
+     "label": "EU -Y"
+    },
+    {
+     "file": "warehouse/3x3/L3-v2-f3.png",
+     "label": "EU -X"
+    }
+   ],
+   "note": "front toward +Y (default), +X, -Y, -X; non-square lots only use the two facings that fit"
+  },
+  {
+   "title": "Signature buildings (3x3, level 5): NA and EU sets",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "sig/sig-villa-na.png",
+     "label": "Villa NA"
+    },
+    {
+     "file": "sig/sig-villa-eu.png",
+     "label": "Villa EU"
+    },
+    {
+     "file": "sig/sig-garden-row-na.png",
+     "label": "Garden Row NA"
+    },
+    {
+     "file": "sig/sig-garden-row-eu.png",
+     "label": "Garden Row EU"
+    },
+    {
+     "file": "sig/sig-sky-tower-na.png",
+     "label": "Sky Tower NA"
+    },
+    {
+     "file": "sig/sig-sky-tower-eu.png",
+     "label": "Sky Tower EU"
+    },
+    {
+     "file": "sig/sig-bazaar-na.png",
+     "label": "Bazaar NA"
+    },
+    {
+     "file": "sig/sig-bazaar-eu.png",
+     "label": "Bazaar EU"
+    },
+    {
+     "file": "sig/sig-mall-na.png",
+     "label": "Mall NA"
+    },
+    {
+     "file": "sig/sig-mall-eu.png",
+     "label": "Mall EU"
+    },
+    {
+     "file": "sig/sig-glass-hub-na.png",
+     "label": "Glass Hub NA"
+    },
+    {
+     "file": "sig/sig-glass-hub-eu.png",
+     "label": "Glass Hub EU"
+    },
+    {
+     "file": "sig/sig-fuel-plant-na.png",
+     "label": "Fuel Plant NA"
+    },
+    {
+     "file": "sig/sig-fuel-plant-eu.png",
+     "label": "Fuel Plant EU"
+    }
+   ]
+  },
+  {
+   "title": "Signature buildings: night, winter, construction, abandoned",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "sig/sig-villa-na-night.png",
+     "label": "Villa night"
+    },
+    {
+     "file": "sig/sig-villa-na-winter.png",
+     "label": "Villa winter"
+    },
+    {
+     "file": "sig/sig-villa-c2.png",
+     "label": "Villa build"
+    },
+    {
+     "file": "sig/sig-villa-abandoned.png",
+     "label": "Villa abandoned"
+    },
+    {
+     "file": "sig/sig-garden-row-na-night.png",
+     "label": "Garden Row night"
+    },
+    {
+     "file": "sig/sig-garden-row-na-winter.png",
+     "label": "Garden Row winter"
+    },
+    {
+     "file": "sig/sig-garden-row-c2.png",
+     "label": "Garden Row build"
+    },
+    {
+     "file": "sig/sig-garden-row-abandoned.png",
+     "label": "Garden Row abandoned"
+    },
+    {
+     "file": "sig/sig-sky-tower-na-night.png",
+     "label": "Sky Tower night"
+    },
+    {
+     "file": "sig/sig-sky-tower-na-winter.png",
+     "label": "Sky Tower winter"
+    },
+    {
+     "file": "sig/sig-sky-tower-c2.png",
+     "label": "Sky Tower build"
+    },
+    {
+     "file": "sig/sig-sky-tower-abandoned.png",
+     "label": "Sky Tower abandoned"
+    },
+    {
+     "file": "sig/sig-bazaar-na-night.png",
+     "label": "Bazaar night"
+    },
+    {
+     "file": "sig/sig-bazaar-na-winter.png",
+     "label": "Bazaar winter"
+    },
+    {
+     "file": "sig/sig-bazaar-c2.png",
+     "label": "Bazaar build"
+    },
+    {
+     "file": "sig/sig-bazaar-abandoned.png",
+     "label": "Bazaar abandoned"
+    },
+    {
+     "file": "sig/sig-mall-na-night.png",
+     "label": "Mall night"
+    },
+    {
+     "file": "sig/sig-mall-na-winter.png",
+     "label": "Mall winter"
+    },
+    {
+     "file": "sig/sig-mall-c2.png",
+     "label": "Mall build"
+    },
+    {
+     "file": "sig/sig-mall-abandoned.png",
+     "label": "Mall abandoned"
+    },
+    {
+     "file": "sig/sig-glass-hub-na-night.png",
+     "label": "Glass Hub night"
+    },
+    {
+     "file": "sig/sig-glass-hub-na-winter.png",
+     "label": "Glass Hub winter"
+    },
+    {
+     "file": "sig/sig-glass-hub-c2.png",
+     "label": "Glass Hub build"
+    },
+    {
+     "file": "sig/sig-glass-hub-abandoned.png",
+     "label": "Glass Hub abandoned"
+    },
+    {
+     "file": "sig/sig-fuel-plant-na-night.png",
+     "label": "Fuel Plant night"
+    },
+    {
+     "file": "sig/sig-fuel-plant-na-winter.png",
+     "label": "Fuel Plant winter"
+    },
+    {
+     "file": "sig/sig-fuel-plant-c2.png",
+     "label": "Fuel Plant build"
+    },
+    {
+     "file": "sig/sig-fuel-plant-abandoned.png",
+     "label": "Fuel Plant abandoned"
+    }
+   ]
+  },
+  {
+   "title": "Signature: 4 facings (Villa, Bazaar)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "sig/sig-villa-f0.png",
+     "label": "villa +Y"
+    },
+    {
+     "file": "sig/sig-villa-f1.png",
+     "label": "villa +X"
+    },
+    {
+     "file": "sig/sig-villa-f2.png",
+     "label": "villa -Y"
+    },
+    {
+     "file": "sig/sig-villa-f3.png",
+     "label": "villa -X"
+    },
+    {
+     "file": "sig/sig-bazaar-f0.png",
+     "label": "bazaar +Y"
+    },
+    {
+     "file": "sig/sig-bazaar-f1.png",
+     "label": "bazaar +X"
+    },
+    {
+     "file": "sig/sig-bazaar-f2.png",
+     "label": "bazaar -Y"
+    },
+    {
+     "file": "sig/sig-bazaar-f3.png",
+     "label": "bazaar -X"
+    }
+   ]
+  },
+  {
+   "title": "Rubble (rubble-WxD actors, every footprint)",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "rubble/rubble-1x1.png",
+     "label": "1x1"
+    },
+    {
+     "file": "rubble/rubble-2x1.png",
+     "label": "2x1"
+    },
+    {
+     "file": "rubble/rubble-1x2.png",
+     "label": "1x2"
+    },
+    {
+     "file": "rubble/rubble-3x1.png",
+     "label": "3x1"
+    },
+    {
+     "file": "rubble/rubble-1x3.png",
+     "label": "1x3"
+    },
+    {
+     "file": "rubble/rubble-2x2.png",
+     "label": "2x2"
+    },
+    {
+     "file": "rubble/rubble-3x2.png",
+     "label": "3x2"
+    },
+    {
+     "file": "rubble/rubble-2x3.png",
+     "label": "2x3"
+    },
+    {
+     "file": "rubble/rubble-3x3.png",
+     "label": "3x3"
+    },
+    {
+     "file": "rubble/rubble-4x3.png",
+     "label": "4x3"
+    },
+    {
+     "file": "rubble/rubble-3x4.png",
+     "label": "3x4"
+    }
+   ]
+  }
+ ]
+}

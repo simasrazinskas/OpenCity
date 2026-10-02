@@ -1,0 +1,880 @@
+{
+ "page": "World elements",
+ "section": "Nature",
+ "groups": [
+  {
+   "title": "Game trees tree-1..4: four seasons",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "trees/tree-1-spring.png",
+     "label": "tree-1 spring"
+    },
+    {
+     "file": "trees/tree-1-summer.png",
+     "label": "tree-1 summer"
+    },
+    {
+     "file": "trees/tree-1-autumn.png",
+     "label": "tree-1 autumn"
+    },
+    {
+     "file": "trees/tree-1-winter.png",
+     "label": "tree-1 winter"
+    },
+    {
+     "file": "trees/tree-2-spring.png",
+     "label": "tree-2 spring"
+    },
+    {
+     "file": "trees/tree-2-summer.png",
+     "label": "tree-2 summer"
+    },
+    {
+     "file": "trees/tree-2-autumn.png",
+     "label": "tree-2 autumn"
+    },
+    {
+     "file": "trees/tree-2-winter.png",
+     "label": "tree-2 winter"
+    },
+    {
+     "file": "trees/tree-3-spring.png",
+     "label": "tree-3 spring"
+    },
+    {
+     "file": "trees/tree-3-summer.png",
+     "label": "tree-3 summer"
+    },
+    {
+     "file": "trees/tree-3-autumn.png",
+     "label": "tree-3 autumn"
+    },
+    {
+     "file": "trees/tree-3-winter.png",
+     "label": "tree-3 winter"
+    },
+    {
+     "file": "trees/tree-4-spring.png",
+     "label": "tree-4 spring"
+    },
+    {
+     "file": "trees/tree-4-summer.png",
+     "label": "tree-4 summer"
+    },
+    {
+     "file": "trees/tree-4-autumn.png",
+     "label": "tree-4 autumn"
+    },
+    {
+     "file": "trees/tree-4-winter.png",
+     "label": "tree-4 winter"
+    }
+   ],
+   "note": "tree-1 linden, tree-2 oak, tree-3 spruce, tree-4 birch. Anchor = cell centre."
+  },
+  {
+   "title": "All species, summer (mature)",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "species/linden-summer.png",
+     "label": "Linden"
+    },
+    {
+     "file": "species/oak-summer.png",
+     "label": "Oak"
+    },
+    {
+     "file": "species/maple-summer.png",
+     "label": "Maple"
+    },
+    {
+     "file": "species/birch-summer.png",
+     "label": "Birch"
+    },
+    {
+     "file": "species/poplar-summer.png",
+     "label": "Poplar"
+    },
+    {
+     "file": "species/willow-summer.png",
+     "label": "Willow"
+    },
+    {
+     "file": "species/apple-summer.png",
+     "label": "Apple"
+    },
+    {
+     "file": "species/cherry-summer.png",
+     "label": "Cherry"
+    },
+    {
+     "file": "species/spruce-summer.png",
+     "label": "Spruce"
+    },
+    {
+     "file": "species/fir-summer.png",
+     "label": "Fir"
+    },
+    {
+     "file": "species/pine-summer.png",
+     "label": "Pine"
+    }
+   ]
+  },
+  {
+   "title": "All species, spring",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "species/linden-spring.png",
+     "label": "Linden"
+    },
+    {
+     "file": "species/oak-spring.png",
+     "label": "Oak"
+    },
+    {
+     "file": "species/maple-spring.png",
+     "label": "Maple"
+    },
+    {
+     "file": "species/birch-spring.png",
+     "label": "Birch"
+    },
+    {
+     "file": "species/poplar-spring.png",
+     "label": "Poplar"
+    },
+    {
+     "file": "species/willow-spring.png",
+     "label": "Willow"
+    },
+    {
+     "file": "species/apple-spring.png",
+     "label": "Apple"
+    },
+    {
+     "file": "species/cherry-spring.png",
+     "label": "Cherry"
+    },
+    {
+     "file": "species/spruce-spring.png",
+     "label": "Spruce"
+    },
+    {
+     "file": "species/fir-spring.png",
+     "label": "Fir"
+    },
+    {
+     "file": "species/pine-spring.png",
+     "label": "Pine"
+    }
+   ]
+  },
+  {
+   "title": "All species, autumn",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "species/linden-autumn.png",
+     "label": "Linden"
+    },
+    {
+     "file": "species/oak-autumn.png",
+     "label": "Oak"
+    },
+    {
+     "file": "species/maple-autumn.png",
+     "label": "Maple"
+    },
+    {
+     "file": "species/birch-autumn.png",
+     "label": "Birch"
+    },
+    {
+     "file": "species/poplar-autumn.png",
+     "label": "Poplar"
+    },
+    {
+     "file": "species/willow-autumn.png",
+     "label": "Willow"
+    },
+    {
+     "file": "species/apple-autumn.png",
+     "label": "Apple"
+    },
+    {
+     "file": "species/cherry-autumn.png",
+     "label": "Cherry"
+    },
+    {
+     "file": "species/spruce-autumn.png",
+     "label": "Spruce"
+    },
+    {
+     "file": "species/fir-autumn.png",
+     "label": "Fir"
+    },
+    {
+     "file": "species/pine-autumn.png",
+     "label": "Pine"
+    }
+   ]
+  },
+  {
+   "title": "All species, winter",
+   "columns": 11,
+   "scale": 2,
+   "items": [
+    {
+     "file": "species/linden-winter.png",
+     "label": "Linden"
+    },
+    {
+     "file": "species/oak-winter.png",
+     "label": "Oak"
+    },
+    {
+     "file": "species/maple-winter.png",
+     "label": "Maple"
+    },
+    {
+     "file": "species/birch-winter.png",
+     "label": "Birch"
+    },
+    {
+     "file": "species/poplar-winter.png",
+     "label": "Poplar"
+    },
+    {
+     "file": "species/willow-winter.png",
+     "label": "Willow"
+    },
+    {
+     "file": "species/apple-winter.png",
+     "label": "Apple"
+    },
+    {
+     "file": "species/cherry-winter.png",
+     "label": "Cherry"
+    },
+    {
+     "file": "species/spruce-winter.png",
+     "label": "Spruce"
+    },
+    {
+     "file": "species/fir-winter.png",
+     "label": "Fir"
+    },
+    {
+     "file": "species/pine-winter.png",
+     "label": "Pine"
+    }
+   ]
+  },
+  {
+   "title": "Growth stages (sapling, young, mature)",
+   "columns": 9,
+   "scale": 2,
+   "items": [
+    {
+     "file": "growth/linden-sapling.png",
+     "label": "Linden sapling"
+    },
+    {
+     "file": "growth/linden-young.png",
+     "label": "Linden young"
+    },
+    {
+     "file": "growth/linden-mature.png",
+     "label": "Linden mature"
+    },
+    {
+     "file": "growth/oak-sapling.png",
+     "label": "Oak sapling"
+    },
+    {
+     "file": "growth/oak-young.png",
+     "label": "Oak young"
+    },
+    {
+     "file": "growth/oak-mature.png",
+     "label": "Oak mature"
+    },
+    {
+     "file": "growth/maple-sapling.png",
+     "label": "Maple sapling"
+    },
+    {
+     "file": "growth/maple-young.png",
+     "label": "Maple young"
+    },
+    {
+     "file": "growth/maple-mature.png",
+     "label": "Maple mature"
+    },
+    {
+     "file": "growth/birch-sapling.png",
+     "label": "Birch sapling"
+    },
+    {
+     "file": "growth/birch-young.png",
+     "label": "Birch young"
+    },
+    {
+     "file": "growth/birch-mature.png",
+     "label": "Birch mature"
+    },
+    {
+     "file": "growth/poplar-sapling.png",
+     "label": "Poplar sapling"
+    },
+    {
+     "file": "growth/poplar-young.png",
+     "label": "Poplar young"
+    },
+    {
+     "file": "growth/poplar-mature.png",
+     "label": "Poplar mature"
+    },
+    {
+     "file": "growth/willow-sapling.png",
+     "label": "Willow sapling"
+    },
+    {
+     "file": "growth/willow-young.png",
+     "label": "Willow young"
+    },
+    {
+     "file": "growth/willow-mature.png",
+     "label": "Willow mature"
+    },
+    {
+     "file": "growth/apple-sapling.png",
+     "label": "Apple sapling"
+    },
+    {
+     "file": "growth/apple-young.png",
+     "label": "Apple young"
+    },
+    {
+     "file": "growth/apple-mature.png",
+     "label": "Apple mature"
+    },
+    {
+     "file": "growth/cherry-sapling.png",
+     "label": "Cherry sapling"
+    },
+    {
+     "file": "growth/cherry-young.png",
+     "label": "Cherry young"
+    },
+    {
+     "file": "growth/cherry-mature.png",
+     "label": "Cherry mature"
+    },
+    {
+     "file": "growth/spruce-sapling.png",
+     "label": "Spruce sapling"
+    },
+    {
+     "file": "growth/spruce-young.png",
+     "label": "Spruce young"
+    },
+    {
+     "file": "growth/spruce-mature.png",
+     "label": "Spruce mature"
+    },
+    {
+     "file": "growth/fir-sapling.png",
+     "label": "Fir sapling"
+    },
+    {
+     "file": "growth/fir-young.png",
+     "label": "Fir young"
+    },
+    {
+     "file": "growth/fir-mature.png",
+     "label": "Fir mature"
+    },
+    {
+     "file": "growth/pine-sapling.png",
+     "label": "Pine sapling"
+    },
+    {
+     "file": "growth/pine-young.png",
+     "label": "Pine young"
+    },
+    {
+     "file": "growth/pine-mature.png",
+     "label": "Pine mature"
+    }
+   ]
+  },
+  {
+   "title": "Variants: same species, different seeds",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "variants/oak-v3.png",
+     "label": "Oak v3"
+    },
+    {
+     "file": "variants/oak-v4.png",
+     "label": "Oak v4"
+    },
+    {
+     "file": "variants/linden-v3.png",
+     "label": "Linden v3"
+    },
+    {
+     "file": "variants/linden-v4.png",
+     "label": "Linden v4"
+    },
+    {
+     "file": "variants/spruce-v3.png",
+     "label": "Spruce v3"
+    },
+    {
+     "file": "variants/spruce-v4.png",
+     "label": "Spruce v4"
+    },
+    {
+     "file": "variants/birch-v3.png",
+     "label": "Birch v3"
+    },
+    {
+     "file": "variants/birch-v4.png",
+     "label": "Birch v4"
+    }
+   ]
+  },
+  {
+   "title": "Dead, burnt and stumps",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "dead/oak-dead.png",
+     "label": "Oak dead"
+    },
+    {
+     "file": "dead/oak-burnt.png",
+     "label": "Oak burnt"
+    },
+    {
+     "file": "dead/oak-stump.png",
+     "label": "Oak stump"
+    },
+    {
+     "file": "dead/birch-dead.png",
+     "label": "Birch dead"
+    },
+    {
+     "file": "dead/birch-burnt.png",
+     "label": "Birch burnt"
+    },
+    {
+     "file": "dead/birch-stump.png",
+     "label": "Birch stump"
+    },
+    {
+     "file": "dead/spruce-dead.png",
+     "label": "Spruce dead"
+    },
+    {
+     "file": "dead/spruce-burnt.png",
+     "label": "Spruce burnt"
+    },
+    {
+     "file": "dead/spruce-stump.png",
+     "label": "Spruce stump"
+    },
+    {
+     "file": "dead/pine-dead.png",
+     "label": "Pine dead"
+    },
+    {
+     "file": "dead/pine-burnt.png",
+     "label": "Pine burnt"
+    },
+    {
+     "file": "dead/pine-stump.png",
+     "label": "Pine stump"
+    }
+   ]
+  },
+  {
+   "title": "Groves (forest cells): deciduous, conifer, mixed x seasons",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "groves/deciduous-spring-1.png",
+     "label": "deciduous spring 1"
+    },
+    {
+     "file": "groves/deciduous-spring-2.png",
+     "label": "deciduous spring 2"
+    },
+    {
+     "file": "groves/deciduous-summer-1.png",
+     "label": "deciduous summer 1"
+    },
+    {
+     "file": "groves/deciduous-summer-2.png",
+     "label": "deciduous summer 2"
+    },
+    {
+     "file": "groves/deciduous-autumn-1.png",
+     "label": "deciduous autumn 1"
+    },
+    {
+     "file": "groves/deciduous-autumn-2.png",
+     "label": "deciduous autumn 2"
+    },
+    {
+     "file": "groves/deciduous-winter-1.png",
+     "label": "deciduous winter 1"
+    },
+    {
+     "file": "groves/deciduous-winter-2.png",
+     "label": "deciduous winter 2"
+    },
+    {
+     "file": "groves/conifer-spring-1.png",
+     "label": "conifer spring 1"
+    },
+    {
+     "file": "groves/conifer-spring-2.png",
+     "label": "conifer spring 2"
+    },
+    {
+     "file": "groves/conifer-summer-1.png",
+     "label": "conifer summer 1"
+    },
+    {
+     "file": "groves/conifer-summer-2.png",
+     "label": "conifer summer 2"
+    },
+    {
+     "file": "groves/conifer-autumn-1.png",
+     "label": "conifer autumn 1"
+    },
+    {
+     "file": "groves/conifer-autumn-2.png",
+     "label": "conifer autumn 2"
+    },
+    {
+     "file": "groves/conifer-winter-1.png",
+     "label": "conifer winter 1"
+    },
+    {
+     "file": "groves/conifer-winter-2.png",
+     "label": "conifer winter 2"
+    },
+    {
+     "file": "groves/mixed-spring-1.png",
+     "label": "mixed spring 1"
+    },
+    {
+     "file": "groves/mixed-spring-2.png",
+     "label": "mixed spring 2"
+    },
+    {
+     "file": "groves/mixed-summer-1.png",
+     "label": "mixed summer 1"
+    },
+    {
+     "file": "groves/mixed-summer-2.png",
+     "label": "mixed summer 2"
+    },
+    {
+     "file": "groves/mixed-autumn-1.png",
+     "label": "mixed autumn 1"
+    },
+    {
+     "file": "groves/mixed-autumn-2.png",
+     "label": "mixed autumn 2"
+    },
+    {
+     "file": "groves/mixed-winter-1.png",
+     "label": "mixed winter 1"
+    },
+    {
+     "file": "groves/mixed-winter-2.png",
+     "label": "mixed winter 2"
+    }
+   ]
+  },
+  {
+   "title": "Bushes",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "bushes/bush-small-summer.png",
+     "label": "small summer"
+    },
+    {
+     "file": "bushes/bush-small-autumn.png",
+     "label": "small autumn"
+    },
+    {
+     "file": "bushes/bush-small-winter.png",
+     "label": "small winter"
+    },
+    {
+     "file": "bushes/bush-medium-summer.png",
+     "label": "medium summer"
+    },
+    {
+     "file": "bushes/bush-medium-autumn.png",
+     "label": "medium autumn"
+    },
+    {
+     "file": "bushes/bush-medium-winter.png",
+     "label": "medium winter"
+    },
+    {
+     "file": "bushes/bush-large-summer.png",
+     "label": "large summer"
+    },
+    {
+     "file": "bushes/bush-large-autumn.png",
+     "label": "large autumn"
+    },
+    {
+     "file": "bushes/bush-large-winter.png",
+     "label": "large winter"
+    },
+    {
+     "file": "bushes/bush-rose-summer.png",
+     "label": "rose summer"
+    },
+    {
+     "file": "bushes/bush-rose-autumn.png",
+     "label": "rose autumn"
+    },
+    {
+     "file": "bushes/bush-rose-winter.png",
+     "label": "rose winter"
+    },
+    {
+     "file": "bushes/bush-forsythia-summer.png",
+     "label": "forsythia summer"
+    },
+    {
+     "file": "bushes/bush-forsythia-autumn.png",
+     "label": "forsythia autumn"
+    },
+    {
+     "file": "bushes/bush-forsythia-winter.png",
+     "label": "forsythia winter"
+    },
+    {
+     "file": "bushes/bush-white-summer.png",
+     "label": "white summer"
+    },
+    {
+     "file": "bushes/bush-white-autumn.png",
+     "label": "white autumn"
+    },
+    {
+     "file": "bushes/bush-white-winter.png",
+     "label": "white winter"
+    }
+   ]
+  },
+  {
+   "title": "Hedges (join edge to edge)",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "hedges/hedge-x-summer.png",
+     "label": "x summer"
+    },
+    {
+     "file": "hedges/hedge-x-winter.png",
+     "label": "x winter"
+    },
+    {
+     "file": "hedges/hedge-y-summer.png",
+     "label": "y summer"
+    },
+    {
+     "file": "hedges/hedge-y-winter.png",
+     "label": "y winter"
+    },
+    {
+     "file": "hedges/hedge-corner-summer.png",
+     "label": "corner summer"
+    },
+    {
+     "file": "hedges/hedge-corner-winter.png",
+     "label": "corner winter"
+    },
+    {
+     "file": "hedges/hedge-end-summer.png",
+     "label": "end summer"
+    },
+    {
+     "file": "hedges/hedge-end-winter.png",
+     "label": "end winter"
+    }
+   ]
+  },
+  {
+   "title": "Flower beds",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "beds/bed-0.png",
+     "label": "rose+yellow"
+    },
+    {
+     "file": "beds/bed-1.png",
+     "label": "lavender+white"
+    },
+    {
+     "file": "beds/bed-2.png",
+     "label": "red+yellow round"
+    },
+    {
+     "file": "beds/bed-3.png",
+     "label": "violet+rose round"
+    },
+    {
+     "file": "beds/bed-winter.png",
+     "label": "rect winter"
+    }
+   ]
+  },
+  {
+   "title": "Rocks and boulders",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "rocks/rock-small.png",
+     "label": "small"
+    },
+    {
+     "file": "rocks/rock-small-snow.png",
+     "label": "small snow"
+    },
+    {
+     "file": "rocks/rock-medium.png",
+     "label": "medium"
+    },
+    {
+     "file": "rocks/rock-medium-snow.png",
+     "label": "medium snow"
+    },
+    {
+     "file": "rocks/rock-large.png",
+     "label": "large"
+    },
+    {
+     "file": "rocks/rock-large-snow.png",
+     "label": "large snow"
+    },
+    {
+     "file": "rocks/rock-cluster.png",
+     "label": "cluster"
+    },
+    {
+     "file": "rocks/rock-cluster-snow.png",
+     "label": "cluster snow"
+    },
+    {
+     "file": "rocks/rock-outcrop.png",
+     "label": "outcrop"
+    },
+    {
+     "file": "rocks/rock-outcrop-snow.png",
+     "label": "outcrop snow"
+    }
+   ]
+  },
+  {
+   "title": "Ground cover: tall grass, reeds, logs",
+   "columns": 8,
+   "scale": 2,
+   "items": [
+    {
+     "file": "cover/tall-grass-spring.png",
+     "label": "tall grass spring"
+    },
+    {
+     "file": "cover/tall-grass-summer.png",
+     "label": "tall grass summer"
+    },
+    {
+     "file": "cover/tall-grass-autumn.png",
+     "label": "tall grass autumn"
+    },
+    {
+     "file": "cover/tall-grass-winter.png",
+     "label": "tall grass winter"
+    },
+    {
+     "file": "cover/reeds-summer.png",
+     "label": "reeds summer"
+    },
+    {
+     "file": "cover/reeds-autumn.png",
+     "label": "reeds autumn"
+    },
+    {
+     "file": "cover/log.png",
+     "label": "fallen log"
+    },
+    {
+     "file": "cover/log-snow.png",
+     "label": "fallen log snow"
+    }
+   ]
+  },
+  {
+   "title": "Night: trees under the night ambient",
+   "columns": 6,
+   "scale": 2,
+   "items": [
+    {
+     "file": "night/linden-night.png",
+     "label": "Linden"
+    },
+    {
+     "file": "night/oak-night.png",
+     "label": "Oak"
+    },
+    {
+     "file": "night/spruce-night.png",
+     "label": "Spruce"
+    },
+    {
+     "file": "night/birch-night.png",
+     "label": "Birch"
+    },
+    {
+     "file": "night/pine-night.png",
+     "label": "Pine"
+    },
+    {
+     "file": "night/willow-night.png",
+     "label": "Willow"
+    }
+   ]
+  }
+ ]
+}

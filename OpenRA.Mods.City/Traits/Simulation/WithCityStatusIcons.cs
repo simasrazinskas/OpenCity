@@ -37,7 +37,7 @@ namespace OpenRA.Mods.City.Traits
 		[PaletteReference]
 		public readonly string Palette = "chrome";
 
-		[Desc("Approximate height of the building sprite above its footprint, in world pixels.")]
+		[Desc("Fallback height of the building sprite above its footprint, in world pixels (when it has no mouse bounds).")]
 		public readonly int BuildingHeight = 28;
 
 		[Desc("Gap between the roof and the bottom of the icons, in UI pixels.")]
@@ -124,9 +124,9 @@ namespace OpenRA.Mods.City.Traits
 
 			var second = n > 1 && density >= info.SingleIconBelowZoom ? 1 + now / Math.Max(1, info.CycleTicks) % (n - 1) : -1;
 
-			// Anchor on the roof in world space, then lay the icons out in whole UI pixels so they stay crisp at any zoom.
-			var roof = self.CenterPosition - new WVec(0, (footprintRows * 16 + info.BuildingHeight) * 1024 / 32, 0);
-			var anchor = wr.Viewport.WorldToViewPx(wr.ScreenPxPosition(roof));
+			// Anchor on the top of the building's screen bounds (footprint plus height, so tall towers carry their icons on
+			// the roof), then lay the icons out in whole UI pixels so they stay crisp at any zoom.
+			var anchor = wr.Viewport.WorldToViewPx(RoofPx(self, wr));
 			var tileSize = tiles.GetSprite(0).Size;
 			var y = anchor.Y - info.IconGap - (int)tileSize.Y / 2;
 			var palette = wr.Palette(info.Palette);
@@ -137,6 +137,24 @@ namespace OpenRA.Mods.City.Traits
 				AddIcon(result, self, palette, (CityProblem)list[second], now, new int2(anchor.X + spacing - spacing / 2, y));
 
 			return result;
+		}
+
+		int2 RoofPx(Actor self, WorldRenderer wr)
+		{
+			var center = wr.ScreenPxPosition(self.CenterPosition);
+			var bounds = self.MouseBounds(wr);
+			if (!bounds.IsEmpty)
+				return new int2(center.X, bounds.BoundingRect.Top);
+
+			var top = int.MaxValue;
+			foreach (var r in self.ScreenBounds(wr))
+				top = Math.Min(top, r.Top);
+
+			if (top != int.MaxValue)
+				return new int2(center.X, top);
+
+			var roof = self.CenterPosition - new WVec(0, (footprintRows * 16 + info.BuildingHeight) * 1024 / 32, 0);
+			return wr.ScreenPxPosition(roof);
 		}
 
 		void AddIcon(List<IRenderable> result, Actor self, PaletteReference palette, CityProblem problem, int now, int2 center)

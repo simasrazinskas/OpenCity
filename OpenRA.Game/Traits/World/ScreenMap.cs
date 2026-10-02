@@ -64,6 +64,13 @@ namespace OpenRA.Traits
 			var size = world.Map.Rules.TerrainInfo.TileSize;
 			var width = world.Map.MapSize.Width * size.Width;
 			var height = world.Map.MapSize.Height * size.Height;
+			if (world.Map.Grid.Projection == MapProjection.Isometric)
+			{
+				// The map is a diamond spanning (W + H) half tiles in both screen directions (see WorldRenderer.ScreenPosition).
+				var halfTiles = world.Map.MapSize.Width + world.Map.MapSize.Height;
+				width = halfTiles * size.Width / 2;
+				height = halfTiles * size.Height / 2;
+			}
 
 			partitionedMouseFrozenActors = new Cache<Player, SpatiallyPartitioned<FrozenActor>>(
 				_ => new SpatiallyPartitioned<FrozenActor>(width, height, info.BinSize));

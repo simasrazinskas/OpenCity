@@ -1,0 +1,75 @@
+"""The named material library. Use isokit.mat('brick') or mat('brick', ramp='stone', shade=1)."""
+from .materials import (Material, register, pat_noise, pat_brick, pat_siding, pat_concrete,
+                        pat_corrugated, pat_planks)
+from .windows import pat_windows, pat_curtain, pat_shopfront
+from .surfaces import (pat_tiles, pat_slate, pat_shingle, pat_asphalt, pat_paving, pat_grass,
+                       pat_dirt, pat_sand, pat_rock, pat_water, pat_foliage, pat_bark,
+                       pat_forest_floor)
+
+R = register
+# walls
+R("plain", Material("grey", 1.0))
+R("plaster", Material("stone", 2.0, pat_noise, amt=0.25))
+R("plaster_white", Material("snow", 0.5, pat_noise, amt=0.2, snow=False))
+R("brick", Material("brick", 0.0, pat_brick))
+R("brick_yellow", Material("sand", -0.5, pat_brick))
+R("siding", Material("slate", 1.5, pat_siding))
+R("siding_white", Material("stone", 3.0, pat_siding))
+R("wood", Material("wood", 0.0, pat_planks))
+R("concrete", Material("grey", 1.2, pat_concrete))
+R("stone", Material("stone", 0.5, pat_brick, course=4, brick=8, mortar=0.5))
+R("metal", Material("slate", 1.0, pat_corrugated))
+R("metal_light", Material("grey", 2.0, pat_corrugated))
+R("glass", Material("glass", 0.0, pat_curtain, dither=0.0))
+R("glass_dark", Material("slate", -0.5, pat_curtain, frame="slate", dither=0.0))
+# window grids over a base wall (params: storey, win_w, win_h, period, sill, ground, lit)
+R("windows_brick", Material("brick", 0.0, pat_windows, base="brick"))
+R("windows_plaster", Material("stone", 2.0, pat_windows, base="plaster"))
+R("windows_siding", Material("slate", 1.5, pat_windows, base="siding", period=10, glass="glass", glass_tone=-2.6))
+R("windows_concrete", Material("grey", 1.2, pat_windows, base="concrete", win_w=6, period=8))
+R("windows_office", Material("grey", 1.5, pat_windows, base="concrete", win_w=6, win_h=6, period=7,
+                             sill=2, glass="glass"))
+R("shopfront", Material("stone", 2.0, pat_shopfront, base="plaster", sign="red"))
+R("shopfront_brick", Material("brick", 0.0, pat_shopfront, base="brick", sign="teal"))
+# roofs
+R("roof_tiles", Material("terra", -1.0, pat_tiles))
+R("roof_tiles_brown", Material("wood", 0.0, pat_tiles))
+R("slate", Material("slate", -1.0, pat_slate))
+R("shingle", Material("grey", -1.5, pat_shingle))
+R("roof_metal", Material("grey", 0.5, pat_corrugated))
+R("roof_flat", Material("grey", 0.0, pat_noise, amt=0.35))
+R("roof_gravel", Material("stone", -0.5, pat_dirt, pebbles=0.12, patch=0.8))
+R("roof_green", Material("leaf", 0.5, pat_grass, tuft=0.1))
+# ground
+R("asphalt", Material("grey", -2.5, pat_asphalt, dither=0.4))
+R("paving", Material("stone", 0.5, pat_paving))
+R("concrete_ground", Material("grey", 1.0, pat_paving, slab=8))
+R("grass", Material("grass", -2.8, pat_grass))
+R("grass_dry", Material("olive", -1.2, pat_grass, tuft=0.09))
+R("meadow", Material("grass", -2.3, pat_grass, flowers=0.03))
+R("dirt", Material("wood", -0.3, pat_dirt))
+R("mud", Material("wood", -1.2, pat_dirt, patch=1.2, pebbles=0.02))
+R("sand", Material("sand", -0.8, pat_sand))
+R("gravel", Material("stone", -1.5, pat_dirt, pebbles=0.18, patch=1.0, scale=4.0))
+R("rock", Material("stone", -2.0, pat_rock))
+R("forest_floor", Material("wood", -1.0, pat_forest_floor))
+R("snow", Material("snow", 0.4, pat_dirt, pebbles=0.03, patch=0.7, snow=False))
+R("water", Material("water", -0.5, pat_water, dither=0.0, snow=False))
+# vegetation
+R("foliage", Material("leaf", 0.0, pat_foliage, dither=0.0))
+R("foliage_light", Material("grass", -1.0, pat_foliage, dither=0.0))
+R("conifer", Material("teal", -1.5, pat_foliage, dither=0.0, clump=1.6))
+R("bark", Material("wood", -1.5, pat_bark))
+R("bark_birch", Material("stone", 3.5, pat_bark, snow=False, marks=0.3))
+# details
+from .details import pat_stripes, pat_bands, pat_door, pat_emissive  # noqa: E402
+R("awning", Material("red", 0.0, pat_stripes, ramp2="snow", width=3, tone2=-1.0))
+R("awning_green", Material("leaf", 1.0, pat_stripes, ramp2="snow", width=3, tone2=-1.5))
+R("chimney_bands", Material("red", 0.0, pat_bands, ramp2="snow", height=6, tone2=-1.0))
+R("door", Material("wood", -1.0, pat_door))
+R("door_glass", Material("glass", -1.0, pat_door, lit=True))
+R("garage", Material("grey", 1.0, pat_door, slats=True))
+R("marking", Material("snow", 1.0, None, dither=0.0, snow=False))
+R("marking_yellow", Material("yellow", 2.0, None, dither=0.0))
+R("lamp", Material("yellow", 4.0, pat_emissive, dither=0.0, snow=False))
+R("neon", Material("rose", 3.0, pat_emissive, dither=0.0, snow=False, eramp="rose", eshade=9.0))

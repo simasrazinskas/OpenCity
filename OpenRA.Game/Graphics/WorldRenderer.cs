@@ -22,11 +22,25 @@ namespace OpenRA.Graphics
 {
 	public sealed class WorldRenderer : IDisposable
 	{
+		/// <summary>Draw order key for the classic top-down projection (see <see cref="ZPositionComparisonKey"/>).</summary>
 		public static readonly Func<IRenderable, int> RenderableZPositionComparisonKey =
 			r => r.Pos.Y + r.Pos.Z + r.ZOffset;
 
+		/// <summary>Draw order key for the isometric projection: things nearer the viewer (larger X + Y) are drawn later.</summary>
+		public static readonly Func<IRenderable, int> IsometricRenderableZPositionComparisonKey =
+			r => r.Pos.X + r.Pos.Y + r.Pos.Z + r.ZOffset;
+
 		public readonly Size TileSize;
 		public readonly int TileScale;
+
+		/// <summary>True when the mod uses <c>MapGrid: Projection: Isometric</c> (diamond map, render-only).</summary>
+		public readonly bool IsIsometric;
+
+		/// <summary>Draw order key for renderables in the current projection. Use this instead of the static keys.</summary>
+		public readonly Func<IRenderable, int> ZPositionComparisonKey;
+
+		// Isometric projection: screen x offset that keeps every in-map position at a non-negative screen x.
+		readonly float isoOriginX;
 		public readonly World World;
 		public Viewport Viewport { get; }
 		public readonly ITerrainLighting TerrainLighting;
@@ -37,6 +51,7 @@ namespace OpenRA.Graphics
 		readonly HardwarePalette palette = new();
 		readonly Dictionary<string, PaletteReference> palettes = [];
 		readonly IRenderTerrain terrainRenderer;
+		readonly IRenderBackdrop[] backdropRenderers;
 		readonly Lazy<DebugVisualizations> debugVis;
 		readonly Func<string, PaletteReference> createPaletteReference;
 		readonly bool enableDepthBuffer;
@@ -55,12 +70,15 @@ namespace OpenRA.Graphics
 			World = world;
 			TileSize = World.Map.Rules.TerrainInfo.TileSize;
 			TileScale = World.Map.Grid.TileScale;
-			Viewport = new Viewport(this, world.Map);
 
 			createPaletteReference = CreatePaletteReference;
 
 			var mapGrid = modData.GetOrCreate<MapGrid>();
 			enableDepthBuffer = mapGrid.EnableDepthBuffer;
+			IsIsometric = mapGrid.Projection == MapProjection.Isometric;
+			ZPositionComparisonKey = IsIsometric ? IsometricRenderableZPositionComparisonKey : RenderableZPositionComparisonKey;
+			isoOriginX = World.Map.MapSize.Height * TileSize.Width / 2f;
+			Viewport = new Viewport(this, world.Map);
 
 			foreach (var pal in world.TraitDict.ActorsWithTrait<ILoadsPalettes>())
 				pal.Trait.LoadPalettes(this);
@@ -72,6 +90,7 @@ namespace OpenRA.Graphics
 			TerrainLighting = world.WorldActor.TraitOrDefault<ITerrainLighting>();
 			renderers = world.WorldActor.TraitsImplementing<IRenderer>().ToArray();
 			terrainRenderer = world.WorldActor.TraitOrDefault<IRenderTerrain>();
+			backdropRenderers = world.WorldActor.TraitsImplementing<IRenderBackdrop>().ToArray();
 
 			debugVis = Exts.Lazy(world.WorldActor.TraitOrDefault<DebugVisualizations>);
 
@@ -163,7 +182,7 @@ namespace OpenRA.Graphics
 			if (renderablesKeysBuffer.Length < renderablesBuffer.Count)
 				renderablesKeysBuffer = new long[Exts.NextPowerOf2(renderablesBuffer.Count)];
 			for (var i = 0; i < renderablesBuffer.Count; i++)
-				renderablesKeysBuffer[i] = ((long)RenderableZPositionComparisonKey(renderablesBuffer[i]) << 32) + i;
+				renderablesKeysBuffer[i] = ((long)ZPositionComparisonKey(renderablesBuffer[i]) << 32) + i;
 			var keys = renderablesKeysBuffer.AsSpan(0, renderablesBuffer.Count);
 			keys.Sort(CollectionsMarshal.AsSpan(renderablesBuffer));
 
@@ -280,6 +299,9 @@ namespace OpenRA.Graphics
 
 			debugVis.Value?.UpdateDepthBuffer();
 
+			foreach (var b in backdropRenderers)
+				b.RenderBackdrop(this);
+
 			var bounds = Viewport.GetScissorBounds(World.Type != WorldType.Editor);
 			Game.Renderer.EnableScissor(bounds);
 
@@ -289,6 +311,8 @@ namespace OpenRA.Graphics
 			terrainRenderer?.RenderTerrain(this, Viewport);
 
 			Game.Renderer.Flush();
+
+			ApplyPostProcessing(PostProcessPassType.AfterTerrain);
 
 			for (var i = 0; i < preparedRenderables.Count; i++)
 				preparedRenderables[i].Render(this);
@@ -401,19 +425,37 @@ namespace OpenRA.Graphics
 		/// </summary>
 		public Vector2 ScreenPosition(WPos pos)
 		{
+			if (IsIsometric)
+				return new Vector2(
+					IsoHalfWidth * (pos.X - pos.Y) / TileScale + isoOriginX,
+					(IsoHalfHeight * (pos.X + pos.Y) - (float)TileSize.Height * pos.Z) / TileScale);
+
 			return new Vector2((float)TileSize.Width * pos.X / TileScale, (float)TileSize.Height * (pos.Y - pos.Z) / TileScale);
 		}
 
 		/// <summary>
-		/// Converts a world position to a screen position.
+		/// Converts a ground-level world position (X, Y in world units) to a screen position.
 		/// </summary>
 		public Vector2 ScreenPosition(Vector2 pos)
 		{
+			if (IsIsometric)
+				return new Vector2(IsoHalfWidth * (pos.X - pos.Y) / TileScale + isoOriginX, IsoHalfHeight * (pos.X + pos.Y) / TileScale);
+
 			return new Vector2(TileSize.Width * pos.X / TileScale, TileSize.Height * pos.Y / TileScale);
 		}
 
+		float IsoHalfWidth => TileSize.Width / 2f;
+		float IsoHalfHeight => TileSize.Height / 2f;
+
 		public Vector3 Screen3DPosition(WPos pos)
 		{
+			if (IsIsometric)
+			{
+				// Depth is the screen y of the ground point below the position (like the top-down case below).
+				var xy = ScreenPosition(pos);
+				return new Vector3(xy.X, xy.Y, IsoHalfHeight * (pos.X + pos.Y) / TileScale);
+			}
+
 			// The projection from world coordinates to screen coordinates has
 			// a non-obvious relationship between the y and z coordinates:
 			// * A flat surface with constant y (e.g. a vertical wall) in world coordinates
@@ -441,6 +483,12 @@ namespace OpenRA.Graphics
 		// For scaling vectors to pixel sizes in the model renderer
 		public Vector3 ScreenVectorComponents(in WVec vec)
 		{
+			if (IsIsometric)
+				return new Vector3(
+					IsoHalfWidth * (vec.X - vec.Y) / TileScale,
+					(IsoHalfHeight * (vec.X + vec.Y) - (float)TileSize.Height * vec.Z) / TileScale,
+					(float)TileSize.Height * vec.Z / TileScale);
+
 			return new Vector3(
 				(float)TileSize.Width * vec.X / TileScale,
 				(float)TileSize.Height * (vec.Y - vec.Z) / TileScale,
@@ -467,7 +515,30 @@ namespace OpenRA.Graphics
 		/// </summary>
 		public WPos ProjectedPosition(int2 screenPx)
 		{
+			if (IsIsometric)
+			{
+				var g = GroundPosition(screenPx.ToVector2());
+				return new WPos((int)MathF.Floor(g.X), (int)MathF.Floor(g.Y), 0);
+			}
+
 			return new WPos(TileScale * screenPx.X / TileSize.Width, TileScale * screenPx.Y / TileSize.Height, 0);
+		}
+
+		/// <summary>
+		/// Inverse of <see cref="ScreenPosition(Vector2)"/>: the ground-level (Z = 0) world X, Y (world units, unrounded)
+		/// that is drawn at the given (sub-pixel) screen position.
+		/// </summary>
+		public Vector2 GroundPosition(Vector2 screen)
+		{
+			if (IsIsometric)
+			{
+				// x - y and x + y in world units
+				var d = (screen.X - isoOriginX) * TileScale / IsoHalfWidth;
+				var s = screen.Y * TileScale / IsoHalfHeight;
+				return new Vector2((s + d) / 2, (s - d) / 2);
+			}
+
+			return new Vector2(screen.X * TileScale / TileSize.Width, screen.Y * TileScale / TileSize.Height);
 		}
 
 		public void Dispose()

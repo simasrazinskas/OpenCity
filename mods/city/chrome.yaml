@@ -1,63 +1,31 @@
 # OpenCity base chrome. Everything here is drawn at runtime by OpenRA.Mods.City/UIArt (CityChromeGenerator) at the exact
-# device scale (window scale x UI scale), so it stays sharp pixel art at every size. Colours live in uistyle.yaml,
-# icon/glyph designs in bits/chrome/cityicons.vec (exported from the tools/ui*.py recipes by tools/uiexport.py).
-#   Panel: <kind> + State: <state>    nine-slice panels (see CityChromeGenerator.Panels.cs for kinds and states)
+# device scale (window scale x UI scale), so it stays sharp pixel art at every size. Colours live in uistyle.yaml.
+#
+# The RCT2-style widget kit (`rct`, CityChromeGenerator.Rct.cs) is drawn for every window family F of uistyle.yaml:
+#   F-window F-raised F-titlebar[-inactive] F-tab[-hover|-active] F-well F-well-dark F-trough F-toolbar F-statusbar
+#   F-graph F-etched-h F-etched-v F-groupbox F-button[-state] F-button-default F-iconbutton[-state] F-textfield F-dropdown
+#   F-checkbox F-slider-track F-slider-thumb F-scroll-trough F-item-hover|-selected|-zebra|-header F-card[-hover|-selected|
+#   -locked] F-card-well, the shared OpenRA names (dialog dialog2..5 separator scrollheader scrollpanel-bg scrollitem-*
+#   progressbar-bg/-thumb button-purchase checkbox-toggle ...), images F-scrollpanel-decorations F-dropdown-decorations
+#   F-checkmark-tick F-checkmark-cross F-slider F-rct-bits/grip. Family `city` is also drawn without the `F-` prefix.
+#   Shared: tooltip, rct-close/{normal,hover,pressed}, bar-<ramp>[-smooth], chip-<ramp>,
+#   icons-N/<icon> and icons-N-disabled/<icon> (N = 12 16 20 24 32 logical px; atlases bits/chrome/iso/icons-*.png from
+#   tools/iso_ui_export.py), thumbs-64/<actor> (build-menu thumbnails, bits/chrome/iso/thumbs-*.png).
+# Other collections:
 #   Images: name: <recipe> ...        glyph <name> [w h] | glyph-disabled <name> | icon <set>/<name> <size>
 #                                     | art <recipe> <w> <h> | tile <kind> <state> [w h] | alias <collection>/<image> | empty
+
 ^CityChrome:
 	Generator: CityChrome
 	Style: city|uistyle.yaml
 	Icons: cityicons.vec
 
-# ---- in-game sidebar and command bar --------------------------------------------------------------
-
-sidebar:
+rct:
 	Inherits: ^CityChrome
-	Images:
-		background-top: art sidebar-top 226 295
-		background-iconrow: art sidebar-row 226 48
-		background-plainrow: art sidebar-plainrow 226 48
-		background-bottom: art sidebar-bottom 226 28
-
-sidebar-button:
-	Inherits: ^CityChrome
-	Panel: Compact
-	State: Normal
-
-sidebar-button-hover:
-	Inherits: ^CityChrome
-	Panel: Compact
-	State: Hover
-
-sidebar-button-pressed:
-	Inherits: ^CityChrome
-	Panel: Compact
-	State: Pressed
-
-sidebar-button-disabled:
-	Inherits: ^CityChrome
-	Panel: Compact
-	State: Disabled
-
-sidebar-button-highlighted:
-	Inherits: ^CityChrome
-	Panel: Compact
-	State: Highlighted
-
-sidebar-button-highlighted-hover:
-	Inherits: ^CityChrome
-	Panel: Compact
-	State: HighlightedHover
-
-sidebar-button-highlighted-pressed:
-	Inherits: ^CityChrome
-	Panel: Compact
-	State: HighlightedPressed
-
-sidebar-button-highlighted-disabled:
-	Inherits: ^CityChrome
-	Panel: Compact
-	State: HighlightedDisabled
+	Dynamic: true
+	Rct: true
+	IconAtlas: iso/icons
+	ThumbAtlas: iso/thumbs
 
 sidebar-bits:
 	Inherits: ^CityChrome
@@ -67,88 +35,11 @@ sidebar-bits:
 		production-tooltip-cost: glyph coin
 		indicator-muted: glyph muted-indicator
 
-commandbar:
-	Inherits: ^CityChrome
-	Images:
-		background: art commandbar 454 43
-
-minimap-overlay:
-	Inherits: ^CityChrome
-	Images:
-		top-left: art minimap-tl 7 7
-		top-right: art minimap-tr 7 7
-		bottom-left: art minimap-bl 7 7
-		bottom-right: art minimap-br 7 7
-		top: empty
-		left: empty
-		right: empty
-
 power-icons:
 	Inherits: ^CityChrome
 	Images:
 		power-normal: glyph bolt
 		power-critical: glyph bolt-critical
-
-# Legacy D2k order buttons: aliases of the OpenCity order tiles (chrome-city.yaml)
-
-order-icons:
-	Inherits: ^CityChrome
-	Images:
-		repair: alias city-order-icons/bulldoze
-		repair-disabled: alias city-order-icons/bulldoze-disabled
-		repair-active: alias city-order-icons/bulldoze-active
-		beacon: alias city-order-icons/infoviews
-		beacon-disabled: alias city-order-icons/infoviews-disabled
-		beacon-active: alias city-order-icons/infoviews-active
-		sell: alias city-order-icons/budget
-		sell-disabled: alias city-order-icons/budget-disabled
-		sell-active: alias city-order-icons/budget-active
-		options: alias city-order-icons/options
-		options-disabled: alias city-order-icons/options-disabled
-		options-active: alias city-order-icons/options-active
-		power: alias city-order-icons/power
-		power-disabled: alias city-order-icons/power-disabled
-		power-active: alias city-order-icons/power-active
-
-command-button:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Normal
-
-command-button-hover:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Hover
-
-command-button-pressed:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Pressed
-
-command-button-disabled:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Disabled
-
-command-button-highlighted:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Highlighted
-
-command-button-highlighted-hover:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: HighlightedHover
-
-command-button-highlighted-pressed:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: HighlightedPressed
-
-command-button-highlighted-disabled:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: HighlightedDisabled
 
 flags:
 	Inherits: ^CityChrome
@@ -156,239 +47,6 @@ flags:
 		city: glyph flag-city
 		Random: glyph flag-random
 		spectator: glyph flag-spectator
-
-# ---- dialogs and panels ----------------------------------------------------------------------------
-
-dialog:
-	Inherits: ^CityChrome
-	Panel: Dialog
-
-# Raised content panel
-
-dialog2:
-	Inherits: ^CityChrome
-	Panel: Raised
-
-# Sunken content panel (map previews, lists)
-
-dialog3:
-	Inherits: ^CityChrome
-	Panel: Well
-
-# Tooltips and overlay frames
-
-dialog4:
-	Inherits: ^CityChrome
-	Panel: Frame
-
-# Background only (the widget definitions in `common` expect this name)
-
-dialog5:
-	Inherits: ^CityChrome
-	Panel: Dialog
-	PanelSides: Center
-
-separator:
-	Inherits: ^CityChrome
-	Panel: Header
-
-scrollheader:
-	Inherits: ^CityChrome
-	Panel: Header
-
-scrollheader-highlighted:
-	Inherits: ^CityChrome
-	Panel: Header
-
-# ---- buttons and inputs ----------------------------------------------------------------------------
-
-button:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Normal
-
-button-hover:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Hover
-
-button-pressed:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Pressed
-
-button-disabled:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Disabled
-
-button-highlighted:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Highlighted
-
-button-highlighted-hover:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: HighlightedHover
-
-button-highlighted-pressed:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: HighlightedPressed
-
-button-highlighted-disabled:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: HighlightedDisabled
-
-button-purchase:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Normal
-
-button-purchase-hover:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Hover
-
-button-purchase-pressed:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Pressed
-
-button-purchase-disabled:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Disabled
-
-button-purchase-highlighted:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Highlighted
-
-button-purchase-highlighted-hover:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: HighlightedHover
-
-button-purchase-highlighted-pressed:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: HighlightedPressed
-
-button-purchase-highlighted-disabled:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: HighlightedDisabled
-
-textfield:
-	Inherits: ^CityChrome
-	Panel: Well
-	State: Normal
-
-textfield-hover:
-	Inherits: ^CityChrome
-	Panel: Well
-	State: Hover
-
-textfield-disabled:
-	Inherits: ^CityChrome
-	Panel: Well
-	State: Disabled
-
-textfield-focused:
-	Inherits: ^CityChrome
-	Panel: Well
-	State: Focused
-
-checkbox:
-	Inherits: ^CityChrome
-	Panel: Well
-	State: Normal
-
-checkbox-hover:
-	Inherits: ^CityChrome
-	Panel: Well
-	State: Hover
-
-checkbox-pressed:
-	Inherits: ^CityChrome
-	Panel: Well
-	State: Pressed
-
-checkbox-disabled:
-	Inherits: ^CityChrome
-	Panel: Well
-	State: Disabled
-
-checkbox-highlighted:
-	Inherits: ^CityChrome
-	Panel: Well
-	State: Highlighted
-
-checkbox-highlighted-hover:
-	Inherits: ^CityChrome
-	Panel: Well
-	State: HighlightedHover
-
-checkbox-highlighted-pressed:
-	Inherits: ^CityChrome
-	Panel: Well
-	State: HighlightedPressed
-
-checkbox-highlighted-disabled:
-	Inherits: ^CityChrome
-	Panel: Well
-	State: HighlightedDisabled
-
-# Toggle buttons: flat until hovered or pressed
-
-checkbox-toggle-hover:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Normal
-
-checkbox-toggle-pressed:
-	Inherits: ^CityChrome
-	Panel: Well
-	State: Pressed
-
-checkbox-toggle-highlighted-hover:
-	Inherits: ^CityChrome
-	Panel: Button
-	State: Highlighted
-
-checkbox-toggle-highlighted-pressed:
-	Inherits: ^CityChrome
-	Panel: Well
-	State: HighlightedPressed
-
-checkbox-toggle:
-
-checkbox-toggle-highlighted:
-
-checkmark-tick:
-	Inherits: ^CityChrome
-	Images:
-		checked: glyph check
-		checked-pressed: glyph check
-		unchecked: empty
-		unchecked-pressed: glyph check-faint
-
-checkmark-tick-highlighted:
-	Inherits: checkmark-tick
-
-checkmark-cross:
-	Inherits: ^CityChrome
-	Images:
-		checked: glyph cross
-		checked-pressed: glyph cross
-		unchecked: empty
-		unchecked-pressed: glyph cross-faint
-
-checkmark-cross-highlighted:
-	Inherits: checkmark-cross
 
 checkmark-mute:
 	Inherits: ^CityChrome
@@ -400,121 +58,6 @@ checkmark-mute:
 
 checkmark-mute-highlighted:
 	Inherits: checkmark-mute
-
-slider:
-	Inherits: ^CityChrome
-	Images:
-		tick: art slider-tick 2 4
-
-slider-track:
-	Inherits: ^CityChrome
-	Panel: Track
-	State: Normal
-
-slider-thumb:
-	Inherits: ^CityChrome
-	Panel: Thumb
-	State: Normal
-
-slider-thumb-hover:
-	Inherits: ^CityChrome
-	Panel: Thumb
-	State: Hover
-
-slider-thumb-pressed:
-	Inherits: ^CityChrome
-	Panel: Thumb
-	State: Pressed
-
-slider-thumb-disabled:
-	Inherits: ^CityChrome
-	Panel: Thumb
-	State: Disabled
-
-progressbar-bg:
-	Inherits: ^CityChrome
-	Panel: Well
-	State: Normal
-
-progressbar-thumb:
-	Inherits: ^CityChrome
-	Panel: Bar
-
-# ---- lists, scrollbars and dropdowns ---------------------------------------------------------------
-
-scrollpanel-bg:
-	Inherits: ^CityChrome
-	Panel: Well
-	State: Normal
-
-scrollpanel-button:
-	Inherits: ^CityChrome
-	Panel: Compact
-	State: Normal
-
-scrollpanel-button-hover:
-	Inherits: ^CityChrome
-	Panel: Compact
-	State: Hover
-
-scrollpanel-button-pressed:
-	Inherits: ^CityChrome
-	Panel: Compact
-	State: Pressed
-
-scrollpanel-button-disabled:
-	Inherits: ^CityChrome
-	Panel: Compact
-	State: Disabled
-
-scrollitem:
-
-scrollitem-nohover:
-
-scrollitem-nohover-highlighted:
-
-scrollitem-hover:
-	Inherits: ^CityChrome
-	Panel: Item
-	State: Hover
-
-scrollitem-pressed:
-	Inherits: ^CityChrome
-	Panel: Item
-	State: Pressed
-
-scrollitem-highlighted:
-	Inherits: ^CityChrome
-	Panel: Item
-	State: Highlighted
-
-scrollpanel-decorations:
-	Inherits: ^CityChrome
-	Images:
-		up: glyph arrow-up
-		up-disabled: glyph-disabled arrow-up
-		down: glyph arrow-down
-		down-disabled: glyph-disabled arrow-down
-		left: glyph arrow-left
-		left-disabled: glyph-disabled arrow-left
-		right: glyph arrow-right
-		right-disabled: glyph-disabled arrow-right
-
-dropdown-decorations:
-	Inherits: ^CityChrome
-	Images:
-		marker: glyph arrow-down
-		marker-disabled: glyph-disabled arrow-down
-
-dropdown-separators:
-	Inherits: ^CityChrome
-	Images:
-		separator: art separator 1 19
-		separator-hover: art separator-hover 1 19
-		separator-pressed: art separator-pressed 1 19
-		separator-disabled: art separator-disabled 1 19
-
-# ---- glyphs ----------------------------------------------------------------------------------------
 
 lobby-bits:
 	Inherits: ^CityChrome
@@ -577,8 +120,6 @@ editor:
 		paste: glyph paste
 		undo: glyph undo
 		redo: glyph redo
-
-# ---- logo and load screen ---------------------------------------------------------------------------
 
 logos:
 	Inherits: ^CityChrome

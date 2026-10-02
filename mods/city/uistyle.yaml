@@ -47,20 +47,41 @@ Settings:
 	# Hard (1 bit) icon edges instead of anti-aliased ones.
 	IconHardEdges: false
 
-# Body colours (dark, light) of the sidebar order tiles, per tile name.
-OrderTiles:
-	bulldoze: 9C3416, D26028
-	infoviews: 16409E, 3C78E6
-	budget: 126E1E, 32BE3C
-	stats: 0C5260, 2496A8
-	chirper: 0A7092, 30C4E6
-	production: 5C5016, A28C34
-	policies: 4E1C80, 9048D6
-	progression: 48680E, B0B628
-	districts: B26008, F6A028
-	tiles: 603E20, A47442
-	transit: 12389A, 387AE0
-	achievements: 8C6006, E8B824
-	advisor: 16624A, 3CBC8C
-	options: 5A3A12, A8782C
-	power: 7A5A06, E0B020
+# ---- RCT2-style chrome (design/iso/ui, tools/iso_ui_kit.py) -------------------------------------------
+# 8-step colour ramps, 0 = darkest .. 7 = lightest. Every window family picks one ramp.
+Ramps:
+	brown: 24160a, 3e2712, 5c3a1c, 7a5028, 986838, b6864e, d2a86e, ecd09c
+	orange: 341604, 5e2a06, 8a420a, b45c12, d8781e, ec983e, f6ba6c, fcdca6
+	grey: 18191c, 2e3036, 484a52, 62646e, 7e808a, 9c9ea6, bcbec4, dedfe2
+	green: 0a2210, 123c1a, 1c5826, 287432, 3a9040, 58ac56, 84c87a, b6e2a6
+	blue: 0a1634, 122854, 1c3c78, 28549a, 3a70bc, 5890d4, 84b4e6, b6d4f4
+	teal: 062628, 0c3e40, 165a5a, 227674, 349490, 52b0aa, 80ccc4, b2e6de
+	red: 280808, 480c0c, 6a1412, 8e201c, b0322a, cc5446, e69a8c, f6cbbf
+	purple: 1a0c2a, 2c1648, 422068, 5a2e86, 7442a2, 905ebc, b088d4, d2b8ec
+	yellow: 382a06, 60480a, 8a6c12, b2901c, d4b02c, eaca4c, f6e080, fdf2c0
+	sand: 2a2216, 463a28, 665640, 86745a, a69476, c4b496, ded2b8, f4ecdc
+
+# Window families: ramp, body shade, accent ramp. The art of family F is named `F-<part>` (e.g. finance-button);
+# family `city` is also drawn without a prefix (button, dialog, checkbox ...), for the shared widgets.
+Families:
+	city: brown, 5, orange
+	finance: green, 6, yellow
+	services: red, 6, sand
+	transit: blue, 6, teal
+	info: teal, 6, blue
+	people: purple, 6, orange
+	zoning: orange, 6, brown
+	system: grey, 6, blue
+	tooltip: yellow, 7, brown
+
+# Text colours of the RCT chrome
+Ink:
+	Text: 140e08
+	Light: fff4d6
+	Shadow: 0c0804
+	MoneyPositive: 0e5a16
+	MoneyNegative: a01410
+	MoneyPositiveLight: 7cf06c
+	MoneyNegativeLight: ff6a50
+	Graph: 10180e
+	GraphGrid: 2e4a2a

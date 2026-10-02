@@ -34,6 +34,8 @@ World:
 	RadarPings:
 	CityClock:
 	CityAutoTest:
+	IsoBackdrop:
+	CityWaterAnimation:
 
 EditorWorld:
 	Inherits: ^BaseWorld

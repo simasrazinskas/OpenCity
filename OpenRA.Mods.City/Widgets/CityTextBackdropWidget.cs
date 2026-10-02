@@ -10,20 +10,20 @@
 #endregion
 
 using OpenRA.Mods.Common.Widgets;
-using OpenRA.Primitives;
 using OpenRA.Widgets;
 
 namespace OpenRA.Mods.City.Widgets
 {
 	/// <summary>
-	/// Draws a translucent dark box behind the text of a sibling label (sized to the text, not the label), so text
-	/// that floats over the busy world view stays readable. List it before the label so it draws underneath.
+	/// Draws an RCT2 tooltip plate (the `tooltip` panel: pale yellow, dark edge) behind the text of a sibling label (sized to
+	/// the text, not the label), so text that floats over the busy world view stays readable. List it before the label so
+	/// it draws underneath; the label uses the dark ink.
 	/// </summary>
 	public class CityTextBackdropWidget : Widget
 	{
 		public string Target = "TEXT";
-		public Color Color = Color.FromArgb(170, 8, 12, 18);
-		public int Padding = 3;
+		public string Background = "tooltip";
+		public int Padding = 4;
 
 		LabelWidget target;
 
@@ -33,7 +33,7 @@ namespace OpenRA.Mods.City.Widgets
 			: base(other)
 		{
 			Target = other.Target;
-			Color = other.Color;
+			Background = other.Background;
 			Padding = other.Padding;
 		}
 
@@ -52,7 +52,7 @@ namespace OpenRA.Mods.City.Widgets
 			var size = Game.Renderer.Fonts[target.Font].Measure(text);
 			var rb = target.RenderBounds;
 			var x = target.Align == TextAlign.Right ? rb.Right - size.X : target.Align == TextAlign.Center ? rb.X + (rb.Width - size.X) / 2 : rb.X;
-			WidgetUtils.FillRectWithColor(new Rectangle(x - Padding, rb.Y, size.X + 2 * Padding, rb.Height), Color);
+			CityTheme.DrawPanel(Background, x - Padding, rb.Y, size.X + 2 * Padding, rb.Height);
 		}
 	}
 }

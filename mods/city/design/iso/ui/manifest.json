@@ -1,0 +1,3673 @@
+{
+ "page": "Interface",
+ "sections": [
+  {
+   "section": "Design system",
+   "groups": [
+    {
+     "title": "Colour ramps (8 steps, 0 = dark)",
+     "columns": 1,
+     "scale": 2,
+     "items": [
+      {
+       "file": "system/ds-palette.png",
+       "label": "ds-palette"
+      }
+     ]
+    },
+    {
+     "title": "Window families (one colour per window type)",
+     "columns": 1,
+     "scale": 2,
+     "items": [
+      {
+       "file": "system/ds-families.png",
+       "label": "ds-families"
+      }
+     ]
+    },
+    {
+     "title": "Window anatomy and 9-slice (UI 1x, units = pixels at 1x)",
+     "columns": 1,
+     "scale": 2,
+     "items": [
+      {
+       "file": "system/ds-window-anatomy.png",
+       "label": "ds-window-anatomy"
+      }
+     ]
+    },
+    {
+     "title": "Buttons: text, icon (flat), toolbar; states",
+     "columns": 1,
+     "scale": 2,
+     "items": [
+      {
+       "file": "system/ds-buttons.png",
+       "label": "ds-buttons"
+      }
+     ]
+    },
+    {
+     "title": "Checkbox, radio, slider, dropdown, text input",
+     "columns": 1,
+     "scale": 2,
+     "items": [
+      {
+       "file": "system/ds-forms.png",
+       "label": "ds-forms"
+      }
+     ]
+    },
+    {
+     "title": "Scrollbars and list rows (zebra, hover, selected, header)",
+     "columns": 1,
+     "scale": 2,
+     "items": [
+      {
+       "file": "system/ds-lists.png",
+       "label": "ds-lists"
+      }
+     ]
+    },
+    {
+     "title": "Meters, RCI demand, graph well, chips",
+     "columns": 1,
+     "scale": 2,
+     "items": [
+      {
+       "file": "system/ds-data.png",
+       "label": "ds-data"
+      }
+     ]
+    },
+    {
+     "title": "Typography: OpenCity Pixel faces per role and UI scale",
+     "columns": 1,
+     "scale": 2,
+     "items": [
+      {
+       "file": "system/ds-typography.png",
+       "label": "ds-typography"
+      }
+     ]
+    },
+    {
+     "title": "Same window redrawn at UI 1x / 1.5x / 2x (not upscaled)",
+     "columns": 1,
+     "scale": 1,
+     "items": [
+      {
+       "file": "system/ds-scale.png",
+       "label": "ds-scale"
+      }
+     ]
+    },
+    {
+     "title": "Build-menu cards: thumbnail 64 px (96 at 1.5x), states",
+     "columns": 1,
+     "scale": 2,
+     "items": [
+      {
+       "file": "system/ds-cards.png",
+       "label": "ds-cards"
+      }
+     ]
+    },
+    {
+     "title": "Tooltip, news ticker, group box, separators, headers",
+     "columns": 1,
+     "scale": 2,
+     "items": [
+      {
+       "file": "system/ds-overlays.png",
+       "label": "ds-overlays"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "section": "Icons",
+   "groups": [
+    {
+     "title": "Build categories (toolbar tabs) (16 px)",
+     "columns": 12,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/build/cat_roads-16.png",
+       "label": "Roads"
+      },
+      {
+       "file": "icons/build/cat_zoning-16.png",
+       "label": "Zoning"
+      },
+      {
+       "file": "icons/build/cat_power-16.png",
+       "label": "Electricity"
+      },
+      {
+       "file": "icons/build/cat_networks-16.png",
+       "label": "Networks"
+      },
+      {
+       "file": "icons/build/cat_water-16.png",
+       "label": "Water"
+      },
+      {
+       "file": "icons/build/cat_police-16.png",
+       "label": "Police"
+      },
+      {
+       "file": "icons/build/cat_fire-16.png",
+       "label": "Fire"
+      },
+      {
+       "file": "icons/build/cat_health-16.png",
+       "label": "Health"
+      },
+      {
+       "file": "icons/build/cat_education-16.png",
+       "label": "Education"
+      },
+      {
+       "file": "icons/build/cat_parks-16.png",
+       "label": "Parks"
+      },
+      {
+       "file": "icons/build/cat_garbage-16.png",
+       "label": "Garbage"
+      },
+      {
+       "file": "icons/build/cat_deathcare-16.png",
+       "label": "Deathcare"
+      },
+      {
+       "file": "icons/build/cat_comms-16.png",
+       "label": "Communications"
+      },
+      {
+       "file": "icons/build/cat_admin-16.png",
+       "label": "Administration"
+      },
+      {
+       "file": "icons/build/cat_industry-16.png",
+       "label": "Industry"
+      },
+      {
+       "file": "icons/build/cat_transit-16.png",
+       "label": "Transit"
+      },
+      {
+       "file": "icons/build/cat_signature-16.png",
+       "label": "Landmarks"
+      },
+      {
+       "file": "icons/build/cat_landscaping-16.png",
+       "label": "Landscaping"
+      },
+      {
+       "file": "icons/build/cat_districts-16.png",
+       "label": "Districts"
+      }
+     ]
+    },
+    {
+     "title": "Build categories (toolbar tabs) (24 px)",
+     "columns": 10,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/build/cat_roads-24.png",
+       "label": "Roads"
+      },
+      {
+       "file": "icons/build/cat_zoning-24.png",
+       "label": "Zoning"
+      },
+      {
+       "file": "icons/build/cat_power-24.png",
+       "label": "Electricity"
+      },
+      {
+       "file": "icons/build/cat_networks-24.png",
+       "label": "Networks"
+      },
+      {
+       "file": "icons/build/cat_water-24.png",
+       "label": "Water"
+      },
+      {
+       "file": "icons/build/cat_police-24.png",
+       "label": "Police"
+      },
+      {
+       "file": "icons/build/cat_fire-24.png",
+       "label": "Fire"
+      },
+      {
+       "file": "icons/build/cat_health-24.png",
+       "label": "Health"
+      },
+      {
+       "file": "icons/build/cat_education-24.png",
+       "label": "Education"
+      },
+      {
+       "file": "icons/build/cat_parks-24.png",
+       "label": "Parks"
+      },
+      {
+       "file": "icons/build/cat_garbage-24.png",
+       "label": "Garbage"
+      },
+      {
+       "file": "icons/build/cat_deathcare-24.png",
+       "label": "Deathcare"
+      },
+      {
+       "file": "icons/build/cat_comms-24.png",
+       "label": "Communications"
+      },
+      {
+       "file": "icons/build/cat_admin-24.png",
+       "label": "Administration"
+      },
+      {
+       "file": "icons/build/cat_industry-24.png",
+       "label": "Industry"
+      },
+      {
+       "file": "icons/build/cat_transit-24.png",
+       "label": "Transit"
+      },
+      {
+       "file": "icons/build/cat_signature-24.png",
+       "label": "Landmarks"
+      },
+      {
+       "file": "icons/build/cat_landscaping-24.png",
+       "label": "Landscaping"
+      },
+      {
+       "file": "icons/build/cat_districts-24.png",
+       "label": "Districts"
+      }
+     ]
+    },
+    {
+     "title": "Tools (16 px)",
+     "columns": 12,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/tools/tool_bulldoze-16.png",
+       "label": "Bulldozer"
+      },
+      {
+       "file": "icons/tools/tool_dezone-16.png",
+       "label": "De-zone"
+      },
+      {
+       "file": "icons/tools/tool_area_paint-16.png",
+       "label": "Area paint"
+      },
+      {
+       "file": "icons/tools/tool_area_clear-16.png",
+       "label": "Area clear"
+      },
+      {
+       "file": "icons/tools/tool_upgrade-16.png",
+       "label": "Upgrade"
+      },
+      {
+       "file": "icons/tools/tool_move-16.png",
+       "label": "Move"
+      },
+      {
+       "file": "icons/tools/tool_brush_small-16.png",
+       "label": "Small brush"
+      },
+      {
+       "file": "icons/tools/tool_brush_large-16.png",
+       "label": "Large brush"
+      },
+      {
+       "file": "icons/tools/tool_fill-16.png",
+       "label": "Fill"
+      },
+      {
+       "file": "icons/tools/tool_marquee-16.png",
+       "label": "Select area"
+      },
+      {
+       "file": "icons/tools/tool_terrain_raise-16.png",
+       "label": "Raise terrain"
+      },
+      {
+       "file": "icons/tools/tool_terrain_lower-16.png",
+       "label": "Lower terrain"
+      },
+      {
+       "file": "icons/tools/tool_terrain_level-16.png",
+       "label": "Level terrain"
+      },
+      {
+       "file": "icons/tools/tool_tree-16.png",
+       "label": "Plant tree"
+      },
+      {
+       "file": "icons/tools/tool_water-16.png",
+       "label": "Water"
+      }
+     ]
+    },
+    {
+     "title": "Tools (24 px)",
+     "columns": 10,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/tools/tool_bulldoze-24.png",
+       "label": "Bulldozer"
+      },
+      {
+       "file": "icons/tools/tool_dezone-24.png",
+       "label": "De-zone"
+      },
+      {
+       "file": "icons/tools/tool_area_paint-24.png",
+       "label": "Area paint"
+      },
+      {
+       "file": "icons/tools/tool_area_clear-24.png",
+       "label": "Area clear"
+      },
+      {
+       "file": "icons/tools/tool_upgrade-24.png",
+       "label": "Upgrade"
+      },
+      {
+       "file": "icons/tools/tool_move-24.png",
+       "label": "Move"
+      },
+      {
+       "file": "icons/tools/tool_brush_small-24.png",
+       "label": "Small brush"
+      },
+      {
+       "file": "icons/tools/tool_brush_large-24.png",
+       "label": "Large brush"
+      },
+      {
+       "file": "icons/tools/tool_fill-24.png",
+       "label": "Fill"
+      },
+      {
+       "file": "icons/tools/tool_marquee-24.png",
+       "label": "Select area"
+      },
+      {
+       "file": "icons/tools/tool_terrain_raise-24.png",
+       "label": "Raise terrain"
+      },
+      {
+       "file": "icons/tools/tool_terrain_lower-24.png",
+       "label": "Lower terrain"
+      },
+      {
+       "file": "icons/tools/tool_terrain_level-24.png",
+       "label": "Level terrain"
+      },
+      {
+       "file": "icons/tools/tool_tree-24.png",
+       "label": "Plant tree"
+      },
+      {
+       "file": "icons/tools/tool_water-24.png",
+       "label": "Water"
+      }
+     ]
+    },
+    {
+     "title": "Utility networks (16 px)",
+     "columns": 12,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/networks/net_powerline-16.png",
+       "label": "Power line"
+      },
+      {
+       "file": "icons/networks/net_pipe_water-16.png",
+       "label": "Water pipe"
+      },
+      {
+       "file": "icons/networks/net_pipe_sewage-16.png",
+       "label": "Sewage pipe"
+      },
+      {
+       "file": "icons/networks/net_pipe_both-16.png",
+       "label": "Water + sewage pipes"
+      },
+      {
+       "file": "icons/networks/net_transformer-16.png",
+       "label": "Substation"
+      },
+      {
+       "file": "icons/networks/net_battery-16.png",
+       "label": "Battery"
+      },
+      {
+       "file": "icons/networks/net_remove-16.png",
+       "label": "Remove line"
+      }
+     ]
+    },
+    {
+     "title": "Utility networks (24 px)",
+     "columns": 10,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/networks/net_powerline-24.png",
+       "label": "Power line"
+      },
+      {
+       "file": "icons/networks/net_pipe_water-24.png",
+       "label": "Water pipe"
+      },
+      {
+       "file": "icons/networks/net_pipe_sewage-24.png",
+       "label": "Sewage pipe"
+      },
+      {
+       "file": "icons/networks/net_pipe_both-24.png",
+       "label": "Water + sewage pipes"
+      },
+      {
+       "file": "icons/networks/net_transformer-24.png",
+       "label": "Substation"
+      },
+      {
+       "file": "icons/networks/net_battery-24.png",
+       "label": "Battery"
+      },
+      {
+       "file": "icons/networks/net_remove-24.png",
+       "label": "Remove line"
+      }
+     ]
+    },
+    {
+     "title": "Roads, road tools, junctions, add-ons (16 px)",
+     "columns": 12,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/roads/road_street-16.png",
+       "label": "Street"
+      },
+      {
+       "file": "icons/roads/road_gravel-16.png",
+       "label": "Gravel road"
+      },
+      {
+       "file": "icons/roads/road_avenue-16.png",
+       "label": "Avenue"
+      },
+      {
+       "file": "icons/roads/road_boulevard-16.png",
+       "label": "Boulevard"
+      },
+      {
+       "file": "icons/roads/road_highway-16.png",
+       "label": "Highway"
+      },
+      {
+       "file": "icons/roads/road_alley-16.png",
+       "label": "Alley"
+      },
+      {
+       "file": "icons/roads/road_path-16.png",
+       "label": "Path"
+      },
+      {
+       "file": "icons/roads/mode_straight-16.png",
+       "label": "Straight road"
+      },
+      {
+       "file": "icons/roads/mode_curve-16.png",
+       "label": "Curved road"
+      },
+      {
+       "file": "icons/roads/mode_freeform-16.png",
+       "label": "Freeform road"
+      },
+      {
+       "file": "icons/roads/mode_grid-16.png",
+       "label": "Road grid"
+      },
+      {
+       "file": "icons/roads/mode_oneway-16.png",
+       "label": "One-way road"
+      },
+      {
+       "file": "icons/roads/mode_replace-16.png",
+       "label": "Replace road"
+      },
+      {
+       "file": "icons/roads/mode_paired-16.png",
+       "label": "Paired one-way roads"
+      },
+      {
+       "file": "icons/roads/mode_bridge-16.png",
+       "label": "Bridge"
+      },
+      {
+       "file": "icons/roads/mode_tunnel-16.png",
+       "label": "Tunnel"
+      },
+      {
+       "file": "icons/roads/prefab_roundabout-16.png",
+       "label": "Roundabout"
+      },
+      {
+       "file": "icons/roads/prefab_roundabout_large-16.png",
+       "label": "Large roundabout"
+      },
+      {
+       "file": "icons/roads/prefab_ramp-16.png",
+       "label": "Highway ramp"
+      },
+      {
+       "file": "icons/roads/ctl_yield-16.png",
+       "label": "Yield"
+      },
+      {
+       "file": "icons/roads/ctl_stop-16.png",
+       "label": "Stop"
+      },
+      {
+       "file": "icons/roads/ctl_signal-16.png",
+       "label": "Traffic signal"
+      },
+      {
+       "file": "icons/roads/ctl_default-16.png",
+       "label": "Default junction"
+      },
+      {
+       "file": "icons/roads/addon_trees-16.png",
+       "label": "Street trees"
+      },
+      {
+       "file": "icons/roads/addon_barrier-16.png",
+       "label": "Sound barrier"
+      },
+      {
+       "file": "icons/roads/addon_lights-16.png",
+       "label": "Street lamp"
+      },
+      {
+       "file": "icons/roads/addon_parking-16.png",
+       "label": "Parking"
+      },
+      {
+       "file": "icons/roads/addon_buslane-16.png",
+       "label": "Bus lane"
+      },
+      {
+       "file": "icons/roads/addon_bikelane-16.png",
+       "label": "Bike lane"
+      },
+      {
+       "file": "icons/roads/addon_remove-16.png",
+       "label": "Remove add-on"
+      }
+     ]
+    },
+    {
+     "title": "Roads, road tools, junctions, add-ons (24 px)",
+     "columns": 10,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/roads/road_street-24.png",
+       "label": "Street"
+      },
+      {
+       "file": "icons/roads/road_gravel-24.png",
+       "label": "Gravel road"
+      },
+      {
+       "file": "icons/roads/road_avenue-24.png",
+       "label": "Avenue"
+      },
+      {
+       "file": "icons/roads/road_boulevard-24.png",
+       "label": "Boulevard"
+      },
+      {
+       "file": "icons/roads/road_highway-24.png",
+       "label": "Highway"
+      },
+      {
+       "file": "icons/roads/road_alley-24.png",
+       "label": "Alley"
+      },
+      {
+       "file": "icons/roads/road_path-24.png",
+       "label": "Path"
+      },
+      {
+       "file": "icons/roads/mode_straight-24.png",
+       "label": "Straight road"
+      },
+      {
+       "file": "icons/roads/mode_curve-24.png",
+       "label": "Curved road"
+      },
+      {
+       "file": "icons/roads/mode_freeform-24.png",
+       "label": "Freeform road"
+      },
+      {
+       "file": "icons/roads/mode_grid-24.png",
+       "label": "Road grid"
+      },
+      {
+       "file": "icons/roads/mode_oneway-24.png",
+       "label": "One-way road"
+      },
+      {
+       "file": "icons/roads/mode_replace-24.png",
+       "label": "Replace road"
+      },
+      {
+       "file": "icons/roads/mode_paired-24.png",
+       "label": "Paired one-way roads"
+      },
+      {
+       "file": "icons/roads/mode_bridge-24.png",
+       "label": "Bridge"
+      },
+      {
+       "file": "icons/roads/mode_tunnel-24.png",
+       "label": "Tunnel"
+      },
+      {
+       "file": "icons/roads/prefab_roundabout-24.png",
+       "label": "Roundabout"
+      },
+      {
+       "file": "icons/roads/prefab_roundabout_large-24.png",
+       "label": "Large roundabout"
+      },
+      {
+       "file": "icons/roads/prefab_ramp-24.png",
+       "label": "Highway ramp"
+      },
+      {
+       "file": "icons/roads/ctl_yield-24.png",
+       "label": "Yield"
+      },
+      {
+       "file": "icons/roads/ctl_stop-24.png",
+       "label": "Stop"
+      },
+      {
+       "file": "icons/roads/ctl_signal-24.png",
+       "label": "Traffic signal"
+      },
+      {
+       "file": "icons/roads/ctl_default-24.png",
+       "label": "Default junction"
+      },
+      {
+       "file": "icons/roads/addon_trees-24.png",
+       "label": "Street trees"
+      },
+      {
+       "file": "icons/roads/addon_barrier-24.png",
+       "label": "Sound barrier"
+      },
+      {
+       "file": "icons/roads/addon_lights-24.png",
+       "label": "Street lamp"
+      },
+      {
+       "file": "icons/roads/addon_parking-24.png",
+       "label": "Parking"
+      },
+      {
+       "file": "icons/roads/addon_buslane-24.png",
+       "label": "Bus lane"
+      },
+      {
+       "file": "icons/roads/addon_bikelane-24.png",
+       "label": "Bike lane"
+      },
+      {
+       "file": "icons/roads/addon_remove-24.png",
+       "label": "Remove add-on"
+      }
+     ]
+    },
+    {
+     "title": "Zones (16 px)",
+     "columns": 12,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/zones/zone_res_low-16.png",
+       "label": "Low-density residential"
+      },
+      {
+       "file": "icons/zones/zone_res_row-16.png",
+       "label": "Row houses"
+      },
+      {
+       "file": "icons/zones/zone_res_med-16.png",
+       "label": "Medium-density residential"
+      },
+      {
+       "file": "icons/zones/zone_res_high-16.png",
+       "label": "High-density residential"
+      },
+      {
+       "file": "icons/zones/zone_res_mixed-16.png",
+       "label": "Mixed-use residential"
+      },
+      {
+       "file": "icons/zones/zone_res_lowrent-16.png",
+       "label": "Low-rent residential"
+      },
+      {
+       "file": "icons/zones/zone_com_low-16.png",
+       "label": "Low-density commercial"
+      },
+      {
+       "file": "icons/zones/zone_com_high-16.png",
+       "label": "High-density commercial"
+      },
+      {
+       "file": "icons/zones/zone_ind-16.png",
+       "label": "Industrial"
+      },
+      {
+       "file": "icons/zones/zone_warehouse-16.png",
+       "label": "Warehouse"
+      },
+      {
+       "file": "icons/zones/zone_off-16.png",
+       "label": "Office"
+      },
+      {
+       "file": "icons/zones/zone_off_high-16.png",
+       "label": "High-rise office"
+      }
+     ]
+    },
+    {
+     "title": "Zones (24 px)",
+     "columns": 10,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/zones/zone_res_low-24.png",
+       "label": "Low-density residential"
+      },
+      {
+       "file": "icons/zones/zone_res_row-24.png",
+       "label": "Row houses"
+      },
+      {
+       "file": "icons/zones/zone_res_med-24.png",
+       "label": "Medium-density residential"
+      },
+      {
+       "file": "icons/zones/zone_res_high-24.png",
+       "label": "High-density residential"
+      },
+      {
+       "file": "icons/zones/zone_res_mixed-24.png",
+       "label": "Mixed-use residential"
+      },
+      {
+       "file": "icons/zones/zone_res_lowrent-24.png",
+       "label": "Low-rent residential"
+      },
+      {
+       "file": "icons/zones/zone_com_low-24.png",
+       "label": "Low-density commercial"
+      },
+      {
+       "file": "icons/zones/zone_com_high-24.png",
+       "label": "High-density commercial"
+      },
+      {
+       "file": "icons/zones/zone_ind-24.png",
+       "label": "Industrial"
+      },
+      {
+       "file": "icons/zones/zone_warehouse-24.png",
+       "label": "Warehouse"
+      },
+      {
+       "file": "icons/zones/zone_off-24.png",
+       "label": "Office"
+      },
+      {
+       "file": "icons/zones/zone_off_high-24.png",
+       "label": "High-rise office"
+      }
+     ]
+    },
+    {
+     "title": "Transit vehicles, stops, lines (16 px)",
+     "columns": 12,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/transit/tr_bus-16.png",
+       "label": "Bus"
+      },
+      {
+       "file": "icons/transit/tr_taxi-16.png",
+       "label": "Taxi"
+      },
+      {
+       "file": "icons/transit/tr_tram-16.png",
+       "label": "Tram"
+      },
+      {
+       "file": "icons/transit/tr_metro-16.png",
+       "label": "Metro"
+      },
+      {
+       "file": "icons/transit/tr_train-16.png",
+       "label": "Train"
+      },
+      {
+       "file": "icons/transit/tr_cargo_train-16.png",
+       "label": "Freight train"
+      },
+      {
+       "file": "icons/transit/tr_truck-16.png",
+       "label": "Truck"
+      },
+      {
+       "file": "icons/transit/tr_ship-16.png",
+       "label": "Cargo ship"
+      },
+      {
+       "file": "icons/transit/tr_plane-16.png",
+       "label": "Cargo plane"
+      },
+      {
+       "file": "icons/transit/tr_bicycle-16.png",
+       "label": "Bicycle"
+      },
+      {
+       "file": "icons/transit/tr_pedestrian-16.png",
+       "label": "Pedestrian"
+      },
+      {
+       "file": "icons/transit/tr_car-16.png",
+       "label": "Car"
+      },
+      {
+       "file": "icons/transit/tr_bus_stop-16.png",
+       "label": "Bus stop"
+      },
+      {
+       "file": "icons/transit/tr_tram_stop-16.png",
+       "label": "Tram stop"
+      },
+      {
+       "file": "icons/transit/tr_taxi_stand-16.png",
+       "label": "Taxi stand"
+      },
+      {
+       "file": "icons/transit/tr_station-16.png",
+       "label": "Train station"
+      },
+      {
+       "file": "icons/transit/tr_metro_entrance-16.png",
+       "label": "Metro entrance"
+      },
+      {
+       "file": "icons/transit/tr_depot-16.png",
+       "label": "Depot"
+      },
+      {
+       "file": "icons/transit/tr_harbor-16.png",
+       "label": "Harbor"
+      },
+      {
+       "file": "icons/transit/tr_airport-16.png",
+       "label": "Airport"
+      },
+      {
+       "file": "icons/transit/tr_line-16.png",
+       "label": "Transit line"
+      },
+      {
+       "file": "icons/transit/tr_rail-16.png",
+       "label": "Rail"
+      },
+      {
+       "file": "icons/transit/tr_tramtrack-16.png",
+       "label": "Tram track"
+      },
+      {
+       "file": "icons/transit/tr_stop_remove-16.png",
+       "label": "Remove stop"
+      }
+     ]
+    },
+    {
+     "title": "Transit vehicles, stops, lines (24 px)",
+     "columns": 10,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/transit/tr_bus-24.png",
+       "label": "Bus"
+      },
+      {
+       "file": "icons/transit/tr_taxi-24.png",
+       "label": "Taxi"
+      },
+      {
+       "file": "icons/transit/tr_tram-24.png",
+       "label": "Tram"
+      },
+      {
+       "file": "icons/transit/tr_metro-24.png",
+       "label": "Metro"
+      },
+      {
+       "file": "icons/transit/tr_train-24.png",
+       "label": "Train"
+      },
+      {
+       "file": "icons/transit/tr_cargo_train-24.png",
+       "label": "Freight train"
+      },
+      {
+       "file": "icons/transit/tr_truck-24.png",
+       "label": "Truck"
+      },
+      {
+       "file": "icons/transit/tr_ship-24.png",
+       "label": "Cargo ship"
+      },
+      {
+       "file": "icons/transit/tr_plane-24.png",
+       "label": "Cargo plane"
+      },
+      {
+       "file": "icons/transit/tr_bicycle-24.png",
+       "label": "Bicycle"
+      },
+      {
+       "file": "icons/transit/tr_pedestrian-24.png",
+       "label": "Pedestrian"
+      },
+      {
+       "file": "icons/transit/tr_car-24.png",
+       "label": "Car"
+      },
+      {
+       "file": "icons/transit/tr_bus_stop-24.png",
+       "label": "Bus stop"
+      },
+      {
+       "file": "icons/transit/tr_tram_stop-24.png",
+       "label": "Tram stop"
+      },
+      {
+       "file": "icons/transit/tr_taxi_stand-24.png",
+       "label": "Taxi stand"
+      },
+      {
+       "file": "icons/transit/tr_station-24.png",
+       "label": "Train station"
+      },
+      {
+       "file": "icons/transit/tr_metro_entrance-24.png",
+       "label": "Metro entrance"
+      },
+      {
+       "file": "icons/transit/tr_depot-24.png",
+       "label": "Depot"
+      },
+      {
+       "file": "icons/transit/tr_harbor-24.png",
+       "label": "Harbor"
+      },
+      {
+       "file": "icons/transit/tr_airport-24.png",
+       "label": "Airport"
+      },
+      {
+       "file": "icons/transit/tr_line-24.png",
+       "label": "Transit line"
+      },
+      {
+       "file": "icons/transit/tr_rail-24.png",
+       "label": "Rail"
+      },
+      {
+       "file": "icons/transit/tr_tramtrack-24.png",
+       "label": "Tram track"
+      },
+      {
+       "file": "icons/transit/tr_stop_remove-24.png",
+       "label": "Remove stop"
+      }
+     ]
+    },
+    {
+     "title": "Industry hubs (16 px)",
+     "columns": 12,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/industry/hub_farm-16.png",
+       "label": "Farm"
+      },
+      {
+       "file": "icons/industry/hub_forestry-16.png",
+       "label": "Forestry"
+      },
+      {
+       "file": "icons/industry/hub_quarry-16.png",
+       "label": "Quarry"
+      },
+      {
+       "file": "icons/industry/hub_mine-16.png",
+       "label": "Mine"
+      },
+      {
+       "file": "icons/industry/hub_oil-16.png",
+       "label": "Oil"
+      },
+      {
+       "file": "icons/industry/hub_fish-16.png",
+       "label": "Fishing"
+      }
+     ]
+    },
+    {
+     "title": "Industry hubs (24 px)",
+     "columns": 10,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/industry/hub_farm-24.png",
+       "label": "Farm"
+      },
+      {
+       "file": "icons/industry/hub_forestry-24.png",
+       "label": "Forestry"
+      },
+      {
+       "file": "icons/industry/hub_quarry-24.png",
+       "label": "Quarry"
+      },
+      {
+       "file": "icons/industry/hub_mine-24.png",
+       "label": "Mine"
+      },
+      {
+       "file": "icons/industry/hub_oil-24.png",
+       "label": "Oil"
+      },
+      {
+       "file": "icons/industry/hub_fish-24.png",
+       "label": "Fishing"
+      }
+     ]
+    },
+    {
+     "title": "Resources and natural deposits (16 px)",
+     "columns": 12,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/resources/res_grain-16.png",
+       "label": "Grain"
+      },
+      {
+       "file": "icons/resources/res_vegetables-16.png",
+       "label": "Vegetables"
+      },
+      {
+       "file": "icons/resources/res_livestock-16.png",
+       "label": "Livestock"
+      },
+      {
+       "file": "icons/resources/res_cotton-16.png",
+       "label": "Cotton"
+      },
+      {
+       "file": "icons/resources/res_wood-16.png",
+       "label": "Wood"
+      },
+      {
+       "file": "icons/resources/res_ore-16.png",
+       "label": "Ore"
+      },
+      {
+       "file": "icons/resources/res_oil-16.png",
+       "label": "Oil"
+      },
+      {
+       "file": "icons/resources/res_stone-16.png",
+       "label": "Stone"
+      },
+      {
+       "file": "icons/resources/res_timber-16.png",
+       "label": "Timber"
+      },
+      {
+       "file": "icons/resources/res_petrochemicals-16.png",
+       "label": "Petrochemicals"
+      },
+      {
+       "file": "icons/resources/res_metals-16.png",
+       "label": "Metals"
+      },
+      {
+       "file": "icons/resources/res_concrete-16.png",
+       "label": "Concrete"
+      },
+      {
+       "file": "icons/resources/res_food-16.png",
+       "label": "Food"
+      },
+      {
+       "file": "icons/resources/res_beverages-16.png",
+       "label": "Beverages"
+      },
+      {
+       "file": "icons/resources/res_textiles-16.png",
+       "label": "Textiles"
+      },
+      {
+       "file": "icons/resources/res_plastics-16.png",
+       "label": "Plastics"
+      },
+      {
+       "file": "icons/resources/res_furniture-16.png",
+       "label": "Furniture"
+      },
+      {
+       "file": "icons/resources/res_electronics-16.png",
+       "label": "Electronics"
+      },
+      {
+       "file": "icons/resources/res_vehicles-16.png",
+       "label": "Vehicles"
+      },
+      {
+       "file": "icons/resources/res_machinery-16.png",
+       "label": "Machinery"
+      },
+      {
+       "file": "icons/resources/res_software-16.png",
+       "label": "Software"
+      },
+      {
+       "file": "icons/resources/res_financial-16.png",
+       "label": "Financial"
+      },
+      {
+       "file": "icons/resources/res_media-16.png",
+       "label": "Media"
+      },
+      {
+       "file": "icons/resources/res_meals-16.png",
+       "label": "Meals"
+      },
+      {
+       "file": "icons/resources/res_entertainment-16.png",
+       "label": "Entertainment"
+      },
+      {
+       "file": "icons/resources/res_coal-16.png",
+       "label": "Coal"
+      },
+      {
+       "file": "icons/resources/res_fish-16.png",
+       "label": "Fish"
+      },
+      {
+       "file": "icons/resources/res_steel-16.png",
+       "label": "Steel"
+      },
+      {
+       "file": "icons/resources/res_minerals-16.png",
+       "label": "Minerals"
+      },
+      {
+       "file": "icons/resources/res_chemicals-16.png",
+       "label": "Chemicals"
+      },
+      {
+       "file": "icons/resources/res_pharmaceuticals-16.png",
+       "label": "Pharmaceuticals"
+      },
+      {
+       "file": "icons/resources/res_conveniencefood-16.png",
+       "label": "Convenience food"
+      },
+      {
+       "file": "icons/resources/res_paper-16.png",
+       "label": "Paper"
+      },
+      {
+       "file": "icons/resources/res_telecom-16.png",
+       "label": "Telecom"
+      },
+      {
+       "file": "icons/resources/res_lodging-16.png",
+       "label": "Lodging"
+      },
+      {
+       "file": "icons/resources/res_recreation-16.png",
+       "label": "Recreation"
+      },
+      {
+       "file": "icons/resources/nat_fertile-16.png",
+       "label": "Fertile land"
+      },
+      {
+       "file": "icons/resources/nat_forest-16.png",
+       "label": "Forest"
+      },
+      {
+       "file": "icons/resources/nat_ore-16.png",
+       "label": "Ore deposit"
+      },
+      {
+       "file": "icons/resources/nat_oil-16.png",
+       "label": "Oil field"
+      },
+      {
+       "file": "icons/resources/nat_stone-16.png",
+       "label": "Stone deposit"
+      },
+      {
+       "file": "icons/resources/nat_fish-16.png",
+       "label": "Fish stocks"
+      }
+     ]
+    },
+    {
+     "title": "Resources and natural deposits (24 px)",
+     "columns": 10,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/resources/res_grain-24.png",
+       "label": "Grain"
+      },
+      {
+       "file": "icons/resources/res_vegetables-24.png",
+       "label": "Vegetables"
+      },
+      {
+       "file": "icons/resources/res_livestock-24.png",
+       "label": "Livestock"
+      },
+      {
+       "file": "icons/resources/res_cotton-24.png",
+       "label": "Cotton"
+      },
+      {
+       "file": "icons/resources/res_wood-24.png",
+       "label": "Wood"
+      },
+      {
+       "file": "icons/resources/res_ore-24.png",
+       "label": "Ore"
+      },
+      {
+       "file": "icons/resources/res_oil-24.png",
+       "label": "Oil"
+      },
+      {
+       "file": "icons/resources/res_stone-24.png",
+       "label": "Stone"
+      },
+      {
+       "file": "icons/resources/res_timber-24.png",
+       "label": "Timber"
+      },
+      {
+       "file": "icons/resources/res_petrochemicals-24.png",
+       "label": "Petrochemicals"
+      },
+      {
+       "file": "icons/resources/res_metals-24.png",
+       "label": "Metals"
+      },
+      {
+       "file": "icons/resources/res_concrete-24.png",
+       "label": "Concrete"
+      },
+      {
+       "file": "icons/resources/res_food-24.png",
+       "label": "Food"
+      },
+      {
+       "file": "icons/resources/res_beverages-24.png",
+       "label": "Beverages"
+      },
+      {
+       "file": "icons/resources/res_textiles-24.png",
+       "label": "Textiles"
+      },
+      {
+       "file": "icons/resources/res_plastics-24.png",
+       "label": "Plastics"
+      },
+      {
+       "file": "icons/resources/res_furniture-24.png",
+       "label": "Furniture"
+      },
+      {
+       "file": "icons/resources/res_electronics-24.png",
+       "label": "Electronics"
+      },
+      {
+       "file": "icons/resources/res_vehicles-24.png",
+       "label": "Vehicles"
+      },
+      {
+       "file": "icons/resources/res_machinery-24.png",
+       "label": "Machinery"
+      },
+      {
+       "file": "icons/resources/res_software-24.png",
+       "label": "Software"
+      },
+      {
+       "file": "icons/resources/res_financial-24.png",
+       "label": "Financial"
+      },
+      {
+       "file": "icons/resources/res_media-24.png",
+       "label": "Media"
+      },
+      {
+       "file": "icons/resources/res_meals-24.png",
+       "label": "Meals"
+      },
+      {
+       "file": "icons/resources/res_entertainment-24.png",
+       "label": "Entertainment"
+      },
+      {
+       "file": "icons/resources/res_coal-24.png",
+       "label": "Coal"
+      },
+      {
+       "file": "icons/resources/res_fish-24.png",
+       "label": "Fish"
+      },
+      {
+       "file": "icons/resources/res_steel-24.png",
+       "label": "Steel"
+      },
+      {
+       "file": "icons/resources/res_minerals-24.png",
+       "label": "Minerals"
+      },
+      {
+       "file": "icons/resources/res_chemicals-24.png",
+       "label": "Chemicals"
+      },
+      {
+       "file": "icons/resources/res_pharmaceuticals-24.png",
+       "label": "Pharmaceuticals"
+      },
+      {
+       "file": "icons/resources/res_conveniencefood-24.png",
+       "label": "Convenience food"
+      },
+      {
+       "file": "icons/resources/res_paper-24.png",
+       "label": "Paper"
+      },
+      {
+       "file": "icons/resources/res_telecom-24.png",
+       "label": "Telecom"
+      },
+      {
+       "file": "icons/resources/res_lodging-24.png",
+       "label": "Lodging"
+      },
+      {
+       "file": "icons/resources/res_recreation-24.png",
+       "label": "Recreation"
+      },
+      {
+       "file": "icons/resources/nat_fertile-24.png",
+       "label": "Fertile land"
+      },
+      {
+       "file": "icons/resources/nat_forest-24.png",
+       "label": "Forest"
+      },
+      {
+       "file": "icons/resources/nat_ore-24.png",
+       "label": "Ore deposit"
+      },
+      {
+       "file": "icons/resources/nat_oil-24.png",
+       "label": "Oil field"
+      },
+      {
+       "file": "icons/resources/nat_stone-24.png",
+       "label": "Stone deposit"
+      },
+      {
+       "file": "icons/resources/nat_fish-24.png",
+       "label": "Fish stocks"
+      }
+     ]
+    },
+    {
+     "title": "Info views (16 px)",
+     "columns": 12,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/infoview/info_electricity-16.png",
+       "label": "Electricity"
+      },
+      {
+       "file": "icons/infoview/info_power-16.png",
+       "label": "Electricity"
+      },
+      {
+       "file": "icons/infoview/info_water-16.png",
+       "label": "Water"
+      },
+      {
+       "file": "icons/infoview/info_garbage-16.png",
+       "label": "Garbage"
+      },
+      {
+       "file": "icons/infoview/info_health-16.png",
+       "label": "Health care"
+      },
+      {
+       "file": "icons/infoview/info_deathcare-16.png",
+       "label": "Death care"
+      },
+      {
+       "file": "icons/infoview/info_education-16.png",
+       "label": "Education"
+      },
+      {
+       "file": "icons/infoview/info_police-16.png",
+       "label": "Police"
+      },
+      {
+       "file": "icons/infoview/info_crime-16.png",
+       "label": "Crime"
+      },
+      {
+       "file": "icons/infoview/info_fire-16.png",
+       "label": "Fire"
+      },
+      {
+       "file": "icons/infoview/info_parks-16.png",
+       "label": "Parks"
+      },
+      {
+       "file": "icons/infoview/info_telecom-16.png",
+       "label": "Telecom"
+      },
+      {
+       "file": "icons/infoview/info_post-16.png",
+       "label": "Post"
+      },
+      {
+       "file": "icons/infoview/info_powergrid-16.png",
+       "label": "Power grid"
+      },
+      {
+       "file": "icons/infoview/info_watergrid-16.png",
+       "label": "Water network"
+      },
+      {
+       "file": "icons/infoview/info_sewage-16.png",
+       "label": "Sewage"
+      },
+      {
+       "file": "icons/infoview/info_roads-16.png",
+       "label": "Roads"
+      },
+      {
+       "file": "icons/infoview/info_traffic-16.png",
+       "label": "Traffic"
+      },
+      {
+       "file": "icons/infoview/info_transit-16.png",
+       "label": "Public transport"
+      },
+      {
+       "file": "icons/infoview/info_freight-16.png",
+       "label": "Freight"
+      },
+      {
+       "file": "icons/infoview/info_pollution-16.png",
+       "label": "Pollution"
+      },
+      {
+       "file": "icons/infoview/info_air-16.png",
+       "label": "Air pollution"
+      },
+      {
+       "file": "icons/infoview/info_ground-16.png",
+       "label": "Ground pollution"
+      },
+      {
+       "file": "icons/infoview/info_noise-16.png",
+       "label": "Noise"
+      },
+      {
+       "file": "icons/infoview/info_groundwater-16.png",
+       "label": "Groundwater"
+      },
+      {
+       "file": "icons/infoview/info_resources-16.png",
+       "label": "Resources"
+      },
+      {
+       "file": "icons/infoview/info_landvalue-16.png",
+       "label": "Land value"
+      },
+      {
+       "file": "icons/infoview/info_happiness-16.png",
+       "label": "Happiness"
+      },
+      {
+       "file": "icons/infoview/info_level-16.png",
+       "label": "Building level"
+      },
+      {
+       "file": "icons/infoview/info_attainment-16.png",
+       "label": "Education level"
+      },
+      {
+       "file": "icons/infoview/info_wealth-16.png",
+       "label": "Wealth"
+      },
+      {
+       "file": "icons/infoview/info_age-16.png",
+       "label": "Age"
+      },
+      {
+       "file": "icons/infoview/info_production-16.png",
+       "label": "Production"
+      },
+      {
+       "file": "icons/infoview/info_tourism-16.png",
+       "label": "Tourism"
+      },
+      {
+       "file": "icons/infoview/info_districts-16.png",
+       "label": "Districts"
+      }
+     ]
+    },
+    {
+     "title": "Info views (24 px)",
+     "columns": 10,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/infoview/info_electricity-24.png",
+       "label": "Electricity"
+      },
+      {
+       "file": "icons/infoview/info_power-24.png",
+       "label": "Electricity"
+      },
+      {
+       "file": "icons/infoview/info_water-24.png",
+       "label": "Water"
+      },
+      {
+       "file": "icons/infoview/info_garbage-24.png",
+       "label": "Garbage"
+      },
+      {
+       "file": "icons/infoview/info_health-24.png",
+       "label": "Health care"
+      },
+      {
+       "file": "icons/infoview/info_deathcare-24.png",
+       "label": "Death care"
+      },
+      {
+       "file": "icons/infoview/info_education-24.png",
+       "label": "Education"
+      },
+      {
+       "file": "icons/infoview/info_police-24.png",
+       "label": "Police"
+      },
+      {
+       "file": "icons/infoview/info_crime-24.png",
+       "label": "Crime"
+      },
+      {
+       "file": "icons/infoview/info_fire-24.png",
+       "label": "Fire"
+      },
+      {
+       "file": "icons/infoview/info_parks-24.png",
+       "label": "Parks"
+      },
+      {
+       "file": "icons/infoview/info_telecom-24.png",
+       "label": "Telecom"
+      },
+      {
+       "file": "icons/infoview/info_post-24.png",
+       "label": "Post"
+      },
+      {
+       "file": "icons/infoview/info_powergrid-24.png",
+       "label": "Power grid"
+      },
+      {
+       "file": "icons/infoview/info_watergrid-24.png",
+       "label": "Water network"
+      },
+      {
+       "file": "icons/infoview/info_sewage-24.png",
+       "label": "Sewage"
+      },
+      {
+       "file": "icons/infoview/info_roads-24.png",
+       "label": "Roads"
+      },
+      {
+       "file": "icons/infoview/info_traffic-24.png",
+       "label": "Traffic"
+      },
+      {
+       "file": "icons/infoview/info_transit-24.png",
+       "label": "Public transport"
+      },
+      {
+       "file": "icons/infoview/info_freight-24.png",
+       "label": "Freight"
+      },
+      {
+       "file": "icons/infoview/info_pollution-24.png",
+       "label": "Pollution"
+      },
+      {
+       "file": "icons/infoview/info_air-24.png",
+       "label": "Air pollution"
+      },
+      {
+       "file": "icons/infoview/info_ground-24.png",
+       "label": "Ground pollution"
+      },
+      {
+       "file": "icons/infoview/info_noise-24.png",
+       "label": "Noise"
+      },
+      {
+       "file": "icons/infoview/info_groundwater-24.png",
+       "label": "Groundwater"
+      },
+      {
+       "file": "icons/infoview/info_resources-24.png",
+       "label": "Resources"
+      },
+      {
+       "file": "icons/infoview/info_landvalue-24.png",
+       "label": "Land value"
+      },
+      {
+       "file": "icons/infoview/info_happiness-24.png",
+       "label": "Happiness"
+      },
+      {
+       "file": "icons/infoview/info_level-24.png",
+       "label": "Building level"
+      },
+      {
+       "file": "icons/infoview/info_attainment-24.png",
+       "label": "Education level"
+      },
+      {
+       "file": "icons/infoview/info_wealth-24.png",
+       "label": "Wealth"
+      },
+      {
+       "file": "icons/infoview/info_age-24.png",
+       "label": "Age"
+      },
+      {
+       "file": "icons/infoview/info_production-24.png",
+       "label": "Production"
+      },
+      {
+       "file": "icons/infoview/info_tourism-24.png",
+       "label": "Tourism"
+      },
+      {
+       "file": "icons/infoview/info_districts-24.png",
+       "label": "Districts"
+      }
+     ]
+    },
+    {
+     "title": "Status / problems (shared with world-space icons) (16 px)",
+     "columns": 12,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/status/st_no_power-16.png",
+       "label": "No electricity"
+      },
+      {
+       "file": "icons/status/st_no_water-16.png",
+       "label": "No water"
+      },
+      {
+       "file": "icons/status/st_no_sewage-16.png",
+       "label": "No sewage"
+      },
+      {
+       "file": "icons/status/st_dirty_water-16.png",
+       "label": "Dirty water"
+      },
+      {
+       "file": "icons/status/st_no_road-16.png",
+       "label": "No road access"
+      },
+      {
+       "file": "icons/status/st_abandoned-16.png",
+       "label": "Abandoned"
+      },
+      {
+       "file": "icons/status/st_unhappy-16.png",
+       "label": "Unhappy citizens"
+      },
+      {
+       "file": "icons/status/st_no_workers-16.png",
+       "label": "Not enough workers"
+      },
+      {
+       "file": "icons/status/st_no_customers-16.png",
+       "label": "Not enough customers"
+      },
+      {
+       "file": "icons/status/st_no_goods-16.png",
+       "label": "No goods"
+      },
+      {
+       "file": "icons/status/st_garbage-16.png",
+       "label": "Garbage"
+      },
+      {
+       "file": "icons/status/st_fire-16.png",
+       "label": "Fire"
+      },
+      {
+       "file": "icons/status/st_crime-16.png",
+       "label": "Crime"
+      },
+      {
+       "file": "icons/status/st_sick-16.png",
+       "label": "Sick citizens"
+      },
+      {
+       "file": "icons/status/st_ambulance-16.png",
+       "label": "Ambulance needed"
+      },
+      {
+       "file": "icons/status/st_high_rent-16.png",
+       "label": "High rent"
+      },
+      {
+       "file": "icons/status/st_traffic-16.png",
+       "label": "Traffic jam"
+      },
+      {
+       "file": "icons/status/st_air_pollution-16.png",
+       "label": "Air pollution"
+      },
+      {
+       "file": "icons/status/st_ground_pollution-16.png",
+       "label": "Ground pollution"
+      },
+      {
+       "file": "icons/status/st_noise-16.png",
+       "label": "Noise"
+      },
+      {
+       "file": "icons/status/st_leveled_up-16.png",
+       "label": "Leveled up"
+      },
+      {
+       "file": "icons/status/st_collapsed-16.png",
+       "label": "Collapsed"
+      },
+      {
+       "file": "icons/status/st_no_service-16.png",
+       "label": "No service"
+      },
+      {
+       "file": "icons/status/st_flooded-16.png",
+       "label": "Flooded"
+      },
+      {
+       "file": "icons/status/st_wildfire-16.png",
+       "label": "Wildfire"
+      },
+      {
+       "file": "icons/status/st_accident-16.png",
+       "label": "Accident"
+      },
+      {
+       "file": "icons/status/tier_minimal-16.png",
+       "label": "Minimal"
+      },
+      {
+       "file": "icons/status/tier_info-16.png",
+       "label": "Info"
+      },
+      {
+       "file": "icons/status/tier_problem-16.png",
+       "label": "Problem"
+      },
+      {
+       "file": "icons/status/tier_warning-16.png",
+       "label": "Warning"
+      },
+      {
+       "file": "icons/status/tier_major-16.png",
+       "label": "Major"
+      },
+      {
+       "file": "icons/status/tier_error-16.png",
+       "label": "Error"
+      },
+      {
+       "file": "icons/status/tier_fatal-16.png",
+       "label": "Fatal"
+      },
+      {
+       "file": "icons/status/tier_good-16.png",
+       "label": "Good"
+      }
+     ]
+    },
+    {
+     "title": "Status / problems (shared with world-space icons) (24 px)",
+     "columns": 10,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/status/st_no_power-24.png",
+       "label": "No electricity"
+      },
+      {
+       "file": "icons/status/st_no_water-24.png",
+       "label": "No water"
+      },
+      {
+       "file": "icons/status/st_no_sewage-24.png",
+       "label": "No sewage"
+      },
+      {
+       "file": "icons/status/st_dirty_water-24.png",
+       "label": "Dirty water"
+      },
+      {
+       "file": "icons/status/st_no_road-24.png",
+       "label": "No road access"
+      },
+      {
+       "file": "icons/status/st_abandoned-24.png",
+       "label": "Abandoned"
+      },
+      {
+       "file": "icons/status/st_unhappy-24.png",
+       "label": "Unhappy citizens"
+      },
+      {
+       "file": "icons/status/st_no_workers-24.png",
+       "label": "Not enough workers"
+      },
+      {
+       "file": "icons/status/st_no_customers-24.png",
+       "label": "Not enough customers"
+      },
+      {
+       "file": "icons/status/st_no_goods-24.png",
+       "label": "No goods"
+      },
+      {
+       "file": "icons/status/st_garbage-24.png",
+       "label": "Garbage"
+      },
+      {
+       "file": "icons/status/st_fire-24.png",
+       "label": "Fire"
+      },
+      {
+       "file": "icons/status/st_crime-24.png",
+       "label": "Crime"
+      },
+      {
+       "file": "icons/status/st_sick-24.png",
+       "label": "Sick citizens"
+      },
+      {
+       "file": "icons/status/st_ambulance-24.png",
+       "label": "Ambulance needed"
+      },
+      {
+       "file": "icons/status/st_high_rent-24.png",
+       "label": "High rent"
+      },
+      {
+       "file": "icons/status/st_traffic-24.png",
+       "label": "Traffic jam"
+      },
+      {
+       "file": "icons/status/st_air_pollution-24.png",
+       "label": "Air pollution"
+      },
+      {
+       "file": "icons/status/st_ground_pollution-24.png",
+       "label": "Ground pollution"
+      },
+      {
+       "file": "icons/status/st_noise-24.png",
+       "label": "Noise"
+      },
+      {
+       "file": "icons/status/st_leveled_up-24.png",
+       "label": "Leveled up"
+      },
+      {
+       "file": "icons/status/st_collapsed-24.png",
+       "label": "Collapsed"
+      },
+      {
+       "file": "icons/status/st_no_service-24.png",
+       "label": "No service"
+      },
+      {
+       "file": "icons/status/st_flooded-24.png",
+       "label": "Flooded"
+      },
+      {
+       "file": "icons/status/st_wildfire-24.png",
+       "label": "Wildfire"
+      },
+      {
+       "file": "icons/status/st_accident-24.png",
+       "label": "Accident"
+      },
+      {
+       "file": "icons/status/tier_minimal-24.png",
+       "label": "Minimal"
+      },
+      {
+       "file": "icons/status/tier_info-24.png",
+       "label": "Info"
+      },
+      {
+       "file": "icons/status/tier_problem-24.png",
+       "label": "Problem"
+      },
+      {
+       "file": "icons/status/tier_warning-24.png",
+       "label": "Warning"
+      },
+      {
+       "file": "icons/status/tier_major-24.png",
+       "label": "Major"
+      },
+      {
+       "file": "icons/status/tier_error-24.png",
+       "label": "Error"
+      },
+      {
+       "file": "icons/status/tier_fatal-24.png",
+       "label": "Fatal"
+      },
+      {
+       "file": "icons/status/tier_good-24.png",
+       "label": "Good"
+      }
+     ]
+    },
+    {
+     "title": "Time controls (16 px)",
+     "columns": 12,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/time/time_pause-16.png",
+       "label": "Pause"
+      },
+      {
+       "file": "icons/time/time_play-16.png",
+       "label": "Normal speed"
+      },
+      {
+       "file": "icons/time/time_fast-16.png",
+       "label": "Fast (x2)"
+      },
+      {
+       "file": "icons/time/time_fastest-16.png",
+       "label": "Fastest (x3)"
+      },
+      {
+       "file": "icons/time/time_clock-16.png",
+       "label": "Time"
+      },
+      {
+       "file": "icons/time/time_calendar-16.png",
+       "label": "Date"
+      }
+     ]
+    },
+    {
+     "title": "Time controls (24 px)",
+     "columns": 10,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/time/time_pause-24.png",
+       "label": "Pause"
+      },
+      {
+       "file": "icons/time/time_play-24.png",
+       "label": "Normal speed"
+      },
+      {
+       "file": "icons/time/time_fast-24.png",
+       "label": "Fast (x2)"
+      },
+      {
+       "file": "icons/time/time_fastest-24.png",
+       "label": "Fastest (x3)"
+      },
+      {
+       "file": "icons/time/time_clock-24.png",
+       "label": "Time"
+      },
+      {
+       "file": "icons/time/time_calendar-24.png",
+       "label": "Date"
+      }
+     ]
+    },
+    {
+     "title": "Stats and HUD readouts (16 px)",
+     "columns": 12,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/stats/stat_money-16.png",
+       "label": "Money"
+      },
+      {
+       "file": "icons/stats/stat_population-16.png",
+       "label": "Population"
+      },
+      {
+       "file": "icons/stats/stat_happiness-16.png",
+       "label": "Happiness"
+      },
+      {
+       "file": "icons/stats/stat_income-16.png",
+       "label": "Income"
+      },
+      {
+       "file": "icons/stats/stat_expenses-16.png",
+       "label": "Expenses"
+      },
+      {
+       "file": "icons/stats/stat_balance_up-16.png",
+       "label": "Surplus"
+      },
+      {
+       "file": "icons/stats/stat_balance_down-16.png",
+       "label": "Deficit"
+      },
+      {
+       "file": "icons/stats/stat_citizen-16.png",
+       "label": "Citizen"
+      },
+      {
+       "file": "icons/stats/stat_neutral-16.png",
+       "label": "Neutral"
+      },
+      {
+       "file": "icons/stats/stat_unhappy-16.png",
+       "label": "Unhappy"
+      },
+      {
+       "file": "icons/stats/stat_demand-16.png",
+       "label": "Demand"
+      },
+      {
+       "file": "icons/stats/stat_traffic-16.png",
+       "label": "Traffic"
+      },
+      {
+       "file": "icons/stats/stat_vehicles-16.png",
+       "label": "Vehicles"
+      },
+      {
+       "file": "icons/stats/stat_pollution-16.png",
+       "label": "Pollution"
+      },
+      {
+       "file": "icons/stats/stat_tax-16.png",
+       "label": "Tax"
+      },
+      {
+       "file": "icons/stats/stat_xp-16.png",
+       "label": "Experience"
+      },
+      {
+       "file": "icons/stats/stat_dev_point-16.png",
+       "label": "Development point"
+      },
+      {
+       "file": "icons/stats/stat_permit-16.png",
+       "label": "Permit"
+      },
+      {
+       "file": "icons/stats/stat_loan-16.png",
+       "label": "Loan"
+      },
+      {
+       "file": "icons/stats/stat_fee-16.png",
+       "label": "Fee"
+      },
+      {
+       "file": "icons/stats/stat_home-16.png",
+       "label": "Homes"
+      },
+      {
+       "file": "icons/stats/stat_households-16.png",
+       "label": "Households"
+      },
+      {
+       "file": "icons/stats/stat_work-16.png",
+       "label": "Workplaces"
+      },
+      {
+       "file": "icons/stats/stat_student-16.png",
+       "label": "Students"
+      },
+      {
+       "file": "icons/stats/stat_tourist-16.png",
+       "label": "Tourists"
+      },
+      {
+       "file": "icons/stats/stat_hotel-16.png",
+       "label": "Hotel"
+      },
+      {
+       "file": "icons/stats/stat_jobs-16.png",
+       "label": "Jobs"
+      },
+      {
+       "file": "icons/stats/stat_unemployed-16.png",
+       "label": "Unemployed"
+      },
+      {
+       "file": "icons/stats/stat_health-16.png",
+       "label": "Health"
+      },
+      {
+       "file": "icons/stats/stat_crime-16.png",
+       "label": "Crime"
+      },
+      {
+       "file": "icons/stats/stat_land_value-16.png",
+       "label": "Land value"
+      },
+      {
+       "file": "icons/stats/stat_temperature-16.png",
+       "label": "Temperature"
+      },
+      {
+       "file": "icons/stats/stat_buildings-16.png",
+       "label": "Buildings"
+      }
+     ]
+    },
+    {
+     "title": "Stats and HUD readouts (24 px)",
+     "columns": 10,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/stats/stat_money-24.png",
+       "label": "Money"
+      },
+      {
+       "file": "icons/stats/stat_population-24.png",
+       "label": "Population"
+      },
+      {
+       "file": "icons/stats/stat_happiness-24.png",
+       "label": "Happiness"
+      },
+      {
+       "file": "icons/stats/stat_income-24.png",
+       "label": "Income"
+      },
+      {
+       "file": "icons/stats/stat_expenses-24.png",
+       "label": "Expenses"
+      },
+      {
+       "file": "icons/stats/stat_balance_up-24.png",
+       "label": "Surplus"
+      },
+      {
+       "file": "icons/stats/stat_balance_down-24.png",
+       "label": "Deficit"
+      },
+      {
+       "file": "icons/stats/stat_citizen-24.png",
+       "label": "Citizen"
+      },
+      {
+       "file": "icons/stats/stat_neutral-24.png",
+       "label": "Neutral"
+      },
+      {
+       "file": "icons/stats/stat_unhappy-24.png",
+       "label": "Unhappy"
+      },
+      {
+       "file": "icons/stats/stat_demand-24.png",
+       "label": "Demand"
+      },
+      {
+       "file": "icons/stats/stat_traffic-24.png",
+       "label": "Traffic"
+      },
+      {
+       "file": "icons/stats/stat_vehicles-24.png",
+       "label": "Vehicles"
+      },
+      {
+       "file": "icons/stats/stat_pollution-24.png",
+       "label": "Pollution"
+      },
+      {
+       "file": "icons/stats/stat_tax-24.png",
+       "label": "Tax"
+      },
+      {
+       "file": "icons/stats/stat_xp-24.png",
+       "label": "Experience"
+      },
+      {
+       "file": "icons/stats/stat_dev_point-24.png",
+       "label": "Development point"
+      },
+      {
+       "file": "icons/stats/stat_permit-24.png",
+       "label": "Permit"
+      },
+      {
+       "file": "icons/stats/stat_loan-24.png",
+       "label": "Loan"
+      },
+      {
+       "file": "icons/stats/stat_fee-24.png",
+       "label": "Fee"
+      },
+      {
+       "file": "icons/stats/stat_home-24.png",
+       "label": "Homes"
+      },
+      {
+       "file": "icons/stats/stat_households-24.png",
+       "label": "Households"
+      },
+      {
+       "file": "icons/stats/stat_work-24.png",
+       "label": "Workplaces"
+      },
+      {
+       "file": "icons/stats/stat_student-24.png",
+       "label": "Students"
+      },
+      {
+       "file": "icons/stats/stat_tourist-24.png",
+       "label": "Tourists"
+      },
+      {
+       "file": "icons/stats/stat_hotel-24.png",
+       "label": "Hotel"
+      },
+      {
+       "file": "icons/stats/stat_jobs-24.png",
+       "label": "Jobs"
+      },
+      {
+       "file": "icons/stats/stat_unemployed-24.png",
+       "label": "Unemployed"
+      },
+      {
+       "file": "icons/stats/stat_health-24.png",
+       "label": "Health"
+      },
+      {
+       "file": "icons/stats/stat_crime-24.png",
+       "label": "Crime"
+      },
+      {
+       "file": "icons/stats/stat_land_value-24.png",
+       "label": "Land value"
+      },
+      {
+       "file": "icons/stats/stat_temperature-24.png",
+       "label": "Temperature"
+      },
+      {
+       "file": "icons/stats/stat_buildings-24.png",
+       "label": "Buildings"
+      }
+     ]
+    },
+    {
+     "title": "Weather (16 px)",
+     "columns": 12,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/weather/wx_sun-16.png",
+       "label": "Sunny"
+      },
+      {
+       "file": "icons/weather/wx_partly-16.png",
+       "label": "Partly cloudy"
+      },
+      {
+       "file": "icons/weather/wx_cloud-16.png",
+       "label": "Cloudy"
+      },
+      {
+       "file": "icons/weather/wx_rain-16.png",
+       "label": "Rain"
+      },
+      {
+       "file": "icons/weather/wx_snow-16.png",
+       "label": "Snow"
+      },
+      {
+       "file": "icons/weather/wx_storm-16.png",
+       "label": "Storm"
+      },
+      {
+       "file": "icons/weather/wx_fog-16.png",
+       "label": "Fog"
+      },
+      {
+       "file": "icons/weather/wx_night-16.png",
+       "label": "Clear night"
+      },
+      {
+       "file": "icons/weather/wx_heat-16.png",
+       "label": "Heat wave"
+      },
+      {
+       "file": "icons/weather/wx_cold-16.png",
+       "label": "Cold snap"
+      }
+     ]
+    },
+    {
+     "title": "Weather (24 px)",
+     "columns": 10,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/weather/wx_sun-24.png",
+       "label": "Sunny"
+      },
+      {
+       "file": "icons/weather/wx_partly-24.png",
+       "label": "Partly cloudy"
+      },
+      {
+       "file": "icons/weather/wx_cloud-24.png",
+       "label": "Cloudy"
+      },
+      {
+       "file": "icons/weather/wx_rain-24.png",
+       "label": "Rain"
+      },
+      {
+       "file": "icons/weather/wx_snow-24.png",
+       "label": "Snow"
+      },
+      {
+       "file": "icons/weather/wx_storm-24.png",
+       "label": "Storm"
+      },
+      {
+       "file": "icons/weather/wx_fog-24.png",
+       "label": "Fog"
+      },
+      {
+       "file": "icons/weather/wx_night-24.png",
+       "label": "Clear night"
+      },
+      {
+       "file": "icons/weather/wx_heat-24.png",
+       "label": "Heat wave"
+      },
+      {
+       "file": "icons/weather/wx_cold-24.png",
+       "label": "Cold snap"
+      }
+     ]
+    },
+    {
+     "title": "Seasons (16 px)",
+     "columns": 12,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/seasons/season_spring-16.png",
+       "label": "Spring"
+      },
+      {
+       "file": "icons/seasons/season_summer-16.png",
+       "label": "Summer"
+      },
+      {
+       "file": "icons/seasons/season_autumn-16.png",
+       "label": "Autumn"
+      },
+      {
+       "file": "icons/seasons/season_winter-16.png",
+       "label": "Winter"
+      }
+     ]
+    },
+    {
+     "title": "Seasons (24 px)",
+     "columns": 10,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/seasons/season_spring-24.png",
+       "label": "Spring"
+      },
+      {
+       "file": "icons/seasons/season_summer-24.png",
+       "label": "Summer"
+      },
+      {
+       "file": "icons/seasons/season_autumn-24.png",
+       "label": "Autumn"
+      },
+      {
+       "file": "icons/seasons/season_winter-24.png",
+       "label": "Winter"
+      }
+     ]
+    },
+    {
+     "title": "Panels / toolbar buttons (16 px)",
+     "columns": 12,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/panels/pnl_game_menu-16.png",
+       "label": "Game menu"
+      },
+      {
+       "file": "icons/panels/pnl_save-16.png",
+       "label": "Save"
+      },
+      {
+       "file": "icons/panels/pnl_load-16.png",
+       "label": "Load"
+      },
+      {
+       "file": "icons/panels/pnl_settings-16.png",
+       "label": "Settings"
+      },
+      {
+       "file": "icons/panels/pnl_infoviews-16.png",
+       "label": "Info views"
+      },
+      {
+       "file": "icons/panels/pnl_budget-16.png",
+       "label": "Budget"
+      },
+      {
+       "file": "icons/panels/pnl_stats-16.png",
+       "label": "Statistics"
+      },
+      {
+       "file": "icons/panels/pnl_chirper-16.png",
+       "label": "Chirper"
+      },
+      {
+       "file": "icons/panels/pnl_production-16.png",
+       "label": "Production"
+      },
+      {
+       "file": "icons/panels/pnl_policies-16.png",
+       "label": "Policies"
+      },
+      {
+       "file": "icons/panels/pnl_progression-16.png",
+       "label": "Progression"
+      },
+      {
+       "file": "icons/panels/pnl_districts-16.png",
+       "label": "Districts"
+      },
+      {
+       "file": "icons/panels/pnl_tiles-16.png",
+       "label": "Tiles"
+      },
+      {
+       "file": "icons/panels/pnl_transit_lines-16.png",
+       "label": "Transit lines"
+      },
+      {
+       "file": "icons/panels/pnl_achievements-16.png",
+       "label": "Achievements"
+      },
+      {
+       "file": "icons/panels/pnl_advisor-16.png",
+       "label": "Advisor"
+      },
+      {
+       "file": "icons/panels/pnl_milestone-16.png",
+       "label": "Milestone"
+      },
+      {
+       "file": "icons/panels/pnl_notifications-16.png",
+       "label": "Notifications"
+      },
+      {
+       "file": "icons/panels/pnl_photo-16.png",
+       "label": "Photo"
+      },
+      {
+       "file": "icons/panels/pnl_radio-16.png",
+       "label": "Radio"
+      },
+      {
+       "file": "icons/panels/pnl_search-16.png",
+       "label": "Search"
+      },
+      {
+       "file": "icons/panels/pnl_city_info-16.png",
+       "label": "City info"
+      },
+      {
+       "file": "icons/panels/pnl_help-16.png",
+       "label": "Help"
+      },
+      {
+       "file": "icons/panels/pnl_camera_home-16.png",
+       "label": "Camera home"
+      },
+      {
+       "file": "icons/panels/pnl_minimap-16.png",
+       "label": "Minimap"
+      },
+      {
+       "file": "icons/panels/pnl_citizen-16.png",
+       "label": "Citizen"
+      },
+      {
+       "file": "icons/panels/pnl_vehicle-16.png",
+       "label": "Vehicle"
+      },
+      {
+       "file": "icons/panels/pnl_building-16.png",
+       "label": "Building"
+      }
+     ]
+    },
+    {
+     "title": "Panels / toolbar buttons (24 px)",
+     "columns": 10,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/panels/pnl_game_menu-24.png",
+       "label": "Game menu"
+      },
+      {
+       "file": "icons/panels/pnl_save-24.png",
+       "label": "Save"
+      },
+      {
+       "file": "icons/panels/pnl_load-24.png",
+       "label": "Load"
+      },
+      {
+       "file": "icons/panels/pnl_settings-24.png",
+       "label": "Settings"
+      },
+      {
+       "file": "icons/panels/pnl_infoviews-24.png",
+       "label": "Info views"
+      },
+      {
+       "file": "icons/panels/pnl_budget-24.png",
+       "label": "Budget"
+      },
+      {
+       "file": "icons/panels/pnl_stats-24.png",
+       "label": "Statistics"
+      },
+      {
+       "file": "icons/panels/pnl_chirper-24.png",
+       "label": "Chirper"
+      },
+      {
+       "file": "icons/panels/pnl_production-24.png",
+       "label": "Production"
+      },
+      {
+       "file": "icons/panels/pnl_policies-24.png",
+       "label": "Policies"
+      },
+      {
+       "file": "icons/panels/pnl_progression-24.png",
+       "label": "Progression"
+      },
+      {
+       "file": "icons/panels/pnl_districts-24.png",
+       "label": "Districts"
+      },
+      {
+       "file": "icons/panels/pnl_tiles-24.png",
+       "label": "Tiles"
+      },
+      {
+       "file": "icons/panels/pnl_transit_lines-24.png",
+       "label": "Transit lines"
+      },
+      {
+       "file": "icons/panels/pnl_achievements-24.png",
+       "label": "Achievements"
+      },
+      {
+       "file": "icons/panels/pnl_advisor-24.png",
+       "label": "Advisor"
+      },
+      {
+       "file": "icons/panels/pnl_milestone-24.png",
+       "label": "Milestone"
+      },
+      {
+       "file": "icons/panels/pnl_notifications-24.png",
+       "label": "Notifications"
+      },
+      {
+       "file": "icons/panels/pnl_photo-24.png",
+       "label": "Photo"
+      },
+      {
+       "file": "icons/panels/pnl_radio-24.png",
+       "label": "Radio"
+      },
+      {
+       "file": "icons/panels/pnl_search-24.png",
+       "label": "Search"
+      },
+      {
+       "file": "icons/panels/pnl_city_info-24.png",
+       "label": "City info"
+      },
+      {
+       "file": "icons/panels/pnl_help-24.png",
+       "label": "Help"
+      },
+      {
+       "file": "icons/panels/pnl_camera_home-24.png",
+       "label": "Camera home"
+      },
+      {
+       "file": "icons/panels/pnl_minimap-24.png",
+       "label": "Minimap"
+      },
+      {
+       "file": "icons/panels/pnl_citizen-24.png",
+       "label": "Citizen"
+      },
+      {
+       "file": "icons/panels/pnl_vehicle-24.png",
+       "label": "Vehicle"
+      },
+      {
+       "file": "icons/panels/pnl_building-24.png",
+       "label": "Building"
+      }
+     ]
+    },
+    {
+     "title": "Generic UI glyphs (16 px)",
+     "columns": 12,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/ui/ui_close-16.png",
+       "label": "Close"
+      },
+      {
+       "file": "icons/ui/ui_check-16.png",
+       "label": "Check"
+      },
+      {
+       "file": "icons/ui/ui_cross-16.png",
+       "label": "Cross"
+      },
+      {
+       "file": "icons/ui/ui_plus-16.png",
+       "label": "Plus"
+      },
+      {
+       "file": "icons/ui/ui_minus-16.png",
+       "label": "Minus"
+      },
+      {
+       "file": "icons/ui/ui_up-16.png",
+       "label": "Up"
+      },
+      {
+       "file": "icons/ui/ui_down-16.png",
+       "label": "Down"
+      },
+      {
+       "file": "icons/ui/ui_left-16.png",
+       "label": "Left"
+      },
+      {
+       "file": "icons/ui/ui_right-16.png",
+       "label": "Right"
+      },
+      {
+       "file": "icons/ui/ui_info-16.png",
+       "label": "Info"
+      },
+      {
+       "file": "icons/ui/ui_warning-16.png",
+       "label": "Warning"
+      },
+      {
+       "file": "icons/ui/ui_error-16.png",
+       "label": "Error"
+      },
+      {
+       "file": "icons/ui/ui_lock-16.png",
+       "label": "Locked"
+      },
+      {
+       "file": "icons/ui/ui_unlock-16.png",
+       "label": "Unlocked"
+      },
+      {
+       "file": "icons/ui/ui_eye-16.png",
+       "label": "Show"
+      },
+      {
+       "file": "icons/ui/ui_eye_off-16.png",
+       "label": "Hide"
+      },
+      {
+       "file": "icons/ui/ui_locate-16.png",
+       "label": "Locate"
+      },
+      {
+       "file": "icons/ui/ui_follow-16.png",
+       "label": "Follow"
+      },
+      {
+       "file": "icons/ui/ui_pin-16.png",
+       "label": "Pin"
+      },
+      {
+       "file": "icons/ui/ui_minimize-16.png",
+       "label": "Minimize"
+      },
+      {
+       "file": "icons/ui/ui_zoom_in-16.png",
+       "label": "Zoom in"
+      },
+      {
+       "file": "icons/ui/ui_zoom_out-16.png",
+       "label": "Zoom out"
+      },
+      {
+       "file": "icons/ui/ui_rotate_left-16.png",
+       "label": "Rotate left"
+      },
+      {
+       "file": "icons/ui/ui_rotate_right-16.png",
+       "label": "Rotate right"
+      },
+      {
+       "file": "icons/ui/ui_undo-16.png",
+       "label": "Undo"
+      },
+      {
+       "file": "icons/ui/ui_redo-16.png",
+       "label": "Redo"
+      },
+      {
+       "file": "icons/ui/ui_trash-16.png",
+       "label": "Delete"
+      },
+      {
+       "file": "icons/ui/ui_sort-16.png",
+       "label": "Sort"
+      },
+      {
+       "file": "icons/ui/ui_filter-16.png",
+       "label": "Filter"
+      },
+      {
+       "file": "icons/ui/ui_speaker-16.png",
+       "label": "Sound on"
+      },
+      {
+       "file": "icons/ui/ui_muted-16.png",
+       "label": "Sound off"
+      },
+      {
+       "file": "icons/ui/ui_refresh-16.png",
+       "label": "Refresh"
+      },
+      {
+       "file": "icons/ui/ui_star-16.png",
+       "label": "Star"
+      },
+      {
+       "file": "icons/ui/ui_like-16.png",
+       "label": "Like"
+      },
+      {
+       "file": "icons/ui/ui_chart_line-16.png",
+       "label": "Line chart"
+      },
+      {
+       "file": "icons/ui/ui_list-16.png",
+       "label": "List"
+      },
+      {
+       "file": "icons/ui/ui_grid_view-16.png",
+       "label": "Grid"
+      },
+      {
+       "file": "icons/ui/ui_edit-16.png",
+       "label": "Edit"
+      },
+      {
+       "file": "icons/ui/ui_colour-16.png",
+       "label": "Colour"
+      },
+      {
+       "file": "icons/ui/ui_music-16.png",
+       "label": "Music"
+      },
+      {
+       "file": "icons/ui/ui_keyboard-16.png",
+       "label": "Keyboard"
+      },
+      {
+       "file": "icons/ui/ui_mouse-16.png",
+       "label": "Mouse"
+      },
+      {
+       "file": "icons/ui/ui_monitor-16.png",
+       "label": "Display"
+      },
+      {
+       "file": "icons/ui/ui_globe-16.png",
+       "label": "Language"
+      },
+      {
+       "file": "icons/ui/ui_play_video-16.png",
+       "label": "Play video"
+      },
+      {
+       "file": "icons/ui/ui_exit-16.png",
+       "label": "Exit"
+      }
+     ]
+    },
+    {
+     "title": "Generic UI glyphs (24 px)",
+     "columns": 10,
+     "scale": 2,
+     "items": [
+      {
+       "file": "icons/ui/ui_close-24.png",
+       "label": "Close"
+      },
+      {
+       "file": "icons/ui/ui_check-24.png",
+       "label": "Check"
+      },
+      {
+       "file": "icons/ui/ui_cross-24.png",
+       "label": "Cross"
+      },
+      {
+       "file": "icons/ui/ui_plus-24.png",
+       "label": "Plus"
+      },
+      {
+       "file": "icons/ui/ui_minus-24.png",
+       "label": "Minus"
+      },
+      {
+       "file": "icons/ui/ui_up-24.png",
+       "label": "Up"
+      },
+      {
+       "file": "icons/ui/ui_down-24.png",
+       "label": "Down"
+      },
+      {
+       "file": "icons/ui/ui_left-24.png",
+       "label": "Left"
+      },
+      {
+       "file": "icons/ui/ui_right-24.png",
+       "label": "Right"
+      },
+      {
+       "file": "icons/ui/ui_info-24.png",
+       "label": "Info"
+      },
+      {
+       "file": "icons/ui/ui_warning-24.png",
+       "label": "Warning"
+      },
+      {
+       "file": "icons/ui/ui_error-24.png",
+       "label": "Error"
+      },
+      {
+       "file": "icons/ui/ui_lock-24.png",
+       "label": "Locked"
+      },
+      {
+       "file": "icons/ui/ui_unlock-24.png",
+       "label": "Unlocked"
+      },
+      {
+       "file": "icons/ui/ui_eye-24.png",
+       "label": "Show"
+      },
+      {
+       "file": "icons/ui/ui_eye_off-24.png",
+       "label": "Hide"
+      },
+      {
+       "file": "icons/ui/ui_locate-24.png",
+       "label": "Locate"
+      },
+      {
+       "file": "icons/ui/ui_follow-24.png",
+       "label": "Follow"
+      },
+      {
+       "file": "icons/ui/ui_pin-24.png",
+       "label": "Pin"
+      },
+      {
+       "file": "icons/ui/ui_minimize-24.png",
+       "label": "Minimize"
+      },
+      {
+       "file": "icons/ui/ui_zoom_in-24.png",
+       "label": "Zoom in"
+      },
+      {
+       "file": "icons/ui/ui_zoom_out-24.png",
+       "label": "Zoom out"
+      },
+      {
+       "file": "icons/ui/ui_rotate_left-24.png",
+       "label": "Rotate left"
+      },
+      {
+       "file": "icons/ui/ui_rotate_right-24.png",
+       "label": "Rotate right"
+      },
+      {
+       "file": "icons/ui/ui_undo-24.png",
+       "label": "Undo"
+      },
+      {
+       "file": "icons/ui/ui_redo-24.png",
+       "label": "Redo"
+      },
+      {
+       "file": "icons/ui/ui_trash-24.png",
+       "label": "Delete"
+      },
+      {
+       "file": "icons/ui/ui_sort-24.png",
+       "label": "Sort"
+      },
+      {
+       "file": "icons/ui/ui_filter-24.png",
+       "label": "Filter"
+      },
+      {
+       "file": "icons/ui/ui_speaker-24.png",
+       "label": "Sound on"
+      },
+      {
+       "file": "icons/ui/ui_muted-24.png",
+       "label": "Sound off"
+      },
+      {
+       "file": "icons/ui/ui_refresh-24.png",
+       "label": "Refresh"
+      },
+      {
+       "file": "icons/ui/ui_star-24.png",
+       "label": "Star"
+      },
+      {
+       "file": "icons/ui/ui_like-24.png",
+       "label": "Like"
+      },
+      {
+       "file": "icons/ui/ui_chart_line-24.png",
+       "label": "Line chart"
+      },
+      {
+       "file": "icons/ui/ui_list-24.png",
+       "label": "List"
+      },
+      {
+       "file": "icons/ui/ui_grid_view-24.png",
+       "label": "Grid"
+      },
+      {
+       "file": "icons/ui/ui_edit-24.png",
+       "label": "Edit"
+      },
+      {
+       "file": "icons/ui/ui_colour-24.png",
+       "label": "Colour"
+      },
+      {
+       "file": "icons/ui/ui_music-24.png",
+       "label": "Music"
+      },
+      {
+       "file": "icons/ui/ui_keyboard-24.png",
+       "label": "Keyboard"
+      },
+      {
+       "file": "icons/ui/ui_mouse-24.png",
+       "label": "Mouse"
+      },
+      {
+       "file": "icons/ui/ui_monitor-24.png",
+       "label": "Display"
+      },
+      {
+       "file": "icons/ui/ui_globe-24.png",
+       "label": "Language"
+      },
+      {
+       "file": "icons/ui/ui_play_video-24.png",
+       "label": "Play video"
+      },
+      {
+       "file": "icons/ui/ui_exit-24.png",
+       "label": "Exit"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "section": "HUD & panels",
+   "groups": [
+    {
+     "title": "Main HUD mockups (placeholder world; final scene comes from KIT)",
+     "columns": 2,
+     "scale": 1,
+     "items": [
+      {
+       "file": "screens/hud-1280x720-1x.png",
+       "label": "Main HUD 1280x720, UI 1x (medium toolbar)"
+      },
+      {
+       "file": "screens/hud-1920x1080-1x.png",
+       "label": "Main HUD 1920x1080, UI 1x (wide toolbar)"
+      },
+      {
+       "file": "screens/hud-1920x1080-1.5x.png",
+       "label": "Main HUD 1920x1080, UI 1.5x"
+      },
+      {
+       "file": "screens/hud-1280x720-1.5x.png",
+       "label": "Main HUD 1280x720, UI 1.5x (compact toolbar)"
+      },
+      {
+       "file": "screens/hud-sidebar-1280x720-1x.png",
+       "label": "Alternative: current right-sidebar layout in RCT2 chrome (1280x720, 1x)"
+      },
+      {
+       "file": "screens/hud-infoview-1920x1080-1x.png",
+       "label": "Info view active: land value overlay + info-view panel + legend (1920x1080, 1x)"
+      }
+     ]
+    },
+    {
+     "title": "Build menu and building inspector (RCT2 ride-window tabs)",
+     "columns": 4,
+     "scale": 2,
+     "items": [
+      {
+       "file": "panels/build-menu-health.png",
+       "label": "Build menu: Health & Deathcare"
+      },
+      {
+       "file": "panels/inspector-efficiency.png",
+       "label": "Building inspector: efficiency graph"
+      },
+      {
+       "file": "panels/inspector-upkeep.png",
+       "label": "Building inspector: upkeep"
+      },
+      {
+       "file": "panels/inspector-finances.png",
+       "label": "Building inspector: finances"
+      },
+      {
+       "file": "panels/inspector-occupants.png",
+       "label": "Building inspector: occupants"
+      },
+      {
+       "file": "panels/inspector-overview.png",
+       "label": "Building inspector: overview"
+      }
+     ]
+    },
+    {
+     "title": "Same windows redrawn at UI 1.5x",
+     "columns": 4,
+     "scale": 1,
+     "items": [
+      {
+       "file": "panels-1.5x/build-menu-health.png",
+       "label": "Build menu: Health & Deathcare (1.5x)"
+      },
+      {
+       "file": "panels-1.5x/inspector-overview.png",
+       "label": "Building inspector: overview (1.5x)"
+      },
+      {
+       "file": "panels-1.5x/budget-services.png",
+       "label": "Budget: expenses / service budgets (1.5x)"
+      },
+      {
+       "file": "panels-1.5x/statistics-population.png",
+       "label": "Statistics: population (1.5x)"
+      },
+      {
+       "file": "panels-1.5x/citizen-overview.png",
+       "label": "Citizen inspector: overview (1.5x)"
+      },
+      {
+       "file": "panels-1.5x/milestones-devtree.png",
+       "label": "Progression: development tree (1.5x)"
+      },
+      {
+       "file": "panels-1.5x/transit-line-route.png",
+       "label": "Line detail: route (1.5x)"
+      }
+     ]
+    },
+    {
+     "title": "Budget, statistics, production, city info",
+     "columns": 4,
+     "scale": 2,
+     "items": [
+      {
+       "file": "panels/budget-loans.png",
+       "label": "Budget: loans"
+      },
+      {
+       "file": "panels/budget-fees.png",
+       "label": "Budget: fees"
+      },
+      {
+       "file": "panels/budget-taxes.png",
+       "label": "Budget: taxes"
+      },
+      {
+       "file": "panels/budget-services.png",
+       "label": "Budget: expenses / service budgets"
+      },
+      {
+       "file": "panels/budget-income.png",
+       "label": "Budget: income"
+      },
+      {
+       "file": "panels/budget-overview.png",
+       "label": "Budget: overview"
+      },
+      {
+       "file": "panels/statistics-traffic.png",
+       "label": "Statistics: traffic"
+      },
+      {
+       "file": "panels/statistics-environment.png",
+       "label": "Statistics: environment"
+      },
+      {
+       "file": "panels/statistics-utilities.png",
+       "label": "Statistics: utilities"
+      },
+      {
+       "file": "panels/statistics-city.png",
+       "label": "Statistics: city"
+      },
+      {
+       "file": "panels/statistics-economy.png",
+       "label": "Statistics: economy"
+      },
+      {
+       "file": "panels/statistics-population.png",
+       "label": "Statistics: population"
+      },
+      {
+       "file": "panels/production-trade-sorted.png",
+       "label": "Production & trade: sorted by imports"
+      },
+      {
+       "file": "panels/production-trade.png",
+       "label": "Production & trade"
+      },
+      {
+       "file": "panels/city-info.png",
+       "label": "City info dashboard"
+      }
+     ]
+    },
+    {
+     "title": "Citizens, vehicles, chirper, advisor, progression, policies, districts",
+     "columns": 4,
+     "scale": 2,
+     "items": [
+      {
+       "file": "panels/citizen-lifepath.png",
+       "label": "Citizen inspector: life path"
+      },
+      {
+       "file": "panels/citizen-household.png",
+       "label": "Citizen inspector: household"
+      },
+      {
+       "file": "panels/citizen-overview.png",
+       "label": "Citizen inspector: overview"
+      },
+      {
+       "file": "panels/vehicle-route.png",
+       "label": "Vehicle inspector: route"
+      },
+      {
+       "file": "panels/vehicle-overview.png",
+       "label": "Vehicle inspector: overview"
+      },
+      {
+       "file": "panels/chirper-filter-open.png",
+       "label": "Chirper feed: filter dropdown open"
+      },
+      {
+       "file": "panels/chirper-feed.png",
+       "label": "Chirper feed"
+      },
+      {
+       "file": "panels/advisor-urgent.png",
+       "label": "Advisor: urgent message"
+      },
+      {
+       "file": "panels/advisor-tutorial.png",
+       "label": "Advisor: tutorial step"
+      },
+      {
+       "file": "panels/milestones-achievements.png",
+       "label": "Progression: achievements"
+      },
+      {
+       "file": "panels/milestones-devtree.png",
+       "label": "Progression: development tree"
+      },
+      {
+       "file": "panels/milestones-milestones.png",
+       "label": "Progression: milestones"
+      },
+      {
+       "file": "panels/policies-district.png",
+       "label": "Policies: district"
+      },
+      {
+       "file": "panels/policies-city.png",
+       "label": "Policies: city"
+      },
+      {
+       "file": "panels/districts-paint.png",
+       "label": "Districts: painting"
+      },
+      {
+       "file": "panels/districts-rename.png",
+       "label": "Districts: renaming"
+      },
+      {
+       "file": "panels/districts-list.png",
+       "label": "Districts: list"
+      }
+     ]
+    },
+    {
+     "title": "Transit lines, info views + legends, alerts, map tiles, road inspector, tool palettes",
+     "columns": 4,
+     "scale": 2,
+     "items": [
+      {
+       "file": "panels/transit-lines-taxi.png",
+       "label": "Transit lines: taxi"
+      },
+      {
+       "file": "panels/transit-lines-train.png",
+       "label": "Transit lines: train"
+      },
+      {
+       "file": "panels/transit-lines-metro.png",
+       "label": "Transit lines: metro"
+      },
+      {
+       "file": "panels/transit-lines-tram.png",
+       "label": "Transit lines: tram"
+      },
+      {
+       "file": "panels/transit-lines-bus.png",
+       "label": "Transit lines: bus"
+      },
+      {
+       "file": "panels/transit-line-passengers.png",
+       "label": "Line detail: passengers"
+      },
+      {
+       "file": "panels/transit-line-vehicles.png",
+       "label": "Line detail: vehicles"
+      },
+      {
+       "file": "panels/transit-line-route-metro.png",
+       "label": "Line detail: route (metro)"
+      },
+      {
+       "file": "panels/transit-line-route.png",
+       "label": "Line detail: route"
+      },
+      {
+       "file": "panels/infoviews-traffic.png",
+       "label": "Info views panel: traffic"
+      },
+      {
+       "file": "panels/infoviews-landvalue.png",
+       "label": "Info views panel: land value"
+      },
+      {
+       "file": "panels/legend-landvalue.png",
+       "label": "Legend: land value (heat ramp)"
+      },
+      {
+       "file": "panels/legend-pollution.png",
+       "label": "Legend: pollution (heat ramp)"
+      },
+      {
+       "file": "panels/legend-happiness.png",
+       "label": "Legend: happiness (good/bad ramp)"
+      },
+      {
+       "file": "panels/legend-zones.png",
+       "label": "Legend: zones (category)"
+      },
+      {
+       "file": "panels/legend-fire.png",
+       "label": "Legend: fire coverage"
+      },
+      {
+       "file": "panels/legend-resources.png",
+       "label": "Legend: natural resources"
+      },
+      {
+       "file": "panels/notifications-chirps.png",
+       "label": "Notifications centre: chirps"
+      },
+      {
+       "file": "panels/notifications-events.png",
+       "label": "Notifications centre: city events"
+      },
+      {
+       "file": "panels/notifications-problems.png",
+       "label": "Notifications centre: problems"
+      },
+      {
+       "file": "panels/notifications-all.png",
+       "label": "Notifications centre: all"
+      },
+      {
+       "file": "panels/tiles-locked.png",
+       "label": "Map tiles: locked tile"
+      },
+      {
+       "file": "panels/tiles-owned.png",
+       "label": "Map tiles: owned tile"
+      },
+      {
+       "file": "panels/tiles-buy.png",
+       "label": "Map tiles: purchasable tile"
+      },
+      {
+       "file": "panels/road-inspector-traffic.png",
+       "label": "Road inspector: traffic"
+      },
+      {
+       "file": "panels/road-inspector-overview.png",
+       "label": "Road inspector: overview"
+      },
+      {
+       "file": "panels/tool-road-curve.png",
+       "label": "Tool options: road (curve, street)"
+      },
+      {
+       "file": "panels/tool-road.png",
+       "label": "Tool options: road"
+      },
+      {
+       "file": "panels/tool-zoning-fill.png",
+       "label": "Tool options: zoning (commercial, fill)"
+      },
+      {
+       "file": "panels/tool-zoning.png",
+       "label": "Tool options: zoning"
+      },
+      {
+       "file": "panels/tool-terraform-lower.png",
+       "label": "Tool options: terraform (lower)"
+      },
+      {
+       "file": "panels/tool-terraform.png",
+       "label": "Tool options: terraform"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "section": "Menus & dialogs",
+   "groups": [
+    {
+     "title": "Menu and dialog screens",
+     "columns": 2,
+     "scale": 1,
+     "items": [
+      {
+       "file": "screens/mainmenu-1280x720-1x.png",
+       "label": "Main menu 1280x720, UI 1x (button stack, day)"
+      },
+      {
+       "file": "screens/mainmenu-1920x1080-1.5x.png",
+       "label": "Main menu 1920x1080, UI 1.5x (button stack, night)"
+      },
+      {
+       "file": "screens/mainmenu-strip-1280x720-1x.png",
+       "label": "Main menu 1280x720, UI 1x (RCT2 bottom button bar, day)"
+      },
+      {
+       "file": "screens/mainmenu-strip-1920x1080-1.5x.png",
+       "label": "Main menu 1920x1080, UI 1.5x (RCT2 bottom button bar, night)"
+      },
+      {
+       "file": "screens/newcity-1280x720-1.5x.png",
+       "label": "New city chooser over the shell map, 1280x720 UI 1.5x"
+      },
+      {
+       "file": "screens/pause-1280x720-1.5x.png",
+       "label": "Pause menu over a darkened HUD, 1280x720 UI 1.5x"
+      },
+      {
+       "file": "screens/loading-1280x720-1x.png",
+       "label": "Loading screen 1280x720, UI 1x (progress + tip)"
+      }
+     ]
+    },
+    {
+     "title": "Menu and dialog windows",
+     "columns": 4,
+     "scale": 2,
+     "items": [
+      {
+       "file": "panels/settings-display-dropdown.png",
+       "label": "Settings: Display, resolution dropdown open"
+      },
+      {
+       "file": "panels/settings-gameplay.png",
+       "label": "Settings: Gameplay"
+      },
+      {
+       "file": "panels/settings-input.png",
+       "label": "Settings: Input (hotkeys)"
+      },
+      {
+       "file": "panels/settings-audio.png",
+       "label": "Settings: Audio"
+      },
+      {
+       "file": "panels/settings-interface.png",
+       "label": "Settings: Interface"
+      },
+      {
+       "file": "panels/settings-display.png",
+       "label": "Settings: Display (UI scale slider + preview)"
+      },
+      {
+       "file": "panels/tooltips.png",
+       "label": "Tooltip styles sheet"
+      },
+      {
+       "file": "panels/dialog-confirm.png",
+       "label": "Dialog: confirm bulldoze"
+      },
+      {
+       "file": "panels/dialog-error.png",
+       "label": "Dialog: error"
+      },
+      {
+       "file": "panels/dialog-info.png",
+       "label": "Dialog: info message"
+      },
+      {
+       "file": "panels/dialog-unsaved.png",
+       "label": "Dialog: unsaved changes (3 buttons)"
+      },
+      {
+       "file": "panels/dialog-overwrite.png",
+       "label": "Dialog: overwrite save"
+      },
+      {
+       "file": "panels/load-dialog.png",
+       "label": "Load dialog"
+      },
+      {
+       "file": "panels/save-dialog.png",
+       "label": "Save dialog"
+      },
+      {
+       "file": "panels/newcity-window-coast.png",
+       "label": "New city: Sunny Coast selected"
+      },
+      {
+       "file": "panels/newcity-window.png",
+       "label": "New city / map chooser"
+      },
+      {
+       "file": "panels/pause-window.png",
+       "label": "Pause / game menu window"
+      }
+     ]
+    },
+    {
+     "title": "Same windows redrawn at UI 1.5x",
+     "columns": 4,
+     "scale": 1,
+     "items": [
+      {
+       "file": "panels-1.5x/settings-display.png",
+       "label": "Settings: Display (UI scale slider + preview) (1.5x)"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

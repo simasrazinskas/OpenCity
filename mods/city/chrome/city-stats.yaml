@@ -1,146 +1,93 @@
-# City statistics, chirper and production panels. Owned by the UI work package; loaded by CityHudLogic.
-
+# Statistics window (CityStatsLogic, design/iso/ui/panels/statistics-*.png, tools/iso_ui_panels_finance.statistics):
+# an icon tab per category, the checklist of the category's series on the left (colour key, zebra rows), the Year / 5 Years /
+# All buttons, the line chart and the read-out strip of the sample under the pointer on the right.
 CityPanel@CITY_STATS_PANEL:
 	Logic: CityStatsLogic
+	Family: info
 	Placement: Center
 	Avoid: CITY_ADVISOR_PANEL
-	Width: 700
-	Height: 570
-	Background: dialog
+	Width: 360
+	Height: 260
 	Visible: false
 	Children:
-		Label@TITLE:
-			Y: 10
+		Container@LEFT:
+			X: 4
+			Y: 49
+			Width: 140
+			Height: PARENT_HEIGHT - 53
+			Children:
+				CityHeader@SERIES_HEADER:
+					Width: PARENT_WIDTH
+					Height: 12
+					Text: label-stats-series
+				ScrollPanel@SERIES:
+					Y: 14
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT - 28
+					TopBottomSpacing: 1
+					ItemSpacing: 0
+					ScrollbarWidth: 10
+				Label@COUNT:
+					Y: PARENT_HEIGHT - 11
+					Width: PARENT_WIDTH
+					Height: 11
+					Font: Tiny
+		Container@RIGHT:
+			X: 150
+			Y: 49
+			Width: PARENT_WIDTH - 154
+			Height: PARENT_HEIGHT - 53
+			Children:
+				Container@SCALE:
+					Width: PARENT_WIDTH
+					Height: 14
+				CityGraph@GRAPH:
+					Y: 17
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT - 17 - 20
+					LeftMargin: 30
+				Label@EMPTY:
+					X: 30
+					Y: 17
+					Width: PARENT_WIDTH - 30
+					Height: PARENT_HEIGHT - 17 - 20
+					Font: Tiny
+					Align: Center
+				Background@READOUT:
+					Y: PARENT_HEIGHT - 16
+					Width: PARENT_WIDTH
+					Height: 16
+					Background: well-dark
+					Children:
+						Label@READOUT_TEXT:
+							X: 4
+							Width: PARENT_WIDTH - 8
+							Height: PARENT_HEIGHT
+							Font: Tiny
+
+# One series of the checklist: checkbox, colour key, name (the whole row toggles).
+Container@CITY_STATS_ROW:
+	Width: 100
+	Height: 13
+	Children:
+		CityRowBackground@BG:
 			Width: PARENT_WIDTH
-			Height: 28
-			Font: MediumBold
-			Align: Center
-			Shadow: true
-			Text: label-stats-title
-		Button@CLOSE:
-			X: PARENT_WIDTH - 44
-			Y: 8
-			Width: 36
-			Height: 32
-			TooltipText: button-budget-close
-			TooltipContainer: TOOLTIP_CONTAINER
-			Children:
-				Image@ICON:
-					X: 2
-					ImageCollection: city-icons
-					ImageName: close
-		Container@CATEGORIES:
+			Height: PARENT_HEIGHT
+		Checkbox@CHECK:
+			X: 3
+			Y: 1
+			Width: 10
+			Height: 10
+		CitySwatch@KEY:
 			X: 16
-			Y: 52
-			Width: 150
-			Height: 200
-		Container@SERIES:
-			X: 16
-			Y: 262
-			Width: 150
-			Height: 160
-		Container@SCALE:
-			X: 184
-			Y: 52
-			Width: 330
-			Height: 28
-		CityGraph@GRAPH:
-			X: 184
-			Y: 90
-			Width: PARENT_WIDTH - 200
-			Height: PARENT_HEIGHT - 106
-		Container@OVERVIEW:
-			X: 184
-			Y: 90
-			Width: PARENT_WIDTH - 200
-			Height: PARENT_HEIGHT - 106
-			Visible: false
-		Label@EMPTY:
-			X: 184
-			Y: 90
-			Width: PARENT_WIDTH - 200
-			Height: PARENT_HEIGHT - 106
-			Font: Regular
-			Align: Center
-			Shadow: true
-			TextColor: B4C4D0
-
-Container@CITY_CHIRP_TEMPLATE:
-	Width: PARENT_WIDTH
-	Height: 62
-	Children:
-		Label@AUTHOR:
-			X: 6
-			Y: 2
-			Width: PARENT_WIDTH - 40
-			Height: 16
-			Font: Small
-			TextColor: E8A030
-			Shadow: true
-		Label@TEXT:
-			X: 6
-			Y: 18
-			Width: PARENT_WIDTH - 40
-			Height: 40
-			Font: Small
-			WordWrap: true
-			VAlign: Top
-		Button@LOCATE:
-			X: PARENT_WIDTH - 32
-			Y: 18
-			Width: 24
-			Height: 24
-			TooltipText: button-chirper-locate
-			TooltipContainer: TOOLTIP_CONTAINER
-			Children:
-				Image@ICON:
-					X: 4
-					Y: 4
-					ImageCollection: city-icons-small
-					ImageName: locate
-
-CityPanel@CITY_CHIRPER_PANEL:
-	Logic: CityChirperLogic
-	Placement: BottomRight
-	Width: 340
-	Height: WINDOW_HEIGHT * 5 / 12
-	Background: dialog
-	Visible: false
-	Children:
-		Label@TITLE:
-			X: 12
-			Y: 8
-			Width: PARENT_WIDTH - 60
-			Height: 24
-			Font: MediumBold
-			Shadow: true
-			Text: label-chirper-title
-		Button@CLOSE:
-			X: PARENT_WIDTH - 36
-			Y: 8
-			Width: 28
-			Height: 24
-			TooltipText: button-budget-close
-			TooltipContainer: TOOLTIP_CONTAINER
-			Children:
-				Image@ICON:
-					X: 6
-					Y: 4
-					ImageCollection: city-icons-small
-					ImageName: close
-		ScrollPanel@FEED:
-			X: 12
-			Y: 40
-			Width: PARENT_WIDTH - 24
-			Height: PARENT_HEIGHT - 52
-			TopBottomSpacing: 2
-			ItemSpacing: 2
-		Label@EMPTY:
-			X: 12
-			Y: 60
-			Width: PARENT_WIDTH - 24
-			Height: 40
-			Font: Small
-			Align: Center
-			TextColor: B4C4D0
-			Text: label-chirper-empty
+			Y: 5
+			Width: 9
+			Height: 3
+		Button@NAME:
+			X: 14
+			Width: PARENT_WIDTH - 14
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Left
+			LeftMargin: 15
+			VisualHeight: 0

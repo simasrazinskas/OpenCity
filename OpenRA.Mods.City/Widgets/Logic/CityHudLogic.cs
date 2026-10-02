@@ -25,8 +25,8 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		// Draw order: the alert strip and the advisor card sit underneath everything the player opens on purpose.
 		static readonly string[] Panels =
 		[
-			"CITY_ALERTS",
 			"CITY_ADVISOR_PANEL",
+			"CITY_MAP_PANEL",
 			"CITY_BUILDING_PANEL",
 			"CITY_CITIZEN_PANEL",
 			"CITY_BUDGET_PANEL",
@@ -40,7 +40,11 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			"CITY_TRANSIT_PANEL",
 			"CITY_ACHIEVEMENTS_PANEL",
 			"CITY_TILES_PANEL",
-			"CITY_VEHICLE_PANEL"
+			"CITY_VEHICLE_PANEL",
+			"CITY_INFO_PANEL",
+			"CITY_INFOVIEW_LEGEND_PANEL",
+			"CITY_NOTIFICATIONS_PANEL",
+			"CITY_BUILD_PANEL"
 		];
 
 		readonly World world;

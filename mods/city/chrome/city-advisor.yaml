@@ -1,0 +1,135 @@
+# Advisor window (design/iso/ui/panels/advisor-tutorial.png, advisor-urgent.png): people family. The advisor's portrait on the left,
+# the card on the right (title, step or URGENT tag, message, hint, tutorial progress), then the button row.
+# CityAdvisorLogic sets the tabs-free content, lays out the vertical positions from the text and sizes the window.
+CityPanel@CITY_ADVISOR_PANEL:
+	Logic: CityAdvisorLogic
+	Title: label-advisor-window-title
+	Family: people
+	Placement: BottomLeft
+	Width: 360
+	Height: 180
+	Visible: false
+	Children:
+		Background@PORTRAIT:
+			X: 4
+			Y: 21
+			Width: 72
+			Height: 72
+			Background: card-well
+			Children:
+				CityIcon@ICON:
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT
+					Size: 32
+					Icon: pnl_advisor
+		Background@NAMEPLATE:
+			X: 5
+			Y: 93
+			Width: 70
+			Height: 13
+			Background: chip-purple
+			Children:
+				Label@NAME:
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT
+					Font: Tiny
+					Align: Center
+					Text: label-advisor-name
+		Label@TITLE:
+			X: 84
+			Y: 21
+			Width: PARENT_WIDTH - 84 - 74
+			Height: 14
+			Font: Bold
+		Label@STEP:
+			X: PARENT_WIDTH - 74
+			Y: 21
+			Width: 70
+			Height: 14
+			Font: Tiny
+			Align: Right
+		Background@URGENT:
+			X: PARENT_WIDTH - 62
+			Y: 21
+			Width: 58
+			Height: 13
+			Background: chip-red
+			Children:
+				Label@LABEL:
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT
+					Font: TinyBold
+					Align: Center
+					Text: label-advisor-urgent
+		Background@MESSAGE_WELL:
+			X: 84
+			Y: 38
+			Width: PARENT_WIDTH - 88
+			Height: 40
+			Background: well
+			Children:
+				Label@TEXT:
+					X: 4
+					Y: 3
+					Width: PARENT_WIDTH - 8
+					Height: 34
+					Font: Tiny
+					WordWrap: true
+					VAlign: Top
+		CityIcon@HINT_ICON:
+			X: 84
+			Y: 82
+			Width: 16
+			Height: 16
+			Icon: ui_info
+		Label@HINT:
+			X: 104
+			Y: 82
+			Width: PARENT_WIDTH - 108
+			Height: 16
+			Font: Tiny
+			WordWrap: true
+			VAlign: Top
+		CityBar@PROGRESS:
+			X: 84
+			Y: 100
+			Width: PARENT_WIDTH - 90
+			Height: 8
+			Ramp: yellow
+		Container@DOTS:
+			X: 84
+			Y: 111
+			Width: PARENT_WIDTH - 90
+			Height: 4
+		Button@LOCATE:
+			X: 84
+			Y: 130
+			Width: 18
+			Height: 18
+			TooltipContainer: TOOLTIP_CONTAINER
+			Children:
+				CityIcon@ICON:
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT
+					Icon: ui_locate
+		Button@PREVIOUS:
+			X: 106
+			Y: 130
+			Width: 54
+			Height: 18
+			Font: Tiny
+			Text: button-advisor-previous
+		Button@DISMISS:
+			X: PARENT_WIDTH - 124
+			Y: 130
+			Width: 58
+			Height: 18
+			Font: Tiny
+			Text: button-advisor-dismiss
+		Button@NEXT:
+			X: PARENT_WIDTH - 62
+			Y: 130
+			Width: 54
+			Height: 18
+			Font: Tiny
+			Background: button-default

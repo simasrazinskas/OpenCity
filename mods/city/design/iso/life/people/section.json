@@ -1,0 +1,490 @@
+{
+ "page": "World elements",
+ "section": "People",
+ "groups": [
+  {
+   "title": "Walk cycles",
+   "note": "adult 7 px, child 5 px, elder 7 px with cane; order N, E, S, W; 4 frames each",
+   "columns": 4,
+   "scale": 3,
+   "items": [
+    {
+     "file": "people/walk/adult_N_strip.png",
+     "label": "adult N 4f"
+    },
+    {
+     "file": "people/walk/adult_E_strip.png",
+     "label": "adult E 4f"
+    },
+    {
+     "file": "people/walk/adult_S_strip.png",
+     "label": "adult S 4f"
+    },
+    {
+     "file": "people/walk/adult_W_strip.png",
+     "label": "adult W 4f"
+    },
+    {
+     "file": "people/walk/adult_N_0.png",
+     "label": "adult N f0"
+    },
+    {
+     "file": "people/walk/adult_N_1.png",
+     "label": "adult N f1"
+    },
+    {
+     "file": "people/walk/adult_N_2.png",
+     "label": "adult N f2"
+    },
+    {
+     "file": "people/walk/adult_N_3.png",
+     "label": "adult N f3"
+    },
+    {
+     "file": "people/walk/adult_E_0.png",
+     "label": "adult E f0"
+    },
+    {
+     "file": "people/walk/adult_E_1.png",
+     "label": "adult E f1"
+    },
+    {
+     "file": "people/walk/adult_E_2.png",
+     "label": "adult E f2"
+    },
+    {
+     "file": "people/walk/adult_E_3.png",
+     "label": "adult E f3"
+    },
+    {
+     "file": "people/walk/adult_S_0.png",
+     "label": "adult S f0"
+    },
+    {
+     "file": "people/walk/adult_S_1.png",
+     "label": "adult S f1"
+    },
+    {
+     "file": "people/walk/adult_S_2.png",
+     "label": "adult S f2"
+    },
+    {
+     "file": "people/walk/adult_S_3.png",
+     "label": "adult S f3"
+    },
+    {
+     "file": "people/walk/adult_W_0.png",
+     "label": "adult W f0"
+    },
+    {
+     "file": "people/walk/adult_W_1.png",
+     "label": "adult W f1"
+    },
+    {
+     "file": "people/walk/adult_W_2.png",
+     "label": "adult W f2"
+    },
+    {
+     "file": "people/walk/adult_W_3.png",
+     "label": "adult W f3"
+    },
+    {
+     "file": "people/walk/child_N_strip.png",
+     "label": "child N 4f"
+    },
+    {
+     "file": "people/walk/child_E_strip.png",
+     "label": "child E 4f"
+    },
+    {
+     "file": "people/walk/child_S_strip.png",
+     "label": "child S 4f"
+    },
+    {
+     "file": "people/walk/child_W_strip.png",
+     "label": "child W 4f"
+    },
+    {
+     "file": "people/walk/elder_N_strip.png",
+     "label": "elder N 4f"
+    },
+    {
+     "file": "people/walk/elder_E_strip.png",
+     "label": "elder E 4f"
+    },
+    {
+     "file": "people/walk/elder_S_strip.png",
+     "label": "elder S 4f"
+    },
+    {
+     "file": "people/walk/elder_W_strip.png",
+     "label": "elder W 4f"
+    }
+   ]
+  },
+  {
+   "title": "Variety",
+   "note": "8 shirt colours, 4 trouser colours, 5 skin tones, 6 hair colours, caps, long hair, children and elders mixed in",
+   "columns": 4,
+   "scale": 3,
+   "items": [
+    {
+     "file": "people/variety/crowd_E_32.png",
+     "label": "32 walkers E"
+    },
+    {
+     "file": "people/variety/crowd_N_32.png",
+     "label": "32 walkers N (backs)"
+    },
+    {
+     "file": "people/variety/single_0.png",
+     "label": "single 1"
+    },
+    {
+     "file": "people/variety/single_1.png",
+     "label": "single 2"
+    },
+    {
+     "file": "people/variety/single_2.png",
+     "label": "single 3"
+    },
+    {
+     "file": "people/variety/single_3.png",
+     "label": "single 4"
+    },
+    {
+     "file": "people/variety/single_4.png",
+     "label": "single 5"
+    },
+    {
+     "file": "people/variety/single_5.png",
+     "label": "single 6"
+    }
+   ]
+  },
+  {
+   "title": "Activities",
+   "note": "bench (both axes), sitters, waiting, cycling, jogging, rain, construction, shopping, family, dog walking",
+   "columns": 4,
+   "scale": 3,
+   "items": [
+    {
+     "file": "people/bench/bench_x.png",
+     "label": "bench along X"
+    },
+    {
+     "file": "people/bench/sit_x_0.png",
+     "label": "sitter x f0"
+    },
+    {
+     "file": "people/bench/sit_x_1.png",
+     "label": "sitter x f1"
+    },
+    {
+     "file": "people/bench/sit_x_strip.png",
+     "label": "sitter x 2f"
+    },
+    {
+     "file": "people/bench/sit2_x_strip.png",
+     "label": "two sitters x 2f"
+    },
+    {
+     "file": "people/bench/bench_y.png",
+     "label": "bench along Y"
+    },
+    {
+     "file": "people/bench/sit_y_0.png",
+     "label": "sitter y f0"
+    },
+    {
+     "file": "people/bench/sit_y_1.png",
+     "label": "sitter y f1"
+    },
+    {
+     "file": "people/bench/sit_y_strip.png",
+     "label": "sitter y 2f"
+    },
+    {
+     "file": "people/bench/sit2_y_strip.png",
+     "label": "two sitters y 2f"
+    },
+    {
+     "file": "people/wait/wait_N_strip.png",
+     "label": "waiting N 3f"
+    },
+    {
+     "file": "people/wait/wait_E_strip.png",
+     "label": "waiting E 3f"
+    },
+    {
+     "file": "people/wait/wait_S_strip.png",
+     "label": "waiting S 3f"
+    },
+    {
+     "file": "people/wait/wait_W_strip.png",
+     "label": "waiting W 3f"
+    },
+    {
+     "file": "people/cycle/cycle_N_strip.png",
+     "label": "cyclist N 4f"
+    },
+    {
+     "file": "people/cycle/cycle_E_strip.png",
+     "label": "cyclist E 4f"
+    },
+    {
+     "file": "people/cycle/cycle_S_strip.png",
+     "label": "cyclist S 4f"
+    },
+    {
+     "file": "people/cycle/cycle_W_strip.png",
+     "label": "cyclist W 4f"
+    },
+    {
+     "file": "people/jog/jog_N_strip.png",
+     "label": "jogger N 4f"
+    },
+    {
+     "file": "people/jog/jog_E_strip.png",
+     "label": "jogger E 4f"
+    },
+    {
+     "file": "people/jog/jog_S_strip.png",
+     "label": "jogger S 4f"
+    },
+    {
+     "file": "people/jog/jog_W_strip.png",
+     "label": "jogger W 4f"
+    },
+    {
+     "file": "people/rain/umbrella0_N_strip.png",
+     "label": "umbrella 1 N 4f"
+    },
+    {
+     "file": "people/rain/umbrella0_E_strip.png",
+     "label": "umbrella 1 E 4f"
+    },
+    {
+     "file": "people/rain/umbrella0_S_strip.png",
+     "label": "umbrella 1 S 4f"
+    },
+    {
+     "file": "people/rain/umbrella0_W_strip.png",
+     "label": "umbrella 1 W 4f"
+    },
+    {
+     "file": "people/rain/umbrella1_N_strip.png",
+     "label": "umbrella 2 N 4f"
+    },
+    {
+     "file": "people/rain/umbrella1_E_strip.png",
+     "label": "umbrella 2 E 4f"
+    },
+    {
+     "file": "people/rain/umbrella1_S_strip.png",
+     "label": "umbrella 2 S 4f"
+    },
+    {
+     "file": "people/rain/umbrella1_W_strip.png",
+     "label": "umbrella 2 W 4f"
+    },
+    {
+     "file": "people/rain/umbrella2_N_strip.png",
+     "label": "umbrella 3 N 4f"
+    },
+    {
+     "file": "people/rain/umbrella2_E_strip.png",
+     "label": "umbrella 3 E 4f"
+    },
+    {
+     "file": "people/rain/umbrella2_S_strip.png",
+     "label": "umbrella 3 S 4f"
+    },
+    {
+     "file": "people/rain/umbrella2_W_strip.png",
+     "label": "umbrella 3 W 4f"
+    },
+    {
+     "file": "people/rain/umbrella3_N_strip.png",
+     "label": "umbrella 4 N 4f"
+    },
+    {
+     "file": "people/rain/umbrella3_E_strip.png",
+     "label": "umbrella 4 E 4f"
+    },
+    {
+     "file": "people/rain/umbrella3_S_strip.png",
+     "label": "umbrella 4 S 4f"
+    },
+    {
+     "file": "people/rain/umbrella3_W_strip.png",
+     "label": "umbrella 4 W 4f"
+    },
+    {
+     "file": "people/worker/walk_N_strip.png",
+     "label": "worker N 4f"
+    },
+    {
+     "file": "people/worker/walk_E_strip.png",
+     "label": "worker E 4f"
+    },
+    {
+     "file": "people/worker/walk_S_strip.png",
+     "label": "worker S 4f"
+    },
+    {
+     "file": "people/worker/walk_W_strip.png",
+     "label": "worker W 4f"
+    },
+    {
+     "file": "people/worker/hammer_N_strip.png",
+     "label": "hammering N 2f"
+    },
+    {
+     "file": "people/worker/hammer_E_strip.png",
+     "label": "hammering E 2f"
+    },
+    {
+     "file": "people/worker/hammer_S_strip.png",
+     "label": "hammering S 2f"
+    },
+    {
+     "file": "people/worker/hammer_W_strip.png",
+     "label": "hammering W 2f"
+    },
+    {
+     "file": "people/shopper/shopper_N_strip.png",
+     "label": "shopper N 4f"
+    },
+    {
+     "file": "people/shopper/shopper_E_strip.png",
+     "label": "shopper E 4f"
+    },
+    {
+     "file": "people/shopper/shopper_S_strip.png",
+     "label": "shopper S 4f"
+    },
+    {
+     "file": "people/shopper/shopper_W_strip.png",
+     "label": "shopper W 4f"
+    },
+    {
+     "file": "people/family/parent_child_N_strip.png",
+     "label": "parent+child N 4f"
+    },
+    {
+     "file": "people/family/parent_child_E_strip.png",
+     "label": "parent+child E 4f"
+    },
+    {
+     "file": "people/family/parent_child_S_strip.png",
+     "label": "parent+child S 4f"
+    },
+    {
+     "file": "people/family/parent_child_W_strip.png",
+     "label": "parent+child W 4f"
+    },
+    {
+     "file": "people/dogwalk/dogwalker_N_strip.png",
+     "label": "dog walker N 4f"
+    },
+    {
+     "file": "people/dogwalk/dogwalker_E_strip.png",
+     "label": "dog walker E 4f"
+    },
+    {
+     "file": "people/dogwalk/dogwalker_S_strip.png",
+     "label": "dog walker S 4f"
+    },
+    {
+     "file": "people/dogwalk/dogwalker_W_strip.png",
+     "label": "dog walker W 4f"
+    }
+   ]
+  },
+  {
+   "title": "Animals",
+   "note": "dog in 3 coats (4 dirs x 4 frames), pigeons, seagull; birds face screen-right (mirror for left)",
+   "columns": 4,
+   "scale": 3,
+   "items": [
+    {
+     "file": "people/animals/dog_brown_N_strip.png",
+     "label": "dog brown N 4f"
+    },
+    {
+     "file": "people/animals/dog_brown_E_strip.png",
+     "label": "dog brown E 4f"
+    },
+    {
+     "file": "people/animals/dog_brown_S_strip.png",
+     "label": "dog brown S 4f"
+    },
+    {
+     "file": "people/animals/dog_brown_W_strip.png",
+     "label": "dog brown W 4f"
+    },
+    {
+     "file": "people/animals/dog_blackwhite_N_strip.png",
+     "label": "dog blackwhite N 4f"
+    },
+    {
+     "file": "people/animals/dog_blackwhite_E_strip.png",
+     "label": "dog blackwhite E 4f"
+    },
+    {
+     "file": "people/animals/dog_blackwhite_S_strip.png",
+     "label": "dog blackwhite S 4f"
+    },
+    {
+     "file": "people/animals/dog_blackwhite_W_strip.png",
+     "label": "dog blackwhite W 4f"
+    },
+    {
+     "file": "people/animals/dog_golden_N_strip.png",
+     "label": "dog golden N 4f"
+    },
+    {
+     "file": "people/animals/dog_golden_E_strip.png",
+     "label": "dog golden E 4f"
+    },
+    {
+     "file": "people/animals/dog_golden_S_strip.png",
+     "label": "dog golden S 4f"
+    },
+    {
+     "file": "people/animals/dog_golden_W_strip.png",
+     "label": "dog golden W 4f"
+    },
+    {
+     "file": "people/animals/pigeon_peck_strip.png",
+     "label": "pigeon peck 2f"
+    },
+    {
+     "file": "people/animals/pigeon_fly_strip.png",
+     "label": "pigeon fly 4f"
+    },
+    {
+     "file": "people/animals/gull_fly_strip.png",
+     "label": "seagull fly 4f"
+    }
+   ]
+  },
+  {
+   "title": "In context",
+   "note": "peeps on asphalt, pavement and grass at 1x (shown at 2x)",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "people/context/street.png",
+     "label": "street: walkers, bench, cyclists"
+    },
+    {
+     "file": "people/context/park.png",
+     "label": "park: dog, jogger, pigeons"
+    }
+   ]
+  }
+ ]
+}

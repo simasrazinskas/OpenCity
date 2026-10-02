@@ -1,0 +1,492 @@
+{
+ "page": "World elements",
+ "section": "Effects & weather",
+ "groups": [
+  {
+   "title": "Smoke & steam",
+   "columns": 3,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fx/smoke/house_strip.png",
+     "label": "house smoke, 8 frames"
+    },
+    {
+     "file": "fx/smoke/industry_strip.png",
+     "label": "industry smoke, 8 frames"
+    },
+    {
+     "file": "fx/smoke/stack_plume_strip.png",
+     "label": "stack plume, 8 frames"
+    },
+    {
+     "file": "fx/smoke/stack_plume_light_strip.png",
+     "label": "stack plume, light, 8 frames"
+    },
+    {
+     "file": "fx/smoke/steam_strip.png",
+     "label": "steam, 8 frames"
+    },
+    {
+     "file": "fx/smoke/cooling_cloud_strip.png",
+     "label": "cooling tower, 8 frames"
+    }
+   ],
+   "note": "8-frame loops, emitter = bottom centre, wind drifts right. House ~14x36, stack plume 44x60."
+  },
+  {
+   "title": "Building fire: 4 stages + garbage heap",
+   "columns": 2,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fx/fire/stage1_strip.png",
+     "label": "stage 1: window, 6 frames"
+    },
+    {
+     "file": "fx/fire/stage2_strip.png",
+     "label": "stage 2: medium, 6 frames"
+    },
+    {
+     "file": "fx/fire/stage3_strip.png",
+     "label": "stage 3: roof, 6 frames"
+    },
+    {
+     "file": "fx/fire/stage4_strip.png",
+     "label": "stage 4: burnt out, 6 frames"
+    },
+    {
+     "file": "fx/fire/garbage_strip.png",
+     "label": "garbage fire, 4 frames"
+    }
+   ],
+   "note": "1-cell overlay, anchor = footprint centre. Window flame at (cx-14, h-17), roof fire at (cx, h-30)."
+  },
+  {
+   "title": "Water: hose, splash, helicopter drop",
+   "columns": 2,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fx/water/hose_n_strip.png",
+     "label": "hose N, 4 frames"
+    },
+    {
+     "file": "fx/water/hose_e_strip.png",
+     "label": "hose E, 4 frames"
+    },
+    {
+     "file": "fx/water/hose_s_strip.png",
+     "label": "hose S, 4 frames"
+    },
+    {
+     "file": "fx/water/hose_w_strip.png",
+     "label": "hose W, 4 frames"
+    },
+    {
+     "file": "fx/water/splash_strip.png",
+     "label": "splash, 6 frames"
+    },
+    {
+     "file": "fx/water/heli_drop_strip.png",
+     "label": "heli water drop, 4 frames"
+    }
+   ],
+   "note": "Directions in world compass: N = screen up-right, E = down-right, S = down-left, W = up-left. Hose nozzle: left canvas edge for N/E, right edge for S/W."
+  },
+  {
+   "title": "Construction dust, demolition, sparks",
+   "columns": 2,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fx/construction/dust_strip.png",
+     "label": "construction dust, 6 frames"
+    },
+    {
+     "file": "fx/construction/demolition_strip.png",
+     "label": "demolition burst, 6 frames"
+    },
+    {
+     "file": "fx/construction/sparks_weld_strip.png",
+     "label": "weld sparks, 4 frames"
+    },
+    {
+     "file": "fx/construction/sparks_short_strip.png",
+     "label": "power short, 4 frames"
+    }
+   ]
+  },
+  {
+   "title": "Fireworks (milestones)",
+   "columns": 2,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fx/fireworks/red_strip.png",
+     "label": "red burst, 8 frames"
+    },
+    {
+     "file": "fx/fireworks/gold_strip.png",
+     "label": "gold burst, 8 frames"
+    },
+    {
+     "file": "fx/fireworks/green_strip.png",
+     "label": "green burst, 8 frames"
+    },
+    {
+     "file": "fx/fireworks/blue_strip.png",
+     "label": "blue burst, 8 frames"
+    }
+   ],
+   "note": "32x40, anchor = launch point; burst centre at (16, 13)."
+  },
+  {
+   "title": "Night: light pools",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fx/night/pool_s.png",
+     "label": "pool S"
+    },
+    {
+     "file": "fx/night/pool_m.png",
+     "label": "pool M"
+    },
+    {
+     "file": "fx/night/pool_l.png",
+     "label": "pool L"
+    },
+    {
+     "file": "fx/night/pool_cool_m.png",
+     "label": "cool pool M"
+    },
+    {
+     "file": "fx/night/bulb.png",
+     "label": "lamp bulb"
+    }
+   ],
+   "note": "ADDITIVE blend in game: black = no light. Anchor = canvas centre (source on the ground)."
+  },
+  {
+   "title": "Night: window glows (warm / cool, 2x3 and 3x4, left and right walls)",
+   "columns": 8,
+   "scale": 3,
+   "items": [
+    {
+     "file": "fx/night/window_warm_2x3_L.png",
+     "label": "warm 2x3 L"
+    },
+    {
+     "file": "fx/night/window_warm_2x3_R.png",
+     "label": "warm 2x3 R"
+    },
+    {
+     "file": "fx/night/window_warm_3x4_L.png",
+     "label": "warm 3x4 L"
+    },
+    {
+     "file": "fx/night/window_warm_3x4_R.png",
+     "label": "warm 3x4 R"
+    },
+    {
+     "file": "fx/night/window_cool_2x3_L.png",
+     "label": "cool 2x3 L"
+    },
+    {
+     "file": "fx/night/window_cool_2x3_R.png",
+     "label": "cool 2x3 R"
+    },
+    {
+     "file": "fx/night/window_cool_3x4_L.png",
+     "label": "cool 3x4 L"
+    },
+    {
+     "file": "fx/night/window_cool_3x4_R.png",
+     "label": "cool 3x4 R"
+    }
+   ],
+   "note": "Core is the lit window (sheared 1 px per 2 columns), halo 1-2 px. Additive."
+  },
+  {
+   "title": "Night: shop sign glows",
+   "columns": 4,
+   "scale": 3,
+   "items": [
+    {
+     "file": "fx/night/sign_red.png",
+     "label": "sign red"
+    },
+    {
+     "file": "fx/night/sign_blue.png",
+     "label": "sign blue"
+    },
+    {
+     "file": "fx/night/sign_amber.png",
+     "label": "sign amber"
+    },
+    {
+     "file": "fx/night/sign_green.png",
+     "label": "sign green"
+    }
+   ],
+   "note": "9x3 px sign on a left wall. Additive."
+  },
+  {
+   "title": "Night: vehicle head- and tail-lights",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fx/night/headlight_n.png",
+     "label": "head N"
+    },
+    {
+     "file": "fx/night/headlight_e.png",
+     "label": "head E"
+    },
+    {
+     "file": "fx/night/headlight_s.png",
+     "label": "head S"
+    },
+    {
+     "file": "fx/night/headlight_w.png",
+     "label": "head W"
+    },
+    {
+     "file": "fx/night/taillight_n.png",
+     "label": "tail N"
+    },
+    {
+     "file": "fx/night/taillight_e.png",
+     "label": "tail E"
+    },
+    {
+     "file": "fx/night/taillight_s.png",
+     "label": "tail S"
+    },
+    {
+     "file": "fx/night/taillight_w.png",
+     "label": "tail W"
+    }
+   ],
+   "note": "Directions in world compass: N = screen up-right. Headlight cones 44x28, origin at canvas centre = headlamp point; tail glow 20x14. Additive."
+  },
+  {
+   "title": "Weather: rain and snow",
+   "columns": 8,
+   "scale": 3,
+   "items": [
+    {
+     "file": "fx/weather/rain_s.png",
+     "label": "rain S"
+    },
+    {
+     "file": "fx/weather/rain_m.png",
+     "label": "rain M"
+    },
+    {
+     "file": "fx/weather/rain_l.png",
+     "label": "rain L"
+    },
+    {
+     "file": "fx/weather/rain_splash_strip.png",
+     "label": "rain splash, 4 frames"
+    },
+    {
+     "file": "fx/weather/snow_s.png",
+     "label": "flake S"
+    },
+    {
+     "file": "fx/weather/snow_m.png",
+     "label": "flake M"
+    },
+    {
+     "file": "fx/weather/snow_l.png",
+     "label": "flake L"
+    }
+   ],
+   "note": "Streaks slant down-left; splash 4 frames on ground."
+  },
+  {
+   "title": "Weather: puddles and fog",
+   "columns": 5,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fx/weather/puddle_s.png",
+     "label": "puddle S"
+    },
+    {
+     "file": "fx/weather/puddle_m.png",
+     "label": "puddle M"
+    },
+    {
+     "file": "fx/weather/puddle_l.png",
+     "label": "puddle L"
+    },
+    {
+     "file": "fx/weather/fog_light.png",
+     "label": "fog light"
+    },
+    {
+     "file": "fx/weather/fog_dense.png",
+     "label": "fog dense"
+    }
+   ],
+   "note": "Fog tiles are periodic noise: neighbouring tiles join seamlessly."
+  },
+  {
+   "title": "Weather: cloud shadows",
+   "columns": 2,
+   "scale": 1,
+   "items": [
+    {
+     "file": "fx/weather/cloud_shadow_0.png",
+     "label": "cloud shadow 1"
+    },
+    {
+     "file": "fx/weather/cloud_shadow_1.png",
+     "label": "cloud shadow 2"
+    }
+   ],
+   "note": "~200x100 soft dithered blobs. Draw at ~35-45% opacity in game (alpha is 0/255 in the file)."
+  },
+  {
+   "title": "Weather: lightning",
+   "columns": 1,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fx/weather/lightning_strip.png",
+     "label": "lightning, 3 frames"
+    }
+   ],
+   "note": "Anchor = strike point (bottom)."
+  },
+  {
+   "title": "Pollution: smog haze (3 intensities)",
+   "columns": 3,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fx/pollution/smog_1.png",
+     "label": "smog 1"
+    },
+    {
+     "file": "fx/pollution/smog_2.png",
+     "label": "smog 2"
+    },
+    {
+     "file": "fx/pollution/smog_3.png",
+     "label": "smog 3"
+    }
+   ],
+   "note": "64x32 diamond overlays, ordered dither."
+  },
+  {
+   "title": "Pollution: ground stains (3 levels)",
+   "columns": 3,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fx/pollution/stain_1.png",
+     "label": "stain 1"
+    },
+    {
+     "file": "fx/pollution/stain_2.png",
+     "label": "stain 2"
+    },
+    {
+     "file": "fx/pollution/stain_3.png",
+     "label": "stain 3"
+    }
+   ]
+  },
+  {
+   "title": "Pollution: toxic water, noise, dead grass",
+   "columns": 2,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fx/pollution/toxic_sheen_strip.png",
+     "label": "toxic sheen, 4 frames"
+    },
+    {
+     "file": "fx/pollution/noise_rings_strip.png",
+     "label": "noise rings, 4 frames"
+    },
+    {
+     "file": "fx/pollution/dead_grass_1.png",
+     "label": "dead grass 1"
+    },
+    {
+     "file": "fx/pollution/dead_grass_2.png",
+     "label": "dead grass 2"
+    }
+   ],
+   "note": "Noise rings: concentric iso arcs, 4-frame loop, anchor = centre."
+  },
+  {
+   "title": "Flood",
+   "columns": 3,
+   "scale": 2,
+   "items": [
+    {
+     "file": "fx/flood/water_strip.png",
+     "label": "flood water, 4 frames"
+    },
+    {
+     "file": "fx/flood/edge_n.png",
+     "label": "edge N"
+    },
+    {
+     "file": "fx/flood/edge_e.png",
+     "label": "edge E"
+    },
+    {
+     "file": "fx/flood/edge_s.png",
+     "label": "edge S"
+    },
+    {
+     "file": "fx/flood/edge_w.png",
+     "label": "edge W"
+    }
+   ],
+   "note": "Directions in world compass: N = screen up-right. Water 4-frame ripple loop; edge pieces cover half of a tile (water side in the name)."
+  },
+  {
+   "title": "Composites (scale 1)",
+   "columns": 2,
+   "scale": 1,
+   "items": [
+    {
+     "file": "fx/composites/night.png",
+     "label": "night: lamps, windows, headlights"
+    },
+    {
+     "file": "fx/composites/fog.png",
+     "label": "fog 3x3"
+    },
+    {
+     "file": "fx/composites/smog.png",
+     "label": "smog 3 levels"
+    },
+    {
+     "file": "fx/composites/flood.png",
+     "label": "flood 3x3"
+    },
+    {
+     "file": "fx/composites/fire_stages.png",
+     "label": "fire stages 1-4"
+    },
+    {
+     "file": "fx/composites/rain.png",
+     "label": "rain, puddles"
+    }
+   ],
+   "note": "Stand-in boxes for context only. Night uses additive glow; fire stages sit on 28-px walls."
+  }
+ ]
+}

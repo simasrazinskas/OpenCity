@@ -10,6 +10,7 @@
 #endregion
 
 using System.Collections.Generic;
+using OpenRA.Graphics;
 using OpenRA.Mods.Common.Widgets;
 using OpenRA.Primitives;
 using OpenRA.Widgets;
@@ -43,12 +44,69 @@ namespace OpenRA.Mods.City.Traits
 				issues.Add($"{path}: {Describe(rb)} outside {Describe(clip)}");
 
 			CheckText(widget, path, rb, issues);
+			CheckArt(widget, path, issues);
 
 			// Scroll panels clip their content on purpose; only check the text inside.
 			var inner = widget is ScrollPanelWidget || clipped;
 			var childClip = rb.Width > 0 && rb.Height > 0 ? rb : clip;
 			foreach (var child in widget.Children)
 				Visit(child, path + "/" + (child.Id ?? child.GetType().Name), childClip, inner, issues);
+		}
+
+		/// <summary>Chrome art a visible widget names but the chrome does not have (it would draw nothing or a blank).</summary>
+		static void CheckArt(Widget widget, string path, List<string> issues)
+		{
+			static bool Panel(string name) =>
+				string.IsNullOrEmpty(name) || ChromeProvider.TryGetPanelImages(name) != null || ChromeProvider.TryGetPanelImages(name + "-hover") != null;
+
+			switch (widget)
+			{
+				case Mods.City.Widgets.CityIconWidget icon:
+				{
+					var name = icon.GetIcon();
+					if (string.IsNullOrEmpty(name))
+						break;
+
+					var sprite = icon.Thumbnail ? Mods.City.Widgets.CityTheme.Thumbnail(name) : Mods.City.Widgets.CityTheme.Icon(name, icon.Size);
+					if (sprite == null)
+						issues.Add($"{path}: missing {(icon.Thumbnail ? "thumbnail" : "icon")} `{name}` ({icon.Size})");
+
+					break;
+				}
+
+				case Mods.City.Widgets.CityPanelWidget window:
+					foreach (var tab in window.Tabs)
+						if (Mods.City.Widgets.CityTheme.Icon(tab.Icon, 16) == null)
+							issues.Add($"{path}: missing tab icon `{tab.Icon}`");
+
+					break;
+				case Mods.City.Widgets.CityBuildMenuWidget menu:
+					foreach (var item in menu.Items)
+						if (Mods.City.Widgets.CityTheme.Thumbnail(item.Thumbnail) == null && Mods.City.Widgets.CityTheme.Icon(item.Icon, 32) == null)
+							issues.Add($"{path}: card `{item.Name}` has neither thumbnail `{item.Thumbnail}` nor icon `{item.Icon}`");
+
+					break;
+				case ImageWidget image:
+				{
+					var collection = image.GetImageCollection();
+					var name = image.GetImageName();
+					if (!string.IsNullOrEmpty(collection) && !string.IsNullOrEmpty(name) && ChromeProvider.TryGetImage(collection, name) == null)
+						issues.Add($"{path}: missing image `{collection}/{name}`");
+
+					break;
+				}
+
+				case ButtonWidget button:
+					if (!Panel(button.Background))
+						issues.Add($"{path}: missing panel `{button.Background}`");
+
+					break;
+				case BackgroundWidget background when widget is not Mods.City.Widgets.CityPanelWidget:
+					if (!Panel(background.Background))
+						issues.Add($"{path}: missing panel `{background.Background}`");
+
+					break;
+			}
 		}
 
 		static void CheckText(Widget widget, string path, Rectangle rb, List<string> issues)

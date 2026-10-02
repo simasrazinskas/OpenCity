@@ -37,6 +37,8 @@ namespace OpenRA.Mods.City
 			roads = world.WorldActor.TraitOrDefault<RoadLayer>();
 		}
 
+		protected override bool PickStructures => true;
+
 		BulldozePlan Plan()
 		{
 			var from = PreviewStart;

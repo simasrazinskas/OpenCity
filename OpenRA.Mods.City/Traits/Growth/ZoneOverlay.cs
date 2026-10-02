@@ -23,15 +23,24 @@ namespace OpenRA.Mods.City.Traits
 	public class ZoneOverlayInfo : TraitInfo, Requires<ZoneLayerInfo>
 	{
 		[Desc("Sprite definition.")]
-		public readonly string Image = "overlays";
+		public readonly string Image = "zon-overlays";
 
 		[SequenceReference(nameof(Image))]
-		[Desc("Sequence with one frame per ZoneType.")]
+		[Desc("Sequence with one frame per ZoneType (frame = (int) ZoneType, 13 = invalid), the look while the zone paint tool is active.")]
 		public readonly string Sequence = "zone";
+
+		[SequenceReference(nameof(Image), allowNullImage: true)]
+		[Desc("Same frames, the sparse look while no zone tool is active.",
+			"When present it is drawn at ActiveAlpha instead of fading Sequence with IdleAlpha. Optional.")]
+		public readonly string IdleSequence = "zone-idle";
 
 		[SequenceReference(nameof(Image), allowNullImage: true)]
 		[Desc("Sequence for zoned cells that can never take a lot (hatched). Optional.")]
 		public readonly string DimSequence = "dim";
+
+		[SequenceReference(nameof(Image), allowNullImage: true)]
+		[Desc("Idle look of DimSequence. Optional.")]
+		public readonly string IdleDimSequence = "dim-idle";
 
 		[PaletteReference]
 		public readonly string Palette = TileSet.TerrainPaletteInternalName;
@@ -51,6 +60,8 @@ namespace OpenRA.Mods.City.Traits
 		readonly World world;
 		readonly ISpriteSequence sequence;
 		readonly ISpriteSequence dimSequence;
+		readonly ISpriteSequence idleSequence;
+		readonly ISpriteSequence idleDimSequence;
 		readonly HashSet<CPos> dirty = [];
 
 		ZoneLayer zoneLayer;
@@ -67,8 +78,17 @@ namespace OpenRA.Mods.City.Traits
 			this.info = info;
 			world = self.World;
 			sequence = world.Map.Sequences.GetSequence(info.Image, info.Sequence);
-			if (!string.IsNullOrEmpty(info.DimSequence) && world.Map.Sequences.HasSequence(info.Image, info.DimSequence))
-				dimSequence = world.Map.Sequences.GetSequence(info.Image, info.DimSequence);
+			dimSequence = Optional(info.DimSequence);
+			idleSequence = Optional(info.IdleSequence);
+			idleDimSequence = Optional(info.IdleDimSequence);
+		}
+
+		ISpriteSequence Optional(string name)
+		{
+			if (string.IsNullOrEmpty(name) || !world.Map.Sequences.HasSequence(info.Image, name))
+				return null;
+
+			return world.Map.Sequences.GetSequence(info.Image, name);
 		}
 
 		void IWorldLoaded.WorldLoaded(World w, WorldRenderer wr)
@@ -93,6 +113,10 @@ namespace OpenRA.Mods.City.Traits
 		void MarkDirty(CPos cell)
 		{
 			dirty.Add(cell);
+
+			// The outline of the neighbours depends on this cell's zone.
+			for (var i = 0; i < 4; i++)
+				dirty.Add(cell + CityUtils.Neighbours4[i]);
 		}
 
 		void OnActorChanged(Actor a)
@@ -129,6 +153,20 @@ namespace OpenRA.Mods.City.Traits
 			return false;
 		}
 
+		/// <summary>Bit i set when the neighbour in direction i (N, E, S, W) is another zone or off the map.</summary>
+		int EdgeMask(CPos cell, ZoneType zone)
+		{
+			var mask = 0;
+			for (var i = 0; i < 4; i++)
+			{
+				var n = cell + CityUtils.Neighbours4[i];
+				if (!world.Map.Contains(n) || zoneLayer.GetZone(n) != zone)
+					mask |= 1 << i;
+			}
+
+			return mask;
+		}
+
 		void UpdateCell(CPos cell, float alpha)
 		{
 			var zone = zoneLayer.GetZone(cell);
@@ -136,8 +174,23 @@ namespace OpenRA.Mods.City.Traits
 				render.Clear(cell);
 			else
 			{
-				var seq = dimSequence != null && growth != null && !growth.CanEverGrow(cell) ? dimSequence : sequence;
-				render.Update(cell, seq.GetSprite(Math.Min((int)zone, seq.Length - 1)), palette, seq.Scale, alpha);
+				var dimmed = dimSequence != null && growth != null && !growth.CanEverGrow(cell);
+				var seq = dimmed ? dimSequence : sequence;
+				var frame = (int)zone;
+				if (!active)
+				{
+					var idle = dimmed ? idleDimSequence : idleSequence;
+					if (idle != null)
+					{
+						seq = idle;
+
+						// Idle sequences with 16 frames per zone type draw an outline on the edges next to another zone.
+						if (idle.Length >= (int)(ZoningOrders.LastZone + 2) * 16)
+							frame = frame * 16 + EdgeMask(cell, zone);
+					}
+				}
+
+				render.Update(cell, seq.GetSprite(Math.Min(frame, seq.Length - 1)), palette, seq.Scale, alpha);
 			}
 		}
 
@@ -163,7 +216,7 @@ namespace OpenRA.Mods.City.Traits
 			if (dirty.Count == 0)
 				return;
 
-			var alpha = active ? info.ActiveAlpha : info.IdleAlpha;
+			var alpha = active || idleSequence != null ? info.ActiveAlpha : info.IdleAlpha;
 			foreach (var cell in dirty)
 				if (world.Map.Contains(cell))
 					UpdateCell(cell, alpha);

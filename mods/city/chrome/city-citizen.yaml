@@ -1,0 +1,415 @@
+# Citizen inspector (design/iso/ui/panels/citizen-overview.png, citizen-household.png, citizen-lifepath.png): people family, three tabs.
+# Overview (portrait, age, education, activity, happiness and health, cash, home and work, thoughts), Household (members, money,
+# home) and Life (the known facts of this citizen; the simulation keeps no event history, so there is no timeline).
+# CityCitizenInfoLogic fills the pages.
+Container@CITY_CITIZEN_MEMBER_ROW:
+	Width: PARENT_WIDTH
+	Height: 13
+	Children:
+		CityRowBackground@BG:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+		Button@SELECT:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			VisualHeight: 0
+		Label@NAME:
+			X: 3
+			Width: 84
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		Label@ROLE:
+			X: 90
+			Width: 50
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		Label@AGE:
+			X: 138
+			Width: 26
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right
+		Label@OCCUPATION:
+			X: 172
+			Width: PARENT_WIDTH - 174
+			Height: PARENT_HEIGHT
+			Font: Tiny
+
+Container@CITY_CITIZEN_THOUGHT_ROW:
+	Width: PARENT_WIDTH
+	Height: 18
+	Children:
+		CityRowBackground@BG:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Hover: false
+		CityIcon@ICON:
+			X: 3
+			Width: 16
+			Height: PARENT_HEIGHT
+		Label@TEXT:
+			X: 24
+			Width: PARENT_WIDTH - 28
+			Height: PARENT_HEIGHT
+			Font: Tiny
+
+Container@CITY_CITIZEN_FACT_ROW:
+	Width: PARENT_WIDTH
+	Height: 26
+	Children:
+		CityRowBackground@BG:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Hover: false
+		Background@BADGE:
+			X: 4
+			Y: 3
+			Width: 20
+			Height: 20
+			Background: chip-yellow
+			Children:
+				CityIcon@ICON:
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT
+		Label@TITLE:
+			X: 30
+			Y: 3
+			Width: PARENT_WIDTH - 34
+			Height: 12
+			Font: Tiny
+		Label@SUBTITLE:
+			X: 30
+			Y: 14
+			Width: PARENT_WIDTH - 34
+			Height: 10
+			Font: Tiny
+
+CityPanel@CITY_CITIZEN_PANEL:
+	Logic: CityCitizenInfoLogic
+	Family: people
+	Placement: TopRight
+	LeftOf: CITY_BUILDING_PANEL
+	Width: 280
+	Height: 260
+	Visible: false
+	Children:
+		Container@PAGE_OVERVIEW:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 53
+			Children:
+				Background@PORTRAIT:
+					Width: 104
+					Height: 76
+					Background: card-well
+					Children:
+						CityIcon@ICON:
+							Width: PARENT_WIDTH
+							Height: PARENT_HEIGHT
+							Size: 32
+							Icon: pnl_citizen
+				Label@NAME:
+					X: 110
+					Width: PARENT_WIDTH - 110 - 22
+					Height: 14
+					Font: Bold
+				Button@FOLLOW:
+					X: PARENT_WIDTH - 18
+					Width: 18
+					Height: 18
+					TooltipContainer: TOOLTIP_CONTAINER
+					Children:
+						CityIcon@ICON:
+							Width: PARENT_WIDTH
+							Height: PARENT_HEIGHT
+							Icon: ui_follow
+				Label@AGE:
+					X: 110
+					Y: 17
+					Width: PARENT_WIDTH - 110
+					Height: 12
+					Font: Tiny
+				Label@EDUCATION:
+					X: 110
+					Y: 29
+					Width: PARENT_WIDTH - 110
+					Height: 12
+					Font: Tiny
+				Label@ACTIVITY:
+					X: 110
+					Y: 41
+					Width: PARENT_WIDTH - 110 - 20
+					Height: 12
+					Font: Tiny
+				CityIcon@ACTIVITY_ICON:
+					X: PARENT_WIDTH - 18
+					Y: 37
+					Width: 18
+					Height: 16
+				Label@HAPPY_LABEL:
+					X: 110
+					Y: 55
+					Width: 38
+					Height: 10
+					Font: Tiny
+					Text: label-citizen-happy
+				CityBar@HAPPY_BAR:
+					X: 150
+					Y: 56
+					Width: PARENT_WIDTH - 150 - 34
+					Height: 8
+					Ramp: green
+				Label@HAPPY:
+					X: PARENT_WIDTH - 32
+					Y: 55
+					Width: 32
+					Height: 10
+					Font: TinyBold
+					Align: Right
+				Label@HEALTH_LABEL:
+					X: 110
+					Y: 66
+					Width: 38
+					Height: 10
+					Font: Tiny
+					Text: label-citizen-health
+				CityBar@HEALTH_BAR:
+					X: 150
+					Y: 67
+					Width: PARENT_WIDTH - 150 - 34
+					Height: 8
+					Ramp: blue
+				Label@HEALTH:
+					X: PARENT_WIDTH - 32
+					Y: 66
+					Width: 32
+					Height: 10
+					Font: TinyBold
+					Align: Right
+				Label@CASH_LABEL:
+					Y: 80
+					Width: 120
+					Height: 12
+					Font: Tiny
+					Text: label-citizen-cash-short
+				Label@CASH:
+					X: PARENT_WIDTH - 120
+					Y: 80
+					Width: 120
+					Height: 12
+					Font: TinyBold
+					Align: Right
+				Background@HOME_ROW:
+					Y: 95
+					Width: PARENT_WIDTH
+					Height: 18
+					Background: well
+					Children:
+						CityIcon@ICON:
+							X: 2
+							Width: 16
+							Height: PARENT_HEIGHT
+							Icon: stat_home
+						Label@LABEL:
+							X: 22
+							Width: 38
+							Height: PARENT_HEIGHT
+							Font: Tiny
+							Text: label-citizen-home-colon
+						Label@VALUE:
+							X: 60
+							Width: PARENT_WIDTH - 60 - 22
+							Height: PARENT_HEIGHT
+							Font: Tiny
+						Button@LOCATE:
+							X: PARENT_WIDTH - 18
+							Width: 18
+							Height: 18
+							TooltipContainer: TOOLTIP_CONTAINER
+							Children:
+								CityIcon@ICON:
+									Width: PARENT_WIDTH
+									Height: PARENT_HEIGHT
+									Icon: ui_locate
+				Background@WORK_ROW:
+					Y: 115
+					Width: PARENT_WIDTH
+					Height: 18
+					Background: well
+					Children:
+						CityIcon@ICON:
+							X: 2
+							Width: 16
+							Height: PARENT_HEIGHT
+							Icon: stat_work
+						Label@LABEL:
+							X: 22
+							Width: 38
+							Height: PARENT_HEIGHT
+							Font: Tiny
+						Label@VALUE:
+							X: 60
+							Width: PARENT_WIDTH - 60 - 22
+							Height: PARENT_HEIGHT
+							Font: Tiny
+						Button@LOCATE:
+							X: PARENT_WIDTH - 18
+							Width: 18
+							Height: 18
+							TooltipContainer: TOOLTIP_CONTAINER
+							Children:
+								CityIcon@ICON:
+									Width: PARENT_WIDTH
+									Height: PARENT_HEIGHT
+									Icon: ui_locate
+				CityHeader@THOUGHTS_HEADER:
+					Y: 137
+					Width: PARENT_WIDTH
+					Height: 12
+					Text: label-citizen-thoughts
+				Background@THOUGHTS:
+					Y: 151
+					Width: PARENT_WIDTH
+					Height: 56
+					Background: well
+		Container@PAGE_HOUSEHOLD:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 53
+			Visible: false
+			Children:
+				CityHeader@HEADER:
+					Width: PARENT_WIDTH
+					Height: 12
+				Background@COLUMNS:
+					Y: 14
+					Width: PARENT_WIDTH
+					Height: 12
+					Background: item-header
+					Children:
+						Label@NAME:
+							X: 3
+							Width: 84
+							Height: 12
+							Font: Tiny
+							Text: label-citizen-col-name
+						Label@ROLE:
+							X: 90
+							Width: 50
+							Height: 12
+							Font: Tiny
+							Text: label-citizen-col-role
+						Label@AGE:
+							X: 138
+							Width: 26
+							Height: 12
+							Font: Tiny
+							Align: Right
+							Text: label-citizen-col-age
+						Label@OCCUPATION:
+							X: 172
+							Width: 90
+							Height: 12
+							Font: Tiny
+							Text: label-citizen-col-occupation
+				ScrollPanel@MEMBERS:
+					Y: 26
+					Width: PARENT_WIDTH
+					Height: 69
+					TopBottomSpacing: 1
+					ItemSpacing: 0
+					ScrollbarWidth: 10
+				CityHeader@FINANCES_HEADER:
+					Y: 100
+					Width: PARENT_WIDTH
+					Height: 12
+					Text: label-citizen-finances
+				Label@RENT_LABEL:
+					Y: 114
+					Width: 120
+					Height: 12
+					Font: Tiny
+					Text: label-citizen-rent
+				Label@RENT:
+					X: PARENT_WIDTH - 120
+					Y: 114
+					Width: 120
+					Height: 12
+					Font: TinyBold
+					Align: Right
+				Label@SAVINGS_LABEL:
+					Y: 127
+					Width: 120
+					Height: 12
+					Font: Tiny
+					Text: label-citizen-savings
+				Label@SAVINGS:
+					X: PARENT_WIDTH - 120
+					Y: 127
+					Width: 120
+					Height: 12
+					Font: TinyBold
+					Align: Right
+				Label@HAPPINESS_LABEL:
+					Y: 142
+					Width: 60
+					Height: 12
+					Font: Tiny
+					Text: label-citizen-happiness
+				CityBar@HAPPINESS_BAR:
+					X: 62
+					Y: 144
+					Width: PARENT_WIDTH - 62 - 36
+					Height: 8
+					Ramp: green
+				Label@HAPPINESS:
+					X: PARENT_WIDTH - 34
+					Y: 142
+					Width: 34
+					Height: 12
+					Font: TinyBold
+					Align: Right
+				Background@HOME_ROW:
+					Y: 159
+					Width: PARENT_WIDTH
+					Height: 18
+					Background: well
+					Children:
+						CityIcon@ICON:
+							X: 2
+							Width: 16
+							Height: PARENT_HEIGHT
+							Icon: stat_home
+						Label@VALUE:
+							X: 22
+							Width: PARENT_WIDTH - 22 - 22
+							Height: PARENT_HEIGHT
+							Font: Tiny
+						Button@LOCATE:
+							X: PARENT_WIDTH - 18
+							Width: 18
+							Height: 18
+							TooltipContainer: TOOLTIP_CONTAINER
+							Children:
+								CityIcon@ICON:
+									Width: PARENT_WIDTH
+									Height: PARENT_HEIGHT
+									Icon: ui_locate
+		Container@PAGE_LIFE:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 8
+			Height: PARENT_HEIGHT - 53
+			Visible: false
+			Children:
+				CityHeader@HEADER:
+					Width: PARENT_WIDTH
+					Height: 12
+					Text: label-citizen-facts
+				Background@FACTS:
+					Y: 14
+					Width: PARENT_WIDTH
+					Height: 158
+					Background: well

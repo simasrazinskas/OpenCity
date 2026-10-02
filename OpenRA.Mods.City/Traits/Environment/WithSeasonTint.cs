@@ -11,6 +11,7 @@
 
 using System.Collections.Generic;
 using OpenRA.Graphics;
+using OpenRA.Mods.Common.Traits.Render;
 using OpenRA.Primitives;
 using OpenRA.Traits;
 
@@ -28,6 +29,11 @@ namespace OpenRA.Mods.City.Traits
 
 		void INotifyCreated.Created(Actor self)
 		{
+			// Images with authored seasonal frames (WithIsoSprite swaps them in) need no colour cast.
+			var image = self.TraitOrDefault<RenderSprites>()?.GetImage(self);
+			if (image != null && self.World.Map.Sequences.HasSequence(image, "autumn"))
+				return;
+
 			atmosphere = self.World.WorldActor.TraitOrDefault<CityAtmosphere>();
 		}
 

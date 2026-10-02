@@ -30,14 +30,11 @@ namespace OpenRA.Mods.City.Widgets
 		/// <summary>Gap between panels and between a panel and the screen edge / HUD.</summary>
 		public const int Gap = 8;
 
-		/// <summary>Width of the right sidebar.</summary>
-		public const int SidebarWidth = 226;
+		/// <summary>Height of the top toolbar (RCT2 HUD).</summary>
+		public const int ToolbarHeight = 31;
 
-		/// <summary>Space kept free at the bottom for the time-control bar.</summary>
-		public const int BottomBarHeight = 44;
-
-		/// <summary>Space kept free at the top for the alert strip.</summary>
-		public const int AlertStripHeight = 40;
+		/// <summary>Height of the bottom status bar.</summary>
+		public const int StatusBarHeight = 38;
 
 		static int2 lastResolution;
 		static int version;
@@ -64,12 +61,15 @@ namespace OpenRA.Mods.City.Widgets
 			}
 		}
 
-		/// <summary>The screen area left free by the sidebar and the bottom bar, in logical pixels.</summary>
-		public static Rectangle WorkArea(bool belowAlerts = true)
+		/// <summary>The screen area left free by the toolbar and the status bar, in logical pixels (windows stay inside it).</summary>
+		public static Rectangle WorkArea(bool belowToolbar = true)
 		{
 			var window = Window;
-			var top = belowAlerts ? AlertStripHeight : Gap;
-			return Rectangle.FromLTRB(Gap, top, Math.Max(Gap, window.X - SidebarWidth - Gap), Math.Max(top, window.Y - BottomBarHeight - Gap));
+
+			// Outside the HUD (menus, dialogs: belowToolbar false) the whole window is free.
+			var top = belowToolbar ? ToolbarHeight + Gap : Gap;
+			var bottom = belowToolbar ? window.Y - StatusBarHeight - Gap : window.Y - Gap;
+			return Rectangle.FromLTRB(Gap, top, Math.Max(Gap, window.X - Gap), Math.Max(top, bottom));
 		}
 
 		/// <summary>Moves (never resizes) a widget so it lies inside <paramref name="area"/>; widgets larger than the area keep their top-left corner on it.</summary>

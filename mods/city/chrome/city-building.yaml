@@ -1,0 +1,253 @@
+# Building inspector (CityBuildingInfoLogic). RCT2 ride-window style: design/iso/ui/panels/inspector-*.png,
+# tools/iso_ui_panels_a.py. Five icon tabs (overview, occupants, finances, upkeep, efficiency), an action column on the right.
+# The window family follows the building (services / zoning / transit / city). Pages are switched by visibility.
+
+# One line of a page: section header, "label ... value" or "label [meter] value". Pooled by CityBuildingInfoLogic.
+Container@CITY_BUILDING_LINE:
+	Width: PARENT_WIDTH
+	Height: 14
+	Children:
+		CityHeader@HEADER:
+			Width: PARENT_WIDTH
+			Height: 12
+		Label@NAME:
+			Width: 60
+			Height: 14
+			Font: Tiny
+		CityBar@BAR:
+			X: 62
+			Y: 2
+			Width: PARENT_WIDTH - 62 - 60
+			Height: 10
+			Smooth: true
+		Label@VALUE:
+			X: PARENT_WIDTH - 60
+			Width: 60
+			Height: 14
+			Font: Tiny
+			Align: Right
+
+# Right-hand column of icon buttons (locate, info view, upgrades ...).
+Button@CITY_BUILDING_ACTION:
+	Width: 26
+	Height: 26
+	VisualHeight: 0
+	DisableKeySound: true
+	TooltipContainer: TOOLTIP_CONTAINER
+	TooltipTemplate: CITY_TOOLTIP
+	Children:
+		CityIcon@ICON:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Size: 16
+
+# Problem chip (status icon + text); the ramp of the background is set by the logic.
+Background@CITY_BUILDING_CHIP:
+	Width: 60
+	Height: 16
+	Background: chip-orange
+	Children:
+		CityIcon@ICON:
+			X: 2
+			Width: 16
+			Height: PARENT_HEIGHT
+			Size: 16
+		Label@TEXT:
+			X: 20
+			Width: PARENT_WIDTH - 22
+			Height: PARENT_HEIGHT
+			Font: TinyBold
+
+# One upgrade of the Upkeep page: icon, name, price (or "Built").
+Button@CITY_BUILDING_UPGRADE:
+	Width: 262
+	Height: 20
+	VisualHeight: 0
+	TooltipContainer: TOOLTIP_CONTAINER
+	TooltipTemplate: CITY_TOOLTIP
+	Children:
+		CityIcon@ICON:
+			X: 3
+			Width: 16
+			Height: PARENT_HEIGHT
+			Size: 16
+			Icon: tool_upgrade
+		Label@NAME:
+			X: 24
+			Width: PARENT_WIDTH - 100
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		Label@COST:
+			X: PARENT_WIDTH - 84
+			Width: 78
+			Height: PARENT_HEIGHT
+			Font: TinyBold
+			Align: Right
+
+# A resident / worker of the Occupants list.
+Container@CITY_BUILDING_CITIZEN:
+	Width: PARENT_WIDTH
+	Height: 13
+	Children:
+		CityRowBackground@BG:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+		Label@NAME:
+			X: 3
+			Width: 100
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		Label@AGE:
+			X: 106
+			Width: 44
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		Label@EDUCATION:
+			X: 152
+			Width: 98
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		Button@SELECT:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Background:
+			VisualHeight: 0
+
+CityPanel@CITY_BUILDING_PANEL:
+	Logic: CityBuildingInfoLogic
+	Family: services
+	Placement: TopRight
+	Width: 300
+	Height: 250
+	Visible: false
+	Children:
+		Container@ACTIONS:
+			X: PARENT_WIDTH - 30
+			Y: 49
+			Width: 26
+			Height: 196
+		Container@PAGE_OVERVIEW:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 38
+			Height: 196
+			Children:
+				Background@VIEWPORT:
+					Width: PARENT_WIDTH
+					Height: 96
+					Background: well-dark
+					Children:
+						CityIcon@THUMB:
+							X: 2
+							Y: 2
+							Width: PARENT_WIDTH - 4
+							Height: PARENT_HEIGHT - 4
+							Thumbnail: true
+						CityIcon@FALLBACK:
+							X: 2
+							Y: 2
+							Width: PARENT_WIDTH - 4
+							Height: PARENT_HEIGHT - 4
+							Size: 32
+						Button@GOTO:
+							Width: PARENT_WIDTH
+							Height: PARENT_HEIGHT
+							Background:
+							VisualHeight: 0
+							TooltipContainer: TOOLTIP_CONTAINER
+							TooltipTemplate: CITY_TOOLTIP
+				Label@STATUS_LABEL:
+					Y: 101
+					Width: 44
+					Height: 14
+					Font: Tiny
+					Text: label-inspect-status
+				Label@STATUS:
+					X: 44
+					Y: 101
+					Width: PARENT_WIDTH - 44
+					Height: 14
+					Font: TinyBold
+				Container@METERS:
+					Y: 117
+					Width: PARENT_WIDTH
+					Height: 56
+				Container@CHIPS:
+					Y: 176
+					Width: PARENT_WIDTH
+					Height: 16
+				Label@NO_PROBLEMS:
+					Y: 176
+					Width: PARENT_WIDTH
+					Height: 16
+					Font: Tiny
+					Text: label-inspect-no-problems
+		Container@PAGE_OCCUPANTS:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 38
+			Height: 196
+			Visible: false
+			Children:
+				Container@LIST_TABS:
+					Width: PARENT_WIDTH
+					Height: 14
+				CityHeader@LIST_HEADER:
+					Width: PARENT_WIDTH
+					Height: 12
+				Background@COLUMNS:
+					Y: 17
+					Width: PARENT_WIDTH
+					Height: 12
+					Background: item-header
+					Children:
+						Label@NAME:
+							X: 3
+							Width: 100
+							Height: 12
+							Font: Tiny
+							Text: label-inspect-col-name
+						Label@AGE:
+							X: 106
+							Width: 44
+							Height: 12
+							Font: Tiny
+							Text: label-inspect-col-age
+						Label@EDUCATION:
+							X: 152
+							Width: 98
+							Height: 12
+							Font: Tiny
+							Text: label-inspect-col-education
+				ScrollPanel@LIST:
+					Y: 29
+					Width: PARENT_WIDTH
+					Height: PARENT_HEIGHT - 29
+					TopBottomSpacing: 1
+					ItemSpacing: 0
+					ScrollbarWidth: 10
+				Label@EMPTY:
+					Y: 40
+					Width: PARENT_WIDTH
+					Height: 14
+					Font: Tiny
+					Align: Center
+					Text: label-inspect-no-occupants
+		Container@PAGE_FINANCES:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 38
+			Height: 196
+			Visible: false
+		Container@PAGE_UPKEEP:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 38
+			Height: 196
+			Visible: false
+		Container@PAGE_EFFICIENCY:
+			X: 4
+			Y: 49
+			Width: PARENT_WIDTH - 38
+			Height: 196
+			Visible: false

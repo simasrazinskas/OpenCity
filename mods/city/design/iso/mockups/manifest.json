@@ -1,0 +1,96 @@
+{
+ "page": "Direction & mockups",
+ "section": "Main view mockups",
+ "groups": [
+  {
+   "title": "Main view: one city, every workstream's real art (1920x1080, 1x)",
+   "columns": 1,
+   "scale": 1,
+   "items": [
+    {
+     "file": "scenes/day-summer.png",
+     "label": "(a) Day, summer"
+    },
+    {
+     "file": "scenes/night.png",
+     "label": "(b) Night: lit windows, lamps, light pools, headlights"
+    },
+    {
+     "file": "scenes/winter.png",
+     "label": "(c) Winter: snow, bare trees, chimney smoke"
+    },
+    {
+     "file": "scenes/infoview-landvalue.png",
+     "label": "(d) Info view: land value (NET overlay style)"
+    },
+    {
+     "file": "scenes/closeup-junction-2x.png",
+     "label": "(e) 2x close-up: avenue x boulevard junction"
+    },
+    {
+     "file": "scenes/construction-zoning.png",
+     "label": "(f) Zoning, placement ghost, road drag, construction"
+    }
+   ],
+   "note": "Terrain/coasts/trees (KIT), roads/bridges/lamps/signals (NET), growables (ZONED), services (CIVIC), vehicles in NET lanes + people + smoke + bubbles (LIFE). Composed by isokit.World with the engine's 32-px strip sorting."
+  },
+  {
+   "title": "Main view thumbnails of the variants (for side-by-side review)",
+   "columns": 3,
+   "scale": 1,
+   "items": [
+    {
+     "file": "scenes/small-day-summer.png",
+     "label": "day"
+    },
+    {
+     "file": "scenes/small-night.png",
+     "label": "night"
+    },
+    {
+     "file": "scenes/small-winter.png",
+     "label": "winter"
+    },
+    {
+     "file": "scenes/small-infoview-landvalue.png",
+     "label": "info view"
+    },
+    {
+     "file": "scenes/small-construction-zoning.png",
+     "label": "construction"
+    }
+   ]
+  },
+  {
+   "title": "HUD on the real city (UI workstream screens, re-rendered on these mockups)",
+   "columns": 2,
+   "scale": 1,
+   "items": [
+    {
+     "file": "hud/hud-1920x1080-1x.png",
+     "label": "HUD 1920x1080, UI 1x"
+    },
+    {
+     "file": "hud/hud-1920x1080-1.5x.png",
+     "label": "HUD 1920x1080, UI 1.5x"
+    },
+    {
+     "file": "hud/hud-1280x720-1x.png",
+     "label": "HUD 1280x720, UI 1x"
+    },
+    {
+     "file": "hud/hud-1280x720-1.5x.png",
+     "label": "HUD 1280x720, UI 1.5x"
+    },
+    {
+     "file": "hud/hud-infoview-1920x1080-1x.png",
+     "label": "Info view HUD 1920x1080"
+    },
+    {
+     "file": "hud/hud-sidebar-1280x720-1x.png",
+     "label": "Sidebar variant 1280x720"
+    }
+   ]
+  }
+ ]
+}

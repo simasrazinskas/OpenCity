@@ -1,0 +1,674 @@
+[
+ {
+  "title": "Zone tiles: active",
+  "note": "50% dither tint + cell-space pattern + 2q inset cell border; one pattern per zone so they read without colour",
+  "columns": 7,
+  "scale": 2,
+  "items": [
+   {
+    "file": "zones/dezone.png",
+    "label": "Dezone"
+   },
+   {
+    "file": "zones/res-low.png",
+    "label": "Res low"
+   },
+   {
+    "file": "zones/res-medium.png",
+    "label": "Res med"
+   },
+   {
+    "file": "zones/res-high.png",
+    "label": "Res high"
+   },
+   {
+    "file": "zones/res-row.png",
+    "label": "Res row"
+   },
+   {
+    "file": "zones/res-mixed.png",
+    "label": "Res mixed"
+   },
+   {
+    "file": "zones/res-lowrent.png",
+    "label": "Low rent"
+   },
+   {
+    "file": "zones/com-low.png",
+    "label": "Com low"
+   },
+   {
+    "file": "zones/com-high.png",
+    "label": "Com high"
+   },
+   {
+    "file": "zones/industrial.png",
+    "label": "Industrial"
+   },
+   {
+    "file": "zones/warehouse.png",
+    "label": "Warehouse"
+   },
+   {
+    "file": "zones/office.png",
+    "label": "Office"
+   },
+   {
+    "file": "zones/office-high.png",
+    "label": "Office high"
+   },
+   {
+    "file": "zones/invalid.png",
+    "label": "Invalid"
+   }
+  ]
+ },
+ {
+  "title": "Zone tiles: idle",
+  "note": "Border + sparse pattern, 25% dither (zone brush not active)",
+  "columns": 7,
+  "scale": 2,
+  "items": [
+   {
+    "file": "zones/dezone-idle.png",
+    "label": "Dezone"
+   },
+   {
+    "file": "zones/res-low-idle.png",
+    "label": "Res low"
+   },
+   {
+    "file": "zones/res-medium-idle.png",
+    "label": "Res med"
+   },
+   {
+    "file": "zones/res-high-idle.png",
+    "label": "Res high"
+   },
+   {
+    "file": "zones/res-row-idle.png",
+    "label": "Res row"
+   },
+   {
+    "file": "zones/res-mixed-idle.png",
+    "label": "Res mixed"
+   },
+   {
+    "file": "zones/res-lowrent-idle.png",
+    "label": "Low rent"
+   },
+   {
+    "file": "zones/com-low-idle.png",
+    "label": "Com low"
+   },
+   {
+    "file": "zones/com-high-idle.png",
+    "label": "Com high"
+   },
+   {
+    "file": "zones/industrial-idle.png",
+    "label": "Industrial"
+   },
+   {
+    "file": "zones/warehouse-idle.png",
+    "label": "Warehouse"
+   },
+   {
+    "file": "zones/office-idle.png",
+    "label": "Office"
+   },
+   {
+    "file": "zones/office-high-idle.png",
+    "label": "Office high"
+   },
+   {
+    "file": "zones/invalid-idle.png",
+    "label": "Invalid"
+   }
+  ]
+ },
+ {
+  "title": "Tool markers and drag path",
+  "note": "Dither fill, solid outline, bright corner brackets; select = marching ants; path = ghost + direction arrow",
+  "columns": 8,
+  "scale": 2,
+  "items": [
+   {
+    "file": "markers/valid.png",
+    "label": "Valid"
+   },
+   {
+    "file": "markers/invalid.png",
+    "label": "Invalid"
+   },
+   {
+    "file": "markers/neutral.png",
+    "label": "Existing"
+   },
+   {
+    "file": "markers/replace.png",
+    "label": "Replace"
+   },
+   {
+    "file": "markers/remove.png",
+    "label": "Remove"
+   },
+   {
+    "file": "markers/bulldoze.png",
+    "label": "Bulldoze"
+   },
+   {
+    "file": "markers/select-0.png",
+    "label": "Select f1"
+   },
+   {
+    "file": "markers/select-1.png",
+    "label": "Select f2"
+   },
+   {
+    "file": "markers/select-strip.png",
+    "label": "Select 2 frames"
+   },
+   {
+    "file": "markers/grid.png",
+    "label": "Grid tile"
+   },
+   {
+    "file": "markers/path-n.png",
+    "label": "Path N"
+   },
+   {
+    "file": "markers/path-e.png",
+    "label": "Path E"
+   },
+   {
+    "file": "markers/path-s.png",
+    "label": "Path S"
+   },
+   {
+    "file": "markers/path-w.png",
+    "label": "Path W"
+   }
+  ]
+ },
+ {
+  "title": "Building footprint previews",
+  "note": "Multi-cell diamonds ((w+h)*32 x (w+h)*16), dashed outline, faint cell grid",
+  "columns": 2,
+  "scale": 2,
+  "items": [
+   {
+    "file": "markers/footprint-1x1-ok.png",
+    "label": "1x1 valid"
+   },
+   {
+    "file": "markers/footprint-1x1-bad.png",
+    "label": "1x1 invalid"
+   },
+   {
+    "file": "markers/footprint-2x2-ok.png",
+    "label": "2x2 valid"
+   },
+   {
+    "file": "markers/footprint-2x2-bad.png",
+    "label": "2x2 invalid"
+   },
+   {
+    "file": "markers/footprint-3x3-ok.png",
+    "label": "3x3 valid"
+   },
+   {
+    "file": "markers/footprint-3x3-bad.png",
+    "label": "3x3 invalid"
+   }
+  ]
+ },
+ {
+  "title": "Info view: Good ramp (0..100)",
+  "note": "11 level tiles, no outline (neighbours merge); dither density follows the ramp",
+  "columns": 6,
+  "scale": 2,
+  "items": [
+   {
+    "file": "infoviews/good-000.png",
+    "label": "Good 0"
+   },
+   {
+    "file": "infoviews/good-010.png",
+    "label": "Good 10"
+   },
+   {
+    "file": "infoviews/good-020.png",
+    "label": "Good 20"
+   },
+   {
+    "file": "infoviews/good-030.png",
+    "label": "Good 30"
+   },
+   {
+    "file": "infoviews/good-040.png",
+    "label": "Good 40"
+   },
+   {
+    "file": "infoviews/good-050.png",
+    "label": "Good 50"
+   },
+   {
+    "file": "infoviews/good-060.png",
+    "label": "Good 60"
+   },
+   {
+    "file": "infoviews/good-070.png",
+    "label": "Good 70"
+   },
+   {
+    "file": "infoviews/good-080.png",
+    "label": "Good 80"
+   },
+   {
+    "file": "infoviews/good-090.png",
+    "label": "Good 90"
+   },
+   {
+    "file": "infoviews/good-100.png",
+    "label": "Good 100"
+   }
+  ]
+ },
+ {
+  "title": "Info view: Pollution ramp (0..100)",
+  "note": "11 level tiles, no outline (neighbours merge); dither density follows the ramp",
+  "columns": 6,
+  "scale": 2,
+  "items": [
+   {
+    "file": "infoviews/pollution-000.png",
+    "label": "Pollution 0"
+   },
+   {
+    "file": "infoviews/pollution-010.png",
+    "label": "Pollution 10"
+   },
+   {
+    "file": "infoviews/pollution-020.png",
+    "label": "Pollution 20"
+   },
+   {
+    "file": "infoviews/pollution-030.png",
+    "label": "Pollution 30"
+   },
+   {
+    "file": "infoviews/pollution-040.png",
+    "label": "Pollution 40"
+   },
+   {
+    "file": "infoviews/pollution-050.png",
+    "label": "Pollution 50"
+   },
+   {
+    "file": "infoviews/pollution-060.png",
+    "label": "Pollution 60"
+   },
+   {
+    "file": "infoviews/pollution-070.png",
+    "label": "Pollution 70"
+   },
+   {
+    "file": "infoviews/pollution-080.png",
+    "label": "Pollution 80"
+   },
+   {
+    "file": "infoviews/pollution-090.png",
+    "label": "Pollution 90"
+   },
+   {
+    "file": "infoviews/pollution-100.png",
+    "label": "Pollution 100"
+   }
+  ]
+ },
+ {
+  "title": "Info view: Blue ramp (0..100)",
+  "note": "11 level tiles, no outline (neighbours merge); dither density follows the ramp",
+  "columns": 6,
+  "scale": 2,
+  "items": [
+   {
+    "file": "infoviews/blue-000.png",
+    "label": "Blue 0"
+   },
+   {
+    "file": "infoviews/blue-010.png",
+    "label": "Blue 10"
+   },
+   {
+    "file": "infoviews/blue-020.png",
+    "label": "Blue 20"
+   },
+   {
+    "file": "infoviews/blue-030.png",
+    "label": "Blue 30"
+   },
+   {
+    "file": "infoviews/blue-040.png",
+    "label": "Blue 40"
+   },
+   {
+    "file": "infoviews/blue-050.png",
+    "label": "Blue 50"
+   },
+   {
+    "file": "infoviews/blue-060.png",
+    "label": "Blue 60"
+   },
+   {
+    "file": "infoviews/blue-070.png",
+    "label": "Blue 70"
+   },
+   {
+    "file": "infoviews/blue-080.png",
+    "label": "Blue 80"
+   },
+   {
+    "file": "infoviews/blue-090.png",
+    "label": "Blue 90"
+   },
+   {
+    "file": "infoviews/blue-100.png",
+    "label": "Blue 100"
+   }
+  ]
+ },
+ {
+  "title": "Info view: Green ramp (0..100)",
+  "note": "11 level tiles, no outline (neighbours merge); dither density follows the ramp",
+  "columns": 6,
+  "scale": 2,
+  "items": [
+   {
+    "file": "infoviews/green-000.png",
+    "label": "Green 0"
+   },
+   {
+    "file": "infoviews/green-010.png",
+    "label": "Green 10"
+   },
+   {
+    "file": "infoviews/green-020.png",
+    "label": "Green 20"
+   },
+   {
+    "file": "infoviews/green-030.png",
+    "label": "Green 30"
+   },
+   {
+    "file": "infoviews/green-040.png",
+    "label": "Green 40"
+   },
+   {
+    "file": "infoviews/green-050.png",
+    "label": "Green 50"
+   },
+   {
+    "file": "infoviews/green-060.png",
+    "label": "Green 60"
+   },
+   {
+    "file": "infoviews/green-070.png",
+    "label": "Green 70"
+   },
+   {
+    "file": "infoviews/green-080.png",
+    "label": "Green 80"
+   },
+   {
+    "file": "infoviews/green-090.png",
+    "label": "Green 90"
+   },
+   {
+    "file": "infoviews/green-100.png",
+    "label": "Green 100"
+   }
+  ]
+ },
+ {
+  "title": "Info view: category colours",
+  "note": "16 categories, 60% dither",
+  "columns": 8,
+  "scale": 2,
+  "items": [
+   {
+    "file": "infoviews/category-00.png",
+    "label": "Cat 1"
+   },
+   {
+    "file": "infoviews/category-01.png",
+    "label": "Cat 2"
+   },
+   {
+    "file": "infoviews/category-02.png",
+    "label": "Cat 3"
+   },
+   {
+    "file": "infoviews/category-03.png",
+    "label": "Cat 4"
+   },
+   {
+    "file": "infoviews/category-04.png",
+    "label": "Cat 5"
+   },
+   {
+    "file": "infoviews/category-05.png",
+    "label": "Cat 6"
+   },
+   {
+    "file": "infoviews/category-06.png",
+    "label": "Cat 7"
+   },
+   {
+    "file": "infoviews/category-07.png",
+    "label": "Cat 8"
+   },
+   {
+    "file": "infoviews/category-08.png",
+    "label": "Cat 9"
+   },
+   {
+    "file": "infoviews/category-09.png",
+    "label": "Cat 10"
+   },
+   {
+    "file": "infoviews/category-10.png",
+    "label": "Cat 11"
+   },
+   {
+    "file": "infoviews/category-11.png",
+    "label": "Cat 12"
+   },
+   {
+    "file": "infoviews/category-12.png",
+    "label": "Cat 13"
+   },
+   {
+    "file": "infoviews/category-13.png",
+    "label": "Cat 14"
+   },
+   {
+    "file": "infoviews/category-14.png",
+    "label": "Cat 15"
+   },
+   {
+    "file": "infoviews/category-15.png",
+    "label": "Cat 16"
+   }
+  ]
+ },
+ {
+  "title": "Info view: resource richness",
+  "note": "6 hues x 3 richness levels (dither density 30/55/80%)",
+  "columns": 6,
+  "scale": 2,
+  "items": [
+   {
+    "file": "infoviews/resource-yellow-1.png",
+    "label": "Yellow 1"
+   },
+   {
+    "file": "infoviews/resource-yellow-2.png",
+    "label": "Yellow 2"
+   },
+   {
+    "file": "infoviews/resource-yellow-3.png",
+    "label": "Yellow 3"
+   },
+   {
+    "file": "infoviews/resource-green-1.png",
+    "label": "Green 1"
+   },
+   {
+    "file": "infoviews/resource-green-2.png",
+    "label": "Green 2"
+   },
+   {
+    "file": "infoviews/resource-green-3.png",
+    "label": "Green 3"
+   },
+   {
+    "file": "infoviews/resource-blue-1.png",
+    "label": "Blue 1"
+   },
+   {
+    "file": "infoviews/resource-blue-2.png",
+    "label": "Blue 2"
+   },
+   {
+    "file": "infoviews/resource-blue-3.png",
+    "label": "Blue 3"
+   },
+   {
+    "file": "infoviews/resource-coal-1.png",
+    "label": "Coal 1"
+   },
+   {
+    "file": "infoviews/resource-coal-2.png",
+    "label": "Coal 2"
+   },
+   {
+    "file": "infoviews/resource-coal-3.png",
+    "label": "Coal 3"
+   },
+   {
+    "file": "infoviews/resource-stone-1.png",
+    "label": "Stone 1"
+   },
+   {
+    "file": "infoviews/resource-stone-2.png",
+    "label": "Stone 2"
+   },
+   {
+    "file": "infoviews/resource-stone-3.png",
+    "label": "Stone 3"
+   },
+   {
+    "file": "infoviews/resource-cyan-1.png",
+    "label": "Cyan 1"
+   },
+   {
+    "file": "infoviews/resource-cyan-2.png",
+    "label": "Cyan 2"
+   },
+   {
+    "file": "infoviews/resource-cyan-3.png",
+    "label": "Cyan 3"
+   }
+  ]
+ },
+ {
+  "title": "Smooth gradient demo: 6x6 cells",
+  "note": "Corner values shared between cells, bilinear + Bayer dither between ramp steps: no cell seams",
+  "columns": 2,
+  "scale": 1,
+  "items": [
+   {
+    "file": "infoviews/gradient-good-6x6.png",
+    "label": "Good 6x6 field"
+   },
+   {
+    "file": "infoviews/gradient-pollution-6x6.png",
+    "label": "Pollution 6x6 field"
+   }
+  ]
+ },
+ {
+  "title": "Smooth gradient tiles (one corner high)",
+  "note": "Bilinear from 4 diamond corners; adjacent tiles with matching corners join seamlessly",
+  "columns": 4,
+  "scale": 2,
+  "items": [
+   {
+    "file": "infoviews/gradient-good-n.png",
+    "label": "Good N high"
+   },
+   {
+    "file": "infoviews/gradient-good-e.png",
+    "label": "Good E high"
+   },
+   {
+    "file": "infoviews/gradient-good-s.png",
+    "label": "Good S high"
+   },
+   {
+    "file": "infoviews/gradient-good-w.png",
+    "label": "Good W high"
+   },
+   {
+    "file": "infoviews/gradient-pollution-n.png",
+    "label": "Pollution N high"
+   },
+   {
+    "file": "infoviews/gradient-pollution-e.png",
+    "label": "Pollution E high"
+   },
+   {
+    "file": "infoviews/gradient-pollution-s.png",
+    "label": "Pollution S high"
+   },
+   {
+    "file": "infoviews/gradient-pollution-w.png",
+    "label": "Pollution W high"
+   }
+  ]
+ },
+ {
+  "title": "Legend bars",
+  "note": "128x10, 1px dark border",
+  "columns": 2,
+  "scale": 2,
+  "items": [
+   {
+    "file": "infoviews/legend-good.png",
+    "label": "Good"
+   },
+   {
+    "file": "infoviews/legend-pollution.png",
+    "label": "Pollution"
+   },
+   {
+    "file": "infoviews/legend-blue.png",
+    "label": "Blue"
+   },
+   {
+    "file": "infoviews/legend-green.png",
+    "label": "Green"
+   },
+   {
+    "file": "infoviews/legend-category.png",
+    "label": "Category"
+   },
+   {
+    "file": "infoviews/legend-resource.png",
+    "label": "Resource"
+   }
+  ]
+ }
+]

@@ -1,0 +1,127 @@
+{
+ "page": "Interface",
+ "section": "Menus & dialogs",
+ "groups": [
+  {
+   "title": "Menu and dialog screens",
+   "columns": 2,
+   "scale": 1,
+   "items": [
+    {
+     "file": "screens/mainmenu-1280x720-1x.png",
+     "label": "Main menu 1280x720, UI 1x (button stack, day)"
+    },
+    {
+     "file": "screens/mainmenu-1920x1080-1.5x.png",
+     "label": "Main menu 1920x1080, UI 1.5x (button stack, night)"
+    },
+    {
+     "file": "screens/mainmenu-strip-1280x720-1x.png",
+     "label": "Main menu 1280x720, UI 1x (RCT2 bottom button bar, day)"
+    },
+    {
+     "file": "screens/mainmenu-strip-1920x1080-1.5x.png",
+     "label": "Main menu 1920x1080, UI 1.5x (RCT2 bottom button bar, night)"
+    },
+    {
+     "file": "screens/newcity-1280x720-1.5x.png",
+     "label": "New city chooser over the shell map, 1280x720 UI 1.5x"
+    },
+    {
+     "file": "screens/pause-1280x720-1.5x.png",
+     "label": "Pause menu over a darkened HUD, 1280x720 UI 1.5x"
+    },
+    {
+     "file": "screens/loading-1280x720-1x.png",
+     "label": "Loading screen 1280x720, UI 1x (progress + tip)"
+    }
+   ]
+  },
+  {
+   "title": "Menu and dialog windows",
+   "columns": 4,
+   "scale": 2,
+   "items": [
+    {
+     "file": "panels/settings-display-dropdown.png",
+     "label": "Settings: Display, resolution dropdown open"
+    },
+    {
+     "file": "panels/settings-gameplay.png",
+     "label": "Settings: Gameplay"
+    },
+    {
+     "file": "panels/settings-input.png",
+     "label": "Settings: Input (hotkeys)"
+    },
+    {
+     "file": "panels/settings-audio.png",
+     "label": "Settings: Audio"
+    },
+    {
+     "file": "panels/settings-interface.png",
+     "label": "Settings: Interface"
+    },
+    {
+     "file": "panels/settings-display.png",
+     "label": "Settings: Display (UI scale slider + preview)"
+    },
+    {
+     "file": "panels/tooltips.png",
+     "label": "Tooltip styles sheet"
+    },
+    {
+     "file": "panels/dialog-confirm.png",
+     "label": "Dialog: confirm bulldoze"
+    },
+    {
+     "file": "panels/dialog-error.png",
+     "label": "Dialog: error"
+    },
+    {
+     "file": "panels/dialog-info.png",
+     "label": "Dialog: info message"
+    },
+    {
+     "file": "panels/dialog-unsaved.png",
+     "label": "Dialog: unsaved changes (3 buttons)"
+    },
+    {
+     "file": "panels/dialog-overwrite.png",
+     "label": "Dialog: overwrite save"
+    },
+    {
+     "file": "panels/load-dialog.png",
+     "label": "Load dialog"
+    },
+    {
+     "file": "panels/save-dialog.png",
+     "label": "Save dialog"
+    },
+    {
+     "file": "panels/newcity-window-coast.png",
+     "label": "New city: Sunny Coast selected"
+    },
+    {
+     "file": "panels/newcity-window.png",
+     "label": "New city / map chooser"
+    },
+    {
+     "file": "panels/pause-window.png",
+     "label": "Pause / game menu window"
+    }
+   ]
+  },
+  {
+   "title": "Same windows redrawn at UI 1.5x",
+   "columns": 4,
+   "scale": 1,
+   "items": [
+    {
+     "file": "panels-1.5x/settings-display.png",
+     "label": "Settings: Display (UI scale slider + preview) (1.5x)"
+    }
+   ]
+  }
+ ]
+}

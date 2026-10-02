@@ -1,0 +1,230 @@
+# City info window (pnl_city_info, CityInfoLogic, design/iso/ui/panels/city-info.png, tools/iso_ui_panels_finance.city_info):
+# level and XP strip, then two columns: population pyramid, education levels and households on the left, employment,
+# happiness and its factors on the right. The design uses the city colours (brown).
+CityPanel@CITY_INFO_PANEL:
+	Logic: CityInfoLogic
+	Title: label-city-info-title
+	Family: city
+	Placement: TopRight
+	Width: 360
+	Height: 290
+	Visible: false
+	Children:
+		Background@LEVEL:
+			X: 4
+			Y: 21
+			Width: PARENT_WIDTH - 8
+			Height: 34
+			Background: well
+			Children:
+				CityIcon@LEVEL_ICON:
+					X: 4
+					Y: 5
+					Width: 24
+					Height: 24
+					Size: 24
+					Icon: info_level
+				Label@LEVEL_NAME:
+					X: 34
+					Y: 5
+					Width: 96
+					Height: 12
+					Font: TinyBold
+				Label@LEVEL_SUB:
+					X: 34
+					Y: 18
+					Width: 96
+					Height: 11
+					Font: Tiny
+				Label@XP_LABEL:
+					X: 134
+					Y: 4
+					Width: 30
+					Height: 11
+					Font: Tiny
+					Text: label-cityinfo-xp
+				Label@XP_VALUE:
+					X: 134
+					Y: 4
+					Width: PARENT_WIDTH - 140
+					Height: 11
+					Font: TinyBold
+					Align: Right
+				CityBar@XP_BAR:
+					X: 134
+					Y: 15
+					Width: PARENT_WIDTH - 140
+					Height: 9
+					Ramp: yellow
+				Label@XP_NEXT:
+					X: 134
+					Y: 24
+					Width: PARENT_WIDTH - 140
+					Height: 10
+					Font: Tiny
+		Container@LEFT:
+			X: 4
+			Y: 61
+			Width: 172
+			Height: 225
+			Children:
+				CityHeader@POP_HEADER:
+					Width: PARENT_WIDTH
+					Height: 12
+				Background@AGE_WELL:
+					Y: 14
+					Width: PARENT_WIDTH
+					Height: 58
+					Background: well
+					Children:
+						Container@AGE_ROWS:
+							X: 1
+							Y: 1
+							Width: PARENT_WIDTH - 2
+							Height: PARENT_HEIGHT - 2
+				CityHeader@EDU_HEADER:
+					Y: 77
+					Width: PARENT_WIDTH
+					Height: 12
+					Text: label-overview-education
+				Background@EDU_WELL:
+					Y: 91
+					Width: PARENT_WIDTH
+					Height: 67
+					Background: well
+					Children:
+						Container@EDU_ROWS:
+							X: 1
+							Y: 1
+							Width: PARENT_WIDTH - 2
+							Height: PARENT_HEIGHT - 2
+				CityHeader@HOUSE_HEADER:
+					Y: 163
+					Width: PARENT_WIDTH
+					Height: 12
+					Text: label-stats-households
+				Container@HOUSE_ROWS:
+					Y: 177
+					Width: PARENT_WIDTH
+					Height: 48
+		Container@RIGHT:
+			X: 184
+			Y: 61
+			Width: 172
+			Height: 225
+			Children:
+				CityHeader@EMP_HEADER:
+					Width: PARENT_WIDTH
+					Height: 12
+					Text: label-cityinfo-employment
+				Container@EMP_ROWS:
+					Y: 14
+					Width: PARENT_WIDTH
+					Height: 39
+				Container@CHIPS:
+					Y: 55
+					Width: PARENT_WIDTH
+					Height: 15
+				CityHeader@HAPPY_HEADER:
+					Y: 72
+					Width: PARENT_WIDTH
+					Height: 12
+				CityBar@HAPPY_BAR:
+					Y: 85
+					Width: PARENT_WIDTH
+					Height: 9
+					Ramp: green
+				Background@FACTOR_WELL:
+					Y: 97
+					Width: PARENT_WIDTH
+					Height: 112
+					Background: well
+					Children:
+						Container@FACTOR_ROWS:
+							X: 1
+							Y: 1
+							Width: PARENT_WIDTH - 2
+							Height: PARENT_HEIGHT - 2
+
+# Name, bar, value (education levels, employment).
+Container@CITY_INFO_BAR_ROW:
+	Width: 170
+	Height: 13
+	Children:
+		CityRowBackground@BG:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Hover: false
+		Label@NAME:
+			X: 3
+			Width: 80
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		CityBar@BAR:
+			X: 84
+			Y: 2
+			Width: 56
+			Height: 9
+			Smooth: true
+		Label@VALUE:
+			Width: PARENT_WIDTH - 3
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right
+
+# Age group of the population pyramid: name, centred bar, count.
+Container@CITY_INFO_AGE_ROW:
+	Width: 170
+	Height: 14
+	Children:
+		Label@NAME:
+			X: 3
+			Width: 36
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		CityCenterBar@BAR:
+			X: 40
+			Y: 2
+			Width: 90
+			Height: 10
+		Label@VALUE:
+			Width: PARENT_WIDTH - 3
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right
+
+# One happiness factor: arrow, name, signed points.
+Container@CITY_INFO_FACTOR_ROW:
+	Width: 170
+	Height: 11
+	Children:
+		CityRowBackground@BG:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Hover: false
+		CityIcon@ARROW:
+			X: 2
+			Width: 12
+			Height: PARENT_HEIGHT
+			Size: 12
+		Label@NAME:
+			X: 17
+			Width: 108
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		Label@VALUE:
+			Width: PARENT_WIDTH - 3
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Right
+
+# A coloured chip (employment figures): text on an RCT chip of the ramp named in the Background.
+Background@CITY_INFO_CHIP:
+	Width: 60
+	Height: 15
+	Children:
+		Label@TEXT:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Font: Tiny
+			Align: Center

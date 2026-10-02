@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
 """
-genmap.py - deterministic OpenCity map generator (python3 stdlib + pngkit/genterrain only).
+genmap.py - deterministic OpenCity map generator (python3 stdlib + pngkit + iso_terrain_ids only).
 
-usage: genmap.py [map ...]      (default: all maps)   maps: green-valley lakeside riverbend shellmap
+usage: genmap.py [--previews-only] [map ...]      (default: all maps)   maps: green-valley lakeside riverbend shellmap
 
-Writes mods/city/maps/<name>/{map.yaml,map.bin,map.png}. Template ids come from genterrain.py.
+--previews-only regenerates the map.png lobby previews (isometric diamonds) and leaves map.yaml / map.bin alone.
+NOTE: map.png is part of the map UID (map format 12 hashes it), and the UID seeds simulation hashes (e.g. fish
+stocks) and identifies replays. Writing new previews therefore changes the simulation: do it only in a deliberate
+commit that also re-records mods/city/tests/golden (tools/golden.sh record). The committed previews are still the
+top-down ones for that reason.
+
+Writes mods/city/maps/<name>/{map.yaml,map.bin,map.png}. Template ids come from iso_terrain_ids.py.
 Cell coordinates are absolute (the 1-cell map border included): playable Bounds = 1,1,W-2,H-2.
 """
 import math
@@ -15,9 +21,10 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pngkit import Canvas, hexcolor, mix  # noqa: E402
-import genterrain as gt  # noqa: E402
+import iso_terrain_ids as gt  # noqa: E402
 
 MAPS = os.path.join(gt.MOD, "maps")
+PREVIEWS_ONLY = False  # --previews-only: write map.png only (never map.yaml / map.bin)
 N4 = ((0, -1), (1, 0), (0, 1), (-1, 0))  # N E S W, bit order 1,2,4,8
 DIAG = ((1, -1, 1), (1, 1, 2), (-1, 1, 4), (-1, -1, 8))  # NE SE SW NW
 
@@ -362,6 +369,10 @@ class Map:
         d = os.path.join(MAPS, self.name)
         os.makedirs(d, exist_ok=True)
         w, h = self.w, self.h
+        if PREVIEWS_ONLY:
+            self.preview().save(os.path.join(d, "map.png"))
+            print(f"{self.name}: map.png preview only")
+            return
         with open(os.path.join(d, "map.bin"), "wb") as f:
             f.write(struct.pack("<BHHIII", 2, w, h, 17, 0, 17 + 3 * w * h))
             for x in range(w):
@@ -403,29 +414,82 @@ class Map:
         rc = self.RCOL[t]
         return tuple(int(col[i] * (1 - a) + rc[i] * a) for i in range(3))
 
+    VOID = (14, 16, 22)      # RCT2-style dark backdrop
+    VOID_DOT = (20, 23, 31)  # subtle backdrop pattern
+
     def preview(self, scale=None):
+        """Isometric lobby preview: the playable map as a 2:1 diamond on a dark backdrop. The image keeps
+        the old square size (cells * scale), so the lobby preview slot is unchanged."""
         scale = scale or (4 if self.w < 80 else 2)
-        w, h = self.w - 2, self.h - 2
-        c = Canvas(w * scale, h * scale)
-        for y in range(h):
-            for x in range(w):
-                col = hexcolor(self.PCOL[self.kind[y + 1][x + 1]])
-                n = (gt.hash01(x, y, 5) - 0.5) * 0.06
-                col = self.tint_resource(x + 1, y + 1, col)
-                c.rect(x * scale, y * scale, scale, scale, gt.tone(col, 1 + n))
+        nx, ny = self.w - 2, self.h - 2
+        W, H = nx * scale, ny * scale
+        c = Canvas(W, H)
+        a = min(W / float(nx + ny), 2.0 * H / (nx + ny))  # px per cell along the screen x diagonal (half a cell width)
+        ox = (W - (nx + ny) * a) / 2.0 + ny * a           # screen x of map corner (0, 0)
+        oy = (H - (nx + ny) * a / 2.0) / 2.0              # screen y of map corner (0, 0)
+        ss = 3  # supersampling per axis (smooth diamond edges, 2-px wide cells stay readable)
+        cols = {k: hexcolor(v)[:3] for k, v in self.PCOL.items()}
+
+        def cell_at(px, py):
+            """Image pixel (float) -> (x, y) cell index inside the playable area or None."""
+            dx, dy = (px - ox) / a, (py - oy) / (a / 2.0)  # dx = X - Y, dy = X + Y
+            X, Y = (dy + dx) * 0.5, (dy - dx) * 0.5
+            if 0 <= X < nx and 0 <= Y < ny:
+                return int(X), int(Y)
+            return None
+
+        for py in range(H):
+            for px in range(W):
+                r = g = b = 0
+                hit = 0
+                for j in range(ss):
+                    for i in range(ss):
+                        k = cell_at(px + (i + 0.5) / ss, py + (j + 0.5) / ss)
+                        if k is None:
+                            continue
+                        x, y = k
+                        col = cols[self.kind[y + 1][x + 1]]
+                        col = self.tint_resource(x + 1, y + 1, col)
+                        nz = (gt.hash01(x, y, 5) - 0.5) * 0.06
+                        # soft light from the upper left: darken the lower-right part of the map slightly
+                        f = 1.04 - 0.10 * ((x + y) / float(nx + ny)) + nz
+                        r += col[0] * f
+                        g += col[1] * f
+                        b += col[2] * f
+                        hit += 1
+                bd = self.VOID_DOT if (px + py) % 4 == 0 and px % 2 == 0 else self.VOID
+                if hit == 0:
+                    c.set(px, py, (*bd, 255))
+                else:
+                    t = hit / float(ss * ss)
+                    rr = (r / hit) * t + bd[0] * (1 - t)
+                    gg = (g / hit) * t + bd[1] * (1 - t)
+                    bb = (b / hit) * t + bd[2] * (1 - t)
+                    c.set(px, py, (max(0, min(255, int(rr))), max(0, min(255, int(gg))), max(0, min(255, int(bb))), 255))
+
+        def pos(ax, ay, w=1, h=1):
+            """Playable cell (ax, ay) with a w x h footprint -> image px of its centre."""
+            X, Y = (ax - 1) + w / 2.0, (ay - 1) + h / 2.0
+            return ox + (X - Y) * a, oy + (X + Y) * a / 2.0
+
         for t, ax, ay in self.actors:
-            px, py = (ax - 1) * scale, (ay - 1) * scale
             if t.startswith("tree-"):
-                c.rect(px, py, scale, scale, (52, 120, 62) if t != "tree-3" else (36, 98, 66))
+                col, s_ = ((52, 120, 62) if t != "tree-3" else (36, 98, 66)), 1
             elif t == "roadseed" or t.startswith("highway"):
-                c.rect(px, py, scale, scale, hexcolor(self.ACOL["road"]))
+                col, s_ = hexcolor(self.ACOL["road"]), 1
             else:
                 key = t.split("-")[0]
-                col = self.ACOL.get(key, self.ACOL["svc"] if t not in ("park-small", "plaza", "park-large") else self.ACOL["park"])
+                col = hexcolor(self.ACOL.get(key, self.ACOL["svc"]))
                 if t in ("park-small", "plaza", "park-large"):
-                    col = self.ACOL["park"]
-                s = 2 if t in ("police", "firestation", "clinic", "school", "park-large", "powerplant-coal", "solarplant") else 1
-                c.rect(px, py, scale * s, scale * s, hexcolor(col))
+                    col = hexcolor(self.ACOL["park"])
+                s_ = 2 if t in ("police", "firestation", "clinic", "school", "park-large", "powerplant-coal", "solarplant") else 1
+            cx, cy = pos(ax, ay, s_, s_)
+            # a small diamond (2:1) per actor cell footprint
+            rw = max(1.0, s_ * a)
+            for yy in range(int(cy - rw / 2) - 1, int(cy + rw / 2) + 2):
+                for xx in range(int(cx - rw) - 1, int(cx + rw) + 2):
+                    if abs(xx + 0.5 - cx) / rw + abs(yy + 0.5 - cy) / (rw / 2.0) <= 1.0 and 0 <= xx < W and 0 <= yy < H:
+                        c.set(xx, yy, (*col[:3], 255))
         return c
 
 
@@ -605,6 +669,8 @@ BUILDERS = {"green-valley": green_valley, "lakeside": lakeside, "riverbend": riv
 
 
 def main():
+    global PREVIEWS_ONLY
+    PREVIEWS_ONLY = "--previews-only" in sys.argv[1:]
     names = [a for a in sys.argv[1:] if not a.startswith("-")] or list(BUILDERS)
     for n in names:
         BUILDERS[n]()

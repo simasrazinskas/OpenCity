@@ -83,7 +83,7 @@ namespace OpenRA.Mods.Common.Traits
 				foreach (var r in RenderFootprint(wr, topLeft, footprint, info.FootprintUnderPreview))
 					yield return r;
 
-			foreach (var r in previewRenderables.OrderBy(WorldRenderer.RenderableZPositionComparisonKey))
+			foreach (var r in previewRenderables.OrderBy(wr.ZPositionComparisonKey))
 			{
 				var renderable = r;
 				if (info.PreviewAlpha < 1f && r is IModifyableRenderable mr)

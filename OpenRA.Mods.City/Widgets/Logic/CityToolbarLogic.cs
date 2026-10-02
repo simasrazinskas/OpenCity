@@ -21,21 +21,20 @@ using OpenRA.Widgets;
 namespace OpenRA.Mods.City.Widgets.Logic
 {
 	/// <summary>
-	/// Dune 2000 style sidebar controller: category tabs (roads, zoning, networks, the service categories, industry,
-	/// transit; only the ones that have something to offer), the icon palette, the order buttons (bulldoze, info views,
-	/// budget and the rows of panel buttons) and Escape handling for cancelling tools and closing panels.
+	/// RCT2-style HUD controller: the top toolbar (.Hud.cs), the build window with the tools and buildings of every
+	/// category (.Build.cs, items in .Items.cs and .Signatures.cs), the panel windows it toggles, the map tile tool
+	/// (.Orders.cs) and the keyboard: tool hotkeys, Escape cancels tools and closes windows.
 	/// </summary>
 	public partial class CityToolbarLogic : ChromeLogic
 	{
 		[FluentReference]
 		const string CategoryRoad = "label-city-category-road";
 
-		const int TabPitch = 31;
-
 		sealed class ToolItem
 		{
 			public string Id;
-			public string Collection;
+
+			/// <summary>RCT2 icon name (tools/iso_ui_icons_*.py).</summary>
 			public string Icon;
 			public string Name;
 			public string Description;
@@ -50,7 +49,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			public Func<string> ExtraTooltip;
 		}
 
-		/// <summary>Tabs in sidebar order. Road and zoning always exist, the others appear when they have items.</summary>
+		/// <summary>Build categories in toolbar order. Road and zoning always exist, the others appear when they have items.</summary>
 		static readonly string[] TabOrder =
 		[
 			"road", "zoning", "networks", "power", "water", "police", "fire", "health", "education", "parks", "garbage", "deathcare",
@@ -58,32 +57,26 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		];
 
 		readonly World world;
-		readonly Widget widget;
+		readonly WorldRenderer worldRenderer;
 		readonly CityManager manager;
 		readonly CityUiContext ctx;
 		readonly UiToolState toolState;
-		readonly CityPaletteWidget palette;
-		readonly Widget tabContainer;
 		readonly List<string> tabs = [];
 		readonly Dictionary<string, List<ToolItem>> placeables = [];
 
 		IOrderGenerator activeGenerator;
 		string activeToolId;
-		string selectedTab;
-		int tabOffset;
 		CityInfoView infoViewBeforeTool;
 		bool infoViewOverridden;
 
 		[ObjectCreator.UseCtor]
-		public CityToolbarLogic(Widget widget, World world)
+		public CityToolbarLogic(Widget widget, World world, WorldRenderer worldRenderer)
 		{
 			this.world = world;
+			this.worldRenderer = worldRenderer;
 			manager = CityUi.GetManager(world);
 			ctx = CityUiContext.For(world);
 			toolState = UiToolState.For(world);
-			this.widget = widget;
-			palette = widget.Get<CityPaletteWidget>("CITY_PALETTE");
-			tabContainer = widget.Get("CITY_TABS");
 
 			// Tools started from a panel (district painting) leave that panel open.
 			ctx.ActivateTool = (id, generator) =>
@@ -99,43 +92,25 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			CityAdvisorLogic.OpenedBudget = CityAdvisorLogic.OpenedInfoViews = CityAdvisorLogic.Dismissed = false;
 			CollectPlaceables();
 			BuildTabs();
-
-			SetupOrderButton(widget.Get<ButtonWidget>("ORDER_BULLDOZE"), "bulldoze", "repair",
-				() => activeToolId == "bulldoze" && ToolActive(),
-				() =>
-				{
-					var wasActive = activeToolId == "bulldoze" && ToolActive();
-					CloseAllPanels();
-					CancelTool();
-					if (!wasActive)
-						Activate("bulldoze", new BulldozeOrderGenerator(world));
-				});
-
-			SetupOrderButton(widget.Get<ButtonWidget>("ORDER_INFOVIEWS"), "infoviews", "beacon",
-				() => PanelOpen("CITY_INFOVIEWS_PANEL"), () => TogglePanel("CITY_INFOVIEWS_PANEL"));
-
-			SetupOrderButton(widget.Get<ButtonWidget>("ORDER_BUDGET"), "budget", "sell",
-				() => PanelOpen("CITY_BUDGET_PANEL"), () => TogglePanel("CITY_BUDGET_PANEL"));
-
-			BuildOrderRows(widget);
+			InitBuildWindow();
+			InitToolbar(widget);
 
 			widget.Get<LogicKeyListenerWidget>("CITY_KEYS").AddHandler(HandleKey);
-
-			SelectTab("road", false);
 		}
 
-		void SetupOrderButton(ButtonWidget button, string cityIcon, string fallbackIcon, Func<bool> isActive, Action onClick)
+		public override void Tick()
 		{
-			// Use the city order tiles when the art is available, otherwise the Dune 2000 order icons.
-			var useCity = ChromeProvider.TryGetImage("city-order-icons", cityIcon) != null;
-			var icon = useCity ? cityIcon : fallbackIcon;
+			TickToolbar();
 
-			var image = button.Get<ImageWidget>("ICON");
-			image.GetImageCollection = () => useCity ? "city-order-icons" : "order-icons";
-			image.GetImageName = () => manager == null ? icon + "-disabled" : isActive() ? icon + "-active" : icon;
-			button.IsDisabled = () => manager == null;
-			button.OnClick = onClick;
+			// Remember the category of the active tool so the build window opens there again.
+			if (BuildOpen && laidOutBuildVersion != laidOutVersion)
+			{
+				laidOutBuildVersion = laidOutVersion;
+				SizeBuildWindow();
+			}
 		}
+
+		int laidOutBuildVersion = -1;
 
 		// ---- keys, tools and panels ----
 		static readonly (string Tab, string Hotkey)[] TabHotkeys =
@@ -151,6 +126,12 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 			if (e.Key == Keycode.ESCAPE && e.Modifiers == Modifiers.None)
 			{
+				if (moreOpen)
+				{
+					moreOpen = false;
+					return true;
+				}
+
 				var handled = AnyPanelOpen() || ToolActive() || ctx.SelectedCitizen != 0 || ctx.SelectedVehicle != 0;
 				CloseAllPanels();
 				CancelTool();
@@ -179,28 +160,15 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				if (!tabs.Contains(tab) || !Game.ModData.Hotkeys[hotkey].IsActivatedBy(e))
 					continue;
 
-				CloseAllPanels();
 				CancelTool();
-				EnsureTabVisible(tab);
-				SelectTab(tab, tab == "road");
+				OpenBuild(tab, tab == "road");
 				return true;
 			}
 
 			if (Game.ModData.Hotkeys["CityInfoViewNext"].IsActivatedBy(e))
 				return CycleInfoView();
 
-			return false;
-		}
-
-		void EnsureTabVisible(string tab)
-		{
-			var index = tabs.IndexOf(tab);
-			var visible = tabs.Count > tabSlots ? tabSlots - 2 : tabs.Count;
-			if (index < tabOffset || index >= tabOffset + visible)
-			{
-				tabOffset = index;
-				LayoutTabs();
-			}
+			return HandleOverflowHotkey(e);
 		}
 
 		/// <summary>Shift+I: the next info view that has data, wrapping around through "off".</summary>
@@ -228,6 +196,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 			activeGenerator = null;
 			activeToolId = null;
+			toolFromBuild = false;
 			RestoreInfoView();
 		}
 
@@ -276,25 +245,28 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				layer.Mode = infoViewBeforeTool;
 		}
 
-		static readonly string[] PanelIds =
+		/// <summary>Every window the toolbar opens (Escape closes them all).</summary>
+		public static readonly string[] PanelIds =
 		[
-			"CITY_BUDGET_PANEL", "CITY_INFOVIEWS_PANEL", "CITY_STATS_PANEL", "CITY_CHIRPER_PANEL", "CITY_PRODUCTION_PANEL",
-			"CITY_POLICIES_PANEL", "CITY_PROGRESS_PANEL", "CITY_DISTRICTS_PANEL", "CITY_TRANSIT_PANEL", "CITY_ACHIEVEMENTS_PANEL"
+			"CITY_BUILD_PANEL", "CITY_BUDGET_PANEL", "CITY_INFOVIEWS_PANEL", "CITY_STATS_PANEL", "CITY_CHIRPER_PANEL",
+			"CITY_PRODUCTION_PANEL", "CITY_POLICIES_PANEL", "CITY_PROGRESS_PANEL", "CITY_DISTRICTS_PANEL", "CITY_TRANSIT_PANEL",
+			"CITY_ACHIEVEMENTS_PANEL", "CITY_MAP_PANEL", "CITY_INFO_PANEL", "CITY_NOTIFICATIONS_PANEL"
 		];
 
-		bool PanelOpen(string id)
+		static bool PanelOpen(string id)
 		{
 			var panel = Ui.Root.GetOrNull(id);
 			return panel != null && panel.IsVisible();
 		}
 
-		bool AnyPanelOpen()
+		static bool AnyPanelOpen()
 		{
 			return PanelIds.Any(PanelOpen);
 		}
 
-		static void CloseAllPanels()
+		void CloseAllPanels()
 		{
+			CloseBuild();
 			foreach (var id in PanelIds)
 			{
 				var panel = Ui.Root.GetOrNull(id);
@@ -303,14 +275,17 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			}
 		}
 
-		void TogglePanel(string id)
+		/// <summary>Opens or closes one window; other windows stay open (RCT2: several windows at once).</summary>
+		static void TogglePanel(string id)
 		{
-			var wasOpen = PanelOpen(id);
-			CloseAllPanels();
-			CancelTool();
 			var panel = Ui.Root.GetOrNull(id);
-			if (panel != null)
-				panel.Visible = !wasOpen;
+			if (panel == null)
+				return;
+
+			var wasOpen = panel.IsVisible();
+			panel.Visible = !wasOpen;
+			if (!wasOpen && panel is CityPanelWidget window)
+				window.BringToFront();
 
 			// The advisor's "open the budget / info views" steps complete when the player has looked at them.
 			if (!wasOpen && id == "CITY_BUDGET_PANEL")
@@ -319,7 +294,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 				CityAdvisorLogic.OpenedInfoViews = true;
 		}
 
-		// ---- tabs ----
+		// ---- categories ----
 		void CollectPlaceables()
 		{
 			var list = new List<(string Category, int Order, string Name, ToolItem Item)>();
@@ -365,96 +340,9 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			foreach (var category in placeables.Keys.OrderBy(k => k, StringComparer.Ordinal))
 				if (!tabs.Contains(category))
 					tabs.Add(category);
-
-			LayoutTabs();
 		}
 
-		void LayoutTabs()
-		{
-			tabContainer.RemoveChildren();
-			var overflow = tabs.Count > tabSlots;
-			var visible = overflow ? tabSlots - 2 : tabs.Count;
-			tabOffset = Math.Clamp(tabOffset, 0, Math.Max(0, tabs.Count - visible));
-
-			var slot = 0;
-			if (overflow)
-				AddArrowTab(slot++, "up", () => tabOffset > 0, () => { tabOffset--; LayoutTabs(); });
-
-			for (var i = 0; i < visible; i++)
-				AddTab(slot++, tabs[tabOffset + i]);
-
-			if (overflow)
-				AddArrowTab(slot, "down", () => tabOffset < tabs.Count - visible, () => { tabOffset++; LayoutTabs(); });
-		}
-
-		void AddArrowTab(int slot, string icon, Func<bool> enabled, Action onClick)
-		{
-			var button = Game.LoadWidget(world, "CITY_TAB_BUTTON", tabContainer, []) as ButtonWidget;
-			button.Bounds.Y = slot * TabPitch;
-			button.IsDisabled = () => !enabled();
-			button.OnClick = onClick;
-			SetTabIcon(button, icon);
-		}
-
-		static void SetTabIcon(ButtonWidget button, string icon)
-		{
-			var image = button.Get<ImageWidget>("ICON");
-			var collection = "city-icons-small";
-			var name = icon;
-			var sprite = ChromeProvider.TryGetImage(collection, name);
-			if (sprite == null)
-			{
-				collection = "city-icons";
-				sprite = ChromeProvider.TryGetImage(collection, name);
-			}
-
-			if (sprite == null)
-			{
-				collection = "city-icons-small";
-				name = "services";
-				sprite = ChromeProvider.TryGetImage(collection, name);
-			}
-
-			if (sprite == null)
-				return;
-
-			image.ImageCollection = collection;
-			image.ImageName = name;
-			image.Bounds.X = (button.Bounds.Width - (int)sprite.Size.X) / 2;
-			image.Bounds.Y = (button.Bounds.Height - (int)sprite.Size.Y) / 2;
-		}
-
-		void AddTab(int slot, string tab)
-		{
-			var button = Game.LoadWidget(world, "CITY_TAB_BUTTON", tabContainer, []) as ButtonWidget;
-			button.Bounds.Y = slot * TabPitch;
-			button.IsDisabled = () => manager == null;
-			button.IsHighlighted = () => selectedTab == tab;
-			SetTabIcon(button, tab);
-
-			var title = CityUi.Message("button-city-tool-" + tab, CityUi.Message("label-city-category-" + tab));
-			button.GetTooltipText = () => title;
-			button.OnClick = () =>
-			{
-				CloseAllPanels();
-				CancelTool();
-				SelectTab(tab, tab == "road");
-			};
-		}
-
-		void SelectTab(string tab, bool activateSingleTool)
-		{
-			selectedTab = tab;
-			var items = ItemsFor(tab);
-			palette.SetItems(items.Select(MakePaletteItem));
-
-			if (activateSingleTool && items.Count == 1)
-				Activate(items[0].Id, items[0].Create());
-			else if (activateSingleTool && tab == "road")
-				StartRoadTool();
-		}
-
-		// ---- palette ----
+		// ---- build cards ----
 		string LockedText(ToolItem item, CityPlaceableInfo placeable)
 		{
 			if (placeable == null || manager == null || manager.IsUnlocked(item.ActorType) || IsSignature(item.ActorType))
@@ -472,8 +360,9 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 			return new PaletteItem
 			{
-				Collection = item.Collection,
 				Icon = item.Icon,
+				Thumbnail = item.ActorType,
+				Name = item.Name,
 				CostText = item.Cost,
 				IsDisabled = Locked,
 				IsAffordable = () => placeable == null || manager == null || manager.CanAfford(placeable.Cost),
@@ -484,6 +373,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 					if (item.OnSelect != null)
 					{
 						item.OnSelect();
+						toolFromBuild = true;
 						return;
 					}
 
@@ -493,6 +383,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 					{
 						CancelTool();
 						Activate(item.Id, item.Create());
+						toolFromBuild = true;
 					}
 				}
 			};

@@ -1,0 +1,198 @@
+{
+ "ambulance": [
+  15,
+  21
+ ],
+ "artic-bus-front": [
+  20,
+  26
+ ],
+ "artic-bus-rear": [
+  19,
+  25
+ ],
+ "box-truck": [
+  17,
+  23
+ ],
+ "bus": [
+  25,
+  29
+ ],
+ "cargo-plane": [
+  50,
+  56
+ ],
+ "cargo-ship": [
+  94,
+  86
+ ],
+ "delivery-van": [
+  14,
+  18
+ ],
+ "estate": [
+  14,
+  16
+ ],
+ "farm-tractor": [
+  13,
+  19
+ ],
+ "ferry": [
+  33,
+  37
+ ],
+ "fire-engine": [
+  21,
+  23
+ ],
+ "garbage-truck": [
+  18,
+  22
+ ],
+ "hatchback": [
+  13,
+  15
+ ],
+ "hearse": [
+  16,
+  17
+ ],
+ "heli-fire": [
+  23,
+  58
+ ],
+ "heli-medevac": [
+  23,
+  50
+ ],
+ "maintenance": [
+  15,
+  18
+ ],
+ "metro-cab": [
+  21,
+  25
+ ],
+ "metro-car": [
+  21,
+  25
+ ],
+ "motorboat": [
+  12,
+  12
+ ],
+ "mpv": [
+  14,
+  17
+ ],
+ "pickup": [
+  15,
+  17
+ ],
+ "police": [
+  14,
+  16
+ ],
+ "postal-van": [
+  14,
+  18
+ ],
+ "sedan": [
+  14,
+  15
+ ],
+ "semi-tractor": [
+  12,
+  18
+ ],
+ "snowplough": [
+  20,
+  22
+ ],
+ "sports": [
+  14,
+  14
+ ],
+ "suv": [
+  14,
+  17
+ ],
+ "tanker-truck": [
+  18,
+  21
+ ],
+ "taxi": [
+  14,
+  16
+ ],
+ "timber-truck": [
+  19,
+  20
+ ],
+ "tipper-truck": [
+  17,
+  20
+ ],
+ "trailer-box": [
+  20,
+  25
+ ],
+ "trailer-container": [
+  20,
+  24
+ ],
+ "trailer-flat": [
+  20,
+  16
+ ],
+ "trailer-tank": [
+  20,
+  23
+ ],
+ "train-coach": [
+  22,
+  26
+ ],
+ "train-loco": [
+  21,
+  26
+ ],
+ "tram-cab": [
+  18,
+  26
+ ],
+ "tram-middle": [
+  16,
+  23
+ ],
+ "tram-rear": [
+  18,
+  26
+ ],
+ "wagon-box": [
+  19,
+  24
+ ],
+ "wagon-container": [
+  19,
+  23
+ ],
+ "wagon-hopper": [
+  19,
+  23
+ ],
+ "wagon-logs": [
+  19,
+  23
+ ],
+ "wagon-tank": [
+  19,
+  23
+ ],
+ "wreck": [
+  14,
+  15
+ ]
+}

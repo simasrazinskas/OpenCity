@@ -20,8 +20,10 @@ using OpenRA.Traits;
 
 namespace OpenRA.Mods.City.Traits
 {
-	[Desc("Renders a growable building: construction scaffolding while it is being built, then a variant of its own sprite",
-		"(chosen by a stable hash of the cell). Abandoned buildings are drawn darker.")]
+	[Desc("Renders a growable building: frame = ((level - 1) * variants + variant) * 4 + facing (variant by a stable cell hash,",
+		"facing toward the access road via WithIsoSprite). States come from sibling sequences of the same image (named",
+		"'<Sequence>-<state>' or '<state>'): build1..build3 while under construction, abandoned, collapsed, burnt; missing ones",
+		"fall back to the construction image and a darker tint.")]
 	public class WithGrowableSpriteInfo : TraitInfo, Requires<RenderSpritesInfo>, Requires<GrowableBuildingInfo>, IRenderActorPreviewSpritesInfo
 	{
 		[Desc("Image shown while under construction.")]
@@ -38,7 +40,14 @@ namespace OpenRA.Mods.City.Traits
 			"Older single-level sequences (4 frames) just use the variant.")]
 		public readonly int Levels = 5;
 
-		[Desc("Brightness multiplier applied to abandoned buildings.")]
+		[Desc("Facing frames per variant in the sequence (isokit order 0 = +Y, 1 = +X, 2 = -Y, 3 = -X). Sequences that",
+			"declare Facings themselves use those instead.")]
+		public readonly int FacingFrames = 4;
+
+		[Desc("Collapse progress (0..100) of an abandoned building from which the 'collapsed' state is shown.")]
+		public readonly int CollapsedFrom = 60;
+
+		[Desc("Brightness multiplier applied to abandoned buildings without an 'abandoned' sequence.")]
 		public readonly float AbandonedBrightness = 0.5f;
 
 		[Desc("Opacity of abandoned buildings.")]
@@ -78,7 +87,7 @@ namespace OpenRA.Mods.City.Traits
 		}
 	}
 
-	public class WithGrowableSprite : IRenderModifier, IAutoMouseBounds
+	public class WithGrowableSprite : IRenderModifier, IAutoMouseBounds, IIsoSpriteState, INotifyCreated
 	{
 		readonly WithGrowableSpriteInfo info;
 		readonly GrowableBuilding growable;
@@ -87,35 +96,94 @@ namespace OpenRA.Mods.City.Traits
 		readonly Animation boundsAnimation;
 		readonly Vector3 abandonedTint;
 		readonly CPos cell;
+		readonly Actor self;
+		readonly string image;
+		readonly bool hasBuildStates;
+		readonly bool hasAbandoned;
+		readonly bool hasCollapsed;
+		WithIsoSprite iso;
 
 		public WithGrowableSprite(ActorInitializer init, WithGrowableSpriteInfo info)
 		{
 			this.info = info;
-			var self = init.Self;
+			self = init.Self;
 			growable = self.Trait<GrowableBuilding>();
 			abandonedTint = new Vector3(info.AbandonedBrightness, info.AbandonedBrightness * 0.9f, info.AbandonedBrightness * 0.9f);
 			cell = init.Contains<LocationInit>() ? init.Get<LocationInit>().Value : CPos.Zero;
 
 			var rs = self.Trait<RenderSprites>();
-			var image = rs.GetImage(self);
+			image = rs.GetImage(self);
+			var sequences = init.World.Map.Sequences;
+			bool Has(string state) => sequences.HasSequence(image, info.Sequence + "-" + state) || sequences.HasSequence(image, state);
+			hasBuildStates = Has("build1");
+			hasAbandoned = Has("abandoned");
+			hasCollapsed = Has("collapsed");
 
-			body = new Animation(init.World, image);
+			// The facing comes from WithIsoSprite (IFacing): sequences with Facings: 4 pick it themselves.
+			var facing = RenderSprites.MakeFacingFunc(self);
+			body = new Animation(init.World, image, facing);
 			body.PlayFetchIndex(info.Sequence, () => FrameIndex(body));
 
-			construction = new Animation(init.World, info.ConstructionImage);
-			construction.PlayRepeating(info.ConstructionSequence);
+			// Construction site: the actor's own "construction" sequence (ART: (stage - 1) * 4 + facing) or the shared image.
+			var ownSite = sequences.HasSequence(image, "construction");
+			construction = new Animation(init.World, ownSite ? image : info.ConstructionImage);
+			construction.PlayFetchIndex(ownSite ? "construction" : info.ConstructionSequence, () => ConstructionFrame(construction));
 
-			rs.Add(new AnimationWithOffset(body, null, () => growable.UnderConstruction), info.Palette);
-			rs.Add(new AnimationWithOffset(construction, null, () => !growable.UnderConstruction), info.Palette);
+			// With authored build stages the body stays visible and WithIsoSprite swaps in the stage sprites.
+			rs.Add(new AnimationWithOffset(body, null, () => growable.UnderConstruction && !hasBuildStates), info.Palette);
+			rs.Add(new AnimationWithOffset(construction, null, () => !growable.UnderConstruction || hasBuildStates), info.Palette);
 
 			// Bounds from the finished building so selection does not flicker between phases.
-			boundsAnimation = new Animation(init.World, image);
+			boundsAnimation = new Animation(init.World, image, facing);
 			boundsAnimation.PlayFetchIndex(info.Sequence, () => FrameIndex(boundsAnimation));
 		}
 
+		int ConstructionFrame(Animation anim)
+		{
+			var length = anim.CurrentSequence.Length;
+			var facings = Math.Max(1, info.FacingFrames);
+			if (length % facings != 0 || length < 2 * facings)
+				return length <= 1 ? 0 : self.World.WorldTick / 8 % length;
+
+			// Stages follow the build progress; the facing matches the finished building.
+			var stages = length / facings;
+			var stage = Math.Clamp(growable.ConstructionProgress * stages / 100, 0, stages - 1);
+			return stage * facings + (iso?.FacingIndex ?? 0) % facings;
+		}
+
+		void INotifyCreated.Created(Actor self)
+		{
+			iso = self.TraitOrDefault<WithIsoSprite>();
+		}
+
+		string IIsoSpriteState.IsoState(Actor self)
+		{
+			if (growable.UnderConstruction && hasBuildStates)
+			{
+				var progress = growable.ConstructionProgress;
+				return progress < 34 ? "build1" : progress < 67 ? "build2" : "build3";
+			}
+
+			if (growable.Abandoned)
+				return hasCollapsed && growable.CollapseProgress >= info.CollapsedFrom ? "collapsed" : hasAbandoned ? "abandoned" : null;
+
+			return null;
+		}
+
+		bool IIsoSpriteState.IsoLit(Actor self) { return growable.IsOperational && !growable.UnderConstruction; }
+
 		int FrameIndex(Animation anim)
 		{
-			var count = anim.CurrentSequence.Length;
+			var seq = anim.CurrentSequence;
+
+			// Facing frames inside the sequence (contract: ((level - 1) * variants + variant) * 4 + facing).
+			var per = seq.Facings <= 1 && info.FacingFrames > 1 && seq.Length % info.FacingFrames == 0 ? info.FacingFrames : 1;
+			var index = BlockIndex(seq.Length / per);
+			return per > 1 ? index * per + (iso?.FacingIndex ?? 0) % per : index;
+		}
+
+		int BlockIndex(int count)
+		{
 			var levels = Math.Max(1, info.Levels);
 			if (levels > 1 && count >= levels && count % levels == 0)
 			{
@@ -138,7 +206,7 @@ namespace OpenRA.Mods.City.Traits
 
 		IEnumerable<IRenderable> IRenderModifier.ModifyRender(Actor self, WorldRenderer wr, IEnumerable<IRenderable> r)
 		{
-			if (!growable.Abandoned)
+			if (!growable.Abandoned || hasAbandoned)
 				return r;
 
 			return ModifyAbandoned(r);
@@ -148,8 +216,9 @@ namespace OpenRA.Mods.City.Traits
 		{
 			foreach (var renderable in r)
 			{
-				if (renderable is IModifyableRenderable m)
-					yield return m.WithTint(abandonedTint, TintModifiers.None).WithAlpha(info.AbandonedAlpha);
+				// Multiply (WithIsoSprite already applied the ambient tint) and leave emissive frames alone.
+				if (renderable is IModifyableRenderable m && (m.TintModifiers & TintModifiers.IgnoreWorldTint) == 0)
+					yield return m.WithTint(m.Tint * abandonedTint, m.TintModifiers).WithAlpha(m.Alpha * info.AbandonedAlpha);
 				else
 					yield return renderable;
 			}

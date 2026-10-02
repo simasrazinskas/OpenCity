@@ -9,6 +9,8 @@
  */
 #endregion
 
+using System;
+using System.Numerics;
 using OpenRA.Graphics;
 using OpenRA.Primitives;
 
@@ -39,11 +41,43 @@ namespace OpenRA.Mods.City
 
 		public IFinalizedRenderable PrepareRender(WorldRenderer wr) { return this; }
 
+		// ART's marker tiles (sequences/overlays.yaml): the tool colours map onto the designed dithered tiles.
+		static string TileFor(Color c)
+		{
+			if (c == CityDragOrderGenerator.ValidColor)
+				return "valid";
+
+			if (c == CityDragOrderGenerator.InvalidColor)
+				return "invalid";
+
+			if (c == CityDragOrderGenerator.NeutralColor)
+				return "neutral";
+
+			if (c == CityDragOrderGenerator.RemoveColor)
+				return "remove";
+
+			if (c == RoadOrderGenerator.ReplaceColor)
+				return "replace";
+
+			return null;
+		}
+
 		public void Render(WorldRenderer wr)
 		{
 			var map = wr.World.Map;
 			if (!map.Ramp.Contains(cell))
 				return;
+
+			var name = TileFor(color);
+			var tile = name != null ? Traits.IsoSpriteCache.For(wr.World).Sequence("overlays", name) : null;
+			if (tile != null)
+			{
+				var sprite = tile.GetSprite(0);
+				var p = wr.Screen3DPxPosition(map.CenterOfCell(cell));
+				Game.Renderer.WorldSpriteRenderer.DrawSprite(sprite, null,
+					new Vector3(p.X - (int)(0.5f * sprite.Size.X), p.Y - (int)(0.5f * sprite.Size.Y), p.Z), 1f);
+				return;
+			}
 
 			var r = map.Grid.Ramps[map.Ramp[cell]];
 			var wpos = map.CenterOfCell(cell) - new WVec(0, 0, r.CenterHeightOffset);
@@ -53,6 +87,48 @@ namespace OpenRA.Mods.City
 				wr.Screen3DPosition(wpos + r.Corners[2]),
 				wr.Screen3DPosition(wpos + r.Corners[3]),
 				color);
+		}
+
+		public void RenderDebugGeometry(WorldRenderer wr) { }
+		public Rectangle ScreenBounds(WorldRenderer wr) { return Rectangle.Empty; }
+	}
+
+	/// <summary>
+	/// Outline of a cell rectangle (W x H cells from <c>topLeft</c>) in the annotation pass: a crisp 1 UI pixel diamond drawn
+	/// over everything, so a hovered or target cell behind a tall building stays visible in the iso view.
+	/// </summary>
+	public class CityTileOutlineRenderable : IRenderable, IFinalizedRenderable
+	{
+		readonly CPos topLeft;
+		readonly int width, height;
+		readonly Color color;
+
+		public CityTileOutlineRenderable(CPos topLeft, int width, int height, Color color)
+		{
+			this.topLeft = topLeft;
+			this.width = width;
+			this.height = height;
+			this.color = color;
+		}
+
+		public WPos Pos => WPos.Zero;
+		public int ZOffset => 0;
+		public bool IsDecoration => true;
+
+		public IRenderable WithZOffset(int newOffset) { return this; }
+		public IRenderable OffsetBy(in WVec vec) { return this; }
+		public IRenderable AsDecoration() { return this; }
+
+		public IFinalizedRenderable PrepareRender(WorldRenderer wr) { return this; }
+
+		public void Render(WorldRenderer wr)
+		{
+			var map = wr.World.Map;
+			var origin = map.CenterOfCell(topLeft) - new WVec(512, 512, 0);
+			var vp = wr.Viewport;
+			Vector3 P(int dx, int dy) => vp.WorldToViewPx(wr.ScreenPxPosition(origin + new WVec(dx * 1024, dy * 1024, 0))).ToVector3();
+			ReadOnlySpan<Vector3> corners = [P(0, 0), P(width, 0), P(width, height), P(0, height)];
+			Game.Renderer.RgbaColorRenderer.DrawPolygon(corners, 1, color);
 		}
 
 		public void RenderDebugGeometry(WorldRenderer wr) { }

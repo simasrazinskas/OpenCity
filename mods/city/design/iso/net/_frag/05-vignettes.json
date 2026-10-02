@@ -1,0 +1,54 @@
+[
+ {
+  "title": "Vignettes: 6x6 blocks in context (grey boxes = placeholder buildings)",
+  "columns": 2,
+  "scale": 1,
+  "note": "day and night; night = ground night tint + emissive lamps and light pools",
+  "items": [
+   {
+    "file": "vignettes/downtown.png",
+    "label": "Downtown: avenue x street signals, stop, lamps, bus stop, parking"
+   },
+   {
+    "file": "vignettes/downtown-night.png",
+    "label": "Downtown: avenue x street signals, stop, lamps, bus stop, parking (night)"
+   },
+   {
+    "file": "vignettes/river.png",
+    "label": "River: street bridge with pier, sewage outlet, yield"
+   },
+   {
+    "file": "vignettes/river-night.png",
+    "label": "River: street bridge with pier, sewage outlet, yield (night)"
+   },
+   {
+    "file": "vignettes/roundabout.png",
+    "label": "Roundabout (3x3 ring + island), boulevard arm"
+   },
+   {
+    "file": "vignettes/roundabout-night.png",
+    "label": "Roundabout (3x3 ring + island), boulevard arm (night)"
+   },
+   {
+    "file": "vignettes/corridor.png",
+    "label": "Paired highway, gantry, sound wall, rail crossing, power, transformer"
+   },
+   {
+    "file": "vignettes/corridor-night.png",
+    "label": "Paired highway, gantry, sound wall, rail crossing, power, transformer (night)"
+   },
+   {
+    "file": "vignettes/downtown-winter.png",
+    "label": "downtown (winter: snowy sidewalks and verges, cleared asphalt)"
+   },
+   {
+    "file": "vignettes/river-winter.png",
+    "label": "river (winter: snowy sidewalks and verges, cleared asphalt)"
+   },
+   {
+    "file": "vignettes/tools.png",
+    "label": "Zoning, drag path, bulldoze and footprint overlays in context"
+   }
+  ]
+ }
+]

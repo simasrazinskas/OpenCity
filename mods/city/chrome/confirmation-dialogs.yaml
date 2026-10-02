@@ -1,0 +1,161 @@
+# RCT2 message dialogs (design/iso/ui/panels/dialog-*.png): system family, an icon well on the left, the message lines,
+# right-aligned buttons. ConfirmationDialogs (common) opens them by id, sets PROMPT_TITLE, adds one PROMPT_TEXT label per
+# message line and shows the buttons it needs; CityPromptLogic then shows the title in the title bar, picks the icon and
+# lays the window out (width from the longest line, height from the line count, buttons right-aligned).
+CityDialogPanel@THREEBUTTON_PROMPT:
+	Logic: CityPromptLogic
+	Family: system
+	Grip: false
+	BelowAlerts: false
+	Width: 340
+	Height: 99
+	Children:
+		LogicTicker@PROMPT_TICKER:
+		Label@PROMPT_TITLE:
+			Width: PARENT_WIDTH
+			Height: 12
+			Font: TinyBold
+			Visible: false
+		Background@ICON_WELL:
+			X: 6
+			Y: 25
+			Width: 42
+			Height: 42
+			Background: dialog3
+		CityIcon@PROMPT_ICON:
+			X: 11
+			Y: 30
+			Width: 32
+			Height: 32
+			Size: 32
+		Label@PROMPT_TEXT:
+			X: 56
+			Y: 25
+			Width: PARENT_WIDTH - 62
+			Height: 12
+			Font: Regular
+		Button@CONFIRM_BUTTON:
+			Y: 75
+			Width: 64
+			Height: 18
+			Text: button-prompt-confirm
+			Font: Regular
+			Key: return
+			Visible: false
+		Button@OTHER_BUTTON:
+			Y: 75
+			Width: 64
+			Height: 18
+			Text: button-prompt-other
+			Font: Regular
+			Visible: false
+		Button@CANCEL_BUTTON:
+			Y: 75
+			Width: 64
+			Height: 18
+			Text: button-cancel
+			Font: Regular
+			Key: escape
+			Visible: false
+
+CityDialogPanel@TWOBUTTON_PROMPT:
+	Logic: CityPromptLogic
+	Family: system
+	Grip: false
+	BelowAlerts: false
+	Width: 300
+	Height: 99
+	Children:
+		LogicTicker@PROMPT_TICKER:
+		Label@PROMPT_TITLE:
+			Width: PARENT_WIDTH
+			Height: 12
+			Font: TinyBold
+			Visible: false
+		Background@ICON_WELL:
+			X: 6
+			Y: 25
+			Width: 42
+			Height: 42
+			Background: dialog3
+		CityIcon@PROMPT_ICON:
+			X: 11
+			Y: 30
+			Width: 32
+			Height: 32
+			Size: 32
+		Label@PROMPT_TEXT:
+			X: 56
+			Y: 25
+			Width: PARENT_WIDTH - 62
+			Height: 12
+			Font: Regular
+		Button@CONFIRM_BUTTON:
+			Y: 75
+			Width: 64
+			Height: 18
+			Text: button-prompt-confirm
+			Font: Regular
+			Key: return
+			Visible: false
+		Button@CANCEL_BUTTON:
+			Y: 75
+			Width: 64
+			Height: 18
+			Text: button-cancel
+			Font: Regular
+			Key: escape
+			Visible: false
+
+CityDialogPanel@TEXT_INPUT_PROMPT:
+	Logic: CityPromptLogic
+	Family: system
+	Grip: false
+	BelowAlerts: false
+	Width: 300
+	Height: 99
+	Children:
+		LogicTicker@PROMPT_TICKER:
+		Label@PROMPT_TITLE:
+			Width: PARENT_WIDTH
+			Height: 12
+			Font: TinyBold
+			Visible: false
+		Background@ICON_WELL:
+			X: 6
+			Y: 25
+			Width: 42
+			Height: 42
+			Background: dialog3
+		CityIcon@PROMPT_ICON:
+			X: 11
+			Y: 30
+			Width: 32
+			Height: 32
+			Size: 32
+			Icon: ui_edit
+		Label@PROMPT_TEXT:
+			X: 56
+			Y: 25
+			Width: PARENT_WIDTH - 62
+			Height: 14
+			Font: Regular
+		TextField@INPUT_TEXT:
+			X: 56
+			Y: 42
+			Width: PARENT_WIDTH - 62
+			Height: 18
+		Button@ACCEPT_BUTTON:
+			Y: 75
+			Width: 64
+			Height: 18
+			Text: button-text-input-prompt-accept
+			Font: Regular
+			Key: return
+		Button@CANCEL_BUTTON:
+			Y: 75
+			Width: 64
+			Height: 18
+			Text: button-cancel
+			Font: Regular
+			Key: escape

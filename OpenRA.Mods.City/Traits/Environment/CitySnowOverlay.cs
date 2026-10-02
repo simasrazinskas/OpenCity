@@ -12,6 +12,7 @@
 using System;
 using System.Linq;
 using OpenRA.Graphics;
+using OpenRA.Mods.Common.Terrain;
 using OpenRA.Traits;
 
 namespace OpenRA.Mods.City.Traits
@@ -28,7 +29,12 @@ namespace OpenRA.Mods.City.Traits
 		[PaletteReference]
 		public readonly string Palette = "city";
 
-		public readonly float Alpha = 0.92f;
+		[Desc("Opacity of the snow tiles. The tiles are full winter versions of each terrain template, so 1 replaces the ground.")]
+		public readonly float Alpha = 1f;
+
+		[Desc("Width (in cover percent) of the light-snow band ahead of full snow: patches just beyond the full-snow",
+			"threshold show the template's light (patchy) snow frame, so no patch stays bare once cover passes this value.")]
+		public readonly int LightBand = 45;
 
 		[Desc("Terrain types that never get snow.")]
 		public readonly string[] ExcludedTerrainTypes = ["Water"];
@@ -44,7 +50,8 @@ namespace OpenRA.Mods.City.Traits
 		readonly CitySnowOverlayInfo info;
 		readonly World world;
 		readonly ISpriteSequence sequence;
-		readonly CellLayer<bool> shown;
+		readonly CellLayer<int> shown;
+		CellLayer<int> templateFrame;
 		TerrainSpriteLayer layer;
 		PaletteReference palette;
 		CityAtmosphere atmosphere;
@@ -58,7 +65,8 @@ namespace OpenRA.Mods.City.Traits
 			this.info = info;
 			world = self.World;
 			sequence = world.Map.Sequences.GetSequence(info.Image, info.Sequence);
-			shown = new CellLayer<bool>(world.Map);
+			shown = new CellLayer<int>(world.Map);
+			shown.Clear(-1);
 		}
 
 		void IWorldLoaded.WorldLoaded(World w, WorldRenderer wr)
@@ -67,6 +75,20 @@ namespace OpenRA.Mods.City.Traits
 			palette = wr.Palette(info.Palette);
 			atmosphere = w.WorldActor.TraitOrDefault<CityAtmosphere>();
 			roads = w.WorldActor.TraitsImplementing<IRoadNetwork>().FirstOrDefault();
+
+			// Frame layout (sequences/environment.yaml): 2 * terrain frame of the cell's template + 0 full / 1 light snow.
+			if (w.Map.Rules.TerrainInfo is ITemplatedTerrainInfo terrain)
+			{
+				templateFrame = new CellLayer<int>(w.Map);
+				foreach (var cell in w.Map.AllCells)
+				{
+					var frame = -1;
+					if (terrain.Templates.TryGetValue(w.Map.Tiles[cell].Type, out var t) && t is DefaultTerrainTemplateInfo dt && dt.Frames.Length > 0)
+						frame = dt.Frames[0];
+
+					templateFrame[cell] = 2 * frame + 1 < sequence.Length ? frame : -1;
+				}
+			}
 		}
 
 		void IRenderOverlay.Render(WorldRenderer wr)
@@ -95,21 +117,30 @@ namespace OpenRA.Mods.City.Traits
 			var threshold = step * 100 / steps;
 			foreach (var cell in map.AllCells)
 			{
-				var show = false;
+				// -1 bare, else the sprite frame. Patches of 2x2 cells go from bare to light to full snow as the cover builds up
+				// (and back when it melts); the light frames keep their edges snowy so every mix of neighbours joins.
+				var want = -1;
 				if (threshold > 0)
 				{
-					// Patches of 2x2 cells melt away first (a blocky but natural look).
 					var patch = EnvHash.Hash(cell.X >> 1, cell.Y >> 1, 77) % 100;
+					var light = patch >= threshold;
 					var type = map.GetTerrainInfo(cell).Type;
-					show = patch < threshold && Array.IndexOf(info.ExcludedTerrainTypes, type) < 0 && (roads == null || !roads.IsRoad(cell));
+					if (patch < threshold + info.LightBand && Array.IndexOf(info.ExcludedTerrainTypes, type) < 0 && (roads == null || !roads.IsRoad(cell)))
+					{
+						var frame = templateFrame != null ? templateFrame[cell] : -1;
+						if (frame >= 0)
+							want = 2 * frame + (light ? 1 : 0);
+						else if (!light)
+							want = EnvHash.Hash(cell.X, cell.Y, 3) % sequence.Length;
+					}
 				}
 
-				if (show == shown[cell])
+				if (want == shown[cell])
 					continue;
 
-				shown[cell] = show;
-				if (show)
-					layer.Update(cell, sequence.GetSprite(EnvHash.Hash(cell.X, cell.Y, 3) % sequence.Length), palette, 1f, info.Alpha);
+				shown[cell] = want;
+				if (want >= 0)
+					layer.Update(cell, sequence.GetSprite(want), palette, 1f, info.Alpha);
 				else
 					layer.Clear(cell);
 			}

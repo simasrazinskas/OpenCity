@@ -1,0 +1,104 @@
+# Map tiles window (CityTilesLogic), design/iso/ui/panels/tiles-*.png, tools/iso_ui_panels_transit.py. Shown while the tile
+# tool is active. Zoning family: the 9 x 9 tile overview with its legend on the left; the selected tile's status, cost,
+# upkeep, buildable land and natural resources, the city's tile figures and the Buy tile button on the right. The details are
+# stacked by the logic (rows come and go with the tile's state).
+Container@CITY_TILE_ROW:
+	Width: PARENT_WIDTH
+	Height: 13
+	Children:
+		CityIcon@ICON:
+			Width: 16
+			Height: PARENT_HEIGHT
+			Size: 12
+			Visible: false
+		Label@NAME:
+			Width: 80
+			Height: PARENT_HEIGHT
+			Font: Tiny
+		CityBar@BAR:
+			Y: 1
+			Height: 10
+			Visible: false
+		Label@VALUE:
+			Width: PARENT_WIDTH
+			Height: PARENT_HEIGHT
+			Font: TinyBold
+			Align: Right
+
+CityHeader@CITY_TILE_HEADER:
+	Width: PARENT_WIDTH
+	Height: 12
+
+Background@CITY_TILE_LINE:
+	Width: PARENT_WIDTH
+	Height: 2
+	Background: etched-h
+
+CityPanel@CITY_TILES_PANEL:
+	Logic: CityTilesLogic
+	Title: label-tiles-panel-title
+	Family: zoning
+	Placement: TopCenter
+	Width: 436
+	Height: 262
+	Visible: false
+	Children:
+		LogicTicker@TILES_TICKER:
+		CityTileGrid@GRID:
+			X: 4
+			Y: 21
+			Width: 184
+			Height: 184
+		Container@LEGEND:
+			X: 4
+			Y: 211
+			Width: 184
+			Height: 12
+			Children:
+				CitySwatch@OWNED_SWATCH:
+					Bevel: true
+					Y: 1
+					Width: 10
+					Height: 10
+				Label@OWNED:
+					X: 14
+					Width: 44
+					Height: PARENT_HEIGHT
+					Font: Tiny
+					Text: label-tiles-legend-owned
+				CitySwatch@SALE_SWATCH:
+					Bevel: true
+					X: 60
+					Y: 1
+					Width: 10
+					Height: 10
+				Label@SALE:
+					X: 74
+					Width: 54
+					Height: PARENT_HEIGHT
+					Font: Tiny
+					Text: label-tiles-legend-sale
+				CitySwatch@LOCKED_SWATCH:
+					Bevel: true
+					X: 128
+					Y: 1
+					Width: 10
+					Height: 10
+				Label@LOCKED:
+					X: 142
+					Width: 42
+					Height: PARENT_HEIGHT
+					Font: Tiny
+					Text: label-tiles-legend-locked
+		Container@DETAILS:
+			X: 196
+			Y: 21
+			Width: PARENT_WIDTH - 200
+			Height: PARENT_HEIGHT - 21 - 28
+		Button@BUY:
+			X: PARENT_WIDTH - 104
+			Y: PARENT_HEIGHT - 22
+			Width: 100
+			Height: 18
+			Font: Tiny
+			Text: label-tiles-buy-button
