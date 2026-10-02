@@ -76,6 +76,8 @@ namespace OpenRA.Mods.City.Traits
 				&& p.Actor.Info.TraitInfo<ServiceBuildingInfo>().Kind == ServiceKind.Parks;
 		}
 
+		int nextCitizenGeneration;
+
 		int AllocCitizen()
 		{
 			int i;
@@ -89,7 +91,7 @@ namespace OpenRA.Mods.City.Traits
 				i = citCount++;
 			}
 
-			cits[i] = new Citizen { Household = -1, NextInHousehold = -1, Flags = CitFlags.Alive };
+			cits[i] = new Citizen { Generation = ++nextCitizenGeneration, PlannedThroughDay = -1, Household = -1, NextInHousehold = -1, Flags = CitFlags.Alive };
 			return i;
 		}
 

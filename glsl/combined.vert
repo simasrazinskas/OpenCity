@@ -8,6 +8,7 @@ in vec3 aVertexPosition;
 in vec4 aVertexTexCoord;
 in uint aVertexAttributes;
 in vec4 aVertexTint;
+in vec4 aVertexTextureBounds;
 
 out vec4 vTexCoord;
 flat out float vTexPalette;
@@ -17,6 +18,8 @@ flat out uint vChannelType;
 flat out vec4 vDepthMask;
 flat out uint vDepthSampler;
 out vec4 vTint;
+flat out vec4 vTextureBounds;
+flat out uint vHardwareBilinearFiltering;
 	
 vec4 SelectChannelMask(uint x)
 {
@@ -52,6 +55,7 @@ void main()
 	//    001, 011, 101, 111: Sample depth sprite from channel R,G,B,A
 	// Bits 6-8 define the sampler index (0-7) that the primary texture is bound to
 	// Bits 9-11 define the sampler index (0-7) that the secondary texture is bound to
+	// Bit 12 indicates that the primary texture has hardware bilinear filtering
 	// Bits 16-31 define the palette row for paletted sprites
 	vChannelType = aVertexAttributes & 0x07u;
 	vChannelMask = SelectChannelMask(vChannelType);
@@ -61,4 +65,6 @@ void main()
 	vTexPalette = float(aVertexAttributes >> 16) / PaletteRows;
 
 	vTint = aVertexTint;
+	vTextureBounds = aVertexTextureBounds;
+	vHardwareBilinearFiltering = (aVertexAttributes >> 12) & 0x01u;
 }

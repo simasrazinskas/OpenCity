@@ -19,6 +19,7 @@ using OpenRA.FileFormats;
 using OpenRA.Graphics;
 using OpenRA.Primitives;
 using OpenRA.Support;
+using OpenRA.Widgets;
 
 namespace OpenRA
 {
@@ -73,11 +74,16 @@ namespace OpenRA
 		}
 
 		SheetBuilder fontSheetBuilder;
+		float fontScale;
 		readonly IPlatform platform;
 
 		float depthMargin;
 
 		Size lastBufferSize = new(-1, -1);
+		Size lastResolution;
+		Size lastNativeResolution;
+		Size lastSurfaceSize;
+		float lastWindowScale;
 
 		Rectangle lastWorldViewport;
 		ITexture currentPaletteTexture;
@@ -98,6 +104,10 @@ namespace OpenRA
 				graphicSettings.VideoDisplay, graphicSettings.GLProfile);
 
 			Context = Window.Context;
+			lastResolution = Resolution;
+			lastNativeResolution = NativeResolution;
+			lastSurfaceSize = Window.SurfaceSize;
+			lastWindowScale = WindowScale;
 
 			tempVertexBuffer = Context.CreateEmptyVertexBuffer<Vertex>(TempVertexBufferSize);
 			quadIndexBuffer = Context.CreateIndexBuffer(Util.CreateQuadIndices(TempIndexBufferSize / 6));
@@ -129,6 +139,8 @@ namespace OpenRA
 		{
 			Window.SetScaleModifier(scale);
 			ApplyWindowScale(Window.EffectiveWindowScale);
+			lastResolution = Resolution;
+			lastWindowScale = WindowScale;
 		}
 
 		void ApplyWindowScale(float effectiveScale)
@@ -139,9 +151,17 @@ namespace OpenRA
 
 			ChromeProvider.SetDPIScale(effectiveScale);
 
-			if (Fonts != null)
+			if (Fonts != null && fontScale != effectiveScale)
+			{
+				// Live window resizing can change the fitted UI scale every frame. Release the old glyphs'
+				// atlas too, otherwise every scale change permanently appends more textures.
+				Flush();
+				fontSheetBuilder.Reset();
 				foreach (var f in Fonts)
 					f.Value.SetScale(effectiveScale);
+
+				fontScale = effectiveScale;
+			}
 		}
 
 		public void InitializeFonts(ModData modData)
@@ -153,6 +173,7 @@ namespace OpenRA
 			{
 				fontSheetBuilder?.Dispose();
 				fontSheetBuilder = new SheetBuilder(SheetType.BGRA, modData.Manifest.RendererConstants.FontSheetSize);
+				fontScale = Window.EffectiveWindowScale;
 				byte[] ReadFile(string file) => modData.DefaultFileSystem.Open(file).ReadAllBytes();
 				Fonts = modData.GetOrCreate<Fonts>().FontList.ToDictionary(x => x.Key,
 					x => new SpriteFont(
@@ -174,8 +195,36 @@ namespace OpenRA
 							: throw new InvalidDataException($"Font {f.Key}: PixelLargerThan font `{f.Value.PixelLargerThan}` does not exist."));
 			}
 
-			Window.OnWindowScaleChanged += (oldNative, oldEffective, newNative, newEffective) =>
-				Game.RunAfterTick(() => ApplyWindowScale(newEffective));
+			var oldResolution = Resolution;
+			SetUIScale(modData.GetOrCreate<WorldViewportSizes>().ClampUIScale(Game.Settings.Graphics.UIScale, NativeResolution));
+			if (oldResolution != Resolution)
+				Ui.Relayout(oldResolution);
+		}
+
+		void UpdateWindowGeometry()
+		{
+			if (lastNativeResolution == NativeResolution && lastSurfaceSize == Window.SurfaceSize && lastWindowScale == WindowScale)
+				return;
+
+			var oldResolution = lastResolution;
+			var oldWindowScale = lastWindowScale;
+			var scale = Game.ModData != null
+				? Game.ModData.GetOrCreate<WorldViewportSizes>().ClampUIScale(Game.Settings.Graphics.UIScale, NativeResolution)
+				: UIScale;
+
+			if (scale != UIScale || lastWindowScale != WindowScale)
+				SetUIScale(scale);
+			else if (lastMaximumViewportSize.Width > 0 && lastMaximumViewportSize.Height > 0)
+				SetMaximumViewportSize(lastMaximumViewportSize);
+
+			lastNativeResolution = NativeResolution;
+			lastSurfaceSize = Window.SurfaceSize;
+			lastWindowScale = WindowScale;
+			lastResolution = Resolution;
+
+			// Font raster metrics can change even when fitted logical dimensions stay identical.
+			if (oldResolution != Resolution || oldWindowScale != WindowScale)
+				Ui.Relayout(oldResolution);
 		}
 
 		public void SetDepthMargin(float depthMargin)
@@ -186,6 +235,7 @@ namespace OpenRA
 		void BeginFrame()
 		{
 			Context.Clear();
+			ChromeProvider.CollectRetiredSheets();
 
 			var surfaceSize = Window.SurfaceSize;
 			var surfaceBufferSize = surfaceSize.NextPowerOf2();
@@ -196,6 +246,7 @@ namespace OpenRA
 
 				// Render the screen into a frame buffer to simplify reading back screenshots
 				screenBuffer = Context.CreateFrameBuffer(surfaceBufferSize, Color.FromArgb(0xFF, 0, 0, 0));
+				screenSprite = null;
 			}
 
 			if (screenSprite == null || surfaceSize.Width != screenSprite.Bounds.Width || -surfaceSize.Height != screenSprite.Bounds.Height)
@@ -392,6 +443,7 @@ namespace OpenRA
 			Context.Present();
 
 			renderType = RenderType.None;
+			UpdateWindowGeometry();
 		}
 
 		public void DrawBatch<T>(IVertexBuffer<T> vertices, IShader shader,

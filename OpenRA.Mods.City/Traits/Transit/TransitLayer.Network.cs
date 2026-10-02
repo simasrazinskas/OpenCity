@@ -514,7 +514,7 @@ namespace OpenRA.Mods.City.Traits
 					ToStopId = to.Id,
 					Reachable = path != null,
 					Cells = path ?? [],
-					Ticks = path == null ? 0 : Math.Max(4, (path.Length - 1) * TicksPerCell(line.Mode)),
+					Ticks = path == null ? 0 : PathTravelTicks(path, line.Mode),
 				};
 				allReachable &= leg.Reachable;
 				cycle += leg.Ticks + Info.DwellBase + 8;
@@ -639,7 +639,7 @@ namespace OpenRA.Mods.City.Traits
 					continue;
 				}
 
-				cycleTicks += (path.Length - 1) * TicksPerCell(mode) + Info.DwellBase + 8;
+				cycleTicks += PathTravelTicks(path, mode) + Info.DwellBase + 8;
 				for (var k = result.Count > 0 && result[^1] == path[0] ? 1 : 0; k < path.Length; k++)
 					result.Add(path[k]);
 			}

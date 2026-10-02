@@ -80,14 +80,14 @@ namespace OpenRA.Mods.City.Traits
 			// Arrivals: continuous through the day.
 			var perDay = tourism != null ? Math.Min(tourism.VisitorGroupsPerMonth, 200) : fallbackGroupsPerDay;
 			if (perDay > 0 && Population > 0)
-				touristAccumMilli += perDay * 1000 / pulsesPerDay;
+				touristAccumMilli += perDay * 25;
 			else
 				touristAccumMilli = 0;
 
 			var cap = Population / 10 + 20;
-			while (touristAccumMilli >= 1000)
+			while (touristAccumMilli >= TicksPerDay)
 			{
-				touristAccumMilli -= 1000;
+				touristAccumMilli -= TicksPerDay;
 				if (Tourists >= cap)
 					continue;
 

@@ -1,5 +1,9 @@
 # 10 - Environment, time and information UI
 
+Implementation update: `ARCHITECTURE.md` supersedes the historical timing proposal below. The
+current clock uses 7,500 ticks/hour and 180,000 ticks/day: **120 real minutes per day at 1x**.
+The UI uses antialiased outline fonts and live window/DPI reflow.
+
 Research and design for OpenCity (OpenRA mod `city`), domain 10 of the CS2 parity effort: pollution, climate and weather, the clock and day/night, disasters (lite), info views, statistics, notifications, Chirper, citizen and building inspection, budget and demand panels, tutorials. Domain numbers 01 (citizens), 03 (networks), 04 (zoning), 08 (public transport) follow their design files; the rest are by role.
 
 Confidence tags used below: **[W]** = documented on the CS2 wiki or a Paradox dev diary, **[C]** = community measurement or guide, **[I]** = my inference or memory, verify before relying on it. CS2 publishes few internal numbers; where it does not, I say so and propose OpenCity values.

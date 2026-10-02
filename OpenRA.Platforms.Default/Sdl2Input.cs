@@ -42,23 +42,13 @@ namespace OpenRA.Platforms.Default
 
 		static int2 EventPosition(Sdl2PlatformWindow device, int x, int y)
 		{
-			// On Windows and Linux (X11) events are given in surface coordinates
-			// These must be scaled to our effective window coordinates
-			// Round fractional components up to avoid rounding small deltas to 0
-			if (Platform.CurrentPlatform != PlatformType.OSX && device.EffectiveWindowSize != device.SurfaceSize)
-			{
-				var s = 1 / device.EffectiveWindowScale;
-				return new int2((int)(Math.Sign(x) / 2f + x * s), (int)(Math.Sign(x) / 2f + y * s));
-			}
-
-			// On macOS we must still account for the user-requested scale modifier
-			if (Platform.CurrentPlatform == PlatformType.OSX && device.EffectiveWindowScale != device.NativeWindowScale)
-			{
-				var s = device.NativeWindowScale / device.EffectiveWindowScale;
-				return new int2((int)(Math.Sign(x) / 2f + x * s), (int)(Math.Sign(x) / 2f + y * s));
-			}
-
-			return new int2(x, y);
+			// SDL mouse coordinates are window units, which need not match drawable pixels
+			// (Retina and Wayland). Convert using the actual geometry on both axes.
+			var inputSize = device.InputWindowSize;
+			var viewSize = device.EffectiveWindowSize;
+			return new int2(
+				(int)MathF.Round(x * (float)viewSize.Width / inputSize.Width, MidpointRounding.AwayFromZero),
+				(int)MathF.Round(y * (float)viewSize.Height / inputSize.Height, MidpointRounding.AwayFromZero));
 		}
 
 		public void PumpInput(Sdl2PlatformWindow device, IInputHandler inputHandler, int2? lockedMousePosition)
@@ -90,7 +80,8 @@ namespace OpenRA.Platforms.Default
 								device.HasInputFocus = true;
 								break;
 
-							// Triggered when moving between displays with different DPI settings
+							// Includes compositor fullscreen toggles and ordinary live resizing.
+							case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_RESIZED:
 							case SDL.SDL_WindowEventID.SDL_WINDOWEVENT_SIZE_CHANGED:
 								device.WindowSizeChanged();
 								break;
@@ -186,7 +177,7 @@ namespace OpenRA.Platforms.Default
 
 						var delta = lockedMousePosition == null
 							? EventPosition(device, e.motion.xrel, e.motion.yrel)
-							: mousePos - lockedMousePosition.Value;
+							: EventPosition(device, mousePos.X - lockedMousePosition.Value.X, mousePos.Y - lockedMousePosition.Value.Y);
 
 						pendingMotion = new MouseInput(
 							MouseInputEvent.Move, lastButtonBits, pos, delta, mods, 0);

@@ -235,7 +235,7 @@ namespace OpenRA.Mods.City.Traits
 				return false;
 
 			RaiseSick(d, 1, Now);
-			return d.Sat[(int)CatchmentGroup.Health] > 0 || cm == null || cm.Funds > Info.ImportCostAmbulance;
+			return d.Sat[(int)CatchmentGroup.Health] > 0 || cm == null || cm.CanAfford(Info.ImportCostAmbulance);
 		}
 
 		void AddBody(PropData d)

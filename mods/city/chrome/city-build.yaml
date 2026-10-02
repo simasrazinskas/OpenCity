@@ -24,13 +24,13 @@ CityPanel@CITY_BUILD_PANEL:
 			Y: 239
 			Width: 420
 			Height: 12
-			Font: TinyBold
+			Font: Bold
 		Label@DETAIL_TEXT:
 			X: 6
 			Y: 251
 			Width: 420
 			Height: 30
-			Font: Tiny
+			Font: Small
 			VAlign: Top
 
 # The map (decision 5): ENG's diamond radar in an RCT window; toolbar button and hotkey CityMap.

@@ -148,6 +148,12 @@ namespace OpenRA.Mods.Common.Widgets
 			Scroll(0);
 		}
 
+		public override void Relayout()
+		{
+			Layout.AdjustChildren();
+			Scroll(0);
+		}
+
 		public override void DrawOuter()
 		{
 			if (!IsVisible())

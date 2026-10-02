@@ -29,22 +29,26 @@ namespace OpenRA.Graphics
 		// Color tint
 		public readonly float R, G, B, A;
 
+		// Normalized primary sprite bounds, used to keep filtered samples inside the atlas region.
+		public readonly Vector4 TextureBounds;
+
 		public Vertex(in Vector3 xyz, float s, float t, float u, float v, uint c)
 			: this(xyz.X, xyz.Y, xyz.Z, s, t, u, v, c, Vector3.One, 1f) { }
 
-		public Vertex(in Vector3 xyz, float s, float t, float u, float v, uint c, in Vector3 tint, float a)
-			: this(xyz.X, xyz.Y, xyz.Z, s, t, u, v, c, tint.X, tint.Y, tint.Z, a) { }
+		public Vertex(in Vector3 xyz, float s, float t, float u, float v, uint c, in Vector3 tint, float a, Vector4 textureBounds = default)
+			: this(xyz.X, xyz.Y, xyz.Z, s, t, u, v, c, tint.X, tint.Y, tint.Z, a, textureBounds) { }
 
-		public Vertex(float x, float y, float z, float s, float t, float u, float v, uint c, in Vector3 tint, float a)
-			: this(x, y, z, s, t, u, v, c, tint.X, tint.Y, tint.Z, a) { }
+		public Vertex(float x, float y, float z, float s, float t, float u, float v, uint c, in Vector3 tint, float a, Vector4 textureBounds = default)
+			: this(x, y, z, s, t, u, v, c, tint.X, tint.Y, tint.Z, a, textureBounds) { }
 
-		public Vertex(float x, float y, float z, float s, float t, float u, float v, uint c, float r, float g, float b, float a)
+		public Vertex(float x, float y, float z, float s, float t, float u, float v, uint c, float r, float g, float b, float a, Vector4 textureBounds = default)
 		{
 			X = x; Y = y; Z = z;
 			S = s; T = t;
 			U = u; V = v;
 			C = c;
 			R = r; G = g; B = b; A = a;
+			TextureBounds = textureBounds;
 		}
 	}
 
@@ -59,7 +63,8 @@ namespace OpenRA.Graphics
 			new ShaderVertexAttribute("aVertexPosition", ShaderVertexAttributeType.Float, 3, 0),
 			new ShaderVertexAttribute("aVertexTexCoord", ShaderVertexAttributeType.Float, 4, 12),
 			new ShaderVertexAttribute("aVertexAttributes", ShaderVertexAttributeType.UInt, 1, 28),
-			new ShaderVertexAttribute("aVertexTint", ShaderVertexAttributeType.Float, 4, 32)
+			new ShaderVertexAttribute("aVertexTint", ShaderVertexAttributeType.Float, 4, 32),
+			new ShaderVertexAttribute("aVertexTextureBounds", ShaderVertexAttributeType.Float, 4, 48)
 		];
 	}
 }

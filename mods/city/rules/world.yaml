@@ -32,7 +32,10 @@ World:
 	LoadWidgetAtGameStart:
 	ColorPickerManager:
 	RadarPings:
+	CitySandbox:
 	CityClock:
+		# One day/night cycle takes 120 real minutes at 1x. Change this to tune day length.
+		TicksPerHour: 7500
 	CityAutoTest:
 	IsoBackdrop:
 	CityWaterAnimation:

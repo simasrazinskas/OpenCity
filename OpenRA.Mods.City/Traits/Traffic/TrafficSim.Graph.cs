@@ -20,6 +20,9 @@ namespace OpenRA.Mods.City.Traits
 	{
 		// Per cell.
 		byte[] roadFlag;
+		byte[] walkMask;
+		bool[] sidewalk;
+		WalkingRouter walkingRouter;
 		byte[] exitMask;     // bit d: a vehicle may leave this cell towards Neighbours4[d]
 		byte[] cellLanes;
 		byte[] cellClass;
@@ -39,12 +42,14 @@ namespace OpenRA.Mods.City.Traits
 
 		int graphVersion = -1;
 		int graphRebuilds;
-		int lastGraphTick = -100000;
 		int minFfU = 1;
 
 		void InitGraph()
 		{
 			roadFlag = new byte[cellCount];
+			walkMask = new byte[cellCount];
+			sidewalk = new bool[cellCount];
+			walkingRouter = new WalkingRouter(width, height);
 			exitMask = new byte[cellCount];
 			cellLanes = new byte[cellCount];
 			cellClass = new byte[cellCount];
@@ -78,11 +83,10 @@ namespace OpenRA.Mods.City.Traits
 
 		void EnsureGraph()
 		{
-			if (net.NetworkVersion == graphVersion || tick - lastGraphTick < 10)
+			if (net.NetworkVersion == graphVersion)
 				return;
 
 			graphVersion = net.NetworkVersion;
-			lastGraphTick = tick;
 			RebuildGraph();
 		}
 
@@ -123,15 +127,33 @@ namespace OpenRA.Mods.City.Traits
 				parkSlots[i] = (byte)Math.Clamp(net.GetParkingSlots(cell), 0, 8);
 
 				var speed = Math.Max(10, net.GetSpeedPercent(cell));
-				ffU[i] = Math.Max(8, (int)((long)Info.FreeFlowMilliTicksPerCell * U * 100 / (1000L * speed)));
+				ffU[i] = Math.Max(8, (int)((long)CarMilliTicks * U * 100 / (1000L * speed)));
 				minFfU = Math.Min(minFfU, ffU[i]);
 			}
 
 			if (minFfU == int.MaxValue)
 				minFfU = 1;
 
+			Array.Clear(walkMask);
+			Array.Clear(sidewalk);
 			foreach (var i in roadList)
+			{
 				ComputeControl(i);
+				sidewalk[i] = ProfileOfCell(i).Sidewalk > 0;
+			}
+
+			foreach (var i in roadList)
+			{
+				if (!sidewalk[i])
+					continue;
+
+				for (var d = 0; d < 4; d++)
+				{
+					var n = ToCPos(i) + CityUtils.Neighbours4[d];
+					if (InMap(n) && sidewalk[Cell(n)] && HasLeg(i, d))
+						walkMask[i] |= (byte)(1 << d);
+				}
+			}
 
 			// Outside connections: highway entry cells, ordered by actor id.
 			gates.Clear();

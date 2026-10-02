@@ -23,24 +23,26 @@ namespace OpenRA.Mods.City.Traits
 		readonly Queue<TripRec> ready = new();
 		readonly PriorityQueue<TripRec, long> walkers = new();
 		int externalCitizenTrips;
-		int lastExternalCitizenTick = -100000;
 
-		int PendingCount => future.Count + ready.Count + walkers.Count;
+		int PendingCount => Math.Max(0, trips.Count - ActiveVehicles);
 
 		// Estimate cache (direct mapped); only valid for the current cost snapshot and network version.
 		struct EstimateEntry
 		{
-			public int From, To, Version, Mode, Result;
+			public int From, To, GraphVersion, CostVersion, Mode, Result, SearchNodes, AttemptTick;
 		}
 
-		readonly EstimateEntry[] estimates = new EstimateEntry[512];
+		readonly EstimateEntry[] estimates = new EstimateEntry[2048];
+		int estimateTick = -1;
+		int estimatesThisTick;
+		int walkerGraphVersion = -1;
 
 		int ITrafficService.RequestTrip(in TripRequest request, ITripListener listener)
 		{
 			if (net == null)
 				return 0;
 
-			if (graphVersion < 0)
+			if (graphVersion != net.NetworkVersion)
 				EnsureGraphNow();
 
 			if (!InMap(request.OriginRoad) || !InMap(request.DestinationRoad))
@@ -67,7 +69,6 @@ namespace OpenRA.Mods.City.Traits
 			if (citizenTrip)
 			{
 				externalCitizenTrips++;
-				lastExternalCitizenTick = tick;
 			}
 
 			var t = NewTrip(origin, destination, request.OwnerId, request.Purpose, request.DepartTick, request.VehicleType);
@@ -75,6 +76,7 @@ namespace OpenRA.Mods.City.Traits
 			t.OriginProperty = request.OriginProperty;
 			t.DestinationProperty = request.DestinationProperty;
 			t.Walk = walkOnly;
+			t.CanDrive = (request.AllowedModes & (TravelModes.Car | TravelModes.Taxi)) != 0;
 			t.Parks = !walkOnly && t.Kind == KindCar && citizenTrip;
 			Enqueue(t);
 			return t.Id;
@@ -88,8 +90,9 @@ namespace OpenRA.Mods.City.Traits
 
 		void EnsureGraphNow()
 		{
+			tick = world.WorldTick;
+			nowU = tick * U;
 			graphVersion = net.NetworkVersion;
-			lastGraphTick = tick;
 			RebuildGraph();
 		}
 
@@ -132,6 +135,16 @@ namespace OpenRA.Mods.City.Traits
 			// Owner-initiated: no callback. Pending trips are dropped lazily when they come up.
 			t.Cancelled = true;
 			t.Listener = null;
+			trips.Remove(tripId);
+			if (t.WalkRoute != null)
+			{
+				t.WalkRoute = null;
+				if (t.VisibleWalker)
+					pedestrians--;
+
+				t.VisibleWalker = false;
+			}
+
 			if (t.Vehicle != NoVehicle)
 			{
 				var v = t.Vehicle;
@@ -142,12 +155,23 @@ namespace OpenRA.Mods.City.Traits
 			}
 		}
 
+		bool ReserveEstimate()
+		{
+			if (estimateTick != world.WorldTick)
+			{
+				estimateTick = world.WorldTick;
+				estimatesThisTick = 0;
+			}
+
+			return estimatesThisTick++ < Math.Max(1, Info.EstimateBudget);
+		}
+
 		int ITrafficService.EstimateTravelTicks(CPos fromRoad, CPos toRoad, TravelMode mode)
 		{
 			if (net == null || !InMap(fromRoad) || !InMap(toRoad))
 				return -1;
 
-			if (graphVersion < 0)
+			if (graphVersion != net.NetworkVersion)
 				EnsureGraphNow();
 
 			var from = Cell(fromRoad);
@@ -155,25 +179,74 @@ namespace OpenRA.Mods.City.Traits
 			if (roadFlag[from] == 0 || roadFlag[to] == 0)
 				return -1;
 
-			var dist = Math.Abs(fromRoad.X - toRoad.X) + Math.Abs(fromRoad.Y - toRoad.Y);
-			if (mode == TravelMode.Walk)
-				return dist * Info.WalkTicksPerCell;
-
 			if (mode == TravelMode.Transit || mode == TravelMode.Bike)
 				return -1;
 
-			var slot = (Hash(from, to) & 0x7fffffff) % estimates.Length;
+			var slot = (Hash(Hash(from, to), (int)mode) & 0x7fffffff) % estimates.Length;
 			ref var e = ref estimates[slot];
-			var version = graphVersion * 31 + costVersion;
-			if (e.From == from + 1 && e.To == to + 1 && e.Version == version && e.Mode == (int)mode)
+			var cached = e.From == from + 1 && e.To == to + 1 && e.GraphVersion == graphVersion && e.CostVersion == costVersion && e.Mode == (int)mode;
+			if (cached && (e.Result != -2 || e.AttemptTick == world.WorldTick))
 				return e.Result;
 
-			var speed = mode == TravelMode.Truck || mode == TravelMode.Bus ? 80 : mode == TravelMode.EmergencyVehicle ? 150 : 100;
-			var kind = mode == TravelMode.Bus ? KindBus : KindCar;
-			var found = FindRouteFor(kind, from, -1, to, speed, mode == TravelMode.EmergencyVehicle, 0, out _, out var cost);
-			var result = found ? (cost + U - 1) / U : -1;
-			e = new EstimateEntry { From = from + 1, To = to + 1, Version = version, Mode = (int)mode, Result = result };
+			var nodes = cached ? NextSearchNodes(e.SearchNodes) : Math.Max(1, Info.MaxRouteNodes);
+
+			if (from == to)
+				return 0;
+
+			if (!ReserveEstimate())
+				return -2;
+
+			int result;
+			if (mode == TravelMode.Walk)
+			{
+				var path = walkingRouter.FindRoute(walkMask, sidewalk, from, to, nodes, out var deferred);
+				result = deferred ? -2 : path == null ? -1 : checked(path.Length * WalkingTicks);
+			}
+			else
+			{
+				var speed = mode == TravelMode.Truck || mode == TravelMode.Bus ? 80 : mode == TravelMode.EmergencyVehicle ? 150 : 100;
+				var kind = mode == TravelMode.Bus ? KindBus : mode == TravelMode.Truck ? KindTruck : mode == TravelMode.EmergencyVehicle ? KindEmergency : KindCar;
+				var found = FindRouteFor(kind, from, -1, to, speed, mode == TravelMode.EmergencyVehicle, 0, out var path, out _, nodes);
+				result = routeSearchDeferred ? -2 : found ? EstimateRouteTicks(from, path, speed, kind) : -1;
+			}
+
+			e = new EstimateEntry
+			{
+				From = from + 1,
+				To = to + 1,
+				GraphVersion = graphVersion,
+				CostVersion = costVersion,
+				Mode = (int)mode,
+				Result = result,
+				SearchNodes = nodes,
+				AttemptTick = world.WorldTick,
+			};
+
 			return result;
+		}
+
+		int EstimateRouteTicks(int origin, byte[] route, int speed, byte kind)
+		{
+			if (route.Length == 0)
+				return 0;
+
+			var speedPct = Math.Max(1, speed * WeatherSpeedPercent() / 100);
+			long total = TravelTimeCalibration.ScaleSpeed(costSnap[origin * 4 + route[0]], speedPct) / 2;
+			var cell = origin;
+			var heading = route[0];
+			for (var i = 0; i < route.Length; i++)
+			{
+				if (kind != KindEmergency)
+					total += JunctionExpectedDelay(cell, heading, route[i]);
+
+				cell += dIdx[route[i]];
+				heading = route[i];
+				var baseline = FreeOccupancy(kind, cell) ? ffU[cell] : costSnap[cell * 4 + heading];
+				var travel = TravelTimeCalibration.ScaleSpeed(baseline, speedPct);
+				total += i == route.Length - 1 ? travel / 2 : travel;
+			}
+
+			return (int)Math.Min(int.MaxValue, (total + U - 1) / U);
 		}
 
 		// Plans pending trips (bounded number of A* runs per tick) and puts vehicles on their origin links.
@@ -195,9 +268,21 @@ namespace OpenRA.Mods.City.Traits
 
 				if (t.Walk)
 				{
-					StartWalk(t);
+					if (budget <= 0)
+					{
+						ready.Enqueue(t);
+						continue;
+					}
+
+					budget--;
+					if (!StartWalk(t))
+						ready.Enqueue(t);
+
 					continue;
 				}
+
+				if (t.RouteVersion != graphVersion)
+					t.Route = null;
 
 				var route = t.Route;
 				if (route == null)
@@ -218,51 +303,119 @@ namespace OpenRA.Mods.City.Traits
 					var seed = Hash(t.Id, 17);
 					if (!FindRouteForTrip(t, t.Origin, -1, t.Destination, t.SpeedPct, t.Kind == KindEmergency, (seed & 3) == 0 ? seed | 1 : 0, out route, out _))
 					{
-						Fail(t, TripFailure.NoRoute);
+						if (routeSearchDeferred)
+						{
+							t.SearchNodes = NextSearchNodes(t.SearchNodes);
+							ready.Enqueue(t);
+						}
+						else
+							Fail(t, TripFailure.NoRoute);
+
 						continue;
 					}
 
 					t.Route = route;
+					t.RouteVersion = graphVersion;
 					t.Length = route.Length;
 				}
 
 				if (TrySpawn(t, route))
 					t.Route = null;
-				else if (tick - t.DepartTick > 900)
+				else if (tick - t.DepartTick > Info.StuckTicks)
 					Fail(t, TripFailure.Stuck);
 				else
 					ready.Enqueue(t);
 			}
 		}
 
-		void StartWalk(TripRec t)
+		bool StartWalk(TripRec t)
 		{
-			var a = ToCPos(t.Origin);
-			var b = ToCPos(t.Destination);
-			var ticks = (Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y)) * Info.WalkTicksPerCell + 1;
+			var route = walkingRouter.FindRoute(walkMask, sidewalk, t.Origin, t.Destination, Math.Max(Info.MaxRouteNodes, t.SearchNodes), out var deferred);
+			if (deferred)
+			{
+				t.SearchNodes = NextSearchNodes(t.SearchNodes);
+				return false;
+			}
+
+			if (t.CanDrive && (route == null || route.Length > WalkLimit(t.Destination)))
+			{
+				t.Walk = false;
+				t.Parks = t.Kind == KindCar && IsCitizenPurpose(t.Purpose);
+				return false;
+			}
+
+			if (route == null)
+			{
+				Fail(t, TripFailure.NoRoute);
+				return true;
+			}
+
+			if (route.Length == 0)
+			{
+				Arrive(t, tick);
+				return true;
+			}
+
+			var ticks = checked(route.Length * WalkingTicks);
 			t.StartTick = tick;
 			t.WalkStart = tick;
 			t.WalkEnd = tick + ticks;
-
-			// Cosmetic pedestrian: remember a route along the roads for the renderer (sampled, capped).
-			if (pedestrians < Info.PedestrianCap && FindRouteFor(KindCar, t.Origin, -1, t.Destination, 100, false, 0, out var route, out _) && route.Length > 0)
-			{
-				t.WalkRoute = route;
+			t.WalkRoute = route;
+			t.VisibleWalker = pedestrians < Info.PedestrianCap;
+			if (t.VisibleWalker)
 				pedestrians++;
-			}
 
-			walkers.Enqueue(t, ((long)(tick + ticks) << 32) | (uint)t.Id);
+			walkers.Enqueue(t, ((long)t.WalkEnd << 32) | (uint)t.Id);
+			return true;
 		}
 
 		void TickWalkers()
 		{
-			while (walkers.TryPeek(out var t, out var key) && key >> 32 <= tick)
+			if (walkerGraphVersion != graphVersion)
+			{
+				walkerGraphVersion = graphVersion;
+				foreach (var (walk, _) in walkers.UnorderedItems)
+				{
+					if (walk.Cancelled || walk.WalkRoute == null)
+						continue;
+
+					var completed = Math.Clamp((int)(((long)(tick - walk.WalkStart) * 2 + WalkingTicks) / (2L * WalkingTicks)), 0, walk.WalkRoute.Length);
+					var cell = walk.Origin;
+					for (var i = 0; i < completed; i++)
+					{
+						var h = walk.WalkRoute[i];
+						cell += h == 0 ? -width : h == 1 ? 1 : h == 2 ? width : -1;
+					}
+
+					var closed = !sidewalk[cell];
+					for (var i = completed; i < walk.WalkRoute.Length && !closed; i++)
+					{
+						var heading = walk.WalkRoute[i];
+						closed = !sidewalk[cell] || (walkMask[cell] & (1 << heading)) == 0;
+						cell += heading == 0 ? -width : heading == 1 ? 1 : heading == 2 ? width : -1;
+					}
+
+					if (closed)
+					{
+						Fail(walk, TripFailure.RoadClosed);
+						walk.Cancelled = true;
+						walk.WalkRoute = null;
+						if (walk.VisibleWalker)
+							pedestrians--;
+
+						walk.VisibleWalker = false;
+					}
+				}
+			}
+
+			while (walkers.TryPeek(out var t, out var key) && (t.Cancelled || key >> 32 <= tick))
 			{
 				walkers.Dequeue();
 				if (t.WalkRoute != null)
 				{
 					t.WalkRoute = null;
-					pedestrians--;
+					if (t.VisibleWalker)
+						pedestrians--;
 				}
 
 				if (t.Cancelled)

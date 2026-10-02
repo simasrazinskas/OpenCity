@@ -169,7 +169,7 @@ namespace OpenRA.Mods.City.Traits
 				return true;
 
 			var cm = player?.PlayerActor.TraitOrDefault<CityManager>();
-			return cm != null && cm.Population >= type.Info.UnlockPopulation;
+			return cm != null && (cm.UnlimitedMoney || cm.Population >= type.Info.UnlockPopulation);
 		}
 
 		/// <summary>Number of Connects neighbours.</summary>

@@ -163,7 +163,7 @@ namespace OpenRA.Mods.City.Traits
 			var paired = (options.Paired || type.Info.AlwaysPaired) && type.Info.Paired;
 			plan.Paired = paired;
 			var oneWayMode = options.OneWay || paired;
-			var funds = cm?.Funds ?? int.MaxValue;
+			int? funds = cm == null || cm.UnlimitedMoney ? null : cm.Funds;
 			var spent = 0;
 
 			var flowA = Flow(plan.Path, options.Reverse);
@@ -194,7 +194,7 @@ namespace OpenRA.Mods.City.Traits
 		}
 
 		static void Carriageway(World world, RoadLayer roads, RoadPlan plan, RoadTypeData type, bool oneWayMode, bool paired,
-			List<CPos> path, int[] flow, bool replace, int funds, ref int spent, Func<CPos, bool> isPending,
+			List<CPos> path, int[] flow, bool replace, int? funds, ref int spent, Func<CPos, bool> isPending,
 			List<RoadPlanEntry> entries, Dictionary<CPos, int> seen, bool first, bool allowBridge)
 		{
 			var bridgeAxis = AnalyzeBridges(roads, path, allowBridge && type.Info.AllowBridge, out var bridgeError);
@@ -266,7 +266,7 @@ namespace OpenRA.Mods.City.Traits
 				else
 					cost = type.Info.Cost + ConstructionUtils.AutoClearCost(world, c);
 
-				if (error == null && (long)spent + cost > funds)
+				if (error == null && funds.HasValue && (long)spent + cost > funds.Value)
 					error = ConstructionUtils.ErrorMoney;
 
 				if (error != null)

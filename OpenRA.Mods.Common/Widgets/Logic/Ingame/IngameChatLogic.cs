@@ -47,6 +47,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 		readonly CachedTransform<int, string> chatAvailableIn;
 		readonly string chatDisabled;
 		readonly Dictionary<TextNotificationPool, Widget> templates = [];
+		readonly List<TextNotification> chatHistory = [];
 
 		readonly TabCompletionLogic tabCompletion = new();
 		readonly CommandHistory commandHistory = CommandHistory.Instance;
@@ -299,6 +300,33 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 			if (logicArgs.TryGetValue("ChatLineSound", out var yaml))
 				chatLineSound = yaml.Value;
+
+			Ui.OnRelayout += RelayoutChat;
+		}
+
+		void RelayoutChat()
+		{
+			var atBottom = chatScrollPanel.ScrolledToBottom;
+			for (var i = 0; i < chatHistory.Count; i++)
+			{
+				var notification = chatHistory[i];
+				var line = templates[notification.Pool].Clone();
+				WidgetUtils.SetupTextNotification(line, notification,
+					chatScrollPanel.Bounds.Width - chatScrollPanel.ScrollbarWidth, isMenuChat && !world.IsReplay);
+				line.Parent = chatScrollPanel;
+				chatScrollPanel.Children[i].Removed();
+				chatScrollPanel.Children[i] = line;
+			}
+
+			chatScrollPanel.Relayout();
+			if (atBottom)
+				chatScrollPanel.ScrollToBottom();
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			Ui.OnRelayout -= RelayoutChat;
+			base.Dispose(disposing);
 		}
 
 		public void OpenChat()
@@ -344,6 +372,7 @@ namespace OpenRA.Mods.Common.Widgets.Logic
 
 			var scrolledToBottom = chatScrollPanel.ScrolledToBottom;
 			chatScrollPanel.AddChild(chatLine);
+			chatHistory.Add(notification);
 			if (scrolledToBottom)
 				chatScrollPanel.ScrollToBottom(smooth: true);
 

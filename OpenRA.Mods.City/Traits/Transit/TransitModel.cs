@@ -68,6 +68,9 @@ namespace OpenRA.Mods.City.Traits
 
 		/// <summary>Ticks to walk from the last stop to the destination.</summary>
 		public int WalkOutTicks;
+		public CPos DestinationRoad;
+		public bool Taxi;
+		public bool Cancelled;
 
 		/// <summary>Tick at which the passenger started waiting at the current stop.</summary>
 		public int WaitStart;
@@ -207,6 +210,7 @@ namespace OpenRA.Mods.City.Traits
 		public bool Virtual;
 		public int LegStartTick;
 		public int LegTicks;
+		public int PathRoadVersion, PathRailVersion, PathTrackVersion;
 		public CPos[] LegCells = [];
 		public CPos Cell;
 		public int DwellUntil;

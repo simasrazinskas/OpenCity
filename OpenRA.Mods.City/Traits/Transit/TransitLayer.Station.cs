@@ -77,6 +77,18 @@ namespace OpenRA.Mods.City.Traits
 			return CPos.Zero;
 		}
 
+		CPos WalkAccess(TransitStop stop)
+		{
+			if (roads.IsRoad(stop.Cell))
+				return stop.Cell;
+
+			foreach (var station in stations)
+				if (station.Actor.ActorID == stop.StationActorId)
+					return DepotRoad(station.Actor);
+
+			return stop.Cell;
+		}
+
 		/// <summary>Creates or moves each station's stop to its current access road cell.</summary>
 		void RefreshStations()
 		{

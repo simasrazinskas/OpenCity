@@ -38,6 +38,7 @@ button-city-tool-signature = Signature buildings
 label-city-category-signature = Signature buildings
 
 ## Build window
+label-city-build-locked = Locked
 label-city-build-hint = Point at a card to see its details; click it to build.
 label-city-build-section-types = Road types
 label-city-build-section-modes = Tools

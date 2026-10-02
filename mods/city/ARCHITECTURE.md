@@ -19,19 +19,21 @@ missing, which today is the legacy aggregate behaviour.
 ## 1. Global decisions (override the design docs where they disagree)
 
 1. **Time: `CityClock`** (implemented, `Traits/World/CityClock.cs`)
-   - 100 ticks per game hour; 2,400 ticks per day.
-   - **One day/night cycle is one calendar month** (as in CS2). That is 96 s at speed 1, 24 s at
-     speed 3, and a year takes 19 minutes at 1x.
+   - 7,500 ticks per game hour; 180,000 ticks per day.
+   - **One day/night cycle is one calendar month** (as in CS2). At the 40 ms base timestep,
+     one day lasts **120 real minutes at 1x**. The 20/10 ms fast-forward settings give 60/30 minutes.
+   - Physical movement is calibrated independently: 16 m cells, walking 5 km/h, ordinary cars
+     40 km/h before road multipliers, congestion and junction delays. Calendar changes do not alter movement speed.
    - API: `Hour`, `Minute`, `MinuteOfDay`, `DayIndex`, `Month`, `Year`, `Season`, `IsNewDay`,
      `IsNewHour`, `IsPulse` (every 25 ticks), `TicksPerDay`, `IsDaytime`.
    - Citizens use the hour for schedules (work 8–17, shifts, rush hours). Traffic uses real ticks.
    - **Ageing**: one citizen year per game day (month), so a lifespan is about 80 days, roughly
-     2 h at 1x or 32 min at 3x. Tunable in yaml.
+     160 h at 1x or 40 h at the fastest setting. Tunable in yaml.
    - `CityManager`'s legacy 25-tick "day" is now a **pulse**. Monthly settlement (taxes, upkeep)
      happens when the clock day changes (already wired).
    - **Calibrate every rate to the clock.** A "per day" rate in a design doc that assumed 25-tick
-     days usually means "per pulse" (96 pulses per day). Use whichever gives sensible real-time
-     behaviour, and document the choice.
+     days usually means "per pulse". There are now 7,200 pulses per day; daily population and
+     visitor rates carry integer remainders so low rates still work with a long calendar.
 
 2. **Scale.** 1 cell ≈ 16 m, i.e. 2×2 CS2 cells. Roads are 1 cell wide. Zone depth on the grid is
    3 cells for lots, with the paintable band staying at 4. Lots are 1×1 to 4×3.

@@ -14,7 +14,7 @@ using System;
 namespace OpenRA.Mods.City.Traits
 {
 	// Line vehicles: spawn at a depot, drive stop-to-stop legs (traffic trips, or a deterministic virtual timer when no
-	// traffic service accepts them), alight/board/dwell at stops, return to the depot when recalled.
+	// traffic service is installed), alight/board/dwell at stops, return to the depot when recalled.
 	public sealed partial class TransitLayer
 	{
 		const int TripPending = -1;
@@ -33,7 +33,8 @@ namespace OpenRA.Mods.City.Traits
 				TransitMode.Metro => Info.MetroTicksPerCell,
 				TransitMode.Tram => Info.TramTicksPerCell,
 				TransitMode.Train => Info.TrainTicksPerCell,
-				_ => Info.VirtualTicksPerCell,
+				TransitMode.Taxi => traffic is ITravelTimeCalibration taxiTiming ? taxiTiming.FreeFlowTicksPerCell(TravelMode.Car) : Info.VirtualTicksPerCell * 80 / 100,
+				_ => traffic is ITravelTimeCalibration timing ? timing.FreeFlowTicksPerCell(TravelMode.Bus) : Info.VirtualTicksPerCell,
 			};
 		}
 
@@ -93,7 +94,7 @@ namespace OpenRA.Mods.City.Traits
 			if (depot == null && NeedsDepot(line.Mode))
 				return false;
 
-			var path = !NeedsDepot(line.Mode) ? [first.Cell] : router.FindPath(depot.Road, first.Cell);
+			var path = !NeedsDepot(line.Mode) ? [first.Cell] : RouterFor(line.Mode, false)?.FindPath(depot.Road, first.Cell);
 			if (path == null)
 				return false;
 
@@ -124,6 +125,19 @@ namespace OpenRA.Mods.City.Traits
 			for (var i = 0; i < vehicles.Count; i++)
 			{
 				var v = vehicles[i];
+				if (v.Virtual && (v.PathRoadVersion != roads.NetworkVersion || v.PathRailVersion != (rail?.NetworkVersion ?? -1)
+					|| (v.Mode == TransitMode.Tram && v.PathTrackVersion != Version)))
+				{
+					v.PathRoadVersion = roads.NetworkVersion;
+					v.PathRailVersion = rail?.NetworkVersion ?? -1;
+					v.PathTrackVersion = Version;
+					if (!VirtualRouteOpen(v))
+					{
+						RemoveVehicle(v);
+						continue;
+					}
+				}
+
 				switch (v.State)
 				{
 					case TransitVehicleState.Leg:
@@ -149,6 +163,36 @@ namespace OpenRA.Mods.City.Traits
 			CompactVehicles();
 		}
 
+		bool VirtualRouteOpen(TransitVehicle vehicle)
+		{
+			if (vehicle.Mode == TransitMode.Metro)
+				return true;
+
+			var cells = vehicle.LegCells;
+			for (var i = 0; i < cells.Length; i++)
+			{
+				if (vehicle.Mode == TransitMode.Train ? rail == null || !rail.IsRail(cells[i]) : !roads.IsRoad(cells[i]))
+					return false;
+
+				if (vehicle.Mode == TransitMode.Tram && !IsTramTrack(cells[i]))
+					return false;
+
+				if (i == 0)
+					continue;
+
+				var delta = cells[i] - cells[i - 1];
+				var heading = -1;
+				for (var d = 0; d < 4; d++)
+					if (delta == CityUtils.Neighbours4[d])
+						heading = d;
+
+				if (heading < 0 || !(vehicle.Mode == TransitMode.Train ? rail.CanEnter(cells[i - 1], heading) : roads.CanEnter(cells[i - 1], heading)))
+					return false;
+			}
+
+			return true;
+		}
+
 		void CompactVehicles()
 		{
 			if (!vehiclesGone)
@@ -158,15 +202,24 @@ namespace OpenRA.Mods.City.Traits
 			vehicles.RemoveAll(v => v.State == TransitVehicleState.Gone);
 		}
 
-		/// <summary>Begin moving along `path` (road cells, first = current cell). Asks the traffic service first; falls back to the virtual timer.</summary>
+		/// <summary>Move along road cells (first = current cell). Road trips use actual arrivals; virtual movement is reserved for rail or absence of traffic.</summary>
 		void StartMove(TransitVehicle v, CPos[] path, TransitVehicleState state, int now)
 		{
 			v.State = state;
 			v.Virtual = false;
 			v.LegCells = path;
 			v.LegStartTick = now;
-			v.LegTicks = Math.Max(4, (path.Length - 1) * TicksPerCell(v.Mode));
+			v.PathRoadVersion = roads.NetworkVersion;
+			v.PathRailVersion = rail?.NetworkVersion ?? -1;
+			v.PathTrackVersion = Version;
+			v.LegTicks = PathTravelTicks(path, v.Mode);
 			v.Cell = path[0];
+			if ((DataOnly(v.Mode) || v.Mode == TransitMode.Tram) && !VirtualRouteOpen(v))
+			{
+				RemoveVehicle(v);
+				return;
+			}
+
 			v.ChunkStart = 0;
 			v.ChunkEnd = -1;
 			var dest = path[^1];
@@ -207,10 +260,14 @@ namespace OpenRA.Mods.City.Traits
 					return;
 
 				v.TripId = 0;
+				RemoveVehicle(v);
+				return;
 			}
 
 			v.ChunkEnd = -1;
 			v.Virtual = true;
+			if (!VirtualRouteOpen(v))
+				RemoveVehicle(v);
 		}
 
 		/// <summary>End index of the next traffic trip chunk of a tram: the next corner or `TramChunkCells` further, at most the end of the path.</summary>
@@ -229,7 +286,7 @@ namespace OpenRA.Mods.City.Traits
 			return limit;
 		}
 
-		/// <summary>Sends the next chunk of a tram's leg to the traffic sim. Returns false when it fell back to the virtual timer.</summary>
+		/// <summary>Sends the next chunk of a tram's leg to the traffic sim. A refused road trip removes the vehicle and fails its passengers.</summary>
 		void ContinueChunk(TransitVehicle v, int now)
 		{
 			var path = v.LegCells;
@@ -262,24 +319,7 @@ namespace OpenRA.Mods.City.Traits
 				return;
 
 			v.TripId = 0;
-			FallbackVirtual(v, now);
-		}
-
-		/// <summary>Finish the rest of the leg with the virtual timer.</summary>
-		void FallbackVirtual(TransitVehicle v, int now)
-		{
-			if (v.ChunkEnd >= 0)
-			{
-				var rest = new CPos[v.LegCells.Length - v.ChunkStart];
-				Array.Copy(v.LegCells, v.ChunkStart, rest, 0, rest.Length);
-				v.LegCells = rest;
-				v.LegTicks = Math.Max(4, (rest.Length - 1) * TicksPerCell(v.Mode));
-				v.ChunkStart = 0;
-				v.ChunkEnd = -1;
-			}
-
-			v.Virtual = true;
-			v.LegStartTick = now;
+			RemoveVehicle(v);
 		}
 
 		void ITripListener.OnTripArrived(in TripResult result)
@@ -301,10 +341,10 @@ namespace OpenRA.Mods.City.Traits
 			if (v == null || v.State == TransitVehicleState.Gone || (v.TripId != tripId && v.TripId != TripPending))
 				return;
 
-			// Fall back to the virtual timer so lines keep working while traffic cannot route this leg.
+			// A failed road trip cannot deliver passengers through a closed or disconnected road.
 			v.TripId = 0;
 			v.FailCount++;
-			FallbackVirtual(v, world.WorldTick);
+			RemoveVehicle(v);
 		}
 
 		void HandleArrival(TransitVehicle v, int now)
@@ -370,6 +410,12 @@ namespace OpenRA.Mods.City.Traits
 			for (var i = 0; i < v.Pax.Count; i++)
 			{
 				var g = v.Pax[i];
+				if (g.Cancelled)
+				{
+					v.PaxCount -= g.Count;
+					continue;
+				}
+
 				if (g.AlightStopId != stop.Id)
 				{
 					v.Pax[keep++] = g;
@@ -461,6 +507,9 @@ namespace OpenRA.Mods.City.Traits
 
 		void AlightGroup(PaxGroup g, TransitStop stop, int now)
 		{
+			if (g.Cancelled)
+				return;
+
 			if (g.Line2 != 0)
 			{
 				var next = g;
@@ -468,11 +517,14 @@ namespace OpenRA.Mods.City.Traits
 				next.AlightStopId = g.Alight2Stop;
 				next.RideLegs = g.RideLegs2;
 				next.Line2 = 0;
-				PushEvent(now + Math.Max(1, g.TransferWalkTicks), EventEnqueue, g.Board2Stop, next);
+				var board = GetStop(g.Board2Stop);
+				if (board == null || !ScheduleWalk(next, WalkAccess(stop), WalkAccess(board), EventEnqueue, g.Board2Stop, now, g.TransferWalkTicks))
+					FailGroup(g, TripFailure.RoadClosed);
 				return;
 			}
 
-			PushEvent(now + Math.Max(1, g.WalkOutTicks), EventComplete, stop.Id, g);
+			if (!ScheduleWalk(g, WalkAccess(stop), g.DestinationRoad, EventComplete, stop.Id, now, g.WalkOutTicks))
+				FailGroup(g, TripFailure.RoadClosed);
 		}
 
 		void DepartStop(TransitVehicle v, int now)
@@ -552,6 +604,9 @@ namespace OpenRA.Mods.City.Traits
 			DumpPassengers(v);
 			if (v.HasFare)
 			{
+				if (walkingJourneys.Remove(v.Fare.JourneyId, out var walkTrip) && walkTrip > 0)
+					traffic?.CancelTrip(walkTrip);
+
 				FailGroup(v.Fare, TripFailure.Cancelled);
 				v.HasFare = false;
 			}

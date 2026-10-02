@@ -27,16 +27,15 @@ namespace OpenRA.Platforms.Default
 		internal const int BitmapRowsOffset = 0; // offsetof(FT_Bitmap, rows)
 		internal const int BitmapWidthOffset = 4; // offsetof(FT_Bitmap, width)
 
-		internal const int MetricsWidthOffset = 0; // offsetof(FT_Glyph_Metrics, width)
 		internal const int BitmapPitchOffset = 8; // offsetof(FT_Bitmap, pitch)
 		internal static readonly int FaceRecGlyphOffset = IntPtr.Size == 8 ? 152 : 84; // offsetof(FT_FaceRec, glyph)
 		internal static readonly int GlyphSlotMetricsOffset = IntPtr.Size == 8 ? 48 : 24; // offsetof(FT_GlyphSlotRec, metrics)
 		internal static readonly int GlyphSlotBitmapOffset = IntPtr.Size == 8 ? 152 : 76; // offsetof(FT_GlyphSlotRec, bitmap)
 		internal static readonly int GlyphSlotBitmapLeftOffset = IntPtr.Size == 8 ? 192 : 100; // offsetof(FT_GlyphSlotRec, bitmap_left)
 		internal static readonly int GlyphSlotBitmapTopOffset = IntPtr.Size == 8 ? 196 : 104; // offsetof(FT_GlyphSlotRec, bitmap_top)
-		internal static readonly int MetricsHeightOffset = IntPtr.Size == 8 ? 8 : 4; // offsetof(FT_Glyph_Metrics, height)
 		internal static readonly int MetricsAdvanceOffset = IntPtr.Size == 8 ? 32 : 16; // offsetof(FT_Glyph_Metrics, horiAdvance)
 		internal static readonly int BitmapBufferOffset = IntPtr.Size == 8 ? 16 : 12; // offsetof(FT_Bitmap, buffer)
+		internal static readonly int BitmapPixelModeOffset = IntPtr.Size == 8 ? 26 : 18; // offsetof(FT_Bitmap, pixel_mode)
 
 		[DllImport("freetype6", CallingConvention = CallingConvention.Cdecl)]
 		internal static extern uint FT_Init_FreeType(out IntPtr library);
@@ -84,55 +83,15 @@ namespace OpenRA.Platforms.Default
 
 		public FontGlyph CreateGlyph(char c, int size, float deviceScale)
 		{
-			var scaledSize = (uint)(size * deviceScale);
+			// Round to the closest device pixel instead of always making fractional UI sizes smaller.
+			var scaledSize = (uint)Math.Max(1, MathF.Floor(size * deviceScale + 0.5f));
 			if (FreeType.FT_Set_Pixel_Sizes(face, scaledSize, scaledSize) != FreeType.OK)
 				return EmptyGlyph;
 
 			if (FreeType.FT_Load_Char(face, c, FreeType.FT_LOAD_RENDER) != FreeType.OK)
 				return EmptyGlyph;
 
-			// Extract the glyph data we care about
-			// HACK: This uses raw pointer offsets to avoid defining structs and types that are 95% unnecessary
-			var glyph = Marshal.ReadIntPtr(IntPtr.Add(face, FreeType.FaceRecGlyphOffset)); // face->glyph
-
-			var metrics = IntPtr.Add(glyph, FreeType.GlyphSlotMetricsOffset); // face->glyph->metrics
-			var metricsWidth = Marshal.ReadIntPtr(IntPtr.Add(metrics, FreeType.MetricsWidthOffset)); // face->glyph->metrics.width
-			var metricsHeight = Marshal.ReadIntPtr(IntPtr.Add(metrics, FreeType.MetricsHeightOffset)); // face->glyph->metrics.width
-			var metricsAdvance = Marshal.ReadIntPtr(IntPtr.Add(metrics, FreeType.MetricsAdvanceOffset)); // face->glyph->metrics.horiAdvance
-
-			var bitmap = IntPtr.Add(glyph, FreeType.GlyphSlotBitmapOffset); // face->glyph->bitmap
-			var bitmapPitch = Marshal.ReadInt32(IntPtr.Add(bitmap, FreeType.BitmapPitchOffset)); // face->glyph->bitmap.pitch
-			var bitmapBuffer = Marshal.ReadIntPtr(IntPtr.Add(bitmap, FreeType.BitmapBufferOffset)); // face->glyph->bitmap.buffer
-
-			var bitmapLeft = Marshal.ReadInt32(IntPtr.Add(glyph, FreeType.GlyphSlotBitmapLeftOffset)); // face->glyph.bitmap_left
-			var bitmapTop = Marshal.ReadInt32(IntPtr.Add(glyph, FreeType.GlyphSlotBitmapTopOffset)); // face->glyph.bitmap_top
-
-			// Convert FreeType's 26.6 fixed point format to integers by discarding fractional bits
-			var glyphSize = new Size((int)metricsWidth >> 6, (int)metricsHeight >> 6);
-			var glyphAdvance = (int)metricsAdvance >> 6;
-
-			var g = new FontGlyph
-			{
-				Advance = glyphAdvance,
-				Offset = new int2(bitmapLeft, -bitmapTop),
-				Size = glyphSize,
-				Data = new byte[glyphSize.Width * glyphSize.Height]
-			};
-
-			unsafe
-			{
-				var p = (byte*)bitmapBuffer;
-				var k = 0;
-				for (var j = 0; j < glyphSize.Height; j++)
-				{
-					for (var i = 0; i < glyphSize.Width; i++)
-						g.Data[k++] = p[i];
-
-					p += bitmapPitch;
-				}
-			}
-
-			return g;
+			return ReadGlyph(false);
 		}
 
 		public FontGlyph CreatePixelGlyph(char c, int pixelSize)
@@ -147,38 +106,63 @@ namespace OpenRA.Platforms.Default
 			if (FreeType.FT_Load_Char(face, c, FreeType.FT_LOAD_RENDER | FreeType.FT_LOAD_NO_HINTING) != FreeType.OK)
 				return EmptyGlyph;
 
+			return ReadGlyph(true);
+		}
+
+		FontGlyph ReadGlyph(bool threshold)
+		{
+			// HACK: This uses raw pointer offsets to avoid defining structs and types that are 95% unnecessary.
 			var glyph = Marshal.ReadIntPtr(IntPtr.Add(face, FreeType.FaceRecGlyphOffset)); // face->glyph
 			var metrics = IntPtr.Add(glyph, FreeType.GlyphSlotMetricsOffset); // face->glyph->metrics
-			var metricsAdvance = Marshal.ReadIntPtr(IntPtr.Add(metrics, FreeType.MetricsAdvanceOffset)); // face->glyph->metrics.horiAdvance
+			var metricsAdvance = Marshal.ReadIntPtr(IntPtr.Add(metrics, FreeType.MetricsAdvanceOffset));
 
 			var bitmap = IntPtr.Add(glyph, FreeType.GlyphSlotBitmapOffset); // face->glyph->bitmap
 			var rows = Marshal.ReadInt32(IntPtr.Add(bitmap, FreeType.BitmapRowsOffset));
 			var width = Marshal.ReadInt32(IntPtr.Add(bitmap, FreeType.BitmapWidthOffset));
-			var bitmapPitch = Marshal.ReadInt32(IntPtr.Add(bitmap, FreeType.BitmapPitchOffset));
-			var bitmapBuffer = Marshal.ReadIntPtr(IntPtr.Add(bitmap, FreeType.BitmapBufferOffset));
+			var pitch = Marshal.ReadInt32(IntPtr.Add(bitmap, FreeType.BitmapPitchOffset));
+			var buffer = Marshal.ReadIntPtr(IntPtr.Add(bitmap, FreeType.BitmapBufferOffset));
+			var pixelMode = Marshal.ReadByte(IntPtr.Add(bitmap, FreeType.BitmapPixelModeOffset));
 			var bitmapLeft = Marshal.ReadInt32(IntPtr.Add(glyph, FreeType.GlyphSlotBitmapLeftOffset));
 			var bitmapTop = Marshal.ReadInt32(IntPtr.Add(glyph, FreeType.GlyphSlotBitmapTopOffset));
 
 			var g = new FontGlyph
 			{
-				// Round the 26.6 fixed point advance to whole pixels
+				// The rasterized bitmap bounds can differ from the outline metrics.
+				// Copy its actual width and rows, and keep the pen advance separate.
 				Advance = ((int)metricsAdvance + 32) >> 6,
 				Offset = new int2(bitmapLeft, -bitmapTop),
 				Size = new Size(width, rows),
 				Data = new byte[width * rows]
 			};
 
+			if (width == 0 || rows == 0)
+				return g;
+
+			// Outlines render as 8-bit grayscale. Embedded bitmap fonts may use packed coverage instead.
+			var bits = pixelMode switch
+			{
+				1 => 1, // FT_PIXEL_MODE_MONO
+				2 => 8, // FT_PIXEL_MODE_GRAY
+				3 => 2, // FT_PIXEL_MODE_GRAY2
+				4 => 4, // FT_PIXEL_MODE_GRAY4
+				_ => throw new InvalidDataException($"Unsupported font bitmap pixel mode: {pixelMode}.")
+			};
+
 			unsafe
 			{
-				var p = (byte*)bitmapBuffer;
-				var k = 0;
+				// FreeType's signed pitch is the offset to the next row, including any padding.
+				var p = (byte*)buffer;
+				var mask = (1 << bits) - 1;
 				for (var j = 0; j < rows; j++)
 				{
-					// Threshold any coverage left by outlines that are not exactly on the pixel grid
 					for (var i = 0; i < width; i++)
-						g.Data[k++] = p[i] >= 128 ? (byte)255 : (byte)0;
+					{
+						var shift = 8 - bits - i * bits % 8;
+						var coverage = (byte)(((p[i * bits / 8] >> shift) & mask) * 255 / mask);
+						g.Data[j * width + i] = threshold ? (coverage >= 128 ? (byte)255 : (byte)0) : coverage;
+					}
 
-					p += bitmapPitch;
+					p += pitch;
 				}
 			}
 

@@ -47,7 +47,7 @@ namespace OpenRA.Mods.City.Traits
 				return plan;
 			}
 
-			var funds = cm?.Funds ?? int.MaxValue;
+			int? funds = cm == null || cm.UnlimitedMoney ? null : cm.Funds;
 			var spent = 0;
 			var notAllowed = false;
 			foreach (var c in plan.Path)
@@ -92,7 +92,7 @@ namespace OpenRA.Mods.City.Traits
 					continue;
 				}
 
-				if ((long)spent + data.Info.Cost > funds)
+				if (funds.HasValue && (long)spent + data.Info.Cost > funds.Value)
 				{
 					plan.ErrorKey ??= ConstructionUtils.ErrorMoney;
 					plan.Skipped.Add(c);

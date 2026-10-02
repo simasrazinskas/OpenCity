@@ -77,42 +77,6 @@ namespace OpenRA.Mods.City.Traits
 				hhs[hh].Flags |= HhFlags.WantsMove;
 		}
 
-		/// <summary>
-		/// Leisure destination: park or commercial lot. In rain, snow or storms and in the cold, outdoor parks are avoided and indoor
-		/// venues preferred; storms keep everybody at home.
-		/// </summary>
-		Property PickLeisureDestination(Property home)
-		{
-			var n = leisureCands.Count;
-			if (n == 0)
-				return null;
-
-			var bad = false;
-			if (climate != null)
-			{
-				if (climate.Weather == CityWeather.Storm)
-					return null;
-
-				bad = climate.Weather == CityWeather.Rain || climate.Weather == CityWeather.Snow || climate.TemperatureX10 < 20;
-			}
-
-			Property best = null;
-			var bestScore = int.MinValue;
-			for (var s = 0; s < 4; s++)
-			{
-				var p = leisureCands[NextRandom(n)];
-				var park = p.Kind != PropertyKind.Commercial;
-				var score = (park ? (bad ? -60 : 30) : 10) - (home != null ? ManhattanRoad(home, p) : 0);
-				if (score > bestScore)
-				{
-					bestScore = score;
-					best = p;
-				}
-			}
-
-			return best;
-		}
-
 		/// <summary>A resident pays for a leisure visit at a commercial property (via the economy's shop sales, else free).</summary>
 		void SpendLeisure(int hh, int shopId)
 		{

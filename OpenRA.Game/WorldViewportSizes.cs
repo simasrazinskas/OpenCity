@@ -44,14 +44,14 @@ namespace OpenRA
 		[Desc("Largest UI scale offered by the UI scale setting (it is further limited by MinEffectiveResolution).")]
 		public readonly float MaxUIScale = 3f;
 
-		/// <summary>Largest UI scale that keeps the effective resolution at or above <see cref="MinEffectiveResolution"/> (at least 1).</summary>
+		/// <summary>Largest UI scale that keeps the effective resolution at or above <see cref="MinEffectiveResolution"/> (at least MinUIScale).</summary>
 		public float MaxUIScaleFor(Size nativeResolution)
 		{
 			var max = Math.Min(
 				(float)nativeResolution.Width / MinEffectiveResolution.Width,
 				(float)nativeResolution.Height / MinEffectiveResolution.Height);
 
-			return Math.Max(1f, Math.Min(MaxUIScale, max));
+			return Math.Max(Math.Min(MinUIScale, 1f), Math.Min(MaxUIScale, max));
 		}
 
 		/// <summary>

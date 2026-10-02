@@ -89,8 +89,8 @@ namespace OpenRA.Mods.City.Widgets
 		public static Color MoneyPositiveLight => InkColor("MoneyPositiveLight");
 		public static Color MoneyNegativeLight => InkColor("MoneyNegativeLight");
 
-		/// <summary>Faint text (disabled, hints) of a family.</summary>
-		public static Color Muted(string family) { return Body(family, -3); }
+		/// <summary>Muted text with enough contrast to read unavailable actions and hints.</summary>
+		public static Color Muted(string family) { return Body(family, -4); }
 
 		/// <summary>The name of a part of the family art, e.g. Art("finance", "button") = "finance-button".</summary>
 		public static string Art(string family, string part)
@@ -228,7 +228,9 @@ namespace OpenRA.Mods.City.Widgets
 			var scale = DeviceScale;
 			var px = MathF.Round((x + (w - sprite.Size.X) / 2) * scale) / scale;
 			var py = MathF.Round((y + (h - sprite.Size.Y) / 2) * scale) / scale;
+			Game.Renderer.EnableAntialiasingFilter();
 			WidgetUtils.DrawSprite(sprite, new Vector2(px, py));
+			Game.Renderer.DisableAntialiasingFilter();
 		}
 
 		// ---- family theming of the shared widgets --------------------------------------------------

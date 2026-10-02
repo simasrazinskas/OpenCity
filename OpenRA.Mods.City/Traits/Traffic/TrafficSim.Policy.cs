@@ -197,7 +197,7 @@ namespace OpenRA.Mods.City.Traits
 		bool FindRouteForTrip(TripRec t, int from, int fromHeading, int to, int speedPct, bool emergency, int seed, out byte[] route, out int costU)
 		{
 			routeThrough = IsThrough(t);
-			var ok = FindRouteFor(t.Kind, from, fromHeading, to, speedPct, emergency, seed, out route, out costU);
+			var ok = FindRouteFor(t.Kind, from, fromHeading, to, speedPct, emergency, seed, out route, out costU, t.SearchNodes);
 			routeThrough = false;
 			return ok;
 		}

@@ -190,6 +190,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 					Order.Command($"state {Session.ClientState.Ready}")
 				};
 
+				CityNewGameAutoTest.PrepareGame();
 				Game.CreateAndStartLocalServer(mapUid, orders);
 			};
 		}

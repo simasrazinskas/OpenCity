@@ -96,20 +96,25 @@ namespace OpenRA.Mods.City.Widgets
 
 		/// <summary>
 		/// Wraps a label's text source so the text is shortened with an ellipsis when it does not fit the label's
-		/// current width (re-measured only when the text or the width changes).
+		/// current width (re-measured when the text, width, font, or display scale changes).
 		/// </summary>
 		public static Func<string> Fitted(OpenRA.Mods.Common.Widgets.LabelWidget label, Func<string> text)
 		{
 			string lastText = null;
+			string lastFont = null;
 			var lastWidth = -1;
+			var lastScale = -1f;
 			var fitted = "";
 			return () =>
 			{
 				var current = text() ?? "";
-				if (current != lastText || label.Bounds.Width != lastWidth)
+				var scale = Game.Renderer.WindowScale;
+				if (current != lastText || label.Bounds.Width != lastWidth || label.Font != lastFont || scale != lastScale)
 				{
 					lastText = current;
 					lastWidth = label.Bounds.Width;
+					lastFont = label.Font;
+					lastScale = scale;
 					fitted = OpenRA.Mods.Common.Widgets.WidgetUtils.TruncateText(current, lastWidth, Game.Renderer.Fonts[label.Font]);
 				}
 

@@ -31,6 +31,60 @@ namespace OpenRA.Mods.City.Traits
 		public int Cash;
 		public readonly int[] StockIn = new int[3];
 		public int StockOut;
+		readonly Dictionary<int, int> incoming = [];
+
+		public int InboundMilli(int resource) { return incoming.TryGetValue(resource, out var amount) ? amount : 0; }
+
+		public void ReserveInbound(int resource, int milli)
+		{
+			var amount = Math.Max(0, InboundMilli(resource) + milli);
+			if (amount == 0)
+				incoming.Remove(resource);
+			else
+				incoming[resource] = amount;
+		}
+
+		/// <summary>Consume a matching incoming reservation only when its physical load arrives.</summary>
+		public bool DeliverInbound(int resource, int milli, ReadOnlySpan<byte> recipeInputs)
+		{
+			if (milli <= 0 || InboundMilli(resource) < milli)
+				return false;
+
+			if (Resale && Output == resource)
+				StockOut += milli;
+			else
+			{
+				var slot = recipeInputs.IndexOf((byte)resource);
+				if (slot < 0 || slot >= StockIn.Length)
+					return false;
+
+				StockIn[slot] += milli;
+			}
+
+			ReserveInbound(resource, -milli);
+			return true;
+		}
+
+		readonly Dictionary<byte, (int Stock, int Produced)> cropRemainders = [];
+
+		/// <summary>Unsold fractions remain attributed to their original crop across a product switch.</summary>
+		public int CropRemainderMilli(byte resource) { return cropRemainders.TryGetValue(resource, out var amount) ? amount.Stock : 0; }
+
+		public bool TrySwitchCrop(byte resource, bool outgoingCargoPending)
+		{
+			if (Kind != CompanyKind.Extractor || resource == 0 || resource == Output || StockOut >= 1000 || outgoingCargoPending)
+				return false;
+
+			if (StockOut > 0 || ProducedCarry > 0)
+				cropRemainders[Output] = (StockOut, ProducedCarry);
+
+			cropRemainders.Remove(resource, out var restored);
+			StockOut = restored.Stock;
+			ProducedCarry = restored.Produced;
+			Output = resource;
+			return true;
+		}
+
 		public int StockCap;
 		public int Throttle = 100;
 		public int Efficiency = 100;
@@ -134,6 +188,30 @@ namespace OpenRA.Mods.City.Traits
 				case PropertyKind.Extractor: return CompanyKind.Extractor;
 				default: return null;
 			}
+		}
+
+		bool CropChangePending(Company c, Property p)
+		{
+			var selected = c.Kind == CompanyKind.Extractor ? extractors?.Product(p.Id) ?? 0 : 0;
+			return selected > 0 && selected <= Tables.ResourceCount && selected != c.Output;
+		}
+
+		void UpdateCrop(Company c, Property p)
+		{
+			if (!CropChangePending(c, p))
+				return;
+
+			foreach (var order in pendingFreight.Values)
+				if (order.Seller == c)
+					return;
+
+			var previous = c.Output;
+			if (!c.TrySwitchCrop((byte)extractors.Product(p.Id), false))
+				return;
+
+			sellers[previous].Remove(c);
+			sellers[c.Output].Add(c);
+			StateHash = EconomyMath.Mix(StateHash, c.Id * 131 + c.Output);
 		}
 
 		int SlotTotal(Company c, Property p, CityBuilding cb)

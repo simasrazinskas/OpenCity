@@ -14,9 +14,8 @@ using System.Collections.Generic;
 
 namespace OpenRA.Mods.City.Traits
 {
-	// Deterministic local market plus import and export at the outside connections. Transfers are instant; freight
-	// is paid by the buyer (and leaves the private sector). ILogistics.TryDispatch is told about every transfer so
-	// that trucks can be shown.
+	// Deterministic local market. Accepted freight reserves incoming goods; stock becomes usable only
+	// when Logistics reports delivery. Reachable local suppliers serve demand before outside imports.
 	public partial class CityEconomy
 	{
 		readonly List<CPos> outsideCells = [];
@@ -62,144 +61,146 @@ namespace OpenRA.Mods.City.Traits
 			return Math.Max(0, Math.Max(1, outsideCells.Count) * Info.TradeUnitsPerDay * 1000 - (export ? tradeUsedExport : tradeUsedImport));
 		}
 
-		void Dispatch(int from, int to, int res, int milli, int price)
-		{
-			if (logistics != null && milli >= 1000)
-				logistics.TryDispatch(from, to, res, milli / 1000, price);
-		}
-
-		/// <summary>Buys up to wantMilli of a resource for a company: cheapest landed price of nearby sellers and imports.</summary>
+		/// <summary>Orders up to wantMilli. Returns accepted milli-units, not stock already delivered.</summary>
 		int Buy(Company buyer, Property bp, int resource, int wantMilli)
 		{
+			if (localLogistics == null || wantMilli < 1000)
+				return 0;
+
 			var r = Tables.Resources[resource];
 			var got = 0;
 			var bpRoad = RoadOf(bp);
-			var importDist = OutsideDistance(bp);
-			var importUnit = Wholesale(r) * Info.ImportPercent / 100 + FreightCents(r.Weight, importDist);
 			var list = sellers[resource];
-
-			for (var round = 0; round < 6 && wantMilli - got >= 500; round++)
+			var attempted = new HashSet<int>();
+			var deferred = false;
+			var waitingLocal = false;
+			for (var round = 0; round < 6 && wantMilli - got >= 1000; round++)
 			{
 				var credit = (long)buyer.Cash + buyer.Credit;
 				if (credit <= 0)
 					break;
 
 				Company best = null;
-				Property bestProp = null;
 				var bestUnit = int.MaxValue;
+				var bestTravel = int.MaxValue;
 				for (var i = 0; i < list.Count; i++)
 				{
-					var s = list[i];
-					if (s == buyer || s.StockOut < 500 || !s.Operational || s.Orphan)
+					var seller = list[i];
+					if (seller == buyer || seller.StockOut < 1000 || !seller.Operational || seller.Orphan || attempted.Contains(seller.Id))
 						continue;
 
-					var sp = s.Prop;
+					var road = RoadOf(seller.Prop);
+					var travel = r.Weight == 0 ? 0 : localLogistics.TravelTicks(road, bpRoad);
+					if (travel == Logistics.RouteBusy)
+						deferred = true;
+					if (travel < 0)
+						continue;
 
-					var unit = Wholesale(r) + FreightCents(r.Weight, Manhattan(bpRoad, RoadOf(sp)));
-					if (unit < bestUnit)
+					var unit = Wholesale(r) + localLogistics.HaulCostCents(road, bpRoad, resource);
+					if (unit < bestUnit || (unit == bestUnit && travel < bestTravel))
 					{
 						bestUnit = unit;
-						best = s;
-						bestProp = sp;
+						bestTravel = travel;
+						best = seller;
 					}
 				}
 
 				var want = wantMilli - got;
 
-				// Warehouses sell their stored goods slightly above wholesale.
-				if (storages.Count > 0)
-				{
-					var storeUnit = r.Tradable ? TryStorage(buyer, bpRoad, resource, want, bestUnit, importUnit, credit, ref got) : 0;
-					if (storeUnit > 0)
-						continue;
-				}
-
-				if (best != null && bestUnit <= importUnit)
-				{
-					var take = Math.Min(want, best.StockOut);
-					take = (int)Math.Min(take, credit * 1000 / bestUnit);
-					if (take <= 0)
-						break;
-
-					var value = Math.Max(1, (int)((long)take * Wholesale(r) / 1000));
-					var freight = (int)((long)take * (bestUnit - Wholesale(r)) / 1000);
-					best.StockOut -= take;
-					best.Cash += value;
-					best.ProfitMonth += value;
-					best.SalesDay += value;
-					best.SoldDay += take;
-					buyer.Cash -= value + freight;
-					buyer.CostsDay += value + freight;
-					flowMonth[LGoods] += value;
-					if (freight > 0)
-						Move(Acct.Companies, Acct.Outside, LFreight, freight);
-
-					Dispatch(best.PropertyId, buyer.PropertyId, resource, take, Wholesale(r));
-					got += take;
+				// Stored local goods compete with local producers; a cheaper outside offer never bypasses either.
+				if (r.Tradable && TryStorage(buyer, bpRoad, resource, want, bestUnit, int.MaxValue, credit, ref got, ref deferred) > 0)
 					continue;
+
+				if (best == null)
+					break;
+
+				attempted.Add(best.Id);
+				var units = (int)Math.Min(Math.Min(want, best.StockOut) / 1000, credit / Math.Max(1, bestUnit));
+				if (units > 0)
+				{
+					var sent = OrderFreight(best, buyer, resource, units, Wholesale(r));
+					got += sent;
+					if (sent < units && best.StockOut >= 1000)
+						waitingLocal = true;
 				}
-
-				var budget = r.Tradable ? TradeBudgetMilli(false) : 0;
-				if (budget <= 0)
-					break;
-
-				var amount = Math.Min(want, budget);
-				amount = (int)Math.Min(amount, credit * 1000 / Math.Max(1, importUnit));
-				if (amount <= 0)
-					break;
-
-				var cost = Math.Max(1, (int)((long)amount * (Wholesale(r) * Info.ImportPercent / 100) / 1000));
-				var fr = (int)((long)amount * FreightCents(r.Weight, importDist) / 1000);
-				buyer.Cash -= cost + fr;
-				buyer.CostsDay += cost + fr;
-				Move(Acct.Companies, Acct.Outside, LImport, cost);
-				Move(Acct.Companies, Acct.Outside, LFreight, fr);
-				tradeUsedImport += amount;
-				dayImported[resource] += amount;
-				monthImported[resource] += amount;
-				monthImportCents[resource] += cost;
-				Dispatch(0, buyer.PropertyId, resource, amount, Wholesale(r));
-				got += amount;
-				_ = bestProp;
 			}
+
+			// A route search that was deferred is not a missing local supply chain. Retry later.
+			if (!r.Tradable || deferred || waitingLocal || wantMilli - got < 1000)
+				return got;
+
+			var importFreight = localLogistics.OutsideFreightCents(bp.Id, resource, true);
+			if (importFreight < 0)
+				return got;
+
+			var importPrice = Math.Max(1, Wholesale(r) * Info.ImportPercent / 100);
+			var importUnits = (int)Math.Min(Math.Min(wantMilli - got, TradeBudgetMilli(false)) / 1000,
+				Math.Max(0, (long)buyer.Cash + buyer.Credit) / Math.Max(1, importPrice + importFreight));
+			if (importUnits > 0)
+				got += OrderFreight(null, buyer, resource, importUnits, importPrice);
 
 			return got;
 		}
 
-		// Output beyond what local buyers take is exported at a discount minus freight. Profitable exports keep only a
-		// small local reserve; at a loss only a nearly full stock is dumped (the throttle then lays workers off).
+		int localNeedTick = -1;
+		int[] localNeedMilli;
+
+		int LocalNeedMilli(int resource)
+		{
+			if (localNeedTick == world.WorldTick)
+				return localNeedMilli[resource];
+
+			localNeedTick = world.WorldTick;
+			localNeedMilli ??= new int[Tables.ResourceCount + 1];
+			Array.Clear(localNeedMilli);
+			foreach (var buyer in companies)
+			{
+				if (buyer.Orphan || !buyer.Operational)
+					continue;
+
+				if (buyer.Resale)
+				{
+					var target = Math.Min(buyer.StockCap, Math.Max(8000, buyer.SoldEma * Info.InputDays));
+					var need = Math.Max(0, target - buyer.StockOut - buyer.InboundMilli(buyer.Output));
+					localNeedMilli[buyer.Output] = (int)Math.Min(int.MaxValue / 4, (long)localNeedMilli[buyer.Output] + need);
+				}
+				else if (buyer.Recipe >= 0)
+				{
+					var recipe = Tables.Recipes[buyer.Recipe];
+					for (var j = 0; j < recipe.InputRes.Length; j++)
+					{
+						var input = recipe.InputRes[j];
+						var perDay = (long)buyer.WorkersNow * Tables.Resources[buyer.Output].Q * Math.Max(50, buyer.Efficiency) / 100;
+						var target = Math.Min(int.MaxValue / 4, perDay * recipe.InputQty[j] * Info.InputDays);
+						var need = Math.Max(0, target - buyer.StockIn[j] - buyer.InboundMilli(input));
+						localNeedMilli[input] = (int)Math.Min(int.MaxValue / 4, localNeedMilli[input] + need);
+					}
+				}
+			}
+
+			return localNeedMilli[resource];
+		}
+
 		void ExportSurplus(Company c, Property p)
 		{
-			if (c.Resale || c.StockCap <= 0 || c.Kind == CompanyKind.Storage)
+			if (localLogistics == null || c.Resale || !c.Operational || c.StockCap <= 0 || c.Kind == CompanyKind.Storage)
 				return;
 
 			var r = Tables.Resources[c.Output];
 			if (!r.Tradable)
 				return;
 
-			var dist = OutsideDistance(p);
+			var unitFreight = localLogistics.OutsideFreightCents(p.Id, c.Output, false);
 			var unitPrice = Wholesale(r) * Info.ExportPercent / 100;
-			var unitFreight = FreightCents(r.Weight, dist);
-			if (unitPrice <= unitFreight)
+			if (unitFreight < 0 || unitPrice <= unitFreight)
 				return;
 
-			var profitable = c.Recipe < 0 || unitPrice - unitFreight > InputCostPerUnit(Tables.Recipes[c.Recipe], dist);
-			var reserve = profitable ? Math.Max(c.SoldEma * 3, c.StockCap * 5 / 100) : c.StockCap * 70 / 100;
-			var take = Math.Min(c.StockOut - reserve, TradeBudgetMilli(true));
-			if (take < 1000)
-				return;
-
-			var revenue = (int)((long)take * unitPrice / 1000);
-			var fr = (int)((long)take * unitFreight / 1000);
-			c.StockOut -= take;
-			c.Cash += revenue - fr;
-			c.SalesDay += revenue;
-			Move(Acct.Outside, Acct.Companies, LExport, revenue);
-			Move(Acct.Companies, Acct.Outside, LFreight, fr);
-			tradeUsedExport += take;
-			monthExported[c.Output] += take;
-			monthExportCents[c.Output] += revenue;
-			Dispatch(c.PropertyId, 0, c.Output, take, unitPrice);
+			var profitable = c.Recipe < 0 || unitPrice - unitFreight > InputCostPerUnit(Tables.Recipes[c.Recipe], OutsideDistance(p));
+			var reserve = CropChangePending(c, p) ? 0 : Math.Max(LocalNeedMilli(c.Output), profitable
+				? Math.Max(c.SoldEma * 3, c.StockCap * 20 / 100) : c.StockCap * 70 / 100);
+			var units = Math.Min(c.StockOut - reserve, TradeBudgetMilli(true)) / 1000;
+			if (units > 0)
+				OrderFreight(c, null, c.Output, units, unitPrice);
 		}
 
 		// ---- shops (ICityEconomy) ----
@@ -211,7 +212,7 @@ namespace OpenRA.Mods.City.Traits
 			var r = Tables.Resources[resource];
 			var list = shops[resource];
 			Company best = null;
-			var bestCost = int.MaxValue;
+			var bestCost = long.MaxValue;
 			var perCell = Info.ShopDistanceCents * Info.MoneyScalePercent / 100;
 			for (var i = 0; i < list.Count; i++)
 			{
@@ -221,7 +222,12 @@ namespace OpenRA.Mods.City.Traits
 
 				var sp = s.Prop;
 
-				var cost = Retail(r) + Manhattan(fromRoad, RoadOf(sp)) * perCell;
+				var travel = marketTraffic != null ? marketTraffic.EstimateTravelTicks(fromRoad, RoadOf(sp), TravelMode.Walk)
+					: localLogistics?.TravelTicks(fromRoad, RoadOf(sp)) ?? -1;
+				if (travel < 0)
+					continue;
+
+				var cost = Retail(r) + (long)travel * perCell;
 				if (cost < bestCost)
 				{
 					bestCost = cost;

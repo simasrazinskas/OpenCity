@@ -1,6 +1,6 @@
 # Owned by the citizens work package. See mods/city/ARCHITECTURE.md.
 # CitizenSim: per-citizen agent simulation (households, ageing, education, jobs, wages, health, schedules).
-# One game day (2400 ticks) is one calendar month; with DaysPerCitizenYear: 1 a citizen ages one year per day.
+# One game day (180000 ticks: 120 real minutes at 1x) is one calendar month; with DaysPerCitizenYear: 1 a citizen ages one year per day.
 Player:
 	CitizenSim:
 		DaysPerCitizenYear: 1
@@ -37,4 +37,11 @@ Player:
 		SchoolStartHour: 8
 		SchoolHours: 6
 		MaxTripRequestsPerTick: 120
+		DepartJitterTicks: 1250
+		ShoppingMinutes: 30
+		LeisureMinutes: 90
+		LeisureTripPercent: 35
+		WalkPreferenceCells: 12
+		OutingEndHour: 22
+		TripRetryMinutes: 10
 		CommuterPercentOfVacancies: 30

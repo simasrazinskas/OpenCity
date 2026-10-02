@@ -64,7 +64,7 @@ namespace OpenRA.Mods.City.Traits
 		public static RoadPrefabPlan Plan(World world, RoadLayer roads, CityManager cm, CPos centre, string prefab, Func<CPos, bool> isPending = null)
 		{
 			var plan = new RoadPrefabPlan { Prefab = prefab, Centre = centre };
-			var funds = cm?.Funds ?? int.MaxValue;
+			int? funds = cm == null || cm.UnlimitedMoney ? null : cm.Funds;
 			if (prefab == NetworkOrders.PrefabRamp)
 			{
 				PlanRamp(roads, plan, funds);
@@ -149,7 +149,7 @@ namespace OpenRA.Mods.City.Traits
 				}
 
 			plan.Cost = cost;
-			if (plan.ErrorKey == null && cost - plan.Refund > funds)
+			if (plan.ErrorKey == null && funds.HasValue && cost - plan.Refund > funds.Value)
 				plan.ErrorKey = ConstructionUtils.ErrorMoney;
 
 			return plan;
@@ -160,7 +160,7 @@ namespace OpenRA.Mods.City.Traits
 			plan.ErrorKey ??= key;
 		}
 
-		static void PlanRamp(RoadLayer roads, RoadPrefabPlan plan, int funds)
+		static void PlanRamp(RoadLayer roads, RoadPrefabPlan plan, int? funds)
 		{
 			var c = plan.Centre;
 			if (!roads.IsRoad(c) || !roads.IsHighwayClass(c))
@@ -173,7 +173,7 @@ namespace OpenRA.Mods.City.Traits
 
 			// Removing a ramp is free.
 			plan.Cost = roads.IsRamp(c) ? 0 : RampCost;
-			if (plan.Cost > funds)
+			if (funds.HasValue && plan.Cost > funds.Value)
 				plan.ErrorKey = ConstructionUtils.ErrorMoney;
 		}
 	}

@@ -1,5 +1,6 @@
 #!/bin/bash
-# Simulation golden logs: prove a change is render-only (no synced state changed).
+# Simulation golden logs: detect changes to deterministic city state.
+# Re-record only for intentional simulation changes, then run check independently.
 #
 # usage: mods/city/tools/golden.sh record|check [name...]
 #   record  run the scenarios and store their date=/report lines in mods/city/tests/golden/<name>.txt
@@ -7,7 +8,7 @@
 # Scenarios (name -> map + autotest spec) are listed below. Default: all of them.
 # The game seed is pinned (OPENRA_RANDOM_SEED, default 12345) so fresh runs are comparable.
 # Requires a Release build (make all). Runs headless (offscreen), never opens a window.
-set -u
+set -uo pipefail
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 declare -A SPEC=(
 	[full]="green-valley|ticks=12000;scenario=full;timestep=1"
@@ -20,8 +21,12 @@ FAIL=0
 for n in "${NAMES[@]}"; do
 	IFS='|' read -r MAP S <<< "${SPEC[$n]}"
 	SD=/tmp/opencity-golden-$n-$$
-	OPENRA_RANDOM_SEED=${OPENRA_RANDOM_SEED:-12345} "$ROOT/mods/city/tools/autotest.sh" "$MAP" "$S" "$SD" 2>&1 | grep -E "^\[autotest t=" | grep -E "date=|report" \
-		| sed 's/^\[autotest t=\([0-9]*\)\] /t=\1 /' > "$SD.txt"
+	if ! OPENRA_RANDOM_SEED=${OPENRA_RANDOM_SEED:-12345} "$ROOT/mods/city/tools/autotest.sh" "$MAP" "$S" "$SD" 2>&1 | grep -E "^\[autotest t=" | grep -E "date=|report" \
+		| sed 's/^\[autotest t=\([0-9]*\)\] /t=\1 /' > "$SD.txt"; then
+		echo "$n: RUN FAILED (logs retained in $SD)"
+		FAIL=1
+		continue
+	fi
 	G="$ROOT/mods/city/tests/golden/$n.txt"
 	if [ "$MODE" = record ]; then
 		cp "$SD.txt" "$G"; echo "$n: recorded $(wc -l < "$G") lines"

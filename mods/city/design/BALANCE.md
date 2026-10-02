@@ -7,7 +7,9 @@ How the numbers were found, what was changed and why. Everything was measured wi
 mods/city/tools/autotest.sh green-valley "ticks=96000;timestep=1;log=2400;scenario=automayor;shots=6000,18000,36000,60000,96000;center=40,0;zoom=0.5"
 ```
 
-1 month = 2,400 ticks (one CityClock day). Targets were: population about 500 at month 3, 2,000 at month 8 and 5,000+ at
+Historical baseline (before the 120-minute calendar): 1 month = 2,400 ticks. The current clock
+uses 180,000 ticks/month; these old timing targets and measurements need that distinction.
+Targets were: population about 500 at month 3, 2,000 at month 8 and 5,000+ at
 month 18; money dips early and is positive by month 3-5 without runaway wealth; unemployment mostly 3-12%; happiness 50-80;
 traffic flow 50-85%; buildings level up, abandonment only under bad conditions.
 

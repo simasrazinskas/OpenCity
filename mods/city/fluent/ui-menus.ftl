@@ -45,3 +45,9 @@ label-save-selected-header = Selected
 label-save-name = Name
 label-save-filter = Filter
 button-save-filter-reset = Clear
+
+checkbox-city-sandbox = Sandbox
+checkbox-city-sandbox-description = All buildings, policies and land unlocked, with unlimited city money.
+label-newgame-sandbox-description = All buildings, policies and land unlocked.
+    Unlimited city money.
+label-city-unlimited-money = Unlimited money

@@ -224,10 +224,13 @@ namespace OpenRA.Mods.City.Traits
 			else if (workers >= 20 && m.Jobs > (workers - unemployed) * 3 / 2 + 20)
 				Add("labor-shortage", ProblemTier.Info, S(m.Jobs - (workers - unemployed)));
 
-			if (m.Funds < 0)
-				Add("broke", ProblemTier.Major);
-			else if (m.MonthlyBalance < 0)
-				Add("deficit", ProblemTier.Warning, CityUtils.FormatMoney(-m.MonthlyBalance));
+			if (!m.UnlimitedMoney)
+			{
+				if (m.Funds < 0)
+					Add("broke", ProblemTier.Major);
+				else if (m.MonthlyBalance < 0)
+					Add("deficit", ProblemTier.Warning, CityUtils.FormatMoney(-m.MonthlyBalance));
+			}
 
 			if (ManyProblems(CityProblem.NoRoad, out var noroad))
 				Add("no-road", ProblemTier.Problem, S(noroad), SampleCell(CityProblem.NoRoad));

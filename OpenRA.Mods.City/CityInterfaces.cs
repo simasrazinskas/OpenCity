@@ -263,7 +263,7 @@ namespace OpenRA.Mods.City.Traits
 
 		void CancelTrip(int tripId);
 
-		/// <summary>Estimated door-to-door ticks with current congestion (-1 = unreachable).</summary>
+		/// <summary>Estimated route travel ticks with current congestion (-1 = unreachable, -2 = search budget exhausted; retry next tick).</summary>
 		int EstimateTravelTicks(CPos fromRoad, CPos toRoad, TravelMode mode);
 
 		int ActiveVehicles { get; }

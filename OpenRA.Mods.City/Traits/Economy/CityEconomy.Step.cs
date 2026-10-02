@@ -48,6 +48,11 @@ namespace OpenRA.Mods.City.Traits
 				if ((tick + c.Id) % ecoDayTicks == 0)
 					StepCompany(c);
 			}
+
+			// Complete this tick's local procurement before considering outside sales.
+			foreach (var c in companies)
+				if (!c.Orphan && (tick + c.Id) % ecoDayTicks == 0 && c.Prop != null)
+					ExportSurplus(c, c.Prop);
 		}
 
 		void StepCompany(Company c)
@@ -63,6 +68,7 @@ namespace OpenRA.Mods.City.Traits
 				return;
 			}
 
+			UpdateCrop(c, p);
 			var cb = p.Actor?.TraitOrDefault<CityBuilding>();
 			c.Operational = cb != null && p.Operational && cb.IsOperational;
 			RefreshJobs(c, p, cb);
@@ -98,7 +104,6 @@ namespace OpenRA.Mods.City.Traits
 			{
 				Produce(c, p);
 				Procure(c, p);
-				ExportSurplus(c, p);
 			}
 
 			Adapt(c);
@@ -192,7 +197,7 @@ namespace OpenRA.Mods.City.Traits
 		// Production from filled jobs, limited by input stock, output room, extractor capacity and the throttle.
 		void Produce(Company c, Property p)
 		{
-			if (c.Resale || !c.Operational || c.WorkersNow <= 0 || c.Efficiency <= 0)
+			if (c.Resale || !c.Operational || c.WorkersNow <= 0 || c.Efficiency <= 0 || CropChangePending(c, p))
 				return;
 
 			var res = Tables.Resources[c.Output];
@@ -247,9 +252,9 @@ namespace OpenRA.Mods.City.Traits
 			if (c.Resale)
 			{
 				var target = Math.Min(c.StockCap, Math.Max(8000, c.SoldEma * Info.InputDays));
-				var need = target - c.StockOut;
+				var need = target - c.StockOut - c.InboundMilli(c.Output);
 				if (need >= 1000)
-					c.StockOut += Buy(c, p, c.Output, need);
+					_ = Buy(c, p, c.Output, need);
 
 				return;
 			}
@@ -262,9 +267,9 @@ namespace OpenRA.Mods.City.Traits
 			for (var j = 0; j < rc.InputRes.Length; j++)
 			{
 				var target = Math.Min(int.MaxValue / 4, perDay * rc.InputQty[j] * Info.InputDays);
-				var need = (int)Math.Max(0, target - c.StockIn[j]);
+				var need = (int)Math.Max(0, target - c.StockIn[j] - c.InboundMilli(rc.InputRes[j]));
 				if (need >= 1000)
-					c.StockIn[j] += Buy(c, p, rc.InputRes[j], need);
+					_ = Buy(c, p, rc.InputRes[j], need);
 			}
 		}
 

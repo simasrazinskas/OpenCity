@@ -32,6 +32,7 @@ namespace OpenRA.Mods.Common.Widgets
 		readonly Dictionary<TextNotificationPool, Widget> templates = [];
 
 		readonly List<long> expirations = [];
+		readonly List<TextNotification> notifications = [];
 
 		Rectangle overflowDrawBounds = Rectangle.Empty;
 		public override Rectangle EventBounds => Rectangle.Empty;
@@ -46,13 +47,37 @@ namespace OpenRA.Mods.Common.Widgets
 			templates.Add(TextNotificationPool.Feedback, Ui.LoadWidget(FeedbackTemplate, null, []));
 			templates.Add(TextNotificationPool.Transients, Ui.LoadWidget(TransientsTemplate, null, []));
 
-			// HACK: Assume that all templates use the same font
-			var lineHeight = Game.Renderer.Fonts[templates[TextNotificationPool.Chat].Get<LabelWidget>("TEXT").Font].Measure("").Y;
-			var wholeLines = (int)Math.Floor((double)((Bounds.Height - BottomSpacing) / lineHeight));
-			var visibleChildrenHeight = wholeLines * lineHeight;
+			UpdateOverflowBounds();
+		}
 
+		void UpdateOverflowBounds()
+		{
+			// All templates use the same font. Recompute clipping after a size or device-scale change.
+			var lineHeight = Math.Max(1, Game.Renderer.Fonts[templates[TextNotificationPool.Chat].Get<LabelWidget>("TEXT").Font].Measure("").Y);
+			var wholeLines = Math.Max(0, Bounds.Height - BottomSpacing) / lineHeight;
+			var visibleChildrenHeight = wholeLines * lineHeight;
 			var y = RenderOrigin.Y + Bounds.Height - visibleChildrenHeight;
 			overflowDrawBounds = new Rectangle(RenderOrigin.X, y, Bounds.Width, visibleChildrenHeight);
+		}
+
+		public override void Relayout()
+		{
+			RemoveChildren();
+			foreach (var notification in notifications)
+			{
+				var line = templates[notification.Pool].Clone();
+				WidgetUtils.SetupTextNotification(line, notification, Bounds.Width, false);
+				AddChild(line);
+			}
+
+			var bottom = Bounds.Height - BottomSpacing;
+			for (var i = Children.Count - 1; i >= 0; i--)
+			{
+				Children[i].Bounds.Y = bottom - Children[i].Bounds.Height;
+				bottom = Children[i].Bounds.Y - ItemSpacing;
+			}
+
+			UpdateOverflowBounds();
 		}
 
 		public override void DrawOuter()
@@ -65,7 +90,7 @@ namespace OpenRA.Mods.Common.Widgets
 			if (mostRecentMessageOverflows && HideOverflow)
 				Game.Renderer.EnableScissor(overflowDrawBounds);
 
-			var bounds = Bounds.ToRectangle();
+			var bounds = new Rectangle(0, 0, Bounds.Width, Bounds.Height);
 			for (var i = Children.Count - 1; i >= 0; i--)
 			{
 				if (!HideOverflow || mostRecentMessageOverflows || bounds.Contains(Children[i].Bounds.ToRectangle()))
@@ -85,7 +110,7 @@ namespace OpenRA.Mods.Common.Widgets
 			WidgetUtils.SetupTextNotification(notificationWidget, notification, Bounds.Width, false);
 
 			if (Children.Count == 0)
-				notificationWidget.Bounds.Y = Bounds.Bottom - notificationWidget.Bounds.Height - BottomSpacing;
+				notificationWidget.Bounds.Y = Bounds.Height - notificationWidget.Bounds.Height - BottomSpacing;
 			else
 			{
 				foreach (var line in Children)
@@ -97,6 +122,7 @@ namespace OpenRA.Mods.Common.Widgets
 
 			AddChild(notificationWidget);
 			expirations.Add(Game.RunTime + DisplayDurationMs);
+			notifications.Add(notification);
 
 			while (Children.Count > LogLength)
 				RemoveNotification();
@@ -111,6 +137,7 @@ namespace OpenRA.Mods.Common.Widgets
 
 			RemoveChild(mostRecentChild);
 			expirations.RemoveAt(expirations.Count - 1);
+			notifications.RemoveAt(notifications.Count - 1);
 
 			for (var i = Children.Count - 1; i >= 0; i--)
 				Children[i].Bounds.Y += mostRecentChild.Bounds.Height + ItemSpacing;
@@ -123,6 +150,7 @@ namespace OpenRA.Mods.Common.Widgets
 
 			RemoveChild(Children[0]);
 			expirations.RemoveAt(0);
+			notifications.RemoveAt(0);
 		}
 
 		public override void Tick()

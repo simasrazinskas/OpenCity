@@ -57,6 +57,7 @@ namespace OpenRA.Mods.City.Traits
 
 			var sb = new StringBuilder();
 			sb.Append("economy companies=").Append(companies.Count)
+				.Append(" pendingFreight=").Append(pendingFreight.Count)
 				.Append(" (ext/proc/shop/office=").Append(counts[0]).Append('/').Append(counts[1]).Append('/').Append(counts[2]).Append('/').Append(counts[3])
 				.Append(" storage=").Append(counts[4]).Append(") jobs=").Append(workers).Append('/').Append(slots)
 				.Append(" spawned=").Append(spawnedTotal).Append(" bankrupt=").Append(bankruptTotal).Append(" closed=").Append(closedTotal)

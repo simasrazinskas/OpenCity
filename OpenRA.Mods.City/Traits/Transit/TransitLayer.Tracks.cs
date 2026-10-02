@@ -9,6 +9,7 @@
  */
 #endregion
 
+using System;
 using OpenRA.Graphics;
 using OpenRA.Traits;
 
@@ -101,7 +102,7 @@ namespace OpenRA.Mods.City.Traits
 		public TrackPlan PlanTrack(string kind, CPos from, CPos to)
 		{
 			var cm = Funds();
-			var funds = cm?.Funds ?? -1;
+			var funds = cm == null || cm.UnlimitedMoney ? -1 : Math.Max(0, cm.Funds);
 			if (kind == "rail" && rail != null)
 				return rail.Plan(from, to, funds);
 
@@ -123,7 +124,7 @@ namespace OpenRA.Mods.City.Traits
 			if (remove)
 				return RemoveTram(from, to, cm);
 
-			var plan = PlanTram(from, to, cm?.Funds ?? -1);
+			var plan = PlanTram(from, to, cm == null || cm.UnlimitedMoney ? -1 : Math.Max(0, cm.Funds));
 			if (plan.Build.Count == 0)
 				return plan.ErrorKey;
 
@@ -148,7 +149,7 @@ namespace OpenRA.Mods.City.Traits
 			if (rail == null)
 				return ErrorNotSupported;
 
-			var plan = rail.Plan(from, to, cm?.Funds ?? -1);
+			var plan = rail.Plan(from, to, cm == null || cm.UnlimitedMoney ? -1 : Math.Max(0, cm.Funds));
 			if (plan.Build.Count == 0)
 				return plan.ErrorKey;
 

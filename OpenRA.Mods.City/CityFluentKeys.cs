@@ -442,6 +442,7 @@ namespace OpenRA.Mods.City
 			"label-building-water",
 			"label-building-zone-level",
 			"label-city-build-hint",
+			"label-city-build-locked",
 			"label-city-build-section-addons",
 			"label-city-build-section-buildings",
 			"label-city-build-section-junctions",

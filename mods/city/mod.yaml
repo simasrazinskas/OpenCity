@@ -208,63 +208,40 @@ ChromeMetrics:
 	city|metrics.yaml
 
 Fonts:
-	# Pixel fonts (see mods/city/fonts/README.md): for every UI scale the engine picks the face and whole multiple of its
-	# pixel grid whose cap height is closest to Size * PixelCapRatio (FontData.PixelFaces), so text stays sharp and in
-	# proportion at every scale. PixelMinCapHeight keeps small text readable (at least 7 device pixels tall capitals).
+	# Outline fonts are rasterized with grayscale antialiasing at the actual device/UI scale.
+	# Keep the compact text baseline compatible with the shared chrome; primary labels use Small or Regular.
 	Tiny:
-		Font: city|fonts/OpenCityPixel-Regular.ttf
-		Size: 10
+		Font: common|FreeSans.ttf
+		Size: 11
 		Ascender: 8
-		PixelFaces: city|fonts/OpenCityPixel8.ttf 8, city|fonts/OpenCityPixel10.ttf 10, city|fonts/OpenCityPixel12.ttf 12
-		PixelMinCapHeight: 7
 	TinyBold:
-		Font: city|fonts/OpenCityPixel-Bold.ttf
-		Size: 10
+		Font: common|FreeSansBold.ttf
+		Size: 11
 		Ascender: 8
-		PixelFaces: city|fonts/OpenCityPixel-Bold.ttf 16 bold, city|fonts/OpenCityPixel8.ttf 8, city|fonts/OpenCityPixel10.ttf 10, city|fonts/OpenCityPixel12.ttf 12
-		PixelBold: true
-		PixelMinCapHeight: 7
 	Small:
-		Font: city|fonts/OpenCityPixel-Regular.ttf
+		Font: common|FreeSans.ttf
 		Size: 12
 		Ascender: 9
-		PixelFaces: city|fonts/OpenCityPixel8.ttf 8, city|fonts/OpenCityPixel10.ttf 10, city|fonts/OpenCityPixel12.ttf 12
-		PixelMinCapHeight: 7
 	Regular:
-		Font: city|fonts/OpenCityPixel-Regular.ttf
+		Font: common|FreeSans.ttf
 		Size: 14
 		Ascender: 11
-		PixelFaces: city|fonts/OpenCityPixel8.ttf 8, city|fonts/OpenCityPixel10.ttf 10, city|fonts/OpenCityPixel12.ttf 12
-		PixelMinCapHeight: 7
 	Bold:
-		Font: city|fonts/OpenCityPixel-Bold.ttf
+		Font: common|FreeSansBold.ttf
 		Size: 14
 		Ascender: 11
-		PixelFaces: city|fonts/OpenCityPixel-Bold.ttf 16 bold, city|fonts/OpenCityPixel8.ttf 8, city|fonts/OpenCityPixel10.ttf 10, city|fonts/OpenCityPixel12.ttf 12
-		PixelBold: true
-		PixelMinCapHeight: 7
 	MediumBold:
-		Font: city|fonts/OpenCityPixel-Bold.ttf
+		Font: common|FreeSansBold.ttf
 		Size: 18
 		Ascender: 14
-		PixelFaces: city|fonts/OpenCityPixel-Bold.ttf 16 bold, city|fonts/OpenCityPixel8.ttf 8, city|fonts/OpenCityPixel10.ttf 10, city|fonts/OpenCityPixel12.ttf 12
-		PixelBold: true
-		PixelMinCapHeight: 7
-		PixelLargerThan: Bold
 	BigBold:
-		Font: city|fonts/OpenCityPixel-Bold.ttf
+		Font: common|FreeSansBold.ttf
 		Size: 24
 		Ascender: 18
-		PixelFaces: city|fonts/OpenCityPixel-Bold.ttf 16 bold, city|fonts/OpenCityPixel8.ttf 8, city|fonts/OpenCityPixel10.ttf 10, city|fonts/OpenCityPixel12.ttf 12
-		PixelBold: true
-		PixelMinCapHeight: 7
 	Title:
-		Font: city|fonts/OpenCityPixel-Bold.ttf
+		Font: common|FreeSansBold.ttf
 		Size: 48
 		Ascender: 36
-		PixelFaces: city|fonts/OpenCityPixel-Bold.ttf 16 bold, city|fonts/OpenCityPixel8.ttf 8, city|fonts/OpenCityPixel10.ttf 10, city|fonts/OpenCityPixel12.ttf 12
-		PixelBold: true
-		PixelMinCapHeight: 7
 
 WorldViewportSizes:
 	# Whole zoom levels keep the 2:1 isometric pixel stairs regular (1.5 would alternate 1 and 2 px steps).

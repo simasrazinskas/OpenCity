@@ -146,13 +146,15 @@ namespace OpenRA.Mods.City.Traits
 		}
 
 		int seekCursor, homeCursor;
+		long citizenSearchProgress, homeSearchProgress;
 
 		/// <summary>Round-robin scan (SearchScansPerDay full passes per day): unemployed citizens search for jobs and homeless households for homes.</summary>
 		void ScanSeekers()
 		{
-			var pulsesPerDay = Math.Max(1, TicksPerDay / 25);
 			var scans = Math.Max(1, info.SearchScansPerDay);
-			var cn = citCount * scans / pulsesPerDay + 1;
+			citizenSearchProgress += (long)citCount * scans * 25;
+			var cn = (int)(citizenSearchProgress / TicksPerDay);
+			citizenSearchProgress %= TicksPerDay;
 			for (var k = 0; k < cn && citCount > 0; k++)
 			{
 				if (seekCursor >= citCount)
@@ -164,7 +166,9 @@ namespace OpenRA.Mods.City.Traits
 					SeekJob(ci, AgeOf(ci));
 			}
 
-			var hn = hhCount * scans / pulsesPerDay + 1;
+			homeSearchProgress += (long)hhCount * scans * 25;
+			var hn = (int)(homeSearchProgress / TicksPerDay);
+			homeSearchProgress %= TicksPerDay;
 			for (var k = 0; k < hn && hhCount > 0; k++)
 			{
 				if (homeCursor >= hhCount)
@@ -265,13 +269,18 @@ namespace OpenRA.Mods.City.Traits
 		/// <summary>Household shopping: either a real shopping trip (purchase on arrival) or an immediate purchase.</summary>
 		void Shop(int hh)
 		{
-			if (hhs[hh].Home != 0 && traffic != null && Hash(hh, Today, 50) % 100 < info.ShopTripPercent && PlanShopTrip(hh))
+			if (hhs[hh].Home != 0 && traffic != null && Hash(hh, Today, 50) % 100 < info.ShopTripPercent)
+			{
+				if (!PlanShopTrip(hh))
+					unmetShopping++;
+
 				return;
+			}
 
 			BuyNow(hh);
 		}
 
-		void BuyNow(int hh)
+		void BuyNow(int hh, int arrivedShop = 0)
 		{
 			ref var h = ref hhs[hh];
 			var items = Math.Max(1, info.ShoppingItemsPerVisit);
@@ -293,7 +302,7 @@ namespace OpenRA.Mods.City.Traits
 				{
 					var home = registry.Get(h.Home);
 					var res = economy.ConsumerResources[(Hash(hh, Today, 51) + item) % economy.ConsumerResources.Count];
-					var shop = home != null ? economy.FindShop(res, home.AccessRoad) : 0;
+					var shop = arrivedShop != 0 ? arrivedShop : home != null ? economy.FindShop(res, home.AccessRoad) : 0;
 					charged = 0;
 					if (shop != 0)
 						economy.SellToHousehold(shop, res, info.ShoppingUnitsMilliPerPerson * h.Size / items, spend, out charged);

@@ -1,6 +1,7 @@
 #version {VERSION}
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
+precision highp int;
 #endif
 
 uniform sampler2D Texture0;
@@ -27,6 +28,8 @@ flat in uint vChannelType;
 flat in vec4 vDepthMask;
 flat in uint vDepthSampler;
 in vec4 vTint;
+flat in vec4 vTextureBounds;
+flat in uint vHardwareBilinearFiltering;
 
 out vec4 fragColor;
 
@@ -119,23 +122,33 @@ vec4 Sample(uint samplerIndex, vec2 pos)
 	}
 }
 
-vec4 SamplePalettedBilinear(uint samplerIndex, vec2 coords, vec2 textureSize)
+vec4 ResolveColor(vec4 sampleColor)
 {
-	vec2 texPos = (coords * textureSize) - vec2(0.5);
+	if ((vChannelType & 0x01u) != 0u)
+		return texture(Palette, vec2(dot(sampleColor, vChannelMask), vTexPalette));
+
+	return sampleColor;
+}
+
+vec4 SampleBilinear(uint samplerIndex, vec2 coords, vec2 textureSize, vec4 bounds)
+{
+	// Clamp to the first/last texel centers of this sprite, never another sprite on the sheet.
+	coords = clamp(coords, bounds.xy, bounds.zw);
+	if (vHardwareBilinearFiltering != 0u && (vChannelType & 0x01u) == 0u)
+		return Sample(samplerIndex, coords);
+
+	vec2 texPos = coords * textureSize - vec2(0.5);
 	vec2 interp = fract(texPos);
 	vec2 tl = (floor(texPos) + vec2(0.5)) / textureSize;
 	vec2 px = 1.0 / textureSize;
 
-	vec4 x1 = Sample(samplerIndex, tl);
-	vec4 x2 = Sample(samplerIndex, tl + vec2(px.x, 0.));
-	vec4 x3 = Sample(samplerIndex, tl + vec2(0., px.y));
-	vec4 x4 = Sample(samplerIndex, tl + px);
+	// Resolve palette indices BEFORE blending. The same path also filters nearest-sampled RGBA sheets.
+	vec4 c1 = ResolveColor(Sample(samplerIndex, clamp(tl, bounds.xy, bounds.zw)));
+	vec4 c2 = ResolveColor(Sample(samplerIndex, clamp(tl + vec2(px.x, 0.), bounds.xy, bounds.zw)));
+	vec4 c3 = ResolveColor(Sample(samplerIndex, clamp(tl + vec2(0., px.y), bounds.xy, bounds.zw)));
+	vec4 c4 = ResolveColor(Sample(samplerIndex, clamp(tl + px, bounds.xy, bounds.zw)));
 
-	vec4 c1 = texture(Palette, vec2(dot(x1, vChannelMask), vTexPalette));
-	vec4 c2 = texture(Palette, vec2(dot(x2, vChannelMask), vTexPalette));
-	vec4 c3 = texture(Palette, vec2(dot(x3, vChannelMask), vTexPalette));
-	vec4 c4 = texture(Palette, vec2(dot(x4, vChannelMask), vTexPalette));
-
+	// Sheet colours and palette colours are premultiplied, preventing transparent edge halos.
 	return mix(mix(c1, c2, interp.x), mix(c3, c4, interp.x), interp.y);
 }
 
@@ -158,46 +171,50 @@ void main()
 	bool isColor = vChannelType == 0u;
 
 	vec4 c;
-	bool minified = false;
-	if (EnablePixelArtScaling)
+	if (isColor)
+		c = vTexCoord;
+	else if (EnablePixelArtScaling)
 	{
 		vec2 textureSize = Size(vChannelSampler);
-		vec2 vUv = coords.st * textureSize;
-		vec2 offset = fract(vUv);
-		vec2 pixelsPerTexel = vec2(1.0 / dFdx(vUv.x), 1.0 / dFdy(vUv.y));
-		minified = abs(pixelsPerTexel.x) < 0.999 || abs(pixelsPerTexel.y) < 0.999;
+		vec4 texelBounds = floor(vTextureBounds * textureSize.xyxy);
+		// Sprite UVs are slightly inset to protect nearest sampling. Undo that inset for the
+		// filtered path so native/integer scales land exactly on texel centers.
+		vec2 texelCoords = texelBounds.xy + (coords - vTextureBounds.xy)
+			/ max(vTextureBounds.zw - vTextureBounds.xy, vec2(0.000001))
+			* (texelBounds.zw + vec2(1.0) - texelBounds.xy);
+		coords = texelCoords / textureSize;
+		vec2 dx = dFdx(texelCoords);
+		vec2 dy = dFdy(texelCoords);
 
-		// Offset the sampling point to simulate bilinear intepolation in window coordinates instead of texture coordinates
-		// https://csantosbh.wordpress.com/2014/01/25/manual-texture-filtering-for-pixelated-games-in-webgl/
-		// https://csantosbh.wordpress.com/2014/02/05/automatically-detecting-the-texture-filter-threshold-for-pixelated-magnifications/
-		// ik is defined as 1/k from the articles, set to 1/0.7 because it looks good
-		float ik = 1.43;
-		vec2 interp = clamp(offset * ik * pixelsPerTexel, 0.0, .5) + clamp((offset - 1.0) * ik * pixelsPerTexel + .5, 0.0, .5);
-		coords = (floor(coords.st * textureSize) + interp) / textureSize;
-
-		if (isPaletted)
-			c = SamplePalettedBilinear(vChannelSampler, coords, textureSize);
-		else if (!isColor && minified)
+		// Both screen derivatives contribute to each texture axis: signed diagonal derivatives
+		// break mirrored sprites and become zero at 90 degree rotations.
+		vec2 footprint = vec2(length(vec2(dx.x, dy.x)), length(vec2(dx.y, dy.y)));
+		vec4 bounds = (texelBounds + vec4(0.5)) / textureSize.xyxy;
+		if (any(greaterThan(footprint, vec2(1.001))))
 		{
-			// Minification: average a 2x2 grid of bilinear taps spread over the screen pixel's footprint.
-			// This approximates an area (box) filter, so zoomed out pixel art stays clean instead of aliasing.
-			vec2 q = 0.25 * max(vec2(1.0), 1.0 / abs(pixelsPerTexel)) / textureSize;
-			c = 0.25 * (Sample(vChannelSampler, vTexCoord.st + vec2(-q.x, -q.y)) + Sample(vChannelSampler, vTexCoord.st + vec2(q.x, -q.y))
-				+ Sample(vChannelSampler, vTexCoord.st + vec2(-q.x, q.y)) + Sample(vChannelSampler, vTexCoord.st + vec2(q.x, q.y)));
+			// Average bilinear taps over the screen pixel footprint, for RGBA AND palette sprites.
+			// Derivative vectors keep the sample grid aligned with the image even when rotated.
+			vec2 qx = 0.25 * dx / textureSize;
+			vec2 qy = 0.25 * dy / textureSize;
+			c = 0.25 * (SampleBilinear(vChannelSampler, coords - qx - qy, textureSize, bounds)
+				+ SampleBilinear(vChannelSampler, coords + qx - qy, textureSize, bounds)
+				+ SampleBilinear(vChannelSampler, coords - qx + qy, textureSize, bounds)
+				+ SampleBilinear(vChannelSampler, coords + qx + qy, textureSize, bounds));
+		}
+		else
+		{
+			// Sharp bilinear: keep texel interiors crisp, with a one-screen-pixel transition
+			// at their boundaries. Whole, aligned zoom levels still sample texel centers.
+			vec2 pixelsPerTexel = 1.0 / max(footprint, vec2(0.0001));
+			vec2 offset = fract(texelCoords);
+			vec2 interp = clamp(offset * pixelsPerTexel, 0.0, 0.5)
+				+ clamp((offset - 1.0) * pixelsPerTexel + 0.5, 0.0, 0.5);
+			coords = (floor(texelCoords) + interp) / textureSize;
+			c = SampleBilinear(vChannelSampler, coords, textureSize, bounds);
 		}
 	}
-
-	if (!(EnablePixelArtScaling && (isPaletted || (!isColor && minified))))
-	{
-		vec4 x = Sample(vChannelSampler, coords);
-		vec2 p = vec2(dot(x, vChannelMask), vTexPalette);
-		if (isPaletted)
-			c = texture(Palette, p);
-		else if (isColor)
-			c = vTexCoord;
-		else
-			c = x;
-	}
+	else
+		c = ResolveColor(Sample(vChannelSampler, coords));
 
 	// Discard any transparent fragments (both color and depth)
 	if (c.a == 0.0)

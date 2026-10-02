@@ -83,7 +83,7 @@ namespace OpenRA.Mods.City.Traits
 		int ruleRotation;
 
 		// Funds not yet claimed by orders issued in this decision (orders resolve after the decision, so cm.Funds lags).
-		int Avail => cm.Funds - committed;
+		int Avail => cm.UnlimitedMoney ? int.MaxValue : cm.Funds - committed;
 		int opIncome, opExpenses;
 
 		void CountPlaced(World w, Player p)
