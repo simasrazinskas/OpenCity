@@ -36,6 +36,9 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		const string FundsFooter = "label-budget-footer-funds";
 
 		[FluentReference]
+		const string UnlimitedMoney = "label-city-unlimited-money";
+
+		[FluentReference]
 		const string TabBudget = "label-budget-tab-budget";
 
 		[FluentReference]
@@ -153,7 +156,8 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		void InitFooter(Widget widget)
 		{
 			var funds = widget.Get<LabelWidget>("FUNDS");
-			funds.GetText = () => manager == null ? "" : FluentProvider.GetMessage(FundsFooter, "funds", CityUtils.FormatMoney(manager.Funds));
+			funds.GetText = () => manager == null ? "" : FluentProvider.GetMessage(FundsFooter, "funds",
+				manager.UnlimitedMoney ? FluentProvider.GetMessage(UnlimitedMoney) : CityUtils.FormatMoney(manager.Funds));
 			var balance = widget.Get<LabelWidget>("FOOTER_BALANCE");
 			balance.GetText = () => manager == null ? "" : FluentProvider.GetMessage(BalanceFooter, "balance", CityUi.SignedMoney(manager.MonthlyBalance));
 		}

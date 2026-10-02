@@ -106,12 +106,19 @@ namespace OpenRA.Mods.City.Traits
 				int r = route[step];
 				if ((exitMask[cell] & (1 << r)) == 0)
 				{
-					// The road changed under the vehicle: plan again from here.
-					if (!Replan(v, cell, h))
+					// The road changed under the vehicle: plan again from here within the shared budget.
+					if (replanBudget <= 0)
+						return;
+
+					replanBudget--;
+					if (!Replan(v, cell, h) && !routeSearchDeferred)
 					{
 						FailVehicle(v, TripFailure.NoRoute);
 						Released(l, interval);
 					}
+
+					if (routeSearchDeferred)
+						return;
 
 					continue;
 				}
@@ -156,7 +163,7 @@ namespace OpenRA.Mods.City.Traits
 				MaybeCrash(v, nl);
 				if (ctl[cell] == (byte)JunctionControl.Stop)
 				{
-					nodeNextU[cell] = nowU + 2 * U;
+					nodeNextU[cell] = nowU + Math.Max(0, Info.StopDelayTicks) * U;
 					roundRobin[cell] = (byte)((h + 1) & 3);
 				}
 
@@ -225,7 +232,12 @@ namespace OpenRA.Mods.City.Traits
 			var t = vTrip[v];
 			var dest = t.ParkCell >= 0 ? t.ParkCell : t.Destination;
 			if (!FindRouteForTrip(t, cell, h, dest, t.SpeedPct, t.Kind == KindEmergency, Hash(t.Id, tick) | 1, out var route, out _))
+			{
+				if (routeSearchDeferred)
+					t.SearchNodes = NextSearchNodes(t.SearchNodes);
+
 				return false;
+			}
 
 			vRoute[v] = route;
 			vStep[v] = 0;
@@ -243,11 +255,12 @@ namespace OpenRA.Mods.City.Traits
 
 			var cycle = Math.Max(8, Info.SignalCycleTicks);
 			var half = cycle / 2;
+			var clearance = Math.Clamp(Info.SignalClearanceTicks, 1, Math.Max(1, half - 1));
 			var phase = SignalPhase(Cell(c), cycle);
 			if ((arm & 1) == 0)
-				return phase < half - 2 ? 2 : phase < half ? 1 : 0;
+				return phase < half - clearance ? 2 : phase < half ? 1 : 0;
 
-			return phase >= half && phase < cycle - 2 ? 2 : phase >= cycle - 2 ? 1 : 0;
+			return phase >= half && phase < cycle - clearance ? 2 : phase >= cycle - clearance ? 1 : 0;
 		}
 
 		int SignalPhase(int cell, int cycle)
@@ -261,6 +274,7 @@ namespace OpenRA.Mods.City.Traits
 		{
 			var cycle = Math.Max(8, Info.SignalCycleTicks);
 			var half = cycle / 2;
+			var clearance = Math.Clamp(Info.SignalClearanceTicks, 1, Math.Max(1, half - 1));
 			var p = SignalPhase(cell, cycle);
 			if (p == 0 || p == half)
 			{
@@ -269,7 +283,7 @@ namespace OpenRA.Mods.City.Traits
 			}
 
 			var axis = p < half ? 0 : 1;
-			var lastGreen = axis == 0 ? half - 3 : cycle - 3;
+			var lastGreen = axis == 0 ? half - clearance - 1 : cycle - clearance - 1;
 			if (p != lastGreen || sigExt[cell] >= Info.SignalExtendTicks)
 				return;
 
@@ -314,7 +328,7 @@ namespace OpenRA.Mods.City.Traits
 			{
 				case JunctionControl.Stop:
 				{
-					if (nodeNextU[cell] > nowU || vReadyU[v] + 2 * U > nowU)
+					if (nodeNextU[cell] > nowU || vReadyU[v] + Math.Max(0, Info.StopDelayTicks) * U > nowU)
 						return false;
 
 					// Round robin over the approaches that have a vehicle waiting.
@@ -323,7 +337,7 @@ namespace OpenRA.Mods.City.Traits
 					{
 						var hh = (rr + i) & 3;
 						var f = qHead[cell * 4 + hh];
-						if (f >= 0 && vReadyU[f] + 2 * U <= nowU && CanAdvance(f, cell))
+						if (f >= 0 && vReadyU[f] + Math.Max(0, Info.StopDelayTicks) * U <= nowU && CanAdvance(f, cell))
 							return hh == h;
 					}
 
@@ -334,8 +348,9 @@ namespace OpenRA.Mods.City.Traits
 				{
 					var cycle = Math.Max(8, Info.SignalCycleTicks);
 					var half = cycle / 2;
+					var clearance = Math.Clamp(Info.SignalClearanceTicks, 1, Math.Max(1, half - 1));
 					var phase = SignalPhase(cell, cycle);
-					var green = (h & 1) == 0 ? phase < half - 2 : phase >= half && phase < cycle - 2;
+					var green = (h & 1) == 0 ? phase < half - clearance : phase >= half && phase < cycle - clearance;
 					if (!green)
 						return false;
 
@@ -344,7 +359,7 @@ namespace OpenRA.Mods.City.Traits
 						// Left turns give way to the opposing through traffic, unless the green is ending or they waited long.
 						var lo = cell * 4 + ((h + 2) & 3);
 						var f = qHead[lo];
-						var clearing = phase % half >= half - 4;
+						var clearing = phase % half >= half - clearance - Math.Max(1, Info.StopDelayTicks);
 						var waited = blockedSince[l] >= 0 && nowU - blockedSince[l] > 10 * U;
 						if (f >= 0 && vReadyU[f] <= nowU && !clearing && !waited)
 							return false;

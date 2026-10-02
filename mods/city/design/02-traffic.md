@@ -4,6 +4,58 @@ Domain 2 of the OpenCity "approach CS2" research. Scope: trips, mode choice, pat
 
 Confidence tags used below: **[official]** Paradox/Colossal Order dev diary or feature page, **[wiki]** cs2.paradoxwikis.com, **[community]** forum/Steam/Reddit reports, **[mod]** read from a modder's description, **[memory]** my recollection of CS2 internals that I could not re-verify online, **[design]** my own proposal.
 
+## Current implementation: physical movement and bounded routing
+
+The research/proposals below describe the earlier design. The implementation now
+uses `TrafficSim`, actual citizen/freight/transit trip callbacks, and a physical
+movement scale independent of calendar compression:
+
+| Setting / movement | At the default 1x, 40 ms base tick |
+| --- | --- |
+| Map cell | 16 meters |
+| Street car, 100% road speed | 40 km/h, 36 ticks per cell |
+| Avenue/boulevard car, 125% | 50 km/h, 28.8 ticks per cell |
+| Highway car, 250% | 100 km/h, 14.4 ticks per cell |
+| Truck/bus on a street | 32 km/h, 45 ticks per cell |
+| Pedestrian | 5 km/h, 288 ticks per cell |
+| Metro / train | 60 / 80 km/h, 24 / 18 ticks per cell |
+
+`TrafficSimInfo` configures meters, base tick duration and physical speeds. Faster
+simulation modes advance the same movement sooner; changing the calendar does
+not accelerate cars. A vehicle travels half its origin and destination cells,
+so a route with N road steps represents N cells of movement. The default lane
+headway is 1.5 seconds, stop-sign stop 2 seconds, and two-phase signal cycle
+60 seconds with 2 seconds of clearance per phase.
+
+Car routing respects directed road connections, congestion snapshots, weather,
+vehicle type and policies. Travel quotes use the selected route's physical time;
+policy preference penalties do not pretend to be elapsed journey time. Walking
+uses connected, bidirectional sidewalks, including on one-way streets. Arrival
+time and visible pedestrians follow that same route, and closed remaining paths
+fail rather than complete an imaginary Manhattan walk. Ambient walkers stay on
+one connected sidewalk segment. Transit access, transfers and final walks use
+actual walking callbacks; road vehicle failures fail passengers rather than
+falling back to virtual delivery. Rail movement verifies changed track routes.
+
+`EstimateTravelTicks` returns nonnegative ticks, `-1` for no route, or `-2` for a
+bounded unfinished search. Callers defer and retry `-2`; they must not drop an
+activity, trade, or transport mode because its quote was deferred. Uncached
+estimates share a per-tick budget (64 by default). A search that hits its initial
+node budget increases the allowance on retry, up to the finite map-state bound.
+Mode-aware cached estimates invalidate with road and cost snapshots. Canceled
+trips release live pending capacity immediately. Citizen providers suppress the
+aggregate traffic/ridership fallback even during long gaps between itineraries.
+
+Regression coverage: `TrafficTravelTimeTest` checks physical calibration, vehicle
+speed factors, signal wait, sidewalk detours, reverse one-way walking,
+disconnections and bounded search retry. Actual combined-shader rendering can
+be checked without a desktop using `tools/test-render-filter.py` (desktop GL)
+and `tools/test-render-filter.py es` (GLES); its requirements are documented in
+the script. The sprite vertex now carries 16 extra bytes of atlas bounds, keeping
+filtered samples isolated while the native fragment path remains one sample.
+
+---
+
 TL;DR: replace the actor-per-car `TrafficManager` with a deterministic **mesoscopic queue simulation** on a directed road-cell graph. Every car is a cheap struct (not an OpenRA actor), moves link to link under density-based speed and junction rules, follows an integer A* route that uses experienced travel times, and is drawn by a custom renderer from the same state. This gives thousands of individually tracked trips, real congestion, spillback and a traffic-flow metric, at well under 1 ms/tick of CPU.
 
 ---

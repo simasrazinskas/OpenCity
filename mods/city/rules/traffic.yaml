@@ -10,5 +10,9 @@ World:
 			Road: 100
 	TrafficSim:
 		SlotsPerLane: 5
-		DischargeMilliTicks: 1200
+		MetersPerCell: 16
+		BaseTickMilliseconds: 40
+		CarSpeedKph: 40
+		WalkingSpeedKph: 5
+		DischargeMilliTicks: 37500
 		WalkMaxCells: 14

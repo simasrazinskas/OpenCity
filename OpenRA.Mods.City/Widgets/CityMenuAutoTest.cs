@@ -12,6 +12,7 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using OpenRA.Mods.Common.Widgets;
 using OpenRA.Widgets;
 
@@ -26,6 +27,40 @@ namespace OpenRA.Mods.City.Widgets
 		/// </summary>
 		public static bool TryApply(string action, Action<string> report, World world)
 		{
+			// Exercise real SDL geometry changes without changing the configured graphics mode. This also models
+			// a compositor forcing a fullscreen game into a smaller window. Used only by the developer harness.
+			if (action.StartsWith("resize:", StringComparison.Ordinal) || action == "windowed")
+			{
+				const BindingFlags Flags = BindingFlags.Instance | BindingFlags.NonPublic;
+				var platformWindow = typeof(Renderer).GetProperty("Window", Flags)?.GetValue(Game.Renderer);
+				var handle = platformWindow?.GetType().GetProperty("Window", Flags)?.GetValue(platformWindow);
+				var sdl = AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetType("SDL2.SDL")).FirstOrDefault(t => t != null);
+				if (handle == null || sdl == null)
+					throw new InvalidOperationException("Window resize testing requires the SDL platform.");
+
+				if (action == "windowed")
+				{
+					var result = sdl.GetMethod("SDL_SetWindowFullscreen")?.Invoke(null, [handle, 0u]);
+					if (result is not int code || code != 0)
+						throw new InvalidOperationException("Could not leave fullscreen for the resize test.");
+				}
+				else
+				{
+					var size = action["resize:".Length..].Split('x');
+					if (size.Length != 2 || !int.TryParse(size[0], out var width) || !int.TryParse(size[1], out var height)
+						|| width <= 0 || height <= 0)
+						throw new ArgumentException("Expected resize:<width>x<height> with positive dimensions.", nameof(action));
+
+					sdl.GetMethod("SDL_SetWindowSize")?.Invoke(null, [handle, width, height]);
+				}
+
+				report($"ui {action}; configured mode remains {Game.Settings.Graphics.Mode}");
+				Game.RunAfterDelay(100, () => report($"window: native={Game.Renderer.NativeResolution.Width}x{Game.Renderer.NativeResolution.Height}, "
+					+ $"logical={Game.Renderer.Resolution.Width}x{Game.Renderer.Resolution.Height}, "
+					+ $"uiScale={Game.Renderer.UIScale}, root={Ui.Root.Bounds.Width}x{Ui.Root.Bounds.Height}"));
+				return true;
+			}
+
 			// `show:WIDGET_ID` loads a widget tree into the UI root (for screens that only open during a game start, e.g. GAMESAVE_LOADING_SCREEN).
 			if (action.StartsWith("show:", StringComparison.Ordinal))
 			{

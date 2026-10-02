@@ -18,15 +18,25 @@ namespace OpenRA.Graphics
 {
 	public sealed class Sheet : IDisposable
 	{
+		internal sealed class TextureReference
+		{
+			public ITexture Value { get; set; }
+		}
+
 		bool dirty;
 		Rectangle? dirtyRegion;
 
 		bool releaseBufferOnCommit;
-		ITexture texture;
+
+		// The handle may outlive this sheet without keeping any sprites or pixel buffers alive.
+		internal readonly TextureReference Texture = new();
 		byte[] data;
 
 		public readonly Size Size;
 		public readonly SheetType Type;
+
+		// Externally supplied textures (e.g. framebuffers) have their filtering configured before wrapping.
+		public readonly bool HardwareBilinearFiltering;
 
 		public byte[] GetData()
 		{
@@ -34,7 +44,7 @@ namespace OpenRA.Graphics
 			return data;
 		}
 
-		public bool Buffered => data != null || texture == null;
+		public bool Buffered => data != null || Texture.Value == null;
 
 		public Sheet(SheetType type, Size size)
 		{
@@ -46,8 +56,9 @@ namespace OpenRA.Graphics
 		public Sheet(SheetType type, ITexture texture)
 		{
 			Type = type;
-			this.texture = texture;
-			Size = texture.Size;
+			Texture.Value = texture;
+			HardwareBilinearFiltering = texture.ScaleFilter == TextureScaleFilter.Linear;
+			Size = Texture.Value.Size;
 		}
 
 		public Sheet(SheetType type, Stream stream)
@@ -63,22 +74,22 @@ namespace OpenRA.Graphics
 
 		public ITexture GetTexture()
 		{
-			if (texture == null)
+			if (Texture.Value == null)
 			{
-				texture = Game.Renderer.Context.CreateTexture();
+				Texture.Value = Game.Renderer.Context.CreateTexture();
 				dirty = true;
 			}
 
 			if (data != null && dirty)
 			{
 				// If size of texture does not match the sheet size, the texture needs to be initialized.
-				if (dirtyRegion != null && texture.Size == Size && Size != dirtyRegion?.Size)
+				if (dirtyRegion != null && Texture.Value.Size == Size && Size != dirtyRegion?.Size)
 				{
 					var region = dirtyRegion.Value;
-					texture.SetSubData(data, region.X, region.Y, region.Width, region.Height);
+					Texture.Value.SetSubData(data, region.X, region.Y, region.Width, region.Height);
 				}
 				else
-					texture.SetData(data, Size.Width, Size.Height);
+					Texture.Value.SetData(data, Size.Width, Size.Height);
 
 				dirtyRegion = null;
 
@@ -87,7 +98,7 @@ namespace OpenRA.Graphics
 					data = null;
 			}
 
-			return texture;
+			return Texture.Value;
 		}
 
 		public Png AsPng()
@@ -124,10 +135,10 @@ namespace OpenRA.Graphics
 			if (data != null)
 				return;
 
-			if (texture == null)
+			if (Texture.Value == null)
 				data = new byte[4 * Size.Width * Size.Height];
 			else
-				data = texture.GetData();
+				data = Texture.Value.GetData();
 
 			releaseBufferOnCommit = false;
 		}
@@ -179,7 +190,7 @@ namespace OpenRA.Graphics
 				return false;
 
 			// Only transfer if the destination has no data that would be lost by overwriting.
-			if (buffer != null && destination.data == null && destination.texture == null)
+			if (buffer != null && destination.data == null && destination.Texture.Value == null)
 			{
 				Array.Clear(buffer, 0, buffer.Length);
 				destination.data = buffer;
@@ -191,7 +202,7 @@ namespace OpenRA.Graphics
 
 		public void Dispose()
 		{
-			texture?.Dispose();
+			Texture.Value?.Dispose();
 		}
 	}
 }

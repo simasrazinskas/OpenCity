@@ -166,11 +166,21 @@ namespace OpenRA.Graphics
 			return rect;
 		}
 
-		public void Dispose()
+		/// <summary>Releases all sheets and starts a fresh atlas. All previously allocated sprites become invalid.</summary>
+		public void Reset()
 		{
 			foreach (var sheet in sheets)
 				sheet.Dispose();
 			sheets.Clear();
+			Current = null;
+			CurrentChannel = Type == SheetType.Indexed ? TextureChannel.Red : TextureChannel.RGBA;
+			p = int2.Zero;
+			rowHeight = 0;
+		}
+
+		public void Dispose()
+		{
+			Reset();
 		}
 	}
 }

@@ -115,7 +115,7 @@ CityPanel@CITY_ADVISOR_PANEL:
 		Button@PREVIOUS:
 			X: 106
 			Y: 130
-			Width: 54
+			Width: 64
 			Height: 18
 			Font: Tiny
 			Text: button-advisor-previous

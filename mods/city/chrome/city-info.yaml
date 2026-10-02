@@ -157,13 +157,13 @@ Container@CITY_INFO_BAR_ROW:
 			Hover: false
 		Label@NAME:
 			X: 3
-			Width: 80
+			Width: 90
 			Height: PARENT_HEIGHT
 			Font: Tiny
 		CityBar@BAR:
-			X: 84
+			X: 94
 			Y: 2
-			Width: 56
+			Width: 46
 			Height: 9
 			Smooth: true
 		Label@VALUE:

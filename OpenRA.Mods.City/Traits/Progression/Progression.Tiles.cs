@@ -103,7 +103,10 @@ namespace OpenRA.Mods.City.Traits
 				for (var x = x0; x < x0 + block; x++)
 					tileOwned[y * g + x] = true;
 
-			startTiles = block * block;
+			if (sandbox)
+				Array.Fill(tileOwned, true);
+
+			startTiles = sandbox ? g * g : block * block;
 			tilesInit = true;
 		}
 

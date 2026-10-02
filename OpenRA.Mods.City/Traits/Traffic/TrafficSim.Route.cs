@@ -27,6 +27,10 @@ namespace OpenRA.Mods.City.Traits
 		int stampCounter;
 		int[] dIdx;
 		int costVersion;
+		bool routeSearchDeferred;
+		int routeNodeLimit;
+
+		int NextSearchNodes(int previous) => (int)Math.Min(linkCount, 2L * Math.Max(Math.Max(1, Info.MaxRouteNodes), previous));
 		byte routeKind;          // vehicle kind of the route being searched (set by callers, 0 = car)
 		long expandedTotal, plannedTotal;
 
@@ -99,44 +103,41 @@ namespace OpenRA.Mods.City.Traits
 			return top;
 		}
 
-		// Cost of entering link (next, d) coming from heading `h` at cell c (h < 0: start, no turn).
+		int JunctionExpectedDelay(int cell, int heading, int direction)
+		{
+			switch ((JunctionControl)ctl[cell])
+			{
+				case JunctionControl.Stop: return Math.Max(0, Info.StopDelayTicks) * U;
+				case JunctionControl.Signal:
+					return TravelTimeCalibration.SignalWaitTicks(Info.SignalCycleTicks, Info.SignalClearanceTicks) * U;
+				case JunctionControl.Yield:
+					return ((direction - heading) & 3) == 1 ? 0 : Math.Max(U, Info.DischargeMilliTicks * U / 2000);
+				default: return 0;
+			}
+		}
+
+		// Route preference includes policy penalties; quoted journey duration is calculated separately from the selected route.
 		int EdgeCost(int c, int h, int d, int next, int speedPct, bool emergency, int seed)
 		{
 			var link = next * 4 + d;
-			var cost = (long)costSnap[link];
-			if (speedPct != 100)
-				cost = cost * 100 / speedPct;
-
+			var baseline = FreeOccupancy(routeKind, next) ? ffU[next] : costSnap[link];
+			long cost = TravelTimeCalibration.ScaleSpeed(baseline, Math.Max(1, speedPct * WeatherSpeedPercent() / 100));
 			if (flagsActive)
 				cost = cost * RoadFlagCostPercent(routeKind, next) / 100;
 
 			if (seed != 0)
 				cost = cost * (1000 + (Hash(seed, next) & 63) - 32) / 1000;
 
-			if (h >= 0)
-			{
-				var turn = (d - h) & 3;
-				if (turn == 1)
-					cost += U / 2;
-				else if (turn == 3)
-					cost += U * 3 / 2;
-				else if (turn == 2)
-					cost += emergency ? 10 * U : 30 * U;
-
-				switch ((JunctionControl)ctl[c])
-				{
-					case JunctionControl.Stop: cost += emergency ? 0 : 2 * U; break;
-					case JunctionControl.Signal: cost += emergency ? 0 : 4 * U; break;
-					case JunctionControl.Yield: cost += emergency || turn == 1 ? 0 : U; break;
-					case JunctionControl.Roundabout: cost += U; break;
-				}
-			}
+			if (!emergency)
+				cost += JunctionExpectedDelay(c, h >= 0 ? h : d, d);
 
 			return (int)Math.Min(cost, 1 << 24);
 		}
 
-		bool FindRouteFor(byte kind, int from, int fromHeading, int to, int speedPct, bool emergency, int seed, out byte[] route, out int costU)
+		bool FindRouteFor(byte kind, int from, int fromHeading, int to, int speedPct, bool emergency, int seed, out byte[] route, out int costU, int nodeLimit = 0)
 		{
+			routeNodeLimit = Math.Max(1, nodeLimit > 0 ? nodeLimit : Info.MaxRouteNodes);
+			routeSearchDeferred = false;
 			routeKind = kind;
 			var ok = FindRoute(from, fromHeading, to, speedPct, emergency, seed, out route, out costU);
 			routeKind = 0;
@@ -208,7 +209,12 @@ namespace OpenRA.Mods.City.Traits
 					break;
 				}
 
-				expanded++;
+				if (++expanded > routeNodeLimit)
+				{
+					routeSearchDeferred = true;
+					break;
+				}
+
 				ExpandFrom(c, l & 3, item.G, l, tx, ty, hScale, speedPct, emergency, seed);
 			}
 
@@ -242,6 +248,9 @@ namespace OpenRA.Mods.City.Traits
 					continue;
 
 				var n = c + dIdx[d];
+				if (routeKind == KindTram && tramCells > 0 && (laneFlags[n] & FlagTram) == 0)
+					continue;
+
 				var nl = n * 4 + d;
 				var ng = g + EdgeCost(c, h, d, n, speedPct, emergency, seed);
 				if (searchStamp[nl] == stampCounter && gScore[nl] <= ng)

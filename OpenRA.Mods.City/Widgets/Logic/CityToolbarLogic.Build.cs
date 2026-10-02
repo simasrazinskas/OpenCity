@@ -26,9 +26,9 @@ namespace OpenRA.Mods.City.Widgets.Logic
 	public partial class CityToolbarLogic
 	{
 		const string BuildPanelId = "CITY_BUILD_PANEL";
-		const int DetailHeight = 46;
+		const int DetailHeight = 62;
 		const int MaxColumns = 6;
-		const int MinColumns = 4;
+		const int MinColumns = 3;
 
 		sealed class BuildTab
 		{
@@ -84,6 +84,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 			var cachedDetail = "";
 			var cachedWidth = -1;
+			var cachedScale = -1f;
 			var wrapped = "";
 			detailName.GetText = () =>
 			{
@@ -94,10 +95,11 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			detailText.GetText = () =>
 			{
 				var text = Detail(out _);
-				if (text != cachedDetail || detailText.Bounds.Width != cachedWidth)
+				if (text != cachedDetail || detailText.Bounds.Width != cachedWidth || Game.Renderer.WindowScale != cachedScale)
 				{
 					cachedDetail = text;
 					cachedWidth = detailText.Bounds.Width;
+					cachedScale = Game.Renderer.WindowScale;
 					var font = Game.Renderer.Fonts[detailText.Font];
 					var lines = WidgetUtils.WrapText(text.Replace("\n", " · "), cachedWidth, font).Split('\n');
 					wrapped = string.Join("\n", lines.Take(3));
@@ -230,7 +232,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 			var area = CityLayout.WorkArea();
 			var most = buildTabs.Max(t => t.Items.Count);
-			var maxFit = CityBuildMenuWidget.ColumnsFor(area.Width - 2 * CityPanelWidget.Padding);
+			var maxFit = CityBuildMenuWidget.ColumnsFor(area.Width - 2 * CityPanelWidget.Padding - 4);
 			var columns = Math.Clamp(Math.Min(most, MaxColumns), Math.Min(MinColumns, maxFit), Math.Max(1, maxFit));
 			var rowsNeeded = (buildTab.Items.Count + columns - 1) / columns;
 			const int Chrome = CityPanelWidget.ContentTopWithTabs + DetailHeight + 2 * CityPanelWidget.Padding;
@@ -245,8 +247,8 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			var detailY = CityPanelWidget.ContentTopWithTabs + cardsHeight + 4;
 			var separator = buildPanel.Get("DETAIL_SEPARATOR");
 			separator.Bounds = new WidgetBounds(CityPanelWidget.Padding + 2, detailY, width - 2 * CityPanelWidget.Padding - 4, 2);
-			detailName.Bounds = new WidgetBounds(CityPanelWidget.Padding + 2, detailY + 3, width - 2 * CityPanelWidget.Padding - 4, 12);
-			detailText.Bounds = new WidgetBounds(CityPanelWidget.Padding + 2, detailY + 15, width - 2 * CityPanelWidget.Padding - 4, 30);
+			detailName.Bounds = new WidgetBounds(CityPanelWidget.Padding + 2, detailY + 4, width - 2 * CityPanelWidget.Padding - 4, 16);
+			detailText.Bounds = new WidgetBounds(CityPanelWidget.Padding + 2, detailY + 22, width - 2 * CityPanelWidget.Padding - 4, 36);
 			buildPanel.Bounds.Width = width;
 			buildPanel.Bounds.Height = detailY + DetailHeight + CityPanelWidget.Padding;
 		}

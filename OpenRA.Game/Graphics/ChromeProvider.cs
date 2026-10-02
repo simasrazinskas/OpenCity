@@ -74,10 +74,11 @@ namespace OpenRA.Graphics
 		static float dpiScale = 1;
 
 		// Generated collections: the yaml of each collection, grouped by generator, and the art drawn per device scale.
-		// Art for previous scales is kept alive (widgets may still hold sprites) until Deinitialize.
+		// Previous atlases remain usable while any widget or derived sprite still holds their sheets.
 		static Dictionary<string, Dictionary<string, MiniYaml>> generatorCollections;
 		static Dictionary<(string Generator, float Scale), (ChromeGeneratorContext Context, SheetBuilder Sheets)> generated;
 		static List<string> dynamicGenerators;
+		static readonly List<(WeakReference<Sheet> Sheet, Sheet.TextureReference Texture)> RetiredGeneratedSheets = [];
 
 		/// <summary>Increments whenever the chrome art changes (device scale changes), so widgets can drop cached sprites.</summary>
 		public static int Version { get; private set; }
@@ -118,6 +119,10 @@ namespace OpenRA.Graphics
 			if (generated != null)
 				foreach (var (_, sheets) in generated.Values)
 					sheets.Dispose();
+
+			foreach (var retired in RetiredGeneratedSheets)
+				retired.Texture.Value?.Dispose();
+			RetiredGeneratedSheets.Clear();
 
 			collections = null;
 			generatorCollections = null;
@@ -400,6 +405,20 @@ namespace OpenRA.Graphics
 			return new Size(pr[2] + pr[6], pr[3] + pr[7]);
 		}
 
+		/// <summary>Reclaims retired atlas textures once no sprites (including derived sprites) retain their sheets.</summary>
+		public static void CollectRetiredSheets()
+		{
+			for (var i = RetiredGeneratedSheets.Count - 1; i >= 0; i--)
+			{
+				var retired = RetiredGeneratedSheets[i];
+				if (retired.Sheet.TryGetTarget(out _))
+					continue;
+
+				retired.Texture.Value?.Dispose();
+				RetiredGeneratedSheets.RemoveAt(i);
+			}
+		}
+
 		public static void SetDPIScale(float scale)
 		{
 			if (dpiScale == scale)
@@ -407,17 +426,28 @@ namespace OpenRA.Graphics
 
 			dpiScale = scale;
 
+			if (generated != null)
+			{
+				foreach (var (_, builder) in generated.Values)
+					foreach (var sheet in builder.AllSheets)
+						RetiredGeneratedSheets.Add((new WeakReference<Sheet>(sheet), sheet.Texture));
+
+				// The retired list owns textures, not sheets or generator contexts. Old sprites
+				// keep their sheets alive; unreachable sheets and CPU buffers can be collected.
+				generated.Clear();
+			}
+
 			// Clear the sprite caches so the new artwork can be loaded
 			// Sheets are not cleared: we assume that the extra memory overhead
 			// of having the same sheet in memory in multiple DPIs is better than
 			// the overhead of having to dispose and reload everything.
-			// Changing the DPI scale is rare, but if it does happen then there
-			// is a reasonable chance that it may happen again this session.
+			// Only disk image variants stay cached; their number is fixed by the manifest.
 			// The renderer may apply a UI scale before the chrome is initialized (e.g. a UI scale setting on start-up).
 			cachedSprites?.Clear();
 			cachedPanelSprites?.Clear();
 			cachedCollectionSheets?.Clear();
 			Version++;
+			CollectRetiredSheets();
 		}
 	}
 }

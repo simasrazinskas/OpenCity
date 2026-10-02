@@ -126,7 +126,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			var ticks = Math.Max(0, world.WorldTick - tick);
 			var perHour = clock?.TicksPerHour ?? 100;
 			var perDay = clock?.TicksPerDay ?? 2400;
-			var minutes = ticks * 60 / perHour;
+			var minutes = CityTime.TicksToMinutes(ticks, perHour);
 			if (minutes < 1)
 				return FluentProvider.GetMessage(CityChirperLogic.AgeNow);
 

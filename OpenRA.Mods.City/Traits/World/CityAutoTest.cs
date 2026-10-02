@@ -25,6 +25,7 @@ namespace OpenRA.Mods.City.Traits
 		"real player orders, logs city stats, takes screenshots and exits. Does nothing otherwise.",
 		"OPENCITY_AUTOTEST format: semicolon-separated key=value pairs, e.g.",
 		"'ticks=3000;shots=100,1500,3000;timestep=5;log=250;scenario=basic'.",
+		"replaytimestep=1 accelerates a normal recording without overriding its synchronized game speed.",
 		"shotui=a,b,... opens UI per shot (n-th entry before the n-th shot; join several actions with '+'): a panel name",
 		"('budget' = CITY_BUDGET_PANEL), a widget id ('CITY_TILES_PANEL'), 'select:<actor type>', 'citizen', 'vehicle',",
 		"'click:<BUTTON_ID>' (presses a button anywhere in the UI), 'key:<HotkeyName>', 'hover:<ID>[@x/y]', 'close' (closes the top window) or 'none'. 'audit=1' reports",
@@ -34,12 +35,14 @@ namespace OpenRA.Mods.City.Traits
 		public override object Create(ActorInitializer init) { return new CityAutoTest(); }
 	}
 
-	public partial class CityAutoTest : IWorldLoaded, ITick
+	public partial class CityAutoTest : IWorldLoaded, INotifyGameLoaded, ITick
 	{
 		bool enabled;
 		int endTick = 3000;
 		int logInterval = 250;
 		int timestep = 0;
+		int replayTimestep = 0;
+		int saveTick = -1;
 		string scenario = "basic";
 		float shotZoom;
 		string probe;
@@ -94,6 +97,8 @@ namespace OpenRA.Mods.City.Traits
 					case "ticks": endTick = int.Parse(parts[1], CultureInfo.InvariantCulture); break;
 					case "log": logInterval = Math.Max(1, int.Parse(parts[1], CultureInfo.InvariantCulture)); break;
 					case "timestep": timestep = int.Parse(parts[1], CultureInfo.InvariantCulture); break;
+					case "replaytimestep": replayTimestep = int.Parse(parts[1], CultureInfo.InvariantCulture); break;
+					case "save": saveTick = int.Parse(parts[1], CultureInfo.InvariantCulture); break;
 					case "scenario": scenario = parts[1].Trim(); break;
 					case "zoom": shotZoom = float.Parse(parts[1], CultureInfo.InvariantCulture); break;
 					case "probe": probe = parts[1].Trim(); break;
@@ -155,6 +160,13 @@ namespace OpenRA.Mods.City.Traits
 			Report(w, $"autotest enabled: scenario={scenario} ticks={endTick} anchor={anchor}");
 		}
 
+		void INotifyGameLoaded.GameLoaded(World w)
+		{
+			// Normal save loading opens the paused game menu. Continue its test through the same Resume button a player uses.
+			if (enabled && scenario == "observe" && !w.IsReplay)
+				Game.RunAfterTick(() => Sync.RunUnsynced(w, () => ClickButton(w, "RESUME")));
+		}
+
 		/// <summary>UI-only test steps (button clicks); they run outside the tick, like player input.</summary>
 		void RunUiSteps(World w, int tick)
 		{
@@ -191,20 +203,26 @@ namespace OpenRA.Mods.City.Traits
 			var w = self.World;
 			var tick = w.WorldTick;
 
+			// Reproduce this override only for recordings created by the same accelerated test scenario.
 			if (timestep > 0 && w.Timestep != timestep)
 				w.Timestep = timestep;
 
 			// Replay playback: only log stats (compare them with the original run to verify determinism).
 			if (w.IsReplay)
 			{
-				if (timestep > 0)
-					w.ReplayTimestep = timestep;
-
 				if (w.IsGameOver && !reportedGameOver)
 				{
 					reportedGameOver = true;
 					Report(w, "REPLAY ENDED EARLY OR WENT OUT OF SYNC");
+					enabled = false;
+					Game.RunAfterDelay(500, Game.Exit);
+					return;
 				}
+
+				// Playback pacing must not change the recorded, synchronized simulation speed or resume a sync failure.
+				var playbackTimestep = replayTimestep > 0 ? replayTimestep : timestep;
+				if (playbackTimestep > 0)
+					w.ReplayTimestep = playbackTimestep;
 
 				// The mayor re-derives its decisions from synced state without issuing orders (they come from the replay),
 				// so its 'report mayor' lines can be compared with the recording run.
@@ -222,6 +240,12 @@ namespace OpenRA.Mods.City.Traits
 				}
 
 				return;
+			}
+
+			if (tick == saveTick && !w.IsLoadingGameSave)
+			{
+				w.RequestGameSave("autotest.orasav", false);
+				Report(w, "requested game save autotest.orasav");
 			}
 
 			RunUiSteps(w, tick);
@@ -362,14 +386,14 @@ namespace OpenRA.Mods.City.Traits
 				return;
 
 			var ctx = Widgets.CityUiContext.For(w);
-			foreach (var panel in w.Type == WorldType.Shellmap ? [] : PanelIds)
+			foreach (var panel in w.Type == WorldType.Shellmap || spec.Split('+').Contains("keep") ? [] : PanelIds)
 				if (Ui.Root.GetOrNull(panel) is { } open)
 					open.Visible = false;
 
 			foreach (var raw in spec.Split('+', StringSplitOptions.RemoveEmptyEntries))
 			{
 				var action = raw.Trim();
-				if (action == "none")
+				if (action is "none" or "keep")
 					continue;
 
 				if (action.StartsWith("select:", StringComparison.Ordinal))
@@ -514,6 +538,13 @@ namespace OpenRA.Mods.City.Traits
 
 		void IssueScenario(World w, Player p)
 		{
+			// Observe a continued save without adding a second test city to its recorded orders.
+			if (scenario == "observe")
+			{
+				WatchFreight(w, p);
+				return;
+			}
+
 			var orders = new List<Order>
 			{
 				// Main avenue and a street grid.
@@ -552,8 +583,11 @@ namespace OpenRA.Mods.City.Traits
 				CityOrders.SetSpeedOrder(p, 3),
 			};
 
-			if (scenario == "full")
+			if (scenario is "full" or "freight")
 				ScheduleFullScenario();
+
+			if (scenario == "freight")
+				ScheduleFreightScenario();
 
 			if (scenario == "isoshow")
 				ScheduleIsoShow();
@@ -721,7 +755,8 @@ namespace OpenRA.Mods.City.Traits
 			var roads = w.WorldActor.TraitOrDefault<RoadLayer>()?.RoadCellCount ?? -1;
 			var traffic = w.WorldActor.TraitsImplementing<ITrafficService>().FirstOrDefault()?.ActiveVehicles ?? -1;
 
-			Report(w, $"date={cm.Date} funds={cm.Funds} balance/mo={cm.MonthlyBalance} pop={cm.Population} workers={cm.Workers} jobs={cm.Jobs} " +
+			Report(w, $"date={cm.Date} funds={cm.Funds} sandbox={cm.UnlimitedMoney} balance/mo={cm.MonthlyBalance} " +
+				$"pop={cm.Population} workers={cm.Workers} jobs={cm.Jobs} " +
 				$"unemployed={cm.Unemployed} demand R/C/I/O={cm.GetDemand(ZoneCategory.Residential)}/{cm.GetDemand(ZoneCategory.Commercial)}/" +
 				$"{cm.GetDemand(ZoneCategory.Industrial)}/{cm.GetDemand(ZoneCategory.Office)} power={cm.PowerConsumed}/{cm.PowerProduced} " +
 				$"water={cm.WaterConsumed}/{cm.WaterProduced} happy={cm.AverageHappiness} milestone={cm.MilestoneName} roads={roads} " +

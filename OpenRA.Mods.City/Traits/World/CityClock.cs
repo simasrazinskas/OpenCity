@@ -20,8 +20,8 @@ namespace OpenRA.Mods.City.Traits
 		"As in Cities: Skylines 2, one day/night cycle is one calendar month.")]
 	public class CityClockInfo : TraitInfo
 	{
-		[Desc("World ticks per in-game hour.")]
-		public readonly int TicksPerHour = 100;
+		[Desc("World ticks per in-game hour. 7500 gives a 120-minute day at the default 40 ms (1x) timestep.")]
+		public readonly int TicksPerHour = CityTime.DefaultTicksPerHour;
 
 		public readonly int HoursPerDay = 24;
 
@@ -112,5 +112,11 @@ namespace OpenRA.Mods.City.Traits
 
 		/// <summary>Converts a duration in game hours to ticks.</summary>
 		public int HoursToTicks(int hours) => hours * TicksPerHour;
+
+		/// <summary>Converts a duration in game minutes to ticks, rounding up to avoid shortening activities.</summary>
+		public int MinutesToTicks(int minutes) => CityTime.MinutesToTicks(minutes, TicksPerHour);
+
+		/// <summary>Whole game minutes in an elapsed tick duration.</summary>
+		public int TicksToMinutes(int ticks) => CityTime.TicksToMinutes(ticks, TicksPerHour);
 	}
 }

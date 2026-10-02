@@ -71,8 +71,9 @@ namespace OpenRA.Mods.City.Traits
 				}
 			}
 
-			// Switched off as soon as a citizen simulation requests trips (checked with a hysteresis of 500 ticks).
-			return !(citizensExist && tick - lastExternalCitizenTick < 500);
+			// A slow calendar leaves long gaps between real itineraries. Keep the fallback off
+			// while a citizen provider exists, instead of inventing traffic during those gaps.
+			return !citizensExist;
 		}
 
 		// With a public transport simulation, buses are real transit trips: the aggregate source stops making random buses.

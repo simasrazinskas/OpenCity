@@ -433,6 +433,7 @@ namespace OpenRA.Mods.Common.Widgets
 			if (withTimestamp && timeLabel != null)
 			{
 				var time = $"{notification.Time.Hour:D2}:{notification.Time.Minute:D2}";
+				timeLabel.Bounds.Width = Game.Renderer.Fonts[timeLabel.Font].Measure(time).X;
 				timeOffset = timeLabel.Bounds.Width + timeLabel.Bounds.X;
 
 				timeLabel.GetText = () => time;

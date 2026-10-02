@@ -75,6 +75,8 @@ namespace OpenRA.Graphics
 			// See combined.vert for documentation on the channel attribute format
 			var attribC = r.Channel == TextureChannel.RGBA ? 0x02 : ((byte)r.Channel) << 1 | 0x01;
 			attribC |= samplers.X << 6;
+			if (r.Sheet.HardwareBilinearFiltering)
+				attribC |= 1 << 12;
 			if (r is SpriteWithSecondaryData ss)
 			{
 				sl = ss.SecondaryLeft;
@@ -89,10 +91,11 @@ namespace OpenRA.Graphics
 			attribC |= (paletteTextureIndex & 0xFFFF) << 16;
 
 			var uAttribC = (uint)attribC;
-			vertices[nv] = new Vertex(a, r.Left, r.Top, sl, st, uAttribC, tint, alpha);
-			vertices[nv + 1] = new Vertex(b, r.Right, r.Top, sr, st, uAttribC, tint, alpha);
-			vertices[nv + 2] = new Vertex(c, r.Right, r.Bottom, sr, sb, uAttribC, tint, alpha);
-			vertices[nv + 3] = new Vertex(d, r.Left, r.Bottom, sl, sb, uAttribC, tint, alpha);
+			var textureBounds = new Vector4(r.Left, r.Top, r.Right, r.Bottom);
+			vertices[nv] = new Vertex(a, r.Left, r.Top, sl, st, uAttribC, tint, alpha, textureBounds);
+			vertices[nv + 1] = new Vertex(b, r.Right, r.Top, sr, st, uAttribC, tint, alpha, textureBounds);
+			vertices[nv + 2] = new Vertex(c, r.Right, r.Bottom, sr, sb, uAttribC, tint, alpha, textureBounds);
+			vertices[nv + 3] = new Vertex(d, r.Left, r.Bottom, sl, sb, uAttribC, tint, alpha, textureBounds);
 		}
 
 		public static void FastCopyIntoChannel(Sprite dest, byte[] src, SpriteFrameType srcType, bool premultiplied = false)

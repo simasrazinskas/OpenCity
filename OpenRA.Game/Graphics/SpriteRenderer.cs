@@ -331,7 +331,7 @@ namespace OpenRA.Graphics
 
 		static void SnapVertex(ref Vertex v, float x0, float y0, float nx0, float nx1, float ny0, float ny1)
 		{
-			v = new Vertex(v.X == x0 ? nx0 : nx1, v.Y == y0 ? ny0 : ny1, v.Z, v.S, v.T, v.U, v.V, v.C, v.R, v.G, v.B, v.A);
+			v = new Vertex(v.X == x0 ? nx0 : nx1, v.Y == y0 ? ny0 : ny1, v.Z, v.S, v.T, v.U, v.V, v.C, v.R, v.G, v.B, v.A, v.TextureBounds);
 		}
 
 		public void SetPalette(HardwarePalette palette)

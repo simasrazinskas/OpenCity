@@ -231,7 +231,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			if (ctx.Progression != null)
 				return ctx.Progression.IsUnlocked("road:" + type.Name);
 
-			return manager == null || type.Info.UnlockPopulation <= manager.Population;
+			return manager == null || manager.UnlimitedMoney || type.Info.UnlockPopulation <= manager.Population;
 		}
 
 		/// <summary>Starts the road tool with the palette's type and modes, or pushes changed options into the running one.</summary>

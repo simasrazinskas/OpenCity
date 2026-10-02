@@ -41,6 +41,7 @@ namespace OpenRA.Widgets
 		public static void Initialize(ModData modData)
 		{
 			Ui.modData = modData;
+			Root.Bounds = new WidgetBounds(0, 0, Game.Renderer.Resolution.Width, Game.Renderer.Resolution.Height);
 		}
 
 		public static void CloseWindow()
@@ -173,7 +174,7 @@ namespace OpenRA.Widgets
 				CloseWindow();
 		}
 
-		/// <summary>Raised after the UI was laid out again for a new UI scale or window size (see <see cref="Relayout"/>).</summary>
+		/// <summary>Raised after the UI was laid out again for a new UI scale or window size (see <see cref="Relayout(Size)"/>).</summary>
 		public static event Action OnRelayout = () => { };
 
 		/// <summary>
@@ -184,7 +185,13 @@ namespace OpenRA.Widgets
 		/// </summary>
 		public static void Relayout(Size oldResolution)
 		{
-			var newResolution = Game.Renderer.Resolution;
+			Relayout(oldResolution, Game.Renderer.Resolution);
+		}
+
+		public static void Relayout(Size oldResolution, Size newResolution)
+		{
+			var oldRootBounds = Root.Bounds;
+			Root.Bounds = new WidgetBounds(0, 0, newResolution.Width, newResolution.Height);
 			var roots = new List<Widget> { Root };
 			foreach (var w in WindowList)
 				if (w.Parent == null && !roots.Contains(w))
@@ -192,8 +199,13 @@ namespace OpenRA.Widgets
 
 			foreach (var w in roots)
 			{
-				var bounds = w == Root ? w.Bounds : Root.Bounds;
-				RelayoutWidget(w, oldResolution, newResolution, bounds, bounds);
+				if (w == Root)
+				{
+					foreach (var c in w.Children)
+						RelayoutWidget(c, oldResolution, newResolution, oldRootBounds, Root.Bounds);
+				}
+				else
+					RelayoutWidget(w, oldResolution, newResolution, oldRootBounds, Root.Bounds);
 			}
 
 			foreach (var w in roots)

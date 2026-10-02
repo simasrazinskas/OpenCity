@@ -108,7 +108,8 @@ namespace OpenRA.Mods.City.Traits
 		{
 			this.self = self;
 			Info = info;
-			Funds = info.StartingFunds;
+			UnlimitedMoney = CitySandbox.EnabledFor(self.World);
+			funds = info.StartingFunds;
 			for (var i = 0; i < taxRates.Length; i++)
 				taxRates[i] = info.DefaultTaxRate;
 
@@ -120,9 +121,23 @@ namespace OpenRA.Mods.City.Traits
 
 		// ---- money ----
 		[VerifySync]
-		public int Funds { get; private set; }
+		public int Funds
+		{
+			get => funds;
+			private set
+			{
+				// Every money path, including legacy monthly upkeep/income, keeps the sandbox balance invariant.
+				if (!UnlimitedMoney)
+					funds = value;
+			}
+		}
 
-		public bool CanAfford(int amount) { return Funds >= amount; }
+		int funds;
+
+		[VerifySync]
+		public bool UnlimitedMoney { get; }
+
+		public bool CanAfford(int amount) { return UnlimitedMoney || Funds >= amount; }
 
 		/// <summary>Deducts cost if affordable and records it under an expense category ("construction", ...). Returns false if not affordable.</summary>
 		public bool TrySpend(int amount, string category)
@@ -130,7 +145,7 @@ namespace OpenRA.Mods.City.Traits
 			if (amount <= 0)
 				return true;
 
-			if (Funds < amount)
+			if (!CanAfford(amount))
 				return false;
 
 			Funds -= amount;
@@ -284,6 +299,9 @@ namespace OpenRA.Mods.City.Traits
 		{
 			if (progression != null)
 				return progression.IsUnlocked(actorType);
+
+			if (UnlimitedMoney)
+				return true;
 
 			if (!unlockCache.TryGetValue(actorType, out var required))
 			{

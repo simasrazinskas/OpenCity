@@ -222,6 +222,7 @@ namespace OpenRA.Mods.City.Traits
 			{
 				var span = vReadyU[v] - vEnterU[v];
 				var s = span <= 0 ? 1f : Math.Clamp((renderU - vEnterU[v]) / (float)span, 0f, 1f);
+				s = (vStartCenter[v] ? 0.5f : 0f) + s * (vStartCenter[v] || vEndCenter[v] ? 0.5f : 1f);
 				var lane = Math.Min(3, RenderLane(profile, vLane[v] % simLanes, simLanes, v));
 				var look = art != null ? LookOf(v) : default;
 				var front = look.A != null ? look.A.Length * 0.5f : 0.21f;

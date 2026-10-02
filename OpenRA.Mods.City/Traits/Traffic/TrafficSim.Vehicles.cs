@@ -33,6 +33,7 @@ namespace OpenRA.Mods.City.Traits
 			public int SpeedPct;
 			public int Sprite;
 			public bool Walk;
+			public bool CanDrive;
 			public bool Cancelled;
 			public bool Internal;     // created by the aggregate source: no listener
 			public bool Parks;        // car trip that needs a parking space at the destination
@@ -44,7 +45,10 @@ namespace OpenRA.Mods.City.Traits
 			public int OriginProperty, DestinationProperty;
 			public int Incident;      // responder trips: the incident to clear
 			public bool Crashed;
-			public byte[] WalkRoute;  // sampled pedestrians (render only)
+			public byte[] WalkRoute;  // authoritative sidewalk route for both timing and rendering
+			public bool VisibleWalker;
+			public int RouteVersion;
+			public int SearchNodes;
 			public int WalkStart, WalkEnd;
 			public byte[] Route;      // planned in advance while waiting for room at the origin
 		}
@@ -66,6 +70,7 @@ namespace OpenRA.Mods.City.Traits
 		int vCapacity;
 		int[] vNext, vLink, vStep, vEnterU, vReadyU;
 		byte[] vLane, vSlots;
+		bool[] vStartCenter, vEndCenter;
 		byte[][] vRoute;
 		TripRec[] vTrip;
 		int[] freeList;
@@ -87,6 +92,8 @@ namespace OpenRA.Mods.City.Traits
 			Array.Resize(ref vReadyU, capacity);
 			Array.Resize(ref vLane, capacity);
 			Array.Resize(ref vSlots, capacity);
+			Array.Resize(ref vStartCenter, capacity);
+			Array.Resize(ref vEndCenter, capacity);
 			Array.Resize(ref vRoute, capacity);
 			Array.Resize(ref vTrip, capacity);
 			Array.Resize(ref freeList, capacity);
@@ -229,18 +236,24 @@ namespace OpenRA.Mods.City.Traits
 			if (t.StartTick == 0)
 				t.StartTick = tick;
 
-			EnterLink(v, link, nowU);
+			EnterLink(v, link, nowU, true);
 			return true;
 		}
 
 		// Puts a vehicle at the tail of a link; the clock starts at `enterU` (carries over sub-tick remainders).
-		void EnterLink(int v, int link, int enterU)
+		void EnterLink(int v, int link, int enterU, bool startAtCenter = false)
 		{
 			var cell = link >> 2;
 			var t = vTrip[v];
 			vLane[v] = (byte)(laneCounter++ % cellLanes[cell]);
 			vEnterU[v] = enterU;
-			vReadyU[v] = enterU + LinkTime(cell, FreeOccupancy(t.Kind, cell) ? 0 : qOcc[link], t.SpeedPct * WeatherSpeedPercent() / 100);
+			vStartCenter[v] = startAtCenter;
+			vEndCenter[v] = vStep[v] >= vRoute[v].Length;
+			var travel = LinkTime(cell, FreeOccupancy(t.Kind, cell) ? 0 : qOcc[link], Math.Max(1, t.SpeedPct * WeatherSpeedPercent() / 100));
+			if (vStartCenter[v] || vEndCenter[v])
+				travel = (travel + 1) / 2;
+
+			vReadyU[v] = enterU + travel;
 			Push(link, v);
 		}
 

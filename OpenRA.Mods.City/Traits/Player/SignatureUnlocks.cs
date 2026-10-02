@@ -111,6 +111,7 @@ namespace OpenRA.Mods.City.Traits
 
 		readonly SignatureUnlocksInfo info;
 		readonly Actor self;
+		readonly bool sandbox;
 		readonly List<Entry> entries = [];
 		readonly List<string> names = [];
 		readonly List<Actor> built = [];
@@ -123,6 +124,7 @@ namespace OpenRA.Mods.City.Traits
 		{
 			this.info = info;
 			this.self = self;
+			sandbox = CitySandbox.EnabledFor(self.World);
 		}
 
 		public IReadOnlyList<string> Signatures => names;
@@ -146,7 +148,7 @@ namespace OpenRA.Mods.City.Traits
 				foreach (var text in sig.Unlock)
 					rules.Add(Parse(text));
 
-				entries.Add(new Entry { Name = kv.Key, Info = sig, Rules = rules.ToArray() });
+				entries.Add(new Entry { Name = kv.Key, Info = sig, Rules = rules.ToArray(), Unlocked = sandbox, Progress = sandbox ? 100 : 0 });
 				names.Add(kv.Key);
 			}
 		}
@@ -210,7 +212,7 @@ namespace OpenRA.Mods.City.Traits
 					Target = r.Kind == "ServiceBuilt" ? r.Text : r.Zone != ZoneType.None ? r.Zone.ToString() : null,
 					Have = have,
 					Need = r.Amount,
-					Met = r.Amount <= 0 || have >= r.Amount,
+					Met = sandbox || r.Amount <= 0 || have >= r.Amount,
 				};
 			}
 

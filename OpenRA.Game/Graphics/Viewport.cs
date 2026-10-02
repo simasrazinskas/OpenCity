@@ -76,6 +76,7 @@ namespace OpenRA.Graphics
 		bool allCellsDirty = true;
 
 		WorldViewport lastViewportDistance;
+		Size lastNativeResolution;
 
 		float zoom = 1f;
 		bool unlockMinZoom;
@@ -352,6 +353,11 @@ namespace OpenRA.Graphics
 		{
 			if (lastViewportDistance != graphicSettings.ViewportDistance)
 				UpdateViewportZooms();
+			else if (lastNativeResolution != Game.Renderer.NativeResolution)
+			{
+				// Keep the camera center and zoom while refreshing the visible region and buffer capacity.
+				UpdateViewportZooms(false);
+			}
 
 			TickZoomAnimation();
 
@@ -394,6 +400,7 @@ namespace OpenRA.Graphics
 		void UpdateViewportZooms(bool resetCurrentZoom = true)
 		{
 			lastViewportDistance = graphicSettings.ViewportDistance;
+			lastNativeResolution = Game.Renderer.NativeResolution;
 
 			var vd = graphicSettings.ViewportDistance;
 			if (overrideUserScale || (viewportSizes.AllowNativeZoom && vd == WorldViewport.Native))
@@ -404,9 +411,9 @@ namespace OpenRA.Graphics
 				MinZoom = CalculateMinimumZoom(range.X, range.Y) * defaultScale;
 			}
 
-			MaxZoom = Math.Min(
+			MaxZoom = Math.Max(MinZoom, Math.Min(
 				MinZoom * viewportSizes.MaxZoomScale,
-				Game.Renderer.NativeResolution.Height * defaultScale / viewportSizes.MaxZoomWindowHeight);
+				Game.Renderer.NativeResolution.Height * defaultScale / viewportSizes.MaxZoomWindowHeight));
 
 			if (viewportSizes.ZoomLevels.Length > 0)
 				UpdateZoomLevels();

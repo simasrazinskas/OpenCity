@@ -39,20 +39,20 @@ namespace OpenRA.Mods.City.Traits
 		public readonly int MetroCapacity = 120;
 		public readonly int MetroRunningCents = 14000;
 		public readonly int MetroTunnelCostPerCell = 80;
-		public readonly int MetroTicksPerCell = 5;
+		public readonly int MetroTicksPerCell = 24;
 
 		[Desc("Tram: passengers per tram, monthly running cost (cents), track cost per road cell,",
 			"ticks per cell when driven by the virtual timer, and cells per traffic trip chunk.")]
 		public readonly int TramCapacity = 90;
 		public readonly int TramRunningCents = 7000;
 		public readonly int TramTrackCostPerCell = 60;
-		public readonly int TramTicksPerCell = 16;
+		public readonly int TramTicksPerCell = 45;
 		public readonly int TramChunkCells = 8;
 
 		[Desc("Train: passengers per train, monthly running cost (cents) and ticks per rail cell. Trains are data-only.")]
 		public readonly int TrainCapacity = 320;
 		public readonly int TrainRunningCents = 20000;
-		public readonly int TrainTicksPerCell = 6;
+		public readonly int TrainTicksPerCell = 18;
 
 		[Desc("Intercity trains: one arrives at every edge-connected train station this often (ticks) and brings this many visitors (0 disables).")]
 		public readonly int IntercityIntervalTicks = 1200;
@@ -65,15 +65,15 @@ namespace OpenRA.Mods.City.Traits
 		public readonly int MaxTicketCents = 500;
 
 		[Desc("Dwell at a stop: base + per boarding/alighting passenger, capped.")]
-		public readonly int DwellBase = 12;
-		public readonly int DwellPerPassenger = 2;
-		public readonly int DwellMax = 60;
+		public readonly int DwellBase = 250;
+		public readonly int DwellPerPassenger = 25;
+		public readonly int DwellMax = 750;
 
 		[Desc("Ticks a bus needs per road cell when it is driven by the built-in virtual timer (no traffic service).")]
-		public readonly int VirtualTicksPerCell = 14;
+		public readonly int VirtualTicksPerCell = 45;
 
 		[Desc("Ticks a pedestrian needs per cell.")]
-		public readonly int WalkTicksPerCell = 42;
+		public readonly int WalkTicksPerCell = 288;
 
 		[Desc("Stops within this many cells (Manhattan) of an origin or destination are candidates.")]
 		public readonly int WalkRadius = 10;
@@ -84,22 +84,22 @@ namespace OpenRA.Mods.City.Traits
 		public readonly int TransferPenalty = 60;
 
 		[Desc("Cap on the wait time used by the planner.")]
-		public readonly int MaxPlannedWait = 600;
+		public readonly int MaxPlannedWait = 7500;
 
-		[Desc("Passengers give up waiting after this many ticks (about 8 game hours).")]
-		public readonly int GiveUpTicks = 800;
+		[Desc("Passengers give up waiting after this many ticks (15000 = 10 real minutes at 1x).")]
+		public readonly int GiveUpTicks = 15000;
 
 		[Desc("Waiting passengers per stop above which new passengers refuse the stop.")]
 		public readonly int MaxStopQueue = 60;
 
 		[Desc("Ticks between vehicle spawns of one line.")]
-		public readonly int SpawnInterval = 20;
+		public readonly int SpawnInterval = 250;
 
 		[Desc("Hard cap on simultaneous transit vehicles.")]
 		public readonly int MaxVehicles = 80;
 
 		[Desc("Minimum headway (ticks) that limits the vehicle target: target <= CycleTicks / MinHeadway.")]
-		public readonly int MinHeadway = 40;
+		public readonly int MinHeadway = 1500;
 
 		[Desc("Auto fleet: evaluate every this many ticks; +1 above UpUsage percent, -1 below DownUsage.")]
 		public readonly int AutoInterval = 600;
@@ -162,6 +162,7 @@ namespace OpenRA.Mods.City.Traits
 		CityManager cityManager;
 		TransitRouter router;
 		TransitRouter previewRouter;
+		TransitRouter walkRouter;
 		int roadVersion = -1;
 		int roadChangedTick;
 		bool networkDirty;
@@ -174,7 +175,7 @@ namespace OpenRA.Mods.City.Traits
 
 		// Statistics for the autotest report and the UI.
 		int totalAlightings, totalGaveUp;
-		int externalJourneyTick = -1_000_000;
+		bool citizenDriven;
 
 		public TransitLayer(Actor self, TransitLayerInfo info)
 		{
@@ -200,16 +201,73 @@ namespace OpenRA.Mods.City.Traits
 		/// <summary>True once a traffic service accepted a trip: vehicles are then drawn by that service, not by TransitRender.</summary>
 		public bool TrafficDrivesVehicles { get; private set; }
 
+		int WalkingTicksPerCell => traffic is ITravelTimeCalibration timing ? timing.FreeFlowTicksPerCell(TravelMode.Walk) : Info.WalkTicksPerCell;
+
+		JunctionControl RoadControl(CPos cell)
+		{
+			var legs = 0;
+			for (var d = 0; d < 4; d++)
+			{
+				var next = cell + CityUtils.Neighbours4[d];
+				if (world.Map.Contains(next) && roads.IsRoad(next) && (roads.CanEnter(cell, d) || roads.CanEnter(next, (d + 2) & 3)))
+					legs++;
+			}
+
+			return legs >= 3 ? roads.GetControl(cell) : JunctionControl.None;
+		}
+
+		int RoadDelay(CPos cell)
+		{
+			var info = (traffic as TrafficSim)?.Info;
+			return RoadControl(cell) switch
+			{
+				JunctionControl.Stop => info?.StopDelayTicks ?? 50,
+				JunctionControl.Signal => TravelTimeCalibration.SignalWaitTicks(info?.SignalCycleTicks ?? 1500, info?.SignalClearanceTicks ?? 50),
+				_ => 0,
+			};
+		}
+
+		int RoadRoutingCost(CPos cell)
+		{
+			var baseline = traffic is ITravelTimeCalibration timing ? timing.FreeFlowTicksPerCell(TravelMode.Car) : 36;
+			return TravelTimeCalibration.ScaleSpeed(baseline, roads.GetSpeedPercent(cell)) + RoadDelay(cell);
+		}
+
+		int PathTravelTicks(CPos[] path, TransitMode mode)
+		{
+			if (path.Length <= 1)
+				return 1;
+
+			if (DataOnly(mode) || mode == TransitMode.Tram)
+				return (path.Length - 1) * TicksPerCell(mode);
+
+			long twiceTotal = 0;
+			for (var i = 0; i < path.Length; i++)
+			{
+				var travel = TravelTimeCalibration.ScaleSpeed(TicksPerCell(mode), roads.GetSpeedPercent(path[i]));
+				twiceTotal += (i == 0 || i == path.Length - 1) ? travel : 2L * travel;
+				if (i < path.Length - 1)
+					twiceTotal += 2L * RoadDelay(path[i]);
+			}
+
+			return (int)System.Math.Min(int.MaxValue, (twiceTotal + 1) / 2);
+		}
+
 		void IWorldLoaded.WorldLoaded(World w, OpenRA.Graphics.WorldRenderer wr)
 		{
 			roads = w.WorldActor.TraitsImplementing<IRoadNetwork>().FirstOrDefault();
 			traffic = w.WorldActor.TraitsImplementing<ITrafficService>().FirstOrDefault();
+			citizenDriven = w.WorldActor.TraitsImplementing<ICitizenPopulation>().Any()
+				|| w.Players.Any(p => p.Playable && p.PlayerActor.TraitsImplementing<ICitizenPopulation>().Any());
 			registry = w.WorldActor.TraitsImplementing<IPropertyRegistry>().FirstOrDefault();
 			clock = w.WorldActor.TraitOrDefault<CityClock>();
 			if (roads != null)
 			{
-				router = new TransitRouter(w.Map, roads);
-				previewRouter = new TransitRouter(w.Map, roads);
+				router = new TransitRouter(w.Map, roads, RoadRoutingCost);
+				previewRouter = new TransitRouter(w.Map, roads, RoadRoutingCost);
+				walkRouter = new TransitRouter(w.Map,
+					c => roads.IsRoad(c) && (traffic is TrafficSim sim ? sim.HasSidewalk(c) : roads.GetClass(c) != RoadClass.Highway),
+					(c, d) => roads.CanEnter(c, d) || roads.CanEnter(c + CityUtils.Neighbours4[d], (d + 2) & 3));
 			}
 
 			InitTracks(w, wr);

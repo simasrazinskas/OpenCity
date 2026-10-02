@@ -20,6 +20,7 @@ namespace OpenRA.Platforms.Default
 	{
 		readonly Sdl2PlatformWindow window;
 		IntPtr context;
+		float frameWindowScale = 1f;
 
 		public string GLVersion => OpenGL.Version;
 
@@ -114,19 +115,13 @@ namespace OpenRA.Platforms.Default
 			if (height < 0)
 				height = 0;
 
-			var windowSize = window.EffectiveWindowSize;
-			var windowScale = window.EffectiveWindowScale;
-			var surfaceSize = window.SurfaceSize;
-
-			if (windowSize != surfaceSize)
-			{
-				// Use the same device pixel snapping as the UI geometry so clipped edges line up exactly
-				var r = PixelSnap.ToDevice(new Rectangle(x, y, width, height), windowScale);
-				x = r.X;
-				y = r.Y;
-				width = r.Width;
-				height = r.Height;
-			}
+			// Capture scale at Clear, before this frame is queued. Input pumping can resize the
+			// window while the render thread is still processing the previous frame's scissors.
+			var r = PixelSnap.ToDevice(new Rectangle(x, y, width, height), frameWindowScale);
+			x = r.X;
+			y = r.Y;
+			width = r.Width;
+			height = r.Height;
 
 			OpenGL.glScissor(x, y, width, height);
 			OpenGL.CheckGLError();
@@ -176,6 +171,10 @@ namespace OpenRA.Platforms.Default
 		public void Clear()
 		{
 			VerifyThreadAffinity();
+			var surfaceSize = window.SurfaceSize;
+			frameWindowScale = window.EffectiveWindowScale;
+			OpenGL.glViewport(0, 0, surfaceSize.Width, surfaceSize.Height);
+			OpenGL.CheckGLError();
 			OpenGL.glClearColor(0, 0, 0, 1);
 			OpenGL.CheckGLError();
 			OpenGL.glClear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);

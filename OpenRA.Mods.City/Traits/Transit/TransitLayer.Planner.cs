@@ -19,6 +19,7 @@ namespace OpenRA.Mods.City.Traits
 	{
 		const byte EventEnqueue = 0;
 		const byte EventComplete = 1;
+		const byte EventTaxiReady = 2;
 
 		struct Plan
 		{
@@ -92,6 +93,18 @@ namespace OpenRA.Mods.City.Traits
 			{
 				var e = PopEvent();
 				var g = e.Group;
+				if (g.Cancelled)
+					continue;
+
+				if (e.Kind == EventTaxiReady)
+				{
+					var taxi = GetVehicle(e.StopId);
+					if (taxi != null && taxi.HasFare && taxi.Fare.JourneyId == g.JourneyId)
+						taxi.PassengerReadyTick = now;
+
+					continue;
+				}
+
 				if (e.Kind == EventEnqueue)
 				{
 					var stop = GetStop(e.StopId);
@@ -122,7 +135,7 @@ namespace OpenRA.Mods.City.Traits
 						{
 							TripId = g.JourneyId,
 							OwnerId = g.OwnerId,
-							Mode = TravelMode.Transit,
+							Mode = g.Taxi ? TravelMode.Taxi : TravelMode.Transit,
 							DepartTick = g.StartTick,
 							ArriveTick = now,
 							CostCents = g.FarePaid,
@@ -172,8 +185,13 @@ namespace OpenRA.Mods.City.Traits
 				if (s.Mode == TransitMode.Taxi || s.LineIds.Count == 0)
 					continue;
 
-				var d = Math.Abs(s.Cell.X - cell.X) + Math.Abs(s.Cell.Y - cell.Y);
+				var access = WalkAccess(s);
+				var d = Math.Abs(access.X - cell.X) + Math.Abs(access.Y - cell.Y);
 				if (d > Info.WalkRadius)
+					continue;
+
+				d = walkRouter?.Distance(cell, access, Info.WalkRadius) ?? -1;
+				if (d < 0)
 					continue;
 
 				// Keep the three nearest, ties by stop id (stops are iterated by ascending id).
@@ -242,7 +260,7 @@ namespace OpenRA.Mods.City.Traits
 			if (nFrom == 0 || nTo == 0)
 				return false;
 
-			var walk = Info.WalkTicksPerCell;
+			var walk = WalkingTicksPerCell;
 			var moneyWeight = Info.MoneyWeight[age];
 
 			// Direct rides.
@@ -324,7 +342,11 @@ namespace OpenRA.Mods.City.Traits
 							if (t2 == null)
 								continue;
 
-							var transferWalk = (Math.Abs(t1.Cell.X - t2.Cell.X) + Math.Abs(t1.Cell.Y - t2.Cell.Y)) * walk;
+							var transferCells = walkRouter?.Distance(WalkAccess(t1), WalkAccess(t2), Info.TransferRadius) ?? -1;
+							if (transferCells < 0)
+								continue;
+
+							var transferWalk = transferCells * walk;
 							for (var lb = 0; lb < t2.LineIds.Count; lb++)
 							{
 								var lineB = GetLine(t2.LineIds[lb]);
@@ -403,7 +425,6 @@ namespace OpenRA.Mods.City.Traits
 				return 0;
 
 			var now = world.WorldTick;
-			externalJourneyTick = now;
 			var depart = Math.Max(now, request.DepartTick);
 			var allowed = request.AllowedModes;
 			if (allowed == TravelModes.None || (allowed & TravelModes.Transit) != 0)
@@ -425,9 +446,11 @@ namespace OpenRA.Mods.City.Traits
 						RideLegs2 = plan.LegsB,
 						TransferWalkTicks = plan.TransferWalk,
 						WalkOutTicks = plan.WalkOut,
+						DestinationRoad = request.DestinationRoad,
 						StartTick = depart,
 					};
-					PushEvent(depart + Math.Max(1, plan.WalkIn), EventEnqueue, plan.BoardA, g);
+					if (!ScheduleWalk(g, request.OriginRoad, WalkAccess(GetStop(plan.BoardA)), EventEnqueue, plan.BoardA, depart, plan.WalkIn))
+						return 0;
 					return g.JourneyId;
 				}
 			}
@@ -441,6 +464,9 @@ namespace OpenRA.Mods.City.Traits
 		/// <summary>Cancel a booked journey that has not completed (waiting passengers are removed; riders are dropped at the next stop).</summary>
 		public void CancelJourney(int journeyId)
 		{
+			if (walkingJourneys.Remove(journeyId, out var walkTrip) && walkTrip > 0)
+				traffic?.CancelTrip(walkTrip);
+
 			for (var s = 0; s < stops.Count; s++)
 			{
 				var stop = stops[s];
@@ -462,11 +488,20 @@ namespace OpenRA.Mods.City.Traits
 
 				var e = heap[i];
 				e.Group.Listener = null;
+				e.Group.Cancelled = true;
 				heap[i] = e;
 			}
 
 			for (var v = 0; v < vehicles.Count; v++)
 			{
+				if (vehicles[v].HasFare && vehicles[v].Fare.JourneyId == journeyId)
+				{
+					vehicles[v].HasFare = false;
+					vehicles[v].Fare.Listener = null;
+					if (vehicles[v].State == TransitVehicleState.WaitingPassenger)
+						vehicles[v].State = TransitVehicleState.Idle;
+				}
+
 				for (var i = 0; i < vehicles[v].Pax.Count; i++)
 				{
 					if (vehicles[v].Pax[i].JourneyId != journeyId)
@@ -474,6 +509,7 @@ namespace OpenRA.Mods.City.Traits
 
 					var g = vehicles[v].Pax[i];
 					g.Listener = null;
+					g.Cancelled = true;
 					vehicles[v].Pax[i] = g;
 				}
 			}
@@ -524,7 +560,7 @@ namespace OpenRA.Mods.City.Traits
 		void SampleAggregatePassengers(int now)
 		{
 			// Once the citizen simulation books real journeys, the aggregate sampler stays quiet.
-			if (now - externalJourneyTick < 4800 || stops.Count == 0)
+			if (citizenDriven || stops.Count == 0)
 				return;
 
 			UpdateCatchments(now);

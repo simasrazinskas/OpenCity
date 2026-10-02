@@ -28,6 +28,9 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		[FluentReference("balance")]
 		const string BalancePerMonth = "label-city-balance";
 
+		[FluentReference]
+		const string UnlimitedMoney = "label-city-unlimited-money";
+
 		[FluentReference("name", "population", "next")]
 		const string MilestoneProgress = "label-city-milestone-bar";
 
@@ -90,10 +93,16 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		void InitMoney()
 		{
 			var cash = left.Get<LabelWithTooltipWidget>("CASH");
-			cash.GetText = () => manager == null ? "" : CityUtils.FormatMoney(manager.Funds);
+
+			// The bundled regular face includes infinity; its bold counterpart does not.
+			if (manager?.UnlimitedMoney == true)
+				cash.Font = "Regular";
+
+			cash.GetText = () => manager == null ? "" : manager.UnlimitedMoney ? "∞" : CityUtils.FormatMoney(manager.Funds);
 			cash.GetColor = () => manager != null && manager.Funds < 0 ? CityTheme.MoneyNegative : CityTheme.MoneyPositive;
 			cash.GetTooltipText = () => manager == null ? "" :
-				CityUtils.FormatMoney(manager.Funds) + "\n" + FluentProvider.GetMessage(BalancePerMonth, "balance", CityUi.SignedMoney(manager.MonthlyBalance));
+				(manager.UnlimitedMoney ? FluentProvider.GetMessage(UnlimitedMoney) : CityUtils.FormatMoney(manager.Funds)) + "\n" +
+				FluentProvider.GetMessage(BalancePerMonth, "balance", CityUi.SignedMoney(manager.MonthlyBalance));
 
 			left.Get<CityIconWidget>("BALANCE_ICON").GetIcon = () => manager != null && manager.MonthlyBalance < 0 ? "stat_balance_down" : "stat_balance_up";
 			var balance = left.Get<LabelWidget>("BALANCE");
@@ -271,7 +280,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			center.Bounds = new WidgetBounds(side + 2, 0, Math.Max(40, width - 2 * side - 4), Height);
 
 			// Left section: money column and population column split the width
-			var split = side * 126 / 250;
+			var split = side * 3 / 5;
 			left.Get("DIVIDER").Bounds.X = split;
 			foreach (var id in new[] { "CASH", "BALANCE" })
 				left.Get(id).Bounds.Width = split - 27;

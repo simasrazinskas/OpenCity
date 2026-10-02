@@ -129,9 +129,23 @@ namespace OpenRA.Mods.City.Traits
 		[Desc("Transit cost in ticks per 100 cents of fare when comparing with the car.")]
 		public readonly int FareTicksPerCent = 50;
 
-		[Desc("Departure jitter in ticks and the cap on trip requests per tick.")]
+		[Desc("Extra early departure spread in ticks (never delays an estimated on-time commute), and trip request cap per tick.")]
 		public readonly int DepartJitterTicks = 100;
 		public readonly int MaxTripRequestsPerTick = 120;
+
+		[Desc("Shopping dwell time and leisure dwell time in in-game minutes.")]
+		public readonly int ShoppingMinutes = 30;
+		public readonly int LeisureMinutes = 90;
+
+		[Desc("Daily chance of a leisure outing, increased when the citizen has gone without leisure.")]
+		public readonly int LeisureTripPercent = 35;
+
+		[Desc("Prefer walking to destinations within this many road cells.")]
+		public readonly int WalkPreferenceCells = 12;
+
+		[Desc("Latest hour for starting optional shopping/leisure, and in-game minutes between failed trip retries.")]
+		public readonly int OutingEndHour = 22;
+		public readonly int TripRetryMinutes = 10;
 
 		[Desc("Share of vacant jobs (percent) filled by commuters from outside, and tourist arrivals per day at full park coverage.")]
 		public readonly int CommuterPercentOfVacancies = 30;
@@ -157,9 +171,9 @@ namespace OpenRA.Mods.City.Traits
 
 		[Desc("Commute: ticks of a work trip considered fine, the penalty divisor (ticks per happiness point, max 10),",
 			"ticks above which the worker starts looking for a nearer job, and the bad days in a row before quitting.")]
-		public readonly int CommuteOkTicks = 150;
-		public readonly int CommutePenaltyDivisor = 40;
-		public readonly int CommuteQuitTicks = 500;
+		public readonly int CommuteOkTicks = CityTime.DefaultTicksPerHour / 2;
+		public readonly int CommutePenaltyDivisor = CityTime.DefaultTicksPerHour / 6;
+		public readonly int CommuteQuitTicks = CityTime.DefaultTicksPerHour * 2;
 		public readonly int CommuteStrikesToQuit = 2;
 
 		[Desc("Maximum life-event chirps (births, graduations, deaths, arrests) per day.")]
@@ -207,12 +221,18 @@ namespace OpenRA.Mods.City.Traits
 
 	struct Citizen
 	{
+		public int Generation;      // unique allocation identity: stale plans cannot target a reused citizen slot
+		public int PlannedThroughDay; // last absolute calendar day whose itinerary was prepared
+		public int BusyUntil;       // absolute world tick until a work/study/optional visit finishes
 		public int BirthDay;        // clock day index at birth (negative for the founding cohort)
 		public int Household;       // household index, -1 = free slot
 		public int NextInHousehold; // intrusive list, -1 = end
 		public int Work;            // property id of the job or school, 0 = none
 		public int TripId;          // active trip, 0 = none
 		public int Loc;             // property id the citizen currently is at (0 = home)
+		public CPos LastRoad;       // reached location survives demolition of its property
+		public bool HasLastRoad;
+		public CPos TripDestinationRoad;
 		public CitFlags Flags;
 		public byte Education;
 		public byte JobLevel;
@@ -230,6 +250,7 @@ namespace OpenRA.Mods.City.Traits
 		public byte JailDays;       // sentence days left (Jailed flag)
 		public bool InPrison;       // serving outside the city
 		public int TripDest;
+		public byte TripRetries;
 	}
 
 	struct Household
@@ -341,11 +362,11 @@ namespace OpenRA.Mods.City.Traits
 			roads = wa.TraitsImplementing<IRoadNetwork>().FirstOrDefault();
 		}
 
-		int TicksPerDay => clock?.TicksPerDay ?? 2400;
+		int TicksPerDay => clock?.TicksPerDay ?? CityTime.DefaultTicksPerHour * 24;
 
-		int Today => clock?.DayIndex ?? world.WorldTick / 2400;
+		int Today => clock?.DayIndex ?? world.WorldTick / TicksPerDay;
 
-		int TickOfDay => clock?.TickOfDay ?? world.WorldTick % 2400;
+		int TickOfDay => clock?.TickOfDay ?? world.WorldTick % TicksPerDay;
 
 		int NextRandom(int bound)
 		{

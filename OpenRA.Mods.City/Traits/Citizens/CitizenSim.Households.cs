@@ -56,12 +56,11 @@ namespace OpenRA.Mods.City.Traits
 				return;
 			}
 
-			var pulsesPerDay = Math.Max(1, TicksPerDay / 25);
-			immigAccumMilli += immigQuotaToday * 1000 / pulsesPerDay;
+			immigAccumMilli += immigQuotaToday * 25;
 			var spawned = 0;
-			while (immigAccumMilli >= 1000 && spawned < 400)
+			while (immigAccumMilli >= TicksPerDay && spawned < 400)
 			{
-				immigAccumMilli -= 1000;
+				immigAccumMilli -= TicksPerDay;
 				spawned++;
 				if (homeCands.Count == 0)
 				{
@@ -193,6 +192,7 @@ namespace OpenRA.Mods.City.Traits
 				var age = AgeOf(m);
 				UpdateSchooling(m, age, today);
 				SeekJob(m, age);
+				PlanDay(m, age, today);
 			}
 		}
 

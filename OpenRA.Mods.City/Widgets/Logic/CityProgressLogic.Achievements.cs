@@ -32,7 +32,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 		[FluentReference("xp")]
 		const string CardXp = "label-achievements-card-xp";
 
-		const int AchievementColumns = 7, AchievementGap = 4, AchievementRowHeight = 66;
+		const int AchievementColumns = 4, AchievementGap = 4, AchievementRowHeight = 78;
 
 		readonly Dictionary<string, AchievementEntry> achievements = [];
 		ScrollPanelWidget achievementList;

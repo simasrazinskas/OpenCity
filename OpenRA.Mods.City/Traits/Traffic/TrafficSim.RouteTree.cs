@@ -24,6 +24,7 @@ namespace OpenRA.Mods.City.Traits
 		{
 			public int Destination;
 			public int Version;
+			public int CostVersion;
 			public int BuiltTick;
 			public int LastUse;
 			public int[] Cost;
@@ -58,6 +59,7 @@ namespace OpenRA.Mods.City.Traits
 				if (++destHits[to] < Info.RouteTreeMinHits || treeBuiltTick == tick)
 					return 0;
 
+				treeBuiltTick = tick;
 				tree = BuildTree(to);
 				if (tree == null)
 				{
@@ -84,7 +86,7 @@ namespace OpenRA.Mods.City.Traits
 			for (var i = trees.Count - 1; i >= 0; i--)
 			{
 				var t = trees[i];
-				if (t.Version != graphVersion || tick - t.BuiltTick > Info.RouteTreeTtl)
+				if (t.Version != graphVersion || t.CostVersion != costVersion || tick - t.BuiltTick > Info.RouteTreeTtl)
 				{
 					trees.RemoveAt(i);
 					continue;
@@ -120,6 +122,7 @@ namespace OpenRA.Mods.City.Traits
 
 			tree.Destination = to;
 			tree.Version = graphVersion;
+			tree.CostVersion = costVersion;
 			tree.BuiltTick = tick;
 			tree.LastUse = tick;
 			treeBuilds++;
@@ -134,8 +137,11 @@ namespace OpenRA.Mods.City.Traits
 				HeapPush(0, 0, to * 4 + h);
 			}
 
+			var expanded = 0;
 			while (heapCount > 0)
 			{
+				if (++expanded > Math.Max(1, Info.MaxRouteNodes))
+					return null;
 				var item = HeapPop();
 				var s = item.Link;
 				if (item.G > cost[s])

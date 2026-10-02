@@ -58,6 +58,7 @@ namespace OpenRA.Mods.City.Traits
 		{
 			statistics = Find<ICityStatistics>(self);
 			localLogistics = self.TraitOrDefault<Logistics>();
+			InitFreight();
 		}
 
 		// ---- prices ----
@@ -224,32 +225,26 @@ namespace OpenRA.Mods.City.Traits
 					if (s.Orphan || !s.Operational)
 						continue;
 
-					var affordable = ((long)c.Cash + c.Credit) / unit;
+					var road = RoadOf(s.Prop);
+					var destination = RoadOf(c.Prop);
+					if (localLogistics.TravelTicks(road, destination) < 0)
+						continue;
+
+					var freight = localLogistics.HaulCostCents(road, destination, r);
+					var affordable = ((long)c.Cash + c.Credit) / Math.Max(1, unit + freight);
 					var take = (int)Math.Min(Math.Min((s.StockOut - s.StockCap / 2) / 1000, left), affordable);
 					if (take <= 0)
 						continue;
 
-					var sent = localLogistics.TryDispatch(s.PropertyId, c.PropertyId, r, take, unit);
-					if (sent <= 0)
-						continue;
-
-					var value = sent * unit;
-					s.StockOut -= sent * 1000;
-					s.Cash += value;
-					s.ProfitMonth += value;
-					s.SalesDay += value;
-					s.SoldDay += sent * 1000;
-					c.Cash -= value;
-					c.CostsDay += value;
-					left -= sent;
-					flowMonth[LGoods] += value;
+					var sentMilli = OrderFreight(s, c, r, take, unit);
+					left -= sentMilli / 1000;
 				}
 			}
 		}
 
 		// Offers a warehouse's stock to a buyer when it undercuts both the best local seller and the import. Returns the unit
 		// price paid (0 = no deal) and adds the bought amount (milli-units) to `got`.
-		int TryStorage(Company buyer, CPos buyerRoad, int resource, int want, int localUnit, int importUnit, long credit, ref int got)
+		int TryStorage(Company buyer, CPos buyerRoad, int resource, int want, int localUnit, int importUnit, long credit, ref int got, ref bool deferred)
 		{
 			if (localLogistics == null)
 				return 0;
@@ -265,10 +260,17 @@ namespace OpenRA.Mods.City.Traits
 					continue;
 
 				var cents = localLogistics.SellOfferCents(s.PropertyId, resource, Wholesale(def));
-				if (cents <= 0)
+				if (cents <= 0 || localLogistics.SellOfferUnits(s.PropertyId, resource) <= 0)
 					continue;
 
-				var unit = cents + FreightCents(def.Weight, Manhattan(buyerRoad, RoadOf(s.Prop)));
+				var road = RoadOf(s.Prop);
+				var travel = localLogistics.TravelTicks(road, buyerRoad);
+				if (travel == Logistics.RouteBusy)
+					deferred = true;
+				if (travel < 0)
+					continue;
+
+				var unit = cents + localLogistics.HaulCostCents(road, buyerRoad, resource);
 				if (unit < bestUnit)
 				{
 					bestUnit = unit;
@@ -284,22 +286,14 @@ namespace OpenRA.Mods.City.Traits
 			if (wanted <= 0)
 				return 0;
 
-			var sold = localLogistics.TryDispatch(best.PropertyId, buyer.PropertyId, resource, wanted, bestCents);
-			if (sold <= 0)
+			var soldMilli = OrderFreight(best, buyer, resource, wanted, bestCents);
+			if (soldMilli <= 0)
+			{
+				deferred = true;
 				return 0;
+			}
 
-			var value = sold * bestCents;
-			var freight = sold * (bestUnit - bestCents);
-			best.Cash += value;
-			best.ProfitMonth += value;
-			best.SalesDay += value;
-			buyer.Cash -= value + freight;
-			buyer.CostsDay += value + freight;
-			flowMonth[LGoods] += value;
-			if (freight > 0)
-				Move(Acct.Companies, Acct.Outside, LFreight, freight);
-
-			got += sold * 1000;
+			got += soldMilli;
 			return bestUnit;
 		}
 

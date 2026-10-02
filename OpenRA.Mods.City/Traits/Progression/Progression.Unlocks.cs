@@ -261,6 +261,9 @@ namespace OpenRA.Mods.City.Traits
 			if (signatures != null && key.StartsWith("sig-", StringComparison.Ordinal))
 				return signatures.IsUnlocked(key);
 
+			if (sandbox)
+				return true;
+
 			var listed = false;
 			if (keyMilestone.TryGetValue(key, out var m))
 			{
@@ -294,7 +297,7 @@ namespace OpenRA.Mods.City.Traits
 		/// <summary>Milestone index at which a key opens, or -1 when it is not milestone-gated (UI hint: "unlocks at ...").</summary>
 		public int GetUnlockMilestone(string key)
 		{
-			return keyMilestone.TryGetValue(key, out var m) ? m : -1;
+			return !sandbox && keyMilestone.TryGetValue(key, out var m) ? m : -1;
 		}
 	}
 }

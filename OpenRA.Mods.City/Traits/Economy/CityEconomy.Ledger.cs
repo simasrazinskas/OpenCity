@@ -195,7 +195,7 @@ namespace OpenRA.Mods.City.Traits
 			}
 			else if (delta < 0)
 			{
-				var repay = Math.Min(-delta, Math.Max(0, cm.Funds));
+				var repay = cm.UnlimitedMoney ? -delta : Math.Min(-delta, Math.Max(0, cm.Funds));
 				if (repay > 0 && cm.TrySpend(repay, "loan-repay"))
 					LoanPrincipal -= repay;
 			}

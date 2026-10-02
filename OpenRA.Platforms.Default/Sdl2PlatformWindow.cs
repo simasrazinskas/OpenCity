@@ -31,7 +31,8 @@ namespace OpenRA.Platforms.Default
 		bool disposed;
 
 		readonly Lock syncObject = new();
-		readonly Size windowSize;
+		Size windowSize;
+		internal Size InputWindowSize { get; private set; }
 		Size surfaceSize;
 		float windowScale = 1f;
 		int2? lockedMousePosition;
@@ -62,7 +63,7 @@ namespace OpenRA.Platforms.Default
 			get
 			{
 				lock (syncObject)
-					return new Size((int)(windowSize.Width / scaleModifier), (int)(windowSize.Height / scaleModifier));
+					return new Size(Math.Max(1, (int)(windowSize.Width / scaleModifier)), Math.Max(1, (int)(windowSize.Height / scaleModifier)));
 			}
 		}
 
@@ -225,7 +226,8 @@ namespace OpenRA.Platforms.Default
 
 				Console.WriteLine($"Using resolution: {windowSize.Width}x{windowSize.Height}");
 
-				const SDL.SDL_WindowFlags WindowFlags = SDL.SDL_WindowFlags.SDL_WINDOW_OPENGL | SDL.SDL_WindowFlags.SDL_WINDOW_ALLOW_HIGHDPI;
+				const SDL.SDL_WindowFlags WindowFlags = SDL.SDL_WindowFlags.SDL_WINDOW_OPENGL | SDL.SDL_WindowFlags.SDL_WINDOW_ALLOW_HIGHDPI
+					| SDL.SDL_WindowFlags.SDL_WINDOW_RESIZABLE;
 
 				// HiDPI doesn't work properly on OSX with (legacy) fullscreen mode
 				if (Platform.CurrentPlatform == PlatformType.OSX && windowMode == WindowMode.Fullscreen)
@@ -316,12 +318,10 @@ namespace OpenRA.Platforms.Default
 					{
 						// Activating SDL_WINDOW_FULLSCREEN_DESKTOP on a display with a notch will automatically
 						// reduce the window height and align the top-left of the window to the safe area.
-						//
+
 						// SDL (as of version 2.26) does not contain an API to query the safeAreaInsets before
 						// the window is created. We work around this by checking the window height after going
 						// fullscreen, and recalculating our sizes to match the new window geometry.
-						//
-						// This workaround will become redundant once window resizing is implemented.
 						SDL.SDL_GetWindowSize(Window, out var width, out var height);
 						if (height != windowSize.Height)
 						{
@@ -336,6 +336,8 @@ namespace OpenRA.Platforms.Default
 					}
 				}
 
+				// Fullscreen requests and the compositor can choose a different size from our request.
+				WindowSizeChanged();
 				Console.WriteLine($"Using window scale {windowScale:F2}");
 			}
 
@@ -445,25 +447,32 @@ namespace OpenRA.Platforms.Default
 
 		internal void WindowSizeChanged()
 		{
-			// The ratio between pixels and points can change when moving between displays in OSX
-			// We need to recalculate our scale to account for the potential change in the actual rendered area
-			if (Platform.CurrentPlatform == PlatformType.OSX)
+			SDL.SDL_GetWindowSize(Window, out var windowWidth, out var windowHeight);
+			SDL.SDL_GL_GetDrawableSize(Window, out var width, out var height);
+
+			// Minimized windows can temporarily report a zero-sized drawable. Keep the last valid
+			// geometry until restoration, so framebuffer allocation and coordinate conversion remain valid.
+			if (windowWidth <= 0 || windowHeight <= 0 || width <= 0 || height <= 0)
+				return;
+
+			float oldScale;
+			float newScale;
+			float modifier;
+			lock (syncObject)
 			{
-				SDL.SDL_GL_GetDrawableSize(Window, out var width, out var height);
+				oldScale = windowScale;
+				InputWindowSize = new Size(windowWidth, windowHeight);
+				surfaceSize = new Size(width, height);
+				if (Platform.CurrentPlatform == PlatformType.OSX)
+					windowScale = width * 1f / windowWidth;
 
-				if (width != SurfaceSize.Width || height != SurfaceSize.Height)
-				{
-					float oldScale;
-					lock (syncObject)
-					{
-						oldScale = windowScale;
-						surfaceSize = new Size(width, height);
-						windowScale = width * 1f / windowSize.Width;
-					}
-
-					OnWindowScaleChanged(oldScale, oldScale * scaleModifier, windowScale, windowScale * scaleModifier);
-				}
+				windowSize = new Size(Math.Max(1, (int)(width / windowScale)), Math.Max(1, (int)(height / windowScale)));
+				newScale = windowScale;
+				modifier = scaleModifier;
 			}
+
+			if (oldScale != newScale)
+				OnWindowScaleChanged(oldScale, oldScale * modifier, newScale, newScale * modifier);
 		}
 
 		public void Dispose()
@@ -496,6 +505,13 @@ namespace OpenRA.Platforms.Default
 		public void PumpInput(IInputHandler inputHandler)
 		{
 			VerifyThreadAffinity();
+
+			// Some compositors change drawable geometry without a matching resize event.
+			WindowSizeChanged();
+			if (lockedMousePosition.HasValue)
+				lockedMousePosition = new int2(lockedMousePosition.Value.X.Clamp(0, InputWindowSize.Width - 1),
+					lockedMousePosition.Value.Y.Clamp(0, InputWindowSize.Height - 1));
+
 			input.PumpInput(this, inputHandler, lockedMousePosition);
 
 			if (lockedMousePosition.HasValue)
@@ -612,9 +628,20 @@ namespace OpenRA.Platforms.Default
 
 		public void SetScaleModifier(float scale)
 		{
-			var oldScaleModifier = scaleModifier;
-			scaleModifier = scale;
-			OnWindowScaleChanged(windowScale, windowScale * oldScaleModifier, windowScale, windowScale * scaleModifier);
+			if (!float.IsFinite(scale) || scale <= 0)
+				throw new ArgumentOutOfRangeException(nameof(scale));
+
+			float oldScaleModifier;
+			float nativeScale;
+			lock (syncObject)
+			{
+				oldScaleModifier = scaleModifier;
+				scaleModifier = scale;
+				nativeScale = windowScale;
+			}
+
+			if (oldScaleModifier != scale)
+				OnWindowScaleChanged(nativeScale, nativeScale * oldScaleModifier, nativeScale, nativeScale * scale);
 		}
 	}
 }

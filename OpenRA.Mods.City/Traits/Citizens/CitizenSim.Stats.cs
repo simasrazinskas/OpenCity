@@ -162,7 +162,9 @@ namespace OpenRA.Mods.City.Traits
 				// Sample the arrays so the hash also reflects individual state without an O(N) pass per pulse.
 				var step = Math.Max(1, citCount / 64);
 				for (var i = world.WorldTick / 25 % step; i < citCount; i += step)
-					h = h * 31 + cits[i].BirthDay + cits[i].Health * 3 + cits[i].Education + cits[i].Household * 5 + cits[i].Work;
+					h = h * 31 + cits[i].BirthDay + cits[i].Health * 3 + cits[i].Education + cits[i].Household * 5 + cits[i].Work
+						+ cits[i].Loc * 7 + cits[i].TripId * 11 + cits[i].BusyUntil + cits[i].PlannedThroughDay
+						+ cits[i].LastRoad.X * 13 + cits[i].LastRoad.Y * 17 + (cits[i].HasLastRoad ? 1 : 0);
 
 				StateHash = h;
 			}

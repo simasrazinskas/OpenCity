@@ -47,8 +47,10 @@ Core loop, as in Cities: Skylines 2:
 10. **Traffic**: cars drive along roads between homes and workplaces, and from the highway.
 11. **Info views**: heatmaps for power, water, land value, pollution, each service, traffic and
     happiness.
-12. **Time**: 1 in-game day = 25 world ticks. Speeds 1/2/3 set `world.Timestep` to 40/20/10 ms.
-    Pause uses OpenRA pause.
+12. **Time**: `CityClock` uses 180,000 ticks per day, or 120 real minutes at 1x. The legacy
+    25-tick update is an aggregate pulse. Speeds 1/2/3 use 40/20/10 ms; pause uses OpenRA pause.
+13. **Sandbox**: New City offers all development, policies and land unlocked with unlimited money.
+    The option is serialized in the lobby settings for saves and replays; normal games default to off.
 
 Money is an `int` (`CityManager.Funds`). Starting funds are $70,000.
 

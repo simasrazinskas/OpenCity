@@ -61,10 +61,20 @@ namespace OpenRA.Mods.City.Traits
 					freightLoad[idx] = v;
 			}
 
-			// Safety net: forget sampled trips the traffic service never reported back.
+			// A missing traffic callback must cancel the real trip, never silently abandon its vehicle.
 			for (var i = sampled.Count - 1; i >= 0; i--)
 				if (sampled[i].ExpireTick < now)
+				{
+					var trip = sampled[i];
+					traffic?.CancelTrip(trip.TripId);
+					if (shipmentById.TryGetValue(trip.ShipmentId, out var ship))
+					{
+						ships[ship].TripId = 0;
+						ships[ship].TripFailed = true;
+					}
+
 					sampled.RemoveAt(i);
+				}
 
 			var day = clock != null ? clock.DayIndex : now / 2400;
 			if (lastDay < 0)
@@ -116,6 +126,36 @@ namespace OpenRA.Mods.City.Traits
 			var from = NodeById(s.FromNode);
 			var heavy = WeightClass(s.Resource) != 0;
 
+			if (s.TripId > 0)
+			{
+				// A sampled truck's real arrival is authoritative. Congestion cannot make cargo
+				// appear in stock while its truck is still waiting at a junction.
+				s.ArriveTick = now + 25;
+				Enqueue(index, s.ArriveTick);
+				return;
+			}
+
+			if (s.Returning)
+			{
+				if (s.ReturnPending)
+				{
+					BeginReturn(index, from, to, now, s.ReturnedCargo);
+					return;
+				}
+
+				if (s.ReturnedCargo)
+					ReturnCargo(index, from, to);
+
+				Finish(index);
+				return;
+			}
+
+			if (s.TripFailed || !from.Alive)
+			{
+				RedirectOrReturn(index, from, now);
+				return;
+			}
+
 			if (!to.Alive)
 			{
 				RedirectOrReturn(index, from, now);
@@ -139,7 +179,28 @@ namespace OpenRA.Mods.City.Traits
 					return;
 				}
 
+				var travel = TravelTicks(from.Road, to.Road);
+				if (travel == RouteBusy)
+				{
+					s.ArriveTick = now + 1;
+					Enqueue(index, s.ArriveTick);
+					return;
+				}
+
+				if (travel < 0)
+				{
+					RedirectOrReturn(index, from, now);
+					return;
+				}
+
 				s.PathVersion = roads.NetworkVersion;
+				var revisedArrival = s.DepartTick + travel;
+				if (revisedArrival > now)
+				{
+					s.ArriveTick = revisedArrival;
+					Enqueue(index, revisedArrival);
+					return;
+				}
 			}
 
 			Deliver(index, from, to, now);
@@ -175,22 +236,40 @@ namespace OpenRA.Mods.City.Traits
 				to.Stock[r] += s.Units;
 			}
 
-			Finish(index);
+			BeginReturn(index, from, to, now, false);
 			unchecked
 			{
 				StateHash = StateHash * 31 + s.Id * 3 + 1;
 			}
 
-			if (s.Sampled && s.ReturnTick > now)
-				RequestTruck(s.Id, to, from, now, s.ReturnTick);
-
 			Delivered?.Invoke(MakeEvent(s, from, to));
+		}
+
+		/// <summary>A company closed before receipt. Keep cargo on the returning truck and settle it on return.</summary>
+		public void RejectDelivery(int shipmentId)
+		{
+			if (!shipmentById.TryGetValue(shipmentId, out var index))
+				return;
+
+			ref var s = ref ships[index];
+			if (!s.Returning || s.ReturnedCargo)
+				return;
+
+			s.ReturnedCargo = true;
+			var resource = (int)s.Resource;
+			DeliveredUnits[resource] -= s.Units;
+			MonthlyDelivered[resource] -= s.Units;
+			totalDelivered -= s.Units;
+			AddStat(IndustryStat.Delivered, resource, -s.Units);
+			var to = NodeById(s.ToNode);
+			if (s.ToStorage && to.Stock != null)
+				to.Stock[resource] = Math.Max(0, to.Stock[resource] - s.Units);
 		}
 
 		void RedirectOrReturn(int index, LogiNode from, int now)
 		{
 			ref var s = ref ships[index];
-			if (!s.Redirected)
+			if (!s.Redirected && s.UnitPriceCents == 0)
 			{
 				// Buyer closed or unreachable: the nearest connected warehouse takes the load, else it goes back.
 				LogiNode best = null;
@@ -216,31 +295,61 @@ namespace OpenRA.Mods.City.Traits
 					s.Redirected = true;
 					s.ToNode = best.Id;
 					s.PathVersion = roads?.NetworkVersion ?? 0;
-					s.ArriveTick = now + 1 + bestLength * Info.TruckTicksPerCell / 2;
+					s.ArriveTick = now + 1 + bestLength * Info.TruckTicksPerCell;
 					Enqueue(index, s.ArriveTick);
 					return;
 				}
 			}
 
-			var copy = s;
-			var to = NodeById(copy.ToNode);
-			var r = Math.Min((int)copy.Resource, 63);
-			Stranded[r] += copy.Units;
-			totalReturned += copy.Units;
-			ReleaseInbound(ref copy);
+			var to = NodeById(s.ToNode);
+			ReleaseInbound(ref s);
+			BeginReturn(index, from, to, now, true);
+		}
 
-			// A warehouse seller takes its goods back.
-			if (copy.FromStorage && from.Alive && from.Stock != null && HasType(from, r))
-				from.Stock[r] += copy.Units;
+		void BeginReturn(int index, LogiNode from, LogiNode to, int now, bool cargo)
+		{
+			ref var s = ref ships[index];
+			s.Returning = true;
+			s.ReturnedCargo = cargo;
+			s.TripFailed = false;
+			var travel = WeightClass(s.Resource) == 0 ? 0 : TravelTicks(to.Road, from.Road);
+			if (travel == RouteBusy)
+			{
+				s.ReturnPending = true;
+				s.ArriveTick = now + 1;
+				Enqueue(index, s.ArriveTick);
+				return;
+			}
 
-			Finish(index);
+			s.ReturnPending = false;
+			if (travel < 0)
+				travel = Math.Max(1, s.ReturnTick - s.ArriveTick - Info.TurnaroundTicks);
+
+			var depart = now + Info.TurnaroundTicks;
+			s.ArriveTick = depart + travel;
+			s.ReturnTick = s.ArriveTick;
+			if (s.Sampled && from.Alive && to.Alive)
+				s.TripId = RequestTruck(s.Id, to, from, depart, s.ReturnTick);
+
+			Enqueue(index, s.ArriveTick);
+		}
+
+		void ReturnCargo(int index, LogiNode from, LogiNode to)
+		{
+			var s = ships[index];
+			var r = Math.Min((int)s.Resource, 63);
+			Stranded[r] += s.Units;
+			totalReturned += s.Units;
+			if (s.FromStorage && from.Alive && from.Stock != null && HasType(from, r))
+				from.Stock[r] += s.Units;
+
 			NoteBlocked();
 			unchecked
 			{
-				StateHash = StateHash * 31 + copy.Id * 3 + 2;
+				StateHash = StateHash * 31 + s.Id * 3 + 2;
 			}
 
-			Returned?.Invoke(MakeEvent(copy, from, to));
+			Returned?.Invoke(MakeEvent(s, from, to));
 		}
 
 		void ReleaseInbound(ref Shipment s)
@@ -271,7 +380,12 @@ namespace OpenRA.Mods.City.Traits
 
 		void Finish(int index)
 		{
-			ships[index].Active = false;
+			ref var s = ref ships[index];
+			s.Active = false;
+			shipmentById.Remove(s.Id);
+			if (s.Slot >= 0)
+				fleetFreeAt[s.Slot] = world.WorldTick;
+
 			freeShips.Push(index);
 			ShipmentsInTransit--;
 		}
@@ -281,14 +395,18 @@ namespace OpenRA.Mods.City.Traits
 			if (traffic == null || IndustryHash.Mix(ships[index].Id, 11) % Math.Max(1, Info.SampleDiv) != 0 || sampled.Count >= MaxVisible)
 				return;
 
-			if (RequestTruck(ships[index].Id, from, to, depart, returnAt))
+			var trip = RequestTruck(ships[index].Id, from, to, depart, returnAt);
+			if (trip > 0)
+			{
 				ships[index].Sampled = true;
+				ships[index].TripId = trip;
+			}
 		}
 
-		bool RequestTruck(int shipmentId, LogiNode from, LogiNode to, int depart, int expire)
+		int RequestTruck(int shipmentId, LogiNode from, LogiNode to, int depart, int expire)
 		{
 			if (traffic == null || sampled.Count >= MaxVisible || from.Road == CPos.Zero || to.Road == CPos.Zero)
-				return false;
+				return 0;
 
 			var request = new TripRequest
 			{
@@ -305,19 +423,28 @@ namespace OpenRA.Mods.City.Traits
 
 			var trip = traffic.RequestTrip(request, this);
 			if (trip <= 0)
-				return false;
+				return 0;
 
-			sampled.Add(new SampledTrip { TripId = trip, ExpireTick = Math.Max(expire, depart) + 600 });
-			return true;
+			sampled.Add(new SampledTrip { TripId = trip, ExpireTick = Math.Max(expire, depart) + Math.Max(1, Info.MaxQueueTicks), ShipmentId = shipmentId });
+			return trip;
 		}
 
 		void ITripListener.OnTripArrived(in TripResult result)
 		{
+			if (shipmentById.TryGetValue(result.OwnerId, out var index) && ships[index].TripId == result.TripId)
+				ships[index].TripId = 0;
+
 			ForgetTrip(result.TripId);
 		}
 
 		void ITripListener.OnTripFailed(int tripId, int ownerId, TripFailure reason)
 		{
+			if (shipmentById.TryGetValue(ownerId, out var index) && ships[index].TripId == tripId)
+			{
+				ships[index].TripId = 0;
+				ships[index].TripFailed = true;
+			}
+
 			ForgetTrip(tripId);
 		}
 
@@ -361,7 +488,7 @@ namespace OpenRA.Mods.City.Traits
 		{
 			return $"logistics ships={ShipmentsInTransit} nodes={nodes.Count} trucks={sampled.Count}/{MaxVisible} " +
 				$"dispatched={totalDispatched} delivered={totalDelivered} " +
-				$"returned={totalReturned} busy={rejectedBusy} bfs={BfsRuns} freightCells={freightActive.Count} {StorageReport()} hash={StateHash}";
+				$"returned={totalReturned} local={totalDispatched - ImportedUnits.Sum() - ExportedUnits.Sum()} imports={ImportedUnits.Sum()} exports={ExportedUnits.Sum()} busy={rejectedBusy} bfs={BfsRuns} freightCells={freightActive.Count} {StorageReport()} hash={StateHash}";
 		}
 	}
 }

@@ -276,7 +276,7 @@ namespace OpenRA.Graphics
 					var rd = Vector2.Transform(bl, transform);
 
 					// Offset rotated glyph to align the top-left corner with the screen pixel grid
-					var screenOffset = new Vector2((int)(ra.X * deviceScale + 0.5f), (int)(ra.Y * deviceScale + 0.5f)) / deviceScale - ra;
+					var screenOffset = new Vector2(PixelSnap.ToDevice(ra.X, deviceScale), PixelSnap.ToDevice(ra.Y, deviceScale)) / deviceScale - ra;
 
 					// Promoted Vector2 positions to Vector3 (with Z = 0) to match DrawSprite's expected signature
 					Game.Renderer.RgbaSpriteRenderer.DrawSprite(g.Sprite,
@@ -345,15 +345,20 @@ namespace OpenRA.Graphics
 			if (string.IsNullOrEmpty(text))
 				return new int2(0, size);
 
-			var lines = text.AsSpan().Split('\n');
-
 			var maxWidth = 0f;
-			var rows = 0;
-			foreach (var line in lines)
+			var rows = 1;
+			var start = 0;
+			for (var i = 0; i < text.Length; i++)
 			{
+				if (text[i] != '\n')
+					continue;
+
+				maxWidth = Math.Max(maxWidth, LineWidth(text.AsSpan(start, i - start)));
+				start = i + 1;
 				rows++;
-				maxWidth = Math.Max(maxWidth, LineWidth(line));
 			}
+
+			maxWidth = Math.Max(maxWidth, LineWidth(text.AsSpan(start)));
 
 			return new int2((int)Math.Ceiling(maxWidth - 0.001f), rows * size);
 		}
@@ -371,12 +376,12 @@ namespace OpenRA.Graphics
 		GlyphInfo CreateGlyph(char c)
 		{
 			var glyph = font.CreateGlyph(c, size, deviceScale);
-			if (glyph.Data == null)
+			if (glyph.Data == null || glyph.Size.Width == 0 || glyph.Size.Height == 0)
 			{
 				return new GlyphInfo
 				{
 					Sprite = null,
-					Advance = 0,
+					Advance = glyph.Advance,
 					Offset = int2.Zero
 				};
 			}

@@ -27,11 +27,29 @@ namespace OpenRA.Mods.City.Traits
 		[Desc("Vehicle slots a link holds per lane (a car takes 1, trucks and buses 2).")]
 		public readonly int SlotsPerLane = 2;
 
-		[Desc("Ticks a car needs to cross one street cell at free flow, in thousandths. 3300 gives ~1 game hour (100 ticks) for 30 cells.")]
-		public readonly int FreeFlowMilliTicksPerCell = 3300;
+		[Desc("Physical length represented by one map cell (meters).")]
+		public readonly int MetersPerCell = 16;
 
-		[Desc("Minimum ticks between two vehicles leaving the same lane of a link, in thousandths.")]
-		public readonly int DischargeMilliTicks = 1500;
+		[Desc("Base tick duration at 1x speed (milliseconds). Movement stays independent of calendar compression.")]
+		public readonly int BaseTickMilliseconds = 40;
+
+		[Desc("Car speed on a road whose SpeedPercent is 100 (km/h).")]
+		public readonly int CarSpeedKph = 40;
+
+		[Desc("Pedestrian walking speed (km/h).")]
+		public readonly int WalkingSpeedKph = 5;
+
+		[Desc("Optional legacy override of car travel time in thousandths of a tick; 0 uses physical calibration.")]
+		public readonly int FreeFlowMilliTicksPerCell = 0;
+
+		[Desc("Minimum lane headway, in thousandths of a base tick (37500 = 1.5 seconds at 1x).")]
+		public readonly int DischargeMilliTicks = 37500;
+
+		[Desc("Uncached travel-time searches allowed per tick; further quotes return -2 and should be retried.")]
+		public readonly int EstimateBudget = 64;
+
+		[Desc("Initial expanded-node budget per route search; retries increase it up to the finite map-state bound.")]
+		public readonly int MaxRouteNodes = 60000;
 
 		[Desc("Planned trips (A* runs) per tick.")]
 		public readonly int PlanBudget = 32;
@@ -40,13 +58,19 @@ namespace OpenRA.Mods.City.Traits
 		public readonly int CostRefreshTicks = 50;
 
 		[Desc("Ticks a front vehicle may be blocked before it is allowed to overfill the next link (gridlock breaker).")]
-		public readonly int GridlockTicks = 200;
+		public readonly int GridlockTicks = 1500;
 
 		[Desc("Ticks a front vehicle may be blocked before the trip fails with Stuck and the vehicle is removed.")]
-		public readonly int StuckTicks = 900;
+		public readonly int StuckTicks = 7500;
 
 		[Desc("Fixed signal cycle in ticks (two green phases, each followed by an all-red).")]
-		public readonly int SignalCycleTicks = 24;
+		public readonly int SignalCycleTicks = 1500;
+
+		[Desc("All-red clearance at the end of each signal phase (ticks).")]
+		public readonly int SignalClearanceTicks = 50;
+
+		[Desc("Minimum stop-sign stop, in base simulation ticks (50 = 2 seconds at 1x).")]
+		public readonly int StopDelayTicks = 50;
 
 		[Desc("Ticks a car stays parked after arriving.")]
 		public readonly int ParkDwellTicks = 400;
@@ -54,8 +78,8 @@ namespace OpenRA.Mods.City.Traits
 		[Desc("Search radius (cells) for a free parking space near the destination.")]
 		public readonly int ParkSearchRadius = 3;
 
-		[Desc("Ticks to walk one cell for walk-only trips.")]
-		public readonly int WalkTicksPerCell = 20;
+		[Desc("Optional legacy override of walking ticks per cell; 0 uses physical calibration.")]
+		public readonly int WalkTicksPerCell = 0;
 
 		[Desc("Hard cap on simultaneous vehicles.")]
 		public readonly int MaxVehicles = 6000;
@@ -136,7 +160,7 @@ namespace OpenRA.Mods.City.Traits
 	}
 
 	public sealed partial class TrafficSim : ITick, IWorldLoaded, ITrafficService, ICityAutoTestReporter, IFreightFlow, IVehicleInspector,
-		ITrafficIncidents, ITrafficInfo, ISync, IRender
+		ITrafficIncidents, ITrafficInfo, ITravelTimeCalibration, ISync, IRender
 	{
 		// Time unit: 1/U tick. Travel times, ready times and release times are all in this unit (integer, synced).
 		const int U = 64;
@@ -145,6 +169,24 @@ namespace OpenRA.Mods.City.Traits
 		const int NoVehicle = -1;
 
 		public readonly TrafficSimInfo Info;
+
+		int CarMilliTicks => Info.FreeFlowMilliTicksPerCell > 0 ? Info.FreeFlowMilliTicksPerCell
+			: TravelTimeCalibration.MilliTicksPerCell(Info.MetersPerCell, Info.CarSpeedKph, Info.BaseTickMilliseconds);
+
+		int WalkingTicks => Info.WalkTicksPerCell > 0 ? Info.WalkTicksPerCell
+			: (TravelTimeCalibration.MilliTicksPerCell(Info.MetersPerCell, Info.WalkingSpeedKph, Info.BaseTickMilliseconds) + 999) / 1000;
+
+		public bool HasSidewalk(CPos cell) => net != null && InMap(cell) && net.IsRoad(cell) && ProfileOfCell(Cell(cell)).Sidewalk > 0;
+
+		int ITravelTimeCalibration.FreeFlowTicksPerCell(TravelMode mode)
+		{
+			if (mode == TravelMode.Walk)
+				return WalkingTicks;
+
+			var speed = mode == TravelMode.Truck || mode == TravelMode.Bus ? 80 : mode == TravelMode.EmergencyVehicle ? 150 : 100;
+			return (TravelTimeCalibration.ScaleSpeed(CarMilliTicks, speed) + 999) / 1000;
+		}
+
 		readonly World world;
 		readonly Map map;
 		readonly int width, height, cellCount, linkCount;

@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using OpenRA.Mods.Common.Widgets;
 using OpenRA.Primitives;
@@ -39,19 +40,21 @@ namespace OpenRA.Mods.City.Widgets
 	/// <summary>
 	/// RCT2 build menu (design/iso/ui/panels/build-menu-health.png, system/ds-cards.png): a grid of cards, each a sunken
 	/// well with the building thumbnail (or the tool icon) above its name and price. States: normal, hover, selected
-	/// (the active tool), locked (silhouette, muted text); unaffordable prices turn red. Scrolls by rows (mouse wheel or
+	/// (the active tool), locked (a badge and muted text); unaffordable prices turn red. Scrolls by rows (mouse wheel or
 	/// the scrollbar on the right) when the cards need more rows than fit.
 	/// </summary>
 	public class CityBuildMenuWidget : Widget
 	{
-		public const int CardWidth = 68;
-		public const int CardHeight = 90;
-		public const int Gap = 3;
+		public const int CardWidth = 112;
+		public const int CardHeight = 120;
+		public const int Gap = 6;
 		public const int ScrollBarWidth = 10;
 
 		public readonly string TooltipContainer;
 		public readonly string TooltipTemplate = "CITY_TOOLTIP";
-		public readonly string Font = "Tiny";
+		public readonly string Font = "Small";
+
+		const int ThumbnailHeight = 70;
 
 		readonly ModData modData;
 		readonly Lazy<TooltipContainerWidget> tooltipContainer;
@@ -269,32 +272,41 @@ namespace OpenRA.Mods.City.Widgets
 				CityTheme.DrawPanel(CityTheme.Art(family, part), cell);
 
 				// The sunken thumbnail well: square, inside the card bevel
-				var well = new CityRect(cell.X + b, cell.Y + b, cell.Width - 2 * b, cell.Width - 2 * b);
+				var well = new CityRect(cell.X + b, cell.Y + b, cell.Width - 2 * b, ThumbnailHeight - 2 * b);
 				CityTheme.DrawPanel(CityTheme.Art(family, "card-well"), well.X, well.Y, well.Width, well.Height);
 				var sink = active ? b : 0;
 				var thumb = CityTheme.Thumbnail(item.Thumbnail);
 				var sprite = thumb ?? CityTheme.Icon(item.Icon, 32, disabled);
-				if (sprite != null)
+				CityTheme.DrawCentered(sprite, well.X + sink, well.Y + sink, well.Width, well.Height);
+
+				if (disabled)
 				{
-					if (disabled && thumb != null)
-						Game.Renderer.RgbaSpriteRenderer.DrawSprite(sprite, new Vector3(
-							(float)Math.Round(well.X + (well.Width - sprite.Size.X) / 2 + sink), (float)Math.Round(well.Y + (well.Height - sprite.Size.Y) / 2 + sink), 0),
-							1f, new Vector3(0.22f, 0.17f, 0.19f), 1f);
-					else
-						CityTheme.DrawCentered(sprite, well.X + sink, well.Y + sink, well.Width, well.Height);
+					// A visible badge communicates why the action is unavailable without hiding the building.
+					var locked = FluentProvider.GetMessage("label-city-build-locked");
+					var badgeFont = Game.Renderer.Fonts["TinyBold"];
+					var badgeSize = badgeFont.Measure(locked);
+					CityTheme.Fill(well.X + 3, well.Y + 3, badgeSize.X + 8, badgeSize.Y + 4, CityTheme.FamilyShade(family, 0));
+					badgeFont.DrawText(locked, new Vector2(well.X + 7, well.Y + 5), CityTheme.InkLight);
 				}
 
-				var textY = cell.Y + cell.Width + 1;
-				var name = WidgetUtils.TruncateText(item.Name ?? "", cell.Width - 4, font);
-				var nameSize = font.Measure(name);
-				font.DrawText(name, new Vector2(cell.X + (cell.Width - nameSize.X) / 2, textY), disabled ? muted : ink);
+				var textY = cell.Y + ThumbnailHeight + 3;
+				var lines = WidgetUtils.WrapText(item.Name ?? "", cell.Width - 12, font).Split('\n');
+				if (lines.Length > 2)
+					lines[1] = WidgetUtils.TruncateText(string.Join(" ", lines.Skip(1)), cell.Width - 12, font);
+
+				for (var line = 0; line < Math.Min(2, lines.Length); line++)
+				{
+					var name = lines[line];
+					var nameSize = font.Measure(name);
+					font.DrawText(name, new Vector2(cell.X + (cell.Width - nameSize.X) / 2, textY + line * (nameSize.Y + 1)), disabled ? muted : ink);
+				}
 
 				if (item.CostText.Length > 0)
 				{
 					var color = disabled ? muted : item.IsAffordable() ? CityTheme.MoneyPositive : CityTheme.MoneyNegative;
 					var cost = WidgetUtils.TruncateText(item.CostText, cell.Width - 4, font);
 					var costSize = font.Measure(cost);
-					font.DrawText(cost, new Vector2(cell.X + (cell.Width - costSize.X) / 2, textY + 10), color);
+					font.DrawText(cost, new Vector2(cell.X + (cell.Width - costSize.X) / 2, cell.Bottom - costSize.Y - 5), color);
 				}
 			}
 

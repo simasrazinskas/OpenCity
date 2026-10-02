@@ -5,6 +5,8 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\OpenRA.Game\OpenRA.Game.csproj" />
+		<ProjectReference Include="..\OpenRA.Mods.City\OpenRA.Mods.City.csproj" />
+		<ProjectReference Include="..\OpenRA.Platforms.Default\OpenRA.Platforms.Default.csproj" />
 		<ProjectReference Include="..\OpenRA.Mods.Common\OpenRA.Mods.Common.csproj">
 			<Private>True</Private>
 		</ProjectReference>
@@ -12,5 +14,9 @@
 		<PackageReference Include="NUnit" Version="4.3.2" />
 		<PackageReference Include="NUnit.Console" Version="3.19.0" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="..\mods\common\FreeSans.ttf" LogicalName="OpenRA.Test.FreeSans.ttf" />
 	</ItemGroup>
 </Project>

@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenRA.Mods.City.Traits;
 using OpenRA.Mods.Common.Widgets;
 using OpenRA.Network;
 using OpenRA.Primitives;
@@ -30,6 +31,7 @@ namespace OpenRA.Mods.City.Widgets.Logic
 
 		readonly ModData modData;
 		MapPreview selectedMap;
+		bool sandbox;
 
 		[ObjectCreator.UseCtor]
 		public CityNewGameLogic(Widget widget, ModData modData, Action onExit)
@@ -94,6 +96,10 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			// Prefer the last played map, otherwise the first one.
 			selectedMap = maps.FirstOrDefault(m => m.Uid == Game.Settings.Server.Map) ?? maps.FirstOrDefault();
 
+			var sandboxCheckbox = widget.Get<CheckboxWidget>("SANDBOX");
+			sandboxCheckbox.IsChecked = () => sandbox;
+			sandboxCheckbox.OnClick = () => sandbox = !sandbox;
+
 			var startButton = widget.Get<ButtonWidget>("START_BUTTON");
 			startButton.IsDisabled = () => selectedMap == null;
 			startButton.OnClick = () => StartGame(onExit);
@@ -125,9 +131,11 @@ namespace OpenRA.Mods.City.Widgets.Logic
 			var orders = new List<Order>
 			{
 				Order.Command("option gamespeed default"),
+				Order.Command($"option {CitySandbox.Option} {sandbox}"),
 				Order.Command($"state {Session.ClientState.Ready}")
 			};
 
+			CityNewGameAutoTest.PrepareGame();
 			Game.CreateAndStartLocalServer(uid, orders);
 		}
 	}

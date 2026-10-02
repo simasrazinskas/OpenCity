@@ -125,8 +125,8 @@ Container@CITY_NODE_CARD:
 
 # An achievement card (7 per row): unlocked cards are raised with a gold plate, locked ones sunken with a progress meter.
 LabelWithTooltip@CITY_ACHIEVEMENT_CARD:
-	Width: 65
-	Height: 62
+	Width: 114
+	Height: 74
 	IgnoreChildMouseOver: true
 	TooltipContainer: TOOLTIP_CONTAINER
 	TooltipTemplate: CITY_TOOLTIP
@@ -163,20 +163,20 @@ LabelWithTooltip@CITY_ACHIEVEMENT_CARD:
 			X: 2
 			Y: 33
 			Width: PARENT_WIDTH - 4
-			Height: 18
-			Font: Tiny
+			Height: 26
+			Font: Small
 			Align: Center
 			WordWrap: true
 			VAlign: Top
 		Label@XP:
-			Y: 52
+			Y: 62
 			Width: PARENT_WIDTH
-			Height: 9
+			Height: 11
 			Font: Tiny
 			Align: Center
 		CityBar@PROGRESS:
 			X: 5
-			Y: 54
+			Y: 65
 			Width: PARENT_WIDTH - 10
 			Height: 5
 			Ramp: yellow

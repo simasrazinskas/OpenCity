@@ -23,6 +23,8 @@ namespace OpenRA.Mods.City.Traits
 		const int AmbientWalkerSpacing = 5;
 
 		int pedestrians;
+		int[] sidewalkRunStart, sidewalkRunEnd;
+		int sidewalkRunVersion = -1;
 		ISpriteSequence[] walkVariants, umbrellas, cyclists;
 		ISpriteSequence jogger, dogWalker, shopper, family;
 
@@ -111,14 +113,16 @@ namespace OpenRA.Mods.City.Traits
 			foreach (var (t, _) in walkers.UnorderedItems)
 			{
 				var route = t.WalkRoute;
-				if (route == null || t.Cancelled)
+				if (route == null || t.Cancelled || !t.VisibleWalker)
 					continue;
 
 				var span = Math.Max(1, t.WalkEnd - t.WalkStart);
 				var p = Math.Clamp((renderTick - t.WalkStart) / span, 0f, 1f) * route.Length;
-				var step = Math.Min((int)p, route.Length - 1);
-				var frac = p - step;
 
+				// Walk through connected cell paths, with half a cell at each endpoint. Turns use
+				// the same continuous corner geometry as vehicles, avoiding sideways jumps.
+				var step = Math.Min((int)(p + 0.5f), route.Length);
+				var frac = p + 0.5f - step;
 				var c = ToCPos(t.Origin);
 				for (var i = 0; i < step; i++)
 					c += CityUtils.Neighbours4[route[i]];
@@ -126,32 +130,38 @@ namespace OpenRA.Mods.City.Traits
 				if (c.X < x0 - 1 || c.X > x1 + 1 || c.Y < y0 - 1 || c.Y > y1 + 1)
 					continue;
 
-				var d = CityUtils.Neighbours4[route[step]];
-				var pos = map.CenterOfCell(c) + new WVec((int)(d.X * frac * 1024), (int)(d.Y * frac * 1024), 0);
+				var h = step == 0 ? route[0] : route[step - 1];
+				var r = step < route.Length ? route[step] : h;
+				var side = ProfileOfCell(Cell(c)).Sidewalk;
+				PathPose(map.CenterOfCell(c), h, r, frac, side, out var pos, out var facing);
 
-				// The sidewalk is on the right of the walking direction.
-				var side = InMap(c) && roadFlag[Cell(c)] != 0 ? ProfileOfCell(Cell(c)).Sidewalk : 416;
-				side = side > 0 ? side : 416;
-				pos += new WVec(-d.Y * side, d.X * side, 0);
 				if (walkVariants == null)
 				{
 					var colour = (Hash(t.Id, 3) & 3) * 2;
-					var frameIndex = Math.Min(pedestrianSequence.Length - 1, colour + (((int)renderTick / 6 + t.Id) & 1));
+					var frameIndex = Math.Min(pedestrianSequence.Length - 1, colour + (((int)renderTick / 12 + t.Id) & 1));
 					frame.Add(new SpriteRenderable(pedestrianSequence.GetSprite(frameIndex), pos, WVec.Zero, 0, palette, pedestrianSequence.Scale * 0.7f, 1f,
 						ambient, TintModifiers.None, false));
 					continue;
 				}
 
-				DrawPerson(Hash(t.Id, 5), MoverArt.SnapToPixel(pos), new WVec(d.X, d.Y, 0).Yaw, p);
+				DrawPerson(Hash(t.Id, 5), MoverArt.SnapToPixel(pos), facing, p);
 			}
 		}
 
-		// Ambient walkers: hash-driven people strolling along every sidewalk line (row or column of cells), so streets look alive
-		// beyond the sampled trips. Each walker moves along its whole line and is only drawn where the line is a sidewalk.
+		// Ambient people stroll back and forth on one connected sidewalk run. They never
+		// disappear into buildings/water and reappear on a separate street across the map.
 		void DrawAmbientWalkers(int x0, int y0, int x1, int y1, int renderU)
 		{
 			if (walkVariants == null)
 				return;
+
+			if (sidewalkRunVersion != graphVersion)
+			{
+				sidewalkRunStart ??= new int[cellCount * 2];
+				sidewalkRunEnd ??= new int[cellCount * 2];
+				Array.Fill(sidewalkRunStart, -1);
+				sidewalkRunVersion = graphVersion;
+			}
 
 			var time = renderU / (float)U;
 			var keep = night > 0.5f ? 2 : 1;
@@ -174,54 +184,74 @@ namespace OpenRA.Mods.City.Traits
 							if ((h & 0xff) % keep != 0)
 								continue;
 
+							var start = (int)((uint)h % (uint)lineLength);
+							var anchor = axis == 0 ? line * width + start : start * width + line;
+							if (!sidewalk[anchor])
+								continue;
+
+							SidewalkRun(anchor, axis, out var first, out var last);
+							var span = last - first;
+							if (span <= 0)
+								continue;
+
 							var forward = (h & 0x100) != 0;
-							var speed = 0.012f + (h >> 9 & 7) * 0.0012f;
-							var start = (uint)h % (uint)lineLength;
-							var along = start + (forward ? 1 : -1) * time * speed;
-							along -= MathF.Floor(along / lineLength) * lineLength;
-							var a = (int)along;
+							var speed = (0.85f + (h >> 9 & 7) * 0.04f) / WalkingTicks;
+							var phase = start - first + (forward ? 1 : -1) * time * speed;
+							phase -= MathF.Floor(phase / (2 * span)) * (2 * span);
+							var along = first + 0.5f + (phase <= span ? phase : 2 * span - phase);
+							var movingForward = forward ? phase < span : phase >= span;
+							var a = Math.Min(last, (int)along);
 							if (a < lo || a > hi)
 								continue;
 
 							var cx = axis == 0 ? a : line;
 							var cy = axis == 0 ? line : a;
 							var cell = cy * width + cx;
-							if (roadFlag[cell] == 0 || !RunsAlong(cx, cy, axis))
-								continue;
-
-							var sidewalk = ProfileOfCell(cell).Sidewalk;
-							if (sidewalk == 0)
-								continue;
-
-							var frac = along - a;
-							var off = side == 0 ? -sidewalk : sidewalk;
+							var off = ProfileOfCell(cell).Sidewalk * (side == 0 ? -1 : 1);
 							var center = map.CenterOfCell(new CPos(cx, cy));
 							var pos = axis == 0
-								? center + new WVec((int)((frac - 0.5f) * 1024), off, 0)
-								: center + new WVec(off, (int)((frac - 0.5f) * 1024), 0);
-
-							var dir = axis == 0 ? new WVec(forward ? 1 : -1, 0, 0) : new WVec(0, forward ? 1 : -1, 0);
-							DrawPerson(h, MoverArt.SnapToPixel(pos), dir.Yaw, along);
+								? center + new WVec((int)((along - a - 0.5f) * 1024), off, 0)
+								: center + new WVec(off, (int)((along - a - 0.5f) * 1024), 0);
+							var dir = axis == 0 ? new WVec(movingForward ? 1 : -1, 0, 0) : new WVec(0, movingForward ? 1 : -1, 0);
+							DrawPerson(h, MoverArt.SnapToPixel(pos), dir.Yaw, time * speed);
 						}
 					}
 				}
 			}
 		}
 
-		// Whether the road continues along the axis (0 = X, 1 = Y) through the cell, i.e. there is a sidewalk line along it.
-		bool RunsAlong(int cx, int cy, int axis)
+		void SidewalkRun(int cell, int axis, out int first, out int last)
 		{
-			if (axis == 0)
-				return (cx > 0 && roadFlag[cy * width + cx - 1] != 0) || (cx < width - 1 && roadFlag[cy * width + cx + 1] != 0);
+			var key = cell * 2 + axis;
+			if (sidewalkRunStart[key] < 0)
+			{
+				var increment = axis == 0 ? 1 : width;
+				var forward = axis == 0 ? 1 : 2;
+				var back = (forward + 2) & 3;
+				var low = cell;
+				var high = cell;
+				while ((walkMask[low] & (1 << back)) != 0)
+					low -= increment;
 
-			return (cy > 0 && roadFlag[(cy - 1) * width + cx] != 0) || (cy < height - 1 && roadFlag[(cy + 1) * width + cx] != 0);
+				while ((walkMask[high] & (1 << forward)) != 0)
+					high += increment;
+
+				for (var c = low; c <= high; c += increment)
+				{
+					sidewalkRunStart[c * 2 + axis] = axis == 0 ? low % width : low / width;
+					sidewalkRunEnd[c * 2 + axis] = axis == 0 ? high % width : high / width;
+				}
+			}
+
+			first = sidewalkRunStart[key];
+			last = sidewalkRunEnd[key];
 		}
 
 		// One person: clothes/age variant and activity from the hash; walk frame from the distance walked (feet match the motion).
 		void DrawPerson(int hash, WPos pos, WAngle facing, float distanceCells)
 		{
 			var h = (uint)hash;
-			var step = (int)(distanceCells * 12f) & 3;
+			var step = (int)(distanceCells * 48f) & 3;
 			var raining = atmosphere != null && atmosphere.Precipitation > 0.2f && !atmosphere.Snowing;
 			var r = h % 100;
 			ISpriteSequence seq;

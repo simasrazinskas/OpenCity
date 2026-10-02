@@ -134,6 +134,7 @@ namespace OpenRA.Mods.City.Traits
 		public readonly ProgressionInfo Info;
 		readonly Actor self;
 		readonly World world;
+		readonly bool sandbox;
 		readonly List<MilestoneData> milestones = [];
 		readonly Dictionary<string, int> placed = [];
 		readonly Dictionary<string, int> categoryXp = [];
@@ -158,6 +159,7 @@ namespace OpenRA.Mods.City.Traits
 			this.self = self;
 			Info = info;
 			world = self.World;
+			sandbox = CitySandbox.EnabledFor(world);
 
 			// Milestone 0 is the implicit start.
 			milestones.Add(new MilestoneData { Index = 0, Name = "Village", Unlocks = [] });
@@ -182,6 +184,9 @@ namespace OpenRA.Mods.City.Traits
 
 			BuildUnlockRegistry();
 			BuildTree();
+			if (sandbox)
+				Array.Fill(nodeOwned, true);
+
 			BuildPolicies();
 			InitStats();
 			BuildAchievements();

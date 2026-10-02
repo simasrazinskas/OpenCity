@@ -80,7 +80,7 @@ namespace OpenRA.Graphics
 				var v = vertices[i];
 				var p = palettes[i / 4]?.TextureIndex ?? 0;
 				var c = (uint)((p & 0xFFFF) << 16) | (v.C & 0xFFFF);
-				vertices[i] = new Vertex(v.X, v.Y, v.Z, v.S, v.T, v.U, v.V, c, v.R, v.G, v.B, v.A);
+				vertices[i] = new Vertex(v.X, v.Y, v.Z, v.S, v.T, v.U, v.V, c, v.R, v.G, v.B, v.A, v.TextureBounds);
 			}
 
 			for (var row = 0; row < map.MapSize.Height; row++)
@@ -150,7 +150,7 @@ namespace OpenRA.Graphics
 				for (var i = 0; i < 4; i++)
 				{
 					var v = vertices[offset + i];
-					vertices[offset + i] = new Vertex(v.X, v.Y, v.Z, v.S, v.T, v.U, v.V, v.C, v.A * Vector3.One, v.A);
+					vertices[offset + i] = new Vertex(v.X, v.Y, v.Z, v.S, v.T, v.U, v.V, v.C, v.A * Vector3.One, v.A, v.TextureBounds);
 				}
 
 				return;
@@ -175,7 +175,7 @@ namespace OpenRA.Graphics
 			for (var i = 0; i < 4; i++)
 			{
 				var v = vertices[offset + i];
-				vertices[offset + i] = new Vertex(v.X, v.Y, v.Z, v.S, v.T, v.U, v.V, v.C, v.A * weights[i], v.A);
+				vertices[offset + i] = new Vertex(v.X, v.Y, v.Z, v.S, v.T, v.U, v.V, v.C, v.A * weights[i], v.A, v.TextureBounds);
 			}
 
 			dirtyRows.Add(uv.V);

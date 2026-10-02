@@ -51,7 +51,7 @@ namespace OpenRA.Mods.City.Traits
 		public static UtilityPlan Plan(World world, UtilityNetwork net, CityManager cm, CPos from, CPos to, int kind, bool remove, Func<CPos, bool> isPending = null)
 		{
 			var plan = new UtilityPlan(CityUtils.RoadPath(from, to)) { Kind = kind, Remove = remove };
-			var funds = cm?.Funds ?? int.MaxValue;
+			int? funds = cm == null || cm.UnlimitedMoney ? null : cm.Funds;
 			var spent = 0;
 			var refundPct = net.Info.RefundPercent;
 
@@ -109,7 +109,7 @@ namespace OpenRA.Mods.City.Traits
 				}
 
 				var cost = CellPrice(net, c, kind) + (kind == 0 ? ConstructionUtils.AutoClearCost(world, c) : 0);
-				if ((long)spent + cost > funds)
+				if (funds.HasValue && (long)spent + cost > funds.Value)
 				{
 					plan.StopIndex = i;
 					plan.ErrorKey = ConstructionUtils.ErrorMoney;

@@ -23,8 +23,8 @@ namespace OpenRA.Mods.City.Traits
 		"A hash-sampled handful of shipments is drawn as real traffic trucks (ITrafficService trips, never camera based).")]
 	public class LogisticsInfo : TraitInfo
 	{
-		[Desc("Ticks a truck needs per road cell (the truck sprite moves at about 14).")]
-		public readonly int TruckTicksPerCell = 14;
+		[Desc("Fallback travel ticks per road cell when no traffic service is available.")]
+		public readonly int TruckTicksPerCell = 45;
 
 		[Desc("Loading time before a truck leaves.")]
 		public readonly int LoadTicks = 40;
@@ -32,7 +32,7 @@ namespace OpenRA.Mods.City.Traits
 		[Desc("Unloading and turnaround time at the end of the return trip.")]
 		public readonly int TurnaroundTicks = 60;
 
-		[Desc("A shipment that would have to wait longer than this for a free truck is not accepted (the seller's outbox backs up).")]
+		[Desc("Maximum extra time a sampled shipment can wait for traffic before it is cancelled and returned.")]
 		public readonly int MaxQueueTicks = 2400;
 
 		[Desc("Units per truck load by weight class 0..5 (class 0 = immaterial, no truck).")]
@@ -158,6 +158,11 @@ namespace OpenRA.Mods.City.Traits
 		public bool Redirected;
 		public bool FromStorage;
 		public bool ToStorage;
+		public bool Returning;
+		public bool ReturnPending;
+		public bool ReturnedCargo;
+		public bool TripFailed;
+		public int TripId;
 	}
 
 	public partial class Logistics : ILogistics, ILogisticsEvents, ITripListener, ITick, IWorldLoaded, ISync, ICityAutoTestReporter
@@ -174,11 +179,13 @@ namespace OpenRA.Mods.City.Traits
 		readonly List<LogiNode> terminalNodes = [];
 		readonly List<LogiNode> storageNodes = [];
 		int outsideCount = -1;
+		int outsideSignature;
 		int[] fleetFreeAt = new int[64];
 		int fleetUsed;
 
 		Shipment[] ships = new Shipment[256];
 		readonly Stack<int> freeShips = new();
+		readonly Dictionary<int, int> shipmentById = [];
 		readonly int[] wheelHead = new int[WheelSize];
 		readonly int[] wheelTail = new int[WheelSize];
 		int nextShipmentId = 1;
@@ -196,6 +203,7 @@ namespace OpenRA.Mods.City.Traits
 		{
 			public int TripId;
 			public int ExpireTick;
+			public int ShipmentId;
 		}
 
 		// Statistics (units): totals and the previous clock month.
@@ -222,6 +230,9 @@ namespace OpenRA.Mods.City.Traits
 			Array.Fill(wheelTail, -1);
 			SetupRoutes();
 		}
+
+		/// <summary>One accepted truck load, before it leaves. Market accounting reserves it by shipment id.</summary>
+		public event Action<ShipmentEvent> Accepted;
 
 		public event Action<ShipmentEvent> Delivered;
 
@@ -286,7 +297,27 @@ namespace OpenRA.Mods.City.Traits
 			if (nodeByProperty.TryGetValue(p.Id, out var node))
 			{
 				node.Alive = false;
+				CancelNodeTrips(node);
 				nodeByProperty.Remove(p.Id);
+			}
+		}
+
+		void CancelNodeTrips(LogiNode node)
+		{
+			for (var i = 0; i < nextSlot; i++)
+			{
+				ref var shipment = ref ships[i];
+				if (!shipment.Active || (shipment.FromNode != node.Id && shipment.ToNode != node.Id))
+					continue;
+
+				if (shipment.TripId > 0)
+				{
+					traffic?.CancelTrip(shipment.TripId);
+					ForgetTrip(shipment.TripId);
+					shipment.TripId = 0;
+				}
+
+				shipment.TripFailed = true;
 			}
 		}
 
@@ -390,16 +421,24 @@ namespace OpenRA.Mods.City.Traits
 		void RefreshOutsideNodes()
 		{
 			var count = 0;
-			foreach (var _ in world.ActorsWithTrait<OutsideConnection>())
+			var signature = 17;
+			foreach (var connection in world.ActorsWithTrait<OutsideConnection>())
+			{
 				count++;
+				unchecked { signature = signature * 31 + (int)connection.Actor.ActorID; }
+			}
 
-			if (count == outsideCount)
+			if (count == outsideCount && signature == outsideSignature)
 				return;
 
 			outsideCount = count;
+			outsideSignature = signature;
 			var known = new Dictionary<int, LogiNode>();
 			foreach (var n in outsideNodes)
+			{
 				known[n.PropertyId] = n;
+				n.Alive = false;
+			}
 
 			outsideNodes.Clear();
 			foreach (var kv in world.ActorsWithTrait<OutsideConnection>().OrderBy(a => a.Actor.ActorID))
@@ -418,14 +457,19 @@ namespace OpenRA.Mods.City.Traits
 					nodes.Add(node);
 				}
 
+				node.Alive = true;
 				node.Road = kv.Actor.Location;
 				outsideNodes.Add(node);
 			}
+
+			foreach (var n in known.Values)
+				if (!n.Alive)
+					CancelNodeTrips(n);
 		}
 
 		int HaulPerUnitCents(int weightClass, int length)
 		{
-			return (int)Math.Max(1, (long)weightClass * length * Info.FreightMilliCentsPerWeightCell / 1000);
+			return weightClass == 0 ? 0 : (int)Math.Max(1, (long)weightClass * length * Info.FreightMilliCentsPerWeightCell / 1000);
 		}
 
 		public int HaulCostCents(CPos fromRoad, CPos toRoad, int resourceId)
@@ -436,16 +480,20 @@ namespace OpenRA.Mods.City.Traits
 
 			var length = RouteLength(fromRoad, toRoad);
 			if (length < 0)
-				length = Math.Abs(fromRoad.X - toRoad.X) + Math.Abs(fromRoad.Y - toRoad.Y);
+				return length;
 
 			return HaulPerUnitCents(wc, length);
 		}
 
-		/// <summary>Travel ticks one way between two road cells, -1 if unreachable (or no road network).</summary>
+		/// <summary>Travel ticks one way along roads; -1 unreachable, -2 route work deferred.</summary>
 		public int TravelTicks(CPos fromRoad, CPos toRoad)
 		{
 			var length = RouteLength(fromRoad, toRoad);
-			return length < 0 ? -1 : length * Info.TruckTicksPerCell;
+			if (length < 0)
+				return length;
+
+			return traffic != null ? traffic.EstimateTravelTicks(fromRoad, toRoad, TravelMode.Truck)
+				: length * Info.TruckTicksPerCell;
 		}
 
 		int LegPerUnitCents(LogiNode link, int wc)
@@ -475,9 +523,12 @@ namespace OpenRA.Mods.City.Traits
 			return o.Kind != NodeKind.Terminal || (registry?.Get(o.PropertyId)?.Operational ?? true);
 		}
 
-		/// <summary>Cheapest outside link (highway or cargo terminal) with trade capacity left for a trade with `other`.</summary>
+		bool outsideQuoteBusy;
+
+		/// <summary>Cheapest reachable outside link with trade capacity left.</summary>
 		LogiNode BestOutside(LogiNode other, bool importing, int wc)
 		{
+			outsideQuoteBusy = false;
 			RefreshOutsideNodes();
 			LogiNode best = null;
 			var bestCost = int.MaxValue;
@@ -489,6 +540,8 @@ namespace OpenRA.Mods.City.Traits
 					continue;
 
 				var length = importing ? RouteLength(o.Road, other.Road) : RouteLength(other.Road, o.Road);
+				if (length == RouteBusy)
+					outsideQuoteBusy = true;
 				if (length < 0)
 					continue;
 
@@ -504,9 +557,28 @@ namespace OpenRA.Mods.City.Traits
 			return best;
 		}
 
+		/// <summary>Freight cents per unit through a reachable outside link, -1 unavailable, -2 route budget deferred.</summary>
+		public int OutsideFreightCents(int propertyId, int resource, bool importing)
+		{
+			var node = NodeOf(propertyId);
+			if (node == null)
+				return Unreachable;
+
+			var wc = WeightClass(resource);
+			var link = BestOutside(node, importing, wc);
+			if (link == null)
+				return outsideQuoteBusy ? RouteBusy : Unreachable;
+
+			var from = importing ? link.Road : node.Road;
+			var to = importing ? node.Road : link.Road;
+			var length = wc == 0 ? 0 : RouteLength(from, to);
+			var ticks = wc == 0 ? 0 : TravelTicks(from, to);
+			return ticks < 0 ? ticks : HaulPerUnitCents(wc, length) + LegPerUnitCents(link, wc);
+		}
+
 		public int TryDispatch(int fromProperty, int toProperty, int resourceId, int units, int unitPriceCents)
 		{
-			if (units <= 0 || resourceId <= 0 || (fromProperty == 0 && toProperty == 0))
+			if (units <= 0 || resourceId <= 0 || resourceId >= 64 || fromProperty == toProperty)
 				return 0;
 
 			Resolve();
@@ -529,7 +601,7 @@ namespace OpenRA.Mods.City.Traits
 				toOutside = true;
 			}
 
-			if (from == null || to == null)
+			if (from == null || to == null || !from.Alive || !to.Alive)
 				return 0;
 
 			var length = wc == 0 ? 0 : RouteLength(from.Road, to.Road);
@@ -566,13 +638,16 @@ namespace OpenRA.Mods.City.Traits
 				return 0;
 
 			var perTruck = wc == 0 ? int.MaxValue : UnitsPerTruck(wc);
-			var perCell = Info.TruckTicksPerCell;
+			var travelTicks = wc == 0 ? 0 : TravelTicks(from.Road, to.Road);
+			var returnTicks = wc == 0 ? 0 : TravelTicks(to.Road, from.Road);
+			if (travelTicks < 0 || returnTicks < 0)
+				return 0;
 			var legPerUnit = outside != null ? LegPerUnitCents(outside, wc) : 0;
 			var dispatched = 0;
 			var loads = 0;
 			while (dispatched < units)
 			{
-				var load = Math.Min(perTruck, units - dispatched);
+				var load = Math.Min(ushort.MaxValue, Math.Min(perTruck, units - dispatched));
 				var slot = -1;
 				int depart;
 				if (wc == 0)
@@ -590,22 +665,26 @@ namespace OpenRA.Mods.City.Traits
 								slot = from.FleetOffset + i;
 							}
 
-						depart = Math.Max(depart, best);
+						// A fleet slot belongs to one load until its actual return. Further goods wait
+						// in the seller's outbox instead of double-booking a delayed truck.
+						if (best > now)
+							break;
 					}
 				}
 
 				if (depart - now > Info.MaxQueueTicks)
 					break;
 
-				var arrive = wc == 0 ? now + 1 : depart + length * perCell;
-				var returnAt = wc == 0 ? arrive : arrive + length * perCell + Info.TurnaroundTicks;
+				var arrive = wc == 0 ? now + 1 : depart + travelTicks;
+				var returnAt = wc == 0 ? arrive : arrive + returnTicks + Info.TurnaroundTicks;
 				if (slot >= 0)
-					fleetFreeAt[slot] = returnAt;
+					fleetFreeAt[slot] = int.MaxValue;
 
 				var freight = (HaulPerUnitCents(wc, length) + legPerUnit) * load;
 				var index = AddShipment(from, to, resource, load, depart, arrive, returnAt, priceCents, freight, slot);
 				ships[index].FromStorage = fromStore;
 				ships[index].ToStorage = toStore;
+				Accepted?.Invoke(MakeEvent(ships[index], from, to));
 				if (wc != 0)
 					TrySampleTruck(index, from, to, depart, returnAt);
 
@@ -685,6 +764,7 @@ namespace OpenRA.Mods.City.Traits
 				Slot = slot,
 			};
 
+			shipmentById[id] = index;
 			Enqueue(index, arrive);
 			ShipmentsInTransit++;
 			unchecked

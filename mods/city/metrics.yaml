@@ -1,18 +1,18 @@
 # OpenCity chrome metrics overrides (on top of common|metrics.yaml), matching the RCT2-style chrome (uistyle.yaml):
-# dark ink on the light window bodies, faint brown when disabled.
+# dark ink on the light window bodies, readable muted brown when disabled.
 
 Metrics:
 	ButtonTextColor: 140E08
-	ButtonTextColorDisabled: 7A5028
+	ButtonTextColorDisabled: 543C2B
 	TextColor: 140E08
-	TextDisabledColor: 7A5028
+	TextDisabledColor: 543C2B
 	TextHighlightColor: 0E5A16
 	TextfieldColor: 140E08
-	TextfieldColorDisabled: 7A5028
+	TextfieldColorDisabled: 543C2B
 	TextfieldColorInvalid: A01410
 	TextfieldColorHighlight: D2A86E
 	HotkeyColor: 140E08
-	HotkeyColorDisabled: 7A5028
+	HotkeyColorDisabled: 543C2B
 	NoticeInfoColor: 140E08
 	NoticeWarningColor: 8A420A
 	NoticeSuccessColor: 0E5A16

@@ -1,12 +1,11 @@
 # New city window (design/iso/ui/panels/newcity-window.png, tools/iso_ui_menus.newcity_window), city family. The map list
-# with small previews on the left, the selected map's preview and facts on the right. There are no game options yet:
-# the design's name/difficulty/funds/seed/disaster controls are not shown because the game has nothing behind them.
+# with small previews on the left, the selected map's preview and facts on the right, and sandbox below.
 CityPanel@CITY_NEWGAME_PANEL:
 	Logic: CityNewGameLogic
 	Title: button-city-new
 	BelowAlerts: false
 	Width: 460
-	Height: 280
+	Height: 344
 	Children:
 		CityHeader@LIST_HEADER:
 			X: 4
@@ -18,7 +17,7 @@ CityPanel@CITY_NEWGAME_PANEL:
 			X: 4
 			Y: 35
 			Width: 172
-			Height: PARENT_HEIGHT - 35 - 28
+			Height: 217
 			ScrollbarWidth: 10
 			Children:
 				ScrollItem@MAP_TEMPLATE:
@@ -114,6 +113,20 @@ CityPanel@CITY_NEWGAME_PANEL:
 					Height: 13
 					Font: Tiny
 					Align: Right
+		Checkbox@SANDBOX:
+			X: 6
+			Y: 254
+			Width: PARENT_WIDTH - 12
+			Height: 16
+			Font: Tiny
+			Text: checkbox-city-sandbox
+		Label@SANDBOX_DESCRIPTION:
+			X: 30
+			Y: 274
+			Width: PARENT_WIDTH - 36
+			Height: 30
+			Font: Tiny
+			Text: label-newgame-sandbox-description
 		Label@MAP_AUTHOR:
 			X: 6
 			Y: PARENT_HEIGHT - 22
